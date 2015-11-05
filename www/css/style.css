@@ -43,8 +43,11 @@ p {
   border-style: solid;
   margin: 20px 0 20px 0;
 }
+hr {
+  border-color: rgba(238, 238, 238, 0.34);
+}
 hr.broad {
-  border: 7px solid #eee;
+  border: 7px solid #eeeeee;
 }
 .text-primary {
   color: #00bae5;
@@ -60,7 +63,7 @@ hr.broad {
   box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
 }
 .bar.bar-header .title {
-  color: #000;
+  color: #000000;
 }
 .bar.bar-header.bar-balanced {
   background-color: #00aaa7;
@@ -106,9 +109,7 @@ h3.line-title:before {
   border-top: 1px solid #eeeeee;
   content: "";
   margin: 0 auto;
-  /* this centers the line to the full width specified */
   position: absolute;
-  /* positioning must be absolute here, and relative positioning must be applied to the parent */
   top: 50%;
   left: 0;
   right: 0;
@@ -117,7 +118,6 @@ h3.line-title:before {
   z-index: -1;
 }
 h3.line-title span {
-  /* to hide the lines from behind the text, you have to set the background color the same as the container */
   background: #ffffff;
   padding: 0 15px;
 }
@@ -131,32 +131,59 @@ h3.line-title span {
   top: 5px;
 }
 /***BUTTONS***/
-.button-block {
+.button {
   font-weight: bold;
   border: none;
 }
-.button-block.button-calm,
-.button-block.button-calm.activated {
+.button.button-calm,
+.button.button-calm.activated {
   box-shadow: 0px 4px 0 0 #009CBF;
 }
-.button-block.button-dark {
+.button.button-block.button-dark {
   background: #bdbdbd;
   box-shadow: 0px 4px 0 0 #A8A8A8;
 }
-.button-block.button-dark.activated {
+.button.button-block.button-dark.activated {
   background: #A8A8A8;
   box-shadow: 0px 4px 0 0 #A8A8A8;
 }
-.button-block.button-balanced {
+.button.button-block.button-balanced {
   background: #00aaa7;
   box-shadow: 0px 4px 0 0 #008380;
 }
-.button-block.button-balanced.activated {
+.button.button-block.button-balanced.activated {
   background: #008380;
   box-shadow: 0px 4px 0 0 #008380;
 }
-.black-arrow i {
-  color: #000;
+.button.button-assertive {
+  background: #ee5235;
+}
+.button.button-assertive.activated {
+  background: rgba(238, 82, 53, 0.8);
+}
+.button.button-balanced {
+  background: #00aaa7;
+}
+.button.button-balanced.activated {
+  background: rgba(0, 170, 167, 0.83);
+}
+.button.black-arrow i {
+  color: #000000;
+}
+.button.button-light.button-outline {
+  color: #fff;
+  border-color: #fff;
+  width: 33px;
+  height: 33px;
+  margin-left: 6px;
+  border-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
+}
+.button.button-light.button-outline::before {
+  font-size: 17px;
+  line-height: 29px;
+  padding-right: 1px;
 }
 a.button-clear.btn-link {
   text-decoration: underline;
@@ -195,5 +222,23 @@ a.button-clear.btn-link {
   opacity: 1;
   font-size: 16px;
   font-weight: 200;
+}
+/***LISTS***/
+.no-list .no {
+  color: #ffffff;
+  font-size: 15px;
+  background: #444444;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: table;
+}
+.no-list .no b {
+  vertical-align: middle;
+  display: table-cell;
+}
+/***FOOTER***/
+.footer .button-bar .button {
+  border-radius: 0;
 }
 /*# sourceMappingURL=style.css.map */
