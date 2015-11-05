@@ -16,7 +16,7 @@ angular.module 'PatientApp.init'
 
 			tologin : ->
 				
-					App.navigate "setup_password", {}, {animate: false, back: false}
+					App.navigate "main_login", {}, {animate: false, back: false}
 
 
 
