@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="../www/css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+    
+
+     <ion-content>
+     <div class="text-center">
+      <div class="padding">
+      <div class="ic">
+      <i class="icon ion-android-lock"></i>
+      </div>
+      <h1>Account Locked</h1>
+
+      <p>Your Account has been Locked, because you have reached the maximum number of invalid login attempts.</p>
+      <p>Kindly Contact your Hospital Administrator or Physician to get your Reference Code or Password Reset.</p>
+      
+      <div class="row">
+        <div class="col"></div>
+        <div class="col col-50"><button class="button button-block button-dark">Close</button></div>
+        <div class="col"></div>
+      </div>
+    </div>
+    </div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>
