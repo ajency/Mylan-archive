@@ -1,1 +1,1 @@
-angular.module('PatientApp.storage', []).controller('setup_passwordCtr', []);
+angular.module('PatientApp.init').controller('setup_passwordCtr', []);
