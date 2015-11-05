@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="../www/css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane>
+   
+ <div class="bar bar-header bar-light">
+    <a href="#"><img src="../www/images/logo.jpg" alt="Sutter Davis Hospital" width="35"/> </a>
+    <h1 class="title">Sutter Davis Hospital</h1>
+    </div>
+     <ion-content class="has-header">
+     
+     <div class="text-center">
+      <div class="padding">
+      <div class="row">
+      <div class="col">
+      <br>
+      <h3>Welcome to our "Cardiac Care" Project specially designed to work towards your better tomorrow</h3>
+      <img src="../www/images/cardiac-care.png" alt="Cardiac Care" width="210"/>
+        <h4 class="f-w-400 text-green">Please provide a new password for your Account</h4>
+        <label class="item-input item-icon-right b-b">
+          <i class="icon ion-ios-help-outline text-green"></i>
+          <input type="password" placeholder="Enter New Password">
+        </label>
+        <label class="item-input">
+          <input type="password" placeholder="Re-enter Password">
+        </label>
+        <br>
+       <button class="button button-block button-balanced">Complete My Set-up</button><br>
+     </div>
+     </div>
+     </div>
+    </div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>

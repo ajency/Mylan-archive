@@ -1,0 +1,5 @@
+/* this are the file to be ignored while uploading project in GitHub */
+
+node_modules/
+platforms/
+plugins/

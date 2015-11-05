@@ -1,0 +1,15 @@
+//Global methods for authentication of the user
+
+validate_user(username,password)
+{
+var response=[url ,username,password];
+if(response =true)
+	{
+	//user with valid credentials
+
+	}
+	else
+	{
+	alert("Invalid login");
+	}
+}

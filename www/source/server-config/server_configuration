@@ -1,0 +1,8 @@
+
+//Methods for server connection and global decleration 
+
+var domain="example.com";
+
+//server configuration
+
+

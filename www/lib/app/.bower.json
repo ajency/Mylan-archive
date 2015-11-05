@@ -1,0 +1,43 @@
+{
+  "name": "app",
+  "version": "0.3.1",
+  "author": "makesites",
+  "authors": [
+    "Makis Tracend <makis@makesit.es>"
+  ],
+  "description": "APP constructor with common classes for application development",
+  "keywords": [
+    "app",
+    "application",
+    "library"
+  ],
+  "license": "MPL v2.0, AGPL",
+  "repository": "http://github.com/makesites/app",
+  "main": [
+    "./build/app.js"
+  ],
+  "ignore": [
+    "bower_components",
+    "components",
+    "node_modules"
+  ],
+  "dependencies": {
+    "jquery": "*",
+    "handlebars": "*",
+    "system.js": "*",
+    "underscore": "*",
+    "vanilla-query": "*",
+    "webcomponentsjs": "*"
+  },
+  "homepage": "https://github.com/makesites/app",
+  "_release": "0.3.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.1",
+    "commit": "64b5c51ccf15d776d030beff74154397de5f4e87"
+  },
+  "_source": "git://github.com/makesites/app.git",
+  "_target": "~0.3.1",
+  "_originalSource": "app",
+  "_direct": true
+}
