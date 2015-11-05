@@ -37,10 +37,7 @@ angular.module 'PatientApp.init', []
 			templateUrl: 'views/authentication-view/main-Screen-login.html'
 			controller: 'main_loginCtr'
 
-		.state 'questionnaire',
-			url: '/questionnaire'
-			templateUrl: 'views/questionnaire-view/Question1.html'
-			controller: 'questionnaireCtr'
+		
 	
 	# $urlRouterProvider.otherwise '/setup'
 ]

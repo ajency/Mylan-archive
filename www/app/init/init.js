@@ -28,10 +28,6 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       url: '/main_login',
       templateUrl: 'views/authentication-view/main-Screen-login.html',
       controller: 'main_loginCtr'
-    }).state('questionnaire', {
-      url: '/questionnaire',
-      templateUrl: 'views/questionnaire-view/Question1.html',
-      controller: 'questionnaireCtr'
     });
   }
 ]);
