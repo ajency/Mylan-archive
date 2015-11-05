@@ -1,4 +1,1 @@
-(function() {
-  angular.module('PatientApp.storage', []).controller('setup_passwordCtr', []);
-
-}).call(this);
+angular.module('PatientApp.init').controller('setup_passwordCtr', []);
