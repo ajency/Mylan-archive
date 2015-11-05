@@ -237,6 +237,39 @@ a.button-clear.btn-link {
   vertical-align: middle;
   display: table-cell;
 }
+.item.item-radio .item-content {
+  padding: 16px 16px 16px 60px;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon {
+  background: #0c63ee;
+  border-color: #0c63ee;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon::before {
+  opacity: 1;
+}
+.item.item-radio .radio-icon {
+  visibility: visible;
+  font-size: 17px;
+  border: 1px solid #bdbdbd;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  padding: 5px;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  left: 13px;
+  z-index: 3;
+  margin-top: -14px;
+  display: table;
+}
+.item.item-radio .radio-icon::before {
+  vertical-align: middle;
+  display: table-cell;
+  opacity: 0;
+}
 /***FOOTER***/
 .bar-footer {
   padding: 0;
