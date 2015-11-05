@@ -171,8 +171,8 @@ h3.line-title span {
   color: #000000;
 }
 .button.button-light.button-outline {
-  color: #fff;
-  border-color: #fff;
+  color: #eeeeee;
+  border-color: #eeeeee;
   width: 33px;
   height: 33px;
   margin-left: 6px;
@@ -238,7 +238,10 @@ a.button-clear.btn-link {
   display: table-cell;
 }
 /***FOOTER***/
-.footer .button-bar .button {
+.bar-footer {
+  padding: 0;
+}
+.bar-footer .button-bar .button {
   border-radius: 0;
 }
 /*# sourceMappingURL=style.css.map */
