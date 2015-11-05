@@ -5,7 +5,7 @@ angular.module 'PatientApp.init', []
   
 	Storage.setup 'get'
 	.then (value)->
-		goto = if _.isNull value then "setup" else "setup_password"
+		goto = if _.isNull value then "setup" else "main_login"
 		App.navigate goto, {}, {animate: false, back: false}
 		
 
@@ -31,6 +31,16 @@ angular.module 'PatientApp.init', []
 			url: '/setup_password'
 			templateUrl: 'views/authentication-view/Hospital-login.html'
 			controller: 'setup_passwordCtr'
+
+		.state 'main_login',
+			url: '/main_login'
+			templateUrl: 'views/authentication-view/main-Screen-login.html'
+			controller: 'main_loginCtr'
+
+		.state 'questionnaire',
+			url: '/questionnaire'
+			templateUrl: 'views/questionnaire-view/Question1.html'
+			controller: 'questionnaireCtr'
 	
 	# $urlRouterProvider.otherwise '/setup'
 ]

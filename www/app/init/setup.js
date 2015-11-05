@@ -10,7 +10,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         });
       },
       tologin: function() {
-        return App.navigate("setup_password", {}, {
+        return App.navigate("main_login", {}, {
           animate: false,
           back: false
         });
