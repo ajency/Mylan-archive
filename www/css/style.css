@@ -88,7 +88,7 @@ hr.broad {
 }
 .bar.bar-header .right-buttons.trans-links a {
   font-size: 22px;
-  padding-right: 9px;
+  padding-right: 11px;
   color: #000;
 }
 /***ICONS***/
@@ -136,6 +136,7 @@ h4.line-title:before {
 h4.line-title span {
   padding: 0 15px;
   color: #000;
+  background: #ffffff;
 }
 /***MESSAGES***/
 .info-msg i {
