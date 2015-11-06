@@ -3,6 +3,8 @@ angular.module 'PatientApp.Auth',[]
 .controller 'setup_passwordCtr',['$scope', 'App', 'Storage'
 	, ($scope, App, Storage)->
 
+
+		  	
 		$scope.view =
 			New_password:''
 			Re_password: ''
@@ -18,7 +20,7 @@ angular.module 'PatientApp.Auth',[]
 
 
 
-	
+		 
 
 
 

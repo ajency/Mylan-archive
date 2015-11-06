@@ -19,6 +19,7 @@
                         ng-model="view.refcode"
                         ng-maxlength=8 
                         required
+                        ng-pattern="/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/"
                         placeholder="Enter 8 Digit Reference Code"/>
                     </label>
                         <div class="error" 
@@ -26,6 +27,10 @@
                         <small class="error" 
                         ng-show="form.ref.$error.required">
                        Your Reference Code is required.
+                        </small>
+                        <small class="error" 
+                        ng-show="form.ref.$error.pattern">
+                        Must be only digit  number                        
                         </small>
  
                         <small class="error" 
