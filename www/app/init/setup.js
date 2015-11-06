@@ -2,9 +2,15 @@ angular.module('PatientApp.init').controller('setupCtr', [
   '$scope', 'App', 'Storage', '$ionicLoading', function($scope, App, Storage, $ionicLoading) {
     return $scope.view = {
       refcode: '',
+      emptyfield: '',
       verifyRefCode: function() {
         console.log(this.refcode);
-        return App.navigate("setup_password");
+        console.log(_.isEmpty(this.refcode));
+        if (this.refcode === '') {
+          return this.emptyfield = "Please Enter Refrence Code";
+        } else {
+          return App.navigate("setup_password");
+        }
       },
       tologin: function() {
         return Storage.setup('get').then(function(value) {
@@ -25,6 +31,9 @@ angular.module('PatientApp.init').controller('setupCtr', [
         return {
           hideOnStateChange: false
         };
+      },
+      clear: function() {
+        return this.emptyfield = "";
       }
     };
   }

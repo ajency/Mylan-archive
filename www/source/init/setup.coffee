@@ -9,11 +9,17 @@ angular.module 'PatientApp.init'
 
 		$scope.view =
 			refcode:''
-
+			emptyfield:''
+			
 
 			verifyRefCode : ->
 					console.log @refcode
-					App.navigate "setup_password"
+					console.log _.isEmpty(@refcode)
+					if @refcode ==''
+						@emptyfield = "Please Enter Refrence Code"	
+
+					else
+						App.navigate "setup_password"
 
 			tologin : ->
 					Storage.setup 'get'
@@ -28,7 +34,10 @@ angular.module 'PatientApp.init'
 						hideOnStateChange: true			
 			hide:->
 			        $ionicLoading.hide();
-			        hideOnStateChange: false			
+			        hideOnStateChange: false	
+
+			clear:->
+					@emptyfield=""        		
 				
 
 				
