@@ -8,6 +8,7 @@ angular.module 'PatientApp.Auth'
 			mainlogin : ->
 				
 					App.navigate "questionnaire", {}, {animate: false, back: false}
+					
 
 			
 ]
