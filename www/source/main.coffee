@@ -10,8 +10,8 @@ angular.module 'PatientApp.main', []
 	$stateProvider
 
 	.state 'main',
-			url: '/main'
-			abstract: true
-			templateUrl: 'views/main.html'
+		url: '/main'
+		abstract: true
+		templateUrl: 'views/main.html'
 
 ]
