@@ -1,18 +1,29 @@
 angular.module('PatientApp.init').controller('setupCtr', [
-  '$scope', 'App', 'Storage', function($scope, App, Storage) {
+  '$scope', 'App', 'Storage', '$ionicLoading', function($scope, App, Storage, $ionicLoading) {
     return $scope.view = {
+      refcode: '',
       verifyRefCode: function() {
-        return Storage.setup('set').then(function() {
-          return App.navigate("setup_password", {}, {
+        console.log(this.refcode);
+        return App.navigate("setup_password", {}, {
+          animate: false,
+          back: false
+        });
+      },
+      tologin: function() {
+        return Storage.setup('get').then(function(value) {
+          var goto;
+          goto = _.isNull(value) ? "setup" : "main_login";
+          return App.navigate(goto, {}, {
             animate: false,
             back: false
           });
         });
       },
-      tologin: function() {
-        return App.navigate("main_login", {}, {
-          animate: false,
-          back: false
+      forgetRefcode: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/error-view/Error-Screen-2.html',
+          hideOnStateChange: true
         });
       }
     };

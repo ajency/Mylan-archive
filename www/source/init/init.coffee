@@ -1,14 +1,15 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App', (Storage,App)->
+.controller 'InitCtrl', ['Storage','App','$scope', (Storage,App,$scope)->
   
 	Storage.setup 'get'
 	.then (value)->
 		goto = if _.isNull value then "setup" else "main_login"
 		App.navigate goto, {}, {animate: false, back: false}
-		
 
+  					
+				
 
 ]
 

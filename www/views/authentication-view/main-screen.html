@@ -8,12 +8,29 @@
                 </div><br>
                 <div class="list list-inset">
                     <label class="item item-input item-icon-right">
-                        <i class="icon ion-ios-help-outline text-primary"></i>
-                        <input type="text" placeholder="Enter 8 Digit Reference Code">
+                        <i class="icon ion-ios-help-outline text-primary" ></i>
+                        <input type="text"  
+                        name="ref"
+                        ng-model="view.refcode"
+                        ng-maxlength=8 
+                        required
+                        placeholder="Enter 8 Digit Reference Code"/>
                     </label>
+                        <div class="error" 
+                        ng-show="ref.$dirty && ref.$invalid">
+                        <small class="error" 
+                        ng-show="ref.$error.required">
+                       Your Reference Code is required.
+                        </small>
+ 
+                        <small class="error" 
+                        ng-show="ref.$error.maxlength">
+                        Your Reference Code  cannot be longer than 8 Digit
+                        </small>
+                    </div>
                     <br>
                     <button class="button button-block button-calm" ng-click="view.verifyRefCode()">Verify Reference Code Now</button><br>
-                    <a href="#" class="button button-clear button-calm btn-link">Forgot Reference Code</a><br><br><br>
+                    <a href="#" class="button button-clear button-calm btn-link" ng-click="view.forgetRefcode()">Forgot Reference Code</a><br><br><br>
                     <h5>Set-up Already Done ?</h5>
                     <a href="#" class="button-clear btn-link" ng-click="view.tologin()" >Proceed To Login</a>
                 </div>

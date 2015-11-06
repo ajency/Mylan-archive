@@ -58,12 +58,19 @@ hr.broad {
 .text-green {
   color: #00aaa7;
 }
+.text-leaf {
+  color: #7bc67a;
+}
+.text-muted {
+  color: #b1b1b1;
+}
 /***HEADER STYLES***/
 .bar.bar-header {
   box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
 }
 .bar.bar-header .title {
   color: #000000;
+  font-size: 15px;
 }
 .bar.bar-header.bar-balanced {
   background-color: #00aaa7;
@@ -73,9 +80,17 @@ hr.broad {
   text-align: left;
   color: #fff;
 }
-.bar.bar-header.bar-balanced .right-buttons {
+.bar.bar-header .right-buttons {
   position: absolute;
   right: 6px;
+}
+.bar.bar-header .right-buttons.trans-links {
+  padding-top: 6px;
+}
+.bar.bar-header .right-buttons.trans-links a {
+  font-size: 22px;
+  padding-right: 9px;
+  color: #000;
 }
 /***ICONS***/
 .ic {
@@ -130,6 +145,10 @@ h3.line-title span {
   position: relative;
   top: 5px;
 }
+.info-msg.bg-balanced {
+  background: #00aaa7;
+  color: #fff;
+}
 /***BUTTONS***/
 .button {
   font-weight: bold;
@@ -154,6 +173,14 @@ h3.line-title span {
 .button.button-block.button-balanced.activated {
   background: #008380;
   box-shadow: 0px 4px 0 0 #008380;
+}
+.button.button-block.button-assertive {
+  background: #ee5235;
+  box-shadow: 0px 4px 0 0 #A73F2C;
+}
+.button.button-block.button-assertive.activated {
+  background: #A73F2C;
+  box-shadow: 0px 4px 0 0 #A73F2C;
 }
 .button.button-assertive {
   background: #ee5235;
@@ -226,8 +253,8 @@ a.button-clear.btn-link {
 /***LISTS***/
 .no-list .no {
   color: #ffffff;
-  font-size: 15px;
-  background: #444444;
+  font-size: 16px;
+  background: #666;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -241,8 +268,8 @@ a.button-clear.btn-link {
   padding: 16px 16px 16px 60px;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon {
-  background: #0c63ee;
-  border-color: #0c63ee;
+  background: #7bc67a;
+  border-color: #7bc67a;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon::before {
   opacity: 1;
@@ -269,6 +296,15 @@ a.button-clear.btn-link {
   vertical-align: middle;
   display: table-cell;
   opacity: 0;
+}
+.clm-list .button {
+  margin: 3px;
+}
+.clm-list h6.f-w-400 {
+  font-size: 15px;
+}
+.clm-list h6.f-w-400 i {
+  font-size: 20px;
 }
 /***FOOTER***/
 .bar-footer {
