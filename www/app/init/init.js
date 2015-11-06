@@ -1,5 +1,5 @@
 angular.module('PatientApp.init', []).controller('InitCtrl', [
-  'Storage', 'App', function(Storage, App) {
+  'Storage', 'App', '$scope', function(Storage, App, $scope) {
     return Storage.setup('get').then(function(value) {
       var goto;
       goto = _.isNull(value) ? "setup" : "main_login";
