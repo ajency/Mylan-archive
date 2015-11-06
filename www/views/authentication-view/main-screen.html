@@ -1,12 +1,17 @@
-<ion-content>
+<ion-view
+    hide-nav-bar="true">
+    <ion-content>
     <div class="row">
         <div class="col">
             <div class="text-center">
                 <div class="padding">
                     <h1 class="text-primary">Hi !</h1>
                     <h3>Welcome to<br>your Healthcare Portal</h3>
+
                 </div>
-                <div class="list list-inset">
+              
+                <div class="list list-inset" ng-form="form">
+
                     <label class="item item-input item-icon-right">
                         <i class="icon ion-ios-help-outline text-primary" ></i>
                         <input type="text"  
@@ -17,14 +22,14 @@
                         placeholder="Enter 8 Digit Reference Code"/>
                     </label>
                         <div class="error" 
-                        ng-show="ref.$dirty && ref.$invalid">
+                        ng-show="form.ref.$dirty && form.ref.$invalid">
                         <small class="error" 
-                        ng-show="ref.$error.required">
+                        ng-show="form.ref.$error.required">
                        Your Reference Code is required.
                         </small>
  
                         <small class="error" 
-                        ng-show="ref.$error.maxlength">
+                        ng-show="form.ref.$error.maxlength">
                         Your Reference Code  cannot be longer than 8 Digit
                         </small>
                     </div>
@@ -38,5 +43,7 @@
         </div>
     </div>
 </ion-content>
+
+</ion-view>
 
 
