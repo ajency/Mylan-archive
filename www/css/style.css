@@ -18,7 +18,6 @@ h6 {
   font-weight: 200;
 }
 p {
-  font-size: 20px;
   line-height: 27px;
   font-weight: 200;
   color: #444444;
@@ -116,11 +115,12 @@ hr.broad {
 .icon.ion-ios-information-outline {
   font-size: 30px;
 }
-h3.line-title {
+h4.line-title {
   position: relative;
   z-index: 1;
+  color: #000;
 }
-h3.line-title:before {
+h4.line-title:before {
   border-top: 1px solid #eeeeee;
   content: "";
   margin: 0 auto;
@@ -131,10 +131,11 @@ h3.line-title:before {
   bottom: 0;
   width: 95%;
   z-index: -1;
+  color: #000;
 }
-h3.line-title span {
-  background: #ffffff;
+h4.line-title span {
   padding: 0 15px;
+  color: #000;
 }
 /***MESSAGES***/
 .info-msg i {
@@ -217,7 +218,7 @@ a.button-clear.btn-link {
   line-height: 0;
   min-height: 0;
   color: #11c1f3;
-  font-size: 16px;
+  font-size: 15px;
 }
 /***INPUT TAGS***/
 .item-input input {
@@ -305,6 +306,15 @@ a.button-clear.btn-link {
 }
 .clm-list h6.f-w-400 i {
   font-size: 20px;
+}
+.loading-container .loading h3 {
+  color: #000;
+  margin-bottom: 0;
+}
+.loading-container .loading .popup .popup-body,
+.loading-container .loading .popup .popup-head {
+  background: #fff;
+  border-bottom: none;
 }
 /***FOOTER***/
 .bar-footer {
