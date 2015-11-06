@@ -14,13 +14,25 @@
       <h3>Welcome to our "Cardiac Care" Project specially designed to work towards your better tomorrow</h3>
       <img src="images/cardiac-care.png" alt="Cardiac Care" width="210"/>
         <h4 class="f-w-400 text-green">Please provide a new password for your Account</h4>
-        <label class="item-input item-icon-right b-b">
+        <label class="item-input item-icon-right b-b" ng-form="form">
           <i class="icon ion-ios-help-outline text-green"></i>
-          <input type="password" ng-model="view.New_password" placeholder="Enter New Password">
+          <input type="password" 
+          ng-model="view.New_password" 
+          placeholder="Enter New Password" ng-required>
         </label>
         <label class="item-input">
-          <input type="password" ng-model="view.Re_password" placeholder="Re-enter Password">
+          <input type="password" 
+          ng-model="view.Re_password" 
+          placeholder="Re-enter Password"
+          ng-required pw-check="view.New_password">
+
         </label>
+          <div class="msg-block" ng-show="form.$error">
+      <span class="msg-error" ng-show="form.pw2.$error.pwmatch">
+        Passwords don't match.
+       </span>
+      </div>
+      
         <br>
        <button class="button button-block button-balanced" ng-click="view.completesetup()">Complete My Set-up</button><br>
      </div>
