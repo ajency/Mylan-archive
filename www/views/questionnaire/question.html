@@ -66,18 +66,13 @@
 
               <div class="list">
                 <label class="item item-radio">
-                  <input type="radio" name="group" value="go"  ng-repeat ="product in view.data.option">
-                  
+                  <input type="radio" name="group" value="go" checked="checked" ng-repeat ="product in view.data.option">
+                  <div class="item-content">
                   {{product.answer}}
-                 
+                  </div>
                   <i class="radio-icon ion-checkmark"></i>
                 </label>
-                  <li class="item item-checkbox" ng-repeat ="product in view.data.option" >
-                     <label class="checkbox">
-                       <input type="checkbox">
-                     </label>
-                     {{product.answer}}
-                  </li>
+                  
               </div>
          </div>
     </ion-content>
