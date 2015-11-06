@@ -21,10 +21,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         });
       },
       hide: function() {
-        $ionicLoading.hide();
-        return {
-          hideOnStateChange: false
-        };
+        return $ionicLoading.hide();
       }
     };
   }

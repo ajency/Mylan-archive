@@ -4,12 +4,8 @@ angular.module 'PatientApp.init'
 .controller 'setupCtr', ['$scope', 'App', 'Storage','$ionicLoading'
 	, ($scope, App, Storage,$ionicLoading)->
 
-
-
-
 		$scope.view =
 			refcode:''
-
 
 			verifyRefCode : ->
 					console.log @refcode
@@ -27,10 +23,7 @@ angular.module 'PatientApp.init'
 						templateUrl:'views/error-view/Error-Screen-2.html'
 						hideOnStateChange: true			
 			hide:->
-			        $ionicLoading.hide();
-			        hideOnStateChange: false			
-				
-
-				
+			        $ionicLoading.hide()		
+					
 ]
 	
