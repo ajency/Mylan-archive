@@ -10,9 +10,7 @@ angular.module 'PatientApp.dashboard',[]
 			navigate : ->
 				App.navigate "questionnaire"
 
-
-			
-			
+		
 ]
 
 
