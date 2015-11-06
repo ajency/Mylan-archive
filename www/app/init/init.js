@@ -26,7 +26,7 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       controller: 'setup_passwordCtr'
     }).state('main_login', {
       url: '/main_login',
-      templateUrl: 'views/authentication-view/main-Screen-login.html',
+      templateUrl: 'views/authentication-view/Main-Screen-login.html',
       controller: 'main_loginCtr'
     });
   }
