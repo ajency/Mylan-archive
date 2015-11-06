@@ -13,9 +13,9 @@
             <div class="padding">
               <div class="col">
                   <h5 class="f-w-400">Previous Answers:</h5><br>
-                  <h5>{{view.data.pastAnswer}}</h5>
+                  <p class="f-w-400">{{view.data.pastAnswer}}</p>
                   <hr>
-                  <h5>No Change</h5>
+                  <p class="f-w-400">No Change</p>
                   <hr>
                   <h6>
                     <i class="icon ion-calendar"></i>
@@ -66,18 +66,13 @@
 
               <div class="list">
                 <label class="item item-radio">
-                  <input type="radio" name="group" value="go"  ng-repeat ="product in view.data.option">
-                  
+                  <input type="radio" name="group" value="go" checked="checked" ng-repeat ="product in view.data.option">
+                  <div class="item-content">
                   {{product.answer}}
-                 
+                  </div>
                   <i class="radio-icon ion-checkmark"></i>
                 </label>
-                  <li class="item item-checkbox" ng-repeat ="product in view.data.option" >
-                     <label class="checkbox">
-                       <input type="checkbox">
-                     </label>
-                     {{product.answer}}
-                  </li>
+                  
               </div>
          </div>
     </ion-content>
