@@ -13,7 +13,7 @@ angular.module 'PatientApp.init', []
 		else 
 			console.log 'iee'
 			Storage.login('get').then (value) ->
-				goto = if _.isNull(value) then 'main_login' else 'questionnaire'
+				goto = if _.isNull(value) then 'main_login' else 'dashboard'
 				App.navigate goto
  	# if _.isNull(value)
   #   return goto = 'setup'

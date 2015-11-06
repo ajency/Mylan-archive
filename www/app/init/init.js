@@ -11,7 +11,7 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       } else {
         console.log('iee');
         return Storage.login('get').then(function(value) {
-          goto = _.isNull(value) ? 'main_login' : 'questionnaire';
+          goto = _.isNull(value) ? 'main_login' : 'dashboard';
           return App.navigate(goto);
         });
       }
