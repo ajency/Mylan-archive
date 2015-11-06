@@ -91,6 +91,18 @@ hr.broad {
   padding-right: 11px;
   color: #000;
 }
+.bar.bar-footer {
+  border-top: 1px solid #ddd;
+}
+.bar.bar-footer.submission {
+  padding: 0;
+}
+.bar.bar-footer.submission .button-bar .button {
+  border-radius: 0;
+}
+.bar.bar-footer.broad-footer {
+  height: 75px;
+}
 /***ICONS***/
 .ic {
   width: 75px;
@@ -115,12 +127,14 @@ hr.broad {
 .icon.ion-ios-information-outline {
   font-size: 30px;
 }
-h4.line-title {
+h4.line-title,
+h3.line-title {
   position: relative;
   z-index: 1;
   color: #000;
 }
-h4.line-title:before {
+h4.line-title:before,
+h3.line-title:before {
   border-top: 1px solid #eeeeee;
   content: "";
   margin: 0 auto;
@@ -133,7 +147,8 @@ h4.line-title:before {
   z-index: -1;
   color: #000;
 }
-h4.line-title span {
+h4.line-title span,
+h3.line-title span {
   padding: 0 15px;
   color: #000;
   background: #ffffff;
@@ -312,16 +327,13 @@ a.button-clear.btn-link {
   color: #000;
   margin-bottom: 0;
 }
+.loading-container .loading .popup p {
+  font-size: inherit;
+}
 .loading-container .loading .popup .popup-body,
 .loading-container .loading .popup .popup-head {
   background: #fff;
   border-bottom: none;
 }
 /***FOOTER***/
-.bar-footer {
-  padding: 0;
-}
-.bar-footer .button-bar .button {
-  border-radius: 0;
-}
 /*# sourceMappingURL=style.css.map */
