@@ -4,11 +4,10 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       New_password: '',
       Re_password: '',
       completesetup: function() {
-        console.log(this.New_password);
-        console.log(this.Re_password);
-        return App.navigate("main_login", {}, {
-          animate: false,
-          back: false
+        return Storage.setup('set').then(function() {
+          console.log(this.New_password);
+          console.log(this.Re_password);
+          return App.navigate("main_login");
         });
       }
     };

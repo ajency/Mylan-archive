@@ -6,8 +6,10 @@ angular.module 'PatientApp.Auth'
 		$scope.view =
 
 			mainlogin : ->
+				Storage.login 'set'
+				.then ->
 				
-					App.navigate "questionnaire", {}, {animate: false, back: false}
+					App.navigate "questionnaire"
 					
 
 			

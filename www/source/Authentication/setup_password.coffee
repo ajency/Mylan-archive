@@ -10,12 +10,12 @@ angular.module 'PatientApp.Auth',[]
 			Re_password: ''
 
 			completesetup : ->
-				# Storage.setup 'set'
-				# .then ->
+				Storage.setup 'set'
+				.then ->
 					console.log @New_password
 					console.log @Re_password
 
-					App.navigate "main_login", {}, {animate: false, back: false}
+					App.navigate "main_login"
 
 
 

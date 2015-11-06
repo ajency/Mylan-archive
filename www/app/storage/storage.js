@@ -10,6 +10,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.getItem('app_setup_done');
       }
     };
+    Storage.login = function(action) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('logged', true);
+        case 'get':
+          return localforage.getItem('logged');
+      }
+    };
     return Storage;
   }
 ]);
