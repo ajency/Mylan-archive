@@ -3,10 +3,26 @@ angular.module 'PatientApp.init', []
 
 .controller 'InitCtrl', ['Storage','App','$scope', (Storage,App,$scope)->
   
-	Storage.setup 'get'
-	.then (value)->
-		goto = if _.isNull value then "setup" else "main_login"
-		App.navigate goto, {}, {animate: false, back: false}
+	Storage.setup('get').then (value) ->
+		console.log '---------'
+		console.log value
+		if _.isNull(value)
+			console.log 'inside if'
+			goto = 'setup'
+			App.navigate goto
+		else 
+			console.log 'iee'
+			Storage.login('get').then (value) ->
+				goto = if _.isNull(value) then 'main_login' else 'dashboard'
+				App.navigate goto
+ 	# if _.isNull(value)
+  #   return goto = 'setup'
+  # 	else
+  #   Storage.login('get').then (value) ->
+  #     goto = if _.isNull(value) then 'main_login' else 'questionnaire'
+  
+
+	# App.navigate goto
 
   					
 				

@@ -2,11 +2,19 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
   'Storage', 'App', '$scope', function(Storage, App, $scope) {
     return Storage.setup('get').then(function(value) {
       var goto;
-      goto = _.isNull(value) ? "setup" : "main_login";
-      return App.navigate(goto, {}, {
-        animate: false,
-        back: false
-      });
+      console.log('---------');
+      console.log(value);
+      if (_.isNull(value)) {
+        console.log('inside if');
+        goto = 'setup';
+        return App.navigate(goto);
+      } else {
+        console.log('iee');
+        return Storage.login('get').then(function(value) {
+          goto = _.isNull(value) ? 'main_login' : 'dashboard';
+          return App.navigate(goto);
+        });
+      }
     });
   }
 ]).config([

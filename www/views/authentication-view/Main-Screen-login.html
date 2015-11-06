@@ -6,14 +6,30 @@
       <h1 class="text-primary">Hi !</h1>
       <h3>Welcome to<br>your Healthcare Portal</h3>
       </div>
-      <div class="list list-inset">
+      <div class="list list-inset" ng-form="form_">
         <h5 class="f-w-400">Enter your Login Details</h5>
          <label class="item item-input">
-          <input type="text" placeholder="Enter 8 Digit Reference Code">
+          <input type="number" 
+          ng-maxlength=8 
+          required
+          placeholder="Enter 8 Digit Reference Code"
+          name="ref_"/>
         </label>
+          <div class="error" 
+           ng-show="form_.ref_.$dirty && form_.ref_.$invalid">
+           <small class="error" 
+           ng-show="form_.ref_.$error.required">
+           Your Reference Code is required.
+            </small>
+            <small class="error" 
+            ng-show="form_.ref_.$error.maxlength">
+            Your Reference Code  cannot be longer than 8 Digit
+            </small>
+             </div>
         <label class="item item-input">
           <input type="password" placeholder="Enter your Password">
-        </label><br>
+        </label>
+        <br>     
        <button class="button button-block button-calm" ng-click="view.mainlogin()">Login</button><br>
        <a href="#" class="button-clear button-calm btn-link" >Forgot Reference Code <br>or Password</a>
       </div>
