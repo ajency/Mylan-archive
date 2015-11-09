@@ -1,12 +1,16 @@
 angular.module('PatientApp.Quest').factory('QuestionAPI', [
-  '$q', '$http', 'App', '$stateParams', function($q, $http, App, $stateParams) {
+  '$q', '$http', 'App', function($q, $http, App, $stateParams) {
     var QuestionAPI;
     QuestionAPI = {};
-    QuestionAPI.get = function() {
-      var params;
-      console.log('stateparam');
-      console.log($stateParams.quizID);
+    QuestionAPI.getQuestion = function(opts) {
+      var data, defer, params;
+      defer = $q.defer();
       params = {
+        "userdId": '55',
+        "quizID": opts.quizID
+      };
+      data = {
+        questionId: '112',
         questionType: 'mcq',
         questionTittle: 'which Statement best describes your pain',
         option: {
@@ -26,15 +30,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
         pastAnswer: 'Pain present, and i take ocassional pain releiving medication',
         submitedDate: '5-11-2015'
       };
-      return params;
-    };
-    QuestionAPI.startQuiz = function() {
-      var data, defer, params;
-      defer = $q.defer();
-      params = {
-        userdId: '55'
-      };
-      data = defer.resolve('data.data.result');
+      defer.resolve(data);
       return defer.promise;
     };
     return QuestionAPI;

@@ -28,6 +28,9 @@ angular.module('PatientApp.Global', []).factory('App', [
           });
         }
         return $state.go(state, params);
+      },
+      goBack: function(count) {
+        return $ionicHistory.goBack(count);
       }
     };
   }

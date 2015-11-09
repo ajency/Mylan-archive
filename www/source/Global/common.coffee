@@ -5,15 +5,12 @@ angular.module 'PatientApp.Global', []
 	,( $state,$ionicHistory )->
 
 		App = 
-
 			start: true
 			validateEmail: /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/
 			onlyNumbers: /^\d+$/
 			menuEnabled : left: false, right: false
 			previousState: ''
 			currentState: ''
-
-	
 
 			navigate : (state, params={}, opts={})->
 				if !_.isEmpty(opts)
@@ -24,6 +21,9 @@ angular.module 'PatientApp.Global', []
 						disableBack   : !back
 		
 				$state.go state, params
+
+			goBack : (count)->
+				$ionicHistory.goBack count
 			
 
 ]

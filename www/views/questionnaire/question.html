@@ -1,14 +1,15 @@
-<ion-pane class="has-header" ng-init="view.init();">
+<ion-view>
+<!-- <ion-pane class="has-header" ng-init="view.init();"> -->
    
-    <div class="bar bar-header bar-balanced row">
+   <!--  <div class="bar bar-header bar-balanced row">
         <h1 class="title"><b>{{view.title}}</b></h1>
         <div class="right-buttons">
           <button class="button button-outline button-light icon ion-pause icon-right"></button>
            <button class="button icon ion-close button button-outline button-light icon-right"></button>
         </div>
-    </div>
+    </div> -->
 
-   <ion-content class="has-header">
+   <ion-content ng-init="view.init();" class="has-footer">
          <div class="bg-yellow">
             <div class="padding">
               <div class="col">
@@ -76,6 +77,12 @@
               </div>
          </div>
     </ion-content>
-    
-</ion-pane>
- 
+     <div class="bar bar-footer bar-light">
+         
+           <button class="button button-icon pull-left text-green"><i class="icon ion-android-arrow-dropleft-circle text-green"></i></button>
+         
+            <button class="button button-icon pull-right text-green"><i class="icon ion-android-arrow-dropright-circle text-green"></i></button>
+          
+      </div>
+
+</ion-view>
