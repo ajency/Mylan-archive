@@ -81,7 +81,7 @@ hr.broad {
 }
 .bar.bar-header .right-buttons {
   position: absolute;
-  right: 6px;
+  right: 0;
 }
 .bar.bar-header .right-buttons.trans-links {
   padding-top: 6px;
@@ -160,7 +160,7 @@ h3.line-title span {
 }
 .info-msg span {
   position: relative;
-  top: 5px;
+  top: 3px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -243,28 +243,28 @@ a.button-clear.btn-link {
 }
 .item-input input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: #444;
-  font-size: 16px;
+  color: #333;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
-  color: #444;
-  font-size: 16px;
+  color: #333;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #444;
+  color: #333;
   opacity: 1;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #444;
+  color: #333;
   opacity: 1;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 200;
 }
 /***LISTS***/
