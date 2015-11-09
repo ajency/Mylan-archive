@@ -1,10 +1,18 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$scope', 'App', 'Storage', 'QuestionAPI', function($scope, App, Storage, QuestionAPI) {
     return $scope.view = {
+      Hospital_name: 'Sutter Davis Hospital',
+      SubmissionData: [],
       startQuiz: function() {
         return App.navigate('questionnaire', {
           quizID: '1111'
         });
+      },
+      getSubmission: function() {
+        return DashboardAPI.get();
+      },
+      displaydata: function() {
+        return this.data = this.getSubmission();
       }
     };
   }

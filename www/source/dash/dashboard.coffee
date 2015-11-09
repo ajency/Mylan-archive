@@ -4,9 +4,18 @@ angular.module 'PatientApp.dashboard',[]
 	, ($scope, App, Storage, QuestionAPI)->
 
 		$scope.view =
+			Hospital_name: 'Sutter Davis Hospital'
+			SubmissionData : []
 
 			startQuiz : ->
 				App.navigate 'questionnaire', quizID: '1111'
+
+			getSubmission : ->
+				DashboardAPI.get()
+
+
+			displaydata : ->
+				@data = @getSubmission()	
 	
 ]
 
@@ -23,3 +32,5 @@ angular.module 'PatientApp.dashboard',[]
 					controller: 'DashboardCtrl'
 
 ]
+
+			

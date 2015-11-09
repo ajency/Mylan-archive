@@ -22,21 +22,24 @@
 
               <i class="icon ion-ios-help-outline text-green"></i>
               <input type="password" 
-              ng-model="view.New_password" 
+              ng-model="view.New_password"
+              ng-click="view.clear()"
+              maxlength="4"
+              minlength="4" 
               placeholder="Enter New Password" ng-required>
             </label>
             <label class="item-input">
               <input type="password" 
               ng-model="view.Re_password" 
               placeholder="Re-enter Password"
+              maxlength="4"
+              minlength="4" 
+              ng-click="view.clear()"
               ng-required pw-check="view.New_password">
 
             </label>
-              <div class="msg-block" ng-show="form.$error">
-          <span class="msg-error" ng-show="form.pw2.$error.pwmatch">
-            Passwords don't match.
-           </span>
-          </div>
+             
+             <div>{{view.passwordmissmatch}}</div>
 
             <br>
            <button class="button button-block button-balanced" ng-click="view.completesetup()">Complete My Set-up</button><br>

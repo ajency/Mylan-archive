@@ -4,11 +4,25 @@ angular.module 'PatientApp.Auth'
 	, ($scope, App, Storage)->
 
 		$scope.view =
+			refrencecode:''
+			loginerror: ''
+			password:''
 
 			mainlogin : ->
-				Storage.login 'set'
-				.then ->
-					App.navigate "dashboard"
+				if @refrencecode =='' || @password ==''
+					@loginerror = "Please Enter the credentials "
+
+				else	
+					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
+						@loginerror = "Please Enter valid credentials "
+					else
+							
+						Storage.login 'set'
+						.then ->
+						App.navigate "dashboard"
+			
+			cleardiv :->
+				@loginerror =""
 					
 
 			

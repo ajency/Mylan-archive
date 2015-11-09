@@ -15,10 +15,10 @@ angular.module 'PatientApp.init'
 			verifyRefCode : ->
 					console.log @refcode
 					console.log _.isEmpty(@refcode)
-					if @refcode ==''
-						@emptyfield = "Please Enter Refrence Code"	
+					if @refcode =='' || _.isUndefined(@refcode)
+						@emptyfield = "Please Enter Valid Refrence Code"	
 
-					else
+					else		
 						App.navigate "setup_password"
 
 			tologin : ->
@@ -28,7 +28,7 @@ angular.module 'PatientApp.init'
 						App.navigate goto
 
 			forgetRefcode:->
-					$ionicLoading.show
+						$ionicLoading.show
 						scope: $scope
 						templateUrl:'views/error-view/Error-Screen-2.html'
 						hideOnStateChange: true			
