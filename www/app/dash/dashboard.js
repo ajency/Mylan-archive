@@ -12,8 +12,13 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('dashboard', {
       url: '/dashboard',
-      templateUrl: 'views/dashboard/dashboard.html',
-      controller: 'DashboardCtrl'
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/dashboard/dashboard.html',
+          controller: 'DashboardCtrl'
+        }
+      }
     });
   }
 ]);
