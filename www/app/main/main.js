@@ -1,6 +1,6 @@
 angular.module('PatientApp.main', []).controller('MainCtr', [
   '$scope', 'App', 'Storage', 'QuestionAPI', function($scope, App, Storage, QuestionAPI) {
-    return {
+    return $scope.view = {
       onBackClick: function() {
         var count;
         count = -1;
@@ -13,7 +13,8 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
     return $stateProvider.state('main', {
       url: '/main',
       abstract: true,
-      templateUrl: 'views/main.html'
+      templateUrl: 'views/main.html',
+      controller: 'MainCtr'
     });
   }
 ]);

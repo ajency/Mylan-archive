@@ -1,15 +1,18 @@
 angular.module 'PatientApp.Quest'
 
-.factory 'QuestionAPI', ['$q', '$http', 'App', '$stateParams', ($q, $http, App, $stateParams)->
+.factory 'QuestionAPI', ['$q', '$http', 'App', ($q, $http, App, $stateParams)->
 
 	QuestionAPI = {}
 
-	QuestionAPI.get = ()->
-
-		console.log 'stateparam'
-		console.log $stateParams.quizID
+	QuestionAPI.getQuestion = (opts)->
+		defer = $q.defer()
 
 		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+
+		data = 
+			questionId : '112'
 			questionType: 'mcq'
 			questionTittle: 'which Statement best describes your pain'
 			option:
@@ -22,30 +25,35 @@ angular.module 'PatientApp.Quest'
 				2:
 				 id : '3'
 				 answer : 'Pain present, and i take ocassional pain releiving medication'
+				
 			pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
 			submitedDate : '5-11-2015'
 
-		params
-
-	QuestionAPI.startQuiz = ()->
-		defer = $q.defer()
-
-		params =
-			userdId : '55'
-
-		data = 
-
-
-		defer.resolve 'data.data.result'
+		defer.resolve data
 
 		defer.promise
-		# $http.post 'functions/getProductsNew', params
-		# .then (data)->
-		# 	defer.resolve data.data.result
-		# , (error)->
-		# 	defer.reject error
 
-		# defer.promise	
+	QuestionAPI.saveAnswer = (opts)->
+		defer = $q.defer()
+
+		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+			"questionId" : opts.questionId
+			"answerId" : opts.answerId
+			"action" : opts.action
+
+		data = 'a'
+
+		console.log '***********'
+
+		console.log params
+
+
+		defer.resolve data
+
+		defer.promise
+
 
 
 	QuestionAPI	

@@ -3,7 +3,9 @@ angular.module 'PatientApp.main', []
 .controller 'MainCtr',['$scope', 'App', 'Storage', 'QuestionAPI'
 	, ($scope, App, Storage, QuestionAPI)->
 
-		onBackClick : ->
+		$scope.view =
+
+			onBackClick : ->
 				count = -1
 				App.goBack count
 
@@ -17,5 +19,6 @@ angular.module 'PatientApp.main', []
 		url: '/main'
 		abstract: true
 		templateUrl: 'views/main.html'
+		controller: 'MainCtr'
 
 ]

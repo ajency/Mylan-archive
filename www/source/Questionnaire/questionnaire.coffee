@@ -1,18 +1,44 @@
 angular.module 'PatientApp.Quest',[]
 
-.controller 'questionnaireCtr',['$scope', 'App', 'Storage', 'QuestionAPI'
-	, ($scope, App, Storage, QuestionAPI)->
+.controller 'questionnaireCtr',['$scope', 'App', 'Storage', 'QuestionAPI','$stateParams'
+	, ($scope, App, Storage, QuestionAPI, $stateParams)->
 
 		$scope.view =
 			title: 'C-weight'
 			data : []
+			go : ''
 
 			getQuestion : ->
-				QuestionAPI.get()
+				options = 
+					quizID: $stateParams.quizID
 
-
+				QuestionAPI.getQuestion options
+				.then (data)=>
+					@data = data 
+				, (error)=>
+					console.log 'err'
+					
 			init : ->
-				@data = @getQuestion()
+				@getQuestion()
+
+			nextQuestion : ->
+				options = 
+					quizID: $stateParams.quizID
+					questionId : @data.questionId
+					answerId : @go
+					action : 'submitted'
+
+				QuestionAPI.saveAnswer options
+				.then (data)=>
+					@data = data 
+					App.navigate 'questionnaire', quizID: '1111'
+				, (error)=>
+					console.log 'err'
+
+
+
+
+
 			
 ]
 
@@ -23,7 +49,9 @@ angular.module 'PatientApp.Quest',[]
 
 	.state 'questionnaire',
 			url: '/questionnaire:quizID'
-			templateUrl: 'views/questionnaire/question.html'
-			controller: 'questionnaireCtr'
-
+			parent: 'parent-questionnaire'
+			views: 
+				"QuestionContent":
+					templateUrl: 'views/questionnaire/question.html'
+					controller: 'questionnaireCtr'
 ]
