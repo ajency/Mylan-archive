@@ -14,7 +14,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('questionnaire', {
-      url: '/questionnaire',
+      url: '/questionnaire:quizID',
       templateUrl: 'views/questionnaire/question.html',
       controller: 'questionnaireCtr'
     });

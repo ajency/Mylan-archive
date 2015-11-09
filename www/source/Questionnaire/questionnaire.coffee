@@ -22,7 +22,7 @@ angular.module 'PatientApp.Quest',[]
 	$stateProvider
 
 	.state 'questionnaire',
-			url: '/questionnaire'
+			url: '/questionnaire:quizID'
 			templateUrl: 'views/questionnaire/question.html'
 			controller: 'questionnaireCtr'
 

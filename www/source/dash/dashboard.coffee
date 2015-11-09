@@ -4,15 +4,11 @@ angular.module 'PatientApp.dashboard',[]
 	, ($scope, App, Storage, QuestionAPI)->
 
 		$scope.view =
-			title: 'C-weight'
-			data : []
 
-			navigate : ->
-				App.navigate "questionnaire"
-
-		
+			startQuiz : ->
+				App.navigate 'questionnaire', quizID: '1111'
+	
 ]
-
 
 .config ['$stateProvider', ($stateProvider)->
 
