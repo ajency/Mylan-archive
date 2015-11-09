@@ -1,7 +1,7 @@
 
-    <ion-pane>
+ 
    
-  <div class="bar bar-header bar-light">
+  <!-- <div class="bar bar-header bar-light">
     <a href="#"><img src="images/logo.jpg" alt="Sutter Davis Hospital" width="35"/> </a>
     <h1 class="title">Sutter Davis Hospital</h1>
     <div class="right-buttons">
@@ -10,21 +10,24 @@
     <button class="button button-outline" ><i class="icon ion-ios-bell-outline"></i></button>
     </div>
     
-    </div>
-     <ion-content class="has-header">
-    <div class="info-msg bg-balanced">
-      <div class="padding">
-        <i class="icon ion-ios-information-outline"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
-      </div>
-    </div>
-     <div class="padding">
-      <br>
-      
-      <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
-     </div>
-       <div class="row">
+    </div> -->
+<ion-view>   
+    <ion-nav-title>
+        Sutter Davis Hospital
+    </ion-nav-title>
+    <ion-content>
+        <div class="info-msg bg-balanced">
+        <div class="padding">
+          <i class="icon ion-ios-information-outline"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
+          </div>
+        </div>
+        <div class="padding">
+          <br>
+          <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
+        </div>
+        <div class="row">
           <div class="col">
-             <img src="images/cardiac-care.png" alt="Cardiac Care" width="140"/>
+            <img src="images/cardiac-care.png" alt="Cardiac Care" width="140"/>
           </div>
           <div class="col col-70">
             <h3><b>40%</b></h3>
@@ -34,62 +37,59 @@
           </div>
         </div>
         <div class="padding bg-gray">
-          <h5 class="f-w-400">Questionnaire Qummary</h5>
+            <h5 class="f-w-400">Questionnaire Qummary</h5>
         </div>
         <div class="clm-list">
-        <div class="row">
-          <div class="col">
-          <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
+          <div class="row">
+            <div class="col">
+                <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
+            </div>
+            <div class="col">
+                <h6>25 Oct 2015</h6>
+              </div>
+              <div class="col col-20  text-right">
+              </div>
           </div>
-          <div class="col">
-            <h6>25 Oct 2015</h6>
+          <hr>
+          <div class="row">
+            <div class="col">
+                <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> Due</h6>
+            </div>
+            <div class="col">
+                <h6>15 Oct 2015</h6>
+            </div>
+            <div class="col col-20 text-right">
+              <button 
+              class="button button-block button-small button-assertive"
+              ng-click = "view.startQuiz();">Start</button>
+            </div>
           </div>
-          <div class="col col-20  text-right">
+          <hr>
+          <div class="row">
+            <div class="col">
+              <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> Missed</h6>
+            </div>
+            <div class="col">
+              <h6>10 Oct 2015</h6>
+            </div>
+            <div class="col col-20 text-right">
+
+            </div>
           </div>
-        </div>
         <hr>
-        <div class="row">
-          <div class="col">
-            <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> Due</h6>
-          </div>
-          <div class="col">
-            <h6>15 Oct 2015</h6>
-          </div>
-          <div class="col col-20 text-right">
-             <button 
-                class="button button-block button-small button-assertive"
-                ng-click = "view.navigate();">Start</button>
-          </div>
+          <div class="row">
+            <div class="col">
+                <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> Submitted</h6>
+            </div>
+            <div class="col">
+                <h6>15 Sep 2015</h6>
+            </div>
+            <div class="col col-20 text-right">
+                <button class="button button-block button-small button-balanced">View</button>
+            </div>
+          </div> 
         </div>
-        <hr>
-         <div class="row">
-          <div class="col">
-            <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> Missed</h6>
-          </div>
-          <div class="col">
-            <h6>10 Oct 2015</h6>
-          </div>
-          <div class="col col-20 text-right">
-            
-          </div>
-        </div>
-        <hr>
-         <div class="row">
-          <div class="col">
-            <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> Submitted</h6>
-          </div>
-          <div class="col">
-            <h6>15 Sep 2015</h6>
-          </div>
-          <div class="col col-20 text-right">
-             <button class="button button-block button-small button-balanced">View</button>
-          </div>
-        </div> 
-      </div>
-        <br>
-     
-     
-     
+      <br>
     </ion-content>
-    </ion-pane>
+</ion-view>   
 

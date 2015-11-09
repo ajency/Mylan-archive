@@ -3,6 +3,10 @@ angular.module 'PatientApp.main', []
 .controller 'MainCtr',['$scope', 'App', 'Storage', 'QuestionAPI'
 	, ($scope, App, Storage, QuestionAPI)->
 
+		onBackClick : ->
+				count = -1
+				App.goBack count
+
 ]
 
 .config ['$stateProvider', ($stateProvider)->

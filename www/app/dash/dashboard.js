@@ -1,10 +1,10 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$scope', 'App', 'Storage', 'QuestionAPI', function($scope, App, Storage, QuestionAPI) {
     return $scope.view = {
-      title: 'C-weight',
-      data: [],
-      navigate: function() {
-        return App.navigate("questionnaire");
+      startQuiz: function() {
+        return App.navigate('questionnaire', {
+          quizID: '1111'
+        });
       }
     };
   }
@@ -12,8 +12,13 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('dashboard', {
       url: '/dashboard',
-      templateUrl: 'views/dashboard/dashboard.html',
-      controller: 'DashboardCtrl'
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/dashboard/dashboard.html',
+          controller: 'DashboardCtrl'
+        }
+      }
     });
   }
 ]);

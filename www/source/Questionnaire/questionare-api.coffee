@@ -1,10 +1,13 @@
 angular.module 'PatientApp.Quest'
 
-.factory 'QuestionAPI', ['$q', '$http', 'App', ($q, $http, App)->
+.factory 'QuestionAPI', ['$q', '$http', 'App', '$stateParams', ($q, $http, App, $stateParams)->
 
 	QuestionAPI = {}
 
 	QuestionAPI.get = ()->
+
+		console.log 'stateparam'
+		console.log $stateParams.quizID
 
 		params = 
 			questionType: 'mcq'
@@ -23,6 +26,27 @@ angular.module 'PatientApp.Quest'
 			submitedDate : '5-11-2015'
 
 		params
+
+	QuestionAPI.startQuiz = ()->
+		defer = $q.defer()
+
+		params =
+			userdId : '55'
+
+		data = 
+
+
+		defer.resolve 'data.data.result'
+
+		defer.promise
+		# $http.post 'functions/getProductsNew', params
+		# .then (data)->
+		# 	defer.resolve data.data.result
+		# , (error)->
+		# 	defer.reject error
+
+		# defer.promise	
+
 
 	QuestionAPI	
 ]

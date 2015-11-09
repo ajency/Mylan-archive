@@ -24,18 +24,28 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       cache: false,
       controller: 'InitCtrl',
       templateUrl: 'views/init-view/init.html'
-    }).state('setup', {
-      url: '/setup',
-      templateUrl: 'views/authentication-view/main-screen.html',
-      controller: 'setupCtr'
     }).state('setup_password', {
       url: '/setup_password',
-      templateUrl: 'views/authentication-view/Hospital-login.html',
-      controller: 'setup_passwordCtr'
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/authentication-view/Hospital-login.html',
+          controller: 'setup_passwordCtr'
+        }
+      }
     }).state('main_login', {
       url: '/main_login',
       templateUrl: 'views/authentication-view/Main-Screen-login.html',
       controller: 'main_loginCtr'
+    }).state('setup', {
+      url: '/setup',
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/authentication-view/main-screen.html',
+          controller: 'setupCtr'
+        }
+      }
     });
   }
 ]);
