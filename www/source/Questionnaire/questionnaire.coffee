@@ -6,6 +6,7 @@ angular.module 'PatientApp.Quest',[]
 		$scope.view =
 			title: 'C-weight'
 			data : []
+			go : ''
 
 			getQuestion : ->
 				options = 
@@ -19,6 +20,25 @@ angular.module 'PatientApp.Quest',[]
 					
 			init : ->
 				@getQuestion()
+
+			nextQuestion : ->
+				options = 
+					quizID: $stateParams.quizID
+					questionId : @data.questionId
+					answerId : @go
+					action : 'submitted'
+
+				QuestionAPI.saveAnswer options
+				.then (data)=>
+					@data = data 
+					App.navigate 'questionnaire', quizID: '1111'
+				, (error)=>
+					console.log 'err'
+
+
+
+
+
 			
 ]
 

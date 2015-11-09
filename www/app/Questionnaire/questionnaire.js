@@ -3,6 +3,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     return $scope.view = {
       title: 'C-weight',
       data: [],
+      go: '',
       getQuestion: function() {
         var options;
         options = {
@@ -20,6 +21,27 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       init: function() {
         return this.getQuestion();
+      },
+      nextQuestion: function() {
+        var options;
+        options = {
+          quizID: $stateParams.quizID,
+          questionId: this.data.questionId,
+          answerId: this.go,
+          action: 'submitted'
+        };
+        return QuestionAPI.saveAnswer(options).then((function(_this) {
+          return function(data) {
+            _this.data = data;
+            return App.navigate('questionnaire', {
+              quizID: '1111'
+            });
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            return console.log('err');
+          };
+        })(this));
       }
     };
   }

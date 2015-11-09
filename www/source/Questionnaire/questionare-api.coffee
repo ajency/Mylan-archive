@@ -33,6 +33,28 @@ angular.module 'PatientApp.Quest'
 
 		defer.promise
 
+	QuestionAPI.saveAnswer = (opts)->
+		defer = $q.defer()
+
+		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+			"questionId" : opts.questionId
+			"answerId" : opts.answerId
+			"action" : opts.action
+
+		data = 'a'
+
+		console.log '***********'
+
+		console.log params
+
+
+		defer.resolve data
+
+		defer.promise
+
+
 
 	QuestionAPI	
 ]

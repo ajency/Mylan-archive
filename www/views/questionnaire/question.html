@@ -68,21 +68,25 @@
               <div class="list">
                 <label class="item item-radio"
                   ng-repeat ="product in view.data.option">
-                    <input type="radio" name="group" value="go" >
-                    <div class="item-content">
-                     {{product.answer}}
-                    </div>
+                    <input type="radio" name="group" ng-model="view.go" ng-value="product.id" >
+                      <div class="item-content">
+                       {{product.answer}}
+                      </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 
               </div>
          </div>
     </ion-content>
      <div class="bar bar-footer bar-light">
-         
-           <button class="button button-icon pull-left text-green"><i class="icon ion-android-arrow-dropleft-circle text-green"></i></button>
-         
-            <button class="button button-icon pull-right text-green"><i class="icon ion-android-arrow-dropright-circle text-green"></i></button>
-          
+           <button class="button button-icon pull-left text-green">
+              <i class="icon ion-android-arrow-dropleft-circle text-green"> 
+              </i>
+          </button>
+            <button 
+                class="button button-icon pull-right text-green"
+                ng-click="view.nextQuestion()">
+                  <i class="icon ion-android-arrow-dropright-circle text-green"></i>
+            </button>
       </div>
 
 </ion-view>

@@ -33,6 +33,22 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       defer.resolve(data);
       return defer.promise;
     };
+    QuestionAPI.saveAnswer = function(opts) {
+      var data, defer, params;
+      defer = $q.defer();
+      params = {
+        "userdId": '55',
+        "quizID": opts.quizID,
+        "questionId": opts.questionId,
+        "answerId": opts.answerId,
+        "action": opts.action
+      };
+      data = 'a';
+      console.log('***********');
+      console.log(params);
+      defer.resolve(data);
+      return defer.promise;
+    };
     return QuestionAPI;
   }
 ]);
