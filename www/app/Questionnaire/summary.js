@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', '$stateParams', '$window', function($scope, App, Storage, QuestionAPI, $stateParams, $window) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', function($scope, App, QuestionAPI, $stateParams, $window) {
     return $scope.view = {
       title: 'C-weight',
       data: [],
@@ -38,6 +38,18 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
             return console.log('err');
           };
         })(this));
+      },
+      prevQuestion: function() {
+        var action, valueAction;
+        valueAction = QuestionAPI.setAction('get');
+        action = {
+          questionId: valueAction.questionId,
+          mode: 'prev'
+        };
+        QuestionAPI.setAction('set', action);
+        return App.navigate('questionnaire', {
+          quizID: $stateParams.quizID
+        });
       }
     };
   }

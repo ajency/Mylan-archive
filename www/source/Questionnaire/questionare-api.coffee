@@ -4,12 +4,20 @@ angular.module 'PatientApp.Quest'
 
 	QuestionAPI = {}
 
+	actionMode ={}
+
 	QuestionAPI.getQuestion = (opts)->
 		defer = $q.defer()
+
+		questionId = ''
+
+		if ! _.isUndefined(opts.questionId)
+			questionId = opts.questionId
 
 		params = 
 			"userdId" : '55'
 			"quizID": opts.quizID
+			"questionId" : questionId
 
 		data = 
 			questionId : '112'
@@ -28,6 +36,8 @@ angular.module 'PatientApp.Quest'
 				
 			pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
 			submitedDate : '5-11-2015'
+			previousAnswered : '1'
+			previousQuestion : 'true'
 
 		defer.resolve data
 
@@ -43,16 +53,11 @@ angular.module 'PatientApp.Quest'
 			"answerId" : opts.answerId
 			"action" : opts.action
 
-		# 'type': 'nextQuestion'
+		# 'type': 'nextQuestion' / summary
 
 		data = 
 			'type': 'summary'
 			'quizID' : '111'
-
-		console.log '***********'
-
-		console.log params
-
 
 		defer.resolve data
 
@@ -95,6 +100,16 @@ angular.module 'PatientApp.Quest'
 		defer.resolve data
 
 		defer.promise
+
+	QuestionAPI.setAction = (action, data={})->
+		switch action
+			when 'set'
+				_.each data, (val, index)->
+					actionMode[index] = val
+					console.log actionMode
+			when 'get'
+				actionMode
+
 
 
 	QuestionAPI	

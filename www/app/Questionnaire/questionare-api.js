@@ -1,13 +1,19 @@
 angular.module('PatientApp.Quest').factory('QuestionAPI', [
   '$q', '$http', 'App', function($q, $http, App, $stateParams) {
-    var QuestionAPI;
+    var QuestionAPI, actionMode;
     QuestionAPI = {};
+    actionMode = {};
     QuestionAPI.getQuestion = function(opts) {
-      var data, defer, params;
+      var data, defer, params, questionId;
       defer = $q.defer();
+      questionId = '';
+      if (!_.isUndefined(opts.questionId)) {
+        questionId = opts.questionId;
+      }
       params = {
         "userdId": '55',
-        "quizID": opts.quizID
+        "quizID": opts.quizID,
+        "questionId": questionId
       };
       data = {
         questionId: '112',
@@ -28,7 +34,9 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
           }
         },
         pastAnswer: 'Pain present, and i take ocassional pain releiving medication',
-        submitedDate: '5-11-2015'
+        submitedDate: '5-11-2015',
+        previousAnswered: '1',
+        previousQuestion: 'true'
       };
       defer.resolve(data);
       return defer.promise;
@@ -47,8 +55,6 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
         'type': 'summary',
         'quizID': '111'
       };
-      console.log('***********');
-      console.log(params);
       defer.resolve(data);
       return defer.promise;
     };
@@ -88,6 +94,20 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       data = 'success';
       defer.resolve(data);
       return defer.promise;
+    };
+    QuestionAPI.setAction = function(action, data) {
+      if (data == null) {
+        data = {};
+      }
+      switch (action) {
+        case 'set':
+          return _.each(data, function(val, index) {
+            actionMode[index] = val;
+            return console.log(actionMode);
+          });
+        case 'get':
+          return actionMode;
+      }
     };
     return QuestionAPI;
   }

@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Quest'
 
-.controller 'SummaryCtr',['$scope', 'App', 'Storage', 'QuestionAPI','$stateParams', 
-	'$window', ($scope, App, Storage, QuestionAPI, $stateParams, $window)->
+.controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
+	'$window', ($scope, App, QuestionAPI, $stateParams, $window)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -32,6 +32,15 @@ angular.module 'PatientApp.Quest'
 					App.navigate 'dashboard'
 				, (error)=>
 					console.log 'err'
+
+			prevQuestion : ->
+				valueAction = QuestionAPI.setAction 'get'
+				action =
+					questionId : valueAction.questionId
+					mode : 'prev'
+				QuestionAPI.setAction 'set', action
+				App.navigate 'questionnaire', quizID: $stateParams.quizID
+
 		
 ]
 

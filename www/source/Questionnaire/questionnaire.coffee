@@ -8,6 +8,7 @@ angular.module 'PatientApp.Quest',[]
 			data : []
 			go : ''
 			response : ''
+			actionValue : {}
 
 			getQuestion : ->
 				options = 
@@ -18,9 +19,29 @@ angular.module 'PatientApp.Quest',[]
 					@data = data 
 				, (error)=>
 					console.log 'err'
+
+			getPrevQuestion : ->
+				options = 
+					quizID: $stateParams.quizID
+					questionId : @actionValue.questionId
+
+				QuestionAPI.getQuestion options
+				.then (data)=>
+					@data = data 
+				, (error)=>
+					console.log 'err'
+
 					
 			init : ->
-				@getQuestion()
+				console.log 'init'
+				@actionValue = QuestionAPI.setAction 'get'
+				console.log @actionValue
+				if _.isEmpty(@actionValue) || @actionValue.mode == 'next'
+					@getQuestion()
+				else
+					@getPrevQuestion()
+
+				
 
 			nextQuestion : ->
 				options = 
@@ -31,17 +52,33 @@ angular.module 'PatientApp.Quest',[]
 
 				QuestionAPI.saveAnswer options
 				.then (data)=>
+					action =
+						questionId : @data.questionId
+						mode : 'next'
+
+					QuestionAPI.setAction 'set', action
+
+					v = QuestionAPI.setAction 'get'
+					console.log v
+
 					@response = data 
-					console.log @response
 					if @response.type == 'nextQuestion' 
-						console.log 'next question'
 						$window.location.reload()
 						# App.navigate 'questionnaire', quizID: @response.quizID
 					else
-						console.log 'summary'
 						App.navigate 'summary', quizID: @response.quizID
 				, (error)=>
 					console.log 'err'
+
+			prevQuestion : ->
+				action =
+					questionId : @data.questionId
+					mode : 'prev'
+
+				QuestionAPI.setAction 'set', action
+
+				@init()
+
 		
 ]
 

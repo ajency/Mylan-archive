@@ -5,6 +5,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       data: [],
       go: '',
       response: '',
+      actionValue: {},
       getQuestion: function() {
         var options;
         options = {
@@ -20,8 +21,31 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           };
         })(this));
       },
+      getPrevQuestion: function() {
+        var options;
+        options = {
+          quizID: $stateParams.quizID,
+          questionId: this.actionValue.questionId
+        };
+        return QuestionAPI.getQuestion(options).then((function(_this) {
+          return function(data) {
+            return _this.data = data;
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            return console.log('err');
+          };
+        })(this));
+      },
       init: function() {
-        return this.getQuestion();
+        console.log('init');
+        this.actionValue = QuestionAPI.setAction('get');
+        console.log(this.actionValue);
+        if (_.isEmpty(this.actionValue) || this.actionValue.mode === 'next') {
+          return this.getQuestion();
+        } else {
+          return this.getPrevQuestion();
+        }
       },
       nextQuestion: function() {
         var options;
@@ -33,13 +57,18 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         };
         return QuestionAPI.saveAnswer(options).then((function(_this) {
           return function(data) {
+            var action, v;
+            action = {
+              questionId: _this.data.questionId,
+              mode: 'next'
+            };
+            QuestionAPI.setAction('set', action);
+            v = QuestionAPI.setAction('get');
+            console.log(v);
             _this.response = data;
-            console.log(_this.response);
             if (_this.response.type === 'nextQuestion') {
-              console.log('next question');
               return $window.location.reload();
             } else {
-              console.log('summary');
               return App.navigate('summary', {
                 quizID: _this.response.quizID
               });
@@ -50,6 +79,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             return console.log('err');
           };
         })(this));
+      },
+      prevQuestion: function() {
+        var action;
+        action = {
+          questionId: this.data.questionId,
+          mode: 'prev'
+        };
+        QuestionAPI.setAction('set', action);
+        return this.init();
       }
     };
   }
