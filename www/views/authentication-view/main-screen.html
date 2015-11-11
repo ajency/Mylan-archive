@@ -14,30 +14,18 @@
 
                     <label class="item item-input item-icon-right">
                         <i class="icon ion-ios-help-outline text-primary" ></i>
-                        <input type="number"  
+
+
+                        <input type="tel"  
                         name="ref"
                         ng-model="view.refcode"
-                        ng-maxlength=8 
-                        ng-minlength=8
+                        maxlength="8" 
+                        minlength="8"
                         required
                         ng-click="view.clear()"
                         placeholder="Enter 8 Digit Reference Code"/>
                     </label>
-                        <div class="error" 
-                        ng-show="form.ref.$dirty && form.ref.$invalid">
-                        <small class="error" 
-                        ng-show="form.ref.$error.required">
-                       Your Reference Code is required.
-                        </small>
-                        <small class="error" 
-                        ng-show="form.ref.$error.maxlength">
-                        Your Reference Code  cannot be longer than 8 Digit
-                        </small>
-                        <small class="error" 
-                        ng-show="form.ref.$error.minlength">
-                        Your Reference Code  cannot be less than 8 Digit
-                        </small>
-                    </div>
+                       
                     <div>{{view.emptyfield}}</div>
                     <br>
                     <button class="button button-block button-calm" ng-click="view.verifyRefCode()">Verify Reference Code Now</button><br>

@@ -11,6 +11,8 @@ angular.module 'PatientApp.init', []
 			goto = 'setup'
 			App.navigate goto
 		else 
+
+		#check for sbmissions or resumed activity
 			console.log 'iee'
 			Storage.login('get').then (value) ->
 				goto = if _.isNull(value) then 'main_login' else 'dashboard'

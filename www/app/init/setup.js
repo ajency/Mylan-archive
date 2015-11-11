@@ -6,8 +6,8 @@ angular.module('PatientApp.init').controller('setupCtr', [
       verifyRefCode: function() {
         console.log(this.refcode);
         console.log(_.isEmpty(this.refcode));
-        if (this.refcode === '') {
-          return this.emptyfield = "Please Enter Refrence Code";
+        if (this.refcode === '' || _.isUndefined(this.refcode)) {
+          return this.emptyfield = "Please Enter Valid Refrence Code";
         } else {
           return App.navigate("setup_password");
         }
@@ -20,11 +20,12 @@ angular.module('PatientApp.init').controller('setupCtr', [
         });
       },
       forgetRefcode: function() {
-        return $ionicLoading.show({
+        $ionicLoading.show;
+        return {
           scope: $scope,
           templateUrl: 'views/error-view/Error-Screen-2.html',
           hideOnStateChange: true
-        });
+        };
       },
       hide: function() {
         $ionicLoading.hide();
