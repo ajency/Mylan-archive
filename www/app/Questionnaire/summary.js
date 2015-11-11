@@ -1,0 +1,57 @@
+angular.module('PatientApp.Quest').controller('SummaryCtr', [
+  '$scope', 'App', 'Storage', 'QuestionAPI', '$stateParams', '$window', function($scope, App, Storage, QuestionAPI, $stateParams, $window) {
+    return $scope.view = {
+      title: 'C-weight',
+      data: [],
+      go: '',
+      response: '',
+      getSummary: function() {
+        var options;
+        options = {
+          quizID: $stateParams.quizID
+        };
+        return QuestionAPI.getSummary(options).then((function(_this) {
+          return function(data) {
+            console.log(data);
+            return _this.data = data;
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            return console.log('err');
+          };
+        })(this));
+      },
+      init: function() {
+        return this.getSummary();
+      },
+      submitSummary: function() {
+        var options;
+        options = {
+          quizID: $stateParams.quizID
+        };
+        return QuestionAPI.submitSummary(options).then((function(_this) {
+          return function(data) {
+            return App.navigate('dashboard');
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            return console.log('err');
+          };
+        })(this));
+      }
+    };
+  }
+]).config([
+  '$stateProvider', function($stateProvider) {
+    return $stateProvider.state('summary', {
+      url: '/summary:quizID',
+      parent: 'parent-questionnaire',
+      views: {
+        "QuestionContent": {
+          templateUrl: 'views/questionnaire/summary.html',
+          controller: 'SummaryCtr'
+        }
+      }
+    });
+  }
+]);

@@ -1,9 +1,10 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', '$stateParams', function($scope, App, Storage, QuestionAPI, $stateParams) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', '$stateParams', '$window', function($scope, App, Storage, QuestionAPI, $stateParams, $window) {
     return $scope.view = {
       title: 'C-weight',
       data: [],
       go: '',
+      response: '',
       getQuestion: function() {
         var options;
         options = {
@@ -32,10 +33,17 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         };
         return QuestionAPI.saveAnswer(options).then((function(_this) {
           return function(data) {
-            _this.data = data;
-            return App.navigate('questionnaire', {
-              quizID: '1111'
-            });
+            _this.response = data;
+            console.log(_this.response);
+            if (_this.response.type === 'nextQuestion') {
+              console.log('next question');
+              return $window.location.reload();
+            } else {
+              console.log('summary');
+              return App.navigate('summary', {
+                quizID: _this.response.quizID
+              });
+            }
           };
         })(this), (function(_this) {
           return function(error) {

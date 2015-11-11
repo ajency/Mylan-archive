@@ -43,7 +43,11 @@ angular.module 'PatientApp.Quest'
 			"answerId" : opts.answerId
 			"action" : opts.action
 
-		data = 'a'
+		# 'type': 'nextQuestion'
+
+		data = 
+			'type': 'summary'
+			'quizID' : '111'
 
 		console.log '***********'
 
@@ -54,6 +58,43 @@ angular.module 'PatientApp.Quest'
 
 		defer.promise
 
+
+	QuestionAPI.getSummary = (opts)->
+		defer = $q.defer()
+
+		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+
+		data =
+			summary:
+				0:
+				 question : 'Which statement best describes your pain'
+				 answer : 'pain is present ,but not needed for pain killer'
+				1:
+				 question : 'Which statement best describes your pain'
+				 answer : 'pain is present ,but not needed for pain killer'
+				2:
+				 question : 'Which statement best describes your pain'
+				 answer : 'pain is present ,but not needed for pain killer'
+				
+
+		defer.resolve data
+
+		defer.promise
+
+	QuestionAPI.submitSummary = (opts)->
+		defer = $q.defer()
+
+		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+
+		data = 'success'
+
+		defer.resolve data
+
+		defer.promise
 
 
 	QuestionAPI	

@@ -1,0 +1,56 @@
+<ion-view>
+    <ion-content ng-init="view.init();" class="has-footer">  
+
+        <div class="bg-yellow">
+            <div class="padding">
+                <h5 class="f-w-400">
+                  Thank you for filling in your questionnaire. Please review your answers
+                below before submission.
+                </h5>
+                <br>
+
+                <div class="row no-list">
+                  <div class="col col-center text-center">
+                      <div class="no"><b>1</b></div>
+                  </div>
+                  <div class="col col-80">
+                      If your are ready to submit your answers, please click on "Submit"
+                  </div>
+                </div>
+                <br>
+
+                <div class="row no-list">
+                  <div class="col col-center text-center">
+                      <div class="no"><b>2</b></div>
+                  </div>
+                  <div class="col col-80">
+                      If you want to return to the questions press "Back"
+                  </div>
+                </div>
+                <br>
+            </div>
+        </div>
+        <div class="padding" ng-repeat ="summary in view.data.summary" >
+            <br>
+            <h5 class="f-w-400">{{summary.question}}
+            </h5>
+            <div class="text-green f-w-400">
+              {{summary.answer}}
+            </div>
+            <hr>
+        </div>
+        <br>
+    </ion-content>
+
+     <div class="bar bar-footer submission">
+          <div class="button-bar">
+              <button class="button button-balanced">Back</button>
+              <button 
+                class="button button-assertive"
+                ng-click="view.submitSummary()">
+                  Submit
+              </button>
+          </div>
+      </div>
+
+</ion-view>
