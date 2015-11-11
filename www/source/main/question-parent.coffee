@@ -1,9 +1,12 @@
 angular.module 'PatientApp.main'
 
-.controller 'ParentCtr',['$scope', 'App', 'Storage', 'QuestionAPI'
-	, ($scope, App, Storage, QuestionAPI)->
+.controller 'ParentCtr',['$scope', 'App'
+	, ($scope, App)->
 
-		
+		$scope.view =
+			onBackClick : ->
+				count = -1
+				App.goBack count
 
 ]
 
