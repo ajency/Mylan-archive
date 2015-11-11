@@ -43,9 +43,49 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
         "answerId": opts.answerId,
         "action": opts.action
       };
-      data = 'a';
+      data = {
+        'type': 'summary',
+        'quizID': '111'
+      };
       console.log('***********');
       console.log(params);
+      defer.resolve(data);
+      return defer.promise;
+    };
+    QuestionAPI.getSummary = function(opts) {
+      var data, defer, params;
+      defer = $q.defer();
+      params = {
+        "userdId": '55',
+        "quizID": opts.quizID
+      };
+      data = {
+        summary: {
+          0: {
+            question: 'Which statement best describes your pain',
+            answer: 'pain is present ,but not needed for pain killer'
+          },
+          1: {
+            question: 'Which statement best describes your pain',
+            answer: 'pain is present ,but not needed for pain killer'
+          },
+          2: {
+            question: 'Which statement best describes your pain',
+            answer: 'pain is present ,but not needed for pain killer'
+          }
+        }
+      };
+      defer.resolve(data);
+      return defer.promise;
+    };
+    QuestionAPI.submitSummary = function(opts) {
+      var data, defer, params;
+      defer = $q.defer();
+      params = {
+        "userdId": '55',
+        "quizID": opts.quizID
+      };
+      data = 'success';
       defer.resolve(data);
       return defer.promise;
     };

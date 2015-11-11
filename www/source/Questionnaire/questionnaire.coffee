@@ -1,12 +1,13 @@
 angular.module 'PatientApp.Quest',[]
 
-.controller 'questionnaireCtr',['$scope', 'App', 'Storage', 'QuestionAPI','$stateParams'
-	, ($scope, App, Storage, QuestionAPI, $stateParams)->
+.controller 'questionnaireCtr',['$scope', 'App', 'Storage', 'QuestionAPI','$stateParams', 
+	'$window', ($scope, App, Storage, QuestionAPI, $stateParams, $window)->
 
 		$scope.view =
 			title: 'C-weight'
 			data : []
 			go : ''
+			response : ''
 
 			getQuestion : ->
 				options = 
@@ -30,16 +31,18 @@ angular.module 'PatientApp.Quest',[]
 
 				QuestionAPI.saveAnswer options
 				.then (data)=>
-					@data = data 
-					App.navigate 'questionnaire', quizID: '1111'
+					@response = data 
+					console.log @response
+					if @response.type == 'nextQuestion' 
+						console.log 'next question'
+						$window.location.reload()
+						# App.navigate 'questionnaire', quizID: @response.quizID
+					else
+						console.log 'summary'
+						App.navigate 'summary', quizID: @response.quizID
 				, (error)=>
 					console.log 'err'
-
-
-
-
-
-			
+		
 ]
 
 
