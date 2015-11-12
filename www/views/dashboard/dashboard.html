@@ -1,166 +1,152 @@
-
- 
+<!-- <div class="bar bar-header bar-light">
+   <a href="#"><img src="images/logo.jpg" alt="Sutter Davis Hospital" width="35"/> </a>
+   <h1 class="title">Sutter Davis Hospital</h1>
+   <div class="right-buttons">
+     
+   <button class="button button-outline"><i class="icon ion-ios-telephone-outline"></i></button>
+   <button class="button button-outline" ><i class="icon ion-ios-bell-outline"></i></button>
+   </div>
    
-  <!-- <div class="bar bar-header bar-light">
-    <a href="#"><img src="images/logo.jpg" alt="Sutter Davis Hospital" width="35"/> </a>
-    <h1 class="title">Sutter Davis Hospital</h1>
-    <div class="right-buttons">
-      
-    <button class="button button-outline"><i class="icon ion-ios-telephone-outline"></i></button>
-    <button class="button button-outline" ><i class="icon ion-ios-bell-outline"></i></button>
-    </div>
-    
-    </div> -->
+   </div> -->
 <ion-view
-    hide-back-button="true">   
-    <ion-nav-title>
-       <div class="text-center">{{view.Hospital_name}}</div>
-    </ion-nav-title>
-
-    <ion-content  ng-init="view.displaydata();" >
-        <div class="info-msg bg-balanced">
-        <div class="padding">
-          <i class="icon ion-ios-information-outline"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
-          </div>
-        </div>
-        <div class="padding">
-          <br>
-          <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
-        </div>
-        <div class="row">
-          <div class="col">
+   hide-back-button="true">
+   <ion-nav-title>
+      <div class="text-center">{{view.Hospital_name}}</div>
+   </ion-nav-title>
+   <ion-content  ng-init="view.displaydata();" >
+      <div class="info-msg bg-balanced">
+         <div class="padding">
+            <i class="icon ion-ios-information-outline"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
+         </div>
+      </div>
+      <div class="padding">
+         <br>
+         <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
+      </div>
+      <div class="row">
+         <div class="col">
             <img src="images/cardiac-care.png" alt="Cardiac Care" width="140"/>
-          </div>
-          <div class="col col-70">
+         </div>
+         <div class="col col-70">
             <h3><b>40%</b></h3>
             <p><i class="icon ion-record text-muted"></i> 20 Questions Missed</p>
-              <h3><b>60%</b></h3>
+            <h3><b>60%</b></h3>
             <p><i class="icon ion-record text-leaf"></i> 60 Questions Missed</p>
-          </div>
-        </div>
-        <div class="padding bg-gray">
-            <h5 class="f-w-400">Questionnaire Summary</h5>
-        </div>
-     <!--    <div class="clm-list">
-           <div class="row">
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
-            </div>
-            <div class="col">
-                <h6>25 Oct 2015</h6>
-              </div>
-              <div class="col col-20  text-right">
-              </div>
-          </div>
-          <hr>
-          <div class="row" >
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> Due</h6>
-            </div>
-            <div class="col">
-                <h6>15 Oct 2015</h6>
-            </div>
-            <div class="col col-20 text-right">
-              <button 
-              class="button button-block button-small button-assertive"
-              ng-click = "view.startQuiz();">Start</button>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col">
-              <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> Missed</h6>
-            </div>
-            <div class="col">
-              <h6>10 Oct 2015</h6>
-            </div>
-            <div class="col col-20 text-right">
-
-            </div>
-          </div>
-        <hr>
-          <div class="row">
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> Submitted</h6>
-            </div>
-            <div class="col">
-                <h6>15 Sep 2015</h6>
-            </div>
-            <div class="col col-20 text-right">
-                <button class="button button-block button-small button-balanced">View</button>
-            </div>
-          </div> 
-         </div> -->
-
-         <label
-          ng-repeat ="submissions in view.data.array">
-          <div ng-if="submissions.status == 'Upcoming'"
-        <div class="clm-list">
-           <div class="row">
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
-            </div>
-            <div class="col">
-                <h6>25 Oct 2015</h6>
-              </div>
-              <div class="col col-20  text-right">
-              </div>
-          </div>
-          </div>
-
-
-          <div ng-if="submissions.status == 'Due'"
-          <div class="clm-list" >
-           <div class="row" >
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> {{submissions.status}}</h6>
-            </div>
-            <div class="col">
-                <h6>15 Oct 2015</h6>
-            </div>
-            <div class="col col-20 text-right">
-              <button 
-              class="button button-block button-small button-assertive"
-              ng-click = "view.startQuiz({{submissions.quizId}});">Start</button>
-            </div>
-          </div>
-          </div>
-
-             <div ng-if="submissions.status == 'Missed'"
-             <div class="clm-list" >
-          <div class="row">
-            <div class="col">
-              <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> {{submissions.status}}</h6>
-            </div>
-            <div class="col">
-              <h6>10 Oct 2015</h6>
-            </div>
-            <div class="col col-20 text-right">
-              </div>
-            </div>
-          </div>
-        
-        <div ng-if="submissions.status == 'Submitted'"
-        <div class="clm-list" >
+         </div>
+      </div>
+      <div class="padding bg-gray">
+         <h5 class="f-w-400">Questionnaire Summary</h5>
+      </div>
+      <!--    <div class="clm-list">
          <div class="row">
-            <div class="col">
-                <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> {{submissions.status}}</h6>
+          <div class="col">
+              <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
+          </div>
+          <div class="col">
+              <h6>25 Oct 2015</h6>
             </div>
-            <div class="col">
-                <h6>15 Sep 2015</h6>
+            <div class="col col-20  text-right">
             </div>
-            <div class="col col-20 text-right">
-                <button class="button button-block button-small button-balanced"  ng-click = "view.startQuiz({{submissions.quizId}});">View</button>
+         </div>
+         <hr>
+         <div class="row" >
+          <div class="col">
+              <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> Due</h6>
+          </div>
+          <div class="col">
+              <h6>15 Oct 2015</h6>
+          </div>
+          <div class="col col-20 text-right">
+            <button 
+            class="button button-block button-small button-assertive"
+            ng-click = "view.startQuiz();">Start</button>
+          </div>
+         </div>
+         <hr>
+         <div class="row">
+          <div class="col">
+            <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> Missed</h6>
+          </div>
+          <div class="col">
+            <h6>10 Oct 2015</h6>
+          </div>
+          <div class="col col-20 text-right">
+         
+          </div>
+         </div>
+         <hr>
+         <div class="row">
+          <div class="col">
+              <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> Submitted</h6>
+          </div>
+          <div class="col">
+              <h6>15 Sep 2015</h6>
+          </div>
+          <div class="col col-20 text-right">
+              <button class="button button-block button-small button-balanced">View</button>
+          </div>
+         </div> 
+         </div> -->
+      <label
+         ng-repeat ="submissions in view.data.array">
+         <div ng-if="submissions.status == 'Upcoming'"
+         <div class="clm-list">
+            <div class="row">
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-plus-circled text-green"></i> Upcoming</h6>
+               </div>
+               <div class="col">
+                  <h6>25 Oct 2015</h6>
+               </div>
+               <div class="col col-20  text-right">
+               </div>
             </div>
-          </div> 
-           </div> 
-        <hr>
-
-
-        
-
-          </label>
+         </div>
+         <div ng-if="submissions.status == 'Due'"
+         <div class="clm-list" >
+            <div class="row" >
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> {{submissions.status}}</h6>
+               </div>
+               <div class="col">
+                  <h6>15 Oct 2015</h6>
+               </div>
+               <div class="col col-20 text-right">
+                  <button 
+                     class="button button-block button-small button-assertive"
+                     ng-click = "view.startQuiz({{submissions.quizId}});">Start</button>
+               </div>
+            </div>
+         </div>
+         <div ng-if="submissions.status == 'Missed'"
+         <div class="clm-list" >
+            <div class="row">
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> {{submissions.status}}</h6>
+               </div>
+               <div class="col">
+                  <h6>10 Oct 2015</h6>
+               </div>
+               <div class="col col-20 text-right">
+               </div>
+            </div>
+         </div>
+         <div ng-if="submissions.status == 'Submitted'"
+         <div class="clm-list" >
+            <div class="row">
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> {{submissions.status}}</h6>
+               </div>
+               <div class="col">
+                  <h6>15 Sep 2015</h6>
+               </div>
+               <div class="col col-20 text-right">
+                  <button class="button button-block button-small button-balanced"  ng-click = "view.startQuiz({{submissions.quizId}});">View</button>
+               </div>
+            </div>
+         </div>
+         <hr>
+      </label>
       <br>
-    </ion-content>
-</ion-view>   
-
+   </ion-content>
+</ion-view>

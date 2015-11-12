@@ -166,7 +166,7 @@ h3.line-title span {
 }
 .info-msg span {
   position: relative;
-  top: 3px;
+  top: 6px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -222,18 +222,19 @@ h3.line-title span {
 }
 .button.button-light.button-outline {
   color: #eeeeee;
-  border-color: #eeeeee;
   width: 33px;
   height: 33px;
-  margin-left: 6px;
+  margin-left: 9px;
   border-radius: 4px;
-  border-width: 2px;
-  border-style: solid;
+  border: 1px solid #eeeeee;
 }
-.button.button-light.button-outline::before {
-  font-size: 17px;
-  line-height: 29px;
-  padding-right: 1px;
+.button.button-light.button-outline.ion-pause::before {
+  font-size: 15px;
+  padding-right: 4px;
+}
+.button.button-light.button-outline.ion-close::before {
+  font-size: 15px;
+  padding-right: 2px;
 }
 a.button-clear.btn-link {
   text-decoration: underline;

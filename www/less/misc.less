@@ -172,7 +172,7 @@
 		}
 		span{
 			position: relative;
-			top: 3px;
+			top: 6px;
 		}
 		&.bg-balanced{
 			background: @color-green-sea;
@@ -249,17 +249,18 @@
 		}
 		&.button-light.button-outline{
 			color: @color-light-gray;
-			border-color: @color-light-gray;
 			width: 33px;
 			height: 33px;
-			margin-left: 6px;
+			margin-left: 9px;
 			border-radius: 4px;
-			border-width: 2px;
-			border-style: solid;
-			&::before{
-				font-size: 17px;
-				line-height: 29px;
-				padding-right: 1px;
+			border: 1px solid @color-light-gray;
+			&.ion-pause::before{
+				font-size: 15px;
+				padding-right: 4px;
+			}
+			&.ion-close::before{
+				font-size: 15px;
+				padding-right: 2px;
 			}
 		}
 	}
