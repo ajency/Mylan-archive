@@ -9,6 +9,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
           return this.emptyfield = "Please Enter Valid Refrence Code";
         } else {
+          Storage.refcode('set', this.refcode);
           return App.navigate("setup_password");
         }
       },

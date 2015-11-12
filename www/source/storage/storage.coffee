@@ -34,5 +34,13 @@ angular.module 'PatientApp.storage', []
       when 'remove'
         localforage.removeItem 'quizDetail'
 
+    Storage.refcode = (action,refcode)->
+    switch action
+      when 'set'
+        localforage.setItem 'refcode', refcode
+
+      when 'get'
+        localforage.getItem 'refcode'      
+
   Storage
 ]
