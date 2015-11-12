@@ -21,16 +21,19 @@
             <label class="item-input item-icon-right b-b" ng-form="form">
 
               <i class="icon ion-ios-help-outline text-green"></i>
-              <input type="password" 
+              <input type="tel" 
               ng-model="view.New_password"
+              id="password"
+
               ng-click="view.clear()"
               maxlength="4"
               minlength="4" 
               placeholder="Enter New Password" ng-required>
             </label>
             <label class="item-input">
-              <input type="password" 
+              <input type="tel" 
               ng-model="view.Re_password" 
+              id="password"
               placeholder="Re-enter Password"
               maxlength="4"
               minlength="4" 

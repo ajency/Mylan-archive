@@ -338,5 +338,8 @@ a.button-clear.btn-link {
   background: #fff;
   border-bottom: none;
 }
+#password {
+    -webkit-text-security: disc;
+}
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */

@@ -18,6 +18,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.getItem('logged');
       }
     };
+    Storage.refcode = function(action, ref) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('refcode', ref);
+        case 'get':
+          return localforage.getItem('refcode');
+      }
+    };
     return Storage;
   }
 ]);

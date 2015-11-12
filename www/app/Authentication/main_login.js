@@ -1,9 +1,26 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
   '$scope', 'App', 'Storage', function($scope, App, Storage) {
     return $scope.view = {
-      refrencecode: '',
       loginerror: '',
       password: '',
+      getrefcode: function() {
+        var refrencecode;
+        Storage.refcode('get').then(function(value) {
+          return console.log(value);
+        });
+        return refrencecode = value;
+      },
+      refre: function() {
+        var refrencecode;
+        return refrencecode = this.getrefcode();
+      },
+      check_reflength: function() {
+        console.log(this.refrencecode.toString().length);
+        if (this.refrencecode.toString().length === 8) {
+          console.log(this.refrencecode.toString().length);
+          return preventDefault();
+        }
+      },
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
           return this.loginerror = "Please Enter the credentials ";
