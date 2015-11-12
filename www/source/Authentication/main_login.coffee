@@ -23,7 +23,7 @@ angular.module 'PatientApp.Auth'
 
 			check_reflength :->
 				console.log  @refrencecode.toString().length
-				if @refrencecode.toString().length ==8
+				if @refrencecode.toString().length == 8
 					console.log  @refrencecode.toString().length
 					preventDefault()
 						
