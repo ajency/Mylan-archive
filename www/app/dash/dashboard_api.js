@@ -3,13 +3,13 @@ angular.module('PatientApp.dashboard').factory('DashboardAPI', [
     var DashboardAPI;
     DashboardAPI = {};
     DashboardAPI.get = function() {
-      var params;
-      params = {
+      var summary_data;
+      summary_data = {
         array: {
           0: {
             response_id: '101',
             date_time: '20-10-2015|15.30',
-            status: 'Upcomming',
+            status: 'Upcoming',
             action: '',
             quizId: '105'
           },
@@ -43,7 +43,7 @@ angular.module('PatientApp.dashboard').factory('DashboardAPI', [
           }
         }
       };
-      return params;
+      return summary_data;
     };
     return DashboardAPI;
   }

@@ -1,5 +1,5 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', function($scope, App, Storage, QuestionAPI) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', function($scope, App, Storage, QuestionAPI, DashboardAPI) {
     return $scope.view = {
       Hospital_name: 'Sutter Davis Hospital',
       SubmissionData: [],
@@ -15,7 +15,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return DashboardAPI.get();
       },
       displaydata: function() {
-        return this.data = this.getSubmission();
+        this.data = this.getSubmission();
+        return console.log(this.data);
       }
     };
   }
