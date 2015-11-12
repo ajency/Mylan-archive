@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Quest',[]
 
-.controller 'questionnaireCtr',['$scope', 'App', 'Storage', 'QuestionAPI','$stateParams', 
-	'$window', ($scope, App, Storage, QuestionAPI, $stateParams, $window)->
+.controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
+	'$window', ($scope, App, QuestionAPI, $stateParams, $window)->
 
 		$scope.view =
 			title: 'C-weight'

@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Quest'
 
 .controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', ($scope, App, QuestionAPI, $stateParams, $window)->
+	'Storage', ($scope, App, QuestionAPI, $stateParams, Storage)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -29,6 +29,7 @@ angular.module 'PatientApp.Quest'
 
 				QuestionAPI.submitSummary options
 				.then (data)=>
+					localforage.removeItem 'quizDetail'
 					App.navigate 'dashboard'
 				, (error)=>
 					console.log 'err'

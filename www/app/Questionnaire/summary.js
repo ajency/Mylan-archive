@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', function($scope, App, QuestionAPI, $stateParams, $window) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', function($scope, App, QuestionAPI, $stateParams, Storage) {
     return $scope.view = {
       title: 'C-weight',
       data: [],
@@ -31,6 +31,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(options).then((function(_this) {
           return function(data) {
+            localforage.removeItem('quizDetail');
             return App.navigate('dashboard');
           };
         })(this), (function(_this) {

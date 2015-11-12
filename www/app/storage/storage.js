@@ -24,6 +24,8 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.setItem('quizDetail', params);
         case 'get':
           return localforage.getItem('quizDetail');
+        case 'remove':
+          return localforage.removeItem('quizDetail');
       }
     };
     return Storage;

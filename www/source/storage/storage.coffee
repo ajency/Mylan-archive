@@ -1,7 +1,8 @@
 angular.module 'PatientApp.storage', []
 
 
-.factory 'Storage', [()->
+.factory 'Storage', [->
+
 
   Storage = {}
 
@@ -29,6 +30,9 @@ angular.module 'PatientApp.storage', []
 
       when 'get'
         localforage.getItem 'quizDetail'
+
+      when 'remove'
+        localforage.removeItem 'quizDetail'
 
   Storage
 ]
