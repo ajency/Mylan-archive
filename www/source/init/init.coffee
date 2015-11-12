@@ -1,23 +1,30 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App','$scope', (Storage,App,$scope)->
+.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI', (Storage, App, $scope, QuestionAPI) ->
   
 	Storage.setup('get').then (value) ->
-		console.log '---------'
-		console.log value
 		if _.isNull(value)
-			console.log 'inside if'
-			goto = 'setup'
-			App.navigate goto
+			App.navigate 'setup'
 		else 
-
-		#check for sbmissions or resumed activity
-			console.log 'iee'
 			Storage.login('get').then (value) ->
-				goto = if _.isNull(value) then 'main_login' else 'dashboard'
-				App.navigate goto
-	
+				if _.isNull(value)
+					App.navigate 'main_login'
+				else 
+					Storage.quizDetails('get').then (quizDetail) ->
+						if _.isNull(quizDetail)
+							App.navigate 'dashboard'
+						else 
+							console.log 'inside else'
+							QuestionAPI.checkDueQuest quizDetail.quizID
+							.then (data)=>
+								if data == 'paused'
+									App.navigate 'questionnaire', quizDetail.quizID
+								else
+									App.navigate 'dashboard'
+							, (error)=>
+								console.log 'err'
+
 ]
 
 .config ['$stateProvider', '$urlRouterProvider', ($stateProvider, $urlRouterProvider)->

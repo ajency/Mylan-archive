@@ -18,6 +18,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.getItem('logged');
       }
     };
+    Storage.quizDetails = function(action, params) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('quizDetail', params);
+        case 'get':
+          return localforage.getItem('quizDetail');
+      }
+    };
     return Storage;
   }
 ]);

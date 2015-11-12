@@ -106,10 +106,23 @@ angular.module 'PatientApp.Quest'
 			when 'set'
 				_.each data, (val, index)->
 					actionMode[index] = val
-					console.log actionMode
 			when 'get'
 				actionMode
 
+	QuestionAPI.checkDueQuest = (opts)->
+		defer = $q.defer()
+
+		params = 
+			"userdId" : '55'
+			"quizID": opts.quizID
+
+		# expired/paused from the response ..
+
+		data = 'paused'
+
+		defer.resolve data
+
+		defer.promise
 
 
 	QuestionAPI	

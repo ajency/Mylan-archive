@@ -4,6 +4,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       Hospital_name: 'Sutter Davis Hospital',
       SubmissionData: [],
       startQuiz: function() {
+        Storage.quizDetails('set', {
+          quizID: '1111'
+        });
         return App.navigate('questionnaire', {
           quizID: '1111'
         });

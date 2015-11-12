@@ -102,12 +102,22 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       switch (action) {
         case 'set':
           return _.each(data, function(val, index) {
-            actionMode[index] = val;
-            return console.log(actionMode);
+            return actionMode[index] = val;
           });
         case 'get':
           return actionMode;
       }
+    };
+    QuestionAPI.checkDueQuest = function(opts) {
+      var data, defer, params;
+      defer = $q.defer();
+      params = {
+        "userdId": '55',
+        "quizID": opts.quizID
+      };
+      data = 'paused';
+      defer.resolve(data);
+      return defer.promise;
     };
     return QuestionAPI;
   }

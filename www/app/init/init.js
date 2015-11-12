@@ -1,18 +1,34 @@
 angular.module('PatientApp.init', []).controller('InitCtrl', [
-  'Storage', 'App', '$scope', function(Storage, App, $scope) {
+  'Storage', 'App', '$scope', 'QuestionAPI', function(Storage, App, $scope, QuestionAPI) {
     return Storage.setup('get').then(function(value) {
-      var goto;
-      console.log('---------');
-      console.log(value);
       if (_.isNull(value)) {
-        console.log('inside if');
-        goto = 'setup';
-        return App.navigate(goto);
+        return App.navigate('setup');
       } else {
-        console.log('iee');
         return Storage.login('get').then(function(value) {
-          goto = _.isNull(value) ? 'main_login' : 'dashboard';
-          return App.navigate(goto);
+          if (_.isNull(value)) {
+            return App.navigate('main_login');
+          } else {
+            return Storage.quizDetails('get').then(function(quizDetail) {
+              if (_.isNull(quizDetail)) {
+                return App.navigate('dashboard');
+              } else {
+                console.log('inside else');
+                return QuestionAPI.checkDueQuest(quizDetail.quizID).then((function(_this) {
+                  return function(data) {
+                    if (data === 'paused') {
+                      return App.navigate('questionnaire', quizDetail.quizID);
+                    } else {
+                      return App.navigate('dashboard');
+                    }
+                  };
+                })(this), (function(_this) {
+                  return function(error) {
+                    return console.log('err');
+                  };
+                })(this));
+              }
+            });
+          }
         });
       }
     });

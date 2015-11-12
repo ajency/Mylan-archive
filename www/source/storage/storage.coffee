@@ -21,5 +21,14 @@ angular.module 'PatientApp.storage', []
       when 'get'
         localforage.getItem 'logged'
 
+
+  Storage.quizDetails = (action, params)->
+    switch action
+      when 'set'
+        localforage.setItem 'quizDetail', params
+
+      when 'get'
+        localforage.getItem 'quizDetail'
+
   Storage
 ]
