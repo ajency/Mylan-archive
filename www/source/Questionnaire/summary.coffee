@@ -30,7 +30,7 @@ angular.module 'PatientApp.Quest'
 				QuestionAPI.submitSummary options
 				.then (data)=>
 					localforage.removeItem 'quizDetail'
-					App.navigate 'dashboard'
+					App.navigate 'dashboard', {}, {animate: false, back: false}
 				, (error)=>
 					console.log 'err'
 

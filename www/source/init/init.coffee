@@ -13,7 +13,7 @@ angular.module 'PatientApp.init', []
 				else 
 					Storage.quizDetails('get').then (quizDetail) ->
 						if _.isNull(quizDetail)
-							App.navigate 'dashboard'
+							App.navigate 'dashboard', {}, {animate: false, back: false}
 						else 
 							console.log 'inside else'
 							QuestionAPI.checkDueQuest quizDetail.quizID
@@ -21,7 +21,7 @@ angular.module 'PatientApp.init', []
 								if data == 'paused'
 									App.navigate 'questionnaire', quizDetail.quizID
 								else
-									App.navigate 'dashboard'
+									App.navigate 'dashboard', {}, {animate: false, back: false}
 							, (error)=>
 								console.log 'err'
 

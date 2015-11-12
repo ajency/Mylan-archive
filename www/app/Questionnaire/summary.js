@@ -32,7 +32,10 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return QuestionAPI.submitSummary(options).then((function(_this) {
           return function(data) {
             localforage.removeItem('quizDetail');
-            return App.navigate('dashboard');
+            return App.navigate('dashboard', {}, {
+              animate: false,
+              back: false
+            });
           };
         })(this), (function(_this) {
           return function(error) {

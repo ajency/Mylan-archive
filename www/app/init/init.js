@@ -10,7 +10,10 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
           } else {
             return Storage.quizDetails('get').then(function(quizDetail) {
               if (_.isNull(quizDetail)) {
-                return App.navigate('dashboard');
+                return App.navigate('dashboard', {}, {
+                  animate: false,
+                  back: false
+                });
               } else {
                 console.log('inside else');
                 return QuestionAPI.checkDueQuest(quizDetail.quizID).then((function(_this) {
@@ -18,7 +21,10 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
                     if (data === 'paused') {
                       return App.navigate('questionnaire', quizDetail.quizID);
                     } else {
-                      return App.navigate('dashboard');
+                      return App.navigate('dashboard', {}, {
+                        animate: false,
+                        back: false
+                      });
                     }
                   };
                 })(this), (function(_this) {
