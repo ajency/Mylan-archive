@@ -5,12 +5,12 @@ angular.module 'PatientApp.dashboard'
 	DashboardAPI = {}
 
 	DashboardAPI.get = ()->
-		params = 
+		summary_data = 
 			array:
 				0:
 					response_id: '101'
 					date_time: '20-10-2015|15.30'
-					status:'Upcomming'
+					status:'Upcoming'
 					action:''
 					quizId:'105'
 				1:
@@ -38,7 +38,7 @@ angular.module 'PatientApp.dashboard'
 					action:'View'
 					quizId:'109'	
 
-		params
+		summary_data
 
 
 
