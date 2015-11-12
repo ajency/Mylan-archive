@@ -1,7 +1,7 @@
 angular.module 'PatientApp.dashboard',[]
 
-.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI'
-	, ($scope, App, Storage, QuestionAPI)->
+.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI'
+	, ($scope, App, Storage, QuestionAPI,DashboardAPI)->
 
 		$scope.view =
 			Hospital_name: 'Sutter Davis Hospital'
@@ -17,6 +17,7 @@ angular.module 'PatientApp.dashboard',[]
 
 			displaydata : ->
 				@data = @getSubmission()	
+				console.log @data 
 	
 ]
 
