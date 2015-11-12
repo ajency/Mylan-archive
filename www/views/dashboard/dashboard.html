@@ -110,6 +110,7 @@
 
 
           <div ng-if="submissions.status == 'Due'"
+          <div class="clm-list" >
            <div class="row" >
             <div class="col">
                 <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> {{submissions.status}}</h6>
@@ -123,8 +124,10 @@
               ng-click = "view.startQuiz({{submissions.quizId}});">Start</button>
             </div>
           </div>
+          </div>
 
              <div ng-if="submissions.status == 'Missed'"
+             <div class="clm-list" >
           <div class="row">
             <div class="col">
               <h6 class="f-w-400">  <i class="icon ion-minus-circled text-muted"></i> {{submissions.status}}</h6>
@@ -133,12 +136,12 @@
               <h6>10 Oct 2015</h6>
             </div>
             <div class="col col-20 text-right">
-
+              </div>
             </div>
           </div>
         
         <div ng-if="submissions.status == 'Submitted'"
-
+        <div class="clm-list" >
          <div class="row">
             <div class="col">
                 <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> {{submissions.status}}</h6>
@@ -150,6 +153,7 @@
                 <button class="button button-block button-small button-balanced"  ng-click = "view.startQuiz({{submissions.quizId}});">View</button>
             </div>
           </div> 
+           </div> 
         <hr>
 
 
