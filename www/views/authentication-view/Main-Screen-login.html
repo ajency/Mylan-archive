@@ -1,37 +1,41 @@
-<ion-content>
-   <div class="row">
-      <div class="col">
-         <div class="text-center">
-            <div class="padding">
-               <h1 class="text-primary">Hi !</h1>
-               <h3>Welcome to<br>your Healthcare Portal</h3>
-            </div>
-            <div class="list list-inset" ng-form="form_">
-               <h5 class="f-w-400">Enter your Login Details</h5>
-               <label class="item item-input">
-               <input type="tel" 
-                  maxlength= "8"
-                  minlength="8" 
-                  required
-                  placeholder="Enter 8 Digit Reference Code"
-                  name="ref_"
-                  ng-model="view.refrencecode"
-                  ng-click="view.cleardiv()"/>
-               </label>
-               <label class="item item-input">
-               <input type="password"  
-                  placeholder="Enter your Password"
-                  ng-model="view.password"
-                  ng-click="view.cleardiv()"
-                  maxlength="4"
-                  minlength="4" />
-               </label>
-               <div class="text-left text-danger">{{view.loginerror}}</div>
-               <br>     
-               <button class="button button-block button-calm" ng-click="view.mainlogin()">Login</button><br>
-               <a href="#" class="button-clear button-calm btn-link" >Forgot Reference Code <br>or Password</a>
-            </div>
-         </div>
+<ion-content  ng-init="view.refre();" >
+      <div class="row">
+        <div class="col">
+     <div class="text-center">
+      <div class="padding">
+      <h1 class="text-primary">Hi !</h1>
+      <h3>Welcome to<br>your Healthcare Portal</h3>
       </div>
+      <div class="list list-inset" ng-form="form_">
+        <h5 class="f-w-400">Enter your Login Details</h5>
+         <label class="item item-input">
+          <input type="tel" 
+          required
+          minlength="8"
+          maxlength="8"
+          placeholder="Enter 8 Digit Reference Code"
+          name="ref_"
+          id="ref_"
+          ng-model="view.refrencecode"
+          ng-click="view.cleardiv()"/>
+        </label>
+        <label class="item item-input">
+          <input type="tel"  
+          placeholder="Enter your Password"
+          ng-model="view.password"
+          id="password"
+
+          ng-click="view.cleardiv()"
+          maxlength="4"
+          minlength="4" />
+        </label>
+        <div class="text-left text-danger">{{view.loginerror}}</div>
+        <br>     
+        
+       <button class="button button-block button-calm" ng-click="view.mainlogin()">Login</button><br>
+       <a href="#" class="button-clear button-calm btn-link" >Forgot Reference Code <br>or Password</a>
+      </div>
+   </div>
+   </div>
    </div>
 </ion-content>

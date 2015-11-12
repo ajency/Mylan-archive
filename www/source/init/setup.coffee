@@ -18,7 +18,8 @@ angular.module 'PatientApp.init'
 					if @refcode =='' || _.isUndefined(@refcode)
 						@emptyfield = "Please Enter Valid Refrence Code"	
 
-					else		
+					else
+						Storage.refcode 'set',@refcode
 						App.navigate "setup_password"
 
 			tologin : ->
