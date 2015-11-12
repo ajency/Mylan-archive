@@ -83,13 +83,19 @@ hr.broad {
   position: absolute;
   right: 0;
 }
-.bar.bar-header .right-buttons.trans-links {
+.bar.bar-header .right-buttons .trans-links {
   padding-top: 6px;
 }
-.bar.bar-header .right-buttons.trans-links a {
+.bar.bar-header .right-buttons .trans-links a {
   font-size: 22px;
   padding-right: 11px;
   color: #000;
+}
+.bar.bar-header .right-buttons .button.button-icon {
+  width: 34px;
+}
+.bar.bar-header .right-buttons .button.button-icon::before {
+  font-size: 25px;
 }
 .bar.bar-footer {
   border-top: 1px solid #ddd;
@@ -350,6 +356,20 @@ a.button-clear.btn-link {
 .loading-container .loading .popup .popup-head {
   background: #fff;
   border-bottom: none;
+}
+.notification {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ee5235;
+  color: #ffffff;
+  border-radius: 15px;
+  font-size: 9px;
+  text-align: center;
+  top: -1px;
+  right: 2px;
+  line-height: 17px;
+  z-index: 10;
 }
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */

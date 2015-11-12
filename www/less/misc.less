@@ -86,7 +86,7 @@
 		.right-buttons{
 				position: absolute;
 				right: 0;
-				 &.trans-links{
+				 .trans-links{
 				 	    padding-top: 6px;
 					a{
 						font-size: 22px;
@@ -94,6 +94,12 @@
 	    				color: #000;
 					}
 					
+				}
+				.button.button-icon{
+					width: 34px;
+					&::before{
+					font-size: 25px;
+					}
 				}
 			}
 		}
@@ -378,5 +384,18 @@
 			}
 		}
 	}
-
+  .notification{
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: @color-danger;
+    color: @color-white;
+    border-radius: 15px;
+    font-size: 9px;
+    text-align: center;
+    top: -1px;
+    right: 2px;
+    line-height: 17px;
+    z-index: 10;
+  }
 	/***FOOTER***/
