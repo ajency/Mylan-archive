@@ -21,6 +21,9 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
                     if (data === 'paused') {
                       return App.navigate('questionnaire', {
                         quizID: quizDetail.quizID
+                      }, {
+                        animate: false,
+                        back: false
                       });
                     } else {
                       return App.navigate('dashboard', {}, {
