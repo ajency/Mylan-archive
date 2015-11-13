@@ -19,7 +19,7 @@ angular.module 'PatientApp.init', []
 							QuestionAPI.checkDueQuest quizDetail.quizID
 							.then (data)=>
 								if data == 'paused'
-									App.navigate 'questionnaire', quizDetail.quizID
+									App.navigate 'questionnaire', quizID:quizDetail.quizID
 								else
 									App.navigate 'dashboard', {}, {animate: false, back: false}
 							, (error)=>

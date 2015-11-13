@@ -19,7 +19,9 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
                 return QuestionAPI.checkDueQuest(quizDetail.quizID).then((function(_this) {
                   return function(data) {
                     if (data === 'paused') {
-                      return App.navigate('questionnaire', quizDetail.quizID);
+                      return App.navigate('questionnaire', {
+                        quizID: quizDetail.quizID
+                      });
                     } else {
                       return App.navigate('dashboard', {}, {
                         animate: false,
