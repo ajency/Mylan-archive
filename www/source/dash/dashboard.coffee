@@ -7,9 +7,9 @@ angular.module 'PatientApp.dashboard',[]
 			Hospital_name: 'Sutter Davis Hospital'
 			SubmissionData : []
 
-			startQuiz : ->
-				Storage.quizDetails 'set' , quizID: '1111' 
-				App.navigate 'questionnaire', quizID: '1111'
+			startQuiz :(quizID) ->
+				Storage.quizDetails 'set' , quizID: quizID 
+				App.navigate 'questionnaire', quizID: quizID
 
 			getSubmission : ->
 				DashboardAPI.get()

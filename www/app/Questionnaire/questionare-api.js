@@ -52,7 +52,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
         "action": opts.action
       };
       data = {
-        'type': 'summary',
+        'type': 'nextQuestion',
         'quizID': '111'
       };
       defer.resolve(data);

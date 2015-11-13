@@ -1,10 +1,24 @@
 angular.module('PatientApp.main').controller('ParentCtr', [
-  '$scope', 'App', function($scope, App) {
+  '$scope', 'App', '$ionicLoading', function($scope, App, $ionicLoading) {
     return $scope.view = {
       onBackClick: function() {
         var count;
         count = -1;
         return App.goBack(count);
+      },
+      pause: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/main/pause.html',
+          hideOnStateChange: true
+        });
+      },
+      close: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/main/cancel.html',
+          hideOnStateChange: true
+        });
       }
     };
   }

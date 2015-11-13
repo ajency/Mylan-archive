@@ -3,12 +3,12 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
     return $scope.view = {
       Hospital_name: 'Sutter Davis Hospital',
       SubmissionData: [],
-      startQuiz: function() {
+      startQuiz: function(quizID) {
         Storage.quizDetails('set', {
-          quizID: '1111'
+          quizID: quizID
         });
         return App.navigate('questionnaire', {
-          quizID: '1111'
+          quizID: quizID
         });
       },
       getSubmission: function() {
