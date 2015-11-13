@@ -111,24 +111,24 @@ hr.broad {
 }
 /***ICONS***/
 .ic {
-  width: 5.357em;
-  height: 5.357em;
+  width: 5.000em;
+  height: 5.000em;
   background: #ee5235;
   border-radius: 50%;
   position: relative;
   margin: 0 auto;
 }
 .ic .icon {
-  font-size: 3.500em;
+  font-size: 2.786em;
   position: absolute;
-  top: 14px;
+  top: 16px;
   text-align: center;
   left: 0;
   right: 0;
   color: #ffffff;
 }
 .icon.ion-close-circled {
-  font-size: 5.714em;
+  font-size: 5.214em;
 }
 .icon.ion-ios-information-outline {
   font-size: 2.143em;
