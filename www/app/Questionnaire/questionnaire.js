@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', function($scope, App, QuestionAPI, $stateParams, $window) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', function($scope, App, QuestionAPI, $stateParams, $window, Storage) {
     return $scope.view = {
       title: 'C-weight',
       data: [],
@@ -8,6 +8,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       actionValue: {},
       getQuestion: function() {
         var options;
+        Storage.login('get').then(function(value) {
+          console.log('*****************');
+          return console.log(value);
+        });
         options = {
           quizID: $stateParams.quizID
         };

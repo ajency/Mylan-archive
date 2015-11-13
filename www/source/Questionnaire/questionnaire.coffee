@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', ($scope, App, QuestionAPI, $stateParams, $window)->
+	'$window', 'Storage', ($scope, App, QuestionAPI, $stateParams, $window, Storage)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -11,6 +11,9 @@ angular.module 'PatientApp.Quest',[]
 			actionValue : {}
 
 			getQuestion : ->
+				Storage.login('get').then (value) ->
+					console.log '*****************'
+					console.log value
 				options = 
 					quizID: $stateParams.quizID
 

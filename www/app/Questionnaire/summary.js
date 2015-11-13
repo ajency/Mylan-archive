@@ -22,6 +22,10 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
+        Storage.login('get').then(function(value) {
+          console.log('*****************');
+          return console.log(value);
+        });
         return this.getSummary();
       },
       submitSummary: function() {

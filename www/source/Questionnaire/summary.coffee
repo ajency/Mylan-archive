@@ -21,6 +21,9 @@ angular.module 'PatientApp.Quest'
 					console.log 'err'
 					
 			init : ->
+				Storage.login('get').then (value) ->
+					console.log '*****************'
+					console.log value
 				@getSummary()
 
 			submitSummary : ->

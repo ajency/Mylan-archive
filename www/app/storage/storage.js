@@ -21,15 +21,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
     Storage.quizDetails = function(action, params) {
       switch (action) {
         case 'set':
-          localforage.setItem('quizDetail', params);
-          break;
+          return localforage.setItem('quizDetail', params);
         case 'get':
-          localforage.getItem('quizDetail');
-          break;
+          return localforage.getItem('quizDetail');
         case 'remove':
-          localforage.removeItem('quizDetail');
+          return localforage.removeItem('quizDetail');
       }
-      Storage.refcode = function(action, refcode) {};
+    };
+    Storage.refcode = function(action, refcode) {
       switch (action) {
         case 'set':
           return localforage.setItem('refcode', refcode);
