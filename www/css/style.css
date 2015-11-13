@@ -1,24 +1,24 @@
 /***HELPER CLASSES***/
 h2 {
-  font-size: 34px;
+  font-size: 2.429em;
 }
 h3 {
   font-weight: 200;
 }
 h4 {
-  font-size: 21px;
+  font-size: 1.500em;
   font-weight: 200;
 }
 h5 {
-  font-size: 18px;
+  font-size: 1.286em;
   font-weight: 200;
 }
 h6 {
-  font-size: 14px;
+  font-size: 1.000em;
   font-weight: 200;
 }
 p {
-  line-height: 27px;
+  line-height: 1.929em;
   font-weight: 200;
   color: #444444;
 }
@@ -29,7 +29,7 @@ p {
   display: inline;
 }
 .b-b {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 0.071em solid #bbb;
 }
 .bg-gray {
   background: #eeeeee;
@@ -40,13 +40,13 @@ p {
 .bg-yellow hr {
   border-color: #EAEBBA;
   border-style: solid;
-  margin: 20px 0 20px 0;
+  margin: 1.429em 0 1.429em 0;
 }
 hr {
   border-color: rgba(238, 238, 238, 0.34);
 }
 hr.broad {
-  border: 7px solid #eeeeee;
+  border: 0.5em solid #eeeeee;
 }
 .text-primary {
   color: #00bae5;
@@ -69,15 +69,15 @@ hr.broad {
 }
 .bar.bar-header .title {
   color: #000000;
-  font-size: 15px;
+  font-size: 1.071em;
 }
 .bar.bar-header.bar-balanced {
   background-color: #00aaa7;
-  color: #fff;
+  color: #ffffff;
 }
 .bar.bar-header.bar-balanced .title {
   text-align: left;
-  color: #fff;
+  color: #ffffff;
 }
 .bar.bar-header .right-buttons {
   position: absolute;
@@ -89,16 +89,16 @@ hr.broad {
 .bar.bar-header .right-buttons .trans-links a {
   font-size: 22px;
   padding-right: 11px;
-  color: #000;
+  color: #000000;
 }
 .bar.bar-header .right-buttons .button.button-icon {
-  width: 34px;
+  width: 2.000em;
 }
 .bar.bar-header .right-buttons .button.button-icon::before {
   font-size: 25px;
 }
 .bar.bar-footer {
-  border-top: 1px solid #ddd;
+  border-top: 0.071em solid #ddd;
 }
 .bar.bar-footer.submission {
   padding: 0;
@@ -107,19 +107,19 @@ hr.broad {
   border-radius: 0;
 }
 .bar.bar-footer.broad-footer {
-  height: 75px;
+  height: 5.357em;
 }
 /***ICONS***/
 .ic {
-  width: 75px;
-  height: 75px;
+  width: 5.357em;
+  height: 5.357em;
   background: #ee5235;
   border-radius: 50%;
   position: relative;
   margin: 0 auto;
 }
 .ic .icon {
-  font-size: 49px;
+  font-size: 3.500em;
   position: absolute;
   top: 11px;
   text-align: center;
@@ -128,20 +128,20 @@ hr.broad {
   color: #ffffff;
 }
 .icon.ion-close-circled {
-  font-size: 80px;
+  font-size: 5.714em;
 }
 .icon.ion-ios-information-outline {
-  font-size: 30px;
+  font-size: 2.143em;
 }
 h4.line-title,
 h3.line-title {
   position: relative;
   z-index: 1;
-  color: #000;
+  color: #000000;
 }
 h4.line-title:before,
 h3.line-title:before {
-  border-top: 1px solid #eeeeee;
+  border-top: 0.071em solid #eeeeee;
   content: "";
   margin: 0 auto;
   position: absolute;
@@ -151,12 +151,12 @@ h3.line-title:before {
   bottom: 0;
   width: 95%;
   z-index: -1;
-  color: #000;
+  color: #000000;
 }
 h4.line-title span,
 h3.line-title span {
-  padding: 0 15px;
-  color: #000;
+  padding: 0 1.071em;
+  color: #000000;
   background: #ffffff;
 }
 /***MESSAGES***/
@@ -170,7 +170,7 @@ h3.line-title span {
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
-  color: #fff;
+  color: #ffffff;
 }
 /***BUTTONS***/
 .button {
@@ -229,11 +229,11 @@ h3.line-title span {
   border: 1px solid #eeeeee;
 }
 .button.button-light.button-outline.ion-pause::before {
-  font-size: 15px;
+  font-size: 1.071em;
   padding-right: 4px;
 }
 .button.button-light.button-outline.ion-close::before {
-  font-size: 15px;
+  font-size: 1.071em;
   padding-right: 2px;
 }
 a.button-clear.btn-link {
@@ -241,7 +241,7 @@ a.button-clear.btn-link {
   line-height: 0;
   min-height: 0;
   color: #11c1f3;
-  font-size: 15px;
+  font-size: 1.071em;
 }
 /***INPUT TAGS***/
 .item-input input {
@@ -251,27 +251,27 @@ a.button-clear.btn-link {
 .item-input input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
   color: #333;
-  font-size: 17px;
+  font-size: 1.214em;
   font-weight: 200;
 }
 .item-input input::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
   color: #333;
-  font-size: 17px;
+  font-size: 1.214em;
   font-weight: 200;
 }
 .item-input input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
   color: #333;
   opacity: 1;
-  font-size: 17px;
+  font-size: 1.214em;
   font-weight: 200;
 }
 .item-input input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
   color: #333;
   opacity: 1;
-  font-size: 17px;
+  font-size: 1.214em;
   font-weight: 200;
 }
 input[id=password] {
@@ -280,10 +280,10 @@ input[id=password] {
 /***LISTS***/
 .no-list .no {
   color: #ffffff;
-  font-size: 16px;
+  font-size: 1.143em;
   background: #666;
-  width: 40px;
-  height: 40px;
+  width: 2.500em;
+  height: 2.500em;
   border-radius: 50%;
   display: table;
 }
@@ -307,14 +307,14 @@ input[id=password] {
 .item.item-radio .radio-icon,
 .item.item-checkbox .radio-icon {
   visibility: visible;
-  font-size: 17px;
-  border: 1px solid #bdbdbd;
-  width: 29px;
-  height: 29px;
+  font-size: 1.071em;
+  border: 0.071em solid #bdbdbd;
+  width: 1.786em;
+  height: 1.786em;
   border-radius: 50%;
   text-align: center;
-  color: #fff;
-  padding: 5px;
+  color: #ffffff;
+  padding: 0.286em;
   position: absolute;
   top: 50%;
   right: 8px;
@@ -337,20 +337,20 @@ input[id=password] {
   border-color: #7bc67a;
 }
 .clm-list .button {
-  margin: 3px;
+  margin: 0.286em;
 }
 .clm-list h6.f-w-400 {
-  font-size: 15px;
-  margin-top: 3px;
+  font-size: 1.071em;
+  margin-top: 0.214em;
 }
 .clm-list h6.f-w-400 i {
-  font-size: 20px;
+  font-size: 1.429em;
 }
 .loading-container .loading {
   background: transparent;
 }
 .loading-container .loading h3 {
-  color: #000;
+  color: #000000;
   margin-bottom: 0;
 }
 .loading-container .loading .popup p {
@@ -358,7 +358,7 @@ input[id=password] {
 }
 .loading-container .loading .popup .popup-body,
 .loading-container .loading .popup .popup-head {
-  background: #fff;
+  background: #ffffff;
   border-bottom: none;
 }
 .notification {
@@ -367,8 +367,8 @@ input[id=password] {
   height: 14px;
   background: #ee5235;
   color: #ffffff;
-  border-radius: 15px;
-  font-size: 9px;
+  border-radius: 1.071em;
+  font-size: 0.643em;
   text-align: center;
   top: -1px;
   right: 2px;
