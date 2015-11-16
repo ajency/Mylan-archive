@@ -21,12 +21,11 @@ angular.module('PatientApp.init').controller('setupCtr', [
         });
       },
       forgetRefcode: function() {
-        $ionicLoading.show;
-        return {
+        return $ionicLoading.show({
           scope: $scope,
           templateUrl: 'views/error-view/Error-Screen-2.html',
           hideOnStateChange: true
-        };
+        });
       },
       hide: function() {
         $ionicLoading.hide();

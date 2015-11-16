@@ -24,19 +24,22 @@
               <input type="tel" 
               ng-model="view.New_password"
               id="password"
-
               ng-click="view.clear()"
+              min="1" 
+              max="99"
               maxlength="4"
-              minlength="4" 
+              onlydigitinput="inputvalidation" 
               placeholder="Enter New Password" ng-required>
             </label>
             <label class="item-input">
-              <input type="tel" 
+              <input type="tel"              
               ng-model="view.Re_password" 
               id="password"
               placeholder="Re-enter Password"
+              min="1" 
+              max="99"
               maxlength="4"
-              minlength="4" 
+              onlydigitinput="inputvalidation" 
               ng-click="view.clear()"
               ng-required pw-check="view.New_password">
 

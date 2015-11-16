@@ -1,31 +1,25 @@
 angular.module 'PatientApp.Auth'
 
-.controller 'main_loginCtr',['$scope', 'App', 'Storage'
-	, ($scope, App, Storage)->
+.controller 'main_loginCtr',['$scope', 'App', 'Storage','refrencecodeValue','$ionicLoading'
+	, ($scope, App, Storage,refrencecodeValue,$ionicLoading)->
 
 		
 		$scope.view =
-			
+			temprefrencecode :''
 			loginerror: ''
 			password:''
-
-		
+			refrencecode:''
 
 			getrefcode :->
-				Storage.refcode 'get'
-					.then (value)->
+				Storage.refcode('get').then (value)->
 						console.log value
-				
+				value	
+				 
 
 			refre :->
-				refrencecode = @getrefcode()
+					console.log refrencecodeValue
+					@refrencecode = refrencecodeValue
 
-
-			check_reflength :->
-				console.log  @refrencecode.toString().length
-				if @refrencecode.toString().length == 8
-					console.log  @refrencecode.toString().length
-					preventDefault()
 						
 			mainlogin : ->
 				if @refrencecode =='' || @password ==''
@@ -42,7 +36,19 @@ angular.module 'PatientApp.Auth'
 			
 			cleardiv :->
 				@loginerror =""
-					
+
+			forgetRefcodeorPass:->
+					$ionicLoading.show
+						scope: $scope
+						templateUrl:'views/error-view/Error-Screen-3.html'
+						hideOnStateChange: true	
+
+			hide:->
+			        $ionicLoading.hide();
+			        hideOnStateChange: false
+
+		
+							
 
 			
 ]

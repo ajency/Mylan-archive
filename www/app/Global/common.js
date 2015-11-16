@@ -31,6 +31,29 @@ angular.module('PatientApp.Global', []).factory('App', [
       },
       goBack: function(count) {
         return $ionicHistory.goBack(count);
+      },
+      isAndroid: function() {
+        return ionic.Platform.isAndroid();
+      },
+      isIOS: function() {
+        return ionic.Platform.isIOS();
+      },
+      isWebView: function() {
+        return ionic.Platform.isWebView();
+      },
+      isOnline: function() {
+        if (this.isWebView()) {
+          return $cordovaNetwork.isOnline();
+        } else {
+          return navigator.onLine;
+        }
+      },
+      deviceUUID: function() {
+        if (this.isWebView()) {
+          return device.uuid;
+        } else {
+          return 'DUMMYUUID';
+        }
       }
     };
   }

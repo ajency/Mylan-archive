@@ -1,23 +1,19 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', function($scope, App, Storage) {
+  '$scope', 'App', 'Storage', 'refrencecodeValue', '$ionicLoading', function($scope, App, Storage, refrencecodeValue, $ionicLoading) {
     return $scope.view = {
+      temprefrencecode: '',
       loginerror: '',
       password: '',
+      refrencecode: '',
       getrefcode: function() {
-        return Storage.refcode('get').then(function(value) {
+        Storage.refcode('get').then(function(value) {
           return console.log(value);
         });
+        return value;
       },
       refre: function() {
-        var refrencecode;
-        return refrencecode = this.getrefcode();
-      },
-      check_reflength: function() {
-        console.log(this.refrencecode.toString().length);
-        if (this.refrencecode.toString().length === 8) {
-          console.log(this.refrencecode.toString().length);
-          return preventDefault();
-        }
+        console.log(refrencecodeValue);
+        return this.refrencecode = refrencecodeValue;
       },
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
@@ -33,6 +29,19 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       },
       cleardiv: function() {
         return this.loginerror = "";
+      },
+      forgetRefcodeorPass: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/error-view/Error-Screen-3.html',
+          hideOnStateChange: true
+        });
+      },
+      hide: function() {
+        $ionicLoading.hide();
+        return {
+          hideOnStateChange: false
+        };
       }
     };
   }

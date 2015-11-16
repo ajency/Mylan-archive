@@ -1,7 +1,7 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI', (Storage, App, $scope, QuestionAPI) ->
+.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', (Storage, App, $scope, QuestionAPI,$q) ->
   
 	Storage.setup('get').then (value) ->
 		if _.isNull(value)
@@ -49,6 +49,13 @@ angular.module 'PatientApp.init', []
 			url: '/main_login'
 			templateUrl: 'views/authentication-view/Main-Screen-login.html'
 			controller: 'main_loginCtr'
+			resolve:
+				refrencecodeValue : ($q, Storage)->
+					defer = $q.defer()
+					Storage.refcode 'get'
+					.then (details)->
+						defer.resolve details
+					defer.promise	
 
 		.state 'setup',
 			url: '/setup'
