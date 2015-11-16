@@ -1,7 +1,7 @@
 angular.module 'PatientApp.main'
 
-.controller 'ParentCtr',['$scope', 'App', '$ionicLoading'
-	, ($scope, App, $ionicLoading)->
+.controller 'ParentCtr',['$scope', 'App', '$ionicLoading', 'Storage'
+	, ($scope, App, $ionicLoading, Storage)->
 
 		$scope.view =
 			onBackClick : ->
@@ -20,6 +20,18 @@ angular.module 'PatientApp.main'
 					scope: $scope
 					templateUrl:'views/main/cancel.html'
 					hideOnStateChange: true	
+
+			closePopup : ->
+				$ionicLoading.hide()
+
+
+			cancelQuiz : ->
+				$ionicLoading.hide()
+				Storage.quizDetails('remove')
+				App.navigate 'dashboard', {}, {animate: false, back: false}
+
+			exitApp : ->
+				ionic.Platform.exitApp()
 
 
 

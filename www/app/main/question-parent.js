@@ -1,5 +1,5 @@
 angular.module('PatientApp.main').controller('ParentCtr', [
-  '$scope', 'App', '$ionicLoading', function($scope, App, $ionicLoading) {
+  '$scope', 'App', '$ionicLoading', 'Storage', function($scope, App, $ionicLoading, Storage) {
     return $scope.view = {
       onBackClick: function() {
         var count;
@@ -19,6 +19,20 @@ angular.module('PatientApp.main').controller('ParentCtr', [
           templateUrl: 'views/main/cancel.html',
           hideOnStateChange: true
         });
+      },
+      closePopup: function() {
+        return $ionicLoading.hide();
+      },
+      cancelQuiz: function() {
+        $ionicLoading.hide();
+        Storage.quizDetails('remove');
+        return App.navigate('dashboard', {}, {
+          animate: false,
+          back: false
+        });
+      },
+      exitApp: function() {
+        return ionic.Platform.exitApp();
       }
     };
   }

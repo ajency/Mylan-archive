@@ -10,8 +10,20 @@
       <p>Are you sure your want to cancel all the Answers you answered ? </p>
       
       <div class="row">
-        <div class="col"><button class="button button-block button-balanced button-small">No, Go Back</button></div>
-        <div class="col"><button class="button button-block button-assertive button-small">Yes, I am Sure</button></div>
+        <div class="col">
+          <button 
+            class="button button-block button-balanced button-small"
+            ng-click="view.closePopup()">
+              No, Go Back
+          </button>
+        </div>
+        <div class="col">
+          <button 
+            class="button button-block button-assertive button-small"
+            ng-click = "view.cancelQuiz()">
+            Yes, I am Sure
+          </button>
+        </div>
       </div>
     </div>
     </div>
