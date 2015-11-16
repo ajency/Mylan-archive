@@ -22,10 +22,6 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
-        Storage.login('get').then(function(value) {
-          console.log('*****************');
-          return console.log(value);
-        });
         return this.getSummary();
       },
       submitSummary: function() {
@@ -35,7 +31,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(options).then((function(_this) {
           return function(data) {
-            localforage.removeItem('quizDetail');
+            Storage.quizDetails('remove');
             return App.navigate('dashboard', {}, {
               animate: false,
               back: false

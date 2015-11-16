@@ -27,15 +27,21 @@
             <br>
          </div>
       </div>
-      <div class="padding" ng-repeat ="summary in view.data.summary" >
-         <br>
+      <br>
+      <div ng-repeat ="summary in view.data.summary">
+
+      <div class="padding">
+         
          <h5 class="f-w-400">{{summary.question}}
          </h5>
          <div class="text-green f-w-400">
             {{summary.answer}}
          </div>
-         <hr>
+        
       </div>
+       <hr>
+      </div>
+      
       <br>
    </ion-content>
    <div class="bar bar-footer submission">

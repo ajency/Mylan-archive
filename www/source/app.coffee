@@ -10,7 +10,7 @@ angular.module 'PatientApp', ['ionic', 'PatientApp.init', 'PatientApp.storage'
 
 
 	$rootScope.App = App
-	App.navigate 'init'
+	App.navigate 'init', {}, {animate: false, back: false}
 
 ]
 

@@ -21,9 +21,6 @@ angular.module 'PatientApp.Quest'
 					console.log 'err'
 					
 			init : ->
-				Storage.login('get').then (value) ->
-					console.log '*****************'
-					console.log value
 				@getSummary()
 
 			submitSummary : ->
@@ -32,7 +29,7 @@ angular.module 'PatientApp.Quest'
 
 				QuestionAPI.submitSummary options
 				.then (data)=>
-					localforage.removeItem 'quizDetail'
+					Storage.quizDetails('remove')
 					App.navigate 'dashboard', {}, {animate: false, back: false}
 				, (error)=>
 					console.log 'err'
