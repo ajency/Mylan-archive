@@ -1,5 +1,5 @@
 angular.module('PatientApp.init', []).controller('InitCtrl', [
-  'Storage', 'App', '$scope', 'QuestionAPI', function(Storage, App, $scope, QuestionAPI) {
+  'Storage', 'App', '$scope', 'QuestionAPI', '$q', function(Storage, App, $scope, QuestionAPI, $q) {
     return Storage.setup('get').then(function(value) {
       if (_.isNull(value)) {
         return App.navigate('setup');
@@ -63,7 +63,17 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
     }).state('main_login', {
       url: '/main_login',
       templateUrl: 'views/authentication-view/Main-Screen-login.html',
-      controller: 'main_loginCtr'
+      controller: 'main_loginCtr',
+      resolve: {
+        refrencecodeValue: function($q, Storage) {
+          var defer;
+          defer = $q.defer();
+          Storage.refcode('get').then(function(details) {
+            return defer.resolve(details);
+          });
+          return defer.promise;
+        }
+      }
     }).state('setup', {
       url: '/setup',
       parent: 'main',

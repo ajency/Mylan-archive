@@ -19,6 +19,8 @@ angular.module 'PatientApp.Quest'
 			"quizID": opts.quizID
 			"questionId" : questionId
 
+		# questionType : mcq /scq /
+
 		data = 
 			questionId : '112'
 			questionType: 'mcq'
@@ -56,7 +58,7 @@ angular.module 'PatientApp.Quest'
 		# 'type': 'nextQuestion' / summary
 
 		data = 
-			'type': 'nextQuestion'
+			'type': 'summary'
 			'quizID' : '111'
 
 		defer.resolve data

@@ -1,4 +1,4 @@
-<ion-content  ng-init="view.refre();" >
+<ion-content  ng-init="view.refre();">
       <div class="row">
         <div class="col">
      <div class="text-center">
@@ -9,10 +9,13 @@
       <div class="list list-inset" ng-form="form_">
         <h5 class="f-w-400">Enter your Login Details</h5>
          <label class="item item-input">
-          <input type="tel" 
+          <input type="text" 
+          ng-keyup="App.check_inputlength(view.refrencecode);"
           required
-          minlength="8"
+          min="1" 
+          max="99"
           maxlength="8"
+          onlydigitinput="inputvalidation"
           placeholder="Enter 8 Digit Reference Code"
           name="ref_"
           id="ref_"
@@ -26,14 +29,16 @@
           id="password"
 
           ng-click="view.cleardiv()"
+          min="1" 
+          max="99"
           maxlength="4"
-          minlength="4" />
+          onlydigitinput="inputvalidation"/>
         </label>
         <div class="text-left text-danger">{{view.loginerror}}</div>
         <br>     
         
        <button class="button button-block button-calm" ng-click="view.mainlogin()">Login</button><br>
-       <a href="#" class="button-clear button-calm btn-link" >Forgot Reference Code <br>or Password</a>
+       <a href="#" class="button-clear button-calm btn-link"  ng-click="view.forgetRefcodeorPass()">Forgot Reference Code <br>or Password</a>
       </div>
    </div>
    </div>

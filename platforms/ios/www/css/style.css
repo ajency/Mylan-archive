@@ -81,15 +81,21 @@ hr.broad {
 }
 .bar.bar-header .right-buttons {
   position: absolute;
-  right: 6px;
+  right: 0;
 }
-.bar.bar-header .right-buttons.trans-links {
+.bar.bar-header .right-buttons .trans-links {
   padding-top: 6px;
 }
-.bar.bar-header .right-buttons.trans-links a {
+.bar.bar-header .right-buttons .trans-links a {
   font-size: 22px;
   padding-right: 11px;
   color: #000;
+}
+.bar.bar-header .right-buttons .button.button-icon {
+  width: 34px;
+}
+.bar.bar-header .right-buttons .button.button-icon::before {
+  font-size: 25px;
 }
 .bar.bar-footer {
   border-top: 1px solid #ddd;
@@ -160,7 +166,7 @@ h3.line-title span {
 }
 .info-msg span {
   position: relative;
-  top: 5px;
+  top: 6px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -216,18 +222,19 @@ h3.line-title span {
 }
 .button.button-light.button-outline {
   color: #eeeeee;
-  border-color: #eeeeee;
   width: 33px;
   height: 33px;
-  margin-left: 6px;
+  margin-left: 9px;
   border-radius: 4px;
-  border-width: 2px;
-  border-style: solid;
+  border: 1px solid #eeeeee;
 }
-.button.button-light.button-outline::before {
-  font-size: 17px;
-  line-height: 29px;
-  padding-right: 1px;
+.button.button-light.button-outline.ion-pause::before {
+  font-size: 15px;
+  padding-right: 4px;
+}
+.button.button-light.button-outline.ion-close::before {
+  font-size: 15px;
+  padding-right: 2px;
 }
 a.button-clear.btn-link {
   text-decoration: underline;
@@ -243,29 +250,32 @@ a.button-clear.btn-link {
 }
 .item-input input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  color: #444;
-  font-size: 16px;
+  color: #333;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input::-webkit-input-placeholder {
   /* WebKit, Blink, Edge */
-  color: #444;
-  font-size: 16px;
+  color: #333;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #444;
+  color: #333;
   opacity: 1;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 200;
 }
 .item-input input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #444;
+  color: #333;
   opacity: 1;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 200;
+}
+input[id=password] {
+  -webkit-text-security: disc;
 }
 /***LISTS***/
 .no-list .no {
@@ -281,17 +291,21 @@ a.button-clear.btn-link {
   vertical-align: middle;
   display: table-cell;
 }
-.item.item-radio .item-content {
+.item.item-radio .item-content,
+.item.item-checkbox .item-content {
   padding: 16px 16px 16px 60px;
 }
-.item.item-radio.item-radio input:checked ~ .radio-icon {
+.item.item-radio.item-radio input:checked ~ .radio-icon,
+.item.item-checkbox.item-radio input:checked ~ .radio-icon {
   background: #7bc67a;
   border-color: #7bc67a;
 }
-.item.item-radio.item-radio input:checked ~ .radio-icon::before {
+.item.item-radio.item-radio input:checked ~ .radio-icon::before,
+.item.item-checkbox.item-radio input:checked ~ .radio-icon::before {
   opacity: 1;
 }
-.item.item-radio .radio-icon {
+.item.item-radio .radio-icon,
+.item.item-checkbox .radio-icon {
   visibility: visible;
   font-size: 17px;
   border: 1px solid #bdbdbd;
@@ -309,19 +323,31 @@ a.button-clear.btn-link {
   margin-top: -14px;
   display: table;
 }
-.item.item-radio .radio-icon::before {
+.item.item-radio .radio-icon::before,
+.item.item-checkbox .radio-icon::before {
   vertical-align: middle;
   display: table-cell;
   opacity: 0;
+}
+.item.item-radio .checkbox input:checked:before,
+.item.item-checkbox .checkbox input:checked:before,
+.item.item-radio .checkbox input:checked + .checkbox-icon:before,
+.item.item-checkbox .checkbox input:checked + .checkbox-icon:before {
+  background: #7bc67a;
+  border-color: #7bc67a;
 }
 .clm-list .button {
   margin: 3px;
 }
 .clm-list h6.f-w-400 {
   font-size: 15px;
+  margin-top: 3px;
 }
 .clm-list h6.f-w-400 i {
   font-size: 20px;
+}
+.loading-container .loading {
+  background: transparent;
 }
 .loading-container .loading h3 {
   color: #000;
@@ -334,6 +360,20 @@ a.button-clear.btn-link {
 .loading-container .loading .popup .popup-head {
   background: #fff;
   border-bottom: none;
+}
+.notification {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: #ee5235;
+  color: #ffffff;
+  border-radius: 15px;
+  font-size: 9px;
+  text-align: center;
+  top: -1px;
+  right: 2px;
+  line-height: 17px;
+  z-index: 10;
 }
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */

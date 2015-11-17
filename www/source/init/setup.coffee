@@ -29,7 +29,7 @@ angular.module 'PatientApp.init'
 						App.navigate goto
 
 			forgetRefcode:->
-						$ionicLoading.show
+					$ionicLoading.show
 						scope: $scope
 						templateUrl:'views/error-view/Error-Screen-2.html'
 						hideOnStateChange: true			

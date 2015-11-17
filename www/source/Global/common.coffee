@@ -24,6 +24,36 @@ angular.module 'PatientApp.Global', []
 
 			goBack : (count)->
 				$ionicHistory.goBack count
+
+			# check_inputlength : (ngmodel)->
+			# 	# console.log  @ngmodel.toString().length
+			# 	if @ngmodel.toString().length < 8
+			# 		console.log  @ngmodel.toString().length
+			# 	else	
+			# 		event.preventDefault()	
+
+			# check_passwordlength : (Passngmodel)->
+			# 	# console.log  @Passngmodel.toString().length
+			# 	if @Passngmodel.toString().length < 4
+			# 		console.log  @Passngmodel.toString().length
+					
+			# 		event.preventDefault()	
+
+			isAndroid : ->
+				ionic.Platform.isAndroid()
+
+			isIOS : ->
+				ionic.Platform.isIOS()
+
+			isWebView : ->
+				ionic.Platform.isWebView()
+
+			isOnline : ->
+				if @isWebView() then $cordovaNetwork.isOnline()
+				else navigator.onLine
+
+			deviceUUID : ->
+				if @isWebView() then device.uuid else 'DUMMYUUID'				
 			
 
 ]

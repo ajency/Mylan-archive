@@ -12,14 +12,17 @@
                <div class="list list-inset" ng-form="form">
                   <label class="item item-input item-icon-right">
                   <i class="icon ion-ios-help-outline text-primary" ></i>
-                  <input type="tel"  
+                  <input type="text" 
                      name="ref"
                      ng-model="view.refcode"
-                     maxlength="8" 
-                     minlength="8"
+                     min="1" 
+                     max="99"
+                     maxlength="8"
+                     onlydigitinput="inputvalidation"
                      required
                      ng-click="view.clear()"
-                     placeholder="Enter 8 Digit Reference Code"/>
+                     placeholder="Enter 8 Digit Reference Code"
+                     />
                   </label>
                   <div class="text-left text-danger">{{view.emptyfield}}</div>
                   <br>
