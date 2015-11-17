@@ -73,12 +73,13 @@
               <!-- single choice  -->
               <div 
                 class="list"
-                ng-if = 'view.data.questionType == "mcq"'>
+                ng-if = 'view.data.questionType == "scq"'>
                 <label class="item item-radio"
                   ng-repeat ="answerValue in view.data.option">
-                    <input type="radio" name="group" ng-model="view.go" ng-value="answer.id" >
+                    <input type="radio" name="group" ng-model="view.go" 
+                      ng-value="answerValue.value" >
                       <div class="item-content">
-                       {{answerValue.answer}}
+                       {{answerValue.answer}} 
                       </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 
@@ -87,7 +88,7 @@
               <!-- multi choice  -->
               <ul 
                 class="list"
-                ng-if = 'view.data.questionType == "scq"'>
+                ng-if = 'view.data.questionType == "mcq"'>
                 <li 
                   class="item item-checkbox"
                   ng-repeat ="answerValue in view.data.option">

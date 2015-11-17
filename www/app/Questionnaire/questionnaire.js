@@ -3,7 +3,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     return $scope.view = {
       title: 'C-weight',
       data: [],
-      go: '',
+      go: 'no_pain',
       response: '',
       actionValue: {},
       getQuestion: function() {
@@ -52,37 +52,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       nextQuestion: function() {
-        var options;
-        options = {
-          quizID: $stateParams.quizID,
-          questionId: this.data.questionId,
-          answerId: this.go,
-          action: 'submitted'
-        };
-        return QuestionAPI.saveAnswer(options).then((function(_this) {
-          return function(data) {
-            var action, v;
-            action = {
-              questionId: _this.data.questionId,
-              mode: 'next'
-            };
-            QuestionAPI.setAction('set', action);
-            v = QuestionAPI.setAction('get');
-            console.log(v);
-            _this.response = data;
-            if (_this.response.type === 'nextQuestion') {
-              return $window.location.reload();
-            } else {
-              return App.navigate('summary', {
-                quizID: _this.response.quizID
-              });
-            }
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
-          };
-        })(this));
+        console.log('nextt questt');
+        return console.log(this.go);
       },
       prevQuestion: function() {
         var action;
