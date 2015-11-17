@@ -1,0 +1,10 @@
+{
+  "applications": {
+    "_default": {
+      "link": "mylan"
+    },
+    "mylan": {
+      "applicationId": "MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA"
+    }
+  }
+}
