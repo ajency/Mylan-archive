@@ -25,33 +25,40 @@
                 </div>
             </div>
          </div>
+          
+          <!-- integer type  -->
           <!-- <div class="padding">
-                <div class="col">
-                <br>
+            <div class="col">
+              <br>
               <h4 class="f-w-400">What is your current weight ?</h4>
-                <div class="row">
+              <div class="row">
                 <div class="col">
-                <label class="item-input item-icon-right b-b">
+                  <label class="item-input item-icon-right b-b">
                   <input type="number" placeholder="Kgs">
-                </label>
-              </div>
-               <div class="col">
-                <label class="item-input b-b">
-                  <input type="number" placeholder="St">
-                </label>
-              </div>
-               <div class="col">
-                <label class="item-input b-b">
-                  <input type="number" placeholder="Lbs">
-                </label>
+                  </label>
                 </div>
-                </div><br>
-                <div class="info-msg">
-                <i class="icon ion-ios-information-outline text-green"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
-                </div><br>
-             </div>
-         </div>
-          <hr class="broad"> -->
+                <div class="col">
+                  <label class="item-input b-b">
+                  <input type="number" placeholder="St">
+                  </label>
+                </div>
+                <div class="col">
+                  <label class="item-input b-b">
+                  <input type="number" placeholder="Lbs">
+                  </label>
+                </div>
+              </div>
+              <br>
+              <div class="info-msg">
+                 <i class="icon ion-ios-information-outline text-green"></i> 
+                 <span>Please Complete EITHER Kg OR stones and lbs box</span>
+              </div>
+                <br>
+            </div>
+          </div> -->
+
+          <hr class="broad">
+        
           <div>
               <div class="padding">
                     <div class="col">
@@ -63,17 +70,33 @@
                       <br>
                   </div>
               </div>
-
-              <div class="list">
+              <!-- single choice  -->
+              <div 
+                class="list"
+                ng-if = 'view.data.questionType == "mcq"'>
                 <label class="item item-radio"
-                  ng-repeat ="product in view.data.option">
-                    <input type="radio" name="group" ng-model="view.go" ng-value="product.id" >
+                  ng-repeat ="answerValue in view.data.option">
+                    <input type="radio" name="group" ng-model="view.go" ng-value="answer.id" >
                       <div class="item-content">
-                       {{product.answer}}
+                       {{answerValue.answer}}
                       </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 
               </div>
+
+              <!-- multi choice  -->
+              <ul 
+                class="list"
+                ng-if = 'view.data.questionType == "scq"'>
+                <li 
+                  class="item item-checkbox"
+                  ng-repeat ="answerValue in view.data.option">
+                  <label class="checkbox">
+                      <input type="checkbox">
+                  </label>
+                      {{answerValue.answer}}
+                </li>
+              </ul>
          </div>
     </ion-content>
      <div class="bar bar-footer bar-light">

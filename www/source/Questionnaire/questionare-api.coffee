@@ -19,6 +19,8 @@ angular.module 'PatientApp.Quest'
 			"quizID": opts.quizID
 			"questionId" : questionId
 
+		# questionType : mcq /scq /
+
 		data = 
 			questionId : '112'
 			questionType: 'mcq'
