@@ -19,12 +19,12 @@ angular.module 'PatientApp.Quest'
 			"quizID": opts.quizID
 			"questionId" : questionId
 
-		# questionType : mcq /scq 
+		# questionType : mcq /scq /descr 
 
 		data = 
 			questionId : '112'
 			questionType: 'scq'
-			questionTittle: 'which Statement best describes your pain'
+			questionTittle: 'what is your current Statement best describes your pain'
 			option:
 				0:
 				 id : '1'
@@ -41,6 +41,30 @@ angular.module 'PatientApp.Quest'
 				 answer : 'Pain present, and i take ocassional pain releiving medication'
 				 value : 'take_medication'
 				 checked: false
+
+			fields:
+				0:
+				 type:'number'
+				 placeholder: 'kgs'
+				1:
+				 type:'number'
+				 placeholder : 'St'
+				2:
+				 type:'number'
+				 placeholder : 'St'
+
+
+			# fields:
+			# 	0:
+			# 	placeHolder:'kgs'
+			# 	type : 'numeber'
+			# 	1:
+			# 	placeHolder:'st'
+			# 	type : 'numeber'
+			# 	2:
+			# 	placeHolder:'lbs'
+			# 	type : 'numeber'
+
 				
 			pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
 			submitedDate : '5-11-2015'
