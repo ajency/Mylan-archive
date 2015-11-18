@@ -52,7 +52,13 @@ angular.module 'PatientApp.init'
 					$ionicLoading.show
 						scope: $scope
 						templateUrl:'views/error-view/Error-Screen-2.html'
-						hideOnStateChange: true			
+						hideOnStateChange: true		
+
+			HelpRefcode:->
+					$ionicLoading.show
+						scope: $scope
+						templateUrl:'views/error-view/RefCode-help-1.html'
+						hideOnStateChange: true						
 			hide:->
 			        $ionicLoading.hide();
 			        hideOnStateChange: false	

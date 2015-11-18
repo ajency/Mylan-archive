@@ -48,6 +48,13 @@ angular.module('PatientApp.init').controller('setupCtr', [
           hideOnStateChange: true
         });
       },
+      HelpRefcode: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/error-view/RefCode-help-1.html',
+          hideOnStateChange: true
+        });
+      },
       hide: function() {
         $ionicLoading.hide();
         return {
