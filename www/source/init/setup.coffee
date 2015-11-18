@@ -43,10 +43,11 @@ angular.module 'PatientApp.init'
 						App.navigate "setup_password"
 
 			tologin : ->
-					Storage.setup 'get'
-					.then (value)->
-						goto = if _.isNull value then "setup" else "main_login"
-						App.navigate goto
+					# Storage.setup 'get'
+					# .then (value)->
+					# 	goto = if _.isNull value then "setup" else "main_login"
+					# 	App.navigate goto
+						App.navigate "main_login"
 
 			forgetRefcode:->
 					$ionicLoading.show

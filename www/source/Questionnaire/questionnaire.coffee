@@ -4,11 +4,14 @@ angular.module 'PatientApp.Quest',[]
 	'$window', 'Storage', ($scope, App, QuestionAPI, $stateParams, $window, Storage)->
 
 		$scope.view =
+			pastAnswerDiv : 0
 			title: 'C-weight'
 			data : []
 			go : 'no_pain'
 			response : ''
 			actionValue : {}
+
+
 
 			getQuestion : ->
 				Storage.login('get').then (value) ->
@@ -97,6 +100,18 @@ angular.module 'PatientApp.Quest',[]
 				QuestionAPI.setAction 'set', action
 
 				@init()
+
+			showDiv : ->
+				@pastAnswerDiv = 1
+
+			hideDiv : ->
+				@pastAnswerDiv = 0
+
+			reInit : ->
+				@pastAnswerDiv = 0
+
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.reInit()
 
 		
 ]

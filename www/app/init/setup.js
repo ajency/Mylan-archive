@@ -35,11 +35,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         }
       },
       tologin: function() {
-        return Storage.setup('get').then(function(value) {
-          var goto;
-          goto = _.isNull(value) ? "setup" : "main_login";
-          return App.navigate(goto);
-        });
+        return App.navigate("main_login");
       },
       forgetRefcode: function() {
         return $ionicLoading.show({

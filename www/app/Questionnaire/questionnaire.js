@@ -1,6 +1,7 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
   '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', function($scope, App, QuestionAPI, $stateParams, $window, Storage) {
-    return $scope.view = {
+    $scope.view = {
+      pastAnswerDiv: 0,
       title: 'C-weight',
       data: [],
       go: 'no_pain',
@@ -95,8 +96,20 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         };
         QuestionAPI.setAction('set', action);
         return this.init();
+      },
+      showDiv: function() {
+        return this.pastAnswerDiv = 1;
+      },
+      hideDiv: function() {
+        return this.pastAnswerDiv = 0;
+      },
+      reInit: function() {
+        return this.pastAnswerDiv = 0;
       }
     };
+    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      return $scope.view.reInit();
+    });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
