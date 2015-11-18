@@ -72,6 +72,7 @@ hr.broad {
   font-size: 1.071em;
   left: 0!important;
   right: 0!important;
+  text-align: center;
 }
 .bar.bar-header.bar-balanced {
   background-color: #00aaa7;
@@ -392,6 +393,11 @@ input[id=password] {
   top: 0;
   padding: 11px;
   font-size: 27px;
+}
+@media (min-height: 768px) {
+  .centering {
+    padding-top: 17%;
+  }
 }
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */
