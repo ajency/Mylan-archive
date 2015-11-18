@@ -10,10 +10,20 @@
     </div> -->
 
    <ion-content ng-init="view.init();" class="has-footer">
+   <div class="swipe-down">
+   <div class="row bg-yellow">
+    <div class="col text-center">
+      
+      <h5 class="f-w-400">Previous Answers:</h5>
+      <i class="icon ion-chevron-down"></i>
+
+    </div>
+    </div>
+    </div>
          <div class="bg-yellow">
             <div class="padding">
               <div class="col">
-                  <h5 class="f-w-400">Previous Answers:</h5><br>
+                  
                   <p class="f-w-400">{{view.data.pastAnswer}}</p>
                  <hr>
                   <h6>
