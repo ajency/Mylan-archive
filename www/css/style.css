@@ -327,12 +327,11 @@ input[id=password] {
   left: 13px;
   z-index: 3;
   margin-top: -14px;
-  display: table;
 }
 .item.item-radio .radio-icon::before,
 .item.item-checkbox .radio-icon::before {
-  vertical-align: middle;
-  display: table-cell;
+  position: relative;
+  top: -2px;
   opacity: 0;
 }
 .item.item-radio .checkbox input:checked:before,
