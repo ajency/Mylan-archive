@@ -40,7 +40,23 @@ angular.module 'PatientApp.storage', []
         localforage.setItem 'refcode', refcode
 
       when 'get'
-        localforage.getItem 'refcode'      
+        localforage.getItem 'refcode'
+
+  Storage.hospital_data = (action,hospital_data)->
+    switch action
+      when 'set'
+        localforage.setItem 'hospital_details', hospital_data
+
+      when 'get'
+        localforage.getItem 'hospital_details'  
+
+  Storage.user_data = (action,user_data)->
+    switch action
+      when 'set'
+        localforage.setItem 'user_details', user_data
+
+      when 'get'
+        localforage.getItem 'user_details'    
 
   Storage
 ]
