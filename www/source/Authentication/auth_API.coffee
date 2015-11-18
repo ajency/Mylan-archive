@@ -1,10 +1,11 @@
 angular.module 'PatientApp.Auth'
 
-.factory 'AuthAPI', ['$q', 'App', '$http', ($q, App, $http)->
+.factory 'AuthAPI', ['$q', 'App', '$http','UrlList', ($q, App, $http,UrlList)->
 	AuthAPI = {}
 	
 	AuthAPI.validateRefCode = (refcode ,UUID,devicetype, deviceOS,accessType)->
 		console.log refcode+UUID +  devicetype  + deviceOS 
+		console.log UrlList.urlname
 		# defer = $q.defer()
 				# $http.post '', {}
 				# .then (data)->

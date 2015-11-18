@@ -1,7 +1,3 @@
-angular.module 'PatientApp.Global'
-
-.factory 'UrlLog' ,[()->
-	name:'adfsdasd'
-
-]
-
+myApp = angular.module('PatientApp.Global')
+myApp.factory 'UrlList', ->
+  { urlname: 'https://abc' }

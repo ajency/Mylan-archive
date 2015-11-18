@@ -298,6 +298,8 @@ input[id=password] {
 .item.item-radio .item-content,
 .item.item-checkbox .item-content {
   padding: 16px 16px 16px 60px;
+  text-overflow: initial;
+  white-space: normal;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon,
 .item.item-checkbox.item-radio input:checked ~ .radio-icon {
@@ -378,6 +380,19 @@ input[id=password] {
   right: 2px;
   line-height: 17px;
   z-index: 10;
+}
+.list.list-inset,
+.question-popup {
+  position: relative;
+}
+.list.list-inset i.ion-ios-help-outline,
+.question-popup i.ion-ios-help-outline {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 0;
+  padding: 11px;
+  font-size: 27px;
 }
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */

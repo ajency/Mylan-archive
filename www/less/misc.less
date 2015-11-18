@@ -327,6 +327,8 @@
 	.item.item-radio,.item.item-checkbox{
 		.item-content{
 			padding: 16px 16px 16px 60px;
+			    text-overflow: initial;
+    white-space: normal;
 		}
 		&.item-radio input:checked ~ .radio-icon{
 			background: @color-light-green;
@@ -405,5 +407,16 @@
     right: 2px;
     line-height: 17px;
     z-index: 10;
+  }
+  .list.list-inset,.question-popup{
+  	position: relative;
+  	i.ion-ios-help-outline{
+  		    position: absolute;
+    z-index: 10;
+    right: 0;
+    top: 0;
+    padding: 11px;
+    font-size: 27px;
+  	}
   }
 	/***FOOTER***/

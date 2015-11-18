@@ -11,7 +11,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         console.log(this.refcode);
         console.log(_.isEmpty(this.refcode));
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
-          return this.emptyfield = "Please Enter Valid Refrence Code";
+          return this.emptyfield = "Please Enter Valid Reference Code";
         } else {
           this.deviceUUID = App.deviceUUID();
           if (App.isAndroid()) {
@@ -35,16 +35,19 @@ angular.module('PatientApp.init').controller('setupCtr', [
         }
       },
       tologin: function() {
-        return Storage.setup('get').then(function(value) {
-          var goto;
-          goto = _.isNull(value) ? "setup" : "main_login";
-          return App.navigate(goto);
-        });
+        return App.navigate("main_login");
       },
       forgetRefcode: function() {
         return $ionicLoading.show({
           scope: $scope,
           templateUrl: 'views/error-view/Error-Screen-2.html',
+          hideOnStateChange: true
+        });
+      },
+      HelpRefcode: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/error-view/RefCode-help-1.html',
           hideOnStateChange: true
         });
       },
