@@ -36,6 +36,22 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.getItem('refcode');
       }
     };
+    Storage.hospital_data = function(action, hospital_data) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('hospital_details', hospital_data);
+        case 'get':
+          return localforage.getItem('hospital_details');
+      }
+    };
+    Storage.user_data = function(action, user_data) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('user_details', user_data);
+        case 'get':
+          return localforage.getItem('user_details');
+      }
+    };
     return Storage;
   }
 ]);
