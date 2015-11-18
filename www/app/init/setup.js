@@ -11,7 +11,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         console.log(this.refcode);
         console.log(_.isEmpty(this.refcode));
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
-          return this.emptyfield = "Please Enter Valid Refrence Code";
+          return this.emptyfield = "Please Enter Valid Reference Code";
         } else {
           this.deviceUUID = App.deviceUUID();
           if (App.isAndroid()) {

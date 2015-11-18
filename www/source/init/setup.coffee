@@ -18,7 +18,7 @@ angular.module 'PatientApp.init'
 					console.log @refcode
 					console.log _.isEmpty(@refcode)
 					if @refcode =='' || _.isUndefined(@refcode)
-						@emptyfield = "Please Enter Valid Refrence Code"	
+						@emptyfield = "Please Enter Valid Reference Code"	
 
 					else
 						@deviceUUID = App.deviceUUID()
