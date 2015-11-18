@@ -70,6 +70,8 @@ hr.broad {
 .bar.bar-header .title {
   color: #000000;
   font-size: 1.071em;
+  left: 0!important;
+  right: 0!important;
 }
 .bar.bar-header.bar-balanced {
   background-color: #00aaa7;
@@ -163,10 +165,8 @@ h3.line-title span {
 .info-msg i {
   float: left;
   margin-right: 7px;
-}
-.info-msg span {
   position: relative;
-  top: 6px;
+  top: -5px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
