@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Auth',[]
 
-.controller 'setup_passwordCtr',['$scope', 'App', 'Storage'
-	, ($scope, App, Storage)->
+.controller 'setup_passwordCtr',['$scope', 'App', 'Storage','$ionicLoading'
+	, ($scope, App, Storage,$ionicLoading)->
 
 
 		  	
@@ -29,7 +29,17 @@ angular.module 'PatientApp.Auth',[]
 							@passwordmissmatch = 'Password Do Not Match Enter Again'
 
 			clear:->
-					@passwordmissmatch= ""				
+					@passwordmissmatch= ""	
+
+			passwordHelp:->
+					$ionicLoading.show
+						scope: $scope
+						templateUrl:'views/error-view/Password-help.html'
+						hideOnStateChange: true						
+			hide:->
+			        $ionicLoading.hide();
+			        hideOnStateChange: false	
+					
 
 
 
