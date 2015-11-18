@@ -379,5 +379,18 @@ input[id=password] {
   line-height: 17px;
   z-index: 10;
 }
+.list.list-inset,
+.question-popup {
+  position: relative;
+}
+.list.list-inset i.ion-ios-help-outline,
+.question-popup i.ion-ios-help-outline {
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  top: 0;
+  padding: 11px;
+  font-size: 27px;
+}
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */
