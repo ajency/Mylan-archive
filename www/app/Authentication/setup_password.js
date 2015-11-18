@@ -1,5 +1,5 @@
 angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
-  '$scope', 'App', 'Storage', function($scope, App, Storage) {
+  '$scope', 'App', 'Storage', '$ionicLoading', function($scope, App, Storage, $ionicLoading) {
     return $scope.view = {
       New_password: '',
       Re_password: '',
@@ -21,6 +21,19 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       },
       clear: function() {
         return this.passwordmissmatch = "";
+      },
+      passwordHelp: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/error-view/Password-help.html',
+          hideOnStateChange: true
+        });
+      },
+      hide: function() {
+        $ionicLoading.hide();
+        return {
+          hideOnStateChange: false
+        };
       }
     };
   }
