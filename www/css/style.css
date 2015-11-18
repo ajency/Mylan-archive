@@ -286,10 +286,14 @@ input[id=password] {
   height: 2.500em;
   border-radius: 50%;
   display: table;
+  margin-right: 15px;
+  position: relative;
+  top: -11px;
 }
 .no-list .no b {
   vertical-align: middle;
   display: table-cell;
+  text-align: center;
 }
 .item.item-radio .item-content,
 .item.item-checkbox .item-content {
