@@ -47,33 +47,47 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
+				console.log @data.option
+
+				# if data.questionType == scq
+				# if @go == ''
+				# 	ctoast('please select value')
+
+				# if data.questionType == mcq
+				# if ! _.contains(_.pluck(@data.option, 'checked'), 'true')
+				# 	ctoast('please select value')
+
+				# if @go == ''
+				# 	ctoast('please select value')
+
+
 				console.log 'nextt questt'
 				console.log @go
-				# options = 
-				# 	quizID: $stateParams.quizID
-				# 	questionId : @data.questionId
-				# 	answerId : @go
-				# 	action : 'submitted'
+				options = 
+					quizID: $stateParams.quizID
+					questionId : @data.questionId
+					answerId : @go
+					action : 'submitted'
 
-				# QuestionAPI.saveAnswer options
-				# .then (data)=>
-				# 	action =
-				# 		questionId : @data.questionId
-				# 		mode : 'next'
+				QuestionAPI.saveAnswer options
+				.then (data)=>
+					action =
+						questionId : @data.questionId
+						mode : 'next'
 
-				# 	QuestionAPI.setAction 'set', action
+					QuestionAPI.setAction 'set', action
 
-				# 	v = QuestionAPI.setAction 'get'
-				# 	console.log v
+					v = QuestionAPI.setAction 'get'
+					console.log v
 
-				# 	@response = data 
-				# 	if @response.type == 'nextQuestion' 
-				# 		$window.location.reload()
-				# 		# App.navigate 'questionnaire', quizID: @response.quizID
-				# 	else
-				# 		App.navigate 'summary', quizID: @response.quizID
-				# , (error)=>
-				# 	console.log 'err'
+					@response = data 
+					if @response.type == 'nextQuestion' 
+						$window.location.reload()
+						# App.navigate 'questionnaire', quizID: @response.quizID
+					else
+						App.navigate 'summary', quizID: @response.quizID
+				, (error)=>
+					console.log 'err'
 
 			prevQuestion : ->
 				action =

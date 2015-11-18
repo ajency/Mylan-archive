@@ -30,14 +30,17 @@ angular.module 'PatientApp.Quest'
 				 id : '1'
 				 answer : 'No Pain'
 				 value : 'no_pain'
+				 checked: true
 				1:
 				 id : '2'
 				 answer : 'Pain present but not needed for pain killer'
 				 value : 'pain_present'
+				 checked: false
 				2:
 				 id : '3'
 				 answer : 'Pain present, and i take ocassional pain releiving medication'
 				 value : 'take_medication'
+				 checked: false
 				
 			pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
 			submitedDate : '5-11-2015'

@@ -23,17 +23,20 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
           0: {
             id: '1',
             answer: 'No Pain',
-            value: 'no_pain'
+            value: 'no_pain',
+            checked: true
           },
           1: {
             id: '2',
             answer: 'Pain present but not needed for pain killer',
-            value: 'pain_present'
+            value: 'pain_present',
+            checked: false
           },
           2: {
             id: '3',
             answer: 'Pain present, and i take ocassional pain releiving medication',
-            value: 'take_medication'
+            value: 'take_medication',
+            checked: false
           }
         },
         pastAnswer: 'Pain present, and i take ocassional pain releiving medication',

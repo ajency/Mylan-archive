@@ -27,7 +27,7 @@
          </div>
           
           <!-- integer type  -->
-          <!-- <div class="padding">
+        <!--   <div class="padding">
             <div class="col">
               <br>
               <h4 class="f-w-400">What is your current weight ?</h4>
@@ -55,9 +55,11 @@
               </div>
                 <br>
             </div>
-          </div> -->
+          </div>
 
-          <hr class="broad">
+          <hr class="broad"> -->
+
+    
         
           <div>
               <div class="padding">
@@ -76,7 +78,7 @@
                 ng-if = 'view.data.questionType == "scq"'>
                 <label class="item item-radio"
                   ng-repeat ="answerValue in view.data.option">
-                    <input type="radio" name="group" ng-model="view.go" 
+                    <input type="radio" name="group" ng-model="answerValue.go" 
                       ng-value="answerValue.value" >
                       <div class="item-content">
                        {{answerValue.answer}} 
@@ -92,8 +94,9 @@
                 <li 
                   class="item item-checkbox"
                   ng-repeat ="answerValue in view.data.option">
-                  <label class="checkbox">
-                      <input type="checkbox">
+                  <label class="checkbox" >
+                      <input type="checkbox" ng-model="answerValue.checked" 
+                      ng-checked="answerValue.checked">
                   </label>
                       {{answerValue.answer}}
                 </li>
