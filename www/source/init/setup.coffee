@@ -1,15 +1,17 @@
 angular.module 'PatientApp.init'
 
 
-.controller 'setupCtr', ['$scope', 'App', 'Storage','$ionicLoading'
-	, ($scope, App, Storage,$ionicLoading)->
-
-
-
-
+.controller 'setupCtr', ['$scope', 'App', 'Storage','$ionicLoading','AuthAPI'
+	, ($scope, App, Storage,$ionicLoading,AuthAPI)->
+		
 		$scope.view =
 			refcode:''
 			emptyfield:''
+			deviceOS:''
+			deviceType:''
+			accessType:''
+			deviceUUID:''
+
 			
 
 			verifyRefCode : ->
@@ -19,6 +21,24 @@ angular.module 'PatientApp.init'
 						@emptyfield = "Please Enter Valid Refrence Code"	
 
 					else
+						@deviceUUID = App.deviceUUID()
+					    
+			   if App.isAndroid()
+							@deviceOS = "Android"
+
+						if App.isIOS()
+							@deviceOS = "IOS"
+
+						if App.isWebView()
+			               @deviceType = "Mobile"
+			               @accessType = "App"
+						else
+							if !App.isAndroid() && !App.isIOS()
+				                @deviceType = "Desktop"
+				                @accessType = "Browser"	  
+
+						AuthAPI.validateRefCode @refcode ,@deviceUUID,@deviceType,@deviceOS,@accessType
+
 						Storage.refcode 'set',@refcode
 						App.navigate "setup_password"
 
