@@ -3,7 +3,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     return $scope.view = {
       title: 'C-weight',
       data: [],
-      go: '',
+      go: 'no_pain',
       response: '',
       actionValue: {},
       getQuestion: function() {
@@ -53,6 +53,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       nextQuestion: function() {
         var options;
+        console.log(this.data.option);
+        console.log('nextt questt');
+        console.log(this.go);
         options = {
           quizID: $stateParams.quizID,
           questionId: this.data.questionId,

@@ -6,7 +6,7 @@ angular.module 'PatientApp.Quest',[]
 		$scope.view =
 			title: 'C-weight'
 			data : []
-			go : ''
+			go : 'no_pain'
 			response : ''
 			actionValue : {}
 
@@ -47,6 +47,22 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
+				console.log @data.option
+
+				# if data.questionType == scq
+				# if @go == ''
+				# 	ctoast('please select value')
+
+				# if data.questionType == mcq
+				# if ! _.contains(_.pluck(@data.option, 'checked'), 'true')
+				# 	ctoast('please select value')
+
+				# if @go == ''
+				# 	ctoast('please select value')
+
+
+				console.log 'nextt questt'
+				console.log @go
 				options = 
 					quizID: $stateParams.quizID
 					questionId : @data.questionId

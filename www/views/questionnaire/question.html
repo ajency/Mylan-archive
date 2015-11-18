@@ -10,14 +10,22 @@
     </div> -->
 
    <ion-content ng-init="view.init();" class="has-footer">
+   <div class="swipe-down">
+   <div class="row bg-yellow">
+    <div class="col text-center">
+      
+      <h5 class="f-w-400">Previous Answers:</h5>
+      <i class="icon ion-chevron-down"></i>
+
+    </div>
+    </div>
+    </div>
          <div class="bg-yellow">
             <div class="padding">
               <div class="col">
-                  <h5 class="f-w-400">Previous Answers:</h5><br>
+                  
                   <p class="f-w-400">{{view.data.pastAnswer}}</p>
-                  <hr>
-                  <p class="f-w-400">No Change</p>
-                  <hr>
+                 
                   <h6>
                     <i class="icon ion-calendar"></i>
                     Submitted On {{view.data.submitedDate}}
@@ -25,37 +33,46 @@
                 </div>
             </div>
          </div>
-          <!-- <div class="padding">
-                <div class="col">
-                <br>
+          
+          <!-- integer type  -->
+        <!--   <div class="padding">
+            <div class="col">
+              <br>
               <h4 class="f-w-400">What is your current weight ?</h4>
-                <div class="row">
+              <div class="row">
                 <div class="col">
-                <label class="item-input item-icon-right b-b">
+                  <label class="item-input item-icon-right b-b">
                   <input type="number" placeholder="Kgs">
-                </label>
-              </div>
-               <div class="col">
-                <label class="item-input b-b">
-                  <input type="number" placeholder="St">
-                </label>
-              </div>
-               <div class="col">
-                <label class="item-input b-b">
-                  <input type="number" placeholder="Lbs">
-                </label>
+                  </label>
                 </div>
-                </div><br>
-                <div class="info-msg">
-                <i class="icon ion-ios-information-outline text-green"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
-                </div><br>
-             </div>
-         </div>
+                <div class="col">
+                  <label class="item-input b-b">
+                  <input type="number" placeholder="St">
+                  </label>
+                </div>
+                <div class="col">
+                  <label class="item-input b-b">
+                  <input type="number" placeholder="Lbs">
+                  </label>
+                </div>
+              </div>
+              <br>
+              <div class="info-msg">
+                 <i class="icon ion-ios-information-outline text-green"></i> 
+                 <span>Please Complete EITHER Kg OR stones and lbs box</span>
+              </div>
+                <br>
+            </div>
+          </div>
+
           <hr class="broad"> -->
+
+    
+        
           <div>
               <div class="padding">
                     <div class="col">
-                        <h5 class="f-w-400">{{view.data.questionTittle}}</h5>
+                        <h5 class="f-w-400">{{view.data.questionTittle}} ?</h5>
                         <br>
                         <div class="info-msg">
                           <i class="icon ion-ios-information-outline text-green"></i> <span>Touch the Answer you want to select</span>
@@ -63,17 +80,35 @@
                       <br>
                   </div>
               </div>
-
-              <div class="list">
+              <!-- single choice  -->
+              <div 
+                class="list"
+                ng-if = 'view.data.questionType == "scq"'>
                 <label class="item item-radio"
-                  ng-repeat ="product in view.data.option">
-                    <input type="radio" name="group" ng-model="view.go" ng-value="product.id" >
+                  ng-repeat ="answerValue in view.data.option">
+                    <input type="radio" name="group" ng-model="answerValue.go" 
+                      ng-value="answerValue.value" >
                       <div class="item-content">
-                       {{product.answer}}
+                       {{answerValue.answer}} 
                       </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 
               </div>
+
+              <!-- multi choice  -->
+              <ul 
+                class="list"
+                ng-if = 'view.data.questionType == "mcq"'>
+                <li 
+                  class="item item-checkbox"
+                  ng-repeat ="answerValue in view.data.option">
+                  <label class="checkbox" >
+                      <input type="checkbox" ng-model="answerValue.checked" 
+                      ng-checked="answerValue.checked">
+                  </label>
+                      {{answerValue.answer}}
+                </li>
+              </ul>
          </div>
     </ion-content>
      <div class="bar bar-footer bar-light">
