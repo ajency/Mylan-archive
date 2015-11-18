@@ -5,11 +5,11 @@ angular.module 'PatientApp.init', []
   
 	Storage.setup('get').then (value) ->
 		if _.isNull(value)
-			App.navigate 'setup'
+			App.navigate 'setup', {}, {animate: false, back: false}
 		else 
 			Storage.login('get').then (value) ->
 				if _.isNull(value)
-					App.navigate 'main_login'
+					App.navigate 'main_login', {}, {animate: false, back: false}
 				else 
 					Storage.quizDetails('get').then (quizDetail) ->
 						if _.isNull(quizDetail)

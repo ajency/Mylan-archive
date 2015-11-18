@@ -2,11 +2,17 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
   'Storage', 'App', '$scope', 'QuestionAPI', '$q', function(Storage, App, $scope, QuestionAPI, $q) {
     return Storage.setup('get').then(function(value) {
       if (_.isNull(value)) {
-        return App.navigate('setup');
+        return App.navigate('setup', {}, {
+          animate: false,
+          back: false
+        });
       } else {
         return Storage.login('get').then(function(value) {
           if (_.isNull(value)) {
-            return App.navigate('main_login');
+            return App.navigate('main_login', {}, {
+              animate: false,
+              back: false
+            });
           } else {
             return Storage.quizDetails('get').then(function(quizDetail) {
               if (_.isNull(quizDetail)) {
