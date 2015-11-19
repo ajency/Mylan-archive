@@ -64,6 +64,16 @@
 	.text-muted{
 		color: @color-icon-gray;
 	}
+.dashboard{
+	p{
+		line-height: 18px;
+		margin-bottom: 0;
+	}
+	.title{
+		margin-bottom: 5px;
+		
+	}
+}
 	/***HEADER STYLES***/
 	.bar{
 	&.bar-header{
@@ -73,6 +83,9 @@
 		.title{
 			color: @color-black;
 			font-size: 1.071em;
+			left: 0!important;
+			right: 0!important;
+			text-align: center;
 		}
 		&.bar-balanced{
 			background-color: @color-green-sea;
@@ -86,16 +99,10 @@
 		.right-buttons{
 				position: absolute;
 				right: 0;
-				 .trans-links{
-				 	    padding-top: 6px;
-					a{
-						font-size: 22px;
-	    				padding-right: 11px;
-	    				color: @color-black;
-					}
-					
-				}
-				.button.button-icon{
+				
+				.button{
+					float: left;
+					&.button-icon{
 					width: 2.000em;
 					&::before{
 					font-size: 25px;
@@ -103,6 +110,7 @@
 				}
 			}
 		}
+	}
 		&.bar-footer{
 			border-top: 0.071em solid #ddd;
 			&.submission{
@@ -169,11 +177,10 @@
 		i{
 			float: left;
 			margin-right: 7px;
-		}
-		span{
 			position: relative;
-			top: 6px;
+    		top: -4px;
 		}
+		
 		&.bg-balanced{
 			background: @color-green-sea;
 			color: @color-white;
@@ -354,10 +361,9 @@
 			left: 13px;
 			z-index: 3;
 			margin-top: -14px;
-			display: table;
 			&::before{
-				vertical-align: middle;
-				display: table-cell;
+				position: relative;
+    			top: -2px;
 				opacity: 0;
 			}
 		}
@@ -375,6 +381,8 @@
 			margin-top: 0.214em;
 			i{
 				font-size: 1.429em;
+				position: relative;
+				top:2px;
 			}
 		}
 	}
@@ -417,6 +425,11 @@
     top: 0;
     padding: 11px;
     font-size: 27px;
+  	}
+  }
+  @media(min-height:768px){
+  	.centering{
+  		padding-top: 17%;
   	}
   }
 	/***FOOTER***/
