@@ -18,4 +18,5 @@ Route::get('/', function () {
 /********API********/
 Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
     Route::post( 'user/dosetup', 'Rest\UserController@doSetup' );
+    Route::post( 'user/login', 'Rest\UserController@doLogin' );
 } );

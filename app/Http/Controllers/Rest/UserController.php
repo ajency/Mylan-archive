@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Crypt;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Parse\ParseObject;
+use Parse\ParseQuery;
 use App\User;
 use App\UserDevice;
-use App\HospitalUser;
-use App\Hospital;
+
 
 class UserController extends Controller
 {
@@ -109,7 +110,9 @@ class UserController extends Controller
         else
         {
             $userId = $user['id'];
-            $hospitalData = $this -> getHospitalData($userId);
+            $hospitalId = $user['hospital_id'];
+            $projectId = $user['project_id'];
+            $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
 
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count(); 
             if($userDeviceCount)
@@ -150,17 +153,25 @@ class UserController extends Controller
 
     }
 
-    public function getHospitalData($userId)
+    public function getHospitalData($hospitalId , $projectId)
     {
 
-        $hospitalUser = HospitalUser::where('user_id',$userId)->get()->first(); 
+        $hospitalQry = new ParseQuery("Hospital");
+        $hospitalQry->equalTo("objectId", $hospitalId);
+        $hospital = $hospitalQry->first();  
+
+        $projectQry = new ParseQuery("Project");
+        $projectQry->equalTo("objectId", $projectId);
+        $project = $projectQry->first();
+        
+        $hospitalData = [];
+        $hospitalData['name'] = $hospital->get('name');
+        $hospitalData['logo'] = $hospital->get('logo');
+        $hospitalData['contact_number'] = $hospital->get('contact_number');
+        $hospitalData['email'] = $hospital->get('email');
+        $hospitalData['address'] = $hospital->get('address');
+        $hospitalData['project'] = $project->get('name');
          
-        $hospital = $hospitalUser->hospital()->get()->first();
-        $department = $hospitalUser->department()->get()->first();
-
-        $hospitalData['hospital'] = $hospital['name'];
-        $hospitalData['department'] = $department['name'];
-
         return $hospitalData;
     }
 
@@ -168,7 +179,8 @@ class UserController extends Controller
     {
         $data = $request->all();  
         $referenceCode = $data['referenceCode'];
-        $password = Crypt::encrypt($data['password'])
+        $password = Crypt::encrypt($data['password']);
+        dd($password);
 
         $user = User::where('reference_Code',$referenceCode)->first(); 
         
@@ -183,7 +195,7 @@ class UserController extends Controller
         }
         else
         {
-            dd($password);
+            
         }
     }
 }
