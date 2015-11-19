@@ -70,34 +70,30 @@
 
           <div 
             class="padding"
-            ng-if = 'view.data.questionType == "descr"' >
-            <div class="col">
-              <br>
-              <h4 class="f-w-400">What is your current weight ?</h4>
-              <div class="row">
-                <div class="col">
-                  <label class="item-input item-icon-right b-b">
-                  <input type="number" placeholder="Kgs">
-                  </label>
-                </div>
-                <div class="col">
-                  <label class="item-input b-b">
-                  <input type="number" placeholder="St">
-                  </label>
-                </div>
-                <div class="col">
-                  <label class="item-input b-b">
-                  <input type="number" placeholder="Lbs">
-                  </label>
-                </div>
-              </div>
-              <br>
-              <div class="info-msg">
-                 <i class="icon ion-ios-information-outline text-green"></i> 
-                 <span>Please Complete EITHER Kg OR stones and lbs box</span>
-              </div>
+            ng-if = 'view.data.questionType == "descr"'>
+              <div class="col">
                 <br>
-            </div>
+                <h4 class="f-w-400">What is your current weight ?</h4>
+                <div class="row">
+                  <div 
+                    class="col"
+                    ng-repeat="answerValue in view.data.fields">
+                    <label class="item-input item-icon-right b-b">
+                    <input 
+                      type="{{answerValue.type}}" 
+                      ng-model="val_answerValue.placeholder"
+                      >
+                      
+                    </label>
+                  </div>
+                </div>
+                <br>
+                <div class="info-msg">
+                   <i class="icon ion-ios-information-outline text-green"></i> 
+                   <span>Please Complete EITHER Kg OR stones and lbs box</span>
+                </div>
+                  <br>
+              </div>
           </div>
 
           <div>

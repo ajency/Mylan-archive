@@ -50,6 +50,12 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
+				# console.log '***************************'
+				inputs = document.getElementsByTagName('input')
+				console.log '***************************'
+				console.log inputs[0].value
+				console.log '***************************'
+				console.log inputs[0].type
 				console.log @data.option
 
 				# if data.questionType == scq

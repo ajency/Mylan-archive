@@ -23,7 +23,7 @@ angular.module 'PatientApp.Quest'
 
 		data = 
 			questionId : '112'
-			questionType: 'scq'
+			questionType: 'descr'
 			questionTittle: 'what is your current Statement best describes your pain'
 			option:
 				0:

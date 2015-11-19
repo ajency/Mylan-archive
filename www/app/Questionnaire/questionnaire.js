@@ -53,7 +53,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       nextQuestion: function() {
-        var options;
+        var inputs, options;
+        inputs = document.getElementsByTagName('input');
+        console.log('***************************');
+        console.log(inputs[0].value);
+        console.log('***************************');
+        console.log(inputs[0].type);
         console.log(this.data.option);
         console.log('nextt questt');
         console.log(this.go);
