@@ -1,5 +1,5 @@
 
-angular.module 'PatientApp', ['ionic', 'PatientApp.init', 'PatientApp.storage'
+angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage'
 			,'PatientApp.Global','PatientApp.Auth','PatientApp.Quest'
 			, 'PatientApp.main', 'PatientApp.dashboard']
 
