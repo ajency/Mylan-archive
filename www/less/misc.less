@@ -97,7 +97,12 @@
 			
 		}
 		.right-buttons{
-				.button.button-icon{
+				position: absolute;
+				right: 0;
+				
+				.button{
+					float: left;
+					&.button-icon{
 					width: 2.000em;
 					&::before{
 					font-size: 25px;
@@ -105,6 +110,7 @@
 				}
 			}
 		}
+	}
 		&.bar-footer{
 			border-top: 0.071em solid #ddd;
 			&.submission{

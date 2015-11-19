@@ -89,6 +89,13 @@ hr.broad {
   text-align: left;
   color: #ffffff;
 }
+.bar.bar-header .right-buttons {
+  position: absolute;
+  right: 0;
+}
+.bar.bar-header .right-buttons .button {
+  float: left;
+}
 .bar.bar-header .right-buttons .button.button-icon {
   width: 2.000em;
 }
