@@ -1,7 +1,8 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', ($scope, App, QuestionAPI, $stateParams, $window, Storage)->
+	'$window', 'Storage', 'CToast', 
+	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast)->
 
 		$scope.view =
 			pastAnswerDiv : 0
@@ -63,19 +64,19 @@ angular.module 'PatientApp.Quest',[]
 								error = 1
 
 					if error == 1
-						console.log 'please enter all the values'
+						CToast.show 'please enter all the values'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'scq'
 					if @go == ''
-				 		console.log('please select value')
+				 		CToast.show 'please select value'
 				 	else 
 				 		App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'mcq'
 					if ! _.contains(_.pluck(@data.option, 'checked'), true)
-						console.log('please select value')
+						CToast.show 'please select value'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 

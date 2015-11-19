@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', function($scope, App, QuestionAPI, $stateParams, $window, Storage) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast) {
     $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -68,7 +68,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             });
           }
           if (error === 1) {
-            return console.log('please enter all the values');
+            return CToast.show('please enter all the values');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -76,7 +76,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'scq') {
           if (this.go === '') {
-            return console.log('please select value');
+            return CToast.show('please select value');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -84,7 +84,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'mcq') {
           if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
-            return console.log('please select value');
+            return CToast.show('please select value');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
