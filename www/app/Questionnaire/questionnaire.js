@@ -4,7 +4,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       pastAnswerDiv: 0,
       title: 'C-weight',
       data: [],
-      go: 'no_pain',
+      go: '',
       response: '',
       actionValue: {},
       getQuestion: function() {
@@ -53,45 +53,44 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       nextQuestion: function() {
-        var inputs, options;
-        inputs = document.getElementsByTagName('input');
-        console.log('***************************');
-        console.log(inputs[0].value);
-        console.log('***************************');
-        console.log(inputs[0].type);
-        console.log(this.data.option);
-        console.log('nextt questt');
-        console.log(this.go);
-        options = {
-          quizID: $stateParams.quizID,
-          questionId: this.data.questionId,
-          answerId: this.go,
-          action: 'submitted'
-        };
-        return QuestionAPI.saveAnswer(options).then((function(_this) {
-          return function(data) {
-            var action, v;
-            action = {
-              questionId: _this.data.questionId,
-              mode: 'next'
-            };
-            QuestionAPI.setAction('set', action);
-            v = QuestionAPI.setAction('get');
-            console.log(v);
-            _this.response = data;
-            if (_this.response.type === 'nextQuestion') {
-              return $window.location.reload();
-            } else {
-              return App.navigate('summary', {
-                quizID: _this.response.quizID
-              });
-            }
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
-          };
-        })(this));
+        var error, sizeOfField, sizeOfTestboxAns;
+        if (this.data.questionType === 'descr') {
+          error = 0;
+          sizeOfField = _.size(this.data.fields);
+          sizeOfTestboxAns = _.size(this.val_answerValue);
+          if (sizeOfTestboxAns !== sizeOfField) {
+            error = 1;
+          } else {
+            _.each(this.val_answerValue, function(value) {
+              if (value === null) {
+                return error = 1;
+              }
+            });
+          }
+          if (error === 1) {
+            return console.log('please enter all the values');
+          } else {
+            return App.navigate('summary', {
+              quizID: this.response.quizID
+            });
+          }
+        } else if (this.data.questionType === 'scq') {
+          if (this.go === '') {
+            return console.log('please select value');
+          } else {
+            return App.navigate('summary', {
+              quizID: this.response.quizID
+            });
+          }
+        } else if (this.data.questionType === 'mcq') {
+          if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
+            return console.log('please select value');
+          } else {
+            return App.navigate('summary', {
+              quizID: this.response.quizID
+            });
+          }
+        }
       },
       prevQuestion: function() {
         var action;
@@ -109,7 +108,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.pastAnswerDiv = 0;
       },
       reInit: function() {
-        return this.pastAnswerDiv = 0;
+        this.pastAnswerDiv = 0;
+        return this.go = '';
       }
     };
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {

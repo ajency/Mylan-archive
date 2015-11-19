@@ -76,6 +76,10 @@
               <div class="col">
                 <br>
                 <h4 class="f-w-400">What is your current weight ?</h4>
+                <div class="info-msg">
+                   <i class="icon ion-ios-information-outline text-green"></i> 
+                   <span>Please Complete EITHER Kg OR stones and lbs box</span>
+                </div>
                 <div class="row">
                   <div 
                     class="col"
@@ -83,23 +87,18 @@
                     <label class="item-input item-icon-right b-b">
                     <input 
                       type="{{answerValue.type}}" 
-                      ng-model="val_answerValue.placeholder"
-                      >
-                      
+                      placeholder="{{answerValue.placeholder}}"
+                      ng-model="view.val_answerValue[answerValue.name]">
                     </label>
                   </div>
                 </div>
-                <br>
-                <div class="info-msg">
-                   <i class="icon ion-ios-information-outline text-green"></i> 
-                   <span>Please Complete EITHER Kg OR stones and lbs box</span>
-                </div>
-                  <br>
               </div>
           </div>
 
           <div>
-              <div class="padding">
+              <div 
+                class="padding"
+                ng-if = 'view.data.questionType == "scq" || view.data.questionType == "mcq"'>
                     <div class="col">
                         <h5 class="f-w-400">{{view.data.questionTittle}} ?</h5>
                         <br>
@@ -115,7 +114,7 @@
                 ng-if = 'view.data.questionType == "scq"'>
                 <label class="item item-radio"
                   ng-repeat ="answerValue in view.data.option">
-                    <input type="radio" name="group" ng-model="answerValue.go" 
+                    <input type="radio" name="group" ng-model="view.go" 
                       ng-value="answerValue.value" >
                       <div class="item-content">
                        {{answerValue.answer}} 

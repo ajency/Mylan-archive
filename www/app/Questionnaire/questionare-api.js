@@ -17,14 +17,14 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       };
       data = {
         questionId: '112',
-        questionType: 'descr',
+        questionType: 'scq',
         questionTittle: 'what is your current Statement best describes your pain',
         option: {
           0: {
             id: '1',
             answer: 'No Pain',
             value: 'no_pain',
-            checked: true
+            checked: false
           },
           1: {
             id: '2',
@@ -42,15 +42,18 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
         fields: {
           0: {
             type: 'number',
-            placeholder: 'kgs'
+            placeholder: 'kgs',
+            name: 'kgs'
           },
           1: {
             type: 'number',
-            placeholder: 'St'
+            placeholder: 'St',
+            name: 'St'
           },
           2: {
             type: 'number',
-            placeholder: 'St'
+            placeholder: 'lbs',
+            name: 'lbs'
           }
         },
         pastAnswer: 'Pain present, and i take ocassional pain releiving medication',

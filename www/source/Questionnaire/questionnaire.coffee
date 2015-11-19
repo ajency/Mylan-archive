@@ -7,7 +7,7 @@ angular.module 'PatientApp.Quest',[]
 			pastAnswerDiv : 0
 			title: 'C-weight'
 			data : []
-			go : 'no_pain'
+			go : ''
 			response : ''
 			actionValue : {}
 
@@ -50,13 +50,40 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
-				# console.log '***************************'
-				inputs = document.getElementsByTagName('input')
-				console.log '***************************'
-				console.log inputs[0].value
-				console.log '***************************'
-				console.log inputs[0].type
-				console.log @data.option
+				
+				if @data.questionType == 'descr'
+					error = 0
+					sizeOfField = _.size(@data.fields)
+					sizeOfTestboxAns = _.size(@val_answerValue)
+					if (sizeOfTestboxAns != sizeOfField)
+						error = 1
+					else
+						_.each @val_answerValue, (value)->
+							if value == null
+								error = 1
+
+					if error == 1
+						console.log 'please enter all the values'
+					else
+						App.navigate 'summary', quizID: @response.quizID
+
+				else if @data.questionType == 'scq'
+					if @go == ''
+				 		console.log('please select value')
+				 	else 
+				 		App.navigate 'summary', quizID: @response.quizID
+
+				else if @data.questionType == 'mcq'
+					if ! _.contains(_.pluck(@data.option, 'checked'), true)
+						console.log('please select value')
+					else
+						App.navigate 'summary', quizID: @response.quizID
+
+
+
+
+
+				
 
 				# if data.questionType == scq
 				# if @go == ''
@@ -70,33 +97,33 @@ angular.module 'PatientApp.Quest',[]
 				# 	ctoast('please select value')
 
 
-				console.log 'nextt questt'
-				console.log @go
-				options = 
-					quizID: $stateParams.quizID
-					questionId : @data.questionId
-					answerId : @go
-					action : 'submitted'
+				# console.log 'nextt questt'
+				# console.log @go
+				# options = 
+				# 	quizID: $stateParams.quizID
+				# 	questionId : @data.questionId
+				# 	answerId : @go
+				# 	action : 'submitted'
 
-				QuestionAPI.saveAnswer options
-				.then (data)=>
-					action =
-						questionId : @data.questionId
-						mode : 'next'
+				# QuestionAPI.saveAnswer options
+				# .then (data)=>
+				# 	action =
+				# 		questionId : @data.questionId
+				# 		mode : 'next'
 
-					QuestionAPI.setAction 'set', action
+				# 	QuestionAPI.setAction 'set', action
 
-					v = QuestionAPI.setAction 'get'
-					console.log v
+				# 	v = QuestionAPI.setAction 'get'
+				# 	console.log v
 
-					@response = data 
-					if @response.type == 'nextQuestion' 
-						$window.location.reload()
-						# App.navigate 'questionnaire', quizID: @response.quizID
-					else
-						App.navigate 'summary', quizID: @response.quizID
-				, (error)=>
-					console.log 'err'
+				# 	@response = data 
+				# 	if @response.type == 'nextQuestion' 
+				# 		$window.location.reload()
+				# 		# App.navigate 'questionnaire', quizID: @response.quizID
+				# 	else
+				# 		App.navigate 'summary', quizID: @response.quizID
+				# , (error)=>
+				# 	console.log 'err'
 
 			prevQuestion : ->
 				action =
@@ -115,6 +142,7 @@ angular.module 'PatientApp.Quest',[]
 
 			reInit : ->
 				@pastAnswerDiv = 0
+				@go = ''
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
