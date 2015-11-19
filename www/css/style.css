@@ -63,6 +63,13 @@ hr.broad {
 .text-muted {
   color: #b1b1b1;
 }
+.dashboard p {
+  line-height: 18px;
+  margin-bottom: 0;
+}
+.dashboard .title {
+  margin-bottom: 5px;
+}
 /***HEADER STYLES***/
 .bar.bar-header {
   box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
@@ -167,7 +174,7 @@ h3.line-title span {
   float: left;
   margin-right: 7px;
   position: relative;
-  top: -5px;
+  top: -4px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -351,6 +358,8 @@ input[id=password] {
 }
 .clm-list h6.f-w-400 i {
   font-size: 1.429em;
+  position: relative;
+  top: 2px;
 }
 .loading-container .loading {
   background: transparent;
