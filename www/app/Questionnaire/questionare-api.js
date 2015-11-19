@@ -18,7 +18,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       data = {
         questionId: '112',
         questionType: 'scq',
-        questionTittle: 'what is your current Statement best describes your pain',
+        questionTittle: 'Which statement best describes your pain ?',
         option: {
           0: {
             id: '1',
@@ -28,13 +28,13 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
           },
           1: {
             id: '2',
-            answer: 'Pain present but not needed for pain killer',
+            answer: 'Pain present, but no need for pain killer',
             value: 'pain_present',
             checked: false
           },
           2: {
             id: '3',
-            answer: 'Pain present, and i take ocassional pain releiving medication',
+            answer: 'Pain present and I take occasional pain relieving medication',
             value: 'take_medication',
             checked: false
           }
@@ -53,7 +53,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
             placeholder: 'St'
           }
         },
-        pastAnswer: 'Pain present, and i take ocassional pain releiving medication',
+        pastAnswer: 'Pain present and I take occasional pain relieving medication',
         submitedDate: '5-11-2015',
         previousAnswered: '1',
         previousQuestion: 'true'
@@ -88,16 +88,16 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       data = {
         summary: {
           0: {
-            question: 'Which statement best describes your pain',
-            answer: 'pain is present ,but not needed for pain killer'
+            question: 'Which statement best describes your pain ?',
+            answer: 'Pain present, but no need for pain killer'
           },
           1: {
-            question: 'Which statement best describes your pain',
-            answer: 'pain is present ,but not needed for pain killer'
+            question: 'Which statement best describes your pain ?',
+            answer: 'Pain present, but no need  for pain killer'
           },
           2: {
-            question: 'Which statement best describes your pain',
-            answer: 'pain is present ,but not needed for pain killer'
+            question: 'Which statement best describes your pain ?',
+            answer: 'Pain present, but no need  for pain killer'
           }
         }
       };
