@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
+use Crypt;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
-
+use App\UserDevice;
+use App\HospitalUser;
+use App\Hospital;
 
 class UserController extends Controller
 {
@@ -89,8 +92,98 @@ class UserController extends Controller
 
     public function doSetup(Request $request)
     {
-        $data = $request->all();dd($data);
+        $data = $request->all();  
         $referenceCode = $data['referenceCode'];
+        $deviceIdentifier = $data['deviceIdentifier'];
+        $user = User::where('reference_Code',$referenceCode)->first(); 
+        
+        if($user==null)
+        {
+            $json_resp = array(
+                'code' => 'invalid_reference_code' , 
+                'message' => 'reference code does not match',
+                'hospitalData' => array()
+                );
+            $status_code = 404;
+        }
+        else
+        {
+            $userId = $user['id'];
+            $hospitalData = $this -> getHospitalData($userId);
 
+            $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count(); 
+            if($userDeviceCount)
+            {
+                $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
+                if($userDevice)
+                {
+                    $json_resp = array(
+                    'code' => 'do_login' , 
+                    'message' => 'Device exist',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 200;
+                }
+                else
+                {
+                    $json_resp = array(
+                    'code' => 'new_setup' , 
+                    'message' => 'Device does not exist',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 404;
+                }
+            }
+            else
+            {
+                $json_resp = array(
+                'code' => 'new_setup' , 
+                'message' => 'Device does not exist',
+                'hospitalData' => $hospitalData
+                );
+                $status_code = 404;
+            }
+
+        }
+
+         return response()->json( $json_resp, $status_code);        
+
+    }
+
+    public function getHospitalData($userId)
+    {
+
+        $hospitalUser = HospitalUser::where('user_id',$userId)->get()->first(); 
+         
+        $hospital = $hospitalUser->hospital()->get()->first();
+        $department = $hospitalUser->department()->get()->first();
+
+        $hospitalData['hospital'] = $hospital['name'];
+        $hospitalData['department'] = $department['name'];
+
+        return $hospitalData;
+    }
+
+    public function doLogin(Request $request)
+    {
+        $data = $request->all();  
+        $referenceCode = $data['referenceCode'];
+        $password = Crypt::encrypt($data['password'])
+
+        $user = User::where('reference_Code',$referenceCode)->first(); 
+        
+        if($user==null)
+        {
+            $json_resp = array(
+                'code' => 'invalid_user' , 
+                'message' => 'In valid user',
+                'hospitalData' => array()
+                );
+            $status_code = 404;
+        }
+        else
+        {
+            dd($password);
+        }
     }
 }
