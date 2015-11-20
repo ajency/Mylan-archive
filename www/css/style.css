@@ -404,7 +404,7 @@ input[id=password] {
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-@media (min-height: 768px) {
+@media (max-width: 1024px) {
   .centering {
     padding-top: 10%;
   }
