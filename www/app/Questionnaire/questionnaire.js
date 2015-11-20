@@ -68,7 +68,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             });
           }
           if (error === 1) {
-            return CToast.show('please enter all the values');
+            return CToast.show('Please enter the values');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -76,7 +76,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'scq') {
           if (this.go === '') {
-            return CToast.show('please select value');
+            return CToast.show('Please select your answer');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -84,7 +84,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'mcq') {
           if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
-            return CToast.show('please select value');
+            return CToast.show('Please select your answer');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID

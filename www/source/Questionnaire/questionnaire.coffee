@@ -64,19 +64,19 @@ angular.module 'PatientApp.Quest',[]
 								error = 1
 
 					if error == 1
-						CToast.show 'please enter all the values'
+						CToast.show 'Please enter the values'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'scq'
 					if @go == ''
-				 		CToast.show 'please select value'
+				 		CToast.show 'Please select your answer'
 				 	else 
 				 		App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'mcq'
 					if ! _.contains(_.pluck(@data.option, 'checked'), true)
-						CToast.show 'please select value'
+						CToast.show 'Please select your answer'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 
