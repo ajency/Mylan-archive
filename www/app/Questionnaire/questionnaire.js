@@ -7,6 +7,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       go: '',
       response: '',
       actionValue: {},
+      errorType: 'No net connection',
+      display: 'error',
       getQuestion: function() {
         var options;
         Storage.login('get').then(function(value) {
@@ -112,6 +114,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       reInit: function() {
         this.pastAnswerDiv = 0;
         return this.go = '';
+      },
+      onTapToRetry: function() {
+        return console.log('onTapToRetry');
       }
     };
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {

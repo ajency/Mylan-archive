@@ -1,4 +1,5 @@
 <ion-view
+  ng-init="view.init();"
   hide-back-button="true">
 <!-- <ion-pane class="has-header" ng-init="view.init();"> -->
    
@@ -10,7 +11,12 @@
         </div>
     </div> -->
 
-   <ion-content ng-init="view.init();" class="has-footer">
+   <ion-content  class="has-footer">
+
+    <div ng-switch="view.display">
+      <div
+        ng-switch-when="noError">
+
        <div class="swipe-down" 
           ng-click = "view.showDiv()"
           ng-if="!view.pastAnswerDiv">
@@ -71,7 +77,7 @@
           </div>
 
           <hr class="broad"> -->
-      
+
           <div 
             class="padding"
             ng-if = 'view.data.questionType == "descr"'>
@@ -140,7 +146,20 @@
                 </li>
               </ul>
          </div>
+
+       
+        </div>
+
+        <aj-error class="errors"
+            error-type="view.errorType"
+            ng-switch-when="error"
+            tap-to-retry="view.onTapToRetry();">
+        </aj-error>
+
+      </div>
+
     </ion-content>
+    
      <div class="bar bar-footer bar-light">
            <button 
               class="button button-icon pull-left text-green"

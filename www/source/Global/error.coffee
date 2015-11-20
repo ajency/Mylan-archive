@@ -10,22 +10,14 @@ angular.module 'PatientApp.Global'
 	scope:
 		tapToRetry: '&'
 		errorType: '='
+		setTy: '='
 	
 	link: (scope, el, attr)->
-		console.log scope.errorType
-		# switch scope.errorType
-		# 	when 'offline'
-		# 		errorMsg = 'No internet availability'
-		# 	when 'server_error'
-		# 		errorMsg = 'Could not connect to server'
-		# 	when 'session_expired'
-		# 		errorMsg = 'Your session has expired'
-		# 	else
-		# 		errorMsg = 'Unknown error'
-		
-		# scope.errorMsg = errorMsg
 
-		# scope.onTryAgain = ->
-		# 	scope.tapToRetry()
+		scope.errorMsg = scope.errorType
+
+		scope.onTryAgain = ->
+			scope.tapToRetry()
+
 ]
 

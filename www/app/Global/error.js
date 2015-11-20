@@ -6,10 +6,14 @@ angular.module('PatientApp.Global').directive('ajError', [
       templateUrl: 'views/error-view/error.html',
       scope: {
         tapToRetry: '&',
-        errorType: '='
+        errorType: '=',
+        setTy: '='
       },
       link: function(scope, el, attr) {
-        return console.log(scope.errorType);
+        scope.errorMsg = scope.errorType;
+        return scope.onTryAgain = function() {
+          return scope.tapToRetry();
+        };
       }
     };
   }

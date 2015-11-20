@@ -5,15 +5,16 @@ angular.module 'PatientApp.Quest',[]
 	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast)->
 
 		$scope.view =
+			# noError / error / loader
 			pastAnswerDiv : 0
 			title: 'C-weight'
 			data : []
 			go : ''
 			response : ''
 			actionValue : {}
-
-
-
+			errorType : 'No net connection'
+			display : 'error'
+			
 			getQuestion : ->
 				Storage.login('get').then (value) ->
 					console.log '*****************'
@@ -146,6 +147,9 @@ angular.module 'PatientApp.Quest',[]
 			reInit : ->
 				@pastAnswerDiv = 0
 				@go = ''
+
+			onTapToRetry : ->
+				console.log 'onTapToRetry'
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
