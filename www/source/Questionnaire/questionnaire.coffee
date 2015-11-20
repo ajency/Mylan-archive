@@ -56,7 +56,9 @@ angular.module 'PatientApp.Quest',[]
 					error = 0
 					sizeOfField = _.size(@data.fields)
 					sizeOfTestboxAns = _.size(@val_answerValue)
-					if (sizeOfTestboxAns != sizeOfField)
+					console.log '******----******'
+					console.log sizeOfTestboxAns
+					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
 						_.each @val_answerValue, (value)->

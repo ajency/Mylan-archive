@@ -58,7 +58,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           error = 0;
           sizeOfField = _.size(this.data.fields);
           sizeOfTestboxAns = _.size(this.val_answerValue);
-          if (sizeOfTestboxAns !== sizeOfField) {
+          console.log('******----******');
+          console.log(sizeOfTestboxAns);
+          if (sizeOfTestboxAns === 0) {
             error = 1;
           } else {
             _.each(this.val_answerValue, function(value) {
