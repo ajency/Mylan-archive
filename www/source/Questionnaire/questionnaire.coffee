@@ -5,15 +5,16 @@ angular.module 'PatientApp.Quest',[]
 	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast)->
 
 		$scope.view =
+			# noError / error / loader
 			pastAnswerDiv : 0
 			title: 'C-weight'
 			data : []
 			go : ''
 			response : ''
 			actionValue : {}
-
-
-
+			errorType : 'No net connection'
+			display : 'error'
+			
 			getQuestion : ->
 				Storage.login('get').then (value) ->
 					console.log '*****************'
@@ -56,7 +57,9 @@ angular.module 'PatientApp.Quest',[]
 					error = 0
 					sizeOfField = _.size(@data.fields)
 					sizeOfTestboxAns = _.size(@val_answerValue)
-					if (sizeOfTestboxAns != sizeOfField)
+					console.log '******----******'
+					console.log sizeOfTestboxAns
+					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
 						_.each @val_answerValue, (value)->
@@ -64,19 +67,19 @@ angular.module 'PatientApp.Quest',[]
 								error = 1
 
 					if error == 1
-						CToast.show 'please enter all the values'
+						CToast.show 'Please enter the values'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'scq'
 					if @go == ''
-				 		CToast.show 'please select value'
+				 		CToast.show 'Please select your answer'
 				 	else 
 				 		App.navigate 'summary', quizID: @response.quizID
 
 				else if @data.questionType == 'mcq'
 					if ! _.contains(_.pluck(@data.option, 'checked'), true)
-						CToast.show 'please select value'
+						CToast.show 'Please select your answer'
 					else
 						App.navigate 'summary', quizID: @response.quizID
 
@@ -144,6 +147,9 @@ angular.module 'PatientApp.Quest',[]
 			reInit : ->
 				@pastAnswerDiv = 0
 				@go = ''
+
+			onTapToRetry : ->
+				console.log 'onTapToRetry'
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()

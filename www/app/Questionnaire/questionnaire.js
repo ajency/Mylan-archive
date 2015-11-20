@@ -7,6 +7,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       go: '',
       response: '',
       actionValue: {},
+      errorType: 'No net connection',
+      display: 'error',
       getQuestion: function() {
         var options;
         Storage.login('get').then(function(value) {
@@ -58,7 +60,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           error = 0;
           sizeOfField = _.size(this.data.fields);
           sizeOfTestboxAns = _.size(this.val_answerValue);
-          if (sizeOfTestboxAns !== sizeOfField) {
+          console.log('******----******');
+          console.log(sizeOfTestboxAns);
+          if (sizeOfTestboxAns === 0) {
             error = 1;
           } else {
             _.each(this.val_answerValue, function(value) {
@@ -68,7 +72,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             });
           }
           if (error === 1) {
-            return CToast.show('please enter all the values');
+            return CToast.show('Please enter the values');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -76,7 +80,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'scq') {
           if (this.go === '') {
-            return CToast.show('please select value');
+            return CToast.show('Please select your answer');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -84,7 +88,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         } else if (this.data.questionType === 'mcq') {
           if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
-            return CToast.show('please select value');
+            return CToast.show('Please select your answer');
           } else {
             return App.navigate('summary', {
               quizID: this.response.quizID
@@ -110,6 +114,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       reInit: function() {
         this.pastAnswerDiv = 0;
         return this.go = '';
+      },
+      onTapToRetry: function() {
+        return console.log('onTapToRetry');
       }
     };
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
