@@ -13,7 +13,7 @@ angular.module 'PatientApp.Quest',[]
 			response : ''
 			actionValue : {}
 			errorType : 'No net connection'
-			display : 'error'
+			display : 'loader'
 			
 			getQuestion : ->
 				Storage.login('get').then (value) ->

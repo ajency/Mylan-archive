@@ -8,7 +8,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       response: '',
       actionValue: {},
       errorType: 'No net connection',
-      display: 'error',
+      display: 'loader',
       getQuestion: function() {
         var options;
         Storage.login('get').then(function(value) {
