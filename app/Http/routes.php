@@ -21,5 +21,5 @@ Route::get('/', function () {
 Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
     Route::post( 'user/dosetup', 'Rest\UserController@doSetup' );
     Route::post( 'user/login', 'Rest\UserController@doLogin' );
-    Route::get( 'user/create', 'Rest\UserController@create' );
+    Route::post( 'user/setpassword', 'Rest\UserController@setPassword' );
 } );

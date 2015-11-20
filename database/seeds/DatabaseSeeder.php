@@ -34,7 +34,7 @@ class UserTableSeeder extends Seeder {
         User::create( [
             'reference_code' => '12345678',
             'reference_number' => Hash::make( '123456' ),
-            'password' => Crypt::encrypt('1234'),
+            'password' => Hash::make( getPassword('12345678' , '1234') ),
             'account_status' => 'active',
             'hospital_id' => '',
             'project_id' => ''

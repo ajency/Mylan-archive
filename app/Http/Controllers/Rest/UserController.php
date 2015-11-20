@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
 
-use Crypt;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
@@ -32,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        echo '1321231';
+         
     }
 
     /**
@@ -114,8 +114,17 @@ class UserController extends Controller
             $projectId = $user['project_id'];
             $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
 
-            $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count(); 
-            if($userDeviceCount)
+            $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
+            if($userDeviceCount >=5)
+            {
+                $json_resp = array(
+                    'code' => 'limit_exceeded' , 
+                    'message' => 'cannot do setup more then 5 times',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 403;
+            }
+            elseif($userDeviceCount)
             {
                 $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
                 if($userDevice)
@@ -129,22 +138,14 @@ class UserController extends Controller
                 }
                 else
                 {
-                    $json_resp = array(
-                    'code' => 'new_setup' , 
-                    'message' => 'Device does not exist',
-                    'hospitalData' => $hospitalData
-                    );
-                    $status_code = 404;
+                    //add device
+                    $this->addDevice($data,$userId,$hospitalData,'do_login');
                 }
             }
             else
             {
-                $json_resp = array(
-                'code' => 'new_setup' , 
-                'message' => 'Device does not exist',
-                'hospitalData' => $hospitalData
-                );
-                $status_code = 404;
+                //New setup
+                $this->addDevice($data,$userId,$hospitalData,'set_password');
             }
 
         }
@@ -175,27 +176,97 @@ class UserController extends Controller
         return $hospitalData;
     }
 
+    public function addDevice($deviceData,$userId,$hospitalData,$returnTo)
+    {
+        $userDevice =  new UserDevice();
+        $userDevice->user_id = $userId;
+        $userDevice->device_type = $deviceData['deviceType'];
+        $userDevice->device_identifier = $deviceData['deviceIdentifier'];
+        $userDevice->device_os = $deviceData['deviceOS'];
+        $userDevice->access_type = $deviceData['accessType'];
+        $userDevice->save();
+
+        $json_resp = array(
+                    'code' => $returnTo , 
+                    'message' => 'Device exist',
+                    'hospitalData' => $hospitalData
+                    );
+
+        return response()->json( $json_resp, 200);             
+         
+    }
+
     public function doLogin(Request $request)
     {
         $data = $request->all();  
         $referenceCode = $data['referenceCode'];
-        $password = Crypt::encrypt($data['password']);
-        dd($password);
-
+        $password = trim($data['password']);
+        $newpassword = getPassword($referenceCode , $password);
+ 
         $user = User::where('reference_Code',$referenceCode)->first(); 
         
         if($user==null)
         {
             $json_resp = array(
                 'code' => 'invalid_user' , 
-                'message' => 'In valid user',
-                'hospitalData' => array()
+                'message' => 'In valid user'
                 );
             $status_code = 404;
         }
         else
         {
             
+            if (Hash::check($newpassword, $user['password']))  
+            {
+                $json_resp = array(
+                'code' => 'successful_login' , 
+                'message' => 'Successfully logged in'
+                );
+                $status_code = 200;
+            }
+            else
+            {
+               $json_resp = array(
+                'code' => 'invalid_login' , 
+                'message' => 'Invalid Login details'
+                );
+                $status_code = 200; 
+            }
         }
+
+        return response()->json( $json_resp, $status_code); 
+    }
+
+    public function setPassword(Request $request)
+    {
+        $data = $request->all();  
+        $referenceCode = $data['referenceCode'];
+        $password = trim($data['password']);
+        $newpassword = getPassword($referenceCode , $password);
+ 
+        $user = User::where('reference_Code',$referenceCode)->first(); 
+        
+        if($user==null)
+        {
+            $json_resp = array(
+                'code' => 'invalid_user' , 
+                'message' => 'In valid user'
+                );
+            $status_code = 404;
+        }
+        else
+        {    
+            $user->password = Hash::make($newpassword);
+            $user->save();
+
+                $json_resp = array(
+                'code' => 'do_login' , 
+                'message' => 'Setup Successfully done'
+                );
+                $status_code = 200;
+       
+        }
+
+        return response()->json( $json_resp, $status_code); 
     }
 }
