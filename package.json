@@ -24,6 +24,10 @@
     {
       "locator": "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
       "id": "cordova-plugin-x-toast"
+    },
+    {
+      "locator": "https://github.com/Paldom/SpinnerDialog.git",
+      "id": "hu.dpal.phonegap.plugins.SpinnerDialog"
     }
   ],
   "cordovaPlatforms": [

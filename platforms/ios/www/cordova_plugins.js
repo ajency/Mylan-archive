@@ -53,6 +53,13 @@ module.exports = [
     {
         "file": "plugins/cordova-plugin-x-toast/test/tests.js",
         "id": "cordova-plugin-x-toast.tests"
+    },
+    {
+        "file": "plugins/hu.dpal.phonegap.plugins.SpinnerDialog/www/spinner.js",
+        "id": "hu.dpal.phonegap.plugins.SpinnerDialog.SpinnerDialog",
+        "merges": [
+            "window.plugins.spinnerDialog"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -64,7 +71,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "1.0.1",
     "cordova-plugin-whitelist": "1.0.0",
     "ionic-plugin-keyboard": "1.0.7",
-    "cordova-plugin-x-toast": "2.2.1"
+    "cordova-plugin-x-toast": "2.2.1",
+    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1"
 }
 // BOTTOM OF METADATA
 });

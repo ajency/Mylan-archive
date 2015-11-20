@@ -22,20 +22,20 @@ angular.module 'PatientApp.Global'
 ]
 
 
-# .factory 'CSpinner', ['$cordovaSpinnerDialog', 'App', ($cordovaSpinnerDialog, App)->
+.factory 'CSpinner', ['$cordovaSpinnerDialog', 'App', ($cordovaSpinnerDialog, App)->
 	
-# 	CSpinner = {}
-# 	webview = App.isWebView()
+	CSpinner = {}
+	webview = App.isWebView()
 
-# 	CSpinner.show = (title, message, persistent=true)->
-# 		if webview then $cordovaSpinnerDialog.show title, message, persistent
-# 		else console.log message
+	CSpinner.show = (title, message, persistent=true)->
+		if webview then $cordovaSpinnerDialog.show title, message, persistent
+		else console.log message
 
-# 	CSpinner.hide = ->
-# 		$cordovaSpinnerDialog.hide() if webview
+	CSpinner.hide = ->
+		$cordovaSpinnerDialog.hide() if webview
 
-# 	CSpinner
-# ]
+	CSpinner
+]
 
 
 # .factory 'CDialog', ['$cordovaDialogs', 'App', ($cordovaDialogs, App)->

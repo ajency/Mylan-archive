@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"Toast\"><param name=\"ios-package\" value=\"Toast\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SpinnerDialog\"><param name=\"ios-package\" value=\"CDVSpinnerDialog\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -81,6 +85,9 @@
             "PACKAGE_NAME": "com.ionicframework.starter"
         },
         "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "com.ionicframework.mylan393718"
+        },
+        "hu.dpal.phonegap.plugins.SpinnerDialog": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         }
     },

@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', 'CToast', 
-	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast)->
+	'$window', 'Storage', 'CToast', 'CSpinner'
+	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner)->
 
 		$scope.view =
 			# noError / error / loader
@@ -13,7 +13,7 @@ angular.module 'PatientApp.Quest',[]
 			response : ''
 			actionValue : {}
 			errorType : 'No net connection'
-			display : 'loader'
+			display : 'noError'
 			
 			getQuestion : ->
 				Storage.login('get').then (value) ->
@@ -52,7 +52,8 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
-				
+				# CSpinner.show '', 'Please wait..'
+				# CSpinner.hide()
 				if @data.questionType == 'descr'
 					error = 0
 					sizeOfField = _.size(@data.fields)

@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', 'CSpinner', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner) {
     $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -8,7 +8,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       response: '',
       actionValue: {},
       errorType: 'No net connection',
-      display: 'loader',
+      display: 'noError',
       getQuestion: function() {
         var options;
         Storage.login('get').then(function(value) {
