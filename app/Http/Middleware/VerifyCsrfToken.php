@@ -13,7 +13,8 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'api/v1/user/dosetup',
-        'api/v1/user/login'
+        'api/v1/user/login',
+        'api/v1/user/create',
     ];
 
 }
