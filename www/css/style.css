@@ -453,6 +453,9 @@ input[id=password] {
     font-size: 34px;
     top: -8px;
   }
+  .info-msg .span-gray {
+    color: #5D5D5D;
+  }
   .button {
     min-height: 55px;
     font-size: 20px;
@@ -463,7 +466,34 @@ input[id=password] {
     min-height: 40px;
   }
   .item-input input {
-    height: 49px;
+    height: 53px;
+    font-size: 20px;
+  }
+  .item-input input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: #333;
+    font-size: 21px;
+    font-weight: 200;
+  }
+  .item-input input::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: #333;
+    font-size: 21px;
+    font-weight: 200;
+  }
+  .item-input input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #333;
+    opacity: 1;
+    font-size: 21px;
+    font-weight: 200;
+  }
+  .item-input input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #333;
+    opacity: 1;
+    font-size: 21px;
+    font-weight: 200;
   }
   .clm-list .button {
     margin: -2px;
@@ -484,12 +514,23 @@ input[id=password] {
   .list.list-inset .ion-eye,
   .question-popup .ion-eye {
     font-size: 35px;
+    padding: 14px;
   }
   .has-header {
     top: 55px;
   }
   .has-footer {
     bottom: 55px;
+  }
+  .bg-yellow {
+    border-bottom: 1px solid #EAEBBA;
+  }
+  .bg-yellow p {
+    font-size: 18px;
+  }
+  .bg-yellow h5,
+  .bg-yellow .col {
+    margin: 0;
   }
   /***NAVBAR***/
   .bar.bar-header {
@@ -506,7 +547,7 @@ input[id=password] {
     margin: 0 0 0 10px;
   }
   .bar.bar-header .right-buttons {
-    top: 6px;
+    top: 3px;
     right: 6px;
   }
   .bar.bar-header .right-buttons .button.button-icon {
@@ -515,11 +556,22 @@ input[id=password] {
   .bar.bar-header .right-buttons .button.button-icon::before {
     font-size: 32px;
   }
+  .bar.bar-header .right-buttons .button.button-outline {
+    width: 39px;
+    height: 39px;
+  }
+  .bar.bar-header .right-buttons .button.button-outline.ion-pause:before {
+    font-size: 22px;
+  }
+  .bar.bar-header .right-buttons .button.button-outline.ion-close:before {
+    font-size: 21px;
+  }
   .bar.bar-footer {
     height: 55px;
   }
   .bar.bar-footer .button {
     margin: 0;
+    font-size: 18px;
   }
   .bar.bar-footer .button.button-icon .icon:before {
     font-size: 40px;
@@ -539,9 +591,10 @@ input[id=password] {
     left: 15px;
   }
   .no-list .no {
-    width: 60px;
-    height: 60px;
-    top: -1;
+    width: 30px;
+    height: 30px;
+    top: -5px;
+    font-size: 14px;
   }
   .notification {
     width: 17px;

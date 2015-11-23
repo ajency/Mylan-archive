@@ -481,6 +481,9 @@
 			font-size: 34px;
 			top: -8px;
 		}
+		.span-gray{
+			color: #5D5D5D;
+		}
 	}
 	.button{
 		min-height: 55px;
@@ -493,8 +496,31 @@
 	}
 
 	.item-input input{
-		height: 49px;
-
+		height: 53px;
+		font-size: 20px;
+    	
+			&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			color:    #333;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			color:    #333;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color:    #333;
+			opacity:  1;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color:    #333;
+			opacity:  1;
+			font-size: 21px;
+			font-weight: 200;
+		}
 	}
 	.clm-list{
 		.button{
@@ -515,6 +541,7 @@
 	.list.list-inset,.question-popup{
   		i.ion-ios-help-outline,.ion-eye{
   		font-size: 35px;
+  		padding: 14px;
   	}
   }
 
@@ -523,6 +550,15 @@
 	}
 .has-footer{
 	bottom: 55px;
+}
+.bg-yellow{
+	border-bottom: 1px solid #EAEBBA;
+	p{
+		font-size: 18px;
+	}
+	h5,.col{
+		margin:0;
+	}
 }
 /***NAVBAR***/
   	.bar{
@@ -539,7 +575,7 @@
 			margin:0 0 0 10px;
 		}
 		.right-buttons{
-			top:6px;
+			top:3px;
 			right: 6px;
 				.button{
 					
@@ -549,15 +585,26 @@
 					font-size: 32px;
 					}
 				}
+				&.button-outline{
+					width: 39px;
+    				height: 39px;
+    				&.ion-pause:before{
+    					font-size: 22px;
+    				}
+    				&.ion-close:before{
+    					font-size: 21px;
+    				}
+				}
 			}
 			
 		}
+
 	}
 	&.bar-footer{
 		height: 55px;
 		.button{
 			margin:0;
-			
+			font-size: 18px;
 			&.button-icon .icon:before{
 				font-size: 40px;
 			}
@@ -583,9 +630,10 @@
 		}
 	}
 	.no-list .no{
-		width: 60px;
-		height: 60px;
-		top:-1
+		width: 30px;
+		height: 30px;
+		top:-5px;
+		font-size: 14px;
 	}
 	.notification{
   			width: 17px;

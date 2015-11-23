@@ -25,9 +25,9 @@
        <div class="swipe-down" 
           ng-click = "view.showDiv()"
           ng-if="!view.pastAnswerDiv">
-         <div class="row bg-yellow">
+         <div class="bg-yellow">
             <div class="col text-center">
-              <h5 class="f-w-400">Previous Answers:</h5>
+              <h6 class="f-w-400">Previous Answers</h6>
               <i class="icon ion-chevron-down"></i>
             </div>
           </div>
@@ -35,7 +35,7 @@
          <div class="bg-yellow" 
             ng-if="view.pastAnswerDiv"
             ng-click = "view.hideDiv()" >
-            <div class="padding">
+            <div class="row">
               <div class="col">
                   <p class="f-w-400">{{view.data.pastAnswer}}</p>
                   <hr>
@@ -43,10 +43,11 @@
                     <i class="icon ion-calendar"></i>
                     Submitted On {{view.data.submitedDate}}
                   </h6>
-                </div>
-                <div class="text-center">
+                  <div class="text-center">
                   <i class="icon ion-chevron-up"></i>
                 </div>
+                </div>
+                
             </div>
          </div>
           
@@ -116,7 +117,7 @@
                         <h5 class="f-w-400">{{view.data.questionTittle}}</h5>
                         <br>
                         <div class="info-msg">
-                          <i class="icon ion-ios-information-outline text-green"></i> <span>Select your Answer/ Answers</span>
+                          <i class="icon ion-ios-information-outline text-green"></i> <span class="span-gray">Select your Answer/ Answers</span>
                         </div>
                       <br>
                   </div>
