@@ -8,6 +8,8 @@ angular.module 'PatientApp.dashboard',[]
 			SubmissionData : []
 
 			startQuiz :(quizID) ->
+				Storage.getNextQuestion 'set' , 1
+
 				Storage.quizDetails 'set' , quizID: quizID 
 				App.navigate 'questionnaire', quizID: quizID
 

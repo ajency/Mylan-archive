@@ -52,6 +52,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.getItem('user_details');
       }
     };
+    Storage.getNextQuestion = function(action, questionNo) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('nextQuestion', questionNo);
+        case 'get':
+          return localforage.getItem('nextQuestion');
+      }
+    };
     return Storage;
   }
 ]);

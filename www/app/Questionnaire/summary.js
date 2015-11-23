@@ -31,6 +31,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(options).then((function(_this) {
           return function(data) {
+            Storage.getNextQuestion('set', 1);
             Storage.quizDetails('remove');
             return App.navigate('dashboard', {}, {
               animate: false,

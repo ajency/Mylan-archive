@@ -18,7 +18,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       data = {
         questionId: '112',
         questionType: 'mcq',
-        questionTittle: 'what is your current Statement best describes your pain',
+        questionTittle: 'What is your current Statement best describes your pain ?',
         option: {
           0: {
             id: '1',
