@@ -141,12 +141,24 @@ class UserController extends Controller
                 {
                     //add device
                     $this->addDevice($data,$userId,$hospitalData,'do_login');
+                     $json_resp = array(
+                    'code' => 'do_login' , 
+                    'message' => 'Device exist',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 200;
                 }
             }
             else
             {
                 //New setup
                 $this->addDevice($data,$userId,$hospitalData,'set_password');
+                 $json_resp = array(
+                    'code' => 'set_password' , 
+                    'message' => 'New setup done',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 200;
             }
 
         }
@@ -219,11 +231,13 @@ class UserController extends Controller
             
             if (Hash::check($newpassword, $user['password']))  
             {
+                $projectId = $user['project_id'];
                 $apiKey = $user->apiKey()->first();
                 $json_resp = array(
-                'user-auth-key'=> $apiKey['key'],
-                'code' => 'successful_login' , 
-                'message' => 'Successfully logged in'
+                    'project_id'=> $projectId,    
+                    'user-auth-key'=> $apiKey['key'],
+                    'code' => 'successful_login' , 
+                    'message' => 'Successfully logged in'
                 );
                 $status_code = 200;
             }
