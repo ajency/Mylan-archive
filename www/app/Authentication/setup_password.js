@@ -15,7 +15,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
             console.log('setup done');
             return App.navigate("main_login");
           } else {
-            return this.passwordmissmatch = 'Password Do Not Match Enter Again';
+            return this.passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.';
           }
         }
       },

@@ -337,8 +337,8 @@
 	.item.item-radio,.item.item-checkbox{
 		.item-content{
 			padding: 16px 16px 16px 60px;
-			    text-overflow: initial;
-    white-space: normal;
+			text-overflow: initial;
+    		white-space: normal;
 		}
 		&.item-radio input:checked ~ .radio-icon{
 			background: @color-light-green;
@@ -374,6 +374,9 @@
 			background: @color-light-green;
 			border-color:@color-light-green; 
 		}
+	}
+	.item.item-checkbox span{
+		white-space: normal;
 	}
 	.clm-list{
 		.button{
@@ -433,7 +436,7 @@
   /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-  @media(max-width:1024px){
+  @media(min-width:768px){
   	.centering{
   		padding-top: 10%;
   	}
@@ -507,7 +510,7 @@
 		font-size: 23px;
 	}
 	a,a.button-clear.btn-link{
-		  font-size: 20px;
+		  font-size: 23px;
 	}
 	.list.list-inset,.question-popup{
   		i.ion-ios-help-outline{
@@ -536,7 +539,7 @@
 			margin:0 0 0 10px;
 		}
 		.right-buttons{
-			top:4px;
+			top:6px;
 			right: 6px;
 				.button{
 					
@@ -552,22 +555,31 @@
 	}
 	&.bar-footer{
 		height: 55px;
-		button{
+		.button{
 			margin:0;
-			font-size: 20px;
-			i:before{
+			
+			&.button-icon .icon:before{
 				font-size: 40px;
 			}
 		}
 	}
 }
-	.item.item-radio,.item.item-checkbox{
+
+	.item.item-radio{
 		.item-content{
 			padding: 28px 16px 28px 69px;
 		}
 		.radio-icon{
 			left: 28px;
   			top: 35px;
+		}
+	}
+	.item.item-checkbox{
+		span{
+			padding: 10px;
+		}
+		.checkbox input, .checkbox-icon{
+			left: 15px;
 		}
 	}
 	.no-list .no{

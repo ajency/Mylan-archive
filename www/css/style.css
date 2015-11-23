@@ -347,6 +347,9 @@ input[id=password] {
   background: #7bc67a;
   border-color: #7bc67a;
 }
+.item.item-checkbox span {
+  white-space: normal;
+}
 .clm-list .button {
   margin: 0.286em;
 }
@@ -404,7 +407,7 @@ input[id=password] {
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-@media (max-width: 1024px) {
+@media (min-width: 768px) {
   .centering {
     padding-top: 10%;
   }
@@ -472,7 +475,7 @@ input[id=password] {
   }
   a,
   a.button-clear.btn-link {
-    font-size: 20px;
+    font-size: 23px;
   }
   .list.list-inset i.ion-ios-help-outline,
   .question-popup i.ion-ios-help-outline {
@@ -499,7 +502,7 @@ input[id=password] {
     margin: 0 0 0 10px;
   }
   .bar.bar-header .right-buttons {
-    top: 4px;
+    top: 6px;
     right: 6px;
   }
   .bar.bar-header .right-buttons .button.button-icon {
@@ -511,21 +514,25 @@ input[id=password] {
   .bar.bar-footer {
     height: 55px;
   }
-  .bar.bar-footer button {
+  .bar.bar-footer .button {
     margin: 0;
-    font-size: 20px;
   }
-  .bar.bar-footer button i:before {
+  .bar.bar-footer .button.button-icon .icon:before {
     font-size: 40px;
   }
-  .item.item-radio .item-content,
-  .item.item-checkbox .item-content {
+  .item.item-radio .item-content {
     padding: 28px 16px 28px 69px;
   }
-  .item.item-radio .radio-icon,
-  .item.item-checkbox .radio-icon {
+  .item.item-radio .radio-icon {
     left: 28px;
     top: 35px;
+  }
+  .item.item-checkbox span {
+    padding: 10px;
+  }
+  .item.item-checkbox .checkbox input,
+  .item.item-checkbox .checkbox-icon {
+    left: 15px;
   }
   .no-list .no {
     width: 60px;

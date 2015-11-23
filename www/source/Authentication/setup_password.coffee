@@ -26,7 +26,7 @@ angular.module 'PatientApp.Auth',[]
 							App.navigate "main_login"
 		
 						else	
-							@passwordmissmatch = 'Password Do Not Match Enter Again'
+							@passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.'
 
 			clear:->
 					@passwordmissmatch= ""	
