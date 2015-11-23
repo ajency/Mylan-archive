@@ -22,7 +22,8 @@
           ng-model="view.refrencecode"
           ng-click="view.cleardiv()"/>
         </label>
-        <label class="item item-input">
+        <label class="item item-input"
+        ng-hide = "view.showPassword">
           <input type="tel"  
           placeholder="Enter your Password"
           ng-model="view.password"
@@ -34,6 +35,37 @@
           maxlength="4"
           onlydigitinput="inputvalidation"/>
         </label>
+
+         <label class="item item-input"
+         ng-show = "view.showPassword">
+          <input type="tel"  
+          placeholder="Enter your Password"
+          ng-model="view.password"
+          
+
+          ng-click="view.cleardiv()"
+          min="1" 
+          max="99"
+          maxlength="4"
+          onlydigitinput="inputvalidation"/>
+        </label>
+
+
+        <div ng-show="view.showPassword">
+          <a  class="padding-horizontal show-password" 
+              ng-click="view.showPassword=false;" >
+              <i  class="icon ion-eye show-password shown"></i>
+            </a>
+
+        </div>
+        <div ng-hide="view.showPassword">
+          <a  class="padding-horizontal show-password" 
+              ng-click="view.showPassword=true;" >
+              <i  class="icon ion-eye show-password shown"></i>
+            </a>
+
+        </div>
+
         <div class="text-left text-danger">{{view.loginerror}}</div>
         <br>     
         

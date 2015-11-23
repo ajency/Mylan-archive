@@ -9,6 +9,7 @@ angular.module 'PatientApp.Auth'
 			loginerror: ''
 			password:''
 			refrencecode:''
+			showPassword: false
 
 			getrefcode :->
 				Storage.refcode('get').then (value)->
