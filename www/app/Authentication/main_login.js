@@ -5,6 +5,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       loginerror: '',
       password: '',
       refrencecode: '',
+      showPassword: false,
       getrefcode: function() {
         Storage.refcode('get').then(function(value) {
           return console.log(value);
