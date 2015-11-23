@@ -26,13 +26,13 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 data.option = {
                   0: {
                     id: '1',
-                    answer: 'No pain',
+                    answer: 'No change',
                     value: 'no_pain',
                     checked: false
                   },
                   1: {
                     id: '2',
-                    answer: 'Pain present but not needed for pain killer',
+                    answer: 'Lost upto 4 pounds',
                     value: 'pain_present',
                     checked: false
                   }
