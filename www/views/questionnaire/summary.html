@@ -4,17 +4,17 @@
          <div class="padding">
             <h5 class="f-w-400">
                Thank you for filling in your questionnaire. Please review your answers
-               below before submission.
+               below before you Submit.
             </h5>
             <br>
             <div class="row no-list">
                <div class="no"><b>1</b></div>
-               If your are ready to submit your answers, please click on "Submit"
+               <span>If your are ready to submit your answers, please click on "Submit"</span>
                </div>
             <br>
             <div class="row no-list">
                <div class="no"><b>2</b></div>
-               If you want to return to the questions press "Back"
+               <span>If you want to return to the questions press "Back"</span>
             </div>
             <br>
          </div>
@@ -22,11 +22,11 @@
       <div ng-repeat ="summary in view.data.summary">
       <div class="padding">
          
-         <h5 class="f-w-400">{{summary.question}} ?
+         <h5 class="f-w-400">{{summary.question}}
          </h5>
-         <div class="text-green f-w-400">
+         <span class="text-green f-w-400">
             {{summary.answer}}
-         </div>
+         </span>
         
       </div>
        <hr>

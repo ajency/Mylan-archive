@@ -1,4 +1,6 @@
-<ion-view>
+<ion-view
+  ng-init="view.init();"
+  hide-back-button="true">
 <!-- <ion-pane class="has-header" ng-init="view.init();"> -->
    
    <!--  <div class="bar bar-header bar-balanced row">
@@ -9,27 +11,41 @@
         </div>
     </div> -->
 
-   <ion-content ng-init="view.init();" class="has-footer">
-   <div class="swipe-down">
-   <div class="row bg-yellow">
-    <div class="col text-center">
-      
-      <h5 class="f-w-400">Previous Answers:</h5>
-      <i class="icon ion-chevron-down"></i>
+   <ion-content  class="has-footer">
 
-    </div>
-    </div>
-    </div>
-         <div class="bg-yellow">
+    <div ng-switch="view.display">
+
+      <ion-spinner
+        ng-switch-when="loader">
+      </ion-spinner>
+
+      <div
+        ng-switch-when="noError">
+
+       <div class="swipe-down" 
+          ng-click = "view.showDiv()"
+          ng-if="!view.pastAnswerDiv">
+         <div class="row bg-yellow">
+            <div class="col text-center">
+              <h5 class="f-w-400">Previous Answers:</h5>
+              <i class="icon ion-chevron-down"></i>
+            </div>
+          </div>
+        </div>
+         <div class="bg-yellow" 
+            ng-if="view.pastAnswerDiv"
+            ng-click = "view.hideDiv()" >
             <div class="padding">
               <div class="col">
-                  
                   <p class="f-w-400">{{view.data.pastAnswer}}</p>
-                 
+                  <hr>
                   <h6>
                     <i class="icon ion-calendar"></i>
                     Submitted On {{view.data.submitedDate}}
                   </h6>
+                </div>
+                <div class="text-center">
+                  <i class="icon ion-chevron-up"></i>
                 </div>
             </div>
          </div>
@@ -67,15 +83,40 @@
 
           <hr class="broad"> -->
 
-    
-        
+          <div 
+            class="padding"
+            ng-if = 'view.data.questionType == "descr"'>
+              <div class="col">
+                <br>
+                <h4 class="f-w-400">What is your current weight ?</h4>
+                <div class="info-msg">
+                   <i class="icon ion-ios-information-outline text-green"></i> 
+                   <span>Please Complete EITHER Kg OR stones and lbs box</span>
+                </div>
+                <div class="row">
+                  <div 
+                    class="col"
+                    ng-repeat="answerValue in view.data.fields">
+                    <label class="item-input item-icon-right b-b">
+                    <input 
+                      type="{{answerValue.type}}" 
+                      placeholder="{{answerValue.placeholder}}"
+                      ng-model="view.val_answerValue[answerValue.name]">
+                    </label>
+                  </div>
+                </div>
+              </div>
+          </div>
+
           <div>
-              <div class="padding">
+              <div 
+                class="padding"
+                ng-if = 'view.data.questionType == "scq" || view.data.questionType == "mcq"'>
                     <div class="col">
-                        <h5 class="f-w-400">{{view.data.questionTittle}} ?</h5>
+                        <h5 class="f-w-400">{{view.data.questionTittle}}</h5>
                         <br>
                         <div class="info-msg">
-                          <i class="icon ion-ios-information-outline text-green"></i> <span>Touch the Answer you want to select</span>
+                          <i class="icon ion-ios-information-outline text-green"></i> <span>Select your Answer</span>
                         </div>
                       <br>
                   </div>
@@ -86,7 +127,7 @@
                 ng-if = 'view.data.questionType == "scq"'>
                 <label class="item item-radio"
                   ng-repeat ="answerValue in view.data.option">
-                    <input type="radio" name="group" ng-model="answerValue.go" 
+                    <input type="radio" name="group" ng-model="view.go" 
                       ng-value="answerValue.value" >
                       <div class="item-content">
                        {{answerValue.answer}} 
@@ -110,7 +151,20 @@
                 </li>
               </ul>
          </div>
+
+       
+        </div>
+
+        <aj-error class="errors"
+            error-type="view.errorType"
+            ng-switch-when="error"
+            tap-to-retry="view.onTapToRetry();">
+        </aj-error>
+
+      </div>
+
     </ion-content>
+    
      <div class="bar bar-footer bar-light">
            <button 
               class="button button-icon pull-left text-green"

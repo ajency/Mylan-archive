@@ -11,7 +11,8 @@
 <ion-view
    hide-back-button="true">
    <ion-nav-title>
-      <div class="text-center">{{view.Hospital_name}}</div>
+    <h1 class="title">{{view.Hospital_name}}</h1>
+    
    </ion-nav-title>
    <ion-content  ng-init="view.displaydata();" >
 
@@ -19,26 +20,26 @@
          <div class="padding">
             <i class="icon ion-ios-information-outline"></i> 
             <span>
-              You do not have any questionnare to be submitted now .
+              You do not have any questionnaire to be submitted now .
             </span>
          </div>
       </div>
       
       <div class="padding">
-         <br>
          <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
       </div>
-      <div class="row">
-         <div class="col">
-            <img src="images/cardiac-care.png" alt="Cardiac Care" width="140"/>
+      <div class="row dashboard">
+         <div class="col col-center text-center">
+            <img src="images/cardiac-care.png" alt="Cardiac Care" width="150"/>
          </div>
          <div class="col col-70">
-            <h3><b>40%</b></h3>
+            <h3 class="title"><b>40%</b></h3>
             <p><i class="icon ion-record text-muted"></i> 4 Questionnaires Missed</p>
-            <h3><b>60%</b></h3>
+            <h3 class="title"><b>60%</b></h3>
             <p><i class="icon ion-record text-leaf"></i> 6 Questionnaires Submitted</p>
          </div>
       </div>
+      <br>
       <div class="padding bg-gray">
          <h5 class="f-w-400">Questionnaire Summary</h5>
       </div>

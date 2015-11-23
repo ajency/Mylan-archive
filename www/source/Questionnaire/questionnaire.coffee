@@ -1,15 +1,20 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', ($scope, App, QuestionAPI, $stateParams, $window, Storage)->
+	'$window', 'Storage', 'CToast', 'CSpinner'
+	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner)->
 
 		$scope.view =
+			# noError / error / loader
+			pastAnswerDiv : 0
 			title: 'C-weight'
 			data : []
-			go : 'no_pain'
+			go : ''
 			response : ''
 			actionValue : {}
-
+			errorType : 'No net connection'
+			display : 'noError'
+			
 			getQuestion : ->
 				Storage.login('get').then (value) ->
 					console.log '*****************'
@@ -47,7 +52,43 @@ angular.module 'PatientApp.Quest',[]
 				
 
 			nextQuestion : ->
-				console.log @data.option
+				# CSpinner.show '', 'Please wait..'
+				# CSpinner.hide()
+				if @data.questionType == 'descr'
+					error = 0
+					sizeOfField = _.size(@data.fields)
+					sizeOfTestboxAns = _.size(@val_answerValue)
+					console.log '******----******'
+					console.log sizeOfTestboxAns
+					if (sizeOfTestboxAns == 0)
+						error = 1
+					else
+						_.each @val_answerValue, (value)->
+							if value == null
+								error = 1
+
+					if error == 1
+						CToast.show 'Please enter the values'
+					else
+						App.navigate 'summary', quizID: @response.quizID
+
+				else if @data.questionType == 'scq'
+					if @go == ''
+				 		CToast.show 'Please select your answer'
+				 	else 
+				 		App.navigate 'summary', quizID: @response.quizID
+
+				else if @data.questionType == 'mcq'
+					if ! _.contains(_.pluck(@data.option, 'checked'), true)
+						CToast.show 'Please select your answer'
+					else
+						App.navigate 'summary', quizID: @response.quizID
+
+
+
+
+
+				
 
 				# if data.questionType == scq
 				# if @go == ''
@@ -61,33 +102,33 @@ angular.module 'PatientApp.Quest',[]
 				# 	ctoast('please select value')
 
 
-				console.log 'nextt questt'
-				console.log @go
-				options = 
-					quizID: $stateParams.quizID
-					questionId : @data.questionId
-					answerId : @go
-					action : 'submitted'
+				# console.log 'nextt questt'
+				# console.log @go
+				# options = 
+				# 	quizID: $stateParams.quizID
+				# 	questionId : @data.questionId
+				# 	answerId : @go
+				# 	action : 'submitted'
 
-				QuestionAPI.saveAnswer options
-				.then (data)=>
-					action =
-						questionId : @data.questionId
-						mode : 'next'
+				# QuestionAPI.saveAnswer options
+				# .then (data)=>
+				# 	action =
+				# 		questionId : @data.questionId
+				# 		mode : 'next'
 
-					QuestionAPI.setAction 'set', action
+				# 	QuestionAPI.setAction 'set', action
 
-					v = QuestionAPI.setAction 'get'
-					console.log v
+				# 	v = QuestionAPI.setAction 'get'
+				# 	console.log v
 
-					@response = data 
-					if @response.type == 'nextQuestion' 
-						$window.location.reload()
-						# App.navigate 'questionnaire', quizID: @response.quizID
-					else
-						App.navigate 'summary', quizID: @response.quizID
-				, (error)=>
-					console.log 'err'
+				# 	@response = data 
+				# 	if @response.type == 'nextQuestion' 
+				# 		$window.location.reload()
+				# 		# App.navigate 'questionnaire', quizID: @response.quizID
+				# 	else
+				# 		App.navigate 'summary', quizID: @response.quizID
+				# , (error)=>
+				# 	console.log 'err'
 
 			prevQuestion : ->
 				action =
@@ -97,6 +138,22 @@ angular.module 'PatientApp.Quest',[]
 				QuestionAPI.setAction 'set', action
 
 				@init()
+
+			showDiv : ->
+				@pastAnswerDiv = 1
+
+			hideDiv : ->
+				@pastAnswerDiv = 0
+
+			reInit : ->
+				@pastAnswerDiv = 0
+				@go = ''
+
+			onTapToRetry : ->
+				console.log 'onTapToRetry'
+
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.reInit()
 
 		
 ]
