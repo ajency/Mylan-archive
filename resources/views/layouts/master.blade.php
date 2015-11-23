@@ -195,8 +195,10 @@
 <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
 <script src="{{ asset('plugins/jquery-block-ui/jqueryblockui.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/bootstrap-select2/select2.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/jquery-validation/js/jquery.validate.min.js') }}" type="text/javascript"></script>
+
+<script src="{{ asset('bower_components/select2/select2.js' ) }}" type="text/javascript"></script>
+<script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
+<script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
 
 <!-- END PAGE LEVEL PLUGINS -->
 
@@ -204,6 +206,9 @@
 <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/demo.js') }}" type="text/javascript"></script>
 
+<script type="text/javascript">
+  $(".select2").select2();
+</script>  
 <!-- END CORE TEMPLATE JS --> 
 </body>
 </html>

@@ -25,16 +25,16 @@
                 <div class="col-md-6">
                   <div class="form-row">
                      <label>Referance Code</label>
-                        <input name="referance_code" id="referance_code" type="text"  class="form-control" placeholder="Referance Code">
+                        <input name="referance_code" id="referance_code" type="text"  class="form-control" placeholder="Referance Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                     </div>
                     <div class="form-row">
                      <label>Referance Number</label>
-                        <input name="referance_number" id="referance_number" type="text"  class="form-control" placeholder="Referance Number">
+                        <input name="referance_number" id="referance_number" type="text"  class="form-control" placeholder="Referance Number" data-parsley-required data-parsley-type="number">
                     </div>
                     <div class="row form-row">
                       <div class="col-sm-6">
                       <label>Hospital</label>
-                      <select name="hospital" id="hospital" class="select2 form-control"  >
+                      <select name="hospital" id="hospital" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
                           @foreach($hospitals as $hospital)
                           <option value="{{ $hospital['id'] }}">{{ $hospital['name'] }}</option>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-sm-6">
                       <label>Project</label>
-                      <select name="project" id="project" class="select2 form-control"  >
+                      <select name="project" id="project" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
                           @foreach($projects as $project)
                           <option value="{{ $project['id'] }}">{{ $project['name'] }}</option>
