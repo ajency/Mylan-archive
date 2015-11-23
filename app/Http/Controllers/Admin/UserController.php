@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\User;
+use Chrisbjr\ApiGuard\Models\ApiKey;
+ 
 
 class UserController extends Controller
 {
@@ -37,7 +39,7 @@ class UserController extends Controller
         foreach ($hospitalData as $key => $hospital) {
              $hospitals[$key] = ['id'=>$hospital->getObjectId(),'name'=>$hospital->get('name')];
 
-         } 
+         }
 
         $projectQry = new ParseQuery("Project");
         $projectData = $projectQry->find();
@@ -46,6 +48,8 @@ class UserController extends Controller
              $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
               
          }
+
+
         
         return view('admin.patients.add')->with('hospitals', $hospitals)
                                     ->with('projects', $projects);
@@ -59,6 +63,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $referanceCode = $request->input('referance_code');
         $referanceNumber = $request->input('referance_number');
         $hospital = $request->input('hospital');
@@ -73,6 +78,11 @@ class UserController extends Controller
         $user->project_id = $project;
         $user->save();
         $userId = $user->id;
+
+        $apiKey                = new ApiKey;
+        $apiKey->user_id       = $user->id;
+        $apiKey->key           = $apiKey->generateKey();
+        $apiKey->save();
 
         return redirect("/admin/patients"); 
  

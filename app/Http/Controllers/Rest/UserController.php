@@ -13,6 +13,7 @@ use App\User;
 use App\UserDevice;
 
 
+
 class UserController extends Controller
 {
     /**
@@ -218,7 +219,9 @@ class UserController extends Controller
             
             if (Hash::check($newpassword, $user['password']))  
             {
+                $apiKey = $user->apiKey()->first();
                 $json_resp = array(
+                'user-auth-key'=> $apiKey['key'],
                 'code' => 'successful_login' , 
                 'message' => 'Successfully logged in'
                 );

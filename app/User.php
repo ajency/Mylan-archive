@@ -36,4 +36,12 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function apiKey() {
+        return $this->hasOne( 'Chrisbjr\ApiGuard\Models\ApiKey');
+    }
+
+    public function devices() {
+        return $this->hasMany( 'App\UserDevices');
+    }
 }
