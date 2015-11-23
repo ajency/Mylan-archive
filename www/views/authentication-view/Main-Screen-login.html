@@ -8,6 +8,8 @@
       </div>
       <div class="list list-inset" ng-form="form_">
         <h5 class="f-w-400">Enter your Login Details</h5>
+        
+       
          <label class="item item-input">
           <input type="text" 
           ng-keyup="App.check_inputlength(view.refrencecode);"
@@ -22,6 +24,9 @@
           ng-model="view.refrencecode"
           ng-click="view.cleardiv()"/>
         </label>
+      
+      <div style="position:relative;">
+         <i class="icon ion-eye text-gray"  ng-click="view.passwordHelp()"></i>
         <label class="item item-input"
         ng-hide = "view.showPassword">
           <input type="tel"  
@@ -35,14 +40,12 @@
           maxlength="4"
           onlydigitinput="inputvalidation"/>
         </label>
-
+        </div>
          <label class="item item-input"
          ng-show = "view.showPassword">
           <input type="tel"  
           placeholder="Enter your Password"
           ng-model="view.password"
-          
-
           ng-click="view.cleardiv()"
           min="1" 
           max="99"

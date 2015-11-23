@@ -396,7 +396,9 @@ input[id=password] {
   position: relative;
 }
 .list.list-inset i.ion-ios-help-outline,
-.question-popup i.ion-ios-help-outline {
+.question-popup i.ion-ios-help-outline,
+.list.list-inset .ion-eye,
+.question-popup .ion-eye {
   position: absolute;
   z-index: 10;
   right: 0;
@@ -478,8 +480,10 @@ input[id=password] {
     font-size: 23px;
   }
   .list.list-inset i.ion-ios-help-outline,
-  .question-popup i.ion-ios-help-outline {
-    font-size: 40px;
+  .question-popup i.ion-ios-help-outline,
+  .list.list-inset .ion-eye,
+  .question-popup .ion-eye {
+    font-size: 35px;
   }
   .has-header {
     top: 55px;
