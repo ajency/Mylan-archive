@@ -410,6 +410,10 @@ input[id=password] {
   padding: 11px;
   font-size: 27px;
 }
+.list.list-inset .ion-eye,
+.question-popup .ion-eye {
+  color: #717070;
+}
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
@@ -458,7 +462,7 @@ input[id=password] {
     top: -8px;
   }
   .info-msg .span-gray {
-    color: #5D5D5D;
+    color: #717070;
   }
   .button {
     min-height: 55px;
@@ -520,7 +524,8 @@ input[id=password] {
   }
   .list.list-inset i.ion-eye,
   .question-popup i.ion-eye {
-    font-size: 22px;
+    font-size: 27px;
+    padding: 19px;
   }
   .has-header {
     top: 55px;
