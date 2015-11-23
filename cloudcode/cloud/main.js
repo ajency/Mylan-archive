@@ -1,5 +1,79 @@
 (function() {
-  var _, getHospitalData, storeDeviceData;
+  var _, getHospitalData, getQuestion, getoptions, storeDeviceData;
+
+  Parse.Cloud.define('getQuestionnaire', function(request, response) {
+    var projectId, projectObj;
+    projectId = request.params.projectId;
+    projectObj = new Parse.Query('Project');
+    projectObj.equalTo("objectId", projectId);
+    return projectObj.first().then(function(projectobject) {
+      var questionnaireQuery, result;
+      if (_.isEmpty(userobject)) {
+        result = {
+          "message": 'project does not exits',
+          "code": 'invalid_project',
+          "status": '404'
+        };
+        return response.success(result);
+      } else {
+        questionnaireQuery = new Parse.Query('Questionnaire');
+        questionnaireQuery.equalTo("project", projectobject);
+        return questionnaireQuery.find().then(function(questionnaireObject) {
+          var questions;
+          questions = {};
+          getQuestions(questionnaireObject).then(function(questionData) {
+            return questions = questionData;
+          }, function(error) {
+            return response.error(error);
+          });
+          return response.success(result);
+        }, function(error) {
+          return response.error(error);
+        });
+      }
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getQuestion = function(questionnaireObject) {
+    var promise, questionQuery;
+    promise = new Parse.Promise();
+    questionQuery = new Parse.Query('Questionnaire');
+    questionQuery.equalTo("questionnaire", questionnaireObject);
+    questionQuery.first().then(function(questionObject) {
+      var options, result;
+      options = {};
+      getoptions(questionObject).then(function(optionsData) {
+        return options = optionsData;
+      }, function(error) {
+        return response.error(error);
+      });
+      result = {
+        "id": questionObject.id,
+        "name": questionObject.get('question'),
+        "type": questionObject.get('type'),
+        "options": options
+      };
+      return promise.resolve(result);
+    }, function(error) {
+      return promise.resolve(error);
+    });
+    return promise;
+  };
+
+  getoptions = function(questionnaireObject) {
+    var optionsQuery, promise;
+    promise = new Parse.Promise();
+    optionsQuery = new Parse.Query('Options');
+    optionsQuery.equalTo("question", questionnaireObject);
+    optionsQuery.find().then(function(optionObject) {
+      return promise.resolve(optionObject);
+    }, function(error) {
+      return promise.resolve(error);
+    });
+    return promise;
+  };
 
   _ = require('underscore.js');
 
