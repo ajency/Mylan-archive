@@ -26,7 +26,14 @@
         </label>
       
       <div style="position:relative;">
-         <i class="icon ion-eye text-gray"  ng-click="view.passwordHelp()"></i>
+         <i class="icon ion-eye text-gray" 
+            ng-hide = "view.showPassword"
+            ng-click="view.showPassword=true;"
+            ></i>
+         <i class="icon ion-eye text-gray" 
+          ng-show="view.showPassword"
+          ng-click="view.showPassword=false;"
+          ></i>
         <label class="item item-input"
         ng-hide = "view.showPassword">
           <input type="tel"  
@@ -40,8 +47,8 @@
           maxlength="4"
           onlydigitinput="inputvalidation"/>
         </label>
-        </div>
-         <label class="item item-input"
+
+        <label class="item item-input"
          ng-show = "view.showPassword">
           <input type="tel"  
           placeholder="Enter your Password"
@@ -51,23 +58,10 @@
           max="99"
           maxlength="4"
           onlydigitinput="inputvalidation"/>
+        </div>
+         
         </label>
 
-
-        <div ng-show="view.showPassword">
-          <a  class="padding-horizontal show-password" 
-              ng-click="view.showPassword=false;" >
-              <i  class="icon ion-eye show-password shown"></i>
-            </a>
-
-        </div>
-        <div ng-hide="view.showPassword">
-          <a  class="padding-horizontal show-password" 
-              ng-click="view.showPassword=true;" >
-              <i  class="icon ion-eye show-password shown"></i>
-            </a>
-
-        </div>
 
         <div class="text-left text-danger">{{view.loginerror}}</div>
         <br>     
