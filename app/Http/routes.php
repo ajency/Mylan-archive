@@ -11,10 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get( '/', 'WelcomeController@index' );
 
+/**
+ * Auth and forgot password route
+ */
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+Route::group( ['prefix' => 'admin'], function() {
+    Route::get( '/', 'Admin\AdminController@index' );
+    Route::resource( 'patients', 'Admin\UserController' );
+});
 
 
 /********API********/

@@ -17,7 +17,6 @@ class CreateUsersTable extends Migration
             $table->string('reference_code', 8)->unique();
             $table->string('reference_number')->unique();
             $table->string('name');
-            $table->string('email')->unique();
             $table->string('password');
             $table->string('account_status');
             $table->string('hospital_id');
