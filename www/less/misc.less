@@ -2,6 +2,9 @@
                MOBILE SCREENS
 ----------------------------------------*/
 /***HELPER CLASSES***/
+html,html * {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 	h2{
 		font-size: 2.429em;
 	}
@@ -102,7 +105,7 @@
 		.right-buttons{
 				position: absolute;
 				right: 0;
-				
+				top: 3px;
 				.button{
 					float: left;
 					&.button-icon{
@@ -187,6 +190,9 @@
 		&.bg-balanced{
 			background: @color-green-sea;
 			color: @color-white;
+			i{
+				top: 5px!important;
+			}
 		}
 	}
 	/***BUTTONS***/
@@ -321,13 +327,13 @@
 		color: @color-white;
 		font-size: 1.143em;
 		background: #666;
-		width: 2.500em;
-		height: 2.500em;
+		width: 33px;
+		height: 33px;
 		border-radius: 50%;
 		display: table;
 		margin-right: 15px;
 		position: relative;
-    	top: -11px;
+    	top: 2px;
 		b{
 			vertical-align: middle;
 			display: table-cell;
@@ -432,11 +438,14 @@
     	padding: 11px;
     	font-size: 27px;
   	}
+  	& .ion-eye{
+  		color: #717070;
+  	}
   }
   /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-  @media(min-width:768px){
+  @media(min-height:768px){
   	.centering{
   		padding-top: 10%;
   	}
@@ -482,7 +491,7 @@
 			top: -8px;
 		}
 		.span-gray{
-			color: #5D5D5D;
+			color: #717070;
 		}
 	}
 	.button{
@@ -539,9 +548,13 @@
 		  font-size: 23px;
 	}
 	.list.list-inset,.question-popup{
-  		i.ion-ios-help-outline,.ion-eye{
+  		i.ion-ios-help-outline{
   		font-size: 35px;
   		padding: 14px;
+  	}
+  	i.ion-eye{
+  		font-size: 27px;
+    	padding: 19px;
   	}
   }
 
@@ -605,6 +618,8 @@
 		.button{
 			margin:0;
 			font-size: 18px;
+			position: relative;
+			top: 2px;
 			&.button-icon .icon:before{
 				font-size: 40px;
 			}
