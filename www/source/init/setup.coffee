@@ -23,21 +23,21 @@ angular.module 'PatientApp.init'
 					else
 						@deviceUUID = App.deviceUUID()
 					    
-			   if App.isAndroid()
-							@deviceOS = "Android"
+			   # if App.isAndroid()
+						# 	@deviceOS = "Android"
 
-						if App.isIOS()
-							@deviceOS = "IOS"
+						# if App.isIOS()
+						# 	@deviceOS = "IOS"
 
-						if App.isWebView()
-			               @deviceType = "Mobile"
-			               @accessType = "App"
-						else
-							if !App.isAndroid() && !App.isIOS()
-				                @deviceType = "Desktop"
-				                @accessType = "Browser"	  
+						# if App.isWebView()
+			   #             @deviceType = "Mobile"
+			   #             @accessType = "App"
+						# else
+						# 	if !App.isAndroid() && !App.isIOS()
+				  #               @deviceType = "Desktop"
+				  #               @accessType = "Browser"	  
 
-						AuthAPI.validateRefCode @refcode ,@deviceUUID,@deviceType,@deviceOS,@accessType
+						# AuthAPI.validateRefCode @refcode ,@deviceUUID,@deviceType,@deviceOS,@accessType
 
 						Storage.refcode 'set',@refcode
 						App.navigate "setup_password"

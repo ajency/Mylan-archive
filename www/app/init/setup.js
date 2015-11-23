@@ -14,22 +14,6 @@ angular.module('PatientApp.init').controller('setupCtr', [
           return this.emptyfield = "Please Enter Valid Reference Code";
         } else {
           this.deviceUUID = App.deviceUUID();
-          if (App.isAndroid()) {
-            this.deviceOS = "Android";
-          }
-          if (App.isIOS()) {
-            this.deviceOS = "IOS";
-          }
-          if (App.isWebView()) {
-            this.deviceType = "Mobile";
-            this.accessType = "App";
-          } else {
-            if (!App.isAndroid() && !App.isIOS()) {
-              this.deviceType = "Desktop";
-              this.accessType = "Browser";
-            }
-          }
-          AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceType, this.deviceOS, this.accessType);
           Storage.refcode('set', this.refcode);
           return App.navigate("setup_password");
         }
