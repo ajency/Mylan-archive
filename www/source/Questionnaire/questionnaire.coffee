@@ -24,6 +24,7 @@ angular.module 'PatientApp.Quest',[]
 				QuestionAPI.getQuestion options
 				.then (data)=>
 					Storage.getNextQuestion('get').then (value) =>
+						value = parseInt(value)
 						if value == 1
 							data.questionType = 'mcq'
 						else if value == 2
@@ -77,8 +78,9 @@ angular.module 'PatientApp.Quest',[]
 
 
 			navigate : ->
-
+				Storage.getNextQuestion 'set' , value
 				Storage.getNextQuestion('get').then (value) ->
+					value = parseInt(value)
 					value++
 					if value == 4
 						App.navigate 'summary', quizID: 111

@@ -18,6 +18,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return QuestionAPI.getQuestion(options).then((function(_this) {
           return function(data) {
             return Storage.getNextQuestion('get').then(function(value) {
+              value = parseInt(value);
               if (value === 1) {
                 data.questionType = 'mcq';
               } else if (value === 2) {
@@ -71,7 +72,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.getQuestion();
       },
       navigate: function() {
+        Storage.getNextQuestion('set', value);
         return Storage.getNextQuestion('get').then(function(value) {
+          value = parseInt(value);
           value++;
           if (value === 4) {
             return App.navigate('summary', {

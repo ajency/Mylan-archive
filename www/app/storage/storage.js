@@ -1,8 +1,9 @@
 angular.module('PatientApp.storage', []).factory('Storage', [
   function() {
-    var Storage, ref, userInfo;
+    var Storage, nextQuestion, ref, userInfo;
     Storage = {};
     ref = '';
+    nextQuestion = 0;
     userInfo = {};
     Storage.setup = function(action) {
       switch (action) {
@@ -57,9 +58,9 @@ angular.module('PatientApp.storage', []).factory('Storage', [
     Storage.getNextQuestion = function(action, questionNo) {
       switch (action) {
         case 'set':
-          return localforage.setItem('nextQuestion', questionNo);
+          return nextQuestion = questionNo;
         case 'get':
-          return localforage.getItem('nextQuestion');
+          return nextQuestion;
       }
     };
     Storage.setRefernce = function(action, param) {

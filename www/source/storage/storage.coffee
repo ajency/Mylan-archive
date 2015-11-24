@@ -8,6 +8,8 @@ angular.module 'PatientApp.storage', []
 
   ref = ''
 
+  nextQuestion = 0
+
   userInfo = {}
 
 
@@ -66,10 +68,12 @@ angular.module 'PatientApp.storage', []
   Storage.getNextQuestion = (action,questionNo)->
     switch action
       when 'set'
-        localforage.setItem 'nextQuestion', questionNo
+        # localforage.setItem 'nextQuestion', questionNo
+        nextQuestion = questionNo
 
       when 'get'
-        localforage.getItem 'nextQuestion' 
+        # localforage.getItem 'nextQuestion'
+        nextQuestion 
 
   Storage.setRefernce = (action,param)->
     switch action
