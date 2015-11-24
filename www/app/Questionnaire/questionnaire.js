@@ -85,7 +85,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       nextQuestion: function() {
         var error, sizeOfField, sizeOfTestboxAns;
-        CSpinner.show('', 'Please wait...');
         if (this.data.questionType === 'descr') {
           error = 0;
           sizeOfField = _.size(this.data.fields);

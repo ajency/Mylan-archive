@@ -91,7 +91,7 @@ angular.module 'PatientApp.Quest',[]
 			nextQuestion : ->
 				# CSpinner.show '', 'Please wait..'
 				# CSpinner.hide()
-				CSpinner.show '', 'Please wait...'
+				# CSpinner.show '', 'Please wait...'
 				if @data.questionType == 'descr'
 					error = 0
 					sizeOfField = _.size(@data.fields)
