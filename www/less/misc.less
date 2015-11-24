@@ -107,7 +107,9 @@ html,html * {
 				text-align: left;
 				color: @color-white;
 			}
-			
+			.right-buttons{
+				top: 0px;
+			}
 		}
 		.right-buttons{
 				position: absolute;
@@ -204,7 +206,7 @@ html,html * {
 			background: @color-green-sea;
 			color: @color-white;
 			i{
-				top: 5px;
+				top: 3px;
 			}
 		}
 		.span-gray{
@@ -474,7 +476,7 @@ html,html * {
                   TABLET SCREENS
 ---------------------------------------------*/
   
-@media only screen and (min-width : 768px) and (max-width : 1024px){
+@media (min-height:768px){
   	.centering{
   		padding-top: 10%;
   	}
@@ -637,7 +639,9 @@ html,html * {
 			}
 			
 		}
-
+		&.bar-balanced .right-buttons{
+			top:3px;
+		}
 	}
 	&.bar-footer{
 		height: 55px;
