@@ -15,15 +15,6 @@ class APIAuthentication
      */
     public function handle($request, Closure $next)
     {
-          // ALLOW OPTIONS METHOD
-          header("Access-Control-Allow-Origin: *");
-
-  // ALLOW OPTIONS METHOD
-  $headers = [
-         'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-         'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin'
-     ];
-     
         $userId = (isset($reques['user_id']))?$reques['user_id']:0;
         $requestApiKey = \Request::header( 'X-API-KEY' );
         $requestXAuth = \Request::header( 'X-Authorization' );
@@ -36,10 +27,9 @@ class APIAuthentication
             exit;
           }
             
-            $response = $next($request);
-             foreach($headers as $key => $value) 
-              $response->header($key, $value);
-          return $response;
+            return $next($request)->header('Access-Control-Allow-Origin' , '*')
+                                  ->header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
+                                  ->header('Access-Control-Allow-Headers', 'Content-Type, Accept, Authorization, X-Requested-With');
         
     }
 }
