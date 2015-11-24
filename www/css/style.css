@@ -102,6 +102,9 @@ hr.broad {
   text-align: left;
   color: #ffffff;
 }
+.bar.bar-header.bar-balanced .right-buttons {
+  top: 0px;
+}
 .bar.bar-header .right-buttons {
   position: absolute;
   right: 0;
@@ -449,7 +452,7 @@ input[id=password] {
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-@media only screen and (min-width: 768px) and (max-width: 1024px) {
+@media (min-height: 768px) {
   .centering {
     padding-top: 10%;
   }
@@ -605,6 +608,9 @@ input[id=password] {
   }
   .bar.bar-header .right-buttons .button.button-outline.ion-close:before {
     font-size: 21px;
+  }
+  .bar.bar-header.bar-balanced .right-buttons {
+    top: 3px;
   }
   .bar.bar-footer {
     height: 55px;
