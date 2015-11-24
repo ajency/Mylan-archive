@@ -106,7 +106,7 @@ class UserController extends Controller
                 'message' => 'reference code does not match',
                 'hospitalData' => array()
                 );
-            $status_code = 404;
+            $status_code = 200;
         }
         else
         {
@@ -123,7 +123,7 @@ class UserController extends Controller
                     'message' => 'cannot do setup more then 5 times',
                     'hospitalData' => $hospitalData
                     );
-                    $status_code = 403;
+                    $status_code = 200;
             }
             elseif($userDeviceCount)
             {
@@ -224,7 +224,7 @@ class UserController extends Controller
                 'code' => 'invalid_user' , 
                 'message' => 'In valid user'
                 );
-            $status_code = 404;
+            $status_code = 200;
         }
         else
         {
@@ -269,7 +269,7 @@ class UserController extends Controller
                 'code' => 'invalid_user' , 
                 'message' => 'In valid user'
                 );
-            $status_code = 404;
+            $status_code = 200;
         }
         else
         {    
@@ -282,6 +282,35 @@ class UserController extends Controller
                 );
                 $status_code = 200;
        
+        }
+
+        return response()->json( $json_resp, $status_code); 
+    }
+
+    public function userApiKey(Request $request)
+    {
+        $data = $request->all();  
+        $referenceCode = $data['referenceCode'];
+        $user = User::where('reference_Code',$referenceCode)->first(); 
+        
+        if($user==null)
+        {
+            $json_resp = array(
+                'code' => 'invalid_user' , 
+                'message' => 'In valid user'
+                );
+            $status_code = 200;
+        }
+        else
+        {
+            $apiKey = $user->apiKey()->first();
+            $json_resp = array(
+                'user-auth-key'=> $apiKey['key'],
+                'code' => 'successful_login' , 
+                'message' => 'Successfully logged in'
+            );
+            $status_code = 200;
+             
         }
 
         return response()->json( $json_resp, $status_code); 
