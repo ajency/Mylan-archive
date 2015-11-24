@@ -14,42 +14,54 @@
    <ion-content  class="has-footer">
 
     <div ng-switch="view.display">
-
-      <ion-spinner
-        ng-switch-when="loader">
+      <div class="loader" ng-switch-when="loader">
+      <ion-spinner>
       </ion-spinner>
-
+      </div>
       <div
         ng-switch-when="noError">
 
-       <div class="swipe-down" 
+      <div class="prev-answers">
+           <div class="swipe-down" 
           ng-click = "view.showDiv()"
           ng-if="!view.pastAnswerDiv">
-         <div class="bg-yellow">
-            <div class="col text-center">
-              <h6 class="f-w-400">Previous Answers</h6>
-              <i class="icon ion-chevron-down"></i>
-            </div>
+         <div class="row bg-gray b-b-lg">
+            <div class="col col-center col-80">
+              
+               <h6 class="f-w-400">Previous Answers</h6>
+            
+          </div>
+          <div class="col  col-center text-right">
+             
+              <i class="icon ion-chevron-down "></i>
+              </div>
+           
           </div>
         </div>
-         <div class="bg-yellow" 
+         <div class="bg-gray" 
             ng-if="view.pastAnswerDiv"
             ng-click = "view.hideDiv()" >
             <div class="row">
               <div class="col">
                   <p class="f-w-400">{{view.data.pastAnswer}}</p>
+              </div>
+              </div>
                   <hr>
+                  <div class="row">
+                  <div class="col col-80">
                   <h6>
                     <i class="icon ion-calendar"></i>
                     Submitted On {{view.data.submitedDate}}
                   </h6>
-                  <div class="text-center">
+                </div>
+                <div class="col">
+                  <div class="text-right">
                   <i class="icon ion-chevron-up"></i>
                 </div>
                 </div>
-                
-            </div>
-         </div>
+                </div>
+             </div>
+       </div>
           
           <!-- integer type  -->
         <!--   <div class="padding">
@@ -88,11 +100,12 @@
             class="padding"
             ng-if = 'view.data.questionType == "descr"'>
               <div class="col">
+               
+                <h5 class="f-w-400">What is your current weight ?</h5>
                 <br>
-                <h4 class="f-w-400">What is your current weight ?</h4>
                 <div class="info-msg">
                    <i class="icon ion-ios-information-outline text-green"></i> 
-                   <span>Please Complete EITHER Kg OR stones and lbs box</span>
+                   <span class="span-gray">Please Complete EITHER Kg OR stones and lbs box</span>
                 </div>
                 <div class="row">
                   <div 
@@ -169,16 +182,16 @@
     </ion-content>
     
      <div class="bar bar-footer bar-light">
-           <button 
-              class="button button-icon pull-left text-green"
+        <button 
+              class="button button-icon"
               ng-click="view.prevQuestion()">
-              <i class="icon ion-android-arrow-dropleft-circle text-green"> 
-              </i>
+               <span class="text-green">Previous</span>
+             
           </button>
             <button 
-                class="button button-icon pull-right text-green"
-                ng-click="view.nextQuestion()">
-                  <i class="icon ion-android-arrow-dropright-circle text-green"></i>
+                class="button button-icon"
+                ng-click="view.nextQuestion()"><span class="text-green">Next</span>
+                
             </button>
       </div>
 

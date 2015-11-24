@@ -38,8 +38,15 @@ html,html * {
 	.b-b{
 		border-bottom: 0.071em solid #bbb;
 	}
+	.b-b-lg{
+		border-bottom: 0.071em solid #E6E6E6;
+	}
 	.bg-gray{
 		background: @color-light-gray;
+		h6{
+			margin: 0;
+		}
+
 	}
 	.bg-yellow{
 		background: @color-pale-yellow;
@@ -119,6 +126,12 @@ html,html * {
 	}
 		&.bar-footer{
 			border-top: 0.071em solid #ddd;
+			.button.button-icon{
+				font-size: 14px;
+				span{
+					font-weight: 500;
+				}
+			}
 			&.submission{
 				padding: 0;
 				.button-bar .button{
@@ -191,9 +204,13 @@ html,html * {
 			background: @color-green-sea;
 			color: @color-white;
 			i{
-				top: 5px!important;
+				top: 5px;
 			}
 		}
+		.span-gray{
+			color: #717070;
+		}
+
 	}
 	/***BUTTONS***/
 
@@ -341,6 +358,7 @@ html,html * {
 		}
 	}
 	.item.item-radio,.item.item-checkbox{
+		outline: none;
 		.item-content{
 			padding: 16px 16px 16px 60px;
 			text-overflow: initial;
@@ -358,8 +376,8 @@ html,html * {
 			visibility: visible;
 			font-size: 1.071em;
 			border: 0.071em solid @color-gray;
-			width: 1.786em;
-			height: 1.786em;
+			width: 28px;
+			height: 28px;
 			border-radius: 50%;
 			text-align: center;
 			color: @color-white;
@@ -372,7 +390,7 @@ html,html * {
 			margin-top: -14px;
 			&::before{
 				position: relative;
-    			top: -2px;
+    			top: -3px;
 				opacity: 0;
 			}
 		}
@@ -442,10 +460,21 @@ html,html * {
   		color: #717070;
   	}
   }
+  .loader{
+  	text-align: center;
+    padding-top: 54%;
+  }
+  
+  @media screen and (max-width:767px) and (orientation:landscape){
+	.loader{
+		padding-top: 21%;
+	}
+}
   /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-  @media(min-height:768px){
+  
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
   	.centering{
   		padding-top: 10%;
   	}
@@ -489,9 +518,6 @@ html,html * {
 		i.ion-ios-information-outline{
 			font-size: 34px;
 			top: -8px;
-		}
-		.span-gray{
-			color: #717070;
 		}
 	}
 	.button{
@@ -637,6 +663,7 @@ html,html * {
 		}
 	}
 	.item.item-checkbox{
+		    padding: 28px 16px 28px 69px;
 		span{
 			padding: 10px;
 		}
@@ -657,5 +684,18 @@ html,html * {
   			right: 2px;
   			top: -2px;
   			}
+}
+@media screen and (min-width:768px) and (orientation:landscape){
+	.loader{
+		padding-top: 30%;
+	}
+}
+.errors{
+	text-align: center;
+	    padding-top: 24%;
+    color: #6B6B6B;
+    .ion-sad-outline{
+    	font-size: 76px;
+    }
 }
 	/***FOOTER***/
