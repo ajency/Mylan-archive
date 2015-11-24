@@ -232,10 +232,13 @@ class UserController extends Controller
             if (Hash::check($newpassword, $user['password']))  
             {
                 $projectId = $user['project_id'];
+                $hospitalId = $user['hospital_id'];
+                $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
                 $apiKey = $user->apiKey()->first();
                 $json_resp = array(
                     'project_id'=> $projectId,    
                     'user-auth-key'=> $apiKey['key'],
+                    'hospital'=> $hospitalData,
                     'code' => 'successful_login' , 
                     'message' => 'Successfully logged in'
                 );
