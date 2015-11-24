@@ -98,14 +98,14 @@ angular.module 'PatientApp.Quest'
 		data =
 			summary:
 				0:
-				 question : 'Which statement best describes your pain'
+				 question : 'What is your current Statement best describes your pain ?'
 				 answer : 'pain is present ,but not needed for pain killer'
 				1:
-				 question : 'Which statement best describes your pain'
-				 answer : 'pain is present ,but not needed for pain killer'
+				 question : 'Has your weight changed in the past month ?'
+				 answer : 'No change'
 				2:
-				 question : 'Which statement best describes your pain'
-				 answer : 'pain is present ,but not needed for pain killer'
+				 question : 'Has your weight changed in the past month ?'
+				 answer : 'No change'
 				
 
 		defer.resolve data
