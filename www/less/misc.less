@@ -191,7 +191,7 @@ html,html * {
 			background: @color-green-sea;
 			color: @color-white;
 			i{
-				top: 5px!important;
+				top: 5px;
 			}
 		}
 	}
@@ -442,10 +442,20 @@ html,html * {
   		color: #717070;
   	}
   }
+  .loader{
+  	text-align: center;
+    padding-top: 54%;
+  }
+  @media screen and (max-width:767px) and (orientation:landscape){
+	.loader{
+		padding-top: 21%;
+	}
+}
   /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-  @media(min-height:768px){
+  
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
   	.centering{
   		padding-top: 10%;
   	}
@@ -657,5 +667,18 @@ html,html * {
   			right: 2px;
   			top: -2px;
   			}
+}
+@media screen and (min-width:768px) and (orientation:landscape){
+	.loader{
+		padding-top: 30%;
+	}
+}
+.errors{
+	text-align: center;
+	    padding-top: 24%;
+    color: #6B6B6B;
+    .ion-sad-outline{
+    	font-size: 76px;
+    }
 }
 	/***FOOTER***/

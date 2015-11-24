@@ -12,7 +12,7 @@ angular.module 'PatientApp.Quest',[]
 			go : ''
 			response : ''
 			actionValue : {}
-			errorType : 'No net connection'
+			errorType : 'No network connection'
 			display : 'noError'
 			
 			getQuestion : ->

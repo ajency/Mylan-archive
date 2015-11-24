@@ -14,11 +14,10 @@
    <ion-content  class="has-footer">
 
     <div ng-switch="view.display">
-
-      <ion-spinner
-        ng-switch-when="loader">
+      <div class="loader" ng-switch-when="loader">
+      <ion-spinner>
       </ion-spinner>
-
+      </div>
       <div
         ng-switch-when="noError">
 

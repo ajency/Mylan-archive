@@ -7,7 +7,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       go: '',
       response: '',
       actionValue: {},
-      errorType: 'No net connection',
+      errorType: 'No network connection',
       display: 'noError',
       getQuestion: function() {
         var options;

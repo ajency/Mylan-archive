@@ -184,7 +184,7 @@ h3.line-title span {
   color: #ffffff;
 }
 .info-msg.bg-balanced i {
-  top: 5px!important;
+  top: 5px;
 }
 /***BUTTONS***/
 .button {
@@ -418,10 +418,19 @@ input[id=password] {
 .question-popup .ion-eye {
   color: #717070;
 }
+.loader {
+  text-align: center;
+  padding-top: 54%;
+}
+@media screen and (max-width: 767px) and (orientation: landscape) {
+  .loader {
+    padding-top: 21%;
+  }
+}
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-@media (min-height: 768px) {
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
   .centering {
     padding-top: 10%;
   }
@@ -620,6 +629,19 @@ input[id=password] {
     right: 2px;
     top: -2px;
   }
+}
+@media screen and (min-width: 768px) and (orientation: landscape) {
+  .loader {
+    padding-top: 30%;
+  }
+}
+.errors {
+  text-align: center;
+  padding-top: 24%;
+  color: #6B6B6B;
+}
+.errors .ion-sad-outline {
+  font-size: 76px;
 }
 /***FOOTER***/
 /*# sourceMappingURL=style.css.map */
