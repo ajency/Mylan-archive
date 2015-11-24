@@ -38,8 +38,14 @@ p {
 .b-b {
   border-bottom: 0.071em solid #bbb;
 }
+.b-b-lg {
+  border-bottom: 0.071em solid #E6E6E6;
+}
 .bg-gray {
   background: #eeeeee;
+}
+.bg-gray h6 {
+  margin: 0;
 }
 .bg-yellow {
   background: #f8fad1;
@@ -113,6 +119,12 @@ hr.broad {
 .bar.bar-footer {
   border-top: 0.071em solid #ddd;
 }
+.bar.bar-footer .button.button-icon {
+  font-size: 14px;
+}
+.bar.bar-footer .button.button-icon span {
+  font-weight: 500;
+}
 .bar.bar-footer.submission {
   padding: 0;
 }
@@ -185,6 +197,9 @@ h3.line-title span {
 }
 .info-msg.bg-balanced i {
   top: 5px;
+}
+.info-msg .span-gray {
+  color: #717070;
 }
 /***BUTTONS***/
 .button {
@@ -309,6 +324,10 @@ input[id=password] {
   display: table-cell;
   text-align: center;
 }
+.item.item-radio,
+.item.item-checkbox {
+  outline: none;
+}
 .item.item-radio .item-content,
 .item.item-checkbox .item-content {
   padding: 16px 16px 16px 60px;
@@ -329,8 +348,8 @@ input[id=password] {
   visibility: visible;
   font-size: 1.071em;
   border: 0.071em solid #bdbdbd;
-  width: 1.786em;
-  height: 1.786em;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   text-align: center;
   color: #ffffff;
@@ -345,7 +364,7 @@ input[id=password] {
 .item.item-radio .radio-icon::before,
 .item.item-checkbox .radio-icon::before {
   position: relative;
-  top: -2px;
+  top: -3px;
   opacity: 0;
 }
 .item.item-radio .checkbox input:checked:before,
@@ -473,9 +492,6 @@ input[id=password] {
   .info-msg i.ion-ios-information-outline {
     font-size: 34px;
     top: -8px;
-  }
-  .info-msg .span-gray {
-    color: #717070;
   }
   .button {
     min-height: 55px;
@@ -608,6 +624,9 @@ input[id=password] {
   .item.item-radio .radio-icon {
     left: 28px;
     top: 35px;
+  }
+  .item.item-checkbox {
+    padding: 28px 16px 28px 69px;
   }
   .item.item-checkbox span {
     padding: 10px;
