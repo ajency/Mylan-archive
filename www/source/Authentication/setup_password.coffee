@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Auth',[]
 
-.controller 'setup_passwordCtr',['$scope', 'App', 'Storage','$ionicLoading','AuthAPI'
-	, ($scope, App, Storage,$ionicLoading,AuthAPI)->
+.controller 'setup_passwordCtr',['$scope', 'App', 'Storage','$ionicLoading','AuthAPI', 'CToast', 'CSpinner'
+	, ($scope, App, Storage,$ionicLoading,AuthAPI, CToast, CSpinner)->
 
 
 		  	
@@ -9,6 +9,14 @@ angular.module 'PatientApp.Auth',[]
 			New_password:''
 			Re_password: ''
 			passwordmissmatch:''
+			hospitalName : ''
+			projectName : ''
+
+			
+			init: ->
+				value = Storage.setHospitalData 'get'
+				@hospitalName = value['name']
+				@projectName = value['project']
 
 			completesetup : ->
 				
@@ -20,25 +28,37 @@ angular.module 'PatientApp.Auth',[]
 								
 					else			
 						if angular.equals(@New_password, @Re_password)
-							@deviceUUID = App.deviceUUID()
-					  if App.isAndroid()
-                 @deviceOS = "Android"
-						 if App.isIOS()
-                          @deviceOS = "IOS"
 
-                        if App.isWebView()
-                                 @deviceType = "Mobile"
-                                 @accessType = "App"
-                        else
-                          if !App.isAndroid() && !App.isIOS()
-                                    @deviceType = "Desktop"
-                                    @accessType = "Browser"	  
+	                        Storage.setup 'set'
+	                        .then ->
+	                          console.log 'setup done'
+	                          App.navigate "main_login"
+	                        if App.isWebView()
+	                        	CSpinner.show '', 'Checking credentials please wait'
+	                        	refrencecode = Storage.setRefernce('get')
 
-                        AuthAPI.sendPassword @New_password ,@deviceUUID,@deviceType,@deviceOS,@accessType
-                        Storage.setup 'set'
-                          .then ->
-                          console.log 'setup done'
-                          App.navigate "main_login"
+		                        AuthAPI.setPassword(refrencecode, @Re_password)
+		                        .then (data)=>
+		                        	CSpinner.hide()
+		                        	console.log data
+		                        	App.navigate "main_login"
+		                        , (error)=>
+		                        	CToast.show 'Please try again'
+		                        	CSpinner.hide()
+	                        else
+	                        	  
+	                        	Storage.setup 'set'
+	                          	.then ->
+		                          console.log 'setup done'
+		                          App.navigate "main_login"
+
+	                        
+
+	                        # Storage.setup 'set'
+	                        #   .then ->
+	                        #   console.log 'setup done'
+	                        #   App.navigate "main_login"
+	                        	
 						else	
 							@passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.'
 
@@ -54,6 +74,11 @@ angular.module 'PatientApp.Auth',[]
 			        $ionicLoading.hide();
 			        hideOnStateChange: false	
 					
+		# $scope.$on '$ionicView.beforeEnter', (event, viewData)->
+
+		# 	value = Storage.setHospitalData 'get'
+		# 	$scope.view.hospitalName = value['name']
+		# 	$scope.view.projectName = value['project']
 
 
 
