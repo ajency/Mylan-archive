@@ -9,18 +9,39 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       actionValue: {},
       errorType: 'No network connection',
       display: 'noError',
-      getQuestion: function() {
+      getQuestion: function(questNo) {
         var options;
-        Storage.login('get').then(function(value) {
-          console.log('*****************');
-          return console.log(value);
-        });
         options = {
-          quizID: $stateParams.quizID
+          quizID: $stateParams.quizID,
+          questNo: questNo
         };
         return QuestionAPI.getQuestion(options).then((function(_this) {
           return function(data) {
-            return _this.data = data;
+            return Storage.getNextQuestion('get').then(function(value) {
+              if (value === 1) {
+                data.questionType = 'mcq';
+              } else if (value === 2) {
+                data.questionType = 'scq';
+                data.questionTittle = 'Has Your weight changed in the past month ?';
+                data.option = {
+                  0: {
+                    id: '1',
+                    answer: 'No change',
+                    value: 'no_pain',
+                    checked: false
+                  },
+                  1: {
+                    id: '2',
+                    answer: 'Lost upto 4 pounds',
+                    value: 'pain_present',
+                    checked: false
+                  }
+                };
+              } else {
+                data.questionType = 'descr';
+              }
+              return _this.data = data;
+            });
           };
         })(this), (function(_this) {
           return function(error) {
@@ -45,14 +66,22 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       init: function() {
-        console.log('init');
-        this.actionValue = QuestionAPI.setAction('get');
-        console.log(this.actionValue);
-        if (_.isEmpty(this.actionValue) || this.actionValue.mode === 'next') {
-          return this.getQuestion();
-        } else {
-          return this.getPrevQuestion();
-        }
+        this.data = '';
+        Storage.getNextQuestion('get').then(function(value) {});
+        return this.getQuestion();
+      },
+      navigate: function() {
+        return Storage.getNextQuestion('get').then(function(value) {
+          value++;
+          if (value === 4) {
+            return App.navigate('summary', {
+              quizID: 111
+            });
+          } else {
+            Storage.getNextQuestion('set', value);
+            return $window.location.reload();
+          }
+        });
       },
       nextQuestion: function() {
         var error, sizeOfField, sizeOfTestboxAns;
@@ -74,25 +103,19 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           if (error === 1) {
             return CToast.show('Please enter the values');
           } else {
-            return App.navigate('summary', {
-              quizID: this.response.quizID
-            });
+            return this.navigate();
           }
         } else if (this.data.questionType === 'scq') {
           if (this.go === '') {
             return CToast.show('Please select your answer');
           } else {
-            return App.navigate('summary', {
-              quizID: this.response.quizID
-            });
+            return this.navigate();
           }
         } else if (this.data.questionType === 'mcq') {
           if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
             return CToast.show('Please select your answer');
           } else {
-            return App.navigate('summary', {
-              quizID: this.response.quizID
-            });
+            return this.navigate();
           }
         }
       },
@@ -112,6 +135,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.pastAnswerDiv = 0;
       },
       reInit: function() {
+        this.data = [];
         this.pastAnswerDiv = 0;
         return this.go = '';
       },
@@ -128,6 +152,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     return $stateProvider.state('questionnaire', {
       url: '/questionnaire:quizID',
       parent: 'parent-questionnaire',
+      cache: false,
       views: {
         "QuestionContent": {
           templateUrl: 'views/questionnaire/question.html',

@@ -15,16 +15,35 @@ angular.module 'PatientApp.Quest',[]
 			errorType : 'No network connection'
 			display : 'noError'
 			
-			getQuestion : ->
-				Storage.login('get').then (value) ->
-					console.log '*****************'
-					console.log value
+			
+			getQuestion :(questNo) ->
 				options = 
 					quizID: $stateParams.quizID
+					questNo: questNo
 
 				QuestionAPI.getQuestion options
 				.then (data)=>
-					@data = data 
+					Storage.getNextQuestion('get').then (value) =>
+						if value == 1
+							data.questionType = 'mcq'
+						else if value == 2
+							data.questionType = 'scq'
+							data.questionTittle = 'Has Your weight changed in the past month ?'
+							data.option =
+								0:
+								 id : '1'
+								 answer : 'No change'
+								 value : 'no_pain'
+								 checked: false
+								1:
+								 id : '2'
+								 answer : 'Lost upto 4 pounds'
+								 value : 'pain_present'
+								 checked: false
+						else
+							data.questionType = 'descr'
+
+						@data = data 
 				, (error)=>
 					console.log 'err'
 
@@ -36,20 +55,38 @@ angular.module 'PatientApp.Quest',[]
 				QuestionAPI.getQuestion options
 				.then (data)=>
 					@data = data 
+
 				, (error)=>
 					console.log 'err'
 
 					
 			init : ->
-				console.log 'init'
-				@actionValue = QuestionAPI.setAction 'get'
-				console.log @actionValue
-				if _.isEmpty(@actionValue) || @actionValue.mode == 'next'
-					@getQuestion()
-				else
-					@getPrevQuestion()
+				@data = ''
+				Storage.getNextQuestion('get').then (value) ->
+				@getQuestion()	
+					
 
-				
+
+				# console.log 'init'
+				# @actionValue = QuestionAPI.setAction 'get'
+				# console.log @actionValue
+				# if _.isEmpty(@actionValue) || @actionValue.mode == 'next'
+				# 	@getQuestion()
+				# else
+				# 	@getPrevQuestion()
+
+
+			navigate : ->
+
+				Storage.getNextQuestion('get').then (value) ->
+					value++
+					if value == 4
+						App.navigate 'summary', quizID: 111
+					else
+
+						Storage.getNextQuestion 'set' , value
+						$window.location.reload()
+
 
 			nextQuestion : ->
 				# CSpinner.show '', 'Please wait..'
@@ -70,19 +107,22 @@ angular.module 'PatientApp.Quest',[]
 					if error == 1
 						CToast.show 'Please enter the values'
 					else
-						App.navigate 'summary', quizID: @response.quizID
+						@navigate()
+						
 
 				else if @data.questionType == 'scq'
 					if @go == ''
 				 		CToast.show 'Please select your answer'
 				 	else 
-				 		App.navigate 'summary', quizID: @response.quizID
+				 		@navigate()
+				 		
 
 				else if @data.questionType == 'mcq'
 					if ! _.contains(_.pluck(@data.option, 'checked'), true)
 						CToast.show 'Please select your answer'
 					else
-						App.navigate 'summary', quizID: @response.quizID
+						@navigate()
+						
 
 
 
@@ -146,6 +186,7 @@ angular.module 'PatientApp.Quest',[]
 				@pastAnswerDiv = 0
 
 			reInit : ->
+				@data = []
 				@pastAnswerDiv = 0
 				@go = ''
 
@@ -166,6 +207,7 @@ angular.module 'PatientApp.Quest',[]
 	.state 'questionnaire',
 			url: '/questionnaire:quizID'
 			parent: 'parent-questionnaire'
+			cache: false
 			views: 
 				"QuestionContent":
 					templateUrl: 'views/questionnaire/question.html'

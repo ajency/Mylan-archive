@@ -6,6 +6,7 @@ angular.module 'PatientApp.storage', []
 
   Storage = {}
 
+
   Storage.setup = (action)->
     switch action
       when 'set'
@@ -56,7 +57,15 @@ angular.module 'PatientApp.storage', []
         localforage.setItem 'user_details', user_data
 
       when 'get'
-        localforage.getItem 'user_details'    
+        localforage.getItem 'user_details' 
+
+  Storage.getNextQuestion = (action,questionNo)->
+    switch action
+      when 'set'
+        localforage.setItem 'nextQuestion', questionNo
+
+      when 'get'
+        localforage.getItem 'nextQuestion'    
 
   Storage
 ]

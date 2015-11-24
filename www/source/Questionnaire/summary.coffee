@@ -29,6 +29,7 @@ angular.module 'PatientApp.Quest'
 
 				QuestionAPI.submitSummary options
 				.then (data)=>
+					Storage.getNextQuestion 'set' , 1
 					Storage.quizDetails('remove')
 					App.navigate 'dashboard', {}, {animate: false, back: false}
 				, (error)=>
