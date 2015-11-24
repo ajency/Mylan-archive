@@ -1,8 +1,15 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', function($scope, App, Storage, QuestionAPI, DashboardAPI) {
     return $scope.view = {
-      Hospital_name: 'Sutter Davis Hospital',
+      hospitalName: '',
+      projectName: '',
       SubmissionData: [],
+      init: function() {
+        var value;
+        value = Storage.setHospitalData('get');
+        this.hospitalName = value['name'];
+        return this.projectName = value['project'];
+      },
       startQuiz: function(quizID) {
         Storage.getNextQuestion('set', 1);
         Storage.quizDetails('set', {

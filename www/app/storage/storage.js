@@ -1,7 +1,9 @@
 angular.module('PatientApp.storage', []).factory('Storage', [
   function() {
-    var Storage;
+    var Storage, ref, userInfo;
     Storage = {};
+    ref = '';
+    userInfo = {};
     Storage.setup = function(action) {
       switch (action) {
         case 'set':
@@ -58,6 +60,24 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.setItem('nextQuestion', questionNo);
         case 'get':
           return localforage.getItem('nextQuestion');
+      }
+    };
+    Storage.setRefernce = function(action, param) {
+      switch (action) {
+        case 'set':
+          return ref = param;
+        case 'get':
+          return ref;
+      }
+    };
+    Storage.setHospitalData = function(action, data) {
+      switch (action) {
+        case 'set':
+          return _.each(data, function(val, index) {
+            return userInfo[index] = val;
+          });
+        case 'get':
+          return userInfo;
       }
     };
     return Storage;

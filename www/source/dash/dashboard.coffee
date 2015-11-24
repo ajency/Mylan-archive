@@ -4,8 +4,14 @@ angular.module 'PatientApp.dashboard',[]
 	, ($scope, App, Storage, QuestionAPI,DashboardAPI)->
 
 		$scope.view =
-			Hospital_name: 'Sutter Davis Hospital'
+			hospitalName: ''
+			projectName : ''
 			SubmissionData : []
+
+			init :() ->
+				value = Storage.setHospitalData 'get'
+				@hospitalName = value['name']
+				@projectName = value['project']
 
 			startQuiz :(quizID) ->
 				Storage.getNextQuestion 'set' , 1

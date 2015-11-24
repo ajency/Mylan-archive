@@ -1,11 +1,11 @@
 
-<ion-view>   
+<ion-view ng-init = "view.init()">   
  <!-- <div class="bar bar-header bar-light">
     <a href="#"><img src="images/logo.jpg" alt="Sutter Davis Hospital" width="35"/> </a>
     <h1 class="title">Sutter Davis Hospital</h1>
     </div> -->
       <ion-nav-title>
-        Sutter Davis Hospital
+        {{view.hospitalName}}
     </ion-nav-title>
   <ion-content>
 
@@ -14,7 +14,7 @@
           <div class="row">
           <div class="col">
 
-          <h4>Welcome to our "Cardiac Care" Project specially designed to work towards your better tomorrow</h4>
+          <h4>Welcome to our "{{view.projectName}}" Project specially designed to work towards your better tomorrow</h4>
           <img src="images/cardiac-care.png" alt="Cardiac Care" width="210"/>
 
             <h5 class="f-w-400 text-green">Please provide a new password for your Account</h5>

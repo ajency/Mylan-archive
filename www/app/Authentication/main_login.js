@@ -1,10 +1,10 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', 'refrencecodeValue', '$ionicLoading', function($scope, App, Storage, refrencecodeValue, $ionicLoading) {
+  '$scope', 'App', 'Storage', 'refrencecodeValue', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, refrencecodeValue, $ionicLoading, AuthAPI, CToast, CSpinner) {
     return $scope.view = {
       temprefrencecode: '',
       loginerror: '',
       password: '',
-      refrencecode: '',
+      refrencecode: Storage.setRefernce('get'),
       showPassword: false,
       getrefcode: function() {
         Storage.refcode('get').then(function(value) {
@@ -13,8 +13,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
         return value;
       },
       refre: function() {
-        console.log(refrencecodeValue);
-        return this.refrencecode = refrencecodeValue;
+        return this.refrencecode = Storage.setRefernce('get');
       },
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
@@ -23,8 +22,30 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
           if (_.isUndefined(this.refrencecode) || _.isUndefined(this.password)) {
             return this.loginerror = "Please Enter valid credentials ";
           } else {
-            Storage.login('set').then(function() {});
-            return App.navigate("dashboard");
+            if (App.isWebView()) {
+              CSpinner.show('', 'Checking credentials please wait');
+              return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {
+                return function(data) {
+                  console.log(data);
+                  if (data.code === 'successful_login') {
+                    Storage.setHospitalData('set', data.hospitalData);
+                    CSpinner.hide();
+                    return App.navigate("dashboard");
+                  } else {
+                    CToast.show('Please check credentials');
+                    return CSpinner.hide();
+                  }
+                };
+              })(this), (function(_this) {
+                return function(error) {
+                  CToast.show('Please try again');
+                  return CSpinner.hide();
+                };
+              })(this));
+            } else {
+              Storage.login('set').then(function() {});
+              return App.navigate("dashboard");
+            }
           }
         }
       },

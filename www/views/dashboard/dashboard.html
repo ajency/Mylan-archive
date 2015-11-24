@@ -9,9 +9,10 @@
    
    </div> -->
 <ion-view
+   ng-init = "view.init()"
    hide-back-button="true">
    <ion-nav-title>
-    <h1 class="title">{{view.Hospital_name}}</h1>
+    <h1 class="title">{{view.hospitalName}}</h1>
     
    </ion-nav-title>
    <ion-content  ng-init="view.displaydata();" >
@@ -26,7 +27,7 @@
       </div>
       
       <div class="padding">
-         <h5 class="f-w-400">Cardiac Group Project Questionnaire - 1</h5>
+         <h5 class="f-w-400">{{view.projectName}} Project Questionnaire - 1</h5>
       </div>
       <div class="row dashboard">
          <div class="col col-center text-center">
