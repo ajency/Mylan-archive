@@ -8,7 +8,7 @@
     projectObj.equalTo("objectId", projectId);
     return projectObj.first().then(function(projectobject) {
       var questionnaireQuery, result;
-      if (_.isEmpty(userobject)) {
+      if (_.isEmpty(projectobject)) {
         result = {
           "message": 'project does not exits',
           "code": 'invalid_project',
@@ -18,15 +18,20 @@
       } else {
         questionnaireQuery = new Parse.Query('Questionnaire');
         questionnaireQuery.equalTo("project", projectobject);
-        return questionnaireQuery.find().then(function(questionnaireObject) {
+        return questionnaireQuery.first().then(function(questionnaireObject) {
           var questions;
           questions = {};
-          getQuestions(questionnaireObject).then(function(questionData) {
-            return questions = questionData;
+          return getQuestion(questionnaireObject, []).then(function(questionData) {
+            result = {
+              "id": questionnaireObject.id,
+              "name": questionnaireObject.get('name'),
+              "description": questionnaireObject.get('description'),
+              "question": questionData
+            };
+            return response.success(result);
           }, function(error) {
             return response.error(error);
           });
-          return response.success(result);
         }, function(error) {
           return response.error(error);
         });
@@ -36,44 +41,171 @@
     });
   });
 
-  getQuestion = function(questionnaireObject) {
-    var promise, questionQuery;
-    promise = new Parse.Promise();
-    questionQuery = new Parse.Query('Questionnaire');
-    questionQuery.equalTo("questionnaire", questionnaireObject);
-    questionQuery.first().then(function(questionObject) {
-      var options, result;
-      options = {};
-      getoptions(questionObject).then(function(optionsData) {
-        return options = optionsData;
+  Parse.Cloud.define('getNextQuestion', function(request, response) {
+    var questionIds, questionnaireId, questionnaireQuery;
+    questionnaireId = request.params.questionnaireId;
+    questionIds = request.params.questionIds;
+    questionnaireQuery = new Parse.Query('Questionnaire');
+    questionnaireQuery.equalTo("objectId", questionnaireId);
+    return questionnaireQuery.first().then(function(questionnaireObject) {
+      var questions;
+      questions = {};
+      return getQuestion(questionnaireObject, questionIds).then(function(questionData) {
+        return response.success(questionData);
       }, function(error) {
         return response.error(error);
       });
-      result = {
-        "id": questionObject.id,
-        "name": questionObject.get('question'),
-        "type": questionObject.get('type'),
-        "options": options
-      };
-      return promise.resolve(result);
     }, function(error) {
-      return promise.resolve(error);
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define('getQuestion', function(request, response) {
+    var questionIds, questionQuery, responseId;
+    responseId = request.params.responseId;
+    questionIds = request.params.questionIds;
+    questionQuery = new Parse.Query('Question');
+    questionQuery.equalTo("objectId", questionIds);
+    return questionQuery.first().then(function(questionObject) {
+      var options, result;
+      result = {};
+      if (!_.isEmpty(questionObject)) {
+        options = {};
+        return getoptions(questionObject).then(function(optionsData) {
+          console.log("optionsData");
+          options = optionsData;
+          return result = {
+            "id": questionObject.id,
+            "question": questionObject.get('question'),
+            "type": questionObject.get('type'),
+            "options": options
+          };
+        });
+      }
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getQuestion = function(questionnaireObject, questionIds) {
+    var promise, questionQuery;
+    promise = new Parse.Promise();
+    questionQuery = new Parse.Query('Questions');
+    questionQuery.equalTo("questionnaire", questionnaireObject);
+    questionQuery.notContainedIn("objectId", questionIds);
+    questionQuery.first().then(function(questionObject) {
+      var options, result;
+      result = {};
+      if (!_.isEmpty(questionObject)) {
+        options = {};
+        return getoptions(questionObject).then(function(optionsData) {
+          console.log("optionsData");
+          options = optionsData;
+          result = {
+            "id": questionObject.id,
+            "question": questionObject.get('question'),
+            "type": questionObject.get('type'),
+            "options": options
+          };
+          return promise.resolve(result);
+        }, function(error) {
+          console.log("getQuestion option ERROR");
+          return response.error(error);
+        });
+      }
+    }, function(error) {
+      return promise.reject(error);
     });
     return promise;
   };
 
-  getoptions = function(questionnaireObject) {
+  getoptions = function(questionObject) {
     var optionsQuery, promise;
     promise = new Parse.Promise();
     optionsQuery = new Parse.Query('Options');
-    optionsQuery.equalTo("question", questionnaireObject);
-    optionsQuery.find().then(function(optionObject) {
-      return promise.resolve(optionObject);
+    optionsQuery.equalTo("question", questionObject);
+    optionsQuery.find().then(function(optionObjects) {
+      var options, result;
+      result = {};
+      options = _.map(optionObjects, function(optionObject) {
+        return result = {
+          "id": optionObject.id,
+          "label": optionObject.get('label'),
+          "score": optionObject.get('score')
+        };
+      });
+      return promise.resolve(options);
     }, function(error) {
-      return promise.resolve(error);
+      return promise.reject(error);
     });
     return promise;
   };
+
+  Parse.Cloud.define('saveAnswer', function(request, response) {
+    var Answer, AnswerData, Questions, Response, answer, answerPromise, options, patientId, promiseArr, question, questionId, responseId, responseObj, value;
+    responseId = request.params.responseId;
+    patientId = parseInt(request.params.patientId);
+    questionId = request.params.questionId;
+    options = request.params.options;
+    value = request.params.value;
+    promiseArr = [];
+    if (!_.isEmpty(options)) {
+      _.each(options, function(optionId) {
+        var Answer, AnswerData, Options, Questions, Response, answer, answerPromise, option, question, responseObj;
+        Options = Parse.Object.extend("Options");
+        option = new Options();
+        option.id = optionId;
+        Response = Parse.Object.extend("Response");
+        responseObj = new Response();
+        responseObj.id = responseId;
+        Questions = Parse.Object.extend("Questions");
+        question = new Questions();
+        question.id = questionId;
+        AnswerData = {
+          response: responseObj,
+          patient: patientId,
+          question: question,
+          option: option,
+          value: value
+        };
+        Answer = Parse.Object.extend("Answer");
+        answer = new Answer();
+        answer.set("response", responseObj);
+        answer.set("patient", patientId);
+        answer.set("question", question);
+        answer.set("option", option);
+        answer.set("value", value);
+        answerPromise = answer.save();
+        return promiseArr.push(answerPromise);
+      });
+    } else {
+      Response = Parse.Object.extend("Response");
+      responseObj = new Response();
+      responseObj.id = responseId;
+      Questions = Parse.Object.extend("Questions");
+      question = new Questions();
+      question.id = questionId;
+      AnswerData = {
+        response: responseObj,
+        patient: patientId,
+        question: question,
+        value: value
+      };
+      Answer = Parse.Object.extend("Answer");
+      answer = new Answer();
+      answer.set("response", responseObj);
+      answer.set("patient", patientId);
+      answer.set("question", question);
+      answer.set("value", value);
+      answerPromise = answer.save();
+      promiseArr.push(answerPromise);
+    }
+    return Parse.Promise.when(promiseArr).then(function() {
+      return response.success("Saved");
+    }, function(error) {
+      return response.error(error);
+    });
+  });
 
   _ = require('underscore.js');
 
