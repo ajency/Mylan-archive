@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', function($state, $ionicHistory) {
+  '$state', '$ionicHistory', '$window', function($state, $ionicHistory, $window) {
     var App;
     return App = {
       start: true,
@@ -53,6 +53,11 @@ angular.module('PatientApp.Global', []).factory('App', [
           return device.uuid;
         } else {
           return 'DUMMYUUID';
+        }
+      },
+      hideKeyboardAccessoryBar: function() {
+        if ($window.cordova && $window.cordova.plugins.Keyboard) {
+          return $cordovaKeyboard.hideAccessoryBar(true);
         }
       }
     };
