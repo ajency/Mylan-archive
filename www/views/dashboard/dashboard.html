@@ -29,7 +29,7 @@
       <div class="padding">
          <h5 class="f-w-400">{{view.projectName}} Project Questionnaire - 1</h5>
       </div>
-      <div class="row dashboard">
+     <!--  <div class="row dashboard">
          <div class="col col-center text-center">
             <img src="images/cardiac-care.png" alt="Cardiac Care" width="150"/>
          </div>
@@ -39,6 +39,11 @@
             <h3 class="title"><b>60%</b></h3>
             <p><i class="icon ion-record text-leaf"></i> 6 Questionnaires Submitted</p>
          </div>
+      </div> -->
+      <div class="row">
+          <div class="col text-center">
+             <div id="chartdiv" style="width: 100%; height: 351px;"></div>
+          </div>
       </div>
       <br>
       <div class="padding bg-gray">
@@ -164,3 +169,37 @@
       <br>
    </ion-content>
 </ion-view>
+<script>
+
+            AmCharts.makeChart("chartdiv", {
+                "type": "pie",
+                "dataProvider": [{
+                    "questionnaires": "Questionnaires Missed",
+                        "litres": 144
+                }, {
+                    "questionnaires": "Questionnaires Submitted",
+                        "litres": 216
+                }],
+                "responsive": {
+                    "enabled": true,
+                  },
+                "titleField": "questionnaires",
+                "valueField": "litres",
+              
+                "colors": [
+                    "#959595",
+                    "#7bc67a"
+                  ],
+                  "marginBottom": 0,
+  "marginTop": 0,
+                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "legend": {
+                    "align": "center",
+                    "valueWidth": 100,
+                    "valueText": "[[percents]]%  [[value]]",
+                    "markerType": "circle"
+                }
+
+            });
+
+        </script>
