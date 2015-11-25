@@ -6,12 +6,12 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       SubmissionData: [],
       init: function() {
         var value;
+        Storage.getNextQuestion('set', 1);
         value = Storage.setHospitalData('get');
         this.hospitalName = value['name'];
         return this.projectName = value['project'];
       },
       startQuiz: function(quizID) {
-        Storage.getNextQuestion('set', 1);
         Storage.quizDetails('set', {
           quizID: quizID
         });
@@ -25,6 +25,11 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       displaydata: function() {
         this.data = this.getSubmission();
         return console.log(this.data);
+      },
+      summary: function() {
+        return App.navigate('summary', {
+          quizID: 111
+        });
       }
     };
   }

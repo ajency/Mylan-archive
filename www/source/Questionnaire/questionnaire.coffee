@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', 'CToast', 'CSpinner'
-	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner)->
+	'$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout'
+	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner, $q, $timeout)->
 
 		$scope.view =
 			# noError / error / loader
@@ -15,7 +15,13 @@ angular.module 'PatientApp.Quest',[]
 			errorType : 'No network connection'
 			display : 'noError'
 			
-			
+			getLocal :()->
+				defer = $q.defer()
+				Storage.getNextQuestion 'get'
+				.then (details)->
+					defer.resolve details
+				defer.promise
+
 			getQuestion :(questNo) ->
 				options = 
 					quizID: $stateParams.quizID
@@ -23,12 +29,15 @@ angular.module 'PatientApp.Quest',[]
 
 				QuestionAPI.getQuestion options
 				.then (data)=>
-					Storage.getNextQuestion('get').then (value) =>
+					@getLocal()
+					.then (result)=> 
+						value = result
+						value = parseInt(value)
 						if value == 1
 							data.questionType = 'mcq'
 						else if value == 2
 							data.questionType = 'scq'
-							data.questionTittle = 'Has Your weight changed in the past month ?'
+							data.questionTittle = 'Has your weight changed in the past month ?'
 							data.option =
 								0:
 								 id : '1'
@@ -41,11 +50,11 @@ angular.module 'PatientApp.Quest',[]
 								 value : 'pain_present'
 								 checked: false
 						else
-							data.questionType = 'descr'
+								data.questionType = 'descr'
 
-						@data = data 
-				, (error)=>
-					console.log 'err'
+							@data = data 
+					, (error)=>
+						console.log 'err'
 
 			getPrevQuestion : ->
 				options = 
@@ -62,7 +71,7 @@ angular.module 'PatientApp.Quest',[]
 					
 			init : ->
 				@data = ''
-				Storage.getNextQuestion('get').then (value) ->
+				
 				@getQuestion()	
 					
 
@@ -77,21 +86,32 @@ angular.module 'PatientApp.Quest',[]
 
 
 			navigate : ->
-
-				Storage.getNextQuestion('get').then (value) ->
+				# value = 
+				@getLocal()
+				.then (result)=> 
+					value = result
+					# Storage.getNextQuestion('get').then (value) ->
+					value = parseInt(value)
 					value++
+					Storage.getNextQuestion 'set' , value
 					if value == 4
+						CSpinner.hide()
 						App.navigate 'summary', quizID: 111
 					else
 
 						Storage.getNextQuestion 'set' , value
-						$window.location.reload()
+						# $window.location.reload()
+
+						$timeout ->
+							CSpinner.hide()
+							$window.location.reload()
+						,500
 
 
 			nextQuestion : ->
-				# CSpinner.show '', 'Please wait..'
+				CSpinner.show '', 'Please wait..'
 				# CSpinner.hide()
-				CSpinner.show '', 'Please wait...'
+				# CSpinner.show '', 'Please wait...'
 				if @data.questionType == 'descr'
 					error = 0
 					sizeOfField = _.size(@data.fields)

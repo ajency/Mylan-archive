@@ -9,12 +9,13 @@ angular.module 'PatientApp.dashboard',[]
 			SubmissionData : []
 
 			init :() ->
+				Storage.getNextQuestion 'set' , 1
 				value = Storage.setHospitalData 'get'
 				@hospitalName = value['name']
 				@projectName = value['project']
 
 			startQuiz :(quizID) ->
-				Storage.getNextQuestion 'set' , 1
+				
 
 				Storage.quizDetails 'set' , quizID: quizID 
 				App.navigate 'questionnaire', quizID: quizID
@@ -26,6 +27,9 @@ angular.module 'PatientApp.dashboard',[]
 			displaydata : ->
 				@data = @getSubmission()	
 				console.log @data 
+
+			summary :->
+				App.navigate 'summary', quizID: 111
 	
 ]
 

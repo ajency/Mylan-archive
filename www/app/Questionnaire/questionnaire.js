@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', 'CSpinner', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner, $q, $timeout) {
     $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -9,6 +9,14 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       actionValue: {},
       errorType: 'No network connection',
       display: 'noError',
+      getLocal: function() {
+        var defer;
+        defer = $q.defer();
+        Storage.getNextQuestion('get').then(function(details) {
+          return defer.resolve(details);
+        });
+        return defer.promise;
+      },
       getQuestion: function(questNo) {
         var options;
         options = {
@@ -17,12 +25,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         };
         return QuestionAPI.getQuestion(options).then((function(_this) {
           return function(data) {
-            return Storage.getNextQuestion('get').then(function(value) {
+            return _this.getLocal().then(function(result) {
+              var value;
+              value = result;
+              value = parseInt(value);
               if (value === 1) {
                 data.questionType = 'mcq';
               } else if (value === 2) {
                 data.questionType = 'scq';
-                data.questionTittle = 'Has Your weight changed in the past month ?';
+                data.questionTittle = 'Has your weight changed in the past month ?';
                 data.option = {
                   0: {
                     id: '1',
@@ -41,11 +52,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 data.questionType = 'descr';
               }
               return _this.data = data;
+            }, function(error) {
+              return console.log('err');
             });
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
           };
         })(this));
       },
@@ -67,25 +76,34 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       init: function() {
         this.data = '';
-        Storage.getNextQuestion('get').then(function(value) {});
         return this.getQuestion();
       },
       navigate: function() {
-        return Storage.getNextQuestion('get').then(function(value) {
-          value++;
-          if (value === 4) {
-            return App.navigate('summary', {
-              quizID: 111
-            });
-          } else {
+        return this.getLocal().then((function(_this) {
+          return function(result) {
+            var value;
+            value = result;
+            value = parseInt(value);
+            value++;
             Storage.getNextQuestion('set', value);
-            return $window.location.reload();
-          }
-        });
+            if (value === 4) {
+              CSpinner.hide();
+              return App.navigate('summary', {
+                quizID: 111
+              });
+            } else {
+              Storage.getNextQuestion('set', value);
+              return $timeout(function() {
+                CSpinner.hide();
+                return $window.location.reload();
+              }, 500);
+            }
+          };
+        })(this));
       },
       nextQuestion: function() {
         var error, sizeOfField, sizeOfTestboxAns;
-        CSpinner.show('', 'Please wait...');
+        CSpinner.show('', 'Please wait..');
         if (this.data.questionType === 'descr') {
           error = 0;
           sizeOfField = _.size(this.data.fields);
