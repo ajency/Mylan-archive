@@ -16,15 +16,9 @@ class APIAuthentication
     public function handle($request, Closure $next)
     {
         header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
         header('Access-Control-Allow-Headers: Origin, Content-Type, Accept, X-Authorization, X-API-KEY');
         header('Access-Control-Allow-Credentials: true');
-
-        // ALLOW OPTIONS METHOD
-        $headers = [
-            'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers'=> 'Origin, Content-Type, Accept, X-Authorization, X-API-KEY'
-        ];
 
         $userId = (isset($reques['user_id']))?$reques['user_id']:0;
         $requestApiKey = \Request::header( 'X-API-KEY' );
@@ -38,11 +32,10 @@ class APIAuthentication
             exit;
           }
             
-        $response = $next($request);
-        foreach($headers as $key => $value)
-            $response->header($key, $value);
-        
-        return $response;
+            return $next($request)->header('Access-Control-Allow-Origin' , '*')
+                                  ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+                                  ->header('Access-Control-Allow-Headers', 'Origin, Content-Type, Accept, X-Authorization, X-API-KEY');
+                                  ->header('Access-Control-Allow-Credentials', 'true');
         
     }
 }
