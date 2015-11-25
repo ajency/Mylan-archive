@@ -38,9 +38,6 @@ p {
 .b-b {
   border-bottom: 0.071em solid #bbb;
 }
-.b-b-lg {
-  border-bottom: 0.071em solid #E6E6E6;
-}
 .bg-gray {
   background: #eeeeee;
 }
@@ -253,12 +250,12 @@ h3.line-title span {
   color: #000000;
 }
 .button.button-light.button-outline {
-  color: #eeeeee;
+  color: #00aaa7;
   width: 33px;
   height: 33px;
   margin-left: 9px;
   border-radius: 4px;
-  border: 1px solid #eeeeee;
+  border: 1px solid #00aaa7;
 }
 .button.button-light.button-outline.ion-pause::before {
   font-size: 1.071em;
