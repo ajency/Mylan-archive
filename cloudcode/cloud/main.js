@@ -61,25 +61,29 @@
   });
 
   Parse.Cloud.define('getQuestion', function(request, response) {
-    var questionIds, questionQuery, responseId;
+    var answer, questionId, questionQuery, responseId;
     responseId = request.params.responseId;
-    questionIds = request.params.questionIds;
-    questionQuery = new Parse.Query('Question');
-    questionQuery.equalTo("objectId", questionIds);
+    questionId = request.params.questionId;
+    answer = request.params.answer;
+    questionQuery = new Parse.Query('Questions');
+    questionQuery.equalTo("objectId", questionId);
     return questionQuery.first().then(function(questionObject) {
       var options, result;
       result = {};
       if (!_.isEmpty(questionObject)) {
         options = {};
         return getoptions(questionObject).then(function(optionsData) {
-          console.log("optionsData");
           options = optionsData;
-          return result = {
+          result = {
             "id": questionObject.id,
             "question": questionObject.get('question'),
             "type": questionObject.get('type'),
             "options": options
           };
+          console.log(result);
+          return response.success(result);
+        }, function(error) {
+          return response.error(error);
         });
       }
     }, function(error) {

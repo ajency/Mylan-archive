@@ -55,10 +55,11 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 
 Parse.Cloud.define 'getQuestion', (request, response) ->
     responseId = request.params.responseId
-    questionIds = request.params.questionIds
+    questionId = request.params.questionId
+    answer = request.params.answer
  
-    questionQuery = new Parse.Query('Question')
-    questionQuery.equalTo("objectId", questionIds)
+    questionQuery = new Parse.Query('Questions')
+    questionQuery.equalTo("objectId", questionId)
     questionQuery.first()
     .then (questionObject) ->
         result = {}
@@ -67,7 +68,6 @@ Parse.Cloud.define 'getQuestion', (request, response) ->
             options ={}
             getoptions(questionObject)
             .then (optionsData) ->
-                console.log "optionsData"
                 options = optionsData
 
                 result = 
@@ -75,7 +75,10 @@ Parse.Cloud.define 'getQuestion', (request, response) ->
                     "question" : questionObject.get('question')  
                     "type" : questionObject.get('type')
                     "options" : options
-
+                console.log result
+                response.success result
+            , (error) ->
+                response.error error
     , (error) ->
         response.error error
 
