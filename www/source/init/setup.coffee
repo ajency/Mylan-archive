@@ -11,6 +11,7 @@ angular.module 'PatientApp.init'
 			deviceType:''
 			accessType:''
 			deviceUUID:''
+			last:''
 
 			verifyRefCode : ->
 				Storage.setRefernce('set', @refcode)
@@ -70,8 +71,18 @@ angular.module 'PatientApp.init'
 			        hideOnStateChange: false	
 
 			clear:->
-					@emptyfield=""        		
-				
+					@emptyfield="" 
+
+			myFunction:($event)->
+				console.log '--'
+				a = $('#simple').val() 
+				console.log a
+				if(a.length > 3)
+				 	# console.log 'sd'
+				 	$event.preventDefault()
+				 	# $event.stopPropagation()
+
+
 
 				
 ]

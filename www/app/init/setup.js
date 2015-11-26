@@ -7,6 +7,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
       deviceType: '',
       accessType: '',
       deviceUUID: '',
+      last: '',
       verifyRefCode: function() {
         var b;
         Storage.setRefernce('set', this.refcode);
@@ -73,6 +74,15 @@ angular.module('PatientApp.init').controller('setupCtr', [
       },
       clear: function() {
         return this.emptyfield = "";
+      },
+      myFunction: function($event) {
+        var a;
+        console.log('--');
+        a = $('#simple').val();
+        console.log(a);
+        if (a.length > 3) {
+          return $event.preventDefault();
+        }
       }
     };
   }
