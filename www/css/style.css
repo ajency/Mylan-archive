@@ -449,7 +449,7 @@ input[id=password] {
 /*-------------------------------------------
                   TABLET SCREENS
 ---------------------------------------------*/
-@media (min-height: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   .centering {
     padding-top: 10%;
   }
@@ -616,7 +616,7 @@ input[id=password] {
     margin: 0;
     font-size: 18px;
     position: relative;
-    top: 2px;
+    top: 0;
   }
   .bar.bar-footer .button.button-icon .icon:before {
     font-size: 40px;
