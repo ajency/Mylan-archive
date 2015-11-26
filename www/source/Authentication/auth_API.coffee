@@ -99,15 +99,7 @@ angular.module 'PatientApp.Auth'
 		, (error)->
 			defer.reject error
 
-		defer.promise				
-
-
-
-
-
-
-
-
+		defer.promise
 
 
 	AuthAPI

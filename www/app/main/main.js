@@ -5,6 +5,10 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         var count;
         count = -1;
         return App.goBack(count);
+      },
+      resetPassword: function() {
+        console.log('s');
+        return App.navigate('reset_password');
       }
     };
   }

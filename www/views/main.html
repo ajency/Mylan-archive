@@ -2,8 +2,9 @@
 
  	<ion-nav-buttons side="left">
 				<img
+					ng-click="view.resetPassword()"
 					src="images/logo.jpg"
-					style="height: 30px; "/>
+					style="height: 30px; z-index: 10;"/>
 	</ion-nav-buttons>
 
 	<ion-nav-back-button
@@ -12,6 +13,7 @@
 
 	<ion-nav-buttons side="right">
 		<button
+			ng-click="view.resetPassword()"
 			class="button button-icon ion-ios-telephone-outline">
 		</button>
 		<div class="notification">2</div> 	
