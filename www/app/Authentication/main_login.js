@@ -22,30 +22,25 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
           if (_.isUndefined(this.refrencecode) || _.isUndefined(this.password)) {
             return this.loginerror = "Please Enter valid credentials ";
           } else {
-            if (App.isWebView()) {
-              CSpinner.show('', 'Checking credentials please wait');
-              return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {
-                return function(data) {
-                  console.log(data);
-                  if (data.code === 'successful_login') {
-                    Storage.setHospitalData('set', data.hospitalData);
-                    CSpinner.hide();
-                    return App.navigate("dashboard");
-                  } else {
-                    CToast.show('Please check credentials');
-                    return CSpinner.hide();
-                  }
-                };
-              })(this), (function(_this) {
-                return function(error) {
-                  CToast.show('Please try again');
+            CSpinner.show('', 'Checking credentials please wait');
+            return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {
+              return function(data) {
+                if (data.code === 'successful_login') {
+                  Storage.login('set');
+                  Storage.setHospitalData('set', data.hospitalData);
+                  CSpinner.hide();
+                  return App.navigate("dashboard");
+                } else {
+                  CToast.show('Please check credentials');
                   return CSpinner.hide();
-                };
-              })(this));
-            } else {
-              Storage.login('set').then(function() {});
-              return App.navigate("dashboard");
-            }
+                }
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                CToast.show('Please try again');
+                return CSpinner.hide();
+              };
+            })(this));
           }
         }
       },

@@ -36,14 +36,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/ionic-plugin-keyboard/www/ios/keyboard.js",
-        "id": "ionic-plugin-keyboard.keyboard",
-        "clobbers": [
-            "cordova.plugins.Keyboard"
-        ],
-        "runs": true
-    },
-    {
         "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
         "id": "cordova-plugin-x-toast.Toast",
         "clobbers": [
@@ -60,6 +52,13 @@ module.exports = [
         "merges": [
             "window.plugins.spinnerDialog"
         ]
+    },
+    {
+        "file": "plugins/com.ionic.keyboard/www/keyboard.js",
+        "id": "com.ionic.keyboard.keyboard",
+        "clobbers": [
+            "cordova.plugins.Keyboard"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -70,9 +69,9 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "2.1.0",
     "cordova-plugin-statusbar": "1.0.1",
     "cordova-plugin-whitelist": "1.0.0",
-    "ionic-plugin-keyboard": "1.0.7",
     "cordova-plugin-x-toast": "2.2.1",
-    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1"
+    "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1",
+    "com.ionic.keyboard": "1.0.4"
 }
 // BOTTOM OF METADATA
 });

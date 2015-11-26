@@ -13,8 +13,6 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
       };
       headers = {
         headers: {
-          "Access-Control-Allow-Origin": '*',
-          "Access-Control-Allow-Headers": 'Content-Type,X-Authorization',
           "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
           "X-Authorization": 'e7544bd1e3743b71ea473cee30d73227135358aa',
           "Content-Type": 'application/json'

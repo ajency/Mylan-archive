@@ -32,32 +32,21 @@ angular.module 'PatientApp.Auth'
 					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
 						@loginerror = "Please Enter valid credentials "
 					else
-						if App.isWebView()
-
-							CSpinner.show '', 'Checking credentials please wait'
-							AuthAPI.validateUser(@refrencecode,@password )
-							.then (data)=>
-								console.log data
-								if data.code == 'successful_login'
-									Storage.setHospitalData 'set', data.hospitalData 
-									CSpinner.hide()
-									App.navigate "dashboard"
-								else
-									CToast.show 'Please check credentials'
-									CSpinner.hide()
-							, (error)=>
-								CToast.show 'Please try again'
+						CSpinner.show '', 'Checking credentials please wait'
+						AuthAPI.validateUser(@refrencecode,@password )
+						.then (data)=>
+							if data.code == 'successful_login'
+								Storage.login 'set'
+								Storage.setHospitalData 'set', data.hospitalData 
 								CSpinner.hide()
-						else
-							Storage.login 'set'
-							.then ->
-							App.navigate "dashboard"
+								App.navigate "dashboard"
+							else
+								CToast.show 'Please check credentials'
+								CSpinner.hide()
+						, (error)=>
+							CToast.show 'Please try again'
+							CSpinner.hide()
 
-							
-						# Storage.login 'set'
-						# .then ->
-						# App.navigate "dashboard"
-			
 			cleardiv :->
 				@loginerror =""
 

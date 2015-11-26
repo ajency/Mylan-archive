@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Global', []
 
 
-.factory 'App', [ '$state','$ionicHistory'
-	,( $state,$ionicHistory )->
+.factory 'App', [ '$state', '$ionicHistory', '$window'
+	,( $state, $ionicHistory, $window)->
 
 		App = 
 			start: true
@@ -53,7 +53,11 @@ angular.module 'PatientApp.Global', []
 				else navigator.onLine
 
 			deviceUUID : ->
-				if @isWebView() then device.uuid else 'DUMMYUUID'				
+				if @isWebView() then device.uuid else 'DUMMYUUID'
+
+			hideKeyboardAccessoryBar : ->
+				if $window.cordova && $window.cordova.plugins.Keyboard
+					$cordovaKeyboard.hideAccessoryBar true				
 			
 
 ]

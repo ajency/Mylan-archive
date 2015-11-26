@@ -1,29 +1,34 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', (Storage, App, $scope, QuestionAPI,$q) ->
+.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q'
+	, (Storage, App, $scope, QuestionAPI,$q) ->
   
-	Storage.setup('get').then (value) ->
-		if _.isNull(value)
-			App.navigate 'setup', {}, {animate: false, back: false}
-		else 
-			Storage.login('get').then (value) ->
-				if _.isNull(value)
-					App.navigate 'main_login', {}, {animate: false, back: false}
-				else 
-					Storage.quizDetails('get').then (quizDetail) ->
-						if _.isNull(quizDetail)
-							App.navigate 'dashboard', {}, {animate: false, back: false}
-						else 
-							console.log 'inside else'
-							QuestionAPI.checkDueQuest quizDetail.quizID
-							.then (data)=>
-								if data == 'paused'
-									App.navigate 'questionnaire', quizID:quizDetail.quizID, {animate: false, back: false}
-								else
-									App.navigate 'dashboard', {}, {animate: false, back: false}
-							, (error)=>
-								console.log 'err'
+		Storage.login('get')
+		.then (value) ->
+
+			if _.isNull(value)
+				App.navigate 'setup', {}, {animate: false, back: false}
+			else 
+				App.navigate 'dashboard', {}, {animate: false, back: false}
+
+				# Storage.login('get').then (value) ->
+				# 	if _.isNull(value)
+				# 		App.navigate 'main_login', {}, {animate: false, back: false}
+				# 	else 
+				# 		Storage.quizDetails('get').then (quizDetail) ->
+				# 			if _.isNull(quizDetail)
+				# 				App.navigate 'dashboard', {}, {animate: false, back: false}
+				# 			else 
+				# 				console.log 'inside else'
+				# 				QuestionAPI.checkDueQuest quizDetail.quizID
+				# 				.then (data)=>
+				# 					if data == 'paused'
+				# 						App.navigate 'questionnaire', quizID:quizDetail.quizID, {animate: false, back: false}
+				# 					else
+				# 						App.navigate 'dashboard', {}, {animate: false, back: false}
+				# 				, (error)=>
+				# 					console.log 'err'
 
 ]
 
@@ -44,6 +49,13 @@ angular.module 'PatientApp.init', []
 				"appContent":
 					templateUrl: 'views/authentication-view/Hospital-login.html'
 					controller: 'setup_passwordCtr'
+					resolve:
+						HospitalData :($q, Storage)->
+							defer = $q.defer()
+							Storage.hospital_data 'get'
+							.then (data)->
+								defer.resolve data
+							defer.promise
 
 		.state 'main_login',
 			url: '/main_login'
