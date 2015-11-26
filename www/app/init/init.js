@@ -1,51 +1,15 @@
 angular.module('PatientApp.init', []).controller('InitCtrl', [
   'Storage', 'App', '$scope', 'QuestionAPI', '$q', function(Storage, App, $scope, QuestionAPI, $q) {
-    return Storage.setup('get').then(function(value) {
+    return Storage.login('get').then(function(value) {
       if (_.isNull(value)) {
         return App.navigate('setup', {}, {
           animate: false,
           back: false
         });
       } else {
-        return Storage.login('get').then(function(value) {
-          if (_.isNull(value)) {
-            return App.navigate('main_login', {}, {
-              animate: false,
-              back: false
-            });
-          } else {
-            return Storage.quizDetails('get').then(function(quizDetail) {
-              if (_.isNull(quizDetail)) {
-                return App.navigate('dashboard', {}, {
-                  animate: false,
-                  back: false
-                });
-              } else {
-                console.log('inside else');
-                return QuestionAPI.checkDueQuest(quizDetail.quizID).then((function(_this) {
-                  return function(data) {
-                    if (data === 'paused') {
-                      return App.navigate('questionnaire', {
-                        quizID: quizDetail.quizID
-                      }, {
-                        animate: false,
-                        back: false
-                      });
-                    } else {
-                      return App.navigate('dashboard', {}, {
-                        animate: false,
-                        back: false
-                      });
-                    }
-                  };
-                })(this), (function(_this) {
-                  return function(error) {
-                    return console.log('err');
-                  };
-                })(this));
-              }
-            });
-          }
+        return App.navigate('dashboard', {}, {
+          animate: false,
+          back: false
         });
       }
     });
@@ -63,7 +27,17 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       views: {
         "appContent": {
           templateUrl: 'views/authentication-view/Hospital-login.html',
-          controller: 'setup_passwordCtr'
+          controller: 'setup_passwordCtr',
+          resolve: {
+            HospitalData: function($q, Storage) {
+              var defer;
+              defer = $q.defer();
+              Storage.hospital_data('get').then(function(data) {
+                return defer.resolve(data);
+              });
+              return defer.promise;
+            }
+          }
         }
       }
     }).state('main_login', {
