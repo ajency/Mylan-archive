@@ -30,12 +30,14 @@ angular.module('PatientApp.init').controller('setupCtr', [
               Storage.setRefernce('set', _this.refcode);
               if (data.code === 'do_login') {
                 CSpinner.hide();
-                Storage.refcode('set', _this.refcode);
-                return App.navigate("main_login");
+                return Storage.refcode('set', _this.refcode).then(function() {
+                  return App.navigate("main_login");
+                });
               } else if (data.code === 'set_password') {
                 CSpinner.hide();
-                Storage.refcode('set', _this.refcode);
-                return App.navigate("setup_password");
+                return Storage.refcode('set', _this.refcode).then(function() {
+                  return App.navigate("setup_password");
+                });
               } else {
                 CSpinner.hide();
                 return CToast.show('Please check reference code');

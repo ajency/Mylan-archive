@@ -36,11 +36,13 @@ angular.module 'PatientApp.init'
 						if data.code == 'do_login'
 							CSpinner.hide()
 							Storage.refcode 'set',@refcode
-							App.navigate "main_login"
+							.then ()->
+								App.navigate "main_login"
 						else if data.code == 'set_password'
 							CSpinner.hide() 
 							Storage.refcode 'set',@refcode
-							App.navigate "setup_password"
+							.then ()->
+								App.navigate "setup_password"
 						else 
 							CSpinner.hide()
 							CToast.show 'Please check reference code'

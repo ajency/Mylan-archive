@@ -63,6 +63,25 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
           controller: 'setupCtr'
         }
       }
+    }).state('reset_password', {
+      url: '/reset_password',
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/authentication-view/reset-password.html',
+          controller: 'setup_passwordCtr',
+          resolve: {
+            HospitalData: function($q, Storage) {
+              var defer;
+              defer = $q.defer();
+              Storage.hospital_data('get').then(function(data) {
+                return defer.resolve(data);
+              });
+              return defer.promise;
+            }
+          }
+        }
+      }
     });
   }
 ]);

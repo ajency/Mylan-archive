@@ -2,13 +2,13 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
   '$q', 'App', '$http', 'UrlList', function($q, App, $http, UrlList) {
     var AuthAPI;
     AuthAPI = {};
-    AuthAPI.validateRefCode = function(refcode) {
+    AuthAPI.validateRefCode = function(refcode, deviceUUID, deviceOS) {
       var defer, headers, params;
       params = {
         "referenceCode": refcode,
         "deviceType": 'mobile',
-        "deviceIdentifier": '12345672',
-        "deviceOS": 'ios',
+        "deviceIdentifier": deviceUUID,
+        "deviceOS": deviceOS,
         "accessType": 'app'
       };
       headers = {
@@ -19,7 +19,7 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
         }
       };
       defer = $q.defer();
-      $http.post('http://54.213.248.21/api/v1/user/dosetup', params, headers).then(function(data) {
+      $http.post(AUTH_URL + '/user/dosetup', params, headers).then(function(data) {
         console.log('succ');
         console.log(data);
         return defer.resolve(data.data);
@@ -43,7 +43,7 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
         }
       };
       defer = $q.defer();
-      $http.post('http://54.213.248.21/api/v1/user/login', params, headers).then(function(data) {
+      $http.post(AUTH_URL + '/user/login', params, headers).then(function(data) {
         return defer.resolve(data.data);
       }, function(error) {
         return defer.reject(error);
@@ -64,7 +64,7 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
         }
       };
       defer = $q.defer();
-      $http.post('http://54.213.248.21/api/v1/user/setpassword', params, headers).then(function(data) {
+      $http.post(AUTH_URL + '/user/setpassword', params, headers).then(function(data) {
         return defer.resolve(data.data);
       }, function(error) {
         return defer.reject(error);

@@ -20,7 +20,6 @@ angular.module 'PatientApp.Auth'
 				 
 
 			refre :->
-					
 					@refrencecode = Storage.setRefernce('get')
 
 						
@@ -39,7 +38,7 @@ angular.module 'PatientApp.Auth'
 								Storage.login 'set'
 								Storage.setHospitalData 'set', data.hospitalData 
 								CSpinner.hide()
-								App.navigate "dashboard"
+								App.navigate "dashboard", {}, {animate: false, back: false}
 							else
 								CToast.show 'Please check credentials'
 								CSpinner.hide()

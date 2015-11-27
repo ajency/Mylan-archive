@@ -77,6 +77,21 @@ angular.module 'PatientApp.init', []
 					templateUrl: 'views/authentication-view/main-screen.html'
 					controller: 'setupCtr'
 
+		.state 'reset_password',
+			url: '/reset_password'
+			parent: 'main'
+			views: 
+				"appContent":
+					templateUrl: 'views/authentication-view/reset-password.html'
+					controller: 'setup_passwordCtr'
+					resolve:
+						HospitalData :($q, Storage)->
+							defer = $q.defer()
+							Storage.hospital_data 'get'
+							.then (data)->
+								defer.resolve data
+							defer.promise
+
 		
 	
 	# $urlRouterProvider.otherwise '/setup'

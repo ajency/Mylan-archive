@@ -12,6 +12,11 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 	$rootScope.App = App
 	App.navigate 'init', {}, {animate: false, back: false}
 
+
+	$rootScope.$on '$stateChangeSuccess', (ev, to, toParams, from, fromParams)->
+		App.previousState = from.name
+		App.currentState  = to.name
+
 ]
 
 .config ['$stateProvider', ($stateProvider)->

@@ -6,30 +6,29 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       passwordmissmatch: '',
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
-      init: function() {
-        var value;
-        value = Storage.setHospitalData('get');
-        this.hospitalName = value['name'];
-        return this.projectName = value['project'];
-      },
+      init: function() {},
       completesetup: function() {
-        var refrencecode;
         if ((this.New_password === '' || this.Re_password === '') || (_.isUndefined(this.New_password) && _.isUndefined(this.New_password))) {
           return this.passwordmissmatch = "Please Enter Valid 4 digit password";
         } else {
           if (angular.equals(this.New_password, this.Re_password)) {
-            CSpinner.show('', 'Checking credentials please wait');
-            refrencecode = Storage.setRefernce('get');
-            return AuthAPI.setPassword(refrencecode, this.Re_password).then((function(_this) {
-              return function(data) {
-                CSpinner.hide();
-                console.log(data);
-                return App.navigate("main_login");
-              };
-            })(this), (function(_this) {
-              return function(error) {
-                CToast.show('Please try again');
-                return CSpinner.hide();
+            CSpinner.show('', 'Please wait..');
+            return Storage.refcode('get').then((function(_this) {
+              return function(refcode) {
+                console.log(refcode);
+                console.log(App.previousState);
+                return AuthAPI.setPassword(refcode, _this.Re_password).then(function(data) {
+                  CSpinner.hide();
+                  console.log(data);
+                  if (App.previousState === 'setup') {
+                    return App.navigate("main_login");
+                  } else {
+                    return CToast.show('Your password is updated ');
+                  }
+                }, function(error) {
+                  CToast.show('Please try again');
+                  return CSpinner.hide();
+                });
               };
             })(this));
           } else {
