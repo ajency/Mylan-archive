@@ -27,7 +27,8 @@
                 "id": questionnaireObject.id,
                 "name": questionnaireObject.get('name'),
                 "description": questionnaireObject.get('description'),
-                "question": questionData
+                "question": questionData,
+                "response": responseObj.id
               };
               return response.success(result);
             }, function(error) {

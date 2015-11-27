@@ -27,6 +27,7 @@ Parse.Cloud.define 'getQuestionnaire', (request, response) ->
                             "name" : questionnaireObject.get('name')  
                             "description" : questionnaireObject.get('description')
                             "question" : questionData
+                            "response" : responseObj.id
 
 
                         response.success result
