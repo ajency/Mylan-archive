@@ -1,6 +1,8 @@
 
 Parse.Cloud.define 'getQuestionnaire', (request, response) ->
     projectId = request.params.projectId
+    hospitalId = request.params.hospitalId
+    patientId = request.params.patientId
  
     projectObj = new Parse.Query('Project')
     projectObj.equalTo("objectId", projectId)
@@ -17,11 +19,13 @@ Parse.Cloud.define 'getQuestionnaire', (request, response) ->
             questionnaireQuery.equalTo("project", projectobject)
             questionnaireQuery.first()
             .then (questionnaireObject) ->
-                addResponse(projectobject, request.params.hospitalId, request.params.patientId, questionnaireObject)
+                addResponse(projectobject, hospitalId, patientId, questionnaireObject)
                 .then (responseObj) ->
                     questions = {}
-                    getQuestion(questionnaireObject,[])
+                    getQuestion(questionnaireObject,patientId,[],responseObj.id)
                     .then (questionData) ->
+
+
                         result = 
                             "id" : questionnaireObject.id
                             "name" : questionnaireObject.get('name')  
@@ -47,13 +51,15 @@ Parse.Cloud.define 'getQuestionnaire', (request, response) ->
 Parse.Cloud.define 'getNextQuestion', (request, response) ->
     questionnaireId = request.params.questionnaireId
     questionIds = request.params.questionIds
+    patientId  = request.params.patientId
+    responseId = request.params.responseId
  
     questionnaireQuery = new Parse.Query('Questionnaire')
     questionnaireQuery.equalTo("objectId", questionnaireId)
     questionnaireQuery.first()
     .then (questionnaireObject) ->
         questions = {}
-        getQuestion(questionnaireObject,questionIds, )
+        getQuestion(questionnaireObject,patientId,questionIds,responseId)
         .then (questionData) ->
             response.success questionData
         , (error) ->
@@ -65,6 +71,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 Parse.Cloud.define 'getQuestion', (request, response) ->
     responseId = request.params.responseId
     questionId = request.params.questionId
+    patientId  = request.params.patientId
     answer = request.params.answer
  
     questionQuery = new Parse.Query('Questions')
@@ -74,31 +81,39 @@ Parse.Cloud.define 'getQuestion', (request, response) ->
         result = {}
 
         if !_.isEmpty questionObject
-            options ={}
-            getoptions(questionObject)
-            .then (optionsData) ->
-                options = optionsData
-                getAnswer(answer, responseId)
-                .then (answerObj) -> 
-                    result = 
-                        "id" : questionObject.id
-                        "question" : questionObject.get('question')  
-                        "type" : questionObject.get('type')
-                        "options" : options
-                        "answer": answerObj
-                    console.log result
-                    response.success result
+            options = getoptions(questionObject)
+            answer =  getAnswer(answer, responseId)
+            previousAnswer =  getPreviousAnswer(questionObject, patientId, responseId)
+            questionPromise = []
 
-                ,(error) ->
-                    response.error error
+            questionPromise.push answer
+            questionPromise.push previousAnswer
+            questionPromise.push options
 
-                
+            Parse.Promise.when(questionPromise).then ->
+                questionPromiseArr = _.flatten(_.toArray(arguments))
+                answerObj = questionPromiseArr[0]
+                previousAnswerObj = questionPromiseArr[1]
+                options = {}
+                if (questionPromiseArr.length > 1)  
+                    options = questionPromiseArr.splice(2, (questionPromiseArr.length-1) )
+                   
+                result = 
+                    "id" : questionObject.id
+                    "question" : questionObject.get('question')  
+                    "type" : questionObject.get('type')
+                    "options" : options
+                    "answer": answerObj
+                    "previousAnswer": previousAnswerObj
+                response.success result            
             , (error) ->
                 response.error error
+            
+
     , (error) ->
         response.error error
 
-getQuestion =  ( questionnaireObject ,questionIds) ->
+getQuestion =  ( questionnaireObject, patientId, questionIds ,responseId) ->
     promise = new Parse.Promise()
 
     questionQuery = new Parse.Query('Questions')
@@ -109,17 +124,27 @@ getQuestion =  ( questionnaireObject ,questionIds) ->
         result = {}
 
         if !_.isEmpty questionObject
-            options ={}
-            getoptions(questionObject)
-            .then (optionsData) ->
-                console.log "optionsData"
-                options = optionsData
+            options = getoptions(questionObject)
+            previousAnswer =  getPreviousAnswer(questionObject, patientId, responseId)
+            questionPromise = []
+
+            questionPromise.push previousAnswer
+            questionPromise.push options
+
+            Parse.Promise.when(questionPromise).then ->
+                questionPromiseArr = _.flatten(_.toArray(arguments))
+                previousAnswerObj = questionPromiseArr[0]
+                options = {}
+                if (questionPromiseArr.length > 1)  
+                    options = questionPromiseArr.splice(1, (questionPromiseArr.length-1) )
+
 
                 result = 
                     "id" : questionObject.id
                     "question" : questionObject.get('question')  
                     "type" : questionObject.get('type')
                     "options" : options
+                    "previousAnswer": previousAnswerObj
 
                 promise.resolve result
 
@@ -168,9 +193,13 @@ getAnswer = (answer, responseId) ->
         .then (responseObj) ->
             answerQuery = new Parse.Query('Answer')
             answerQuery.equalTo("response", responseObj)
-            answerQuery.find()
+            answerQuery.first()
             .then (answerObj) ->
-                promise.resolve answerObj
+                result = 
+                    "id" : answerObj.id
+                    "option" : answerObj.get('option').id
+                    "value" : answerObj.get('value')  
+                promise.resolve result
             , (error) ->
                 promise.reject error
         , (error) ->
@@ -187,14 +216,46 @@ getoptions =  ( questionObject ) ->
     .then (optionObjects) ->
         result ={}
         options = _.map(optionObjects, (optionObject) ->
-                     result = 
+                    if !_.isUndefined(optionObject.get('subQuestion'))
+                        subQuestion = optionObject.get('subQuestion').id
+                    else
+                        subQuestion = ''
+                    result = 
                         "id" : optionObject.id
                         "label" : optionObject.get('label')
                         "score" : optionObject.get('score')
-                        "subQuestion": optionObject.get('subQuestion')  
+                        "subQuestion": subQuestion
                     )
         
         promise.resolve options
+    , (error) ->
+        promise.reject error
+
+    promise
+
+getPreviousAnswer =  (questionObject, patientId, responseId) ->
+    promise = new Parse.Promise()
+
+    Response = Parse.Object.extend 'Response'
+    responseObj = new Response()
+    responseObj.id = responseId
+
+    answerQuery = new Parse.Query('Answer')
+    answerQuery.equalTo("question", questionObject)
+    answerQuery.equalTo("patient", patientId)
+    answerQuery.notEqualTo("response", responseObj)
+    answerQuery.descending();
+    answerQuery.first()
+    .then (answerObjects) ->
+        result = {}
+
+        if !_.isEmpty answerObjects
+            result = 
+                "id" : answerObjects.id
+                "option" : answerObjects.get('option')
+                "value" : answerObjects.get('value')  
+                 
+        promise.resolve result
     , (error) ->
         promise.reject error
 
@@ -273,27 +334,28 @@ Parse.Cloud.define 'saveAnswer', (request, response) ->
         response.success "Saved"
     , (error) ->
         response.error error
-     
 
-        
-    
-Parse.Cloud.define "addSubQuestion", (request, response) ->
-    optionQuery = new Parse.Query('Options')
-    optionQuery.get request.params.optionId
-    .then (optionObj) ->
-        subQuestionQuery = new Parse.Query('Questions')
-        subQuestionQuery.get request.params.subQuestionId
-        .then (subQuestion) ->
-            optionObj.set "subQuestion", subQuestion
-            optionObj.save()
-            .then (optionObj) ->
-                response.success optionObj
-            , (error) ->
-                response.error error
+
+Parse.Cloud.define 'getSummary', (request, response) ->
+    responseId = request.params.responseId
+    responseQuery = new Parse.Query('Response')
+    responseQuery.equalTo("objectId", responseId)
+    responseQuery.first()
+    .then (responseObj) ->
+        answerQuery = new Parse.Query('Answer')
+        answerQuery.include("question")
+        answerQuery.include("option")
+        answerQuery.equalTo("response", responseObj)
+        answerQuery.find()
+        .then (answerObjects) ->
+            response.success answerObjects
         , (error) ->
             response.error error
-     , (error) ->
+    , (error) ->
         response.error error
+     
+
+
 
 
 
