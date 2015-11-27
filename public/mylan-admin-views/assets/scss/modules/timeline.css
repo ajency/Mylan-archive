@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$base-font-family".
-        on line 25 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/timeline.scss
+        on line 25 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/timeline.scss
 
 20:         .cbp_tmtime {
 21:             display: block;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$base-font-family".
 30:                 margin-bottom: 5px;
 
 Backtrace:
-/Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/timeline.scss:25
+/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/timeline.scss:25
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -84,4 +84,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$base-font-family\".\A         on line 25 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/timeline.scss\A \A 20:         .cbp_tmtime {\A 21:             display: block;\A 22:             width: 25%;\A 23:             padding-right: 100px;\A 24:             position: absolute;\A 25:             font-family: $base-font-family;\A 26:             text-align: right;\A 27:             .date {\A 28:                 font-size: 1.2em;\A 29:                 color: #505458;\A 30:                 margin-bottom: 5px;"; }
+  content: "Error: Undefined variable: \"$base-font-family\".\A         on line 25 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/timeline.scss\A \A 20:         .cbp_tmtime {\A 21:             display: block;\A 22:             width: 25%;\A 23:             padding-right: 100px;\A 24:             position: absolute;\A 25:             font-family: $base-font-family;\A 26:             text-align: right;\A 27:             .date {\A 28:                 font-size: 1.2em;\A 29:                 color: #505458;\A 30:                 margin-bottom: 5px;"; }

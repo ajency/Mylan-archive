@@ -1,6 +1,6 @@
 /*
 Error: Invalid CSS after "$rtl: ": expected expression (e.g. 1px, bold), was "~`"${direction}..."
-        on line 7 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/direction.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/direction.scss
 
 2: * direction.less v0.1.0
 3: *\/
@@ -15,7 +15,7 @@ Error: Invalid CSS after "$rtl: ": expected expression (e.g. 1px, bold), was "~`
 12: // "border-color:" rule
 
 Backtrace:
-/Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/direction.scss:7
+/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/direction.scss:7
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/scss/parser.rb:1165:in `expected'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/lexer.rb:220:in `expected!'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/parser.rb:573:in `assert_expr'
@@ -40,4 +40,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Invalid CSS after \"$rtl: \": expected expression (e.g. 1px, bold), was \"~`\"${direction}...\"\A         on line 7 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/direction.scss\A \A 2: * direction.less v0.1.0\A 3: */\A 4: \A 5: // Local vars\A 6: \A 7: $rtl: ~`\"${direction}\" === 'rtl' ? 'true' : 'false'`;\A 8: $left: ~`${rtl} ? 'right' : 'left'`;\A 9: $right: ~`${rtl} ? 'left' : 'right'`;\A 10: \A 11: \A 12: // \"border-color:\" rule"; }
+  content: "Error: Invalid CSS after \"$rtl: \": expected expression (e.g. 1px, bold), was \"~`\"${direction}...\"\A         on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/direction.scss\A \A 2: * direction.less v0.1.0\A 3: */\A 4: \A 5: // Local vars\A 6: \A 7: $rtl: ~`\"${direction}\" === 'rtl' ? 'true' : 'false'`;\A 8: $left: ~`${rtl} ? 'right' : 'left'`;\A 9: $right: ~`${rtl} ? 'left' : 'right'`;\A 10: \A 11: \A 12: // \"border-color:\" rule"; }

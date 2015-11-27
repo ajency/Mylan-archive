@@ -1,3 +1,37 @@
 label {
   font-size: 15px;
 }
+.table-data div.DTTT .btn:first-child {
+  display: none;
+}
+.table tbody tr {
+  cursor: pointer;
+}
+.dl-horizontal dt {
+  width: 175px;
+  text-align: left;
+  margin-bottom: 10px;
+}
+.dl-horizontal dd {
+  margin-left: 175px;
+  margin-bottom: 10px;
+}
+.select2-container.select2,
+input {
+  margin-bottom: 15px;
+}
+.grid.solid.green {
+  border-radius: 10px;
+}
+.page-content .breadcrumb a {
+  margin-left: 0;
+}
+.page-title h3 {
+  width: auto;
+}
+.bg-gray {
+  background: #eee;
+}
+.user-description-box {
+  margin: 0;
+}

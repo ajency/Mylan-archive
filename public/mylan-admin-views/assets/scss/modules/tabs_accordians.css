@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$color-primary-grey".
-        on line 118 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tabs_accordians.scss
+        on line 118 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tabs_accordians.scss
 
 113:     cursor: default;
 114:     text-decoration: none;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$color-primary-grey".
 123:         & > a {
 
 Backtrace:
-/Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tabs_accordians.scss:118
+/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tabs_accordians.scss:118
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -62,4 +62,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-primary-grey\".\A         on line 118 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tabs_accordians.scss\A \A 113:     cursor: default;\A 114:     text-decoration: none;\A 115: }\A 116: .nav-tabs {\A 117:     margin-bottom: 0px;\A 118:     background-color: $color-primary-grey;\A 119:     padding: 0;\A 120:     & > li {\A 121:         margin-bottom: -3px;\A 122:         padding-left: 0;\A 123:         & > a {"; }
+  content: "Error: Undefined variable: \"$color-primary-grey\".\A         on line 118 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tabs_accordians.scss\A \A 113:     cursor: default;\A 114:     text-decoration: none;\A 115: }\A 116: .nav-tabs {\A 117:     margin-bottom: 0px;\A 118:     background-color: $color-primary-grey;\A 119:     padding: 0;\A 120:     & > li {\A 121:         margin-bottom: -3px;\A 122:         padding-left: 0;\A 123:         & > a {"; }
