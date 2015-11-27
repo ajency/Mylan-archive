@@ -1,5 +1,5 @@
 (function() {
-  var _, addResponse, getHospitalData, getQuestion, getoptions, storeDeviceData;
+  var _, addResponse, getAnswer, getHospitalData, getQuestion, getoptions, storeDeviceData;
 
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
     var projectId, projectObj;
@@ -79,14 +79,19 @@
         options = {};
         return getoptions(questionObject).then(function(optionsData) {
           options = optionsData;
-          result = {
-            "id": questionObject.id,
-            "question": questionObject.get('question'),
-            "type": questionObject.get('type'),
-            "options": options
-          };
-          console.log(result);
-          return response.success(result);
+          return getAnswer(answer, responseId).then(function(answerObj) {
+            result = {
+              "id": questionObject.id,
+              "question": questionObject.get('question'),
+              "type": questionObject.get('type'),
+              "options": options,
+              "answer": answerObj
+            };
+            console.log(result);
+            return response.success(result);
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -154,6 +159,29 @@
     return promise;
   };
 
+  getAnswer = function(answer, responseId) {
+    var promise, responseQuery;
+    responseQuery = new Parse.Query('Response');
+    promise = new Parse.Promise();
+    if (answer) {
+      responseQuery.get(responseId).then(function(responseObj) {
+        var answerQuery;
+        answerQuery = new Parse.Query('Answer');
+        answerQuery.equalTo("response", responseObj);
+        return answerQuery.find().then(function(answerObj) {
+          return promise.resolve(answerObj);
+        }, function(error) {
+          return promise.reject(error);
+        });
+      }, function(error) {
+        return promise.reject(error);
+      });
+    } else {
+      promise.resolve({});
+    }
+    return promise;
+  };
+
   getoptions = function(questionObject) {
     var optionsQuery, promise;
     promise = new Parse.Promise();
@@ -166,7 +194,8 @@
         return result = {
           "id": optionObject.id,
           "label": optionObject.get('label'),
-          "score": optionObject.get('score')
+          "score": optionObject.get('score'),
+          "subQuestion": optionObject.get('subQuestion')
         };
       });
       return promise.resolve(options);
@@ -237,6 +266,27 @@
     }
     return Parse.Promise.when(promiseArr).then(function() {
       return response.success("Saved");
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("addSubQuestion", function(request, response) {
+    var optionQuery;
+    optionQuery = new Parse.Query('Options');
+    return optionQuery.get(request.params.optionId).then(function(optionObj) {
+      var subQuestionQuery;
+      subQuestionQuery = new Parse.Query('Questions');
+      return subQuestionQuery.get(request.params.subQuestionId).then(function(subQuestion) {
+        optionObj.set("subQuestion", subQuestion);
+        return optionObj.save().then(function(optionObj) {
+          return response.success(optionObj);
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
     }, function(error) {
       return response.error(error);
     });

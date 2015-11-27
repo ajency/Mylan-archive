@@ -53,7 +53,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
     questionnaireQuery.first()
     .then (questionnaireObject) ->
         questions = {}
-        getQuestion(questionnaireObject,questionIds)
+        getQuestion(questionnaireObject,questionIds, )
         .then (questionData) ->
             response.success questionData
         , (error) ->
@@ -78,14 +78,21 @@ Parse.Cloud.define 'getQuestion', (request, response) ->
             getoptions(questionObject)
             .then (optionsData) ->
                 options = optionsData
+                getAnswer(answer, responseId)
+                .then (answerObj) -> 
+                    result = 
+                        "id" : questionObject.id
+                        "question" : questionObject.get('question')  
+                        "type" : questionObject.get('type')
+                        "options" : options
+                        "answer": answerObj
+                    console.log result
+                    response.success result
 
-                result = 
-                    "id" : questionObject.id
-                    "question" : questionObject.get('question')  
-                    "type" : questionObject.get('type')
-                    "options" : options
-                console.log result
-                response.success result
+                ,(error) ->
+                    response.error error
+
+                
             , (error) ->
                 response.error error
     , (error) ->
@@ -153,6 +160,24 @@ addResponse = (projectObj, hospitalId, patientId, questionnaireObj) ->
 
     promise
 
+getAnswer = (answer, responseId) ->
+    responseQuery = new Parse.Query('Response')
+    promise = new Parse.Promise()
+    if answer
+        responseQuery.get(responseId)
+        .then (responseObj) ->
+            answerQuery = new Parse.Query('Answer')
+            answerQuery.equalTo("response", responseObj)
+            answerQuery.find()
+            .then (answerObj) ->
+                promise.resolve answerObj
+            , (error) ->
+                promise.reject error
+        , (error) ->
+            promise.reject error
+    else
+        promise.resolve {}
+    promise
 
 getoptions =  ( questionObject ) ->
     promise = new Parse.Promise()
@@ -165,7 +190,8 @@ getoptions =  ( questionObject ) ->
                      result = 
                         "id" : optionObject.id
                         "label" : optionObject.get('label')
-                        "score" : optionObject.get('score')  
+                        "score" : optionObject.get('score')
+                        "subQuestion": optionObject.get('subQuestion')  
                     )
         
         promise.resolve options
@@ -251,7 +277,23 @@ Parse.Cloud.define 'saveAnswer', (request, response) ->
 
         
     
-
+Parse.Cloud.define "addSubQuestion", (request, response) ->
+    optionQuery = new Parse.Query('Options')
+    optionQuery.get request.params.optionId
+    .then (optionObj) ->
+        subQuestionQuery = new Parse.Query('Questions')
+        subQuestionQuery.get request.params.subQuestionId
+        .then (subQuestion) ->
+            optionObj.set "subQuestion", subQuestion
+            optionObj.save()
+            .then (optionObj) ->
+                response.success optionObj
+            , (error) ->
+                response.error error
+        , (error) ->
+            response.error error
+     , (error) ->
+        response.error error
 
 
 
