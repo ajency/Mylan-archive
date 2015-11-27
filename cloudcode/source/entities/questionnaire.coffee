@@ -17,15 +17,23 @@ Parse.Cloud.define 'getQuestionnaire', (request, response) ->
             questionnaireQuery.equalTo("project", projectobject)
             questionnaireQuery.first()
             .then (questionnaireObject) ->
-                questions = {}
-                getQuestion(questionnaireObject,[])
-                .then (questionData) ->
-                    result = 
-                        "id" : questionnaireObject.id
-                        "name" : questionnaireObject.get('name')  
-                        "description" : questionnaireObject.get('description')
-                        "question" : questionData
-                    response.success result
+                addResponse(projectobject, request.params.hospitalId, request.params.patientId, questionnaireObject)
+                .then (responseObj) ->
+                    questions = {}
+                    getQuestion(questionnaireObject,[])
+                    .then (questionData) ->
+                        result = 
+                            "id" : questionnaireObject.id
+                            "name" : questionnaireObject.get('name')  
+                            "description" : questionnaireObject.get('description')
+                            "question" : questionData
+
+
+                        response.success result
+                    , (error) ->
+                        response.error error
+
+
                 , (error) ->
                     response.error error
 
@@ -111,6 +119,34 @@ getQuestion =  ( questionnaireObject ,questionIds) ->
                 console.log "getQuestion option ERROR"
                 response.error error
 
+    , (error) ->
+        promise.reject error
+
+    promise
+
+addResponse = (projectObj, hospitalId, patientId, questionnaireObj) ->
+    promise = new Parse.Promise()
+    hospitalObj = {}
+    
+    hospitalQuery = new Parse.Query('Hospital')
+    hospitalQuery.get(hospitalId)
+    .then (hospitalObj) ->  
+        Response = Parse.Object.extend 'Response'
+        responseObj = new Response()
+        responseObj.set('patient', patientId)
+        responseObj.set('project', projectObj)
+        responseObj.set('hospital',hospitalObj)
+        responseObj.set('questionnaire', questionnaireObj)
+        responseObj.save()
+        .then (responseObj) ->
+            promise.resolve responseObj
+            
+        , (error) ->
+            promise.reject error
+    , (error) ->
+        promise.reject error
+                            
+        
     , (error) ->
         promise.reject error
 

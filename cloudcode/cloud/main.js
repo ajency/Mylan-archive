@@ -1,5 +1,5 @@
 (function() {
-  var _, getHospitalData, getQuestion, getoptions, storeDeviceData;
+  var _, addResponse, getHospitalData, getQuestion, getoptions, storeDeviceData;
 
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
     var projectId, projectObj;
@@ -19,16 +19,20 @@
         questionnaireQuery = new Parse.Query('Questionnaire');
         questionnaireQuery.equalTo("project", projectobject);
         return questionnaireQuery.first().then(function(questionnaireObject) {
-          var questions;
-          questions = {};
-          return getQuestion(questionnaireObject, []).then(function(questionData) {
-            result = {
-              "id": questionnaireObject.id,
-              "name": questionnaireObject.get('name'),
-              "description": questionnaireObject.get('description'),
-              "question": questionData
-            };
-            return response.success(result);
+          return addResponse(projectobject, request.params.hospitalId, request.params.patientId, questionnaireObject).then(function(responseObj) {
+            var questions;
+            questions = {};
+            return getQuestion(questionnaireObject, []).then(function(questionData) {
+              result = {
+                "id": questionnaireObject.id,
+                "name": questionnaireObject.get('name'),
+                "description": questionnaireObject.get('description'),
+                "question": questionData
+              };
+              return response.success(result);
+            }, function(error) {
+              return response.error(error);
+            });
           }, function(error) {
             return response.error(error);
           });
@@ -117,6 +121,32 @@
           return response.error(error);
         });
       }
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  addResponse = function(projectObj, hospitalId, patientId, questionnaireObj) {
+    var hospitalObj, hospitalQuery, promise;
+    promise = new Parse.Promise();
+    hospitalObj = {};
+    hospitalQuery = new Parse.Query('Hospital');
+    hospitalQuery.get(hospitalId).then(function(hospitalObj) {
+      var Response, responseObj;
+      Response = Parse.Object.extend('Response');
+      responseObj = new Response();
+      responseObj.set('patient', patientId);
+      responseObj.set('project', projectObj);
+      responseObj.set('hospital', hospitalObj);
+      responseObj.set('questionnaire', questionnaireObj);
+      return responseObj.save().then(function(responseObj) {
+        return promise.resolve(responseObj);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
     }, function(error) {
       return promise.reject(error);
     });
