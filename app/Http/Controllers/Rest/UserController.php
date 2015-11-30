@@ -199,6 +199,7 @@ class UserController extends Controller
         $project = $projectQry->first();
         
         $hospitalData = [];
+        $hospitalData['id'] = $hospital->getObjectId();
         $hospitalData['name'] = $hospital->get('name');
         $hospitalData['logo'] = $hospital->get('logo');
         $hospitalData['contact_number'] = $hospital->get('contact_number');
@@ -257,6 +258,7 @@ class UserController extends Controller
                     $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
                     $apiKey = $user->apiKey()->first();
                     $json_resp = array(
+                        'patient_id'=> $user['id'], 
                         'project_id'=> $projectId,    
                         'user-auth-key'=> $apiKey['key'],
                         'hospital'=> $hospitalData,
