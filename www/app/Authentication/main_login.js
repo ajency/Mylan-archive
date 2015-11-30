@@ -29,7 +29,10 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   Storage.login('set');
                   Storage.setHospitalData('set', data.hospitalData);
                   CSpinner.hide();
-                  return App.navigate("dashboard");
+                  return App.navigate("dashboard", {}, {
+                    animate: false,
+                    back: false
+                  });
                 } else {
                   CToast.show('Please check credentials');
                   return CSpinner.hide();

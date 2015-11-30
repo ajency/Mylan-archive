@@ -9,6 +9,11 @@ angular.module 'PatientApp.main', []
 				count = -1
 				App.goBack count
 
+			resetPassword : ->
+				console.log 's'
+				App.navigate 'reset_password'
+
+
 ]
 
 .config ['$stateProvider', ($stateProvider)->
