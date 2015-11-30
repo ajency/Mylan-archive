@@ -199,7 +199,7 @@ class UserController extends Controller
         $project = $projectQry->first();
         
         $hospitalData = [];
-        $hospitalData['id'] = $hospital->objectId();
+        $hospitalData['id'] = $hospital->getObjectId();
         $hospitalData['name'] = $hospital->get('name');
         $hospitalData['logo'] = $hospital->get('logo');
         $hospitalData['contact_number'] = $hospital->get('contact_number');
