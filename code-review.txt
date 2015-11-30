@@ -27,7 +27,7 @@ Conditions are not handel please handel them
 
 Same kind of headers are used for two times in auth_API.coffee file please make a function and use it single time.
 
-
+Ionic loading is used many time same method prepare a global service and call its method several time.U can also pass scope on it so that i will get scope value.
 
 
 
