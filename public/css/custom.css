@@ -4,7 +4,7 @@ label {
 .table-data div.DTTT .btn:first-child {
   display: none;
 }
-.table tbody tr {
+.table#example tr:hover {
   cursor: pointer;
 }
 .dl-horizontal dt {
@@ -15,6 +15,9 @@ label {
 .dl-horizontal dd {
   margin-left: 175px;
   margin-bottom: 10px;
+}
+.active-item {
+  background: #fff;
 }
 .select2-container.select2,
 input {

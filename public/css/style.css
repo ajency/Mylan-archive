@@ -8135,6 +8135,9 @@ label {
   margin-left: 175px;
   margin-bottom: 10px;
 }
+.active-item {
+  background: #fff;
+}
 .select2-container.select2,
 input {
   margin-bottom: 15px;
