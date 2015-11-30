@@ -14,12 +14,7 @@ $(document).ready(function() {
 		$(this).tab('show');
 	});
   
-    $('#tab-2 a').click(function (e) {
-		e.preventDefault();
-		$(this).tab('show');
-	});
-	
-	$('#tab-2 li:eq(1) a').tab('show'); 
+  
 	  
 	$('#tab-3 a').click(function (e) {
 		e.preventDefault();
