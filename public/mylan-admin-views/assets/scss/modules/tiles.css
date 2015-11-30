@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$color-white".
-        on line 7 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tiles.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tiles.scss
 
 2:     margin-left:0px;
 3:     margin-right:0px;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$color-white".
 12:     &.full-height {
 
 Backtrace:
-/Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tiles.scss:7
+/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tiles.scss:7
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -62,4 +62,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-white\".\A         on line 7 of /Users/Mac-Alisha/Desktop/mylan-admin-views/assets/scss/modules/tiles.scss\A \A 2:     margin-left:0px;\A 3:     margin-right:0px;\A 4: }\A 5: .tiles {\A 6:     background-color: #bcbcbc;\A 7:     color:  $color-white ;\A 8:     position: relative;\A 9:     &.overflow-hidden {\A 10:         overflow: hidden;\A 11:     }\A 12:     &.full-height {"; }
+  content: "Error: Undefined variable: \"$color-white\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/tiles.scss\A \A 2:     margin-left:0px;\A 3:     margin-right:0px;\A 4: }\A 5: .tiles {\A 6:     background-color: #bcbcbc;\A 7:     color:  $color-white ;\A 8:     position: relative;\A 9:     &.overflow-hidden {\A 10:         overflow: hidden;\A 11:     }\A 12:     &.full-height {"; }
