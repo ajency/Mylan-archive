@@ -120,6 +120,7 @@
     promise = new Parse.Promise();
     questionQuery = new Parse.Query('Questions');
     questionQuery.equalTo("questionnaire", questionnaireObject);
+    questionQuery.equalTo('isSubQuestion', 'no');
     questionQuery.notContainedIn("objectId", questionIds);
     questionQuery.first().then(function(questionObject) {
       var options, previousAnswer, questionPromise, result;

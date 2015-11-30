@@ -118,6 +118,8 @@ getQuestion =  ( questionnaireObject, patientId, questionIds ,responseId) ->
 
     questionQuery = new Parse.Query('Questions')
     questionQuery.equalTo("questionnaire", questionnaireObject)
+    questionQuery.equalTo('isSubQuestion','no')
+
     questionQuery.notContainedIn("objectId", questionIds)
     questionQuery.first()
     .then (questionObject) ->
@@ -353,15 +355,5 @@ Parse.Cloud.define 'getSummary', (request, response) ->
             response.error error
     , (error) ->
         response.error error
-     
-
-
-
-
-
-
-
-    
-    
 
 
