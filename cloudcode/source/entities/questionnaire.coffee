@@ -119,7 +119,6 @@ getQuestion =  ( questionnaireObject, patientId, questionIds ,responseId) ->
     questionQuery = new Parse.Query('Questions')
     questionQuery.equalTo("questionnaire", questionnaireObject)
     questionQuery.equalTo('isSubQuestion','no')
-
     questionQuery.notContainedIn("objectId", questionIds)
     questionQuery.first()
     .then (questionObject) ->
@@ -153,6 +152,9 @@ getQuestion =  ( questionnaireObject, patientId, questionIds ,responseId) ->
             , (error) ->
                 console.log "getQuestion option ERROR"
                 response.error error
+
+        else
+            promise.resolve result
 
     , (error) ->
         promise.reject error

@@ -151,6 +151,8 @@
           console.log("getQuestion option ERROR");
           return response.error(error);
         });
+      } else {
+        return promise.resolve(result);
       }
     }, function(error) {
       return promise.reject(error);
