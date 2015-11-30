@@ -1,0 +1,33 @@
+//List of method and file to be reviewed as per the standreds.
+
+Comment Description of each method and Class is not present.Please do that from starting 
+
+
+Storage File Too many function
+
+Storage.coffee is too big many functions that can be done in single function only.
+the function is written and pushed in code-modification branch
+
+
+Please give nameing convention proper to veriable 
+
+File Setup.coffee has a veriable name as 'b'
+Use Proper nameing convention for maethod Use camleCase or under_score Case dont use both at the same time
+
+
+Please Make single method for all api request make it in common.coffee file
+and make directive for all three kind of error occured in httpo request
+
+No internet,
+TimeOut
+Server Error
+
+Conditions are not handel please handel them
+
+
+Same kind of headers are used for two times in auth_API.coffee file please make a function and use it single time.
+
+
+
+
+
