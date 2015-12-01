@@ -1,3 +1,7 @@
+
+#input -> (request.params.hospitalName, request.params.address, request.params.primary_contact_number,request.params.primary_email_address, request.params.website, request.params.logo, request.params.contact_person_name, request.params.contact_person_email, request.params.contact_person_number)
+#use -> adds a new Hospital entry
+
 Parse.Cloud.define "addHospital", (request, response) ->
 	hospitalObj = new Parse.Object("Hospital")
 	hospitalObj.set 'name', request.params.hospitalName
@@ -17,7 +21,7 @@ Parse.Cloud.define "addHospital", (request, response) ->
 		response.error error
 
 
-Parse.Cloud.define "listHospital", (request, response) ->
+Parse.Cloud.define "listHospitals", (request, response) ->
 	hospitalQuery = new Parse.Query "Hospital"
 	hospitalQuery.find()
 	.then (hospitalObjs) ->
@@ -42,3 +46,35 @@ Parse.Cloud.define "listHospital", (request, response) ->
 	, (error) ->
 		response.error error
 
+
+Parse.Cloud.define "updateHospital", (request, response) ->
+	hospitalQuery = new Parse.Query "Hospital"
+	hospitalQuery.get(request.params.hospitalId)
+	.then (hospitalObj) ->
+		hospitalObj.set 'name', request.params.hospitalName
+		hospitalObj.set 'address', request.params.address
+		hospitalObj.set 'primary_contact_number', request.params.primary_contact_number
+		hospitalObj.set 'primary_email_address', request.params.primary_email_address
+		hospitalObj.set 'website', request.params.website
+		hospitalObj.set 'logo', request.params.logo
+		hospitalObj.set 'contact_person_name', request.params.contact_person_name
+		hospitalObj.set 'contact_person_email', request.params.contact_person_email
+		hospitalObj.set 'contact_person_number', request.params.contact_person_number
+		hospitalObj.save()
+		.then (hospitalObj) ->
+			response.success hospitalObj
+
+		, (error) ->
+			response.error error
+
+	, (error) ->
+		response.error error
+
+
+Parse.Cloud.define "deleteHospital", (request, response) ->
+	hospitalQuery = new Parse.Query "Hospital"
+	hospitalQuery.get(request.params.hospitalId)
+	.then (hospitalObj) ->
+		hospitalObj.destroy({})
+	, (error) ->
+		response.error error

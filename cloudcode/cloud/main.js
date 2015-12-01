@@ -50,6 +50,39 @@
     });
   });
 
+  Parse.Cloud.define("updateHospital", function(request, response) {
+    var hospitalQuery;
+    hospitalQuery = new Parse.Query("Hospital");
+    return hospitalQuery.get(request.params.hospitalId).then(function(hospitalObj) {
+      hospitalObj.set('name', request.params.hospitalName);
+      hospitalObj.set('address', request.params.address);
+      hospitalObj.set('primary_contact_number', request.params.primary_contact_number);
+      hospitalObj.set('primary_email_address', request.params.primary_email_address);
+      hospitalObj.set('website', request.params.website);
+      hospitalObj.set('logo', request.params.logo);
+      hospitalObj.set('contact_person_name', request.params.contact_person_name);
+      hospitalObj.set('contact_person_email', request.params.contact_person_email);
+      hospitalObj.set('contact_person_number', request.params.contact_person_number);
+      return hospitalObj.save().then(function(hospitalObj) {
+        return response.success(hospitalObj);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("deleteHospital", function(request, response) {
+    var hospitalQuery;
+    hospitalQuery = new Parse.Query("Hospital");
+    return hospitalQuery.get(request.params.hospitalId).then(function(hospitalObj) {
+      return hospitalObj.destroy({});
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
     var hospitalId, patientId, projectId, projectObj;
     projectId = request.params.projectId;
