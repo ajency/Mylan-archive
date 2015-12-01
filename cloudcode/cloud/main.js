@@ -1,6 +1,55 @@
 (function() {
   var _, addResponse, getAnswer, getAnswers, getHospitalData, getPreviousAnswer, getQuestion, getoptions, storeDeviceData;
 
+  Parse.Cloud.define("addHospital", function(request, response) {
+    var hospitalObj;
+    hospitalObj = new Parse.Object("Hospital");
+    hospitalObj.set('name', request.params.hospitalName);
+    hospitalObj.set('address', request.params.address);
+    hospitalObj.set('primary_contact_number', request.params.primary_contact_number);
+    hospitalObj.set('primary_email_address', request.params.primary_email_address);
+    hospitalObj.set('website', request.params.website);
+    hospitalObj.set('logo', request.params.logo);
+    hospitalObj.set('contact_person_name', request.params.contact_person_name);
+    hospitalObj.set('contact_person_email', request.params.contact_person_email);
+    hospitalObj.set('contact_person_number', request.params.contact_person_number);
+    return hospitalObj.save().then(function(hospitalObj) {
+      return response.success(hospitalObj);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("listHospitals", function(request, response) {
+    var hospitalQuery;
+    hospitalQuery = new Parse.Query("Hospital");
+    return hospitalQuery.find().then(function(hospitalObjs) {
+      var hospitalArray, hospitalData, hospitalObj, j, len;
+      hospitalArray = [];
+      hospitalData = function(hospitalObj) {
+        var hospital;
+        hospital = {};
+        hospital['name'] = hospitalObj.get('name');
+        hospital['address'] = hospitalObj.get('address');
+        hospital['primary_contact_number'] = hospitalObj.get('primary_contact_number');
+        hospital['primary_email_address'] = hospitalObj.get('primary_email_address');
+        hospital['no_of_patients'] = "to be added";
+        hospital['no_of_users'] = "to be added";
+        hospital['no_of_doctors'] = "to be added";
+        hospital['no_of_flags'] = "to be added";
+        hospital['no_of_projects'] = "to be added";
+        return hospitalArray.push(hospital);
+      };
+      for (j = 0, len = hospitalObjs.length; j < len; j++) {
+        hospitalObj = hospitalObjs[j];
+        hospitalData(hospitalObj);
+      }
+      return response.success(hospitalArray);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
     var hospitalId, patientId, projectId, projectObj;
     projectId = request.params.projectId;
