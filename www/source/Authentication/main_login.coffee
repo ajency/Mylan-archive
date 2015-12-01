@@ -46,6 +46,7 @@ angular.module 'PatientApp.Auth'
 								App.navigate "dashboard", {}, {animate: false, back: false}
 							else
 								CToast.show 'Please check credentials'
+								@loginerror ="Entered password is not correct please try again "
 								CSpinner.hide()
 						, (error)=>
 							CToast.show 'Please try again'

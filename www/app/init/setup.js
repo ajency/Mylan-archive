@@ -38,6 +38,9 @@ angular.module('PatientApp.init').controller('setupCtr', [
                 return Storage.refcode('set', _this.refcode).then(function() {
                   return App.navigate("setup_password");
                 });
+              } else if (data.code === 'limit_exceeded') {
+                CSpinner.hide();
+                return CToast.show('Cannot do setup more then 5 times');
               } else {
                 CSpinner.hide();
                 return CToast.show('Please check reference code');

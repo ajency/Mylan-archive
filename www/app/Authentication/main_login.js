@@ -38,6 +38,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   });
                 } else {
                   CToast.show('Please check credentials');
+                  _this.loginerror = "Entered password is not correct please try again ";
                   return CSpinner.hide();
                 }
               };

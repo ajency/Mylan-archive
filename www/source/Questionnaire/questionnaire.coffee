@@ -34,9 +34,9 @@ angular.module 'PatientApp.Quest',[]
 					# 	'hospitalId': patientData.hospital.id
 					# 	'patientId': patientData.patient_id
 					options =
-						"projectId":"nbkI0XdFRT"
-						"hospitalId":"yvMnIvmvvl"
-						"patientId":17
+						"projectId": patientData.project_id
+						"hospitalId":patientData.hospital.id
+						"patientId":parseInt(patientData.patient_id)
 
 					url = PARSE_URL+'/getQuestionnaire'
 					param = options

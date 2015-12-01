@@ -24,9 +24,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return Storage.setData('patientData', 'get').then(function(patientData) {
           var options, param, url;
           options = {
-            "projectId": "nbkI0XdFRT",
-            "hospitalId": "yvMnIvmvvl",
-            "patientId": 17
+            "projectId": patientData.project_id,
+            "hospitalId": patientData.hospital.id,
+            "patientId": parseInt(patientData.patient_id)
           };
           url = PARSE_URL + '/getQuestionnaire';
           param = options;
