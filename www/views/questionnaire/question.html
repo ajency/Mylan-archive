@@ -120,11 +120,12 @@
           </div>
 
           <div>
+
               <div 
                 class="padding"
-                ng-if = 'view.data.questionType == "scq" || view.data.questionType == "mcq"'>
+                ng-if = 'view.data.type == "single-choice" || view.data.questionType == "mcq"'>
                     <div class="col">
-                        <h5 class="f-w-400">{{view.data.questionTittle}}</h5>
+                        <h5 class="f-w-400">{{view.data.question}}</h5>
                         <br>
                         <div class="prev-answers">
            <div class="swipe-down" 
@@ -164,13 +165,13 @@
               <!-- single choice  -->
               <div 
                 class="list"
-                ng-if = 'view.data.questionType == "scq"'>
+                ng-if = 'view.data.type == "single-choice"'>
                 <label class="item item-radio"
-                  ng-repeat ="answerValue in view.data.option">
+                  ng-repeat ="answerValue in view.data.options">
                     <input type="radio" name="group" ng-model="view.go" 
-                      ng-value="answerValue.value" >
+                      ng-value="answerValue.label" >
                       <div class="item-content">
-                       {{answerValue.answer}} 
+                       {{answerValue.label}} 
                       </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 

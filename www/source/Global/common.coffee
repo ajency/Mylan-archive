@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Global', []
 
 
-.factory 'App', [ '$state', '$ionicHistory', '$window'
-	,( $state, $ionicHistory, $window)->
+.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http'
+	,( $state, $ionicHistory, $window, $q, $http)->
 
 		App = 
 			start: true
@@ -57,8 +57,22 @@ angular.module 'PatientApp.Global', []
 
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
-					$cordovaKeyboard.hideAccessoryBar true				
-			
+					$cordovaKeyboard.hideAccessoryBar true
+
+			sendRequest :(url,params,headers,timeout)->
+				defer = $q.defer()
+
+				if !_.isUndefined(timeout)
+					headers['timeout'] = timeout
+
+				$http.post url,  params, headers
+				.then (data)->
+					defer.resolve data
+				, (error)->
+					defer.reject error
+
+				defer.promise	
+
 
 ]
 

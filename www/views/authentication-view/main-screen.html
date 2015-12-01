@@ -19,10 +19,11 @@
                         ng-model="view.refcode"
                         ng-maxlength="8" 
                         placeholder="Enter 8 Digit Reference Code"
+                        autocomplete="off" spellcheck="false"
+                        autocorrect="off"
                         />
                      </label>
-                  </form>
-                  
+                  </form>                  
                   <p 
                      class="text-left text-danger" 
                      ng-if="myForm.refcode.$error.maxlength">

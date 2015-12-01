@@ -8,6 +8,8 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 .run ['$rootScope', 'App', 'User', '$timeout', ($rootScope, App, User, $timeout)->
 
+	Parse.initialize APP_ID, JS_KEY
+
 
 	$rootScope.App = App
 	App.navigate 'init', {}, {animate: false, back: false}

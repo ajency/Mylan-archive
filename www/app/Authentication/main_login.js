@@ -27,7 +27,10 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
               return function(data) {
                 if (data.code === 'successful_login') {
                   Storage.login('set');
-                  Storage.setHospitalData('set', data.hospitalData);
+                  Storage.hospital_data('set', data.hospital);
+                  Storage.setPatientId('set', data.patient_id);
+                  Storage.setProjectId('set', data.project_id);
+                  Storage.setData('patientData', 'set', data);
                   CSpinner.hide();
                   return App.navigate("dashboard", {}, {
                     animate: false,
@@ -35,6 +38,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   });
                 } else {
                   CToast.show('Please check credentials');
+                  _this.loginerror = "Entered password is not correct please try again ";
                   return CSpinner.hide();
                 }
               };

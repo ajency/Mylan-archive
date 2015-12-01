@@ -43,6 +43,9 @@ angular.module 'PatientApp.init'
 							Storage.refcode 'set',@refcode
 							.then ()->
 								App.navigate "setup_password"
+						else if data.code == 'limit_exceeded'
+							CSpinner.hide()
+							CToast.show 'Cannot do setup more then 5 times'
 						else 
 							CSpinner.hide()
 							CToast.show 'Please check reference code'
