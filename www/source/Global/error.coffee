@@ -14,7 +14,16 @@ angular.module 'PatientApp.Global'
 	
 	link: (scope, el, attr)->
 
-		scope.errorMsg = scope.errorType
+		switch scope.errorType
+			when 'offline'
+				errorMsg = 'No internet availability'
+			when 'server_error'
+				errorMsg = 'Server error'
+			else
+				errorMsg = 'Unknown error'
+
+		
+		scope.errorMsg = errorMsg
 
 		scope.onTryAgain = ->
 			scope.tapToRetry()

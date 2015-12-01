@@ -3,31 +3,32 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
     var QuestionAPI, actionMode;
     QuestionAPI = {};
     actionMode = {};
-    QuestionAPI.getQuestion = function(opts) {
-      var defer, header, param, url;
+    QuestionAPI.getQuestion = function(options) {
+      var defer, param, url;
       defer = $q.defer();
-      console.log('yyyyyyyyy');
-      console.log(PARSE_HEADERS);
       url = PARSE_URL + '/getQuestionnaire';
-      param = opts;
-      header = PARSE_HEADERS;
-      return App.sendRequest(url, param, header, 5000);
+      param = options;
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
     };
-    QuestionAPI.saveAnswer = function(opts) {
-      var data, defer, params;
+    QuestionAPI.saveAnswer = function(options) {
+      var defer, param, url;
       defer = $q.defer();
-      params = {
-        "userdId": '55',
-        "quizID": opts.quizID,
-        "questionId": opts.questionId,
-        "answerId": opts.answerId,
-        "action": opts.action
-      };
-      data = {
-        'type': 'summary',
-        'quizID': '111'
-      };
-      defer.resolve(data);
+      url = PARSE_URL + '/saveAnswer';
+      param = options;
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     QuestionAPI.getSummary = function(opts) {

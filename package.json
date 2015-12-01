@@ -28,7 +28,9 @@
       "locator": "https://github.com/Paldom/SpinnerDialog.git",
       "id": "hu.dpal.phonegap.plugins.SpinnerDialog"
     },
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    "cordova-plugin-network-information",
+    "org.apache.cordova.network-information"
   ],
   "cordovaPlatforms": [
     "ios",
