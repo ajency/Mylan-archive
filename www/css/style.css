@@ -467,7 +467,7 @@ input[id=password] {
 ---------------------------------------------*/
 @media (min-width: 768px) and (max-width: 1024px) {
   .centering {
-    padding-top: 10%;
+    padding-top: 0;
   }
   .padding {
     padding: 20px;
@@ -667,6 +667,9 @@ input[id=password] {
     right: 2px;
     top: -2px;
   }
+  #chartdiv text {
+    font-size: 12px;
+  }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
@@ -678,6 +681,9 @@ input[id=password] {
   .col,
   .row {
     padding: 10px;
+  }
+  #chartdiv text {
+    font-size: 12px;
   }
   h1 {
     font-size: 72px;
@@ -873,7 +879,7 @@ input[id=password] {
 }
 @media screen and (min-width: 768px) and (orientation: landscape) {
   .loader {
-    padding-top: 30%;
+    padding-top: 20%;
   }
 }
 .errors {
