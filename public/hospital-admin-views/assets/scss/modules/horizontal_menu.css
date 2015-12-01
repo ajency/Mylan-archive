@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$input-active-background-color".
-        on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/horizontal_menu.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/horizontal_menu.scss
 
 2: 	.header-seperation{
 3: 		display: none;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$input-active-background-color".
 12: 	}
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/horizontal_menu.scss:7
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/horizontal_menu.scss:7
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -73,4 +73,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$input-active-background-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/horizontal_menu.scss\A \A 2: 	.header-seperation{\A 3: 		display: none;\A 4: 	}\A 5: 	.bar{\A 6: 		width: 100%;\A 7: 		background-color: $input-active-background-color;\A 8: 		position: fixed;\A 9: 		margin-top: 56px;\A 10: 		display: table;\A 11: 		z-index: 50;\A 12: 	}"; }
+  content: "Error: Undefined variable: \"$input-active-background-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/horizontal_menu.scss\A \A 2: 	.header-seperation{\A 3: 		display: none;\A 4: 	}\A 5: 	.bar{\A 6: 		width: 100%;\A 7: 		background-color: $input-active-background-color;\A 8: 		position: fixed;\A 9: 		margin-top: 56px;\A 10: 		display: table;\A 11: 		z-index: 50;\A 12: 	}"; }

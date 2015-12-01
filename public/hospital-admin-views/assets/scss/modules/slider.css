@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$color-primary".
-        on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/slider.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/slider.scss
 
 2:     display: block;
 3:     margin: 5px 0px;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$color-primary".
 12:         .slider-track {
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/slider.scss:7
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/slider.scss:7
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -84,4 +84,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-primary\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/slider.scss\A \A 2:     display: block;\A 3:     margin: 5px 0px;\A 4:     direction: ltr;\A 5:     &.primary {\A 6:         .slider-track {\A 7:             background: $color-primary;\A 8:             background-image: none;\A 9:         }\A 10:     }\A 11:     &.sucess {\A 12:         .slider-track {"; }
+  content: "Error: Undefined variable: \"$color-primary\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/slider.scss\A \A 2:     display: block;\A 3:     margin: 5px 0px;\A 4:     direction: ltr;\A 5:     &.primary {\A 6:         .slider-track {\A 7:             background: $color-primary;\A 8:             background-image: none;\A 9:         }\A 10:     }\A 11:     &.sucess {\A 12:         .slider-track {"; }

@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$color-primary-grey".
-        on line 61 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/search_results.scss
+        on line 61 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/search_results.scss
 
 56: #Parks {
 57:   &.list {
@@ -15,7 +15,7 @@ Error: Undefined variable: "$color-primary-grey".
 66:       border-radius: 3px;
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/search_results.scss:61
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/search_results.scss:61
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -84,4 +84,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$color-primary-grey\".\A         on line 61 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/search_results.scss\A \A 56: #Parks {\A 57:   &.list {\A 58:     .list_header {\A 59:       height: 38px;\A 60:       line-height: 38px;\A 61:       background: $color-primary-grey;\A 62:       text-align: right;\A 63:       color: #59514c;\A 64:       -webkit-border-radius: 3px;\A 65:       -moz-border-radius: 3px;\A 66:       border-radius: 3px;"; }
+  content: "Error: Undefined variable: \"$color-primary-grey\".\A         on line 61 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/search_results.scss\A \A 56: #Parks {\A 57:   &.list {\A 58:     .list_header {\A 59:       height: 38px;\A 60:       line-height: 38px;\A 61:       background: $color-primary-grey;\A 62:       text-align: right;\A 63:       color: #59514c;\A 64:       -webkit-border-radius: 3px;\A 65:       -moz-border-radius: 3px;\A 66:       border-radius: 3px;"; }

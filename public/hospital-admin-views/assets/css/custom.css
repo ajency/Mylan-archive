@@ -1,6 +1,15 @@
 label {
   font-size: 15px;
 }
+.m-b-0 {
+  margin-bottom: 0;
+}
+.m-l-42 {
+  margin-left: 42px;
+}
+.page-title {
+  margin: 0 0 30px;
+}
 .table-data div.DTTT .btn:first-child {
   display: none;
 }
@@ -54,6 +63,15 @@ label {
 .feature-list .col-md-3.b-r h3 {
   margin: 0;
 }
+.sub-title {
+  font-size: 19px;
+}
+.table tbody tr {
+  cursor: pointer;
+}
+.active-item {
+  background: #fff;
+}
 .select2-container.select2,
 input {
   margin-bottom: 15px;
@@ -76,4 +94,19 @@ input {
 .user-description-box .icon-row .fa {
   font-size: 20px;
   margin-right: 15px;
+}
+.footer {
+  background-color: #3C3C41;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+}
+.footer .footer-content {
+  padding-left: 26px;
+  padding-right: 26px;
+}
+.footer span {
+  color: #E1EAF1;
 }

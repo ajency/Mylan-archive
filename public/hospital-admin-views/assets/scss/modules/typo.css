@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$base-font-family-two".
-        on line 20 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/typo.scss
+        on line 20 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/typo.scss
 
 15:     right: -15px;
 16:     z-index: 9999;
@@ -15,7 +15,7 @@ Error: Undefined variable: "$base-font-family-two".
 25:     line-height: 43px;
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/typo.scss:20
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/typo.scss:20
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -62,4 +62,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$base-font-family-two\".\A         on line 20 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/typo.scss\A \A 15:     right: -15px;\A 16:     z-index: 9999;\A 17: }\A 18: h1, h2, h3, h4, h5, h6 {\A 19:     margin: 10px 0;\A 20:     font-family: $base-font-family-two;\A 21:     font-weight: 300;\A 22:     color: #505458;\A 23: }\A 24: h1 {\A 25:     line-height: 43px;"; }
+  content: "Error: Undefined variable: \"$base-font-family-two\".\A         on line 20 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/typo.scss\A \A 15:     right: -15px;\A 16:     z-index: 9999;\A 17: }\A 18: h1, h2, h3, h4, h5, h6 {\A 19:     margin: 10px 0;\A 20:     font-family: $base-font-family-two;\A 21:     font-weight: 300;\A 22:     color: #505458;\A 23: }\A 24: h1 {\A 25:     line-height: 43px;"; }
