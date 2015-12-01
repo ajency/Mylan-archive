@@ -691,6 +691,219 @@ html,html * {
   			top: -2px;
   			}
 }
+@media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation:portrait){
+  	.centering{
+  		padding-top: 10%;
+  	}
+  	.padding{
+  		padding: 20px;
+  	}
+  	.col,.row{
+  		padding: 10px;
+  	}
+  	h1{
+  		font-size: 72px;
+  		margin-bottom: 20px;
+  	}
+  	h2{
+		font-size: 65px;
+	}
+	h3{
+		font-size: 42px;
+		font-weight: 200;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	h4{
+		font-size: 40px;
+		font-weight: 200;
+	}
+	h5{
+		font-size: 25px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
+	h6{
+		font-size: 19px;
+		font-weight: 200;
+	}
+	span{
+		font-size: 19px;
+	}
+	.info-msg{
+
+		i.ion-ios-information-outline{
+			font-size: 34px;
+			top: -8px;
+		}
+	}
+	.button{
+		min-height: 55px;
+		font-size: 20px;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		&.button-small{
+			min-height: 40px;
+		}
+	}
+
+	.item-input input{
+		height: 53px;
+		font-size: 20px;
+    	
+			&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+			color:    #333;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+			color:    #333;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+			color:    #333;
+			opacity:  1;
+			font-size: 21px;
+			font-weight: 200;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+			color:    #333;
+			opacity:  1;
+			font-size: 21px;
+			font-weight: 200;
+		}
+	}
+	.clm-list{
+		.button{
+			margin: -2px;
+		}
+		h6.f-w-400{
+			font-size: 21px;
+			margin-top: 0;
+			
+		}
+	}
+	.loading-container .loading .popup p{
+		font-size: 23px;
+	}
+	a,a.button-clear.btn-link{
+		  font-size: 23px;
+	}
+	.list.list-inset,.question-popup{
+  		i.ion-ios-help-outline{
+  		font-size: 35px;
+  		padding: 14px;
+  	}
+  	i.ion-eye{
+  		font-size: 27px;
+    	padding: 19px;
+  	}
+  }
+
+  .has-header {
+    top: 55px;
+	}
+.has-footer{
+	bottom: 55px;
+}
+.bg-yellow{
+	border-bottom: 1px solid #EAEBBA;
+	p{
+		font-size: 18px;
+	}
+	h5,.col{
+		margin:0;
+	}
+}
+/***NAVBAR***/
+  	.bar{
+	&.bar-header{
+		height: 55px;
+		img{
+			height: 42px!important;
+		}
+		.title{
+			height: 54px;
+			line-height: 55px;
+		}
+		button{
+			margin:0 0 0 10px;
+		}
+		.right-buttons{
+			top:3px;
+			right: 6px;
+				.button{
+					
+					&.button-icon{
+					width: 40px;
+					&::before{
+					font-size: 32px;
+					}
+				}
+				&.button-outline{
+					width: 39px;
+    				height: 39px;
+    				&.ion-pause:before{
+    					font-size: 22px;
+    				}
+    				&.ion-close:before{
+    					font-size: 21px;
+    				}
+				}
+			}
+			
+		}
+		&.bar-balanced .right-buttons{
+			top:3px;
+		}
+	}
+	&.bar-footer{
+		height: 55px;
+		.button{
+			margin:0;
+			font-size: 18px;
+			position: relative;
+			top: 0;
+			&.button-icon .icon:before{
+				font-size: 40px;
+			}
+		}
+	}
+}
+
+	.item.item-radio{
+		.item-content{
+			padding: 28px 16px 28px 69px;
+		}
+		.radio-icon{
+			left: 28px;
+  			top: 35px;
+		}
+	}
+	.item.item-checkbox{
+		    padding: 28px 16px 28px 69px;
+		span{
+			padding: 10px;
+		}
+		.checkbox input, .checkbox-icon{
+			left: 15px;
+		}
+	}
+	.no-list .no{
+		width: 30px;
+		height: 30px;
+		top:-5px;
+		font-size: 14px;
+	}
+	.notification{
+  			width: 17px;
+  			height: 17px;
+  			font-size: 0.643em;
+  			right: 2px;
+  			top: -2px;
+  			}
+}
 @media screen and (min-width:768px) and (orientation:landscape){
 	.loader{
 		padding-top: 30%;
