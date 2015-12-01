@@ -4,65 +4,14 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
     QuestionAPI = {};
     actionMode = {};
     QuestionAPI.getQuestion = function(opts) {
-      var data, defer, params, questionId;
+      var defer, header, param, url;
       defer = $q.defer();
-      questionId = '';
-      if (!_.isUndefined(opts.questionId)) {
-        questionId = opts.questionId;
-      }
-      params = {
-        "userdId": '55',
-        "quizID": opts.quizID,
-        "questionId": questionId
-      };
-      data = {
-        questionId: '112',
-        questionType: 'mcq',
-        questionTittle: 'What is your current Statement best describes your pain ?',
-        option: {
-          0: {
-            id: '1',
-            answer: 'No Pain',
-            value: 'no_pain',
-            checked: false
-          },
-          1: {
-            id: '2',
-            answer: 'Pain present but not needed for pain killer',
-            value: 'pain_present',
-            checked: false
-          },
-          2: {
-            id: '3',
-            answer: 'Pain present, and i take ocassional pain releiving medication',
-            value: 'take_medication',
-            checked: false
-          }
-        },
-        fields: {
-          0: {
-            type: 'number',
-            placeholder: 'kgs',
-            name: 'kgs'
-          },
-          1: {
-            type: 'number',
-            placeholder: 'St',
-            name: 'St'
-          },
-          2: {
-            type: 'number',
-            placeholder: 'lbs',
-            name: 'lbs'
-          }
-        },
-        pastAnswer: 'Pain present, and i take ocassional pain releiving medication',
-        submitedDate: '5-11-2015',
-        previousAnswered: '1',
-        previousQuestion: 'true'
-      };
-      defer.resolve(data);
-      return defer.promise;
+      console.log('yyyyyyyyy');
+      console.log(PARSE_HEADERS);
+      url = PARSE_URL + '/getQuestionnaire';
+      param = opts;
+      header = PARSE_HEADERS;
+      return App.sendRequest(url, param, header, 5000);
     };
     QuestionAPI.saveAnswer = function(opts) {
       var data, defer, params;

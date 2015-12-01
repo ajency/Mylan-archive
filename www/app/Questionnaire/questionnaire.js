@@ -8,7 +8,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       response: '',
       actionValue: {},
       errorType: 'No network connection',
-      display: 'noError',
+      display: 'error',
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -18,45 +18,33 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return defer.promise;
       },
       getQuestion: function(questNo) {
-        var options;
-        options = {
-          quizID: $stateParams.quizID,
-          questNo: questNo
-        };
-        return QuestionAPI.getQuestion(options).then((function(_this) {
-          return function(data) {
-            return _this.getLocal().then(function(result) {
-              var value;
-              value = result;
-              value = parseInt(value);
-              if (value === 1) {
-                data.questionType = 'mcq';
-              } else if (value === 2) {
-                data.questionType = 'scq';
-                data.questionTittle = 'Has your weight changed in the past month ?';
-                data.option = {
-                  0: {
-                    id: '1',
-                    answer: 'No change',
-                    value: 'no_pain',
-                    checked: false
-                  },
-                  1: {
-                    id: '2',
-                    answer: 'Lost upto 4 pounds',
-                    value: 'pain_present',
-                    checked: false
-                  }
-                };
-              } else {
-                data.questionType = 'descr';
-              }
-              return _this.data = data;
-            }, function(error) {
-              return console.log('err');
-            });
+        var data1;
+        this.display = 'noError';
+        data1 = '';
+        return Storage.setData('patientData', 'get').then(function(patientData) {
+          var options, param, url;
+          options = {
+            "projectId": "nbkI0XdFRT",
+            "hospitalId": "yvMnIvmvvl",
+            "patientId": 17
           };
-        })(this));
+          url = PARSE_URL + '/getQuestionnaire';
+          param = options;
+          App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+            console.log('****123***');
+            console.log(data);
+            $scope.view.data = data.data.result.question;
+            this.data1 = data.data.result.question;
+            console.log($scope.view.data);
+            return this.display = 'noError';
+          }, (function(_this) {
+            return function(error) {
+              return console.log('error');
+            };
+          })(this));
+          console.log('data 11');
+          return console.log(data1);
+        });
       },
       getPrevQuestion: function() {
         var options;

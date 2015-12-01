@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', function($state, $ionicHistory, $window) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', function($state, $ionicHistory, $window, $q, $http) {
     var App;
     return App = {
       start: true,
@@ -59,6 +59,19 @@ angular.module('PatientApp.Global', []).factory('App', [
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
           return $cordovaKeyboard.hideAccessoryBar(true);
         }
+      },
+      sendRequest: function(url, params, headers, timeout) {
+        var defer;
+        defer = $q.defer();
+        if (!_.isUndefined(timeout)) {
+          headers['timeout'] = timeout;
+        }
+        $http.post(url, params, headers).then(function(data) {
+          return defer.resolve(data);
+        }, function(error) {
+          return defer.reject(error);
+        });
+        return defer.promise;
       }
     };
   }

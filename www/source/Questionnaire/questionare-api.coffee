@@ -9,63 +9,90 @@ angular.module 'PatientApp.Quest'
 	QuestionAPI.getQuestion = (opts)->
 		defer = $q.defer()
 
-		questionId = ''
 
-		if ! _.isUndefined(opts.questionId)
-			questionId = opts.questionId
+		console.log 'yyyyyyyyy'
 
-		params = 
-			"userdId" : '55'
-			"quizID": opts.quizID
-			"questionId" : questionId
+		console.log PARSE_HEADERS
+
+		# questionId = ''
+
+		# if ! _.isUndefined(opts.questionId)
+		# 	questionId = opts.questionId
+
+		# params = 
+		# 	"userdId" : '55'
+		# 	"quizID": opts.quizID
+		# 	"questionId" : questionId
 
 		# questionType : mcq /scq /descr 
 
-		data = 
-			questionId : '112'
-			questionType: 'mcq'
-			questionTittle: 'What is your current Statement best describes your pain ?'
-			option:
-				0:
-				 id : '1'
-				 answer : 'No Pain'
-				 value : 'no_pain'
-				 checked: false
-				1:
-				 id : '2'
-				 answer : 'Pain present but not needed for pain killer'
-				 value : 'pain_present'
-				 checked: false
-				2:
-				 id : '3'
-				 answer : 'Pain present, and i take ocassional pain releiving medication'
-				 value : 'take_medication'
-				 checked: false
+		# headers =
+		# 	headers:
+		# 		"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+		# 		"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
+		# 		"Content-Type" : 'application/json'
+		url = PARSE_URL+'/getQuestionnaire'
+		param = opts
+		header = PARSE_HEADERS
 
-			fields:
-				0:
-				 type:'number'
-				 placeholder: 'kgs'
-				 name : 'kgs'
-				1:
-				 type:'number'
-				 placeholder : 'St'
-				 name : 'St'
-				2:
-				 type:'number'
-				 placeholder : 'lbs'
-				 name : 'lbs'
+		App.sendRequest(url, param,header, 5000)
 
-			pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
-			submitedDate : '5-11-2015'
-			previousAnswered : '1'
-			previousQuestion : 'true'
+		# defer = $q.defer()
+
+		# $http.post PARSE_URL+'/getQuestionnaire',  opts, PARSE_HEADERS
+		# .then (data)->
+		# 	console.log 'succ'
+		# 	console.log data
+		# 	defer.resolve data.data
+		# , (error)->
+		# 	console.log 'eroor'
+		# 	defer.reject error
+
+		# data = 
+		# 	questionId : '112'
+		# 	questionType: 'mcq'
+		# 	questionTittle: 'What is your current Statement best describes your pain ?'
+		# 	option:
+		# 		0:
+		# 		 id : '1'
+		# 		 answer : 'No Pain'
+		# 		 value : 'no_pain'
+		# 		 checked: false
+		# 		1:
+		# 		 id : '2'
+		# 		 answer : 'Pain present but not needed for pain killer'
+		# 		 value : 'pain_present'
+		# 		 checked: false
+		# 		2:
+		# 		 id : '3'
+		# 		 answer : 'Pain present, and i take ocassional pain releiving medication'
+		# 		 value : 'take_medication'
+		# 		 checked: false
+
+		# 	fields:
+		# 		0:
+		# 		 type:'number'
+		# 		 placeholder: 'kgs'
+		# 		 name : 'kgs'
+		# 		1:
+		# 		 type:'number'
+		# 		 placeholder : 'St'
+		# 		 name : 'St'
+		# 		2:
+		# 		 type:'number'
+		# 		 placeholder : 'lbs'
+		# 		 name : 'lbs'
+
+		# 	pastAnswer : 'Pain present, and i take ocassional pain releiving medication'
+		# 	submitedDate : '5-11-2015'
+		# 	previousAnswered : '1'
+		# 	previousQuestion : 'true'
 
 		
 
-		defer.resolve data
+		# defer.resolve data
 
-		defer.promise
+		# defer.promise
 
 	QuestionAPI.saveAnswer = (opts)->
 		defer = $q.defer()

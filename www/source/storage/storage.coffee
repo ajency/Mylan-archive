@@ -87,5 +87,38 @@ angular.module 'PatientApp.storage', []
       when 'get'
           userInfo
 
+  Storage.setRefernce = (action,param)->
+    switch action
+      when 'set'
+        ref = param
+
+      when 'get'
+        ref 
+
+  Storage.setPatientId = (action, patientId)->
+    switch action
+      when 'set'
+        localforage.setItem 'patientId', patientId
+
+      when 'get'
+        localforage.getItem 'patientId'
+
+  Storage.setProjectId = (action, projectId)->
+    switch action
+      when 'set'
+        localforage.setItem 'projectId', projectId
+
+      when 'get'
+        localforage.getItem 'projectId'   
+
+  Storage.setData = (variableName, action, projectId)->
+    switch action
+      when 'set'
+        localforage.setItem variableName, projectId
+
+      when 'get'
+        localforage.getItem variableName
+
+
   Storage
 ]

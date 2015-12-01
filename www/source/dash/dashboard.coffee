@@ -15,10 +15,8 @@ angular.module 'PatientApp.dashboard',[]
 				# @projectName = value['project']
 
 			startQuiz :(quizID) ->
-				
-
-				Storage.quizDetails 'set' , quizID: quizID 
-				App.navigate 'questionnaire', quizID: quizID
+				# App.navigate 'questionnaire', quizID: quizID
+				App.navigate 'questionnaire'
 
 			getSubmission : ->
 				DashboardAPI.get()

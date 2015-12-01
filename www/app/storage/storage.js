@@ -80,6 +80,38 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return userInfo;
       }
     };
+    Storage.setRefernce = function(action, param) {
+      switch (action) {
+        case 'set':
+          return ref = param;
+        case 'get':
+          return ref;
+      }
+    };
+    Storage.setPatientId = function(action, patientId) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('patientId', patientId);
+        case 'get':
+          return localforage.getItem('patientId');
+      }
+    };
+    Storage.setProjectId = function(action, projectId) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem('projectId', projectId);
+        case 'get':
+          return localforage.getItem('projectId');
+      }
+    };
+    Storage.setData = function(variableName, action, projectId) {
+      switch (action) {
+        case 'set':
+          return localforage.setItem(variableName, projectId);
+        case 'get':
+          return localforage.getItem(variableName);
+      }
+    };
     return Storage;
   }
 ]);
