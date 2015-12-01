@@ -1,4 +1,3 @@
-
 Parse.Cloud.define 'getQuestionnaire', (request, response) ->
     projectId = request.params.projectId
     hospitalId = request.params.hospitalId
@@ -352,10 +351,74 @@ Parse.Cloud.define 'getSummary', (request, response) ->
         answerQuery.equalTo("response", responseObj)
         answerQuery.find()
         .then (answerObjects) ->
-            response.success answerObjects
+            response.success getAnswers answerObjects
         , (error) ->
             response.error error
     , (error) ->
         response.error error
 
 
+getAnswers = (answerObjects) ->
+
+    results = (answerObj) ->
+        input:
+            answerObj['answer']
+        question:
+            answerObj['question'].get('question')
+        optionSelected:
+            answerObj['optionsSelected']
+        val:
+            answerObj['temp']
+    
+    answers = []
+    getUniqueQuestions = (answerObj) ->
+        currentQuestion = answerObj.get('question')
+        questions = (obj['question'] for obj in answers)
+        
+        answer = {}
+        if currentQuestion.id != (q.id for q in questions when q.id == currentQuestion.id)[0]
+            answer['temp'] = (q for q in questions when q.id == currentQuestion.id)[0]
+            answer["question"] = currentQuestion
+            answer["answer"] = answerObj.get('value') 
+            if currentQuestion.get('type') == 'multi-choice' 
+                answer['optionsSelected'] = []
+                answer['optionsSelected'].push(answerObj.get('option').get('label'))
+            else if currentQuestion.get('type') == 'single-choice' 
+                answer['optionsSelected'] = []
+                answer['optionsSelected'].push(answerObj.get('option').get('label'))
+            answers.push(answer)
+        else if currentQuestion.get('type') == 'multi-choice'
+            index = (i for q,i in questions when currentQuestion.id == q.id)[0]
+            answers[index]['optionsSelected'].push(answerObj.get('option').get('label'))
+        
+    
+    getUniqueQuestions answerObj for answerObj in answerObjects
+    results answerObj for answerObj in answers   
+
+
+Parse.Cloud.define("addAnswers", (request, response) ->
+    questionQuery = new Parse.Query('Question')
+    questionQuery.get request.params.question
+    .then (questionObj) ->
+        responseObj = new Parse.Query("Response")
+        responseObj.get request.params.response
+        .then (responseObj) ->
+            optionQuery = new Parse.Query("Options")
+            optionQuery.get request.params.option
+            .then (optionObj) ->
+                answer = new Parse.Object("Answer")
+                answer.set('response', responseObj)
+                answer.set('patient', request.params.patient)
+                asnswer.set('question', questionObj)
+                answer.set('option', optionObj )
+                answer.set('value', request.params.value)
+                answer.save()
+                .then (answer) ->
+                    response.success answer
+            (error) ->
+                response.error error
+        (error) ->
+            response.error error
+    (error) ->
+        response.error error
+)   

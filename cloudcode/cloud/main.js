@@ -1,5 +1,5 @@
 (function() {
-  var _, addResponse, getAnswer, getHospitalData, getPreviousAnswer, getQuestion, getoptions, storeDeviceData;
+  var _, addResponse, getAnswer, getAnswers, getHospitalData, getPreviousAnswer, getQuestion, getoptions, storeDeviceData;
 
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
     var hospitalId, patientId, projectId, projectObj;
@@ -350,13 +350,130 @@
       answerQuery.include("option");
       answerQuery.equalTo("response", responseObj);
       return answerQuery.find().then(function(answerObjects) {
-        return response.success(answerObjects);
+        return response.success(getAnswers(answerObjects));
       }, function(error) {
         return response.error(error);
       });
     }, function(error) {
       return response.error(error);
     });
+  });
+
+  getAnswers = function(answerObjects) {
+    var answerObj, answers, getUniqueQuestions, j, k, len, len1, results, results1;
+    results = function(answerObj) {
+      return {
+        input: answerObj['answer'],
+        question: answerObj['question'].get('question'),
+        optionSelected: answerObj['optionsSelected'],
+        val: answerObj['temp']
+      };
+    };
+    answers = [];
+    getUniqueQuestions = function(answerObj) {
+      var answer, currentQuestion, i, index, obj, q, questions;
+      currentQuestion = answerObj.get('question');
+      questions = (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = answers.length; j < len; j++) {
+          obj = answers[j];
+          results1.push(obj['question']);
+        }
+        return results1;
+      })();
+      answer = {};
+      if (currentQuestion.id !== ((function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = questions.length; j < len; j++) {
+          q = questions[j];
+          if (q.id === currentQuestion.id) {
+            results1.push(q.id);
+          }
+        }
+        return results1;
+      })())[0]) {
+        answer['temp'] = ((function() {
+          var j, len, results1;
+          results1 = [];
+          for (j = 0, len = questions.length; j < len; j++) {
+            q = questions[j];
+            if (q.id === currentQuestion.id) {
+              results1.push(q);
+            }
+          }
+          return results1;
+        })())[0];
+        answer["question"] = currentQuestion;
+        answer["answer"] = answerObj.get('value');
+        if (currentQuestion.get('type') === 'multi-choice') {
+          answer['optionsSelected'] = [];
+          answer['optionsSelected'].push(answerObj.get('option').get('label'));
+        } else if (currentQuestion.get('type') === 'single-choice') {
+          answer['optionsSelected'] = [];
+          answer['optionsSelected'].push(answerObj.get('option').get('label'));
+        }
+        return answers.push(answer);
+      } else if (currentQuestion.get('type') === 'multi-choice') {
+        index = ((function() {
+          var j, len, results1;
+          results1 = [];
+          for (i = j = 0, len = questions.length; j < len; i = ++j) {
+            q = questions[i];
+            if (currentQuestion.id === q.id) {
+              results1.push(i);
+            }
+          }
+          return results1;
+        })())[0];
+        return answers[index]['optionsSelected'].push(answerObj.get('option').get('label'));
+      }
+    };
+    for (j = 0, len = answerObjects.length; j < len; j++) {
+      answerObj = answerObjects[j];
+      getUniqueQuestions(answerObj);
+    }
+    results1 = [];
+    for (k = 0, len1 = answers.length; k < len1; k++) {
+      answerObj = answers[k];
+      results1.push(results(answerObj));
+    }
+    return results1;
+  };
+
+  Parse.Cloud.define("addAnswers", function(request, response) {
+    var questionQuery;
+    questionQuery = new Parse.Query('Question');
+    questionQuery.get(request.params.question).then(function(questionObj) {
+      var responseObj;
+      responseObj = new Parse.Query("Response");
+      responseObj.get(request.params.response).then(function(responseObj) {
+        var optionQuery;
+        optionQuery = new Parse.Query("Options");
+        optionQuery.get(request.params.option).then(function(optionObj) {
+          var answer;
+          answer = new Parse.Object("Answer");
+          answer.set('response', responseObj);
+          answer.set('patient', request.params.patient);
+          asnswer.set('question', questionObj);
+          answer.set('option', optionObj);
+          answer.set('value', request.params.value);
+          return answer.save().then(function(answer) {
+            return response.success(answer);
+          });
+        });
+        return function(error) {
+          return response.error(error);
+        };
+      });
+      return function(error) {
+        return response.error(error);
+      };
+    });
+    return function(error) {
+      return response.error(error);
+    };
   });
 
   _ = require('underscore.js');
