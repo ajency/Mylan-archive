@@ -118,7 +118,7 @@ class UserController extends Controller
                 $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
 
                 $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
-                if($userDeviceCount >=5)
+                if($userDeviceCount >=SETUP_LIMIT)
                 {
                     $json_resp = array(
                         'code' => 'limit_exceeded' , 
@@ -127,40 +127,7 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
-                elseif($userDeviceCount)
-                {
-                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
-                    if($userDevice && $user['password'] =='')
-                    {
-                        $json_resp = array(
-                        'code' => 'set_password' , 
-                        'message' => 'Set Password',
-                        'hospitalData' => $hospitalData
-                        );
-                        $status_code = 200;
-                    }
-                    elseif($userDevice)
-                    {
-                        $json_resp = array(
-                        'code' => 'do_login' , 
-                        'message' => 'Device exist',
-                        'hospitalData' => $hospitalData
-                        );
-                        $status_code = 200;
-                    }
-                    else
-                    {
-                        //add device
-                        $this->addDevice($data,$userId,$hospitalData,'do_login');
-                         $json_resp = array(
-                        'code' => 'do_login' , 
-                        'message' => 'Device exist',
-                        'hospitalData' => $hospitalData
-                        );
-                        $status_code = 200;
-                    }
-                }
-                else
+                elseif($user['account_status'] =='created')
                 {
                     //New setup
                     $this->addDevice($data,$userId,$hospitalData,'set_password');
@@ -171,6 +138,24 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
+                else
+                {
+
+                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
+                    if(!$userDevice)
+                    {
+                        $this->addDevice($data,$userId,$hospitalData,'do_login');
+                    }
+
+                    $json_resp = array(
+                    'code' => 'do_login' , 
+                    'message' => 'Device exist',
+                    'hospitalData' => $hospitalData
+                    );
+                    $status_code = 200;
+                }
+                 
+                
 
             }
         } catch (Exception $ex) {
@@ -251,7 +236,7 @@ class UserController extends Controller
             else
             {
                 
-                if (Hash::check($newpassword, $user['password']))  
+                if (Hash::check($newpassword, $user['password']) && $user['account_status']=='active')  
                 {
                     $projectId = $user['project_id'];
                     $hospitalId = $user['hospital_id'];
@@ -310,6 +295,7 @@ class UserController extends Controller
             else
             {    
                 $user->password = Hash::make($newpassword);
+                $user->account_status = 'active';
                 $user->save();
 
                     $json_resp = array(

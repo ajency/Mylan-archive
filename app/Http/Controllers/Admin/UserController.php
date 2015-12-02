@@ -73,7 +73,7 @@ class UserController extends Controller
         $user->reference_code = $referanceCode;
         $user->reference_number = Hash::make( $referanceNumber );
         $user->password = '';
-        $user->account_status = 'active';
+        $user->account_status = 'created';
         $user->hospital_id = $hospital;
         $user->project_id = $project;
         $user->save();

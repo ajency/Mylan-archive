@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Validator;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -62,4 +64,37 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    public function postLogin(Request $request)
+    { 
+        $referenceCode = $request->input('reference_code');
+        $password = trim($request->input('password'));
+        if($request->has('remember'))
+            $remember = $request->input('remember');
+        else
+           $remember = 0;
+            
+        $newpassword = getPassword($referenceCode , $password);
+        if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
+        {   
+            if(Auth::user()->account_status=='active')
+            {
+                return redirect()->intended('patient/dashbord');
+            }
+            else
+            {
+                Auth::logout();
+                return redirect('/auth/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
+            }
+        }
+        
+        return redirect('/auth/login')->withErrors([
+            'email' => 'The credentials you entered did not match our records. Try again?',
+        ]);
+    }
+
+ 
+
 }

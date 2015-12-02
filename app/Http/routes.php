@@ -20,9 +20,10 @@ Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('auth/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-Route::group( ['prefix' => 'admin'], function() {
-    Route::get( '/', 'Admin\AdminController@index' );
-    Route::resource( 'patients', 'Admin\UserController' );
+Route::group( ['prefix' => 'patient', 'middleware' => ['auth']], function() {
+    Route::get( '/', 'Patient\PatientController@index' );
+    Route::get( '/dashbord', 'Patient\PatientController@index' );
+
 });
 
 

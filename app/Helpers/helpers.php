@@ -5,6 +5,13 @@
  * @param type $type_id
  * @return string
  */
+
+//patient status array
+$patientStatus = ['created'=>'created','active'=>'Active','suspended'=>'Suspended'];
+
+//constatnts
+define("SETUP_LIMIT", 5);
+
 function getUserApiKey( $userId ) {
 
     $key = App\ApiKeys::where('user_id',$userId)->get()->pluck('key');

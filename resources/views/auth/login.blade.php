@@ -1,14 +1,25 @@
-@extends('app')
+@extends('layouts.patient')
 
 @section('content')
-<div class="content col-md-offset-3 col-md-6 login">  
-    
-		<div class="page-title m-l-5">	
-			<h3 class="inline"><span class="semi-bold">Login</span></h3>
-		</div>
-		<div class="grid simple">
-      		<div class="grid-body">
-            	@if (count($errors) > 0)
+<div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+       <div class="cover-container">
+          <br>
+           <div class="text-right btn-contact" style="margin-top:-85px;"><button type="submit" class="btn btn-default">Contact Us</button></div>
+           <br class="hidden-xs">
+           <br>
+        <div class="bg-white shadow-full">
+          <div class="row" style="position:relative;">
+            <div class="img-bg hidden-xs">
+            </div>
+<div class="col-sm-14 col-xs-24 col-sm-push-10  text-center login-info">
+              <br>
+              <br>
+              <h3><span>Welcome to <br>your Healthcare Portal</span></h3>
+                <br>
+                <br>
+                @if (count($errors) > 0)
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -18,86 +29,62 @@
 							</ul>
 						</div>
 					@endif
-
-					<form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/auth/login') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-<div class="row">
-<div class="form-group col-md-12">
-<label class="form-label">E-Mail Address</label>
-<div class="controls">
-<div class="input-with-icon  right">
-<i class=""></i>
-<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-</div>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="form-group col-md-12">
-<label class="form-label">Password</label>
-<span class="help"></span>
-<div class="controls">
-<div class="input-with-icon  right">
-<i class=""></i>
-<input type="password" class="form-control" name="password">
-</div>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="control-group  col-md-12">
-<div class="checkbox checkbox check-success"> <a href="{{ url('/password/email') }}">Trouble login in?</a>&nbsp;&nbsp;
-<input type="checkbox" id="checkbox1" value="1">
-<label for="checkbox1">Keep me reminded </label>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-md-12">
-<button class="btn btn-primary btn-cons pull-right" type="submit">Login</button>
-</div>
-</div>
-</form>
-
-					<!-- <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-						<div class="form-group">
-							<label class="col-md-5 control-label">E-Mail Address</label>
-							<div class="col-md-7">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-md-5 control-label">Password</label>
-							<div class="col-md-7">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="remember"> Remember Me
-									</label>
-								</div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">Login</button>
-
-								<a class="btn btn-link" href="{{ url('/password/email') }}">Forgot Your Password?</a>
-							</div>
-						</div>
-					</form> -->
-			
-			
-                        </div>
-		</div>
+                <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/auth/login') }}">
+                <div class="has-feedback b-b">
+                  <input type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code">
+                  <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>
+                </div>
+                <input type="password" name="password" class="form-control input-lg" id="password" placeholder="Enter your Password" />
+                <br class="hidden-xs">
+                <div class="checkbox text-left hidden-xs" >
+                  <p>
+                  <label>
+                    <input type="checkbox" id="checkbox1" name="remember" value="1"> Remember Me
+                  </label></p>
+                </div>
+                
+                <br>
+                
+                <button type="submit" class="btn btn-info btn-block">Login</button>
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <br>
+                <br>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><p>Forgot your reference code<br> or password ?</p></a>
+                <br>
+                </form>
+            </div>
+          </div>
+          </div>
+      </div>
     </div>
 
+    </div>
+  <!-- Modal -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+        <div class="text-center">
+         <br>
+          <h3>Forgot your reference code or password ?</h3>
+          <br>
+          <p>Kindly Contact your Hospital Administrator or Physician to get your Password Reset</p>
+          <br>
+        
+        <h3 class="f-w-400 line-title"><span>OR</span></h3>
+          <br>
+          <p>Call our Helpline : <span class="text-info">080 - 234 - 6534</span></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-18"><button class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+        <div class="col-sm-3"></div></div>
+      </div>
+    </div>
+    <br>
+  </div>
+  </div>
+</div>
 @endsection
