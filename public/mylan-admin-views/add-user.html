@@ -108,7 +108,7 @@
                <div class="container">
                   <div class="bar-inner">
                      <ul>
-                        <li class="active-item">
+                        <li>
                            <a href="dashboard.html">
                            <span>Dashboard </span>
                            </a>
@@ -119,8 +119,8 @@
                            </a>
                         </li>
                         
-                        <li>
-                           <a href="users-list.html">
+                        <li class="active-item">
+                           <a href="users.html">
                            <span>Users </span>
                            </a>
                         </li>
@@ -144,14 +144,155 @@
             <div class="clearfix"></div>
             <div class="container m-b-50">
                <div class="content">
-                  <!-- <p>
+                  <p>
                   <ul class="breadcrumb">
                      <li>
-                        <a href="#" class="active" > HOME</a>
+                        <a href="dashboard.html">HOME</a>
                      </li>
+                     <li>
+                        <a href="users-list.html">Users</a>
+                     </li>
+                     <li><a href="#" class="active">Add New</a> </li>
                   </ul>
-                  </p> -->
+                  </p>
+                  <div class="page-title">
+                     <h3 class="m-b-0"><span class="semi-bold">Add User</span></h3>
+                     <p>(Create a New User for Royal Hospital)</p>
+                  </div>
+                  <div class="grid simple">
+                     <div class="grid-body">
+                        <form class="form-no-horizontal-spacing" id="form-condensed">
+                           <div class="row">
+                              <div class="col-sm-4">
+                                 <div class="form-row form-group">
+                                    <label>Name</label>
+                                    <input name="name" id="name" type="text"  class="form-control">
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Email</label>
+                                    <input name="email" id="email" type="email"  class="form-control">
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Phone Number</label>
+                                    <input name="number" id="number" type="number"  class="form-control">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row form-row">
+                              <div class="col-sm-4">
+                                 <label>Role</label>
+                                 <select name="role" id="role" class="select2 form-control"  >
+                                    <option value="1">Select</option>
+                                    <option value="2">Admin</option>
+                                    <option value="2">Super Admin</option>
+                                 </select>
+                              </div>
+                              <div class="col-sm-6">
+                              </div>
+                           </div>
+                           <br>
+                           <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
+                           <br>
+                           <div class="user-description-box">
+                              <div class="row">
+                                 <div class="col-md-4">Project</div>
+                                 <div class="col-md-4">Access</div>
+                                 <div class="col-md-4">Access to flags</div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Project</option>
+                                       <option value="2">Cardiac Care</option>
+                                       <option value="2">Diabetes Care</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">View</option>
+                                       <option value="2">Edit</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">Yes</option>
+                                       <option value="2">No</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Project</option>
+                                       <option value="2">Cardiac Care</option>
+                                       <option value="2">Diabetes Care</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">View</option>
+                                       <option value="2">Edit</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">Yes</option>
+                                       <option value="2">No</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Project</option>
+                                       <option value="2">Cardiac Care</option>
+                                       <option value="2">Diabetes Care</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">View</option>
+                                       <option value="2">Edit</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">Yes</option>
+                                       <option value="2">No</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <button class="btn btn-link text-info pullleft"><i class="fa fa-plus"></i> Add Project</button>
+                           </div>
+                           <div class="form-actions">
+                              <div class="text-right">
+                                 <button class="btn btn-primary btn-cons-md" type="submit"><i class="icon-ok"></i> Save</button>
+                                 <button class="btn btn-success btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button>
+                                 <button class="btn btn-default btn-cons-md" type="button">Cancel</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
                </div>
+               <div class="footer">
+                <div class="container">
+                  <div class="footer-content text-center">
+                   <span>Copyright © 2015 Sutter Davis Hospital. All rights reserved.</span>
+                  </div>
+                </div>
+              </div>
             </div>
               <div class="footer">
                 <div class="container">

@@ -420,6 +420,75 @@
                         </form>
                               </div>
                               <div class="tab-pane" id="addUser">
+                                 <form class="form-no-horizontal-spacing" id="form-condensed">
+                                    <div class="row">
+                              <div class="col-sm-4">
+                                 <div class="form-row form-group">
+                                    <label>Name</label>
+                                    <input name="name" id="name" type="text"  class="form-control">
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Email</label>
+                                    <input name="email" id="email" type="email"  class="form-control">
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Phone Number</label>
+                                    <input name="number" id="number" type="number"  class="form-control">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="row form-row">
+                              <div class="col-sm-4">
+                                 <label>Role</label>
+                                 <select name="role" id="role" class="select2 form-control"  >
+                                    <option value="1">Select</option>
+                                    <option value="2">Admin</option>
+                                    <option value="2">Super Admin</option>
+                                 </select>
+                              </div>
+                              <div class="col-sm-6">
+                              </div>
+                           </div>
+                           <br>
+                           <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
+                           <br>
+                           <div class="user-description-box">
+                              <div class="row">
+                                 <div class="col-md-4">Project</div>
+                                 <div class="col-md-4">Access</div>
+                                 <div class="col-md-4">Access to flags</div>
+                              </div>
+                              <br>
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Project</option>
+                                       <option value="2">Cardiac Care</option>
+                                       <option value="2">Diabetes Care</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">View</option>
+                                       <option value="2">Edit</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Access</option>
+                                       <option value="2">Yes</option>
+                                       <option value="2">No</option>
+                                    </select>
+                                 </div>
+                              </div>
+                              <button class="btn btn-link text-info pullleft"><i class="fa fa-plus"></i> Add Project</button>
+                           </div>
+                                 </form>
                               </div>
                            </div>
                </div>

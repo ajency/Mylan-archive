@@ -8232,6 +8232,9 @@ input {
 .footer span {
   color: #E1EAF1;
 }
+.breadcrumb li {
+  padding-left: 0;
+}
 .upload {
   width: auto;
   height: 70px;
