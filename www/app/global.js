@@ -1,6 +1,14 @@
-var APP_ID, AUTH_URL, JS_KEY, PARSE_HEADERS, PARSE_URL, REST_API_KEY;
+var APP_ID, AUTH_HEADERS, AUTH_URL, JS_KEY, PARSE_HEADERS, PARSE_URL, REST_API_KEY;
 
 AUTH_URL = 'http://54.213.248.21/api/v1';
+
+AUTH_HEADERS = {
+  headers: {
+    "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+    "X-Authorization": 'e7544bd1e3743b71ea473cee30d73227135358aa',
+    "Content-Type": 'application/json'
+  }
+};
 
 APP_ID = 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA';
 

@@ -9,6 +9,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       actionValue: {},
       errorType: '',
       display: 'loader',
+      infoBox: true,
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -32,7 +33,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data.result;
-              return _this.display = 'noError';
+              _this.display = 'noError';
+              return $timeout(function() {
+                console.log('timeoutt');
+                return _this.infoBox = false;
+              }, 30000);
             }, function(error) {
               _this.display = 'error';
               return _this.errorType = error;
@@ -98,17 +103,22 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               "options": [this.singleChoiceValue],
               "value": ""
             };
+            CSpinner.show('', 'Please wait..');
             return QuestionAPI.saveAnswer(options).then((function(_this) {
               return function(data) {
                 console.log('inside save');
-                return console.log(data);
+                console.log(data);
+                return CToast.show('Your answer is saved');
               };
             })(this), (function(_this) {
               return function(error) {
                 console.log('inside save error');
-                return console.log(error);
+                console.log(error);
+                return CToast.show('Error in saving your answer');
               };
-            })(this));
+            })(this))["finally"](function() {
+              return CSpinner.hide();
+            });
           }
         }
       },
@@ -137,9 +147,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return console.log('onTapToRetry');
       }
     };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       return $scope.view.reInit();
     });
+    return $scope.$on('$ionicView.afterEnter', function(event, viewData) {});
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

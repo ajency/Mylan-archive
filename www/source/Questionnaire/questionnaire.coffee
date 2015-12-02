@@ -14,6 +14,7 @@ angular.module 'PatientApp.Quest',[]
 			actionValue : {}
 			errorType : ''
 			display : 'loader'
+			infoBox : true
 
 			
 			getLocal :()->
@@ -43,6 +44,10 @@ angular.module 'PatientApp.Quest',[]
 						console.log data
 						@data = data.result
 						@display = 'noError'
+						$timeout =>
+							console.log 'timeoutt'
+							@infoBox = false
+						, 30000
 					,(error)=>
 						@display = 'error'
 						@errorType = error
@@ -115,16 +120,21 @@ angular.module 'PatientApp.Quest',[]
 							"options": [@singleChoiceValue]
 							"value": ""
 
+						CSpinner.show '', 'Please wait..'
+
 						QuestionAPI.saveAnswer options
 						.then (data)=>
 							console.log 'inside save'
 							console.log data
+							CToast.show 'Your answer is saved'
 							
 						,(error)=>
 							console.log 'inside save error'
 							console.log error
+							CToast.show 'Error in saving your answer'
 
-
+						.finally ->
+							CSpinner.hide()
 
 					
 
@@ -192,6 +202,12 @@ angular.module 'PatientApp.Quest',[]
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
+
+		$scope.$on '$ionicView.afterEnter', (event, viewData)->
+			# $timeout ->
+			# 	console.log 'timeoutt'
+			# 	$scope.view.infoBox = false
+			# , 300
 
 		
 ]

@@ -3,7 +3,7 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
     var AuthAPI;
     AuthAPI = {};
     AuthAPI.validateRefCode = function(refcode, deviceUUID, deviceOS) {
-      var defer, headers, params;
+      var defer, params, url;
       params = {
         "referenceCode": refcode,
         "deviceType": 'mobile',
@@ -11,64 +11,49 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
         "deviceOS": deviceOS,
         "accessType": 'app'
       };
-      headers = {
-        headers: {
-          "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          "X-Authorization": 'e7544bd1e3743b71ea473cee30d73227135358aa',
-          "Content-Type": 'application/json'
-        }
-      };
       defer = $q.defer();
-      $http.post(AUTH_URL + '/user/dosetup', params, headers).then(function(data) {
-        console.log('succ');
-        console.log(data);
+      url = AUTH_URL + '/user/dosetup';
+      App.sendRequest(url, params, AUTH_HEADERS).then(function(data) {
         return defer.resolve(data.data);
-      }, function(error) {
-        console.log('eroor');
-        return defer.reject(error);
-      });
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     AuthAPI.validateUser = function(refrencecode, password) {
-      var defer, headers, params;
+      var defer, params, url;
       params = {
         "referenceCode": refrencecode,
         "password": password
       };
-      headers = {
-        headers: {
-          "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          "X-Authorization": 'e7544bd1e3743b71ea473cee30d73227135358aa',
-          "Content-Type": 'application/json'
-        }
-      };
       defer = $q.defer();
-      $http.post(AUTH_URL + '/user/login', params, headers).then(function(data) {
+      url = AUTH_URL + '/user/login';
+      App.sendRequest(url, params, AUTH_HEADERS).then(function(data) {
         return defer.resolve(data.data);
-      }, function(error) {
-        return defer.reject(error);
-      });
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     AuthAPI.setPassword = function(refrencecode, password) {
-      var defer, headers, params;
+      var defer, params, url;
       params = {
         "referenceCode": refrencecode,
         "password": password
       };
-      headers = {
-        headers: {
-          "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          "X-Authorization": 'e7544bd1e3743b71ea473cee30d73227135358aa',
-          "Content-Type": 'application/json'
-        }
-      };
       defer = $q.defer();
-      $http.post(AUTH_URL + '/user/setpassword', params, headers).then(function(data) {
+      url = AUTH_URL + '/user/setpassword';
+      App.sendRequest(url, params, AUTH_HEADERS).then(function(data) {
         return defer.resolve(data.data);
-      }, function(error) {
-        return defer.reject(error);
-      });
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     return AuthAPI;

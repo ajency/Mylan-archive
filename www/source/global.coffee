@@ -2,6 +2,14 @@
 # authentication url
 AUTH_URL = 'http://54.213.248.21/api/v1'
 
+#larvel header
+AUTH_HEADERS = 
+	headers:
+		"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+		"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
+		"Content-Type" : 'application/json'
+
+
 
 # Parse Keys nutan acct
 APP_ID       = 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA'
