@@ -4,11 +4,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       pastAnswerDiv: 0,
       title: 'C-weight',
       data: [],
-      go: '',
+      singleChoiceValue: '',
       response: '',
       actionValue: {},
-      errorType: 'No network connection',
-      display: 'noError',
+      errorType: '',
+      display: 'loader',
+      infoBox: true,
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -18,42 +19,28 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return defer.promise;
       },
       getQuestion: function(questNo) {
-        var options;
-        options = {
-          quizID: $stateParams.quizID,
-          questNo: questNo
-        };
-        return QuestionAPI.getQuestion(options).then((function(_this) {
-          return function(data) {
-            return _this.getLocal().then(function(result) {
-              var value;
-              value = result;
-              value = parseInt(value);
-              if (value === 1) {
-                data.questionType = 'mcq';
-              } else if (value === 2) {
-                data.questionType = 'scq';
-                data.questionTittle = 'Has your weight changed in the past month ?';
-                data.option = {
-                  0: {
-                    id: '1',
-                    answer: 'No change',
-                    value: 'no_pain',
-                    checked: false
-                  },
-                  1: {
-                    id: '2',
-                    answer: 'Lost upto 4 pounds',
-                    value: 'pain_present',
-                    checked: false
-                  }
-                };
-              } else {
-                data.questionType = 'descr';
-              }
-              return _this.data = data;
+        this.display = 'noError';
+        return Storage.setData('patientData', 'get').then((function(_this) {
+          return function(patientData) {
+            var options;
+            _this.patientId = patientData.patient_id;
+            options = {
+              "projectId": patientData.project_id,
+              "hospitalId": patientData.hospital.id,
+              "patientId": parseInt(patientData.patient_id)
+            };
+            return QuestionAPI.getQuestion(options).then(function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data.result;
+              _this.display = 'noError';
+              return $timeout(function() {
+                console.log('timeoutt');
+                return _this.infoBox = false;
+              }, 30000);
             }, function(error) {
-              return console.log('err');
+              _this.display = 'error';
+              return _this.errorType = error;
             });
           };
         })(this));
@@ -102,39 +89,36 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var error, sizeOfField, sizeOfTestboxAns;
-        CSpinner.show('', 'Please wait..');
-        if (this.data.questionType === 'descr') {
-          error = 0;
-          sizeOfField = _.size(this.data.fields);
-          sizeOfTestboxAns = _.size(this.val_answerValue);
-          console.log('******----******');
-          console.log(sizeOfTestboxAns);
-          if (sizeOfTestboxAns === 0) {
-            error = 1;
+        var options;
+        console.log('nextQuestion');
+        console.log(this.data.question.type);
+        if (this.data.question.type === 'single-choice') {
+          if (this.singleChoiceValue === '') {
+            return CToast.show('Please select atleast one answer');
           } else {
-            _.each(this.val_answerValue, function(value) {
-              if (value === null) {
-                return error = 1;
-              }
+            options = {
+              "responseId": this.data.response,
+              "patientId": this.patientId,
+              "questionId": this.data.question.id,
+              "options": [this.singleChoiceValue],
+              "value": ""
+            };
+            CSpinner.show('', 'Please wait..');
+            return QuestionAPI.saveAnswer(options).then((function(_this) {
+              return function(data) {
+                console.log('inside save');
+                console.log(data);
+                return CToast.show('Your answer is saved');
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                console.log('inside save error');
+                console.log(error);
+                return CToast.show('Error in saving your answer');
+              };
+            })(this))["finally"](function() {
+              return CSpinner.hide();
             });
-          }
-          if (error === 1) {
-            return CToast.show('Please enter the values');
-          } else {
-            return this.navigate();
-          }
-        } else if (this.data.questionType === 'scq') {
-          if (this.go === '') {
-            return CToast.show('Please select your answer');
-          } else {
-            return this.navigate();
-          }
-        } else if (this.data.questionType === 'mcq') {
-          if (!_.contains(_.pluck(this.data.option, 'checked'), true)) {
-            return CToast.show('Please select your answer');
-          } else {
-            return this.navigate();
           }
         }
       },
@@ -156,15 +140,17 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       reInit: function() {
         this.data = [];
         this.pastAnswerDiv = 0;
-        return this.go = '';
+        this.go = '';
+        return this.display = 'loader';
       },
       onTapToRetry: function() {
         return console.log('onTapToRetry');
       }
     };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       return $scope.view.reInit();
     });
+    return $scope.$on('$ionicView.afterEnter', function(event, viewData) {});
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

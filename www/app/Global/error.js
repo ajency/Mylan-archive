@@ -10,7 +10,18 @@ angular.module('PatientApp.Global').directive('ajError', [
         setTy: '='
       },
       link: function(scope, el, attr) {
-        scope.errorMsg = scope.errorType;
+        var errorMsg;
+        switch (scope.errorType) {
+          case 'offline':
+            errorMsg = 'No internet availability';
+            break;
+          case 'server_error':
+            errorMsg = 'Server error';
+            break;
+          default:
+            errorMsg = 'Unknown error';
+        }
+        scope.errorMsg = errorMsg;
         return scope.onTryAgain = function() {
           return scope.tapToRetry();
         };

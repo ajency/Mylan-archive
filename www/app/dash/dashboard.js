@@ -8,12 +8,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return Storage.getNextQuestion('set', 1);
       },
       startQuiz: function(quizID) {
-        Storage.quizDetails('set', {
-          quizID: quizID
-        });
-        return App.navigate('questionnaire', {
-          quizID: quizID
-        });
+        return App.navigate('questionnaire');
       },
       getSubmission: function() {
         return DashboardAPI.get();

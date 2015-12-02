@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Global', []
 
 
-.factory 'App', [ '$state', '$ionicHistory', '$window'
-	,( $state, $ionicHistory, $window)->
+.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork)->
 
 		App = 
 			start: true
@@ -25,20 +25,7 @@ angular.module 'PatientApp.Global', []
 			goBack : (count)->
 				$ionicHistory.goBack count
 
-			# check_inputlength : (ngmodel)->
-			# 	# console.log  @ngmodel.toString().length
-			# 	if @ngmodel.toString().length < 8
-			# 		console.log  @ngmodel.toString().length
-			# 	else	
-			# 		event.preventDefault()	
-
-			# check_passwordlength : (Passngmodel)->
-			# 	# console.log  @Passngmodel.toString().length
-			# 	if @Passngmodel.toString().length < 4
-			# 		console.log  @Passngmodel.toString().length
-					
-			# 		event.preventDefault()	
-
+			
 			isAndroid : ->
 				ionic.Platform.isAndroid()
 
@@ -57,8 +44,35 @@ angular.module 'PatientApp.Global', []
 
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
-					$cordovaKeyboard.hideAccessoryBar true				
-			
+					$cordovaKeyboard.hideAccessoryBar true
+
+			errorCode : (error) ->
+				error = ''
+				if error.status == '0'
+					error = 'timeout'
+				else
+					error = 'server_error'
+				error	
+
+			sendRequest :(url,params,headers,timeout)->
+				defer = $q.defer()
+
+				if !_.isUndefined(timeout)
+					headers['timeout'] = timeout
+
+				if @isOnline()	
+					$http.post url,  params, headers
+					.then (data)->
+						defer.resolve data
+					, (error)=>
+						defer.reject @errorCode(error)
+				else
+					defer.reject 'offline'
+
+				defer.promise
+
+
+
 
 ]
 

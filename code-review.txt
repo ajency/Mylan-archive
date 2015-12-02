@@ -31,9 +31,3 @@ Ionic loading is used many time same method prepare a global service and call it
 
 
 
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', function($state, $ionicHistory, $window) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork) {
     var App;
     return App = {
       start: true,
@@ -59,6 +59,34 @@ angular.module('PatientApp.Global', []).factory('App', [
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
           return $cordovaKeyboard.hideAccessoryBar(true);
         }
+      },
+      errorCode: function(error) {
+        error = '';
+        if (error.status === '0') {
+          error = 'timeout';
+        } else {
+          error = 'server_error';
+        }
+        return error;
+      },
+      sendRequest: function(url, params, headers, timeout) {
+        var defer;
+        defer = $q.defer();
+        if (!_.isUndefined(timeout)) {
+          headers['timeout'] = timeout;
+        }
+        if (this.isOnline()) {
+          $http.post(url, params, headers).then(function(data) {
+            return defer.resolve(data);
+          }, (function(_this) {
+            return function(error) {
+              return defer.reject(_this.errorCode(error));
+            };
+          })(this));
+        } else {
+          defer.reject('offline');
+        }
+        return defer.promise;
       }
     };
   }

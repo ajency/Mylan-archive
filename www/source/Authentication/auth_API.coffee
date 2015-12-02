@@ -11,71 +11,54 @@ angular.module 'PatientApp.Auth'
 			"deviceOS" : deviceOS
 			"accessType" : 'app'
 
-		headers =
-			headers:
-				"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
-				"Content-Type" : 'application/json'
-
 
 		defer = $q.defer()
 
-		$http.post AUTH_URL+'/user/dosetup',  params, headers
+		url = AUTH_URL+'/user/dosetup'
+				
+		App.sendRequest(url, params, AUTH_HEADERS)
 		.then (data)->
-			console.log 'succ'
-			console.log data
 			defer.resolve data.data
-		, (error)->
-			console.log 'eroor'
+		, (error)=>
 			defer.reject error
-
-		defer.promise	
+			
+		defer.promise
 
 	AuthAPI.validateUser = (refrencecode,password )->
 		# console.log refcode + password
 		params = 
 			"referenceCode" : refrencecode
 			"password": password
-			
-
-		headers =
-			headers:
-				"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
-				"Content-Type" : 'application/json'
-
 
 		defer = $q.defer()
 
-		$http.post AUTH_URL+'/user/login',  params, headers
+		url = AUTH_URL+'/user/login'
+				
+		App.sendRequest(url, params, AUTH_HEADERS)
 		.then (data)->
 			defer.resolve data.data
-		, (error)->
+		, (error)=>
 			defer.reject error
-
-		defer.promise				
+			
+		defer.promise
+			
 	
 	AuthAPI.setPassword = (refrencecode,password)->
 		params = 
 			"referenceCode" : refrencecode
 			"password": password
-			
-		headers =
-			headers:
-				"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
-				"Content-Type" : 'application/json'
 
 		defer = $q.defer()
 
-		$http.post AUTH_URL+'/user/setpassword',  params, headers
+		url = AUTH_URL+'/user/setpassword'
+				
+		App.sendRequest(url, params, AUTH_HEADERS)
 		.then (data)->
 			defer.resolve data.data
-		, (error)->
+		, (error)=>
 			defer.reject error
-
+			
 		defer.promise
-
 
 	AuthAPI
 ]

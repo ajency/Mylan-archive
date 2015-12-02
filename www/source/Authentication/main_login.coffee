@@ -36,11 +36,17 @@ angular.module 'PatientApp.Auth'
 						.then (data)=>
 							if data.code == 'successful_login'
 								Storage.login 'set'
-								Storage.setHospitalData 'set', data.hospitalData 
+								Storage.hospital_data 'set', data.hospital
+								Storage.setPatientId 'set', data.patient_id 
+								Storage.setProjectId 'set', data.project_id 
+
+								Storage.setData 'patientData','set', data
+
 								CSpinner.hide()
 								App.navigate "dashboard", {}, {animate: false, back: false}
 							else
 								CToast.show 'Please check credentials'
+								@loginerror ="Entered password is not correct please try again "
 								CSpinner.hide()
 						, (error)=>
 							CToast.show 'Please try again'

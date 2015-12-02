@@ -5,3 +5,6 @@ ionic add cordova-plugin-device
 ionic add cordova-plugin-splashscreen
 ionic add cordova-plugin-statusbar
 ionic add cordova-plugin-whitelist
+ionic plugin add https://github.com/Paldom/SpinnerDialog.git
+ionic plugin add https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git
+
