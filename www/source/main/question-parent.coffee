@@ -9,7 +9,7 @@ angular.module 'PatientApp.main'
 				App.goBack count
 
 			pause : ->
-				#@openLoadingPopup('views/main/cancel.html') use single method
+				# LoadingPopup.showLoadingPopup 'views/main/pause.html' use single method
 
 				$ionicLoading.show
 					scope: $scope
@@ -18,7 +18,7 @@ angular.module 'PatientApp.main'
 
 
 			close : ->
-				# @openLoadingPopup('views/main/cancel.html') use single method
+				# LoadingPopup.showLoadingPopup 'views/main/cancel.html'
 
 				$ionicLoading.show
 					scope: $scope
@@ -36,13 +36,6 @@ angular.module 'PatientApp.main'
 
 			exitApp : ->
 				ionic.Platform.exitApp()
-				
-			#use this single function as popup
-			# openLoadingPopup : (templateUrl, options={})->
-			# 	$ionicLoading.show
-			# 		scope: $scope
-			# 		templateUrl: templateUrl
-			# 		hideOnStateChange: if !_.isUndefined(options.hideOnStateChange) then options.hideOnStateChange else true
 ]
 
 .config ['$stateProvider', ($stateProvider)->
