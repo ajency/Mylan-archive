@@ -8177,13 +8177,18 @@ label {
 }
 .feature-list .col-md-3 {
   padding: 0 25px 0 25px;
-  height: 145px;
+  height: 158px;
 }
 .feature-list .col-md-3.b-r {
   border-color: #C1C1C1;
 }
 .feature-list .col-md-3.b-r h3 {
   margin: 0;
+}
+.feature-list.fivefetures .col-md-3 {
+  width: 20%!important;
+  height: 170px;
+  padding: 0 15px 0 15px;
 }
 .sub-title {
   font-size: 19px;
