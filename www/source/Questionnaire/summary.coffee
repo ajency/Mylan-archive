@@ -1,7 +1,8 @@
 angular.module 'PatientApp.Quest'
 
 .controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'Storage', ($scope, App, QuestionAPI, $stateParams, Storage)->
+	'Storage'
+	, ($scope, App, QuestionAPI, $stateParams, Storage)->
 
 		$scope.view =
 			title: 'C-weight'

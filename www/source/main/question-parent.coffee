@@ -9,6 +9,8 @@ angular.module 'PatientApp.main'
 				App.goBack count
 
 			pause : ->
+				# LoadingPopup.showLoadingPopup 'views/main/pause.html' use single method
+
 				$ionicLoading.show
 					scope: $scope
 					templateUrl:'views/main/pause.html'
@@ -16,6 +18,8 @@ angular.module 'PatientApp.main'
 
 
 			close : ->
+				# LoadingPopup.showLoadingPopup 'views/main/cancel.html'
+
 				$ionicLoading.show
 					scope: $scope
 					templateUrl:'views/main/cancel.html'
@@ -32,10 +36,6 @@ angular.module 'PatientApp.main'
 
 			exitApp : ->
 				ionic.Platform.exitApp()
-
-
-
-
 ]
 
 .config ['$stateProvider', ($stateProvider)->
