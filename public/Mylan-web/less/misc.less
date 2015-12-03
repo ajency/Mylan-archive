@@ -79,6 +79,14 @@ p{
     top: 9px;
     right: 11px;
     line-height: 16px;
+    left:23px;
+    @media(max-width:767px){
+      left:auto;
+      width: 28px;
+      height: 28px;
+      line-height: 27px;
+      font-size: 14px;
+    }
   }
 }
 .badge-round{
@@ -405,7 +413,8 @@ h4.line-title,h3.line-title {
 }
 .carousel-control{
   
-  &.right,&.left{
+  &.right,
+  &.left{
       background: none;
       bottom: -45px;
       top:auto;
@@ -420,6 +429,40 @@ h4.line-title,h3.line-title {
         span{
           padding-top: 10px;
         }
+      }
+    }
+    &.right{
+      @media(min-width:1200px){
+        right: -11px;
+      }
+      @media(min-width:992px) and (max-width:1199px){
+        right: -2px;
+      }
+      @media(min-width:768px) and (max-width:991px){
+        right: 6px;
+      }
+      @media(min-width:600px) and (max-width:767px){
+        right: 11px;
+      }
+      @media(max-width:599px){
+        right: 24px;
+      }
+    }
+  }
+  @media(max-width:599px){
+    .carousel .carousel-inner,.panel{
+      h3{
+        font-size: 21px;
+      }
+      label{
+        display: block;
+      }
+      .item.item-radio .item-content{
+        font-size: 15px;
+        padding: 12px 16px 12px 0;
+      }
+      p{
+        font-size: 14px;
       }
     }
   }

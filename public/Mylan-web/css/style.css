@@ -83,6 +83,16 @@ p {
   top: 9px;
   right: 11px;
   line-height: 16px;
+  left: 23px;
+}
+@media (max-width: 767px) {
+  .navbar.navbar-default .notification {
+    left: auto;
+    width: 28px;
+    height: 28px;
+    line-height: 27px;
+    font-size: 14px;
+  }
 }
 .badge-round {
   width: 40px;
@@ -422,6 +432,50 @@ h3.line-title span {
 .carousel-control.right div span,
 .carousel-control.left div span {
   padding-top: 10px;
+}
+@media (min-width: 1200px) {
+  .carousel-control.right {
+    right: -11px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .carousel-control.right {
+    right: -2px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .carousel-control.right {
+    right: 6px;
+  }
+}
+@media (min-width: 600px) and (max-width: 767px) {
+  .carousel-control.right {
+    right: 11px;
+  }
+}
+@media (max-width: 599px) {
+  .carousel-control.right {
+    right: 24px;
+  }
+}
+@media (max-width: 599px) {
+  .carousel .carousel-inner h3,
+  .panel h3 {
+    font-size: 21px;
+  }
+  .carousel .carousel-inner label,
+  .panel label {
+    display: block;
+  }
+  .carousel .carousel-inner .item.item-radio .item-content,
+  .panel .item.item-radio .item-content {
+    font-size: 15px;
+    padding: 12px 16px 12px 0;
+  }
+  .carousel .carousel-inner p,
+  .panel p {
+    font-size: 14px;
+  }
 }
 .carousel-indicators {
   position: absolute;
