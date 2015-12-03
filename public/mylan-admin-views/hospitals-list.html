@@ -109,12 +109,12 @@
                <div class="container">
                   <div class="bar-inner">
                      <ul>
-                        <li class="active-item">
+                        <li>
                            <a>
                            <span>Dashboard </span>
                            </a>
                         </li>
-                        <li href="dashboard.html">
+                        <li class="active-item">
                            <a href="hospitals-list.html">
                            <span>Hospitals </span>
                            </a>
@@ -150,340 +150,175 @@
                      <li>
                         <a href="dashboard.html"><span>HOME</span></a>
                      </li>
-                     <li><a href="#" class="active">Hospitals</a> </li>
+                     <li>
+                        <a href="#" class="active">Hospitals</a>
+                     </li>
                   </ul>
                   </p>
-                  <div class="pull-right m-t-10">
-                     <a href="#" class="btn btn-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                  </div>
+                  <!-- <div class="page-title"> <i class="icon-custom-left"></i>
+                     <h3>Horizontal - <span class="semi-bold">Menu</span></h3>
+                     </div> -->
+                     <div class="row">
+                        <div class="col-lg-8 col-md-7">
                   <div class="page-title">
-                     <h3 class="m-b-0"><span class="semi-bold">Royal Hospital</span></h3>
-                     <p>(Get all your Hospital information here)</p>
+                     <h3 class="m-b-0"><span class="semi-bold">Hospitals</span></h3>
+                     <p>(Showing all Hospital under Mylan)</p>
                   </div>
-                  <div class="tabbable tabs-left">
-                     <div class="grid simple">
-                        <div class="grid-body no-border table-data">
-                           <br>
+                  </div>
+                        <div class="col-lg-4 col-md-5 m-t-25">
                            <div class="row">
-                              <div class="col-md-4">
-                                 <h5 class="semi-bold">Logo Image</h5>
-                                 <br>
-                                 <img src="assets/img/hospital-logo.png" alt="Slutter Davis Hospital"  data-src="assets/img/hospital-logo.png" width="auto" height="40"/>
+                              <div class="col-md-6">
+                                 <a href="add-hospital.html" class="btn btn-success"><i class="fa fa-plus"></i> Add New Hospital</a>
                               </div>
-                              <div class="col-md-4">
-                                 <h5 class="m-b-20"><i class="fa fa-map-marker"></i> Rickmansworth Road HA6 2JW</h5>
-                                 <h5><i class="fa fa-phone-square"></i> 989-987-8765</h5>
+                              <div class="col-md-6">
+                                 <select name="role" id="role" class="select2 form-control"  >
+                                    <option value="1">Sort By</option>
+                                    <option value="2">Name</option>
+                                    <option value="2">Popularity</option>
+                                 </select>
                               </div>
                            </div>
-                           <hr>
-                           <div>
-                              <div class="pull-right">
-                                 <a href="#" class="btn btn-white text-info"><i class="fa fa-download"></i> Download CSV</a>
-                                 <a href="new-project.html" class="btn btn-success"><i class="fa fa-plus"></i> Add Project</a>
-                              </div>
-                              <h4>List of <span class="semi-bold">Projects</span></h4>
+                        </div>
+
+                  </div>
+                  <div class="grid simple">
+                     <div class="grid-body no-border">
+                        <br>
+                        <div>
+                           <div class="pull-right">
+                              <button class="btn btn-default btn-small m-r-15">Login as City Hospital</button>
+                              <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
+
                            </div>
-                           <br><br>
-                           <table class="table table-striped" id="example" >
-                              <thead>
-                                 <tr>
-                                    <th>ID</th>
-                                    <th>Project Name</th>
-                                    <th>No. Of Patients</th>
-                                    <th>Users</th>
-                                    <th>No. of Open Flags</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='hospital-project.html';">
-                                    <td>123</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>500</td>
-                                    <td >Timmy (Group Admin)</td>
-                                    <td class="center">5</td>
-                                 </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='hospital-project.html';">
-                                    <td>234</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>200</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">15</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>456</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>400</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">12</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>678</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>150</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">2</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>56</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>100</td>
-                                    <td >Jerry (Group Super Admin)</td>
-                                    <td class="center">10</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>78</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>30</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">9</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>678</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>550</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">7</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>321</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>450</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">20</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>321</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>250</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">4</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>321</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>200</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">23</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>321</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>150</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td class="center">3</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-project.html';">
-                                    <td>321</td>
-                                    <td>Intensive Cardiac Care</td>
-                                    <td>40</td>
-                                    <td>Jerry (Group Super Admin)</td>
-                                    <td>5</td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                           <hr>
-                           <div>
-                              <div class="pull-right">
-                                 <a href="#" class="btn btn-white text-info"><i class="fa fa-download"></i> Download CSV</a>
-                                 <a href="add-user.html" class="btn btn-success"><i class="fa fa-plus"></i> Add User</a>
+                           <a href="project-summary.html">
+                              <h3><span class="semi-bold">City Hospital,</span> Manchester</h3>
+                           </a>
+                        </div>
+                        <br>
+                        <div class="row feature-list fivefetures">
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">10</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> PROJECTS</h5>
+                              <div>
+                                 <p>
+                                    Displays total number of flagged patients
+                                 </p>
+                                 <a href="project-flags.html" class="text-info">View Projects</a>  
                               </div>
-                              <h4 class="semi-bold">Users</h4>
-                              <i>(Users who can access this Hospital)</i>
                            </div>
-                           <br><br>
-                           <table class="table table-striped" id="example" >
-                              <thead>
-                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Email ID</th>
-                                    <th>Contact</th>
-                                    <th>Access</th>
-                                    <th>Role</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='hospital-user.html';">
-                                    <td>123</td>
-                                    <td>Mark</td>
-                                    <td>mark@gmail.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>Admin</td>
-                                 </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='hospital-user.html';">
-                                    <td>234</td>
-                                    <td>Stanley</td>
-                                    <td>stanley@gmail.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>456</td>
-                                    <td>Dave</td>
-                                    <td>dave2yahoo.co.in</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>678</td>
-                                    <td>Keean</td>
-                                    <td>keean@hotmail.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>Admin</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>56</td>
-                                    <td>Nell</td>
-                                    <td>nell@rediff.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>78</td>
-                                    <td>James</td>
-                                    <td>nell@rediff.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>678</td>
-                                    <td>Arden</td>
-                                    <td>nell@rediff.com</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>90</td>
-                                    <td>Keean</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td class="center">860-345-1234</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>4564</td>
-                                    <td>Keean</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td class="center">1.8</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>342</td>
-                                    <td>Keean</td>
-                                    <td>Win 2k+ / OSX.3+</td>
-                                    <td class="center">1.9</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>546</td>
-                                    <td>Keean</td>
-                                    <td>OSX.2+</td>
-                                    <td class="center">1.8</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>798</td>
-                                    <td>Keean</td>
-                                    <td>OSX.3+</td>
-                                    <td class="center">1.8</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>890</td>
-                                    <td>Netscape 7.2</td>
-                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                    <td class="center">1.7</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Netscape Browser 8</td>
-                                    <td>Win 98SE+</td>
-                                    <td class="center">1.7</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Netscape Navigator 9</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td class="center">1.8</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.1</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1.1</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.2</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1.2</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.3</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1.3</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.4</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1.4</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='hospital-user.html';">
-                                    <td>321</td>
-                                    <td>Mozilla 1.5</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td class="center">1.5</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>ProjectSuperAdmin</td>
-                                 </tr>
-                              </tbody>
-                           </table>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">10</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> OPEN FLAGS</h5>
+                              <div>
+                                 <p>
+                                    Displays total number of flagged patients
+                                 </p>
+                                 <a href="project-flags.html" class="text-info">View Open Flags</a>  
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">50%</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-comment text-muted"></i> RESPONSE RATE</h5>
+                              <div>
+                                 <p>
+                                    Displays percentages of patients who regurarly take the questionnaire with Mylan
+                                 </p>
+                                 <a href="response-rate.html" class="text-info">View Response Rate</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">35</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
+                              <div>
+                                 <p>
+                                    2 Read<br>3 Edit
+                                 </p>
+                                 <a href="project-users.html" class="text-info">View Users</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <h3 class="pull-right text-info m-0">60</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
+                              <div>
+                                 <p>
+                                    3 newly registered patients since last week
+                                 </p>
+                                 <a href="project-patients.html" class="text-info">View Patients</a>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div>
+                           <div class="pull-right">
+                              <button class="btn btn-default btn-small m-r-15">Login as Royal Hospital</button>
+                              <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
+                           </div>
+                           <a href="#">
+                              <h3><span class="semi-bold">Royal Hospital,</span> London</h3>
+                           </a>
+                           <br>
+                           <div class="row feature-list fivefetures">
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">10</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> PROJECTS</h5>
+                              <div>
+                                 <p>
+                                    Displays total number of flagged patients
+                                 </p>
+                                 <a href="project-flags.html" class="text-info">View Projects</a>  
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">10</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> OPEN FLAGS</h5>
+                              <div>
+                                 <p>
+                                    Displays total number of flagged patients
+                                 </p>
+                                 <a href="project-flags.html" class="text-info">View Open Flags</a>  
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">50%</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-comment text-muted"></i> RESPONSE RATE</h5>
+                              <div>
+                                 <p>
+                                    Displays percentages of patients who regurarly take the questionnaire with Mylan
+                                 </p>
+                                 <a href="response-rate.html" class="text-info">View Response Rate</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-info">35</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
+                              <div>
+                                 <p>
+                                    2 Read<br>3 Edit
+                                 </p>
+                                 <a href="project-users.html" class="text-info">View Users</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <h3 class="pull-right text-info m-0">60</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
+                              <div>
+                                 <p>
+                                    3 newly registered patients since last week
+                                 </p>
+                                 <a href="project-patients.html" class="text-info">View Patients</a>
+                              </div>
+                           </div>
+                        </div>
+                           <br>
+                           <br>
+                           <br>   
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="footer">
-                <div class="container">
-                  <div class="footer-content text-center">
-                   <span>Copyright © 2015 Sutter Davis Hospital. All rights reserved.</span>
-                  </div>
-                </div>
-              </div>
             </div>
          </div>
          <!-- BEGIN CHAT --> 
