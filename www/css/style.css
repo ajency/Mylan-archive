@@ -208,13 +208,13 @@ h3.line-title span {
   -moz-box-shadow: 0px 4px 0 0 #A8A8A8;
   -webkit-box-shadow: 0px 4px 0 0 #A8A8A8;
   box-shadow: 0px 4px 0 0 #A8A8A8;
+  border: none;
 }
 .button.button-block.button-dark.activated {
   background: #A8A8A8;
   -moz-box-shadow: 0px 4px 0 0 #A8A8A8;
   -webkit-box-shadow: 0px 4px 0 0 #A8A8A8;
   box-shadow: 0px 4px 0 0 #A8A8A8;
-  border: none;
 }
 .button.button-block.button-balanced {
   background: #00aaa7;
@@ -501,6 +501,10 @@ input[id=password] {
   .button.button-small {
     min-height: 40px;
   }
+  h4.line-title:before,
+  h3.line-title:before {
+    top: 64%;
+  }
   .item-input input {
     height: 53px;
     font-size: 20px;
@@ -641,6 +645,10 @@ input[id=password] {
   }
   #chartdiv text {
     font-size: 12px;
+  }
+  h4.line-title:before,
+  h3.line-title:before {
+    top: 64%;
   }
   h1 {
     font-size: 72px;
