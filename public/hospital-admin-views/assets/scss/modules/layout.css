@@ -1,6 +1,6 @@
 /*
 Error: Undefined variable: "$sidebar-color".
-        on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/layout.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss
 
 2: html {
 3:     font-size: 100%; 
@@ -15,7 +15,7 @@ Error: Undefined variable: "$sidebar-color".
 12:     margin: 0px !important;
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/layout.scss:7
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss:7
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -62,4 +62,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$sidebar-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/mylan-admin-views/assets/scss/modules/layout.scss\A \A 2: html {\A 3:     font-size: 100%; \A 4:     height: 100%;\A 5: }\A 6: body {\A 7:     background-color: $sidebar-color;\A 8:     color: $base-font-color;\A 9:     font-family: $base-font-family;\A 10:     font-size: $base-font-size;\A 11:     padding: 0px !important;\A 12:     margin: 0px !important;"; }
+  content: "Error: Undefined variable: \"$sidebar-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss\A \A 2: html {\A 3:     font-size: 100%; \A 4:     height: 100%;\A 5: }\A 6: body {\A 7:     background-color: $sidebar-color;\A 8:     color: $base-font-color;\A 9:     font-family: $base-font-family;\A 10:     font-size: $base-font-size;\A 11:     padding: 0px !important;\A 12:     margin: 0px !important;"; }
