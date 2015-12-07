@@ -115,7 +115,8 @@ class UserController extends Controller
                 $userId = $user['id'];
                 $hospitalId = $user['hospital_id'];
                 $projectId = $user['project_id'];
-                $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
+                $postLoginData = $this->postLoginData($hospitalId,$projectId);
+                $hospitalData = $postLoginData['hospital'];
 
                 $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
                 if($userDeviceCount >=SETUP_LIMIT)
@@ -138,7 +139,7 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
-                else
+                elseif($user['account_status'] =='active')
                 {
 
                     $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
@@ -154,10 +155,21 @@ class UserController extends Controller
                     );
                     $status_code = 200;
                 }
+                else
+                {
+                    $json_resp = array(
+                        'code' => 'account_susspended' , 
+                        'message' => 'patient account suspended',
+                        'hospitalData' => $hospitalData
+                        );
+                        $status_code = 200;
+
+                }
                  
                 
 
             }
+               
         } catch (Exception $ex) {
 
             $json_resp = array(
@@ -172,7 +184,7 @@ class UserController extends Controller
 
     }
 
-    public function getHospitalData($hospitalId , $projectId)
+    public function postLoginData($hospitalId , $projectId)
     {
 
         $hospitalQry = new ParseQuery("Hospital");
@@ -183,18 +195,30 @@ class UserController extends Controller
         $projectQry->equalTo("objectId", $projectId);
         $project = $projectQry->first();
         
-        $hospitalData = [];
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project", $project);
+        $questionnaire = $questionnaireQry->first(); 
+        
+        
+        $data = $hospitalData = $questionnareData = [];
         $hospitalData['id'] = $hospital->getObjectId();
         $hospitalData['name'] = $hospital->get('name');
         $hospitalData['logo'] = $hospital->get('logo');
         $hospitalData['contact_number'] = $hospital->get('contact_number');
-        $hospitalData['email'] = $hospital->get('email');
-        $hospitalData['address'] = $hospital->get('address');
+        $hospitalData['project_id'] = $project->getObjectId();
         $hospitalData['project'] = $project->get('name');
+
+        $questionnareData['id'] = $questionnaire->getObjectId();
+        $questionnareData['name'] = $questionnaire->get('name');
+        $questionnareData['description'] = $questionnaire->get('description');
+
+        $data['hospital'] = $hospitalData;
+        $data['questionnaire'] = $questionnareData;
          
-        return $hospitalData;
+        return $data;
     }
 
+ 
     public function addDevice($deviceData,$userId,$hospitalData,$returnTo)
     {
         $userDevice =  new UserDevice();
@@ -240,13 +264,14 @@ class UserController extends Controller
                 {
                     $projectId = $user['project_id'];
                     $hospitalId = $user['hospital_id'];
-                    $hospitalData = $this -> getHospitalData($hospitalId,$projectId);
+                    $data = $this -> postLoginData($hospitalId,$projectId);
+                    $hospitalData = $data['hospital']; 
+                    $questionnaireData = $data['questionnaire']; 
                     $apiKey = $user->apiKey()->first();
-                    $json_resp = array(
-                        'patient_id'=> $user['id'], 
-                        'project_id'=> $projectId,    
+                    $json_resp = array( 
                         'user-auth-key'=> $apiKey['key'],
                         'hospital'=> $hospitalData,
+                        'questionnaire'=> $questionnaireData,
                         'code' => 'successful_login' , 
                         'message' => 'Successfully logged in'
                     );
