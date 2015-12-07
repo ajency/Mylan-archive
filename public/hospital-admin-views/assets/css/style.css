@@ -8140,6 +8140,10 @@ body.rtl .footer-widget {
 .page-content .label-danger {
   background: rgba(253, 127, 104, 0.99);
 }
+.page-content .btn.btn-red {
+  background: #FF7979;
+  color: #fff;
+}
 .page-content .label-warning {
   background-color: #DEB65D;
 }
@@ -8148,6 +8152,15 @@ body.rtl .footer-widget {
 }
 .page-content .text-warning {
   color: #DEB65D;
+}
+.page-content .bg-danger {
+  background-color: #F3AFAF;
+}
+.page-content .bg-warning {
+  background-color: #F7D3AB;
+}
+.page-content .bg-success {
+  background-color: #88CAC4;
 }
 label {
   font-size: 15px;
