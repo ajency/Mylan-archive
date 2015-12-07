@@ -114,37 +114,37 @@
                      <ul>
                         <li>
                            <a href="dashboard.html">
-                           <span>Dashboard </span>
+                           <span> <i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>
-                       <li  class="active-item">
+                       <li class="active-item">
                            <a href="projects.html">
-                           <span>Projects </span>
+                           <span><i class="fa fa-bar-chart"></i> Projects </span>
                            </a>
                         </li>
                         <li>
                            <a href="patients.html">
-                           <span>Patients</span>
+                           <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
                         <li>
                            <a href="questionnaires.html">
-                           <span>Questionnaires</span>
+                           <span><i class="fa fa-list-ol"></i> Questionnaires</span>
                            </a>
                         </li>
                         <li>
                            <a href="users.html">
-                           <span>Users </span>
+                           <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
                         <li>
-                           <a href="javascript:;">
-                           <span>Reports </span>
+                           <a href="reports.html">
+                           <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
                         <li>
                            <a href="flags.html">
-                           <span>Flags </span>
+                           <span><i class="fa fa-flag"></i> Flags </span>
                            </a>
                         </li>
                      </ul>
@@ -180,19 +180,18 @@
                   </ul>
                   </p>
                   <div class="pull-right m-t-10">
-                     <a href="new-project.html" class="btn btn-success"><i class="fa fa-plus"></i> Add New Project</a>
+                     <a href="new-project.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Project</a>
                   </div>
                   <div class="page-title">
-                     <a href="project-patients.html"><i class="icon-custom-left"></i></a>
                      <h3>Cardiac <span class="semi-bold">Care</span></h3>
                   </div>
                   <div class="tabbable tabs-left">
-                     <ul class="nav nav-tabs" id="tab-2">
-                        <li ><a href="project-summary.html">Summary</a></li>
-                        <li class=""><a href="#Reports">Reports</a></li>
-                        <li class="active"><a href="#Patients">Patients</a></li>
-                        <li><a href="project-submissions.html">Submissions</a></li>
-                        <li><a href="project-settings.html">Settings</a></li>
+                     <ul class="nav nav-tabs inner-tabs" id="tab-2">
+                        <li ><a href="project-summary.html"><i class="fa fa-list"></i> Summary</a></li>
+                        <li class=""><a href="#Reports"><i class="fa fa-bar-chart"></i> Reports</a></li>
+                        <li class="active"><a href="#Patients"><i class="fa fa-wheelchair"></i> Patients</a></li>
+                        <li><a href="project-submissions.html"><i class="fa fa-list-alt"></i> Submissions</a></li>
+                        <li><a href="project-settings.html"><i class="fa fa-cog"></i> Settings</a></li>
                      </ul>
                      <div class="tab-content">
                         <div class="tab-pane" id="Summary">
@@ -387,19 +386,18 @@
                         </div>
                         <div class="tab-pane" id="Reports">
                         </div>
+
                         <div class="tab-pane table-data active" id="Patients">
-                           <p class="pull-right m-t-5">
-                              <a href="#" class="btn btn-white text-info"><i class="fa fa-download"></i> Download CSV</a>
-                           </p>
-                           <h3><span class="semi-bold">Patients</span></h3>
-                           <p>(Showing Detailed Information for the Patient)</p>
+                           <div class="pull-right">
+                              <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                              <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                           </div>
+                           <h3><span class="semi-bold">Patient #123</span></h3>
                            <br>
                            <div>
-                              <a href="#" class="btn btn-default pull-right btn-small"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                              <h4 class="m-b-20">Patient <span class="semi-bold">#123</span></h4>
-                              <div class="row">
-                                 <div class="col-md-7">
-                                    <dl class="dl-horizontal">
+                            
+                                
+                                 <dl class="dl-horizontal">
                                        <dt>Patient Hospital No.</dt>
                                        <dd>A54-435</dd>
                                        <dt>Enrollment Date</dt>
@@ -407,78 +405,84 @@
                                        <dt>Project</dt>
                                        <dd>Intensive Cardiac Care</dd>
                                     </dl>
-                                    <div class="user-description-box">
-                                       <h4 class="semi-bold no-margin inline">Flag Reason</h4>
-                                       <span>(Showing detailed reason to flag the Patient)</span>
-                                       <hr>
-                                       <h6>This patient has missed 5 consecutive submissions</h6>
-                                       <table class="table table-striped table-flip-scroll cf">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th>Sequence No</th>
-                                                <th>Date</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <tr>
-                                                <td>123</td>
-                                                <td>06/03/1993</td>
-                                             </tr>
-                                             <tr>
-                                                <td>123</td>
-                                                <td>06/03/1993</td>
-                                             </tr>
-                                             <tr>
-                                                <td>123</td>
-                                                <td>06/03/1993</td>
-                                             </tr>
-                                             <tr>
-                                                <td>123</td>
-                                                <td>06/03/1993</td>
-                                             </tr>
-                                             <tr>
-                                                <td>123</td>
-                                                <td>06/03/1993</td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
-                                    </div>
-                                    <br><br>
+                                 
+                                 
+                            
+                                
                                     <div class="user-description-box">
                                        <h4 class="semi-bold no-margin inline">Additional Data</h4>
                                        <span>(Important details about the Patient)</span>
                                        <hr>
-                                       <dl class="dl-horizontal">
-                                          <dt>Blood Group</dt>
-                                          <dd>O -ve</dd>
-                                          <dt>Smoker</dt>
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                             <dl class="dl-horizontal m-b-0">
+                                          <dt>Login Details</dt>
+                                          <dd>1234</dd>
+                                          <dt>Age</dt>
+                                          <dd>45</dd>
+                                          <dt>Diagnosis Date</dt>
+                                          <dd>24.03.2015</dd>
+                                          <dt>Height</dt>
+                                          <dd>1.84m</dd>
+                                          <dt>Weight</dt>
+                                          <dd>58kg</dd>
+                                          <dt>Diabetes Status</dt>
                                           <dd>No</dd>
+                                          <dt>Smoker</dt>
+                                          <dd>yes</dd>
+                                          
+                                       </dl>
+                                          </div>
+                                          <div class="col-md-6">
+                                             <dl class="dl-horizontal m-b-0">
+                                          <dt>If yes, how many per week</dt>
+                                          <dd>20</dd>
+                                          <dt>Alcohol(units per week)</dt>
+                                          <dd>45</dd>
+                                          <dt>Alcohol(units per week)</dt>
+                                          <dd>45</dd>
                                           <dt>Last Clinic Visit</dt>
                                           <dd>08/11/1984</dd>
                                           <dt>Last MRI Scan</dt>
                                           <dd>08/11/1984</dd>
+                                          <dt>Last CBC</dt>
+                                          <dd>08/11/1984</dd>
+                                          <dt>Enrolment Date</dt>
+                                          <dd>08/11/1984</dd>
                                        </dl>
+                                          </div>
+                                       </div>
+                                       
                                     </div>
+                                
+                              <br><br>
+                              <div class="row">
+                                 <div class="col-md-7">
+                                    
+                                 <div id="line-example" style="width:100%;height:250px;"> </div>
+                                    <div id="placeholder" class="demo-placeholder" style="width:100%;height:250px;display:none;"></div>
+                                 <div class="user-description-box">
+                                    <div class="row">
+                                       <div class="col-md-6">
+                                          <h5>Current Medication</h5>
+                                          
+                                    <label>Creon 10: prm</label>
+                                    <label>Vitamins: od</label>
+                                    <label>Ibuprofen 400mg: tds</label>
+                                    <label>Oroporph: prn</label>
+                                       </div>
+                                       <div class="col-md-6">
+                                          <h5>Additional Comments</h5>
+                                    <textarea class="form-control"></textarea>
+                                    </div>
+                                       </div>
+                                    </div>
+                                 
+                                    
+                                    
                                  </div>
                                  <div class="col-md-5">
-                                    <form>
-                                       <div class="grid solid green">
-                                          <div class="grid-title">
-                                             <h4>Health <span class="semi-bold">Tracker</span></h4>
-                                          </div>
-                                          <div class="grid-body">
-                                             <div class="form-group">
-                                                <div class="row">
-                                                   <div class="col-sm-6">
-                                                      <select id="source" style="width:100%">
-                                                         <option value="AK">Track Weight</option>
-                                                         <option value="HI">Calories Burnt</option>
-                                                      </select>
-                                                   </div>
-                                                   <div class="col-sm-6"></div>
-                                                </div>
-                                             </div>
-                                             <div class="form-group">
+                                     <div class="form-group">
                                                 <div class="row">
                                                    <div class="col-md-6">
                                                       <label>From</label>
@@ -498,15 +502,173 @@
                                              </div>
                                              <div class="text-right"><button class="btn btn-default btn-cons" type="submit">Apply</button>
                                              </div>
-                                          </div>
-                                       </div>
-                                    </form>
-                                    <br><br>
-                                    <h4>Weight <span class="semi-bold"> Chart</span></h4>
-                                    <div id="line-example" style="width:100%;height:250px;"> </div>
-                                    <div id="placeholder" class="demo-placeholder" style="width:100%;height:250px;display:none;"></div>
                                  </div>
                               </div>
+                              <br><br>
+                                   <div class="user-description-box">
+                                     <h4><span class="semi-bold">Tracker</span></h4>
+                                 <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>1 Jun</th>
+                                                <th>8 Jun</th>
+                                                <th>15 Jun</th>
+                                                <th>29 Jun</th>
+                                                <th>6 Jul</th>
+                                                <th>13 Jul</th>
+                                                <th>20 Jul</th>
+                                                <th>27 Jul</th>
+                                                <th>3 Aug</th>
+                                                <th>10 Aug</th>
+                                                <th>17 Aug</th>
+                                                <th>24 Aug</th>
+                                                <th>31 Aug</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diarrhea</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-red"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-red"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Apetite</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-red"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
+                                             </tr>
+                                             <tr>
+                                                <td>Score</td>
+                                                <td>8</td>
+                                                <td>13</td>
+                                                <td>15</td>
+                                                <td>14</td>
+                                                <td>12</td>
+                                                <td>9</td>
+                                                <td>10</td>
+                                                <td>8</td>
+                                                <td>6</td>
+                                                <td>12</td>
+                                                <td>10</td>
+                                                <td>8</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       </div>
+                                <hr>
+                             
+                              
+                                       <h4 class="semi-bold no-margin inline">Flag Reason</h4>
+                                       <span>(Showing detailed reason to flag the Patient)</span>
+                                       
+                                       <h6>This patient has missed 5 consecutive submissions</h6>
+                                       <br>
+                                       <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Sequence No</th>
+                                                <th>Date</th>
+                                                <th>Reason</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>123</td>
+                                                <td>06/03/1993</td>
+                                                <td>Weight gainer above 10kg</td>
+                                             </tr>
+                                             <tr>
+                                                <td>123</td>
+                                                <td>06/03/1993</td>
+                                                <td>Missed Questionnaire</td>
+                                             </tr>
+                                             <tr>
+                                                <td>123</td>
+                                                <td>06/03/1993</td>
+                                                <td>Difference in previous and present scores greater than 3</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                   
                            </div>
                            <br><br>
                         </div>

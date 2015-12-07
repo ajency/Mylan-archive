@@ -3,11 +3,11 @@
 -----------------------------------------------------------------*/	
 $(document).ready(function() {		
 
-	$("#sparkline-pie").sparkline([4,9], {
+	$("#sparkline-pie").sparkline([8,2,3], {
 		type: 'pie',
 		width: '100%',
 		height: '100%',
-		sliceColors: ['#53C1B7','#bbb'],
+		sliceColors: ['#53C1B7','#F3AFAF','#F7D3AB',],
 		offset: 10,
 		borderWidth: 0,
 		borderColor: '#000000 '
