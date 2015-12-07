@@ -1,5 +1,5 @@
 angular.module('PatientApp.init').controller('setupCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup) {
     return $scope.view = {
       refcode: '',
       emptyfield: '',
@@ -9,9 +9,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
       deviceUUID: '',
       last: '',
       verifyRefCode: function() {
-        var b;
         Storage.setRefernce('set', this.refcode);
-        b = Storage.setRefernce('set', this.refcode);
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
           return this.emptyfield = "Please Enter Valid Reference Code";
         } else {
@@ -72,22 +70,10 @@ angular.module('PatientApp.init').controller('setupCtr', [
         });
       },
       hide: function() {
-        $ionicLoading.hide();
-        return {
-          hideOnStateChange: false
-        };
+        return $ionicLoading.hide();
       },
       clear: function() {
         return this.emptyfield = "";
-      },
-      myFunction: function($event) {
-        var a;
-        console.log('--');
-        a = $('#simple').val();
-        console.log(a);
-        if (a.length > 3) {
-          return $event.preventDefault();
-        }
       }
     };
   }

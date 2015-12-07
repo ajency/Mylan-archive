@@ -14,7 +14,7 @@
         ng-switch-when="noError">
 
         <div class="info-msg padding bg-balanced" ng-if="view.infoBox">
-            <span>Select your Answer/ Answers </span> 
+            <span>Select your Answer/ Answers</span> 
         </div> 
           
          <!-- descrp --> 
@@ -82,55 +82,38 @@
 
               <div 
                 class="padding"
-                ng-if = 'view.data.question.type == "single-choice" || view.data.type == "multi-choice"'>
+                ng-if = 'view.data.question.type == "single-choice" || view.data.question.type == "mcq"'>
                     <div class="col">
-                        <h5 class="f-w-400"
-                          ng-if = 'view.data.question.type == "single-choice"'>
-                          {{view.data.question.question}}</h5>
-                        <h5 class="f-w-400"
-                         ng-if = 'view.data.question.type == "multi-choice"'>  
-                         {{view.data.question}}
-                        </h5>
-                        <br>
-                        <div class="prev-answers">
-                            <div class="swipe-down" 
-                            ng-click = "view.showDiv()"
-                            ng-if="!view.pastAnswerDiv">
-
-                              <h6 class="f-w-400">
-                                Previous Answers &nbsp;&nbsp;
-                                <i class="icon ion-android-arrow-dropdown-circle text-green"></i>
-                              </h6>
-
-                            </div>
-                            <div class="" 
-                            ng-if="view.pastAnswerDiv"
-                            ng-click = "view.hideDiv()" >
-                              <div class="row">
-                                  <div class="col">
-                                  <p class="f-w-400">{{view.data.pastAnswer}}</p>
-                                  </div>
-                              </div>
-                              <hr>
-                              <div class="row">
-                                  <div class="col col-80">
-                                  <h6>
-                                  <i class="icon ion-calendar"></i>
-                                  Submitted On {{view.data.submitedDate}}
-                                  </h6>
-                                  </div>
-                                  <div class="col">
-                                  <div class="text-right">
-                                  <i class="icon ion-android-arrow-dropup-circle text-green"></i>
-                                  </div>
-                                  </div>
-                              </div>
-                            </div>
-                       </div>
-                        <br>
+                        <h5 class="f-w-400">{{view.data.question.question}}</h5>
+                        
                   </div>
               </div>
-
+        <div class="bg-gray">
+          <div class="prev-answers padding">
+                         <div class="col">  
+                            <h6 class="f-w-400 text-green">
+                                Previous Answers &nbsp;&nbsp;
+                              </h6>
+                              
+                                 
+                                  <p class="f-w-400 text-green">{{view.data.pastAnswer}}</p>
+                                 
+                              
+                              <hr>
+                             
+                                  
+                                  <p>
+                                  <i class="icon ion-calendar"></i>
+                                  <span class="text-green">Submitted On {{view.data.submitedDate}}</span>
+                                  </p>
+                                  
+                                  
+                              </div>
+                            
+                       </div>
+        </div>
+     
+               
 
               <!-- single choice  -->
               <div 
@@ -150,16 +133,16 @@
               <!-- multi choice  -->
               <ul 
                 class="list"
-                ng-if = 'view.data.type == "multi-choice"'>
+                ng-if = 'view.data.questionType == "mcq"'>
                 <li 
                   class="item item-checkbox"
-                  ng-repeat ="answerValue in view.data.options">
+                  ng-repeat ="answerValue in view.data.option">
                   <label class="checkbox" >
                       <input type="checkbox" ng-model="answerValue.checked" 
                       ng-checked="answerValue.checked">
                   </label>
                   <span>
-                      {{answerValue.label}}
+                      {{answerValue.answer}}
                   </span>
                 </li>
               </ul>
@@ -180,14 +163,14 @@
     
      <div class="bar bar-footer bar-light">
         <button 
-              class="button button-icon"
+              class="button button-balanced"
              >
-               <span class="text-green">Previous</span>
+               <span class="ion-arrow-left-b"></span> Previous
              
           </button>
             <button 
-                class="button button-icon"
-                ng-click="view.nextQuestion()"><span class="text-green">Next</span>
+                class="button button-balanced"
+                ng-click="view.nextQuestion()">Next <span class="ion-arrow-right-b"></span>
                 
             </button>
       </div>
