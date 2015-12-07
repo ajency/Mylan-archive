@@ -124,3 +124,18 @@ input {
 .inner-tabs {
   background: #E5E9EC;
 }
+.inner-tabs li a {
+  color: #505558;
+}
+.inner-tabs li.active a,
+.inner-tabs li:hover a,
+.inner-tabs li:focus a,
+.inner-tabs li:visited a {
+  color: #0aa699;
+}
+.inner-tabs li.active a i,
+.inner-tabs li:hover a i,
+.inner-tabs li:focus a i,
+.inner-tabs li:visited a i {
+  color: #999;
+}

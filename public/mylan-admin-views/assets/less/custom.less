@@ -1,3 +1,51 @@
+.page-content{
+	background: #f9f9f9;
+	.bar{
+		    background: #05A8A5;
+		    ul li {
+		    	a{
+		    	opacity: 0.9;
+		    	color: #fff;
+		    	}
+		    	&.active-item{
+		    		background: #fff;
+		    		a{
+		    			color: #63696d;
+		    		}
+		    	}
+		    }
+	}
+	.grid.simple .grid-body{
+		border: 1px solid #f4f4f4;
+	}
+	.btn.btn-danger,.label-danger{
+		background: rgba(253, 127, 104, 0.99);
+		
+	}
+	.btn.btn-red{
+		background: #FF7979;
+		color: #fff;
+	}
+	.label-warning{
+		    background-color: #DEB65D;
+	}
+	.text-danger{
+		color: rgba(253, 127, 104, 0.99);
+	}
+	.text-warning{
+		color: #DEB65D;
+	}
+	.bg-danger{
+		background-color: #F3AFAF;
+	}
+	.bg-warning{
+		background-color: #F7D3AB;
+	}
+	.bg-success{
+		background-color: #88CAC4;
+	}
+}
+
 label{
   font-size: 15px;
 }
@@ -10,8 +58,16 @@ label{
 .b-r{
 	border-color:#C1C1C1;
 }
-.page-title{
-	    margin: 0 0 30px;
+.page-title {
+	h3{
+	width: auto;
+	}
+	a i{
+		font-size: 20px;
+    	margin-left: 12px;
+        top: -5px;
+        float: none;
+	}
 }
 .table-data{
 	div.DTTT .btn:first-child{
@@ -114,7 +170,7 @@ label{
 	}
 }
 .footer{
-	background-color: #3C3C41;
+	background-color: #D2D2D2;
 	position: absolute;
 	bottom: 0;
     left: 0;
@@ -125,7 +181,7 @@ label{
     padding-right: 26px;
 	}
 	span{
-		color: #E1EAF1;
+		color: #757575;
 	}
 }
 .breadcrumb{
@@ -134,7 +190,9 @@ label{
 	}
 }
 .inner-tabs{
-	background: #E5E9EC;
+	background: transparent;
+	border-bottom: none;
+	border-right: none!important;
 	li{
 
 		 a{
