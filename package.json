@@ -30,7 +30,15 @@
     },
     "com.ionic.keyboard",
     "cordova-plugin-network-information",
-    "org.apache.cordova.network-information"
+    "org.apache.cordova.network-information",
+    {
+      "locator": "https://github.com/avivais/phonegap-parse-plugin",
+      "id": "com.parse.cordova.core.pushplugin",
+      "variables": {
+        "APP_ID": "MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA",
+        "CLIENT_KEY": "eervmM5pvPmosM3Pj6A6veBXtZJCR1UEB0opeIRF"
+      }
+    }
   ],
   "cordovaPlatforms": [
     "ios",

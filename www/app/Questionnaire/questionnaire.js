@@ -33,11 +33,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data.result;
-              _this.display = 'noError';
-              return $timeout(function() {
-                console.log('timeoutt');
-                return _this.infoBox = false;
-              }, 30000);
+              return _this.display = 'noError';
             }, function(error) {
               _this.display = 'error';
               return _this.errorType = error;
@@ -89,9 +85,17 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var options;
+        var options, selectedvalue;
         console.log('nextQuestion');
-        console.log(this.data.question.type);
+        console.log(this.data);
+        selectedvalue = [];
+        _.each(this.data.options, function(opt) {
+          if (opt.checked === true) {
+            return selectedvalue.push(opt.id);
+          }
+        });
+        console.log('nextquestt');
+        console.log(selectedvalue);
         if (this.data.question.type === 'single-choice') {
           if (this.singleChoiceValue === '') {
             return CToast.show('Please select atleast one answer');
@@ -103,12 +107,29 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               "options": [this.singleChoiceValue],
               "value": ""
             };
+            Storage.setData('responseId', 'set', this.data.response);
             CSpinner.show('', 'Please wait..');
             return QuestionAPI.saveAnswer(options).then((function(_this) {
               return function(data) {
-                console.log('inside save');
+                var nextQuest;
+                CToast.show('Your answer is saved');
+                _this.display = 'loader';
+                nextQuest = {
+                  "questionnaireId": _this.data.id,
+                  "questionIds": [_this.data.question.id],
+                  "patientId": _this.patientId,
+                  "responseId": _this.data.response
+                };
+                return QuestionAPI.getNextQuest(nextQuest);
+              };
+            })(this)).then((function(_this) {
+              return function(data) {
+                console.log('******');
+                console.log('next question');
                 console.log(data);
-                return CToast.show('Your answer is saved');
+                _this.data = [];
+                _this.data = data.result;
+                return _this.display = 'noError';
               };
             })(this), (function(_this) {
               return function(error) {

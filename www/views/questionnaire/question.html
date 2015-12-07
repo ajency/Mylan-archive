@@ -14,7 +14,7 @@
         ng-switch-when="noError">
 
         <div class="info-msg padding bg-balanced" ng-if="view.infoBox">
-            <span>Select your Answer/ Answers</span> 
+            <span>Select your Answer/ Answers </span> 
         </div> 
           
          <!-- descrp --> 
@@ -82,9 +82,15 @@
 
               <div 
                 class="padding"
-                ng-if = 'view.data.question.type == "single-choice" || view.data.question.type == "mcq"'>
+                ng-if = 'view.data.question.type == "single-choice" || view.data.type == "multi-choice"'>
                     <div class="col">
-                        <h5 class="f-w-400">{{view.data.question.question}}</h5>
+                        <h5 class="f-w-400"
+                          ng-if = 'view.data.question.type == "single-choice"'>
+                          {{view.data.question.question}}</h5>
+                        <h5 class="f-w-400"
+                         ng-if = 'view.data.question.type == "multi-choice"'>  
+                         {{view.data.question}}
+                        </h5>
                         <br>
                         <div class="prev-answers">
                             <div class="swipe-down" 
@@ -144,16 +150,16 @@
               <!-- multi choice  -->
               <ul 
                 class="list"
-                ng-if = 'view.data.questionType == "mcq"'>
+                ng-if = 'view.data.type == "multi-choice"'>
                 <li 
                   class="item item-checkbox"
-                  ng-repeat ="answerValue in view.data.option">
+                  ng-repeat ="answerValue in view.data.options">
                   <label class="checkbox" >
                       <input type="checkbox" ng-model="answerValue.checked" 
                       ng-checked="answerValue.checked">
                   </label>
                   <span>
-                      {{answerValue.answer}}
+                      {{answerValue.label}}
                   </span>
                 </li>
               </ul>

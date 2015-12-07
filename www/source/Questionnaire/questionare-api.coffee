@@ -100,5 +100,24 @@ angular.module 'PatientApp.Quest'
 		defer.promise
 
 
+	QuestionAPI.getNextQuest = (options)->
+
+		defer = $q.defer()
+
+		url = PARSE_URL+'/getNextQuestion'
+		param = options
+				
+		App.sendRequest(url, param, PARSE_HEADERS)
+		.then (data)->
+			defer.resolve data.data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+
+
+
+
 	QuestionAPI	
 ]

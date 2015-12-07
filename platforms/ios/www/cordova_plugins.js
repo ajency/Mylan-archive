@@ -74,6 +74,13 @@ module.exports = [
         "clobbers": [
             "Connection"
         ]
+    },
+    {
+        "file": "plugins/com.parse.cordova.core.pushplugin/www/cdv-plugin-parse.js",
+        "id": "com.parse.cordova.core.pushplugin.ParsePlugin",
+        "clobbers": [
+            "window.parsePlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -87,7 +94,8 @@ module.exports.metadata =
     "cordova-plugin-x-toast": "2.2.1",
     "hu.dpal.phonegap.plugins.SpinnerDialog": "1.3.1",
     "com.ionic.keyboard": "1.0.4",
-    "cordova-plugin-network-information": "1.1.0"
+    "cordova-plugin-network-information": "1.1.0",
+    "com.parse.cordova.core.pushplugin": "0.1.0"
 }
 // BOTTOM OF METADATA
 });

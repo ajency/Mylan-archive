@@ -27,7 +27,6 @@ angular.module 'PatientApp.Quest',[]
 			getQuestion :(questNo) ->
 				@display = 'noError'
 				
-
 				Storage.setData 'patientData','get'
 				.then (patientData)=>
 					@patientId = patientData.patient_id
@@ -44,10 +43,10 @@ angular.module 'PatientApp.Quest',[]
 						console.log data
 						@data = data.result
 						@display = 'noError'
-						$timeout =>
-							console.log 'timeoutt'
-							@infoBox = false
-						, 30000
+						# $timeout =>
+						# 	console.log 'timeoutt'
+						# 	@infoBox = false
+						# , 30000
 					,(error)=>
 						@display = 'error'
 						@errorType = error
@@ -103,10 +102,28 @@ angular.module 'PatientApp.Quest',[]
 							$window.location.reload()
 						,500
 
+		
 
 			nextQuestion : ->
 				console.log 'nextQuestion'
-				console.log @data.question.type
+
+
+				console.log @data
+
+				selectedvalue = []
+
+				_.each @data.options, (opt)->
+					if opt.checked == true
+						selectedvalue.push opt.id
+
+					# if _.contains opt.checked, true
+					# 	selectedvalue.push opt.id
+
+				console.log 'nextquestt'
+				console.log selectedvalue
+
+
+
 
 				if @data.question.type == 'single-choice'
 
@@ -120,13 +137,36 @@ angular.module 'PatientApp.Quest',[]
 							"options": [@singleChoiceValue]
 							"value": ""
 
+						Storage.setData 'responseId','set', @data.response	
+
 						CSpinner.show '', 'Please wait..'
 
 						QuestionAPI.saveAnswer options
 						.then (data)=>
-							console.log 'inside save'
-							console.log data
+							
 							CToast.show 'Your answer is saved'
+							@display = 'loader'
+							nextQuest =
+								"questionnaireId" : @data.id
+								"questionIds" : [@data.question.id]
+								"patientId" : @patientId
+								"responseId" : @data.response
+
+							QuestionAPI.getNextQuest nextQuest
+						.then (data)=>
+							console.log '******'
+							console.log 'next question'
+							console.log data
+							@data = []
+							@data = data.result
+							@display = 'noError'
+
+
+
+
+							
+
+
 							
 						,(error)=>
 							console.log 'inside save error'

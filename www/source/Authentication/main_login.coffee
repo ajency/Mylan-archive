@@ -34,6 +34,8 @@ angular.module 'PatientApp.Auth'
 						CSpinner.show '', 'Checking credentials please wait'
 						AuthAPI.validateUser(@refrencecode,@password )
 						.then (data)=>
+							
+							console.log data
 							if data.code == 'successful_login'
 								Storage.login 'set'
 								Storage.hospital_data 'set', data.hospital

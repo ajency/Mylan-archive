@@ -25,6 +25,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
             CSpinner.show('', 'Checking credentials please wait');
             return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {
               return function(data) {
+                console.log(data);
                 if (data.code === 'successful_login') {
                   Storage.login('set');
                   Storage.hospital_data('set', data.hospital);

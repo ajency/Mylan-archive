@@ -80,5 +80,17 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "com.parse.cordova.core.pushplugin": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/avivais/phonegap-parse-plugin",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA",
+            "CLIENT_KEY": "eervmM5pvPmosM3Pj6A6veBXtZJCR1UEB0opeIRF"
+        }
     }
 }
