@@ -26,6 +26,11 @@ class UserController extends Controller
                         ->with('patients', $patients);
     }
 
+    public function dashbord()
+    {
+        return view('admin.dashbord')->with('active_menu', 'dashbord');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -65,13 +70,11 @@ class UserController extends Controller
     {
 
         $referanceCode = $request->input('referance_code');
-        $referanceNumber = $request->input('referance_number');
         $hospital = $request->input('hospital');
         $project = $request->input('project');
         
         $user = new User();
         $user->reference_code = $referanceCode;
-        $user->reference_number = Hash::make( $referanceNumber );
         $user->password = '';
         $user->account_status = 'created';
         $user->hospital_id = $hospital;
