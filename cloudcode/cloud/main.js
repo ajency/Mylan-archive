@@ -1,5 +1,6 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, addResponse, createNewUser, createResponse, firstQuestion, getAnswer, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestion, getQuestionData, getoptions, restrictedAcl, saveAnswer, storeDeviceData;
+  var Buffer, TokenRequest, TokenStorage, _, addResponse, createNewUser, createResponse, firstQuestion, getAnswer, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestion, getQuestionData, getoptions, restrictedAcl, saveAnswer, storeDeviceData,
+    indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
     var hospitalObj;
@@ -83,6 +84,24 @@
     });
   });
 
+  Parse.Cloud.define("pushNotification", function(request, response) {
+    var installationQuery;
+    installationQuery = new Parse.Query(Parse.Installation);
+    installationQuery.equalTo('installationId', request.params.installationId);
+    return Parse.Push.send({
+      where: installationQuery,
+      data: {
+        alert: "First push message :-)"
+      },
+      success: function() {
+        return response.success("Message pushed");
+      },
+      error: function(error) {
+        return response.error(error);
+      }
+    });
+  });
+
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery;
     responseId = request.params.responseId;
@@ -105,9 +124,14 @@
       });
     } else if ((responseId === "") && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       return createResponse(questionnaireId, patientId).then(function(responseObj) {
-        return firstQuestion(questionnaireId).then(function(questionObj) {
-          return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
-            return response.success(questionData);
+        responseObj.set('status', 'Started');
+        return responseObj.save().then(function(responseObj) {
+          return firstQuestion(questionnaireId).then(function(questionObj) {
+            return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
+              return response.success(questionData);
+            }, function(error) {
+              return response.error(error);
+            });
           }, function(error) {
             return response.error(error);
           });
@@ -430,7 +454,17 @@
       promiseArr.push(answerPromise);
     }
     return Parse.Promise.when(promiseArr).then(function() {
-      return promise.resolve(responseObj);
+      var answeredQuestions, ref;
+      answeredQuestions = responseObj.get('answeredQuestions');
+      if (ref = questionObj.id, indexOf.call(answeredQuestions, ref) < 0) {
+        answeredQuestions.push(questionObj.id);
+      }
+      responseObj.set('answeredQuestions', answeredQuestions);
+      return responseObj.save().then(function(responseObj) {
+        return promise.resolve(responseObj);
+      }, function(error) {
+        return promise.error(error);
+      });
     }, function(error) {
       return promise.error(error);
     });

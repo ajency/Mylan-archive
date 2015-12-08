@@ -1,0 +1,57 @@
+Parse.Cloud.define "startQuiz", (request, response) ->
+	#if _.isUndefined(request.params.responseID)
+	#	createResponse(request.params.questionnaireId)
+	#questionObj = getFirstQuestion(request.params.questionnaireId)
+	#if questionObj
+	response.success getFirstQuestion(request.params.questionnaireId)
+		#response.success getRequiredResponse questionObj, request.params.patientId
+	#else
+	#	response.error "First question not found."
+
+
+
+#Parse.Cloud.define "getNextQuestion", (request, response) ->
+
+Parse.Cloud.define "getPreviousQuestion", (request, response) ->
+
+saveAnswer = (questionId, responseId, option, value) ->
+#getNextQuestion = (questionId, option) ->
+
+
+getFirstQuestion = (questionnaireId) ->
+	promise = new Parse.Promise()
+	questionnaireQuery = new Parse.Query("Questionnaire")
+	questionnaireQuery.get(questionnaireId)
+	.then (questionnaireObj) ->
+		
+		questionsQuery = new Parse.Query("Questions")
+		questionsQuery.equalTo('questionnaire', questionnaireObj)
+		questionsQuery.find()
+		.then (questionsObjs) ->
+			
+			checkIfFirst = (questionSeqObj) ->
+				if  _.isUndefined(questionSeqObj.get('previousQuestion'))
+					if !questionSeqObj.get('isChild')
+						true
+					else
+						false
+				else
+					false
+					
+			checkQuestions = for questionObj in questionsObjs
+				questionSeqQuery = new Parse.Query("QuestionSeq")
+				questionSeqQuery.equalTo('question',questionObj)
+				questionSeqQuery.first()
+				.then (questionSeqObj) ->
+					if checkIfFirst questionSeqObj 
+						questionSeqObj
+				, (error) ->
+					promise.error error
+
+			promise.resolve checkQuestions
+		, (error) ->
+			promise.error error
+	, (error) ->
+		promise.error error
+
+	promise

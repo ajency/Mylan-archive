@@ -22,15 +22,20 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 	else if  (responseId == "") and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
 		createResponse questionnaireId, patientId
 		.then (responseObj) ->
-			firstQuestion questionnaireId
-			.then (questionObj) ->
-				getQuestionData questionObj, responseObj, patientId
-				.then (questionData) ->
-					response.success questionData
+			responseObj.set 'status', 'Started'
+			responseObj.save()
+			.then (responseObj) ->
+				firstQuestion questionnaireId
+				.then (questionObj) ->
+					getQuestionData questionObj, responseObj, patientId
+					.then (questionData) ->
+						response.success questionData
+					,(error) ->
+						response.error error	
 				,(error) ->
-					response.error error	
+					response.error error
 			,(error) ->
-				response.error error
+				response.error error	
 		,(error) ->
 			response.error error
 	else
@@ -215,7 +220,7 @@ Parse.Cloud.define 'saveAnswer', (request, response) ->
             	.then (nextQuestionObj) ->
 	                getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
 	                .then (questionData) ->
-	                    response.success questionData
+	                	response.success questionData
 	                ,(error) ->
 	                    response.error error
 	            ,(error) ->
@@ -322,14 +327,15 @@ saveAnswer = (responseObj, questionObj, options, value) ->
         promiseArr.push answerPromise
 
     Parse.Promise.when(promiseArr).then -> 
-    	#answeredQuestions = responseObj.get('answeredQuestions')
-    	#answeredQuestions[questionObj.id] = questionObj.id
-    	#responseObj.set 'answeredQuestions', answeredQuestions
-    	#responseObj.save()
-    	#.then (responseObj) ->       
-        promise.resolve(responseObj)    
-    	#, (error) ->
-        #	promise.error error         
+    	answeredQuestions = responseObj.get('answeredQuestions')
+    	if questionObj.id not in answeredQuestions
+    		answeredQuestions.push(questionObj.id)
+    	responseObj.set 'answeredQuestions', answeredQuestions
+    	responseObj.save()
+    	.then (responseObj) ->      
+    		promise.resolve(responseObj)    
+    	, (error) ->
+    		promise.error error         
     , (error) ->
         promise.error error
 
