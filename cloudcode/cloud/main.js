@@ -1,5 +1,5 @@
 (function() {
-  var _, addResponse, createResponse, firstQuestion, getAnswer, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestion, getQuestionData, getoptions, saveAnswer, storeDeviceData;
+  var Buffer, TokenRequest, TokenStorage, _, addResponse, createNewUser, createResponse, firstQuestion, getAnswer, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestion, getQuestionData, getoptions, restrictedAcl, saveAnswer, storeDeviceData;
 
   Parse.Cloud.define("addHospital", function(request, response) {
     var hospitalObj;
@@ -80,24 +80,6 @@
       return hospitalObj.destroy({});
     }, function(error) {
       return response.error(error);
-    });
-  });
-
-  Parse.Cloud.define("pushNotification", function(request, response) {
-    var installationQuery;
-    installationQuery = new Parse.Query(Parse.Installation);
-    installationQuery.equalTo('installationId', request.params.installationId);
-    return Parse.Push.send({
-      where: installationQuery,
-      data: {
-        alert: "First push message :-)"
-      },
-      success: function() {
-        return response.success("Message pushed");
-      },
-      error: function(error) {
-        return response.error(error);
-      }
     });
   });
 
@@ -1051,5 +1033,97 @@
       return response.error(error);
     });
   });
+
+  Buffer = require('buffer').Buffer;
+
+  TokenRequest = Parse.Object.extend("TokenRequest");
+
+  TokenStorage = Parse.Object.extend("TokenStorage");
+
+  restrictedAcl = new Parse.ACL();
+
+  restrictedAcl.setPublicReadAccess(false);
+
+  restrictedAcl.setPublicWriteAccess(false);
+
+  Parse.Cloud.define('loginParseUser', function(request, response) {
+    var authKey, installationId, queryTokenStorage, referenceCode;
+    authKey = request.params.authKey;
+    referenceCode = String(request.params.referenceCode);
+    installationId = String(request.params.installationId);
+    queryTokenStorage = new Parse.Query("TokenStorage");
+    queryTokenStorage.equalTo('referenceCode', referenceCode);
+    queryTokenStorage.equalTo('installationId', installationId);
+    return queryTokenStorage.first({
+      useMasterKey: true
+    }).then(function(tokenStorageObj) {
+      var appData, storedAuthKey, user;
+      if (_.isEmpty(tokenStorageObj)) {
+        appData = {
+          installationId: installationId,
+          referenceCode: referenceCode
+        };
+        return createNewUser(authKey, appData).then(function(user) {
+          return response.success(user);
+        }, function(error) {
+          return response.error(error);
+        });
+      } else {
+        storedAuthKey = tokenStorageObj.get("authKey");
+        user = tokenStorageObj.get("user");
+        if (storedAuthKey === authKey) {
+          return user.fetch().then(function(user) {
+            return response.success(user);
+          }, function(error) {
+            return response.error(error);
+          });
+        } else {
+          tokenStorageObj.set("authKey", authKey);
+          return tokenStorageObj.save().then(function(newTokenStorageObj) {
+            return user.fetch().then(function(user) {
+              return response.success(user);
+            }, function(error) {
+              return response.error(error);
+            });
+          }, function(error) {
+            return response.error(error);
+          });
+        }
+      }
+    });
+  });
+
+  createNewUser = function(authKey, appData) {
+    var password, promise, user, username;
+    promise = new Parse.Promise();
+    user = new Parse.User;
+    username = new Buffer(24);
+    password = new Buffer(24);
+    _.times(24, function(i) {
+      username.set(i, _.random(0, 255));
+      return password.set(i, _.random(0, 255));
+    });
+    user.set('username', username.toString('base64'));
+    user.set('password', password.toString('base64'));
+    user.signUp().then(function(user) {
+      var ts;
+      ts = new TokenStorage();
+      ts.set('authKey', authKey);
+      ts.set('installationId', appData.installationId);
+      ts.set('referenceCode', appData.referenceCode);
+      ts.set('user', user);
+      ts.setACL(restrictedAcl);
+      return ts.save(null, {
+        useMasterKey: true
+      }).then(function(TokenStorageObj) {
+        return promise.resolve(user);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
 
 }).call(this);
