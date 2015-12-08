@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Global', []
 
 
-.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
-	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork)->
+.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences)->
 
 		App = 
 			start: true
@@ -70,6 +70,31 @@ angular.module 'PatientApp.Global', []
 					defer.reject 'offline'
 
 				defer.promise
+
+			# cordova prefernce plugin need to be edit done for test purpose..
+
+			cordovaPreference :(key, myMagicValue)->
+				defer = $q.defer()
+
+				$cordovaPreferences.store(key, myMagicValue)
+				.then (data)->
+					console.log 'cordovva'
+					console.log data
+					defer.resolve data
+				, (error)->
+					console.log error
+					defer.reject error
+
+			reteriveCordovaPreference :()->
+				defer = $q.defer()
+				$cordovaPreferences.fetch('int')
+				.then (data)->
+
+					console.log 'sucess data--'+data
+					defer.resolve data
+				, (error)=>
+					defer.reject error
+
 
 
 

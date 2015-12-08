@@ -25,8 +25,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             var options;
             _this.patientId = patientData.patient_id;
             options = {
-              "projectId": patientData.project_id,
-              "hospitalId": patientData.hospital.id,
+              "responseId": '',
+              "questionnaireId": patientData.questionnaire.id,
               "patientId": parseInt(patientData.patient_id)
             };
             return QuestionAPI.getQuestion(options).then(function(data) {

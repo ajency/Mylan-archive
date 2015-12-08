@@ -31,9 +31,16 @@ angular.module 'PatientApp.Quest',[]
 				.then (patientData)=>
 					@patientId = patientData.patient_id
 
+					# getQuestionnaire
+
+					# options =
+					# 	"projectId": patientData.project_id
+					# 	"hospitalId": patientData.hospital.id
+					# 	"patientId":parseInt(patientData.patient_id)
+
 					options =
-						"projectId": patientData.project_id
-						"hospitalId": patientData.hospital.id
+						"responseId": ''
+						"questionnaireId": patientData.questionnaire.id
 						"patientId":parseInt(patientData.patient_id)
 
 

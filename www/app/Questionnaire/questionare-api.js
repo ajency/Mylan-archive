@@ -6,7 +6,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
     QuestionAPI.getQuestion = function(options) {
       var defer, param, url;
       defer = $q.defer();
-      url = PARSE_URL + '/getQuestionnaire';
+      url = PARSE_URL + '/startQuestionnaire';
       param = options;
       App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
         return defer.resolve(data.data);

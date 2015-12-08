@@ -14,6 +14,12 @@ angular.module 'PatientApp.init'
 			last:''
 
 			verifyRefCode : ->
+				# cordova preference plugin.done for test purpose..
+				# App.cordovaPreference('int', 'kk')
+				# .then ()->
+				# 	App.reteriveCordovaPreference()
+
+
 				Storage.setRefernce('set', @refcode)
 				# b = Storage.setRefernce('set', @refcode) No use of this code
 

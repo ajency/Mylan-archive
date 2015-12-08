@@ -10,8 +10,9 @@ angular.module 'PatientApp.Quest'
 	QuestionAPI.getQuestion = (options)->
 
 		defer = $q.defer()
-
-		url = PARSE_URL+'/getQuestionnaire'
+		# getQuestionnaire
+		
+		url = PARSE_URL+'/startQuestionnaire'
 		param = options
 				
 		App.sendRequest(url, param,PARSE_HEADERS)

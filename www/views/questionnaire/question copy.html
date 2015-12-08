@@ -82,11 +82,11 @@
 
               <div 
                 class="padding"
-                ng-if = 'view.data.questionType == "single-choice" || view.data.question.type == "mcq"'>
+                ng-if = 'view.data.question.type == "single-choice" || view.data.question.type == "mcq"'>
                     <div class="col">
                         <h5 class="f-w-400"
-                          ng-if = 'view.data.questionType == "single-choice"'>
-                          {{view.data.question}}</h5>
+                          ng-if = 'view.data.question.type == "single-choice"'>
+                          {{view.data.question.question}}</h5>
                         <h5 class="f-w-400"
                          ng-if = 'view.data.question.type == "multi-choice"'>  
                          {{view.data.question}}
@@ -124,13 +124,13 @@
               <!-- single choice  -->
               <div 
                 class="list"
-                ng-if = 'view.data.questionType == "single-choice"'>
+                ng-if = 'view.data.question.type == "single-choice"'>
                 <label class="item item-radio"
-                  ng-repeat ="answerValue in view.data.options">
+                  ng-repeat ="answerValue in view.data.question.options">
                     <input type="radio" name="group" ng-model="view.singleChoiceValue" 
                       ng-value="answerValue.id" >
                       <div class="item-content">
-                       {{answerValue.option}} 
+                       {{answerValue.label}} 
                       </div>
                     <i class="radio-icon ion-checkmark"></i>
                 </label> 

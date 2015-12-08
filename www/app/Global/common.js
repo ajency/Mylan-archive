@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences) {
     var App;
     return App = {
       start: true,
@@ -87,6 +87,30 @@ angular.module('PatientApp.Global', []).factory('App', [
           defer.reject('offline');
         }
         return defer.promise;
+      },
+      cordovaPreference: function(key, myMagicValue) {
+        var defer;
+        defer = $q.defer();
+        return $cordovaPreferences.store(key, myMagicValue).then(function(data) {
+          console.log('cordovva');
+          console.log(data);
+          return defer.resolve(data);
+        }, function(error) {
+          console.log(error);
+          return defer.reject(error);
+        });
+      },
+      reteriveCordovaPreference: function() {
+        var defer;
+        defer = $q.defer();
+        return $cordovaPreferences.fetch('int').then(function(data) {
+          console.log('sucess data--' + data);
+          return defer.resolve(data);
+        }, (function(_this) {
+          return function(error) {
+            return defer.reject(error);
+          };
+        })(this));
       }
     };
   }

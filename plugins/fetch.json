@@ -92,5 +92,13 @@
             "APP_ID": "MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA",
             "CLIENT_KEY": "eervmM5pvPmosM3Pj6A6veBXtZJCR1UEB0opeIRF"
         }
+    },
+    "cordova-plugin-app-preferences": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-app-preferences"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

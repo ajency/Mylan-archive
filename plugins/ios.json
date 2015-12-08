@@ -51,6 +51,10 @@
                         {
                             "xml": "<feature name=\"ParsePlugin\"><param name=\"ios-package\" value=\"CDVParsePlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppPreferences\"><param name=\"ios-package\" value=\"AppPreferences\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -172,6 +176,9 @@
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         },
         "com.parse.cordova.core.pushplugin": {
+            "PACKAGE_NAME": "com.ionicframework.mylan393718"
+        },
+        "cordova-plugin-app-preferences": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         }
     },
