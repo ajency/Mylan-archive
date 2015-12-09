@@ -67,6 +67,33 @@ class submissionController extends Controller
      */
     public function show($responseId)
     {
+        $data =  $this->getSubmissionData($responseId);
+        $questionnaire = $data['questionnaire'];
+        $date = $data['date']; 
+        $answersList = $data['answers'];
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->notEqualTo("objectId", $responseId);
+        $responseQry->descending("updatedAt");
+        $response = $responseQry->first();
+
+        $previousAnswersList =[];
+        if(!empty($response))
+        {
+            $previousData =  $this->getSubmissionData($response->getObjectId());
+            $previousAnswersList = $previousData['answers'];
+        }
+       
+         
+        return view('admin.submissions-view')->with('active_menu', 'submission')
+                                            ->with('questionnaire', $questionnaire)
+                                            ->with('date', $date)
+                                            ->with('answersList', $answersList)
+                                            ->with('previousAnswersList', $previousAnswersList);
+    }
+
+    public function getSubmissionData($responseId)
+    {
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $responseId);
         $responseQry->includeKey('questionnaire');
@@ -85,14 +112,17 @@ class submissionController extends Controller
          
         foreach($answers as $answers)
         {  
-           $questionId = $answers->get("question")->getObjectId();
-           $questionType = $answers->get("question")->get("type");
+           $question =  $answers->get("question");
+           $questionId =  $question->getObjectId();
+           $questionType =  $question->get("type");
+
 
            if($questionType == 'multi-choice')
            {
                 if(!isset($answersList[$questionId]))
                 {
                    $answersList[$questionId]= [ 'id' => $answers->getObjectId(),
+                                        'questionId' => $answers->get("question")->getObjectId(),
                                         'question' => $answers->get("question")->get("question"), 
                                         'questionType' => $questionType, 
                                         'option' => [$answers->get("option")->get("label")],  
@@ -111,6 +141,7 @@ class submissionController extends Controller
            {
                 $option = ($answers->get("option") !='')?$answers->get("option")->get("label"):'';
                 $answersList[$questionId]= [ 'id' => $answers->getObjectId(),
+                                        'questionId' => $answers->get("question")->getObjectId(),
                                         'question' => $answers->get("question")->get("question"), 
                                         'questionType' => $questionType, 
                                         'option' => $option,  
@@ -120,11 +151,9 @@ class submissionController extends Controller
            }
            
         }
-         
-        return view('admin.submissions-view')->with('active_menu', 'submission')
-                                            ->with('questionnaire', $questionnaire)
-                                            ->with('date', $date)
-                                            ->with('answersList', $answersList);
+
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList] ;
+        return $data;
     }
 
     /**

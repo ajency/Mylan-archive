@@ -22,10 +22,10 @@
                   </div>
                  
                            <div class="user-description-box">
-                              <div class="pull-right">
+                              <!-- <div class="pull-right">
                               <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
-                           </div>
+                           </div> -->
                               <label>{{ $questionnaire }}</label>
                               <p>Submitted on {{ $date }}</p>
                            </div>
@@ -51,7 +51,19 @@
                                       <h5 class="text-success semi-bold">A: {{ $answer['value']}} {{ $answer['option']}}</h5>
                                     @endif
                                     
-                                    <!-- <h5 class="text-success"><span class="text-muted">Previous Answer:</span> <span class="text-info">I feel the same.</span></h5> -->
+                                    
+                                    @if(isset($previousAnswersList[$answer['questionId']]))
+                                    <h5 class="text-success"><span class="text-muted">Previous Answer:</span>
+   
+                                        @if($previousAnswersList[$answer['questionId']]['questionType']=='multi-choice')
+                                         <span class="text-info">{{ implode(" , ",$previousAnswersList[$answer['questionId']]['option'])}}</span>
+           
+                                        @else
+                                          <span class="text-info">{{ $previousAnswersList[$answer['questionId']]['value']}} {{ $previousAnswersList[$answer['questionId']]['option']}}</span>
+                                        @endif
+                                     </h5>
+                                    @endif
+
                                  </div>
                               </div>
                               <?php $i++;?>
