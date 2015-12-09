@@ -249,7 +249,7 @@ class UserController extends Controller
         try{
             $data = $request->all();  
             $referenceCode = $data['referenceCode'];
-            $installationId = $data['installationId'];
+            // $installationId = $data['installationId'];
             $password = trim($data['password']);
             $newpassword = getPassword($referenceCode , $password);
      
@@ -272,30 +272,37 @@ class UserController extends Controller
                     $projectId = $user['project_id'];
                     $hospitalId = $user['hospital_id'];
                     $apiKey = $user->apiKey()->first();
-                    $parseUser = $this->getParseUser($referenceCode,$installationId,$apiKey);
-                    if($parseUser!='error')
-                    {
+                    // $parseUser = $this->getParseUser($referenceCode,$installationId,$apiKey);
+                    // if($parseUser!='error')
+                    // {
                         $data = $this -> postLoginData($hospitalId,$projectId);
                         $hospitalData = $data['hospital']; 
                         $questionnaireData = $data['questionnaire']; 
-                        $parseUser =json_decode($parseUser,true); 
-                        $json_resp = array( 
-                            'user'=> $parseUser['result'],
-                            'hospital'=> $hospitalData,
-                            'questionnaire'=> $questionnaireData,
-                            'code' => 'successful_login' , 
-                            'message' => 'Successfully logged in'
-                        );
+                        // $parseUser =json_decode($parseUser,true); 
+                        // $json_resp = array( 
+                        //     'user'=> $parseUser['result'],
+                        //     'hospital'=> $hospitalData,
+                        //     'questionnaire'=> $questionnaireData,
+                        //     'code' => 'successful_login' , 
+                        //     'message' => 'Successfully logged in'
+                        // );
+                         $json_resp = array( 
+                       'user-auth-key'=> $apiKey['key'],
+                       'hospital'=> $hospitalData,
+                       'questionnaire'=> $questionnaireData,
+                       'code' => 'successful_login' , 
+                       'message' => 'Successfully logged in'
+                   );
                         $status_code = 200;
-                    }
-                    else
-                    {
-                        $json_resp = array(
-                        'code' => 'invalid_login' , 
-                        'message' => 'Invalid Login details'
-                        );
-                        $status_code = 200;
-                    }
+                    // }
+                    // else
+                    // {
+                    //     $json_resp = array(
+                    //     'code' => 'invalid_login' , 
+                    //     'message' => 'Invalid Login details'
+                    //     );
+                    //     $status_code = 200;
+                    // }
                     
                 }
                 else
