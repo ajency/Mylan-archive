@@ -193,6 +193,12 @@
                 ng-click="view.nextQuestion()">Next <span class="ion-arrow-right-b"></span>
                 
             </button>
+            <button 
+                ng-if = "view.data.next == false"
+                class="button button-balanced pull-right"
+                ng-click="view.navigate()">Finish <span class="ion-arrow-right-b"></span>
+                
+            </button>
       </div>
 
 </ion-view>

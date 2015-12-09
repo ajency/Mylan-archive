@@ -65,27 +65,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.getQuestion();
       },
       navigate: function() {
-        return this.getLocal().then((function(_this) {
-          return function(result) {
-            var value;
-            value = result;
-            value = parseInt(value);
-            value++;
-            Storage.getNextQuestion('set', value);
-            if (value === 4) {
-              CSpinner.hide();
-              return App.navigate('summary', {
-                quizID: 111
-              });
-            } else {
-              Storage.getNextQuestion('set', value);
-              return $timeout(function() {
-                CSpinner.hide();
-                return $window.location.reload();
-              }, 500);
-            }
-          };
-        })(this));
+        return App.navigate('summary', {
+          quizID: 111
+        });
       },
       loadNextQuestion: function(param) {
         return Storage.setData('responseId', 'get').then((function(_this) {
@@ -98,6 +80,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log('******');
               console.log('next question');
               console.log(data);
+              _this.singleChoiceValue = '';
+              _this.val_answerValue = '';
               _this.data = [];
               _this.data = data.result;
               return _this.display = 'noError';
@@ -162,7 +146,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               };
             })(this));
             options = {
-              "questionId": 'Bzha5uwxMM',
+              "questionId": this.data.questionId,
               "options": optionId,
               "value": valueInput
             };

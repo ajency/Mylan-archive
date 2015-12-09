@@ -74,26 +74,27 @@ angular.module 'PatientApp.Quest',[]
 					
 
 			navigate : ->
+				App.navigate 'summary', quizID: 111
 				# value = 
-				@getLocal()
-				.then (result)=> 
-					value = result
-					# Storage.getNextQuestion('get').then (value) ->
-					value = parseInt(value)
-					value++
-					Storage.getNextQuestion 'set' , value
-					if value == 4
-						CSpinner.hide()
-						App.navigate 'summary', quizID: 111
-					else
+				# @getLocal()
+				# .then (result)=> 
+				# 	value = result
+				# 	# Storage.getNextQuestion('get').then (value) ->
+				# 	value = parseInt(value)
+				# 	value++
+				# 	Storage.getNextQuestion 'set' , value
+				# 	if value == 4
+				# 		CSpinner.hide()
+				# 		App.navigate 'summary', quizID: 111
+				# 	else
 
-						Storage.getNextQuestion 'set' , value
-						# $window.location.reload()
+				# 		Storage.getNextQuestion 'set' , value
+				# 		# $window.location.reload()
 
-						$timeout ->
-							CSpinner.hide()
-							$window.location.reload()
-						,500
+				# 		$timeout ->
+				# 			CSpinner.hide()
+				# 			$window.location.reload()
+				# 		,500
 
 			loadNextQuestion :(param)->
 				Storage.setData 'responseId','get'
@@ -109,6 +110,9 @@ angular.module 'PatientApp.Quest',[]
 						console.log '******'
 						console.log 'next question'
 						console.log data
+						@singleChoiceValue = ''
+
+						@val_answerValue = ''
 						@data = []
 						@data = data.result
 						@display = 'noError'					
@@ -168,7 +172,7 @@ angular.module 'PatientApp.Quest',[]
 								optionId.push(opt.id)
 
 						options =
-							"questionId" : 'Bzha5uwxMM'
+							"questionId" : @data.questionId
 							"options": optionId
 							"value": valueInput
 
