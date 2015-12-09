@@ -21,8 +21,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $patients = User::orderBy('created_at')->get()->toArray();
-        return view('admin.patients.list')
+        $patients = User::where('type','patient')->orderBy('created_at')->get()->toArray();
+        return view('admin.patients.list')->with('active_menu', 'patients')
                         ->with('patients', $patients);
     }
 
@@ -56,8 +56,9 @@ class UserController extends Controller
 
 
         
-        return view('admin.patients.add')->with('hospitals', $hospitals)
-                                    ->with('projects', $projects);
+        return view('admin.patients.add')->with('active_menu', 'patients')
+                                        ->with('hospitals', $hospitals)
+                                        ->with('projects', $projects);
     }
 
     /**
@@ -76,9 +77,11 @@ class UserController extends Controller
         $user = new User();
         $user->reference_code = $referanceCode;
         $user->password = '';
+        $user->email = $referanceCode;
         $user->account_status = 'created';
         $user->hospital_id = $hospital;
         $user->project_id = $project;
+        $user->type = 'patient';
         $user->save();
         $userId = $user->id;
 

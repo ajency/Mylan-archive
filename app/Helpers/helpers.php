@@ -8,6 +8,7 @@
 
 //patient status array
 $patientStatus = ['created'=>'created','active'=>'Active','suspended'=>'Suspended'];
+$userTypes = ['mylan_admin'=>'Mylan Admin','internal_user'=>'Internal User','pateints'=>'Patient'];
 
 //constatnts
 define("SETUP_LIMIT", 5);

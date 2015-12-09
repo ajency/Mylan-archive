@@ -29,7 +29,7 @@
 							</ul>
 						</div>
 					@endif
-                <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/auth/login') }}">
+                <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/patient/login') }}">
                 <div class="has-feedback b-b">
                   <input type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code">
                   <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>
@@ -47,6 +47,7 @@
                 
                 <button type="submit" class="btn btn-info btn-block">Login</button>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="type" value="patient">
                 <br>
                 <br>
                 <a href="#" data-toggle="modal" data-target=".bs-example-modal-sm"><p>Forgot your reference code<br> or password ?</p></a>
