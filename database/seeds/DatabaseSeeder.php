@@ -33,7 +33,9 @@ class UserTableSeeder extends Seeder {
     public function run() {
         User::create( [
             'name' => 'Super Admin',
+            'type' => 'mylan_admin',
             'email' => 'admin@mylan.com',
+            'account_status' => 'active',
             'password' => Hash::make( 'admin' )
         ] ); 
         
