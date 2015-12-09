@@ -37,29 +37,30 @@
                         
                   </div>
               </div>
+
+              <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
               <div class="bg-gray">
                 <div class="prev-answers padding">
                                <div class="col">  
                                   <h6 class="f-w-400 text-green">
                                       Previous Answers &nbsp;&nbsp;
                                     </h6>
-                                    
-                                       
-                                        <p class="f-w-400 text-green">{{view.data.pastAnswer}}</p>
-                                       
-                                    
+                                        <p class="f-w-400 text-green">{{view.data.previousQuestionnaireAnswer.value}}</p>
                                     <hr>
                                    
-                                        
                                         <p>
                                         <i class="icon ion-calendar"></i>
-                                        <span class="text-green">Submitted On: {{view.data.submitedDate}}</span>
+                                        <span class="text-green">
+                                          Submitted On: 
+                                          {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
+                                        </span>
                                         </p>
                                         
                                         
                                     </div>
                                   
                              </div>
+              </div>
               </div>
      
                

@@ -1,8 +1,9 @@
 angular.module 'PatientApp.Global', []
 
 
-.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences'
-	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences)->
+.factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
+	, '$cordovaPreferences', '$ionicScrollDelegate'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate)->
 
 		App = 
 			start: true
@@ -94,6 +95,10 @@ angular.module 'PatientApp.Global', []
 					defer.resolve data
 				, (error)=>
 					defer.reject error
+
+
+			resize : ->
+				$ionicScrollDelegate.resize()
 
 
 

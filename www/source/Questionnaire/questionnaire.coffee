@@ -104,6 +104,7 @@ angular.module 'PatientApp.Quest',[]
 
 					QuestionAPI.saveAnswer param
 					.then (data)=>
+						App.resize()
 						CToast.show 'Your answer is saved'
 						console.log '******'
 						console.log 'next question'

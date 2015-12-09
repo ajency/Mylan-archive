@@ -93,6 +93,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             CSpinner.show('', 'Please wait..');
             param.responseId = responseId;
             return QuestionAPI.saveAnswer(param).then(function(data) {
+              App.resize();
               CToast.show('Your answer is saved');
               console.log('******');
               console.log('next question');

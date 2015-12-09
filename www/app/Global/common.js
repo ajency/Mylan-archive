@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate) {
     var App;
     return App = {
       start: true,
@@ -111,6 +111,9 @@ angular.module('PatientApp.Global', []).factory('App', [
             return defer.reject(error);
           };
         })(this));
+      },
+      resize: function() {
+        return $ionicScrollDelegate.resize();
       }
     };
   }
