@@ -43,7 +43,7 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="index.html"><img src="{{ asset('img/logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/logo.png') }}" data-src-retina="{{ asset('hospital/img/logo2x.png') }}" width="106" height="21"/></a>
+               <a href="index.html"><img src="{{ asset('img/nhs.gif') }}" class="logo" alt=""  data-src="{{ asset('img/nhs.gif') }}" data-src-retina="{{ asset('img/nhs.gif') }}" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
@@ -67,7 +67,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="{{ asset('img/hospital-logo.png') }}" class="logo" alt=""  data-src="{{ asset('hospital/img/hospital-logo.png') }}" width="auto" height="40"/></a>
+               <a href="index.html" class="pull-left"><img src="{{ asset('img/nhs.gif') }}" class="logo" alt=""  data-src="{{ asset('img/nhs.gif') }}" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">

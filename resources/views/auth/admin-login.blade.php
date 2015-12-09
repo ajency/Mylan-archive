@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row login-container column-seperation">  
         <div class="col-md-5 col-md-offset-1">
-          <img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" width="auto" height="auto"/>
+          <img src="{{ asset('img/nhs.gif') }}" class="logo" alt=""  data-src="{{ asset('img/nhs.gif') }}" width="auto" height="auto"/>
           <!-- <h2>Slutter Davis Hospital</h2> -->
           
         </div>
