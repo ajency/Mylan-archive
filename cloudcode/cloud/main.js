@@ -329,15 +329,19 @@
       questionQuery.include('previousQuestion');
       return questionQuery.get(questionId).then(function(questionObj) {
         return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
-          return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
-            return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
-              return response.success(questionData);
+          if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+            return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
+              return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                return response.success(questionData);
+              }, function(error) {
+                return response.error(error);
+              });
             }, function(error) {
               return response.error(error);
             });
-          }, function(error) {
-            return response.error(error);
-          });
+          } else {
+            return response.success("savedSuccessfully");
+          }
         }, function(error) {
           return response.error(error);
         });
@@ -368,12 +372,16 @@
           }
           return results1;
         })();
-        questionQuery = new Parse.Query("Questions");
-        return questionQuery.get(conditionalQuestion[0]).then(function(optionQuestionObj) {
-          return promise.resolve(optionQuestionObj);
-        }, function(error) {
-          return promise.error(error);
-        });
+        if (conditionalQuestion.length !== 0) {
+          questionQuery = new Parse.Query("Questions");
+          return questionQuery.get(conditionalQuestion[0]).then(function(optionQuestionObj) {
+            return promise.resolve(optionQuestionObj);
+          }, function(error) {
+            return promise.error(error);
+          });
+        } else {
+          return promise.resolve(questionObj.get('nextQuestion'));
+        }
       }, function(error) {
         return promise.error(error);
       });
