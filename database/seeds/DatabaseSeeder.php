@@ -32,23 +32,12 @@ class UserTableSeeder extends Seeder {
 
     public function run() {
         User::create( [
-            'reference_code' => '12345678',
-            'reference_number' => Hash::make( '123456' ),
-            'password' => Hash::make( getPassword('12345678' , '1234') ),
-            'account_status' => 'active',
-            'hospital_id' => '',
-            'project_id' => ''
+            'name' => 'Super Admin',
+            'email' => 'admin@mylan.com',
+            'password' => Hash::make( 'admin' )
         ] ); 
         
-        UserDevice::create( [
-            'user_id' => '1',
-            'device_type' => 'mobile',
-            'device_identifier' => '123456',
-            'device_os' => 'ios',
-            'access_type' => 'app'
-
-        ]); 
-        
+                
         
     }
 

@@ -84,13 +84,48 @@ class AuthController extends Controller
             else
             {
                 Auth::logout();
-                return redirect('/auth/login')->withErrors([
+                return redirect('/patient/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
         }
         
-        return redirect('/auth/login')->withErrors([
+        return redirect('/patient/login')->withErrors([
+            'email' => 'The credentials you entered did not match our records. Try again?',
+        ]);
+    }
+
+    public function getAdminLogin()
+    {
+        return view('auth.admin-login');
+    }
+
+    public function postAdminLogin(Request $request)
+    { 
+        $email = $request->input('email');
+        $password = trim($request->input('password'));
+        if($request->has('remember'))
+            $remember = $request->input('remember');
+        else
+           $remember = 0;
+            
+        
+        if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
+        {   
+            if(Auth::user()->account_status=='active')
+            {
+                return redirect()->intended('admin/dashbord');
+            }
+            else
+            {
+                Auth::logout();
+                return redirect('/admin/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
+            }
+        }
+        
+        return redirect('/admin/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
     }

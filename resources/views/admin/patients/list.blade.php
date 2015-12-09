@@ -1,27 +1,42 @@
-@extends('layouts.master')
+
+@extends('layouts.single-mylan')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
-<ul class="breadcrumb">
-    <li><a href="{{ url( 'admin/') }}">Dashboard</a> </li>
-    <li><a href="#" class="active">Patients</a> </li>
- </ul>
+      <p>
+      <ul class="breadcrumb">
+         <li>
+            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
+         </li>
+         <li>
+            <a href="#" class="active">Patients</a>
+         </li>
+      </ul>
+      </p>
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-<!-- BEGIN PAGE TITLE -->
-<div class="page-title">	
-    <h2><span class="semi-bold">View</span> Patients</h2>
-</div>
 <div class="row">
-    <div class="col-md-12">
-        <div class="grid simple">
-   
-            <div class="grid-title">
-                <h4>List of <span class="semi-bold">Patients</span></h4>
-                <a class="btn btn-primary pull-right" href="{{ url('/admin/patients/create') }}" ><i class="fa fa-plus"></i> Add Patient</a>
-            </div>
-            <div class="grid-body">
-                <table class="table table-bordered userList" id="example2" >
+                        <div class="col-lg-8 col-md-7">
+                  <div class="page-title">
+                     <h3 class="m-b-0"><span class="semi-bold">Patients</span></h3>
+                     <p>(Showing all Patients under Mylan)</p>
+                  </div>
+                  </div>
+                        <div class="col-lg-4 col-md-5 m-t-25">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <a href="{{ url( 'admin/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
+                              </div>
+                        
+                           </div>
+                        </div>
+
+                  </div>
+
+                  <div class="grid simple">
+                     <div class="grid-body">
+
+                  <table class="table table-hover table-flip-scroll cf">
                     <thead>
                         <tr>
                             <th style="width: 22%;">Refernace Code</th>
@@ -38,10 +53,12 @@
                             </tr>
                         @endforeach
                     </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+                                 </table>
+                                  </div>
+                  </div>
  
+                  
+      
+ 
+
 @endsection
