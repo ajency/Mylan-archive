@@ -138,12 +138,40 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 
-					options =
-						"questionId" : 'Bzha5uwxMM'
-						"options": ['tGVBx8terT']
-						"value": "10"
+					error = 0
+					sizeOfField = _.size(@data.options)
+					sizeOfTestboxAns = _.size(@val_answerValue)
 
-					@loadNextQuestion(options)
+					if (sizeOfTestboxAns == 0)
+						error = 1
+					else
+						_.each @val_answerValue, (value)->
+							if value == null
+								error = 1
+
+					if error == 1
+						CToast.show 'Please enter the values'
+					else
+						valueInput = []
+						optionId = []
+
+						console.log 'uuuu0'
+						console.log @val_answerValue
+						console.log 'uuuu0'
+						console.log @data.options
+
+						_.each @data.options, (opt)=>
+							a = @val_answerValue[opt.option]
+							if !_.isUndefined(a) && a !=''
+								valueInput.push(a)
+								optionId.push(opt.id)
+
+						options =
+							"questionId" : 'Bzha5uwxMM'
+							"options": optionId
+							"value": valueInput
+
+						@loadNextQuestion(options)
 
 			
 				if @data.questionType == 'multi-choice'
@@ -229,6 +257,22 @@ angular.module 'PatientApp.Quest',[]
 				console.log 'onTapToRetry'
 				@getQuestion()
 
+			isEmpty :(pastAnswerObject)->
+				_.isEmpty(pastAnswerObject)
+
+			pastDate:(date)->
+				console.log 'sdsdsdsd'
+				moment(date).format('MMMM Do YYYY')
+
+			pastAnswer:(previousQuestionnaireAnswer, optionId )->
+				optId = _.pluck(optionId, 'id')
+				console.log optId
+				indexOf = optId.indexOf(previousQuestionnaireAnswer)
+				indexOf++
+
+				indexOf
+
+
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
 
@@ -239,6 +283,21 @@ angular.module 'PatientApp.Quest',[]
 			# , 300
 
 		
+]
+
+.controller 'PastAnswerCtrl', ['$scope', ($scope )->
+
+	console.log 'Request time'
+	console.log $scope.view.data.previousQuestionnaireAnswer
+	optId = _.pluck($scope.view.data.options, 'id')
+	console.log optId
+	indexOf = optId.indexOf($scope.view.data.previousQuestionnaireAnswer.optionId[0])
+	indexOf++
+
+	$scope.view.data.lastOption = indexOf
+	date = $scope.view.data.previousQuestionnaireAnswer.date.iso
+	$scope.view.data.submitedDate = moment(date).format('MMMM Do YYYY')
+	
 ]
 
 

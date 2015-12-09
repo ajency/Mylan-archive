@@ -6,7 +6,7 @@ AUTH_URL = 'http://54.213.248.21/api/v1'
 AUTH_HEADERS = 
 	headers:
 		"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-		"X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
+		"X-Authorization" : '51714a4f57d87cf01461bf770c6bc9a96dcdcf8f'
 		"Content-Type" : 'application/json'
 
 
@@ -34,6 +34,6 @@ PARSE_HEADERS =
 	# timeout : 15000
 	
 
-
+# "X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
 
 

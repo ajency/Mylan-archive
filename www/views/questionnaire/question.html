@@ -3,7 +3,7 @@
   hide-back-button="true">
 
 
-   <ion-content  class="has-footer" ng-switch="view.display">
+   <ion-content  class="has-footer" ng-switch="view.display" >
 
     <div >
       <div class="loader" ng-switch-when="loader">
@@ -14,7 +14,14 @@
         ng-switch-when="noError">
 
         <div class="info-msg padding bg-balanced" ng-if="view.infoBox">
-            <span>Select your Answer/ Answers</span>
+            <span  
+              ng-if = 'view.data.questionType == "single-choice"'>
+                Select your Answer
+            </span>
+            <span  
+              ng-if = 'view.data.questionType == "multi-choice"'>
+              Select your Answers
+            </span>
         </div> 
 
           <!--descrp-->
@@ -46,7 +53,7 @@
                                         
                                         <p>
                                         <i class="icon ion-calendar"></i>
-                                        <span class="text-green">Submitted On {{view.data.submitedDate}}</span>
+                                        <span class="text-green">Submitted On: {{view.data.submitedDate}}</span>
                                         </p>
                                         
                                         
@@ -91,24 +98,26 @@
                         
                   </div>
               </div>
+              <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
               <div class="bg-gray"
-                ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"'>
+                ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
                 <div class="prev-answers padding">
                                <div class="col">  
                                   <h6 class="f-w-400 text-green">
                                       Previous Answers &nbsp;&nbsp;
                                     </h6>
-                                    
-                                       
-                                        <p class="f-w-400 text-green">{{view.data.pastAnswer}}</p>
-                                       
-                                    
+                                        <p class="f-w-400 text-green">
+                                          Last time you answered option: &nbsp;
+          {{ view.pastAnswer(view.data.previousQuestionnaireAnswer.optionId[0], view.data.options)}}
+                                        </p>
                                     <hr>
                                    
                                         
                                         <p>
                                         <i class="icon ion-calendar"></i>
-                                        <span class="text-green">Submitted On {{view.data.submitedDate}}</span>
+                                        <span class="text-green">Submitted On: 
+                                        {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
+                                        </span>
                                         </p>
                                         
                                         
@@ -116,6 +125,7 @@
                                   
                              </div>
               </div>
+            </div>
      
                
 
@@ -124,13 +134,13 @@
                 class="list"
                 ng-if = 'view.data.questionType == "single-choice"'>
                 <label class="item item-radio"
-                  ng-repeat ="answerValue in view.data.options">
+                  ng-repeat ="answerValue in view.data.options track by $index">
                     <input type="radio" name="group" ng-model="view.singleChoiceValue" 
                       ng-value="answerValue.id" >
                       <div class="item-content">
-                       {{answerValue.option}} 
+                       {{$index + 1}} .&nbsp; {{answerValue.option}} 
                       </div>
-                    <i class="radio-icon ion-checkmark"></i>
+                  <!-- <i class="radio-icon ion-checkmark"></i>   -->
                 </label> 
               </div>
 
