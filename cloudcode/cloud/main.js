@@ -315,7 +315,7 @@
     return promise;
   };
 
-  Parse.Cloud.define('saveAnswer', function(request, response) {
+  Parse.Cloud.define('getNextQuestion', function(request, response) {
     var options, questionId, responseId, responseQuery, value;
     responseId = request.params.responseId;
     questionId = request.params.questionId;
@@ -470,7 +470,7 @@
     });
   };
 
-  Parse.Cloud.define("previousQuestion", function(request, response) {
+  Parse.Cloud.define("getPreviousQuestion", function(request, response) {
     var options, questionId, responseId, responseQuery, value;
     responseId = request.params.responseId;
     questionId = request.params.questionId;
@@ -489,15 +489,15 @@
           }, function(error) {
             return response.error(error);
           });
+        }, function(error) {
+          return response.error(error);
         });
+      }, function(error) {
+        return response.error(error);
       });
+    }, function(error) {
+      return response.error(error);
     });
-  }, function(error) {
-    return response.error(error);
-  }, function(error) {
-    return response.error(error);
-  }, function(error) {
-    return response.error(error);
   });
 
   Parse.Cloud.define('getQuestionnaire', function(request, response) {
@@ -542,27 +542,6 @@
           return response.error(error);
         });
       }
-    }, function(error) {
-      return response.error(error);
-    });
-  });
-
-  Parse.Cloud.define('getNextQuestion', function(request, response) {
-    var patientId, questionIds, questionnaireId, questionnaireQuery, responseId;
-    questionnaireId = request.params.questionnaireId;
-    questionIds = request.params.questionIds;
-    patientId = request.params.patientId;
-    responseId = request.params.responseId;
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.equalTo("objectId", questionnaireId);
-    return questionnaireQuery.first().then(function(questionnaireObject) {
-      var questions;
-      questions = {};
-      return getQuestion(questionnaireObject, patientId, questionIds, responseId).then(function(questionData) {
-        return response.success(questionData);
-      }, function(error) {
-        return response.error(error);
-      });
     }, function(error) {
       return response.error(error);
     });

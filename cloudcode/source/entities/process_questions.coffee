@@ -198,39 +198,39 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 	promise	
 
 
-Parse.Cloud.define 'saveAnswer', (request, response) ->
-    responseId = request.params.responseId
-    questionId = request.params.questionId
-    options = request.params.options
-    value = request.params.value
-    
-    responseQuery = new Parse.Query('Response')
-    responseQuery.get(responseId)
-    .then (responseObj) ->
-        questionQuery = new Parse.Query('Questions')
-        questionQuery.include('nextQuestion')
-        questionQuery.include('previousQuestion')
+Parse.Cloud.define 'getNextQuestion', (request, response) ->
+	responseId = request.params.responseId
+	questionId = request.params.questionId
+	options = request.params.options
+	value = request.params.value
 
-        questionQuery.get(questionId)
+	responseQuery = new Parse.Query('Response')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		questionQuery = new Parse.Query('Questions')
+		questionQuery.include('nextQuestion')
+		questionQuery.include('previousQuestion')
 
-        .then (questionObj) ->
-            saveAnswer responseObj, questionObj, options, value
-            .then (answersArray) ->
-            	getNextQuestion(questionObj, options)
-            	.then (nextQuestionObj) ->
-	                getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
-	                .then (questionData) ->
-	                	response.success questionData
-	                ,(error) ->
-	                    response.error error
-	            ,(error) ->
-	                response.error error	        
-            ,(error) ->
-                response.error error
-        ,(error) ->
-            response.error error
-    ,(error) ->
-        response.error error
+		questionQuery.get(questionId)
+
+		.then (questionObj) ->
+			saveAnswer responseObj, questionObj, options, value
+			.then (answersArray) ->
+				getNextQuestion(questionObj, options)
+				.then (nextQuestionObj) ->
+					getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
+					.then (questionData) ->
+						response.success questionData
+					,(error) ->
+						response.error error
+				,(error) ->
+					response.error error	        
+			,(error) ->
+				response.error error
+		,(error) ->
+			response.error error
+	,(error) ->
+		response.error error
 
 
 getNextQuestion = (questionObj, option) ->
@@ -342,33 +342,33 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 
 
 
-Parse.Cloud.define "previousQuestion", (request, response) ->
-    responseId = request.params.responseId
-    questionId = request.params.questionId
-    options = request.params.options
-    value = request.params.value
-    
-    responseQuery = new Parse.Query('Response')
-    responseQuery.get(responseId)
-    .then (responseObj) ->
-        questionQuery = new Parse.Query('Questions')
-        questionQuery.include('previousQuestion')
-        questionQuery.get(questionId)
+Parse.Cloud.define "getPreviousQuestion", (request, response) ->
+	responseId = request.params.responseId
+	questionId = request.params.questionId
+	options = request.params.options
+	value = request.params.value
 
-        .then (questionObj) ->
-            saveAnswer responseObj, questionObj, options, value
-            .then (answersArray) ->
-            	getNextQuestion(questionObj, options)
-            	getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
-	            .then (questionData) ->
-	                response.success questionData
-	            ,(error) ->
-	                response.error error
+	responseQuery = new Parse.Query('Response')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		questionQuery = new Parse.Query('Questions')
+		questionQuery.include('previousQuestion')
+		questionQuery.get(questionId)
+
+			.then (questionObj) ->
+				saveAnswer responseObj, questionObj, options, value
+					.then (answersArray) ->
+						getNextQuestion(questionObj, options)
+						getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
+						.then (questionData) ->
+							response.success questionData
+						,(error) ->
+							response.error error
+					,(error) ->
+						response.error error
 			,(error) ->
-                response.error error
-        ,(error) ->
-            response.error error
-    ,(error) ->
-        response.error error
+				response.error error
+	,(error) ->
+		response.error error
 
 

@@ -47,25 +47,25 @@ Parse.Cloud.define 'getQuestionnaire', (request, response) ->
     , (error) ->
         response.error error
 
-Parse.Cloud.define 'getNextQuestion', (request, response) ->
-    questionnaireId = request.params.questionnaireId
-    questionIds = request.params.questionIds
-    patientId  = request.params.patientId
-    responseId = request.params.responseId
+# Parse.Cloud.define 'getNextQuestion', (request, response) ->
+#     questionnaireId = request.params.questionnaireId
+#     questionIds = request.params.questionIds
+#     patientId  = request.params.patientId
+#     responseId = request.params.responseId
  
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.equalTo("objectId", questionnaireId)
-    questionnaireQuery.first()
-    .then (questionnaireObject) ->
-        questions = {}
-        getQuestion(questionnaireObject,patientId,questionIds,responseId)
-        .then (questionData) ->
-            response.success questionData
-        , (error) ->
-            response.error error
+#     questionnaireQuery = new Parse.Query('Questionnaire')
+#     questionnaireQuery.equalTo("objectId", questionnaireId)
+#     questionnaireQuery.first()
+#     .then (questionnaireObject) ->
+#         questions = {}
+#         getQuestion(questionnaireObject,patientId,questionIds,responseId)
+#         .then (questionData) ->
+#             response.success questionData
+#         , (error) ->
+#             response.error error
 
-    , (error) ->
-        response.error error
+#     , (error) ->
+#         response.error error
 
 Parse.Cloud.define 'getQuestion', (request, response) ->
     responseId = request.params.responseId
