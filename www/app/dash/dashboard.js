@@ -8,7 +8,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return Storage.getNextQuestion('set', 1);
       },
       startQuiz: function(quizID) {
-        return App.navigate('questionnaire');
+        return App.navigate('start-questionnaire');
       },
       getSubmission: function() {
         return DashboardAPI.get();

@@ -19,24 +19,27 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return defer.promise;
       },
       getQuestion: function(questNo) {
-        this.display = 'noError';
-        return Storage.setData('patientData', 'get').then((function(_this) {
-          return function(patientData) {
-            var options;
-            _this.patientId = patientData.patient_id;
-            options = {
-              "responseId": '',
-              "questionnaireId": patientData.questionnaire.id,
-              "patientId": parseInt(patientData.patient_id)
-            };
-            return QuestionAPI.getQuestion(options).then(function(data) {
-              console.log('inside then');
-              console.log(data);
-              _this.data = data.result;
-              return _this.display = 'noError';
-            }, function(error) {
-              _this.display = 'error';
-              return _this.errorType = error;
+        this.display = 'loader';
+        return Storage.setData('refcode', 'get').then((function(_this) {
+          return function(refcode) {
+            return Storage.setData('patientData', 'get').then(function(patientData) {
+              var options;
+              _this.patientId = patientData.patient_id;
+              options = {
+                "responseId": '',
+                "questionnaireId": patientData.questionnaire.id,
+                "patientId": refcode
+              };
+              return QuestionAPI.getQuestion(options).then(function(data) {
+                console.log('inside then');
+                console.log(data);
+                _this.data = data.result;
+                Storage.setData('responseId', 'set', data.result.responseId);
+                return _this.display = 'noError';
+              }, function(error) {
+                _this.display = 'error';
+                return _this.errorType = error;
+              });
             });
           };
         })(this));
@@ -84,63 +87,74 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           };
         })(this));
       },
+      loadNextQuestion: function(param) {
+        return Storage.setData('responseId', 'get').then((function(_this) {
+          return function(responseId) {
+            CSpinner.show('', 'Please wait..');
+            param.responseId = responseId;
+            return QuestionAPI.saveAnswer(param).then(function(data) {
+              CToast.show('Your answer is saved');
+              console.log('******');
+              console.log('next question');
+              console.log(data);
+              _this.data = [];
+              _this.data = data.result;
+              return _this.display = 'noError';
+            }, function(error) {
+              console.log('inside save error');
+              console.log(error);
+              if (error === 'offline') {
+                return CToast.showLongBottom('Check net connection,answer not saved');
+              } else {
+                return CToast.show('Error in saving answer,try again');
+              }
+            })["finally"](function() {
+              return CSpinner.hide();
+            });
+          };
+        })(this));
+      },
       nextQuestion: function() {
         var options, selectedvalue;
-        console.log('nextQuestion');
-        console.log(this.data);
-        selectedvalue = [];
-        _.each(this.data.options, function(opt) {
-          if (opt.checked === true) {
-            return selectedvalue.push(opt.id);
-          }
-        });
-        console.log('nextquestt');
-        console.log(selectedvalue);
-        if (this.data.question.type === 'single-choice') {
+        if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
-            return CToast.show('Please select atleast one answer');
+            CToast.show('Please select atleast one answer');
           } else {
             options = {
-              "responseId": this.data.response,
-              "patientId": this.patientId,
-              "questionId": this.data.question.id,
+              "questionId": this.data.questionId,
               "options": [this.singleChoiceValue],
               "value": ""
             };
-            Storage.setData('responseId', 'set', this.data.response);
-            CSpinner.show('', 'Please wait..');
-            return QuestionAPI.saveAnswer(options).then((function(_this) {
-              return function(data) {
-                var nextQuest;
-                CToast.show('Your answer is saved');
-                _this.display = 'loader';
-                nextQuest = {
-                  "questionnaireId": _this.data.id,
-                  "questionIds": [_this.data.question.id],
-                  "patientId": _this.patientId,
-                  "responseId": _this.data.response
-                };
-                return QuestionAPI.getNextQuest(nextQuest);
-              };
-            })(this)).then((function(_this) {
-              return function(data) {
-                console.log('******');
-                console.log('next question');
-                console.log(data);
-                _this.data = [];
-                _this.data = data.result;
-                return _this.display = 'noError';
-              };
-            })(this), (function(_this) {
-              return function(error) {
-                console.log('inside save error');
-                console.log(error);
-                return CToast.show('Error in saving your answer');
-              };
-            })(this))["finally"](function() {
-              return CSpinner.hide();
+            this.loadNextQuestion(options);
+          }
+        }
+        if (this.data.questionType === 'input') {
+          options = {
+            "questionId": 'Bzha5uwxMM',
+            "options": ['tGVBx8terT'],
+            "value": "10"
+          };
+          this.loadNextQuestion(options);
+        }
+        if (this.data.questionType === 'multi-choice') {
+          if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
+            CToast.show('Please select your answer');
+          } else {
+            selectedvalue = [];
+            _.each(this.data.options, function(opt) {
+              if (opt.checked === true) {
+                return selectedvalue.push(opt.id);
+              }
             });
           }
+          console.log('selectedvalue');
+          console.log(selectedvalue);
+          options = {
+            "questionId": this.data.questionId,
+            "options": selectedvalue,
+            "value": ""
+          };
+          return this.loadNextQuestion(options);
         }
       },
       prevQuestion: function() {
@@ -165,7 +179,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.display = 'loader';
       },
       onTapToRetry: function() {
-        return console.log('onTapToRetry');
+        this.display = 'loader';
+        console.log('onTapToRetry');
+        return this.getQuestion();
       }
     };
     $scope.$on('$ionicView.beforeEnter', function(event, viewData) {

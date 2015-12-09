@@ -25,38 +25,34 @@ angular.module 'PatientApp.Quest',[]
 				defer.promise
 
 			getQuestion :(questNo) ->
-				@display = 'noError'
+				@display = 'loader'
+
+				Storage.setData 'refcode','get'
+				.then (refcode)=>
 				
-				Storage.setData 'patientData','get'
-				.then (patientData)=>
-					@patientId = patientData.patient_id
+					Storage.setData 'patientData','get'
+					.then (patientData)=>
+						@patientId = patientData.patient_id
+						options =
+							"responseId": ''
+							"questionnaireId": patientData.questionnaire.id
+							"patientId":refcode
 
-					# getQuestionnaire
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data.result
+							Storage.setData 'responseId', 'set', data.result.responseId
+							@display = 'noError'
 
-					# options =
-					# 	"projectId": patientData.project_id
-					# 	"hospitalId": patientData.hospital.id
-					# 	"patientId":parseInt(patientData.patient_id)
-
-					options =
-						"responseId": ''
-						"questionnaireId": patientData.questionnaire.id
-						"patientId":parseInt(patientData.patient_id)
-
-
-					QuestionAPI.getQuestion options
-					.then (data)=>
-						console.log 'inside then'
-						console.log data
-						@data = data.result
-						@display = 'noError'
-						# $timeout =>
-						# 	console.log 'timeoutt'
-						# 	@infoBox = false
-						# , 30000
-					,(error)=>
-						@display = 'error'
-						@errorType = error
+							# $timeout =>
+							# 	console.log 'timeoutt'
+							# 	@infoBox = false
+							# , 30000
+						,(error)=>
+							@display = 'error'
+							@errorType = error
 
 
 			getPrevQuestion : ->
@@ -76,16 +72,6 @@ angular.module 'PatientApp.Quest',[]
 				@data = ''
 				@getQuestion()	
 					
-
-
-				# console.log 'init'
-				# @actionValue = QuestionAPI.setAction 'get'
-				# console.log @actionValue
-				# if _.isEmpty(@actionValue) || @actionValue.mode == 'next'
-				# 	@getQuestion()
-				# else
-				# 	@getPrevQuestion()
-
 
 			navigate : ->
 				# value = 
@@ -109,83 +95,77 @@ angular.module 'PatientApp.Quest',[]
 							$window.location.reload()
 						,500
 
-		
+			loadNextQuestion :(param)->
+				Storage.setData 'responseId','get'
+				.then (responseId)=>	
+					CSpinner.show '', 'Please wait..'
+
+					param.responseId = responseId
+
+					QuestionAPI.saveAnswer param
+					.then (data)=>
+						CToast.show 'Your answer is saved'
+						console.log '******'
+						console.log 'next question'
+						console.log data
+						@data = []
+						@data = data.result
+						@display = 'noError'					
+					,(error)=>
+						console.log 'inside save error'
+						console.log error
+						if error == 'offline'
+							CToast.showLongBottom 'Check net connection,answer not saved'
+						else
+							CToast.show 'Error in saving answer,try again'
+
+					.finally ->
+						CSpinner.hide()
 
 			nextQuestion : ->
-				console.log 'nextQuestion'
-
-
-				console.log @data
-
-				selectedvalue = []
-
-				_.each @data.options, (opt)->
-					if opt.checked == true
-						selectedvalue.push opt.id
-
-					# if _.contains opt.checked, true
-					# 	selectedvalue.push opt.id
-
-				console.log 'nextquestt'
-				console.log selectedvalue
-
-
-
-
-				if @data.question.type == 'single-choice'
+		
+				if @data.questionType == 'single-choice'
 
 					if @singleChoiceValue == ''
 						CToast.show 'Please select atleast one answer'
 					else
 						options =
-							"responseId" : @data.response
-							"patientId": @patientId
-							"questionId" : @data.question.id
+							"questionId" : @data.questionId
 							"options": [@singleChoiceValue]
 							"value": ""
 
-						Storage.setData 'responseId','set', @data.response	
+						@loadNextQuestion(options)
 
-						CSpinner.show '', 'Please wait..'
+				if @data.questionType == 'input'
 
-						QuestionAPI.saveAnswer options
-						.then (data)=>
-							
-							CToast.show 'Your answer is saved'
-							@display = 'loader'
-							nextQuest =
-								"questionnaireId" : @data.id
-								"questionIds" : [@data.question.id]
-								"patientId" : @patientId
-								"responseId" : @data.response
+					options =
+						"questionId" : 'Bzha5uwxMM'
+						"options": ['tGVBx8terT']
+						"value": "10"
 
-							QuestionAPI.getNextQuest nextQuest
-						.then (data)=>
-							console.log '******'
-							console.log 'next question'
-							console.log data
-							@data = []
-							@data = data.result
-							@display = 'noError'
+					@loadNextQuestion(options)
 
+			
+				if @data.questionType == 'multi-choice'
 
+					if ! _.contains(_.pluck(@data.options, 'checked'), true)
+						CToast.show 'Please select your answer'
+					else
+						selectedvalue = []
 
+						_.each @data.options, (opt)->
+							if opt.checked == true
+								selectedvalue.push opt.id		
 
-							
+					console.log 'selectedvalue'
+					console.log selectedvalue
 
+					options =
+						"questionId" : @data.questionId
+						"options": selectedvalue
+						"value": ""
 
-							
-						,(error)=>
-							console.log 'inside save error'
-							console.log error
-							CToast.show 'Error in saving your answer'
-
-						.finally ->
-							CSpinner.hide()
-
-					
-
-
+					@loadNextQuestion(options)
 
 				# CSpinner.show '', 'Please wait..'
 				# # CSpinner.hide()
@@ -245,7 +225,9 @@ angular.module 'PatientApp.Quest',[]
 				@display = 'loader'
 
 			onTapToRetry : ->
+				@display = 'loader'
 				console.log 'onTapToRetry'
+				@getQuestion()
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()

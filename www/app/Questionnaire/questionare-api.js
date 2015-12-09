@@ -20,7 +20,7 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
     QuestionAPI.saveAnswer = function(options) {
       var defer, param, url;
       defer = $q.defer();
-      url = PARSE_URL + '/saveAnswer';
+      url = PARSE_URL + '/getNextQuestion';
       param = options;
       App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
         return defer.resolve(data.data);

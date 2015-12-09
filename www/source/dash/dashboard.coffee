@@ -16,7 +16,7 @@ angular.module 'PatientApp.dashboard',[]
 
 			startQuiz :(quizID) ->
 				# App.navigate 'questionnaire', quizID: quizID
-				App.navigate 'questionnaire'
+				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
 				DashboardAPI.get()

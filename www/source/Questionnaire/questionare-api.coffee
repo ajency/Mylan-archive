@@ -28,7 +28,7 @@ angular.module 'PatientApp.Quest'
 		
 		defer = $q.defer()
 
-		url = PARSE_URL+'/saveAnswer'
+		url = PARSE_URL+'/getNextQuestion'
 		param = options
 				
 		App.sendRequest(url, param,PARSE_HEADERS)
