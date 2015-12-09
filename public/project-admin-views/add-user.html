@@ -3,12 +3,13 @@
    <head>
       <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
       <meta charset="utf-8" />
-      <title>Mylan - Hospital Administrator</title>
+      <title>Mylan - Project Administrator</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta content="" name="description" />
       <meta content="" name="author" />
       <!-- BEGIN PLUGIN CSS -->
       <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
+
       <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/>
       <link href="assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
       <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -19,11 +20,14 @@
       <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
       <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
+      <link href="assets/plugins/ios-switch/ios7-switch.css" rel="stylesheet" type="text/css" media="screen">
+
       <!-- END CORE CSS FRAMEWORK -->
       <!-- BEGIN CSS TEMPLATE -->
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/plugins/ios-switch/ios7-switch.css" rel="stylesheet" type="text/css" media="screen">
       <!-- END CSS TEMPLATE -->
    </head>
    <!-- END HEAD -->
@@ -64,7 +68,7 @@
                </ul>
             </div>
             <!-- END RESPONSIVE MENU TOGGLER --> 
-            <div class="header-quick-nav container text-center" >
+            <div class="header-quick-nav container " >
                <!-- BEGIN TOP NAVIGATION MENU -->
                <a href="index.html" class="pull-left"><img src="assets/img/hospital-logo.png" class="logo" alt=""  data-src="assets/img/hospital-logo.png" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
@@ -86,11 +90,7 @@
                            <div class="iconset top-settings-dark "></div>
                         </a>
                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                           <li><a href="user-profile.html"> My Account</a>
-                           </li>
-                           <li><a href="calender.html">My Calendar</a>
-                           </li>
-                           <li><a href="email.html"> My Inbox&nbsp;&nbsp;<span class="badge badge-important animated bounceIn">2</span></a>
+                           <li><a href="my-acct.html"> My Account</a>
                            </li>
                            <li class="divider"></li>
                            <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
@@ -112,45 +112,25 @@
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
-                     <ul>
+                      <ul>
                         <li>
                            <a href="dashboard.html">
-                           <span>Dashboard </span>
+                           <span> <i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>
-                        <li>
-                           <a href="hospitals.html">
-                           <span>Hospitals </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="project-summary.html">
-                           <span>Projects </span>
-                           </a>
-                        </li>
-                        <li>
+                       <li>
                            <a href="patients.html">
-                           <span>Patients</span>
+                           <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
-                        <li>
-                           <a href="questionnaires.html">
-                           <span>Questionnaires</span>
-                           </a>
-                        </li>
-                        <li class="active-item">
+                      <li class="active-item">
                            <a href="users.html">
-                           <span>Users </span>
+                           <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
                         <li>
-                           <a href="javascript:;">
-                           <span>Reports </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="flags.html">
-                           <span>Flags </span>
+                           <a href="reports.html">
+                           <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
                      </ul>
@@ -180,35 +160,32 @@
                   </ul>
                   </p>
                   <div class="page-title">
-                     <a href="users.html"><i class="icon-custom-left"></i></a>
-                     <h3 class="m-b-0"><span class="semi-bold">Add User</span></h3>
-                     <p class="m-l-42">(Create a New User for Royal Hospital)</p>
+                     <h3><span class="semi-bold">Add User</span></h3>
+                     <p >(Create a New User for the Project)</p>
                   </div>
                   <div class="grid simple">
                      <div class="grid-body">
                         <form class="form-no-horizontal-spacing" id="form-condensed">
                            <div class="row">
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                  <div class="form-row form-group">
                                     <label>Name</label>
                                     <input name="name" id="name" type="text"  class="form-control">
                                  </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                  <div class="form-row">
                                     <label>Email</label>
                                     <input name="email" id="email" type="email"  class="form-control">
                                  </div>
                               </div>
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                  <div class="form-row">
                                     <label>Phone Number</label>
                                     <input name="number" id="number" type="number"  class="form-control">
                                  </div>
                               </div>
-                           </div>
-                           <div class="row form-row">
-                              <div class="col-sm-4">
+                              <div class="col-sm-3">
                                  <label>Role</label>
                                  <select name="role" id="role" class="select2 form-control"  >
                                     <option value="1">Select</option>
@@ -216,17 +193,54 @@
                                     <option value="2">Super Admin</option>
                                  </select>
                               </div>
-                              <div class="col-sm-6">
-                              </div>
                            </div>
-                           <br>
+                           
+                           <hr>
                            <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
                            <br>
                            <div class="user-description-box">
                               <div class="row">
                                  <div class="col-md-4">Project</div>
-                                 <div class="col-md-4">Access</div>
-                                 <div class="col-md-4">Access to flags</div>
+                                 <div class="col-md-4">
+                                    Access <i class="fa fa-info-circle text-danger" data-toggle="tooltip" title="This would automatically give access to future projects." ></i>
+                                    <br>
+                                    <br>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="checkbox check-primary">
+                                    <input id="checkbox6" type="checkbox" value="1">
+                                    <label for="checkbox6">Access All</label>
+                                 </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="checkbox check-primary">
+                                    <input id="checkbox7" type="checkbox" value="1">
+                                    <label for="checkbox7">Access All</label>
+                                 </div>
+                                    </div>
+                                 </div>
+                                    
+                                 </div>
+                                 <div class="col-md-4">
+                                   
+                                 
+                                    Manage all Flags <i class="fa fa-info-circle text-danger"  data-toggle="tooltip" title="This would automatically give access to flags for future projects." ></i>
+                                    <br>
+                                    <br>
+                                 <div class="row">
+                                    <div class="col-md-6">
+                                       <div class="checkbox check-primary">
+                                    <input id="checkbox8" type="checkbox" value="1" checked="checked">
+                                    <label for="checkbox8">Manage All</label>
+                                 </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="checkbox check-primary">
+                                    <input id="checkbox9" type="checkbox" value="1" checked="checked">
+                                    <label for="checkbox9">Manage All</label>
+                                 </div>
+                                    </div>
+                                 </div>
                               </div>
                               <br>
                               <div class="row">
@@ -237,42 +251,34 @@
                                        <option value="2">Diabetes Care</option>
                                     </select>
                                  </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">View</option>
-                                       <option value="2">Edit</option>
-                                    </select>
+                                 <div class="col-md-4 m-t-10 ">
+                                    
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="View" type="radio" name="access" value="male" checked="checked">
+                                       <label for="View">View</label>
+                                       </div>
+                                       <div class="col-md-6">
+                                       <input id="Edit" type="radio" name="access" value="Edit">
+                                       <label for="Edit">Edit</label>
+                                       </div>
+                                       </div>
+                                    </div>
                                  </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">Yes</option>
-                                       <option value="2">No</option>
-                                    </select>
-                                 </div>
-                              </div>
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Project</option>
-                                       <option value="2">Cardiac Care</option>
-                                       <option value="2">Diabetes Care</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">View</option>
-                                       <option value="2">Edit</option>
-                                    </select>
-                                 </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">Yes</option>
-                                       <option value="2">No</option>
-                                    </select>
+                                 <div class="col-md-4 m-t-10 ">
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="Edit1" type="radio" name="access" value="male" checked="checked">
+                                       <label for="Edit1">Yes</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <input id="Edit1" type="radio" name="access" value="Edit1">
+                                       <label for="Edit1">No</label>
+                                    </div>
+                                    </div>
+                                     </div>
                                  </div>
                               </div>
                               <div class="row">
@@ -283,28 +289,79 @@
                                        <option value="2">Diabetes Care</option>
                                     </select>
                                  </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">View</option>
-                                       <option value="2">Edit</option>
-                                    </select>
+                                 <div class="col-md-4 m-t-10 ">
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="View3" type="radio" name="access" value="View3" checked="checked">
+                                       <label for="View3">View</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <input id="Edit3" type="radio" name="access" value="Edit3">
+                                       <label for="Edit3">Edit</label>
+                                    </div>
+                                    </div>
+                                    </div>
                                  </div>
-                                 <div class="col-md-4">
-                                    <select name="role" id="role" class="select2 form-control"  >
-                                       <option value="1">Select Access</option>
-                                       <option value="2">Yes</option>
-                                       <option value="2">No</option>
-                                    </select>
+                                 <div class="col-md-4 m-t-10 ">
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="View4" type="radio" name="access" value="male" checked="checked">
+                                       <label for="View4">Yes</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <input id="Edit4" type="radio" name="access" value="Edit4">
+                                       <label for="Edit4">No</label>
+                                    </div>
+                                    </div>
+                                    </div>
                                  </div>
                               </div>
-                              <button class="btn btn-link text-info pullleft"><i class="fa fa-plus"></i> Add Project</button>
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <select name="role" id="role" class="select2 form-control"  >
+                                       <option value="1">Select Project</option>
+                                       <option value="2">Cardiac Care</option>
+                                       <option value="2">Diabetes Care</option>
+                                    </select>
+                                 </div>
+                                 <div class="col-md-4 m-t-10 ">
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="View5" type="radio" name="access" value="View5" checked="checked">
+                                       <label for="View5">View</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <input id="Edit5" type="radio" name="access" value="Edit5">
+                                       <label for="Edit5">Edit</label>
+                                       </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-4 m-t-10 ">
+                                    <div class="radio radio-primary">
+                                       <div class="row">
+                                          <div class="col-md-6">
+                                       <input id="View6" type="radio" name="access" value="male" checked="checked">
+                                       <label for="View6">Yes</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <input id="Edit6" type="radio" name="access" value="Edit6">
+                                       <label for="Edit6">No</label>
+                                    </div>
+                                    </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <button class="btn btn-link text-success pullleft"><i class="fa fa-plus"></i> Add Project</button>
                            </div>
                            <div class="form-actions">
                               <div class="text-right">
-                                 <button class="btn btn-primary btn-cons-md" type="submit"><i class="icon-ok"></i> Save</button>
-                                 <button class="btn btn-success btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button>
-                                 <button class="btn btn-default btn-cons-md" type="button">Cancel</button>
+                                 <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+                                 <button class="btn btn-danger btn-cons-md" type="submit"> Save and Add Another</button>
+                                 <button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button>
                               </div>
                            </div>
                         </form>
@@ -331,18 +388,23 @@
       <script src="assets/plugins/breakpoints.js" type="text/javascript"></script>
       <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
       <!-- END CORE JS FRAMEWORK -->
+      <link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
+
+      
+      
+
       <!-- BEGIN PAGE LEVEL JS -->
-      <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>    
       <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
       <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
       <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
-      <script src="assets/js/tabs_accordian.js" type="text/javascript"></script> 
       <!-- END PAGE LEVEL PLUGINS -->
+
       <script src="assets/js/form_validations.js" type="text/javascript"></script>
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
+   <script src="assets/js/messages_notifications.js" type="text/javascript"></script>
+      
       <!-- END CORE TEMPLATE JS --> 
    </body>
 </html>

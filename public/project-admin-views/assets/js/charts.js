@@ -3,16 +3,18 @@
 -----------------------------------------------------------------*/	
 $(document).ready(function() {		
 
-	$("#sparkline-pie").sparkline([4,9], {
+	$("#sparkline-pie").sparkline([8,2,3], {
 		type: 'pie',
 		width: '100%',
 		height: '100%',
-		sliceColors: ['#53C1B7','#bbb'],
+		sliceColors: ['#53C1B7','#F3AFAF','#F7D3AB',],
 		offset: 10,
 		borderWidth: 0,
 		borderColor: '#000000 '
 	});
 	
+   
+
 	Morris.Line({
 	  element: 'line-example',
 	  data: [
@@ -33,50 +35,78 @@ $(document).ready(function() {
 	//Bar Chart  - Jquert flot
 	
     var d1_1 = [
-        
-        [1328054400000, 20],
-        
-        [1333238400000, 30]
-        
+        [1325376000000, 120],
+        [1328054400000, 70],
+        [1330560000000, 100],
+        [1333238400000, 60],
+        [1335830400000, 35]
     ];
  
+    var d1_2 = [
+        [1325376000000, 80],
+        [1328054400000, 60],
+        [1330560000000, 30],
+        [1333238400000, 35],
+        [1335830400000, 30]
+    ];
+ 
+    var d1_3 = [
+        [1325376000000, 80],
+        [1328054400000, 40],
+        [1330560000000, 30],
+        [1333238400000, 20],
+        [1335830400000, 10]
+    ];
  
     var d1_4 = [
-        
-        [1328054400000, 30],
-        
-        [1333238400000, 20]
-        
-    ];
- 
+        [1325376000000, 15],
+        [1328054400000, 10],
+        [1330560000000, 15],
+        [1333238400000, 20],
+        [1335830400000, 15]
+    ]; 
+    
     var data1 = [
         {
-            
+            label: "Red Flags",
             data: d1_1,
             bars: {
                 show: true,
-                barWidth: 40*24*60*60*300,
+                barWidth: 12*24*60*60*300,
                 fill: true,
                 lineWidth:0,
                 order: 1,
-                fillColor:  "rgba(243, 89, 88, 0.7)"
+                fillColor:  "#F3AFAF"
             },
-            color: "rgba(243, 89, 88, 0.7)"
+            color: "#F3AFAF"
         },
-        
         {
-           
-            data: d1_4,
+            label: "Amber Flags",
+            data: d1_2,
             bars: {
-                    show: true,
-                barWidth: 40*24*60*60*300,
+                show: true,
+                barWidth: 12*24*60*60*300,
                 fill: true,
                 lineWidth: 0,
-                order: 4,
-                fillColor:  "rgba(0, 144, 217, 0.7)"
+                order: 2,
+                fillColor:  "#F7D3AB"
             },
-            color: "rgba(0, 144, 217, 0.7)"
+            color: "#F7D3AB"
         },
+        {
+            label: "Greens",
+            data: d1_3,
+            bars: {
+                show: true,
+                barWidth: 12*24*60*60*300,
+                fill: true,
+                lineWidth: 0,
+                order: 3,
+                fillColor:  "#88CAC4"
+            },
+            color: "#88CAC4"
+        },
+        
 
     ];
  
@@ -214,23 +244,11 @@ $(document).ready(function() {
                 fill: true,
                 lineWidth: 0,
                 order: 2,
-                fillColor:  "rgba(251, 176, 94, 0.7)"
+                fillColor:  "#89CAEA"
             },
-            color: "rgba(251, 176, 94, 0.7)"
+            color: "#89CAEA"
         },
-        {
-            
-            data: d1_3,
-            bars: {
-                show: true,
-                barWidth: 25*24*60*60*300,
-                fill: true,
-                lineWidth: 0,
-                order: 3,
-                fillColor:  "rgba(10, 166, 153, 0.7)"
-            },
-            color: "rgba(10, 166, 153, 0.7)"
-        },
+       
       
 
     ];

@@ -3,7 +3,7 @@
    <head>
       <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
       <meta charset="utf-8" />
-      <title>Mylan - Hospital Administrator</title>
+      <title>Mylan - Project Administrator</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta content="" name="description" />
       <meta content="" name="author" />
@@ -73,7 +73,7 @@
                         <div class="user-details">
                            <div class="username">
                               John <span class="bold">Smith</span>
-                              <span class="badge badge-default">Project Admin</span>                
+                              <span class="badge badge-default">Hospital Admin</span>                
                            </div>
                         </div>
                      </a>
@@ -84,7 +84,7 @@
                            <div class="iconset top-settings-dark "></div>
                         </a>
                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                           <li><a href="user-profile.html"> My Account</a>
+                           <li><a href="my-acct.html"> My Account</a>
                            </li>
                            <li class="divider"></li>
                            <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
@@ -106,45 +106,25 @@
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
-                     <ul>
+                      <ul>
                         <li>
                            <a href="dashboard.html">
-                           <span>Dashboard </span>
+                           <span> <i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>
-                        <li>
-                           <a href="hospitals.html">
-                           <span>Hospitals </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="project-summary.html">
-                           <span>Projects </span>
-                           </a>
-                        </li>
-                        <li>
+                       <li class="active-item">
                            <a href="patients.html">
-                           <span>Patients</span>
+                           <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
-                        <li>
-                           <a href="questionnaires.html">
-                           <span>Questionnaires</span>
-                           </a>
-                        </li>
-                        <li>
+                      <li>
                            <a href="users.html">
-                           <span>Users </span>
+                           <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
                         <li>
-                           <a href="javascript:;">
-                           <span>Reports </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="flags.html">
-                           <span>Flags </span>
+                           <a href="reports.html">
+                           <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
                      </ul>
@@ -174,7 +154,6 @@
                   </ul>
                   </p>
                   <div class="page-title">
-                     <a href="patients.html"><i class="icon-custom-left"></i></a>
                      <h3><span class="semi-bold">Add Patient</span></h3>
                   </div>
                   <div class="grid simple">
@@ -253,11 +232,13 @@
                                                 <label>Data Type</label>
                                                 <select name="dataType" id="dataType" class="select2 form-control"  >
                                                    <option value="1">Select Data Type</option>
-                                                   <option value="2">John Cargo</option>
+                                                   <option value="2">Weight</option>
+                                                   <option value="2">Height</option>
+                                                   <option value="2">MRI Report</option>
                                                 </select>
                                              </div>
                                              <div class="col-sm-1 text-right m-t-25">
-                                                <button class="btn btn-default"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-white"><i class="fa fa-trash"></i></button>
                                              </div>
                                           </div>
                                        </div>
@@ -287,21 +268,23 @@
                                                 <label>Data Type</label>
                                                 <select name="dataType" id="dataType" class="select2 form-control"  >
                                                    <option value="1">Select Data Type</option>
-                                                   <option value="2">John Cargo</option>
+                                                   <option value="2">Weight</option>
+                                                   <option value="2">Height</option>
+                                                   <option value="2">MRI Report</option>
                                                 </select>
                                              </div>
                                              <div class="col-sm-1 text-right m-t-25">
-                                                <button class="btn btn-default"><i class="fa fa-trash"></i></button>
+                                                <button class="btn btn-white"><i class="fa fa-trash"></i></button>
                                              </div>
                                           </div>
                                        </div>
                                     </div>
                                  </div>
                               </div>
-                              <button class="btn btn-link text-info "><i class="fa fa-plus"></i> Add More Fields</button>
+                              <button class="btn btn-link text-success "><i class="fa fa-plus"></i> Add More Fields</button>
                               <div class="pull-right">
                                  <button class="btn btn-white   btn-cons-md"><i class="icon-ok"></i> Create these Fields</button>
-                                 <button class="btn btn-default btn-cons-md" type="button">Cancel</button>
+                                 <button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button>
                               </div>
                            </div>
                            <br>
@@ -312,9 +295,9 @@
                            </div>
                            <div class="form-actions">
                               <div class="text-right">
-                                 <button class="btn btn-primary btn-cons-md" type="submit"><i class="icon-ok"></i>  Save Patient Data</button>
-                                 <button class="btn btn-success btn-cons-md" type="submit"><i class="icon-ok"></i>  Save and Add Another Patient</button>
-                                 <button class="btn btn-default btn-cons-md" type="button">Cancel</button>
+                                 <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i>  Save</button>
+                                 <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i>  Save and Add Another Patient</button>
+                                 <button class="btn btn-default btn-cons-md" type="button"> <i class="fa fa-ban"></i> Cancel</button>
                               </div>
                            </div>
                         </form>

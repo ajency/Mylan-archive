@@ -1,14 +1,23 @@
+body {
+  background: #f9f9f9;
+}
+body .bar {
+  background: #05A8A5;
+}
+body .bar ul li a {
+  opacity: 0.9;
+}
 label {
   font-size: 15px;
+}
+.breadcrumb li {
+  padding-left: 0;
 }
 .m-b-0 {
   margin-bottom: 0;
 }
 .m-l-42 {
   margin-left: 42px;
-}
-.b-r {
-  border-color: #C1C1C1;
 }
 .page-title {
   margin: 0 0 30px;
@@ -99,7 +108,7 @@ input {
   margin-right: 15px;
 }
 .footer {
-  background-color: #3C3C41;
+  background-color: #D2D2D2;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -111,5 +120,5 @@ input {
   padding-right: 26px;
 }
 .footer span {
-  color: #E1EAF1;
+  color: #757575;
 }

@@ -1,7 +1,7 @@
 /*
 Error: Undefined variable: "$sidebar-color".
-        on line 7 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/layout.scss
-        from line 3 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules.scss
+        on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss
+        from line 3 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules.scss
 
 2: //Main Layout
 3: @import "modules/layout.scss";
@@ -16,8 +16,8 @@ Error: Undefined variable: "$sidebar-color".
 12: @import "modules/misc.scss";
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/layout.scss:7
-/Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules.scss:3
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss:7
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules.scss:3
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/script/tree/node.rb:50:in `perform'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/tree/visitors/perform.rb:384:in `visit_prop'
@@ -77,4 +77,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$sidebar-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/layout.scss\A         from line 3 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules.scss\A \A 2: //Main Layout\A 3: @import \"modules/layout.scss\";\A 4: \A 5: //Horizontal Menu\A 6: @import \"modules/horizontal_menu.scss\";\A 7: \A 8: //Typography\A 9: @import \"modules/typo.scss\";\A 10: \A 11: //Misc\A 12: @import \"modules/misc.scss\";"; }
+  content: "Error: Undefined variable: \"$sidebar-color\".\A         on line 7 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/layout.scss\A         from line 3 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules.scss\A \A 2: //Main Layout\A 3: @import \"modules/layout.scss\";\A 4: \A 5: //Horizontal Menu\A 6: @import \"modules/horizontal_menu.scss\";\A 7: \A 8: //Typography\A 9: @import \"modules/typo.scss\";\A 10: \A 11: //Misc\A 12: @import \"modules/misc.scss\";"; }

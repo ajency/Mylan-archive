@@ -1,6 +1,6 @@
 /*
 Error: Invalid US-ASCII character "\xD0"
-        on line 285 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/plugin.scss
+        on line 285 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/plugin.scss
 
 280: /* Alternate shading for lines *\/
 281: li.L1,li.L3,li.L5,li.L7,li.L9 { }
@@ -15,7 +15,7 @@ Error: Invalid US-ASCII character "\xD0"
 290: } 
 
 Backtrace:
-/Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/plugin.scss:285
+/Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/plugin.scss:285
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/util.rb:1323:in `rescue in block in find_encoding_error'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/util.rb:1320:in `block in find_encoding_error'
 /Users/Mac-Alisha/Downloads/Koala.app/Contents/Resources/app.nw/rubygems/gems/sass-3.4.9/lib/sass/util.rb:1319:in `each'
@@ -37,4 +37,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Invalid US-ASCII character \"\xD0\"\A         on line 285 of /Library/WebServer/Documents/mylan/public/project-admin-views/assets/scss/modules/plugin.scss\A \A 280: /* Alternate shading for lines */\A 281: li.L1,li.L3,li.L5,li.L7,li.L9 { }\A 282: 	\A 283: \A 284: pre .com { \A 285: 	color: #A4D886; /* зеленый */ \A 286: 	color: #F0E68C; /* желтый */ \A 287: 	color: #87CEEB; /* синий */ \A 288: 	font-style:normal;\A 289: 	font-family:arial;\A 290: } "; }
+  content: "Error: Invalid US-ASCII character \"\xD0\"\A         on line 285 of /Library/WebServer/Documents/mylan/public/hospital-admin-views/assets/scss/modules/plugin.scss\A \A 280: /* Alternate shading for lines */\A 281: li.L1,li.L3,li.L5,li.L7,li.L9 { }\A 282: 	\A 283: \A 284: pre .com { \A 285: 	color: #A4D886; /* зеленый */ \A 286: 	color: #F0E68C; /* желтый */ \A 287: 	color: #87CEEB; /* синий */ \A 288: 	font-style:normal;\A 289: 	font-family:arial;\A 290: } "; }
