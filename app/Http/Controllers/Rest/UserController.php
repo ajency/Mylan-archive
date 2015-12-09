@@ -208,9 +208,14 @@ class UserController extends Controller
         $hospitalData['project_id'] = $project->getObjectId();
         $hospitalData['project'] = $project->get('name');
 
-        $questionnareData['id'] = $questionnaire->getObjectId();
-        $questionnareData['name'] = $questionnaire->get('name');
-        $questionnareData['description'] = $questionnaire->get('description');
+        $questionnareData=[];
+        if(!empty($questionnaire))
+        {
+            $questionnareData['id'] = $questionnaire->getObjectId();
+            $questionnareData['name'] = $questionnaire->get('name');
+            $questionnareData['description'] = $questionnaire->get('description');
+        }
+        
 
         $data['hospital'] = $hospitalData;
         $data['questionnaire'] = $questionnareData;

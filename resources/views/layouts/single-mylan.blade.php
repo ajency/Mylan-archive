@@ -90,7 +90,7 @@
                            <li><a href="user-profile.html"> My Account</a>
                            </li>
                            <li class="divider"></li>
-                           <li><a href="{{ url('user/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                           <li><a href="{{ url('admin/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                         </ul>
                      </li>
                   </ul>
@@ -126,7 +126,7 @@
                            </a>
                         </li>
                         <li>
-                           <a href="users-list.html">
+                           <a href="javascript:;">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
