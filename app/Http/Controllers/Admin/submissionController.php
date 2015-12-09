@@ -10,7 +10,7 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 
 
-class submissionController extends Controller
+class SubmissionController extends Controller
 {
     /**
      * Display a listing of the resource.
