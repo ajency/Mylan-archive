@@ -83,8 +83,7 @@ class submissionController extends Controller
             $previousData =  $this->getSubmissionData($response->getObjectId());
             $previousAnswersList = $previousData['answers'];
         }
-       
-         
+
         return view('admin.submissions-view')->with('active_menu', 'submission')
                                             ->with('questionnaire', $questionnaire)
                                             ->with('date', $date)
