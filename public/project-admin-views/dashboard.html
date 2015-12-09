@@ -69,7 +69,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="assets/img/hospital-logo.png" class="logo" alt=""  data-src="assets/img/hospital-logo.png" width="auto" height="40"/></a>
+               <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt=""  data-src="assets/img/nhs.gif" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
@@ -78,7 +78,7 @@
                         <div class="user-details">
                            <div class="username">
                               John <span class="bold">Smith</span>    
-                              <span class="badge badge-default">Hospital Admin</span>               
+                              <span class="badge badge-default">Project Admin</span>               
                            </div>
                         </div>
                      </a>
@@ -157,20 +157,72 @@
                      <li><a href="#" class="active">Reports</a> </li>
                   </ul>
                   </p> -->
-                  <div class="pull-right m-t-25">
-                     <a href="reports-red.html" class="btn btn-red">Red's</a>
-                     <a href="reports-amber.html" class="btn btn-warning">Amber's</a>
-                     <a href="reports-green.html" class="btn btn-primary">Green's</a>
-                     <a href="#" class="btn btn-success">Patient List</a>
-                  </div>
+                  
                   <div class="page-title">
                      <h3><span class="semi-bold">Dashboard</span></h3>
                      <p>(Showing intuitive observations at a glance)</p>
                  </div>
-                  <div class="tabbable tabs-left">
+                  
                      <div class="grid simple">
                         <div class="grid-body no-border table-data">
-                           <br><br>
+                           <br>
+                           <div>
+                           <div class="pull-right">
+                              <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
+                           </div>
+                           <a href="project-summary.html">
+                              <h3><span class="semi-bold">Cardiac</span> Care</h3>
+                           </a>
+                        </div>
+                        <br>
+                        <em>This project consists of patients suffering from leukemia and undergoing treatment - chemotherapy</em>
+                        <br><br><br>
+                        <div class="row feature-list">
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-success">20</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> OPEN FLAGS</h5>
+                              <div>
+                                 <p>
+                                    Displays total number of flagged patients
+                                 </p>
+                                 <a href="patients.html" class="text-success">View Open Flags</a>  
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-success">80%</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-comment text-muted"></i> RESPONSE RATE</h5>
+                              <div>
+                                 <p>
+                                    Displays percentages of patients who regurarly take the questionnaire with Mylan
+                                 </p>
+                                 <a href="response-rate.html" class="text-success">View Response Rate</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3 b-r">
+                              <h3 class="pull-right text-success">35</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
+                              <div>
+                                 <p>
+                                    2 Read<br>3 Edit
+                                 </p>
+                                 <a href="users.html" class="text-success">View Users</a>
+                              </div>
+                           </div>
+                           <div class="col-md-3">
+                              <h3 class="pull-right text-success m-0">60</h3>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
+                              <div>
+                                 <p>
+                                    3 newly registered patients since last week
+                                 </p>
+                                 <a href="patients.html" class="text-success">View Patients</a>
+                              </div>
+                           </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
                            <div class="row">
                               <div class="col-md-7">
                                   <table class="table table-hover table-flip-scroll cf b-t b-b b-l b-r">
@@ -235,6 +287,12 @@
                            </table>
                               </div>
                               <div class="col-md-5 text-center">
+                                 <div class="text-center m-b-20">
+                     <a href="reports-red.html" class="btn btn-red">Red's</a>
+                     <a href="reports-amber.html" class="btn btn-warning">Amber's</a>
+                     <a href="reports-green.html" class="btn btn-primary">Green's</a>
+                     <a href="patients.html" class="btn btn-success">Patient List</a>
+                  </div>
                                  <div id="sparkline-pie"></div>
                                  <h4>Patients Enrolled : <span class="semi-bold text-success">20</span></h4>
                               </div>
@@ -410,7 +468,7 @@
                            
                         </div>
                      </div>
-                  </div>
+                  
                </div>
                <div class="footer">
                   <div class="container">

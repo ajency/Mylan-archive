@@ -468,31 +468,7 @@ $(document).ready(function() {
         },
 
     ];
-	$.plot($('#stacked-ordered-chart'), data2, {		
-		 grid: {
-            hoverable: true,
-            clickable: false,
-            borderWidth: 1,
-			borderColor:'#f0f0f0',
-			labelMargin:8
-
-        },
-		        xaxis: {
-            min: (new Date(2011, 11, 15)).getTime(),
-            max: (new Date(2012, 04, 18)).getTime(),
-            mode: "time",
-            timeformat: "%b",
-            tickSize: [1, "month"],
-            monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            tickLength: 0, // hide gridlines
-            axisLabel: 'Month',
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-            axisLabelPadding: 5
-        },
-				stack: true
-	});
+	
 	// DATA DEFINITION
 	function getData() {
 		var data = [];
