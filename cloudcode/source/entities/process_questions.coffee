@@ -302,7 +302,10 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 saveAnswer = (responseObj, questionObj, options, value) ->
 	promiseArr = []
 	promise = new Parse.Promise()
-
+	responseObject = 
+                "__type" : "Pointer",
+                "className":"Response",
+                "objectId":responseObj.id
 
 	if !_.isEmpty options
 		_.each options, (optionId) ->
@@ -310,7 +313,7 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 			optionQuery.get(optionId)
 			.then (optionObj) ->
 				answer = new Parse.Object('Answer')
-				answer.set "response",responseObj
+				answer.set "response",responseObject
 				answer.set "patient", responseObj.get('patient')
 				answer.set "question",questionObj
 				answer.set "option",optionObj
