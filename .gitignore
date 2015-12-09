@@ -5,6 +5,7 @@ Homestead.json
 .env
 /log
 /public/.htaccess
+/public/mylan
 public/bower_components
 
 

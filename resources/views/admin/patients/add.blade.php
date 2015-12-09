@@ -24,7 +24,7 @@
               <div class="row column-seperation">
                 <div class="col-md-6">
                   <div class="form-row">
-                     <label>Referance Code</label>
+                     <label>Reference Code</label>
                         <input name="referance_code" id="referance_code" type="text"  class="form-control" placeholder="Referance Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                     </div>
                     <div class="row form-row">
