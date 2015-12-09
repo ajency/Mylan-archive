@@ -335,20 +335,28 @@ input[id=password] {
   padding: 16px 16px 16px 60px;
   text-overflow: initial;
   white-space: normal;
+  position: relative;
+}
+.item.item-radio .item-content span,
+.item.item-checkbox .item-content span {
+  position: absolute;
+  left: 26px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  text-align: center;
+  background: #eee;
+  top: 12px;
+  line-height: 28px;
 }
 .item.item-radio.item-radio input:checked ~ .item-content,
 .item.item-checkbox.item-radio input:checked ~ .item-content {
   background: #f8fad1;
 }
-.item.item-radio.item-radio input:checked ~ .radio-icon,
-.item.item-checkbox.item-radio input:checked ~ .radio-icon {
+.item.item-radio.item-radio input:checked ~ .item-content span,
+.item.item-checkbox.item-radio input:checked ~ .item-content span {
   background: #7bc67a;
-  border-color: #7bc67a;
-  z-index: 10;
-}
-.item.item-radio.item-radio input:checked ~ .radio-icon::before,
-.item.item-checkbox.item-radio input:checked ~ .radio-icon::before {
-  opacity: 1;
+  color: #fff;
 }
 .item.item-radio .radio-icon,
 .item.item-checkbox .radio-icon {
