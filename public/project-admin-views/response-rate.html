@@ -174,13 +174,16 @@
                   <div class="tabbable tabs-left">
                      <div class="grid simple">
                         <div class="grid-body no-border table-data">
-                           <br><br>
+                           <br>
                            <div class="row">
                               <div class="col-md-6">
+                              <h4>Showing <span class="semi-bold">Response Rate in Numbers</span></h4>
+                              <br>
                               <div id="placeholder-bar-chart" style="height:250px"></div>
                               </div>
                               <div class="col-md-6">
-                                 <div id="sparkline-pie"></div>
+                                 <h4>Showing <span class="semi-bold">Percentage for Submissions</span></h4>
+                              <div id="sparkline-pie"></div>
                               </div>
                               
                              
@@ -343,17 +346,18 @@ $(function() {
  
     var d1_3 = [
         
-        [1328054400000, 40],
-        [1330560000000, 30]
+        [1328054400000, 40]
     ];
  
-   
+    var d1_4 = [
+        [1325376000000, 15]
+    ];
  
     var data1 = [
        
        
         {
-            label: "Greens",
+            label: "Submissions",
             data: d1_3,
             bars: {
                 show: true,
@@ -365,7 +369,19 @@ $(function() {
             },
             color: "#88CAC4"
         },
-        
+          {
+            label: "Missed Submissions",
+            data: d1_4,
+            bars: {
+                    show: true,
+                barWidth: 20*24*60*60*300,
+                fill: true,
+                lineWidth: 0,
+                order: 4,
+                fillColor:  "#F7D3AB"
+            },
+            color: "#F7D3AB"
+        }, 
 
     ];
    
@@ -376,7 +392,7 @@ $(function() {
             mode: "time",
             timeformat: "%b",
             tickSize: [1, "month"],
-            monthNames: ["","","Project Name","","",],
+            monthNames: ["","","Response Rate","","",],
             tickLength: 0, // hide gridlines
             axisLabel: 'Month',
             axisLabelUseCanvas: true,

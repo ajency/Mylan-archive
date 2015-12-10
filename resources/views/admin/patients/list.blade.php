@@ -39,7 +39,7 @@
                   <table class="table table-hover table-flip-scroll cf">
                     <thead>
                         <tr>
-                            <th style="width: 22%;">Refernace Code</th>
+                            <th style="width: 22%;">Reference Code</th>
                             <th class="date-sort" style="width: 12%;">Created On</th>
                             <th class="date-sort" style="width: 12%;">Modified On</th>
                         </tr>
