@@ -231,7 +231,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 							response.error error
 					,(error) ->
 						response.error error
-				else
+				else if !questionObj.get('isChild')
 					getSummary(responseObj)
 					.then (summaryObjects) ->
 						result = {}
@@ -240,6 +240,28 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 						response.success result
 					,(error) ->
 						response.error error					       
+				else
+					while responObj.get(isChild)
+						reponseObj = reponseObj.get(previousQuestion)
+					if !_.isUndefined questionObj.get('nextQuestion')
+						getNextQuestion(questionObj, options)
+						.then (nextQuestionObj) ->
+							getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
+						,(error) ->
+							response.error error
+					else
+						getSummary(responseObj)
+							.then (summaryObjects) ->
+								result = {}
+								result['status'] = "saved_successfully"
+								result['summary'] = summaryObjects
+								response.success result
+							,(error) ->
+								response.error error	
 			,(error) ->
 				response.error error
 		,(error) ->
