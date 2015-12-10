@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getSummary, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -84,12 +84,30 @@
     });
   });
 
+  Parse.Cloud.define("pushNotification", function(request, response) {
+    var installationQuery;
+    installationQuery = new Parse.Query(Parse.Installation);
+    installationQuery.equalTo('installationId', request.params.installationId);
+    return Parse.Push.send({
+      where: installationQuery,
+      data: {
+        alert: "First push message :-)"
+      },
+      success: function() {
+        return response.success("Message pushed");
+      },
+      error: function(error) {
+        return response.error(error);
+      }
+    });
+  });
+
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery;
     responseId = request.params.responseId;
     questionnaireId = request.params.questionnaireId;
     patientId = request.params.patientId;
-    if ((responseId !== "") && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
+    if ((responseId !== "") && (!_.isUndefined(responseId)) && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
         return firstQuestion(questionnaireId).then(function(questionObj) {
@@ -150,17 +168,17 @@
           }
         };
         checkAll = (function() {
-          var j, len, results;
-          results = [];
+          var j, len, results1;
+          results1 = [];
           for (j = 0, len = questionsObjs.length; j < len; j++) {
             questionObj = questionsObjs[j];
             if (checkIfFirstQuestion(questionObj)) {
-              results.push(questionObj);
+              results1.push(questionObj);
             } else {
               continue;
             }
           }
-          return results;
+          return results1;
         })();
         return promise.resolve(checkAll[0]);
       }, function(error) {
@@ -212,6 +230,7 @@
           options.push(answerObj.get('option').get('label'));
           hasAnswer['value'] = answerObj.get('value');
           hasAnswer['option'] = options;
+          hasAnswer['date'] = answerObj.get('updatedAt');
         }
         return promise.resolve(hasAnswer);
       }, function(error) {
@@ -227,6 +246,7 @@
         hasAnswer['option'] = options;
         if (!_.isUndefined(answerObjs[0])) {
           hasAnswer['value'] = answerObjs[0].get('value');
+          hasAnswer['date'] = answerObjs[0].get('updatedAt');
         } else {
           hasAnswer['value'] = "";
         }
@@ -239,6 +259,7 @@
         if (!_.isUndefined(answerObj)) {
           hasAnswer['option'] = [];
           hasAnswer['value'] = answerObj.get('value');
+          hasAnswer['date'] = answerObjs[0].get('updatedAt');
         }
         return promise.resolve(hasAnswer);
       }, function(error) {
@@ -253,6 +274,7 @@
     promise = new Parse.Promise();
     questionData = {};
     questionData['responseId'] = responseObj.id;
+    questionData['responseStatus'] = responseObj.get('status');
     questionData['questionId'] = questionObj.id;
     questionData['questionType'] = questionObj.get('type');
     questionData['question'] = questionObj.get('question');
@@ -322,7 +344,15 @@
               return response.error(error);
             });
           } else {
-            return response.success("savedSuccessfully");
+            return getSummary(responseObj).then(function(summaryObjects) {
+              var result;
+              result = {};
+              result['status'] = "saved_successfully";
+              result['summary'] = summaryObjects;
+              return response.success(result);
+            }, function(error) {
+              return response.error(error);
+            });
           }
         }, function(error) {
           return response.error(error);
@@ -344,15 +374,15 @@
         var condition, conditionalQuestion, conditions, questionQuery;
         conditions = questionObj.get('condition');
         conditionalQuestion = (function() {
-          var j, len, results;
-          results = [];
+          var j, len, results1;
+          results1 = [];
           for (j = 0, len = conditions.length; j < len; j++) {
             condition = conditions[j];
             if (condition['optionId'] === optionObj.id) {
-              results.push(condition['questionId']);
+              results1.push(condition['questionId']);
             }
           }
-          return results;
+          return results1;
         })();
         if (conditionalQuestion.length !== 0) {
           questionQuery = new Parse.Query("Questions");
@@ -388,13 +418,13 @@
         optionIds = [];
         if (questionObject.get('type') === 'multi-choice') {
           optionIds = (function() {
-            var j, len, results;
-            results = [];
+            var j, len, results1;
+            results1 = [];
             for (j = 0, len = answerObjects.length; j < len; j++) {
               answerObj = answerObjects[j];
-              results.push(answerObj.get('option').id);
+              results1.push(answerObj.get('option').id);
             }
-            return results;
+            return results1;
           })();
         } else if (questionObject.get('type') === 'single-choice') {
           optionIds = [answerObjects[0].get('option').id];
@@ -413,7 +443,7 @@
   };
 
   saveAnswer = function(responseObj, questionObj, options, value) {
-    var answer, answerPromise, promise, promiseArr, responseObject;
+    var getAnswers, promise, promiseArr, responseObject;
     promiseArr = [];
     promise = new Parse.Promise();
     responseObject = {
@@ -421,34 +451,39 @@
       "className": "Response",
       "objectId": responseObj.id
     };
-    if (!_.isEmpty(options)) {
-      _.each(options, function(optionId) {
-        var optionQuery;
-        optionQuery = new Parse.Query('Options');
-        return optionQuery.get(optionId).then(function(optionObj) {
-          var answer, answerPromise;
-          answer = new Parse.Object('Answer');
-          answer.set("response", responseObject);
-          answer.set("patient", responseObj.get('patient'));
-          answer.set("question", questionObj);
-          answer.set("option", optionObj);
-          answer.set("value", value);
-          answerPromise = answer.save();
-          return promiseArr.push(answerPromise);
-        }, function(error) {
-          return promise.reject(error);
+    getAnswers = function() {
+      var answer, answerPromise;
+      if (!_.isEmpty(options)) {
+        _.each(options, function(optionId) {
+          var optionQuery;
+          optionQuery = new Parse.Query('Options');
+          return optionQuery.get(optionId).then(function(optionObj) {
+            var answer, answerPromise;
+            console.log("here");
+            answer = new Parse.Object('Answer');
+            answer.set("response", responseObject);
+            answer.set("patient", responseObj.get('patient'));
+            answer.set("question", questionObj);
+            answer.set("option", optionObj);
+            answer.set("value", value);
+            answerPromise = answer.save();
+            return promiseArr.push(answerPromise);
+          }, function(error) {
+            return promise.reject(error);
+          });
         });
-      });
-    } else {
-      answer = new Parse.Object('Answer');
-      answer.set("response", responseObj);
-      answer.set("patient", responseObj.get('patient'));
-      answer.set("question", questionObj);
-      answer.set("value", value);
-      answerPromise = answer.save();
-      promiseArr.push(answerPromise);
-    }
-    return Parse.Promise.when(promiseArr).then(function() {
+      } else {
+        answer = new Parse.Object('Answer');
+        answer.set("response", responseObj);
+        answer.set("patient", responseObj.get('patient'));
+        answer.set("question", questionObj);
+        answer.set("value", value);
+        answerPromise = answer.save();
+        promiseArr.push(answerPromise);
+      }
+      return Parse.Promise.when(promiseArr);
+    };
+    return getAnswers().then(function() {
       var answeredQuestions, ref;
       answeredQuestions = responseObj.get('answeredQuestions');
       if (ref = questionObj.id, indexOf.call(answeredQuestions, ref) < 0) {
@@ -487,6 +522,143 @@
         }, function(error) {
           return response.error(error);
         });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define('getSummary', function(request, response) {
+    var responseId, responseQuery;
+    responseId = request.params.responseId;
+    responseQuery = new Parse.Query('Response');
+    responseQuery.equalTo("objectId", responseId);
+    return responseQuery.first().then(function(responseObj) {
+      var answerQuery;
+      answerQuery = new Parse.Query('Answer');
+      answerQuery.include("question");
+      answerQuery.include("option");
+      answerQuery.equalTo("response", responseObj);
+      return answerQuery.find().then(function(answerObjects) {
+        return response.success(getAnswers(answerObjects));
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getSummary = function(responseObj) {
+    var answerQuery, promise;
+    promise = new Parse.Promise();
+    answerQuery = new Parse.Query('Answer');
+    answerQuery.include("question");
+    answerQuery.include("option");
+    answerQuery.equalTo("response", responseObj);
+    answerQuery.find().then(function(answerObjects) {
+      return promise.resolve(getAnswers(answerObjects));
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
+
+  getAnswers = function(answerObjects) {
+    var answerObj, answers, getUniqueQuestions, j, k, len, len1, results, results1;
+    results = function(answerObj) {
+      return {
+        input: answerObj['answer'],
+        question: answerObj['question'].get('question'),
+        optionSelected: answerObj['optionsSelected'],
+        val: answerObj['temp']
+      };
+    };
+    answers = [];
+    getUniqueQuestions = function(answerObj) {
+      var answer, currentQuestion, i, index, obj, q, questions;
+      currentQuestion = answerObj.get('question');
+      questions = (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = answers.length; j < len; j++) {
+          obj = answers[j];
+          results1.push(obj['question']);
+        }
+        return results1;
+      })();
+      answer = {};
+      if (currentQuestion.id !== ((function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = questions.length; j < len; j++) {
+          q = questions[j];
+          if (q.id === currentQuestion.id) {
+            results1.push(q.id);
+          }
+        }
+        return results1;
+      })())[0]) {
+        answer['temp'] = ((function() {
+          var j, len, results1;
+          results1 = [];
+          for (j = 0, len = questions.length; j < len; j++) {
+            q = questions[j];
+            if (q.id === currentQuestion.id) {
+              results1.push(q);
+            }
+          }
+          return results1;
+        })())[0];
+        answer["question"] = currentQuestion;
+        answer["answer"] = answerObj.get('value');
+        if (currentQuestion.get('type') === 'multi-choice') {
+          answer['optionsSelected'] = [];
+          answer['optionsSelected'].push(answerObj.get('option').get('label'));
+        } else {
+          answer['optionsSelected'] = [];
+          if (!_.isUndefined(answerObj.get('option'))) {
+            answer['optionsSelected'].push(answerObj.get('option').get('label'));
+          }
+        }
+        return answers.push(answer);
+      } else if (currentQuestion.get('type') === 'multi-choice') {
+        index = ((function() {
+          var j, len, results1;
+          results1 = [];
+          for (i = j = 0, len = questions.length; j < len; i = ++j) {
+            q = questions[i];
+            if (currentQuestion.id === q.id) {
+              results1.push(i);
+            }
+          }
+          return results1;
+        })())[0];
+        return answers[index]['optionsSelected'].push(answerObj.get('option').get('label'));
+      }
+    };
+    for (j = 0, len = answerObjects.length; j < len; j++) {
+      answerObj = answerObjects[j];
+      getUniqueQuestions(answerObj);
+    }
+    results1 = [];
+    for (k = 0, len1 = answers.length; k < len1; k++) {
+      answerObj = answers[k];
+      results1.push(results(answerObj));
+    }
+    return results1;
+  };
+
+  Parse.Cloud.define("submitQuestionnaire", function(request, response) {
+    var responseId, responseQuery;
+    responseId = request.params.responseId;
+    responseQuery = new Parse.Query("Response");
+    return responseQuery.get(responseId).then(function(responseObj) {
+      responseObj.set("status", "Completed");
+      return responseObj.save().then(function(responseObj) {
+        return response.success(responseObj.id);
       }, function(error) {
         return response.error(error);
       });

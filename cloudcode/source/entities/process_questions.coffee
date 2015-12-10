@@ -3,7 +3,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 	questionnaireId = request.params.questionnaireId
 	patientId = request.params.patientId
 
-	if (responseId != "") and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
+	if (responseId != "") and (!_.isUndefined responseId) and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
 		responseQuery = new Parse.Query("Response")
 		responseQuery.get(responseId)
 		.then (responseObj) ->
@@ -117,6 +117,7 @@ getCurrentAnswer = (questionObj, responseObj) ->
 				options.push(answerObj.get('option').get('label'))
 				hasAnswer['value'] =  answerObj.get('value')
 				hasAnswer['option'] = options
+				hasAnswer['date'] = answerObj.get('updatedAt')
 	 		
 			promise.resolve(hasAnswer)
 		, (error) ->
@@ -131,8 +132,10 @@ getCurrentAnswer = (questionObj, responseObj) ->
 			hasAnswer['option'] = options
 			if (!_.isUndefined(answerObjs[0]))
 				hasAnswer['value'] =  answerObjs[0].get('value')
+				hasAnswer['date'] = answerObjs[0].get('updatedAt')
 			else
 				hasAnswer['value'] =  ""
+
 			promise.resolve(hasAnswer)
 
 		, (error) ->
@@ -144,6 +147,7 @@ getCurrentAnswer = (questionObj, responseObj) ->
 			if !_.isUndefined(answerObj)
 				hasAnswer['option'] = []
 				hasAnswer['value'] =  answerObj.get('value')
+				hasAnswer['date'] = answerObjs[0].get('updatedAt')
 			promise.resolve(hasAnswer)
 		, (error) ->
 			promise.reject error
@@ -156,6 +160,7 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 	promise = new Parse.Promise()
 	questionData = {}
 	questionData['responseId'] = responseObj.id
+	questionData['responseStatus'] = responseObj.get('status')
 	questionData['questionId'] = questionObj.id
 	questionData['questionType'] = questionObj.get('type')
 	questionData['question'] = questionObj.get('question')
@@ -227,7 +232,14 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 					,(error) ->
 						response.error error
 				else
-					response.success "savedSuccessfully"        
+					getSummary(responseObj)
+					.then (summaryObjects) ->
+						result = {}
+						result['status'] = "saved_successfully"
+						result['summary'] = summaryObjects
+						response.success result
+					,(error) ->
+						response.error error					       
 			,(error) ->
 				response.error error
 		,(error) ->
@@ -303,38 +315,42 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 	promiseArr = []
 	promise = new Parse.Promise()
 	responseObject = 
-                "__type" : "Pointer",
-                "className":"Response",
-                "objectId":responseObj.id
+				"__type" : "Pointer",
+				"className":"Response",
+				"objectId":responseObj.id
 
-	if !_.isEmpty options
-		_.each options, (optionId) ->
-			optionQuery = new Parse.Query('Options')
-			optionQuery.get(optionId)
-			.then (optionObj) ->
-				answer = new Parse.Object('Answer')
-				answer.set "response",responseObject
-				answer.set "patient", responseObj.get('patient')
-				answer.set "question",questionObj
-				answer.set "option",optionObj
-				answer.set "value",value
-				answerPromise = answer.save()
-				promiseArr.push answerPromise
+	getAnswers = () ->
+		if !_.isEmpty options
+			_.each options, (optionId) ->
+				optionQuery = new Parse.Query('Options')
+				optionQuery.get(optionId)
+				.then (optionObj) ->
+					console.log "here"
+					answer = new Parse.Object('Answer')
+					answer.set "response",responseObject
+					answer.set "patient", responseObj.get('patient')
+					answer.set "question",questionObj
+					answer.set "option",optionObj
+					answer.set "value",value
+					answerPromise = answer.save()
+					promiseArr.push answerPromise
 
-			, (error) ->
-				promise.reject error
+				, (error) ->
+					promise.reject error
 
-	else
+		else
 
-		answer = new Parse.Object('Answer')
-		answer.set "response",responseObj
-		answer.set "patient",responseObj.get('patient')
-		answer.set "question",questionObj
-		answer.set "value",value
-		answerPromise = answer.save()
-		promiseArr.push answerPromise
+			answer = new Parse.Object('Answer')
+			answer.set "response",responseObj
+			answer.set "patient",responseObj.get('patient')
+			answer.set "question",questionObj
+			answer.set "value",value
+			answerPromise = answer.save()
+			promiseArr.push answerPromise
 
-	Parse.Promise.when(promiseArr).then -> 
+		Parse.Promise.when(promiseArr)
+
+	getAnswers().then -> 
 		answeredQuestions = responseObj.get('answeredQuestions')
 		if questionObj.id not in answeredQuestions
 			answeredQuestions.push(questionObj.id)
@@ -377,4 +393,88 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 			,(error) ->
 				response.error error
 	,(error) ->
+		response.error error
+
+Parse.Cloud.define 'getSummary', (request, response) ->
+	responseId = request.params.responseId
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo("objectId", responseId)
+	responseQuery.first()
+	.then (responseObj) ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.include("question")
+		answerQuery.include("option")
+		answerQuery.equalTo("response", responseObj)
+		answerQuery.find()
+		.then (answerObjects) ->
+			response.success getAnswers answerObjects
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+getSummary = (responseObj) ->
+	promise = new Parse.Promise()
+
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.include("question")
+	answerQuery.include("option")
+	answerQuery.equalTo("response", responseObj)
+	answerQuery.find()
+	.then (answerObjects) ->
+		promise.resolve getAnswers answerObjects
+	, (error) ->
+		promise.error error
+	promise
+
+getAnswers = (answerObjects) ->
+
+	results = (answerObj) ->
+		input:
+			answerObj['answer']
+		question:
+			answerObj['question'].get('question')
+		optionSelected:
+			answerObj['optionsSelected']
+		val:
+			answerObj['temp']
+
+	answers = []
+	getUniqueQuestions = (answerObj) ->
+		currentQuestion = answerObj.get('question')
+		questions = (obj['question'] for obj in answers)
+
+		answer = {}
+		if currentQuestion.id != (q.id for q in questions when q.id == currentQuestion.id)[0]
+			answer['temp'] = (q for q in questions when q.id == currentQuestion.id)[0]
+			answer["question"] = currentQuestion
+			answer["answer"] = answerObj.get('value') 
+			if currentQuestion.get('type') == 'multi-choice' 
+				answer['optionsSelected'] = []
+				answer['optionsSelected'].push(answerObj.get('option').get('label'))
+			else
+				answer['optionsSelected'] = []
+				if !_.isUndefined(answerObj.get('option'))
+					answer['optionsSelected'].push(answerObj.get('option').get('label'))
+			answers.push(answer)
+		else if currentQuestion.get('type') == 'multi-choice'
+			index = (i for q,i in questions when currentQuestion.id == q.id)[0]
+			answers[index]['optionsSelected'].push(answerObj.get('option').get('label'))
+    
+	getUniqueQuestions answerObj for answerObj in answerObjects
+	results answerObj for answerObj in answers   
+
+
+Parse.Cloud.define "submitQuestionnaire", (request, response) ->
+	responseId = request.params.responseId
+	responseQuery = new Parse.Query("Response")
+	responseQuery.get(responseId)
+	.then (responseObj) -> 
+		responseObj.set "status", "Completed"
+		responseObj.save()
+		.then (responseObj) ->
+			response.success responseObj.id
+		, (error) ->
+			response.error error
+	, (error) ->
 		response.error error

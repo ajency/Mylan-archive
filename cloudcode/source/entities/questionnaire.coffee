@@ -241,22 +241,22 @@
 
 
 # Parse.Cloud.define 'getSummary', (request, response) ->
-#     responseId = request.params.responseId
-#     responseQuery = new Parse.Query('Response')
-#     responseQuery.equalTo("objectId", responseId)
-#     responseQuery.first()
-#     .then (responseObj) ->
-#         answerQuery = new Parse.Query('Answer')
-#         answerQuery.include("question")
-#         answerQuery.include("option")
-#         answerQuery.equalTo("response", responseObj)
-#         answerQuery.find()
-#         .then (answerObjects) ->
-#             response.success getAnswers answerObjects
-#         , (error) ->
-#             response.error error
-#     , (error) ->
-#         response.error error
+# 	responseId = request.params.responseId
+# 	responseQuery = new Parse.Query('Response')
+# 	responseQuery.equalTo("objectId", responseId)
+# 	responseQuery.first()
+# 	.then (responseObj) ->
+# 		answerQuery = new Parse.Query('Answer')
+# 		answerQuery.include("question")
+# 		answerQuery.include("option")
+# 		answerQuery.equalTo("response", responseObj)
+# 		answerQuery.find()
+# 		.then (answerObjects) ->
+# 			response.success getAnswers answerObjects
+# 		, (error) ->
+# 			response.error error
+# 	, (error) ->
+# 		response.error error
 
 
 # getAnswers = (answerObjects) ->
