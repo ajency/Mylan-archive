@@ -32,29 +32,17 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       return defer.promise;
     };
     QuestionAPI.getSummary = function(opts) {
-      var data, defer, params;
+      var defer, param, url;
       defer = $q.defer();
-      params = {
-        "userdId": '55',
-        "quizID": opts.quizID
-      };
-      data = {
-        summary: {
-          0: {
-            question: 'What is your current Statement best describes your pain ?',
-            answer: 'pain is present ,but not needed for pain killer'
-          },
-          1: {
-            question: 'Has your weight changed in the past month ?',
-            answer: 'No change'
-          },
-          2: {
-            question: 'Has your weight changed in the past month ?',
-            answer: 'No change'
-          }
-        }
-      };
-      defer.resolve(data);
+      url = PARSE_URL + '/getSummary';
+      param = opts;
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     QuestionAPI.submitSummary = function(opts) {

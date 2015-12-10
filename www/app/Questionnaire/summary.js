@@ -6,20 +6,9 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       go: '',
       response: '',
       getSummary: function() {
-        var options;
-        options = {
-          quizID: $stateParams.quizID
-        };
-        return QuestionAPI.getSummary(options).then((function(_this) {
-          return function(data) {
-            console.log(data);
-            return _this.data = data;
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
-          };
-        })(this));
+        this.data = Storage.summary('get');
+        console.log('summmmm');
+        return console.log(this.data);
       },
       init: function() {
         return this.getSummary();
@@ -61,7 +50,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('summary', {
-      url: '/summary:quizID',
+      url: '/summary',
       parent: 'parent-questionnaire',
       views: {
         "QuestionContent": {

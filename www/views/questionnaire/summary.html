@@ -1,6 +1,6 @@
 <ion-view>
    <ion-content ng-init="view.init();" class="has-footer">
-      <div class="bg-yellow">
+     <!--  <div class="bg-yellow">
          <div class="padding">
             <h5 class="f-w-400">
                Thank you for filling in your questionnaire. Please review your answers
@@ -18,14 +18,15 @@
             </div>
             <br>
          </div>
-      </div>
-      <div ng-repeat ="summary in view.data.summary">
+      </div> -->
+      <div ng-repeat ="summary in view.data">
       <div class="padding">
          
          <h5 class="f-w-400">{{summary.question}}
          </h5>
-         <span class="text-green f-w-400">
-            {{summary.answer}}
+
+         <span class="text-green f-w-400" ng-repeat = "answer in summary.optionSelected ">
+            {{summary.optionSelected[0] }}
          </span>
         
       </div>

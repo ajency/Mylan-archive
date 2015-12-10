@@ -84,6 +84,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.val_answerValue = '';
               _this.data = [];
               _this.data = data.result;
+              if (!_.isUndefined(_this.data.status)) {
+                Storage.summary('set', _this.data.summary);
+                App.navigate('summary');
+                CSpinner.hide();
+              }
               return _this.display = 'noError';
             }, function(error) {
               console.log('inside save error');
@@ -204,13 +209,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return _.isEmpty(pastAnswerObject);
       },
       pastDate: function(date) {
-        console.log('sdsdsdsd');
         return moment(date).format('MMMM Do YYYY');
       },
       pastAnswer: function(previousQuestionnaireAnswer, optionId) {
         var indexOf, optId;
         optId = _.pluck(optionId, 'id');
-        console.log(optId);
         indexOf = optId.indexOf(previousQuestionnaireAnswer);
         indexOf++;
         return indexOf;

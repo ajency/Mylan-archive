@@ -115,6 +115,11 @@ angular.module 'PatientApp.Quest',[]
 						@val_answerValue = ''
 						@data = []
 						@data = data.result
+						if !_.isUndefined(@data.status)
+							Storage.summary('set', @data.summary)
+							App.navigate 'summary'
+							CSpinner.hide()
+
 						@display = 'noError'					
 					,(error)=>
 						console.log 'inside save error'
@@ -266,12 +271,10 @@ angular.module 'PatientApp.Quest',[]
 				_.isEmpty(pastAnswerObject)
 
 			pastDate:(date)->
-				console.log 'sdsdsdsd'
 				moment(date).format('MMMM Do YYYY')
 
 			pastAnswer:(previousQuestionnaireAnswer, optionId )->
 				optId = _.pluck(optionId, 'id')
-				console.log optId
 				indexOf = optId.indexOf(previousQuestionnaireAnswer)
 				indexOf++
 

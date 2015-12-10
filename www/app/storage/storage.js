@@ -1,9 +1,10 @@
 angular.module('PatientApp.storage', []).factory('Storage', [
   function() {
-    var Storage, ref, userInfo;
+    var Storage, ref, summary, userInfo;
     Storage = {};
     ref = '';
     userInfo = {};
+    summary = {};
     Storage.setup = function(action) {
       switch (action) {
         case 'set':
@@ -110,6 +111,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.setItem(variableName, projectId);
         case 'get':
           return localforage.getItem(variableName);
+      }
+    };
+    Storage.summary = function(action, data) {
+      switch (action) {
+        case 'set':
+          return summary = data;
+        case 'get':
+          return summary;
       }
     };
     return Storage;

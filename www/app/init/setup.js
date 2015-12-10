@@ -27,29 +27,26 @@ angular.module('PatientApp.init').controller('setupCtr', [
               Storage.hospital_data('set', data.hospitalData);
               Storage.setRefernce('set', _this.refcode);
               if (data.code === 'do_login') {
-                CSpinner.hide();
                 return Storage.refcode('set', _this.refcode).then(function() {
                   return App.navigate("main_login");
                 });
               } else if (data.code === 'set_password') {
-                CSpinner.hide();
                 return Storage.refcode('set', _this.refcode).then(function() {
                   return App.navigate("setup_password");
                 });
               } else if (data.code === 'limit_exceeded') {
-                CSpinner.hide();
-                return CToast.show('Cannot do setup more then 5 times');
+                return _this.emptyfield = 'Cannot do setup more then 5 times';
               } else {
-                CSpinner.hide();
-                return CToast.show('Please check reference code');
+                return _this.emptyfield = 'Please check reference code';
               }
             };
           })(this), (function(_this) {
             return function(error) {
-              CToast.show('Please try again');
-              return CSpinner.hide();
+              return _this.emptyfield = 'Please try again';
             };
-          })(this));
+          })(this))["finally"](function() {
+            return CSpinner.hide();
+          });
         }
       },
       tologin: function() {

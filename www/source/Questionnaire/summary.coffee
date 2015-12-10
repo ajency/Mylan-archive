@@ -11,15 +11,18 @@ angular.module 'PatientApp.Quest'
 			response : ''
 
 			getSummary : ->
-				options = 
-					quizID: $stateParams.quizID
+				@data = Storage.summary('get')
+				console.log 'summmmm'
+				console.log @data
+				# options = 
+				# 	responseId: $stateParams.responseID
 
-				QuestionAPI.getSummary options
-				.then (data)=>
-					console.log data
-					@data = data 
-				, (error)=>
-					console.log 'err'
+				# QuestionAPI.getSummary options
+				# .then (data)=>
+				# 	console.log data
+				# 	@data = data 
+				# , (error)=>
+				# 	console.log 'err'
 					
 			init : ->
 				@getSummary()
@@ -53,7 +56,7 @@ angular.module 'PatientApp.Quest'
 	$stateProvider
 
 	.state 'summary',
-			url: '/summary:quizID'
+			url: '/summary'
 			parent: 'parent-questionnaire'
 			views: 
 				"QuestionContent":
