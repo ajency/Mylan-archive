@@ -221,47 +221,25 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 		.then (questionObj) ->
 			saveAnswer responseObj, questionObj, options, value
 			.then (answersArray) ->
-				if !_.isUndefined questionObj.get('nextQuestion')
-					getNextQuestion(questionObj, options)
-					.then (nextQuestionObj) ->
+				getNextQuestion(questionObj, options)
+				.then (nextQuestionObj) ->
+					if !_.isEmpty(nextQuestionObj)
 						getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
 						.then (questionData) ->
 							response.success questionData
 						,(error) ->
 							response.error error
-					,(error) ->
-						response.error error
-				else if !questionObj.get('isChild')
-					getSummary(responseObj)
-					.then (summaryObjects) ->
-						result = {}
-						result['status'] = "saved_successfully"
-						result['summary'] = summaryObjects
-						response.success result
-					,(error) ->
-						response.error error					       
-				else
-					while responObj.get(isChild)
-						reponseObj = reponseObj.get(previousQuestion)
-					if !_.isUndefined questionObj.get('nextQuestion')
-						getNextQuestion(questionObj, options)
-						.then (nextQuestionObj) ->
-							getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
-							.then (questionData) ->
-								response.success questionData
-							,(error) ->
-								response.error error
-						,(error) ->
-							response.error error
 					else
 						getSummary(responseObj)
-							.then (summaryObjects) ->
-								result = {}
-								result['status'] = "saved_successfully"
-								result['summary'] = summaryObjects
-								response.success result
-							,(error) ->
-								response.error error	
+						.then (summaryObjects) ->
+							result = {}
+							result['status'] = "saved_successfully"
+							result['summary'] = summaryObjects
+							response.success result
+						,(error) ->
+							response.error error					       
+				,(error) ->
+					response.error error
 			,(error) ->
 				response.error error
 		,(error) ->
@@ -272,6 +250,24 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 
 getNextQuestion = (questionObj, option) ->
 	promise = new Parse.Promise()
+
+	getRequiredQuestion = () ->
+		if !_.isUndefined questionObj.get('nextQuestion')
+			promise.resolve(questionObj.get('nextQuestion'))
+
+		else if _.isUndefined questionObj.get('nextQuestion') and !responObj.get(isChild)
+			promise.resolve({})
+
+		else
+			while responObj.get(isChild) or !_.isUndefined(responseObj.get(previousQuestion))
+				reponseObj = reponseObj.get(previousQuestion)
+			if !_.isUndefined questionObj.get('nextQuestion')
+				promise.resolve(questionObj.get('nextQuestion'))
+			else
+				promise.resolve({})
+
+
+
 
 	if questionObj.get('type') == 'single-choice' and (!_.isUndefined(questionObj.get('condition')))
 		optionsQuery = new Parse.Query "Options"
@@ -289,14 +285,14 @@ getNextQuestion = (questionObj, option) ->
 				,(error) ->
 					promise.error error
 			else
-				promise.resolve(questionObj.get('nextQuestion'))
+				getRequiredQuestion()
 
 
 		,(error) ->
 			promise.error error
 
 	else
-		promise.resolve(questionObj.get('nextQuestion'))
+		getRequiredQuestion()
 
 	promise
 

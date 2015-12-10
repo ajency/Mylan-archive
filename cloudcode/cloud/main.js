@@ -333,38 +333,10 @@
       questionQuery.include('previousQuestion');
       return questionQuery.get(questionId).then(function(questionObj) {
         return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
-          var reponseObj;
-          if (!_.isUndefined(questionObj.get('nextQuestion'))) {
-            return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
+          return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
+            if (!_.isEmpty(nextQuestionObj)) {
               return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                 return response.success(questionData);
-              }, function(error) {
-                return response.error(error);
-              });
-            }, function(error) {
-              return response.error(error);
-            });
-          } else if (!questionObj.get('isChild')) {
-            return getSummary(responseObj).then(function(summaryObjects) {
-              var result;
-              result = {};
-              result['status'] = "saved_successfully";
-              result['summary'] = summaryObjects;
-              return response.success(result);
-            }, function(error) {
-              return response.error(error);
-            });
-          } else {
-            while (responObj.get(isChild)) {
-              reponseObj = reponseObj.get(previousQuestion);
-            }
-            if (!_.isUndefined(questionObj.get('nextQuestion'))) {
-              return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
-                return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
-                  return response.success(questionData);
-                }, function(error) {
-                  return response.error(error);
-                });
               }, function(error) {
                 return response.error(error);
               });
@@ -379,7 +351,9 @@
                 return response.error(error);
               });
             }
-          }
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -392,8 +366,25 @@
   });
 
   getNextQuestion = function(questionObj, option) {
-    var optionsQuery, promise;
+    var getRequiredQuestion, optionsQuery, promise;
     promise = new Parse.Promise();
+    getRequiredQuestion = function() {
+      var reponseObj;
+      if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+        return promise.resolve(questionObj.get('nextQuestion'));
+      } else if (_.isUndefined(questionObj.get('nextQuestion') && !responObj.get(isChild))) {
+        return promise.resolve({});
+      } else {
+        while (responObj.get(isChild) || !_.isUndefined(responseObj.get(previousQuestion))) {
+          reponseObj = reponseObj.get(previousQuestion);
+        }
+        if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+          return promise.resolve(questionObj.get('nextQuestion'));
+        } else {
+          return promise.resolve({});
+        }
+      }
+    };
     if (questionObj.get('type') === 'single-choice' && (!_.isUndefined(questionObj.get('condition')))) {
       optionsQuery = new Parse.Query("Options");
       optionsQuery.get(option[0]).then(function(optionObj) {
@@ -418,13 +409,13 @@
             return promise.error(error);
           });
         } else {
-          return promise.resolve(questionObj.get('nextQuestion'));
+          return getRequiredQuestion();
         }
       }, function(error) {
         return promise.error(error);
       });
     } else {
-      promise.resolve(questionObj.get('nextQuestion'));
+      getRequiredQuestion();
     }
     return promise;
   };
