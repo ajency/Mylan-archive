@@ -32,14 +32,15 @@
             <br>
          </div>
       </div> -->
+     
       <div ng-repeat ="summary in view.data">
       <div class="padding">
          
          <h5 class="f-w-400">{{summary.question}}
          </h5>
-
-         <span class="text-green f-w-400" ng-repeat = "answer in summary.optionSelected ">
-            {{summary.optionSelected[0] }}
+              
+         <span class="text-green f-w-400" ng-repeat = "answer in summary.optionSelected track by $index">
+            {{answer }}
          </span>
         
       </div>
