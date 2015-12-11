@@ -24,12 +24,13 @@
             </span>
             <span  
               ng-if = 'view.data.questionType == "input"'>
-              Select either of the following
+              Enter either of the following
             </span>
         </div> 
 
           <!--descrp-->
-          <div ng-if = 'view.data.questionType == "input"'>
+          <div ng-if = 'view.data.questionType == "input" ||
+            view.data.questionType == "descriptive"' >
 
               <div 
                 class="padding">

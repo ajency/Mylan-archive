@@ -27,7 +27,7 @@ angular.module 'PatientApp.dashboard',[]
 				console.log @data 
 
 			summary :->
-				App.navigate 'summary', quizID: 111
+				# App.navigate 'summary', quizID: 111
 	
 ]
 

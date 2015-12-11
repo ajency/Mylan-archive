@@ -14,24 +14,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummary();
       },
       submitSummary: function() {
-        var options;
-        options = {
-          quizID: $stateParams.quizID
-        };
-        return QuestionAPI.submitSummary(options).then((function(_this) {
-          return function(data) {
-            Storage.getNextQuestion('set', 1);
-            Storage.quizDetails('remove');
-            return App.navigate('dashboard', {}, {
-              animate: false,
-              back: false
-            });
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
-          };
-        })(this));
+        return ionic.Platform.exitApp();
       },
       prevQuestion: function() {
         var action, valueAction;

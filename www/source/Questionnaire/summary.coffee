@@ -28,16 +28,17 @@ angular.module 'PatientApp.Quest'
 				@getSummary()
 
 			submitSummary : ->
-				options = 
-					quizID: $stateParams.quizID
+				ionic.Platform.exitApp()
+				# options = 
+				# 	quizID: $stateParams.quizID
 
-				QuestionAPI.submitSummary options
-				.then (data)=>
-					Storage.getNextQuestion 'set' , 1
-					Storage.quizDetails('remove')
-					App.navigate 'dashboard', {}, {animate: false, back: false}
-				, (error)=>
-					console.log 'err'
+				# QuestionAPI.submitSummary options
+				# .then (data)=>
+				# 	Storage.getNextQuestion 'set' , 1
+				# 	Storage.quizDetails('remove')
+				# 	App.navigate 'dashboard', {}, {animate: false, back: false}
+				# , (error)=>
+				# 	console.log 'err'
 
 			prevQuestion : ->
 				valueAction = QuestionAPI.setAction 'get'

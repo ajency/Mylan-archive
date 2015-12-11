@@ -1,5 +1,18 @@
-<ion-view>
-   <ion-content ng-init="view.init();" class="has-footer">
+<ion-view
+   >
+    <ion-nav-bar class="bar-light">
+
+
+   <ion-nav-back-button
+      ng-click="view.onBackClick()">
+   </ion-nav-back-button>
+
+
+ </ion-nav-bar>
+   <ion-nav-title>
+      Summary
+    </ion-nav-title>   
+    <ion-content ng-init="view.init();" class="has-footer">
      <!--  <div class="bg-yellow">
          <div class="padding">
             <h5 class="f-w-400">
