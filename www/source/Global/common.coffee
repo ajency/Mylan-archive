@@ -100,6 +100,20 @@ angular.module 'PatientApp.Global', []
 			resize : ->
 				$ionicScrollDelegate.resize()
 
+			getInstallationId : ->
+				defer = $q.defer()
+				if @isWebView()
+					parsePlugin.getInstallationId (installationId)-> 
+						defer.resolve installationId
+					, (error) ->
+						defer.reject error
+				else
+					defer.resolve 'DUMMY_INSTALLATION_ID'
+
+				defer.promise
+
+
+
 
 
 

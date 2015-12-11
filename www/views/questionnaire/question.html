@@ -70,7 +70,7 @@
      
                
 
-             <div class="row">
+             <div class="row" ng-if='view.data.questionType == "input"'>
                   <div 
                     class="col"
                     ng-repeat ="answerValue in view.data.options">
@@ -82,6 +82,19 @@
                     </label>
                   </div>
               </div>
+
+              <div class="row" ng-if='view.data.questionType == "descriptive"'>
+                  <div 
+                    class="col">
+
+                    <label class="item-input item-icon-right b-b">
+                    <input 
+                      type="text" 
+                      ng-model="view.descriptiveAnswer">
+                    </label>
+                  </div>
+              </div>
+
 
               
          </div>
@@ -156,13 +169,13 @@
                 ng-if = 'view.data.questionType == "multi-choice"'>
                 <li 
                   class="item item-checkbox"
-                  ng-repeat ="answerValue in view.data.options">
+                  ng-repeat ="answerValue in view.data.options track by $index">
                   <label class="checkbox" >
                       <input type="checkbox" ng-model="answerValue.checked" 
                       ng-checked="answerValue.checked">
                   </label>
                   <span>
-                      {{answerValue.option}}
+                      {{$index + 1}}. {{answerValue.option}}
                   </span>
                 </li>
               </ul>

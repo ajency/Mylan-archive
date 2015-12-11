@@ -15,6 +15,7 @@ angular.module 'PatientApp.Quest',[]
 			errorType : ''
 			display : 'loader'
 			infoBox : true
+			descriptiveAnswer : ''
 
 			
 			getLocal :()->
@@ -25,34 +26,38 @@ angular.module 'PatientApp.Quest',[]
 				defer.promise
 
 			getQuestion :(questNo) ->
+				# "patientId":refcode
+				# "questionnaireId": patientData.questionnaire.id
+
 				@display = 'loader'
 
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 				
-					Storage.setData 'patientData','get'
-					.then (patientData)=>
-						@patientId = patientData.patient_id
-						options =
-							"responseId": ''
-							"questionnaireId": patientData.questionnaire.id
-							"patientId":refcode
+					# Storage.setData 'patientData','get'
+					# .then (patientData)=>
+					# 	@patientId = patientData.patient_id
 
-						QuestionAPI.getQuestion options
-						.then (data)=>
-							console.log 'inside then'
-							console.log data
-							@data = data.result
-							Storage.setData 'responseId', 'set', data.result.responseId
-							@display = 'noError'
+					options =
+						"responseId": ''
+						"questionnaireId": 'yA3DYxxje8'
+						"patientId":'12345678'
 
-							# $timeout =>
-							# 	console.log 'timeoutt'
-							# 	@infoBox = false
-							# , 30000
-						,(error)=>
-							@display = 'error'
-							@errorType = error
+					QuestionAPI.getQuestion options
+					.then (data)=>
+						console.log 'inside then'
+						console.log data
+						@data = data.result
+						Storage.setData 'responseId', 'set', data.result.responseId
+						@display = 'noError'
+
+						# $timeout =>
+						# 	console.log 'timeoutt'
+						# 	@infoBox = false
+						# , 30000
+					,(error)=>
+						@display = 'error'
+						@errorType = error
 
 
 			getPrevQuestion : ->
@@ -204,6 +209,22 @@ angular.module 'PatientApp.Quest',[]
 						"value": ""
 
 					@loadNextQuestion(options)
+
+				if @data.questionType == 'descriptive'
+
+					if (@descriptiveAnswer == '')
+						CToast.show 'Please Fill in the following'
+					else
+						options =
+							"questionId" : @data.questionId
+							"options": []
+							"value": @descriptiveAnswer
+
+						@loadNextQuestion(options)
+
+
+
+
 
 				# CSpinner.show '', 'Please wait..'
 				# # CSpinner.hide()

@@ -114,6 +114,20 @@ angular.module('PatientApp.Global', []).factory('App', [
       },
       resize: function() {
         return $ionicScrollDelegate.resize();
+      },
+      getInstallationId: function() {
+        var defer;
+        defer = $q.defer();
+        if (this.isWebView()) {
+          parsePlugin.getInstallationId(function(installationId) {
+            return defer.resolve(installationId);
+          }, function(error) {
+            return defer.reject(error);
+          });
+        } else {
+          defer.resolve('DUMMY_INSTALLATION_ID');
+        }
+        return defer.promise;
       }
     };
   }

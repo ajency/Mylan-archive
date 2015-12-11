@@ -10,6 +10,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       errorType: '',
       display: 'loader',
       infoBox: true,
+      descriptiveAnswer: '',
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -22,24 +23,21 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
-            return Storage.setData('patientData', 'get').then(function(patientData) {
-              var options;
-              _this.patientId = patientData.patient_id;
-              options = {
-                "responseId": '',
-                "questionnaireId": patientData.questionnaire.id,
-                "patientId": refcode
-              };
-              return QuestionAPI.getQuestion(options).then(function(data) {
-                console.log('inside then');
-                console.log(data);
-                _this.data = data.result;
-                Storage.setData('responseId', 'set', data.result.responseId);
-                return _this.display = 'noError';
-              }, function(error) {
-                _this.display = 'error';
-                return _this.errorType = error;
-              });
+            var options;
+            options = {
+              "responseId": '',
+              "questionnaireId": 'yA3DYxxje8',
+              "patientId": '12345678'
+            };
+            return QuestionAPI.getQuestion(options).then(function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data.result;
+              Storage.setData('responseId', 'set', data.result.responseId);
+              return _this.display = 'noError';
+            }, function(error) {
+              _this.display = 'error';
+              return _this.errorType = error;
             });
           };
         })(this));
@@ -176,7 +174,19 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             "options": selectedvalue,
             "value": ""
           };
-          return this.loadNextQuestion(options);
+          this.loadNextQuestion(options);
+        }
+        if (this.data.questionType === 'descriptive') {
+          if (this.descriptiveAnswer === '') {
+            return CToast.show('Please Fill in the following');
+          } else {
+            options = {
+              "questionId": this.data.questionId,
+              "options": [],
+              "value": this.descriptiveAnswer
+            };
+            return this.loadNextQuestion(options);
+          }
         }
       },
       prevQuestion: function() {
