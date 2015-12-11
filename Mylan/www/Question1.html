@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="../www/css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter">
+
+    <ion-pane class="has-header">
+   
+     <div class="bar bar-header bar-balanced row">
+       <h1 class="title"><b>C - Weight</b></h1>
+       <div class="right-buttons">
+        <button class="button icon ion-close button button-outline button-light icon-right"></button>
+        <button class="button button-outline button-light icon ion-pause icon-right"></button>
+       </div>
+      </div>
+     <ion-content class="has-header">
+     <div class="bg-yellow">
+     <div class="padding">
+      <div class="col">
+          <h5 class="f-w-400">Previous Answers:</h5><br>
+          <h5 class="f-w-400">Weight :&nbsp;&nbsp;79Kgs&nbsp;&nbsp;11st&nbsp;&nbsp;11lbs</h5>
+          <hr>
+          <h5 class="f-w-400">No Change</h5>
+          <h6 class="text-right"><i class="icon ion-calendar"></i> Submitted on 22nd Oct 2014</h6>
+        </div>
+        </div>
+     </div>
+      <div class="padding">
+        <div class="col">
+        <br>
+      <h5 class="f-w-400">What is your current weight ?</h5>
+        <div class="row">
+        <div class="col">
+        <label class="item-input item-icon-right b-b">
+          <input type="number" placeholder="Kgs">
+        </label>
+      </div>
+       <div class="col">
+        <label class="item-input b-b">
+          <input type="number" placeholder="St">
+        </label>
+      </div>
+       <div class="col">
+        <label class="item-input b-b">
+          <input type="number" placeholder="Lbs">
+        </label>
+        </div>
+        </div><br>
+        <div class="info-msg">
+        <i class="icon ion-ios-information-outline text-green"></i> <span>Please Complete EITHER Kg OR stones and lbs box</span>
+        </div><br>
+     </div>
+     </div>
+    <hr class="broad">
+      <div>
+      <div class="padding">
+      <div class="col">
+      <br>
+      <h5 class="f-w-400">Has your weight changed in the past month ?</h5>
+      <br>
+      <div class="info-msg">
+        <i class="icon ion-ios-information-outline text-green"></i> <span>Touch the Answer you want to select</span>
+      </div>
+      <br>
+    </div>
+    </div>
+
+      <div class="list">
+
+        <label class="item item-radio">
+          <input type="radio" name="group" value="go" checked="checked">
+          <div class="item-content">
+           No Change
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+
+        <label class="item item-radio">
+          <input type="radio" name="group" value="python">
+          <div class="item-content">
+            Lost uo to 4 pounds ( 2 kg )
+          </div>
+          <i class="radio-icon ion-checkmark"></i>
+        </label>
+    </div>
+    <ul class="list">
+
+  <li class="item item-checkbox">
+     <label class="checkbox">
+       <input type="checkbox">
+     </label>
+     Flux Capacitor
+  </li>
+<li class="item item-checkbox">
+     <label class="checkbox">
+       <input type="checkbox">
+     </label>
+     Flux Capacitor
+  </li>
+  ...
+
+</ul> 
+     </div>
+      </ion-content>
+    </ion-pane>
+  </body>
+</html>

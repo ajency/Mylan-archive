@@ -1,0 +1,75 @@
+<ion-content  ng-init="view.refre();">
+      <div class="row">
+        <div class="col">
+     <div class="text-center centering">
+      <div class="padding">
+      <h1 class="text-primary">Hi !</h1>
+      <h3>Welcome to<br>your Healthcare Portal</h3>
+      </div>
+      <div class="list list-inset" ng-form="form_">
+        <h5 class="f-w-400">Enter your Login Details</h5>
+        
+       
+         <label class="item item-input">
+          <input type="text" 
+          ng-keyup="App.check_inputlength(view.refrencecode);"
+          required
+          min="1" 
+          max="99"
+          maxlength="8"
+          onlydigitinput="inputvalidation"
+          placeholder="Enter 8 Digit Reference Code"
+          name="ref_"
+          id="ref_"
+          ng-model="view.refrencecode"
+          ng-click="view.cleardiv()"/>
+        </label>
+      
+      <div style="position:relative;">
+         <i class="icon ion-eye text-gray" 
+            ng-hide = "view.showPassword"
+            ng-click="view.showPassword=true;"
+            ></i>
+         <i class="icon ion-eye text-gray" 
+          ng-show="view.showPassword"
+          ng-click="view.showPassword=false;"
+          ></i>
+        <label class="item item-input"
+        ng-hide = "view.showPassword">
+          <input type="tel"  
+          placeholder="Enter your Password"
+          ng-model="view.password"
+          id="password"
+
+          ng-click="view.cleardiv()"
+          min="1" 
+          max="99"
+          maxlength="4"
+          onlydigitinput="inputvalidation"/>
+        </label>
+
+        <label class="item item-input"
+         ng-show = "view.showPassword">
+          <input type="tel"  
+          placeholder="Enter your Password"
+          ng-model="view.password"
+          ng-click="view.cleardiv()"
+          min="1" 
+          max="99"
+          maxlength="4"
+          onlydigitinput="inputvalidation"/>
+        </div>
+         
+        </label>
+
+
+        <div class="text-left text-danger">{{view.loginerror}}</div>
+        <br>     
+        
+       <button class="button button-block button-calm" ng-click="view.mainlogin()">Login</button><br>
+       <a href="#" class="button-clear button-calm btn-link"  ng-click="view.forgetRefcodeorPass()">Forgot Reference Code or Password</a>
+      </div>
+   </div>
+   </div>
+   </div>
+</ion-content>

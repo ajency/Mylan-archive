@@ -1,0 +1,14 @@
+{
+  "name": "vanilla-query",
+  "homepage": "https://github.com/makesites/vanilla-query",
+  "version": "0.1.0",
+  "_release": "0.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.1.0",
+    "commit": "c04957448ae66ca2c776b2c954197cc30146dca0"
+  },
+  "_source": "git://github.com/makesites/vanilla-query.git",
+  "_target": "*",
+  "_originalSource": "vanilla-query"
+}

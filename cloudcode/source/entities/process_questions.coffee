@@ -4,18 +4,23 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 	patientId = request.params.patientId
 
 	if (responseId != "") and (!_.isUndefined responseId) and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
+		
 		responseQuery = new Parse.Query("Response")
 		responseQuery.get(responseId)
 		.then (responseObj) ->
-			firstQuestion questionnaireId
-			.then (questionObj) ->
-				getQuestionData questionObj, responseObj, patientId
-				.then (questionData) ->
-					response.success questionData
+			if responseObj.get('status') == 'Completed'
+				response.error "Questionnaire already answered"
+
+			else
+				firstQuestion questionnaireId
+				.then (questionObj) ->
+					getQuestionData questionObj, responseObj, patientId
+					.then (questionData) ->
+						response.success questionData
+					,(error) ->
+						response.error error	
 				,(error) ->
-					response.error error	
-			,(error) ->
-				response.error error
+					response.error error
 		,(error) ->
 			response.error error
 
@@ -212,38 +217,41 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		questionQuery = new Parse.Query('Questions')
-		questionQuery.include('nextQuestion')
-		questionQuery.include('previousQuestion')
+		if responseObj.get('status') == 'Completed'
+			response.error "questionnaire already submitted."
+		else 
+			questionQuery = new Parse.Query('Questions')
+			questionQuery.include('nextQuestion')
+			questionQuery.include('previousQuestion')
 
-		questionQuery.get(questionId)
+			questionQuery.get(questionId)
 
-		.then (questionObj) ->
-			saveAnswer responseObj, questionObj, options, value
-			.then (answersArray) ->
-				getNextQuestion(questionObj, options)
-				.then (nextQuestionObj) ->
-					if !_.isEmpty(nextQuestionObj)
-						getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
-						.then (questionData) ->
-							response.success questionData
-						,(error) ->
-							response.error error
-					else
-						getSummary(responseObj)
-						.then (summaryObjects) ->
-							result = {}
-							result['status'] = "saved_successfully"
-							result['summary'] = summaryObjects
-							response.success result
-						,(error) ->
-							response.error error					       
+			.then (questionObj) ->
+				saveAnswer responseObj, questionObj, options, value
+				.then (answersArray) ->
+					getNextQuestion(questionObj, options)
+					.then (nextQuestionObj) ->
+						if !_.isEmpty(nextQuestionObj)
+							getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
+						else
+							getSummary(responseObj)
+							.then (summaryObjects) ->
+								result = {}
+								result['status'] = "saved_successfully"
+								result['summary'] = summaryObjects
+								response.success result
+							,(error) ->
+								response.error error					       
+					,(error) ->
+						response.error error
 				,(error) ->
 					response.error error
 			,(error) ->
 				response.error error
-		,(error) ->
-			response.error error
 	,(error) ->
 		response.error error
 
@@ -343,7 +351,6 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 				optionQuery = new Parse.Query('Options')
 				optionQuery.get(optionId)
 				.then (optionObj) ->
-					console.log "here"
 					answer = new Parse.Object('Answer')
 					answer.set "response",responseObject
 					answer.set "patient", responseObj.get('patient')
@@ -351,8 +358,7 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 					answer.set "option",optionObj
 					answer.set "value",value
 					answerPromise = answer.save()
-					promiseArr.push answerPromise
-
+					promiseArr.push answer
 				, (error) ->
 					promise.reject error
 
@@ -413,19 +419,16 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	,(error) ->
 		response.error error
 
+
 Parse.Cloud.define 'getSummary', (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo("objectId", responseId)
 	responseQuery.first()
 	.then (responseObj) ->
-		answerQuery = new Parse.Query('Answer')
-		answerQuery.include("question")
-		answerQuery.include("option")
-		answerQuery.equalTo("response", responseObj)
-		answerQuery.find()
+		getSummary responseObj
 		.then (answerObjects) ->
-			response.success getAnswers answerObjects
+			response.success answerObjects
 		, (error) ->
 			response.error error
 	, (error) ->

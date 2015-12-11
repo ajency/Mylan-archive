@@ -1,0 +1,7 @@
+This is the list of all cordova plugins
+
+ionic add cordova-plugin-console
+ionic add cordova-plugin-device
+ionic add cordova-plugin-splashscreen
+ionic add cordova-plugin-statusbar
+ionic add cordova-plugin-whitelist

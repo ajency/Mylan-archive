@@ -1,0 +1,74 @@
+<ion-view
+   hide-nav-bar="true">
+   <ion-content>
+      <div class="row">
+         <div class="col">
+            <div class="text-center centering">
+
+               <div class="padding">
+                  <h1 class="text-primary">Hi !</h1>
+                  <h3>Welcome to<br>your Healthcare Portal</h3>
+               </div>
+               <div class="list list-inset" ng-form="form">
+                  <i class="icon ion-ios-help-outline text-primary"  ng-click="view.HelpRefcode()" ></i>
+                  <form name="myForm">
+                     <label class="item item-input item-icon-right">
+                     <input type="text"
+                        id = 'simple' 
+                        name="refcode" 
+                        ng-model="view.refcode"
+                        ng-maxlength="8" 
+                        placeholder="Enter 8 Digit Reference Code"
+                        autocomplete="off" spellcheck="false"
+                        autocorrect="off"
+                        />
+                     </label>
+                  </form>                  
+                  <p 
+                     class="text-left text-danger" 
+                     ng-if="myForm.refcode.$error.maxlength">
+                     Please enter 8 digit reference code 
+                  </p>
+
+                  <div class=" text-danger">{{view.emptyfield}}</div>
+                  <br>
+
+                  <button 
+                     ng-disabled = "myForm.refcode.$error.maxlength"
+                     class="button button-block button-calm" 
+                     ng-click="view.verifyRefCode()">
+                     Verify Reference Code Now
+                  </button>
+
+                     <br>
+
+                  <a href="#" class="button-clear btn-link" ng-click="view.forgetRefcode()">Forgot Reference Code ?</a><br><br><br>
+                  <h5>Set-up Already Done ?</h5>
+                  <a href="#" class="button-clear btn-link" ng-click="view.tologin()" >Proceed To Login</a>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </ion-content>
+</ion-view>
+
+
+<!-- id = 'simple' ng-keyup="view.myFunction($event)" -->
+
+ <!--  <label class="item item-input item-icon-right">
+                     <input type="text" 
+                        name="refcode"  
+                        ng-model="view.refcode"
+                        min="1" 
+                        max="99"
+                        maxlength="8"
+                        onlydigitinput="inputvalidation"
+                        required
+                        ng-click="view.clear()"
+                        placeholder="Enter 8 Digit Reference Code"
+                        />
+
+
+                     </label>
+ -->
