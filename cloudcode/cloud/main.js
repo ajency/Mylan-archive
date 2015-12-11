@@ -228,19 +228,7 @@
     answerQuery.descending('updatedAt');
     answerQuery.include('question');
     answerQuery.include('option');
-    if (questionObj.get('type') === 'single-choice') {
-      answerQuery.first().then(function(answerObj) {
-        if (!_.isUndefined(answerObj)) {
-          options.push(answerObj.get('option').get('label'));
-          hasAnswer['value'] = answerObj.get('value');
-          hasAnswer['option'] = options;
-          hasAnswer['date'] = answerObj.get('updatedAt');
-        }
-        return promise.resolve(hasAnswer);
-      }, function(error) {
-        return promise.reject(error);
-      });
-    } else if (questionObj.get('type') === 'multi-choice') {
+    if (questionObj.get('type') === 'multi-choice') {
       answerQuery.find().then(function(answerObjs) {
         var answerObj, j, len;
         for (j = 0, len = answerObjs.length; j < len; j++) {
@@ -261,9 +249,10 @@
     } else {
       answerQuery.first().then(function(answerObj) {
         if (!_.isUndefined(answerObj)) {
-          hasAnswer['option'] = [];
+          options.push(answerObj.get('option').get('label'));
           hasAnswer['value'] = answerObj.get('value');
-          hasAnswer['date'] = answerObjs[0].get('updatedAt');
+          hasAnswer['option'] = options;
+          hasAnswer['date'] = answerObj.get('updatedAt');
         }
         return promise.resolve(hasAnswer);
       }, function(error) {
@@ -292,28 +281,24 @@
       return getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
         var optionsQuery;
         questionData['hasAnswer'] = hasAnswer;
-        if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input') {
-          optionsQuery = new Parse.Query("Options");
-          optionsQuery.equalTo('question', questionObj);
-          return optionsQuery.find().then(function(optionObjs) {
-            var j, len, option, optionObj, options;
-            options = [];
-            for (j = 0, len = optionObjs.length; j < len; j++) {
-              option = optionObjs[j];
-              optionObj = {};
-              optionObj['id'] = option.id;
-              optionObj['option'] = option.get('label');
-              optionObj['score'] = option.get('score');
-              options.push(optionObj);
-            }
-            questionData['options'] = options;
-            return promise.resolve(questionData);
-          }, function(error) {
-            return promise.reject(error);
-          });
-        } else {
+        optionsQuery = new Parse.Query("Options");
+        optionsQuery.equalTo('question', questionObj);
+        return optionsQuery.find().then(function(optionObjs) {
+          var j, len, option, optionObj, options;
+          options = [];
+          for (j = 0, len = optionObjs.length; j < len; j++) {
+            option = optionObjs[j];
+            optionObj = {};
+            optionObj['id'] = option.id;
+            optionObj['option'] = option.get('label');
+            optionObj['score'] = option.get('score');
+            options.push(optionObj);
+          }
+          questionData['options'] = options;
           return promise.resolve(questionData);
-        }
+        }, function(error) {
+          return promise.reject(error);
+        });
       }, function(error) {
         return promise.reject(error);
       });
@@ -491,7 +476,7 @@
             answer.set("option", optionObj);
             answer.set("value", value);
             answerPromise = answer.save();
-            return promiseArr.push(answer);
+            return promiseArr.push(answerPromise);
           }, function(error) {
             return promise.reject(error);
           });

@@ -115,22 +115,7 @@ getCurrentAnswer = (questionObj, responseObj) ->
 	answerQuery.include('question')
 	answerQuery.include('option')
 	
-	if questionObj.get('type') == 'single-choice'
-		answerQuery.first()
-		.then (answerObj) ->
-			if !_.isUndefined(answerObj)
-				options.push(answerObj.get('option').get('label'))
-				hasAnswer['value'] =  answerObj.get('value')
-				hasAnswer['option'] = options
-				hasAnswer['date'] = answerObj.get('updatedAt')
-	 		
-			promise.resolve(hasAnswer)
-		, (error) ->
-			promise.reject error
-
-
-
-	else if questionObj.get('type') == 'multi-choice'
+	if questionObj.get('type') == 'multi-choice'
 		answerQuery.find()
 		.then (answerObjs) ->
 			options.push answerObj.get('option').get('label') for answerObj in answerObjs
@@ -147,12 +132,15 @@ getCurrentAnswer = (questionObj, responseObj) ->
 			promise.reject error
 
 	else 
+
 		answerQuery.first()
 		.then (answerObj) ->
 			if !_.isUndefined(answerObj)
-				hasAnswer['option'] = []
+				if !_isUndefined(answerObj.get('option) then options.push(answerObj.get('option').get('label'))
 				hasAnswer['value'] =  answerObj.get('value')
-				hasAnswer['date'] = answerObjs[0].get('updatedAt')
+				hasAnswer['option'] = options
+				hasAnswer['date'] = answerObj.get('updatedAt')
+	 		
 			promise.resolve(hasAnswer)
 		, (error) ->
 			promise.reject error
@@ -181,25 +169,25 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		getCurrentAnswer(questionObj, responseObj)
 		.then (hasAnswer) ->
 			questionData['hasAnswer'] = hasAnswer
-			if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input'
-				optionsQuery = new Parse.Query "Options"
-				optionsQuery.equalTo('question', questionObj)
-				optionsQuery.find()
-				.then (optionObjs) ->
-					options = []
-					for option in optionObjs 
-						optionObj = {} 			
-						optionObj['id'] = option.id
-						optionObj['option'] = option.get('label')
-						optionObj['score'] = option.get('score')
-						options.push(optionObj)
-					questionData['options'] = options
-					promise.resolve(questionData)	
+#if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input' or questionObj.get('type') == 'descriptive'
+			optionsQuery = new Parse.Query "Options"
+			optionsQuery.equalTo('question', questionObj)
+			optionsQuery.find()
+			.then (optionObjs) ->
+				options = []
+				for option in optionObjs 
+					optionObj = {} 			
+					optionObj['id'] = option.id
+					optionObj['option'] = option.get('label')
+					optionObj['score'] = option.get('score')
+					options.push(optionObj)
+				questionData['options'] = options
+				promise.resolve(questionData)	
 
-				, (error) ->
-					promise.reject error
-			else
-				promise.resolve questionData
+			, (error) ->
+				promise.reject error
+#			else
+#				promise.resolve questionData
 		, (error) ->
 			promise.reject error
 	, (error) ->
@@ -358,7 +346,7 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 					answer.set "option",optionObj
 					answer.set "value",value
 					answerPromise = answer.save()
-					promiseArr.push answer
+					promiseArr.push answerPromise
 				, (error) ->
 					promise.reject error
 
