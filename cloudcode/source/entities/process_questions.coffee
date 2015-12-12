@@ -167,7 +167,7 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		getCurrentAnswer(questionObj, responseObj)
 		.then (hasAnswer) ->
 			questionData['hasAnswer'] = hasAnswer
-			if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input' or questionObj.get('type') == 'descriptive'
+			if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input'
 				optionsQuery = new Parse.Query "Options"
 				optionsQuery.equalTo('question', questionObj)
 				optionsQuery.find()
@@ -311,8 +311,8 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 		if !_.isEmpty answerObjects
 			optionIds = []
 			if questionObject.get('type') == 'multi-choice'
-				first = answerObjects[0]
-				optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.id == first.id)
+				first = answerObjects[0].get('response').id
+				optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.get('response').id == first)
 			else 
 				if !_.isUndefined(answerObjects[0])
 					optionIds = [answerObjects[0].get('option').id] if !_.isUndefined(answerObjects[0].get('option')) 

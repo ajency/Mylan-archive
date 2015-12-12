@@ -279,7 +279,7 @@
       return getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
         var optionsQuery;
         questionData['hasAnswer'] = hasAnswer;
-        if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input' || questionObj.get('type') === 'descriptive') {
+        if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input') {
           optionsQuery = new Parse.Query("Options");
           optionsQuery.equalTo('question', questionObj);
           return optionsQuery.find().then(function(optionObjs) {
@@ -430,13 +430,13 @@
       if (!_.isEmpty(answerObjects)) {
         optionIds = [];
         if (questionObject.get('type') === 'multi-choice') {
-          first = answerObjects[0];
+          first = answerObjects[0].get('response').id;
           optionIds = (function() {
             var j, len, results1;
             results1 = [];
             for (j = 0, len = answerObjects.length; j < len; j++) {
               answerObj = answerObjects[j];
-              if (answerObj.id === first.id) {
+              if (answerObj.get('response').id === first) {
                 results1.push(answerObj.get('option').id);
               }
             }
