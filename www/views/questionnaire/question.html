@@ -153,11 +153,11 @@
                 class="list"
                 ng-if = 'view.data.questionType == "single-choice"'>
                 <label class="item item-radio"
-                  ng-repeat ="answerValue in view.data.options track by $index">
+                  ng-repeat ="answerValue in view.data.options  | orderBy:'score' track by $index">
                     <input type="radio" name="group" ng-model="view.singleChoiceValue" 
                       ng-value="answerValue.id" >
                       <div class="item-content">
-                       <span>{{$index + 1}} </span>&nbsp; {{answerValue.option}} 
+                        <span>{{$index + 1}} </span> &nbsp; {{answerValue.option}} 
                       </div>
                   <!-- <i class="radio-icon ion-checkmark"></i>   -->
                 </label> 
@@ -169,7 +169,7 @@
                 ng-if = 'view.data.questionType == "multi-choice"'>
                 <li 
                   class="item item-checkbox"
-                  ng-repeat ="answerValue in view.data.options track by $index">
+                  ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
                   <label class="checkbox" >
                       <input type="checkbox" ng-model="answerValue.checked" 
                       ng-checked="answerValue.checked">
