@@ -59,11 +59,8 @@ firstQuestion = (questionnaireId) ->
 		questionsQuery.find()
 		.then (questionsObjs) ->
 			checkIfFirstQuestion = (questionObj) ->
-				if _.isUndefined questionObj.get 'previousQuestion'
-					if not questionObj.get 'isChild'
-						true
-					else
-						false
+				if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+					true
 				else
 					false
 
@@ -115,10 +112,12 @@ getCurrentAnswer = (questionObj, responseObj) ->
 	answerQuery.include('question')
 	answerQuery.include('option')
 	
+	
 	if questionObj.get('type') == 'multi-choice'
 		answerQuery.find()
 		.then (answerObjs) ->
-			options.push answerObj.get('option').get('label') for answerObj in answerObjs
+			#options.push answerObj.get('option').get('label') for answerObj in answerObjs
+			options.push answerObj.get('option').id for answerObj in answerObjs
 			hasAnswer['option'] = options
 			if (!_.isUndefined(answerObjs[0]))
 				hasAnswer['value'] =  answerObjs[0].get('value')
@@ -132,15 +131,14 @@ getCurrentAnswer = (questionObj, responseObj) ->
 			promise.reject error
 
 	else 
-
 		answerQuery.first()
 		.then (answerObj) ->
 			if !_.isUndefined(answerObj)
-				if !_isUndefined(answerObj.get('option) then options.push(answerObj.get('option').get('label'))
-				hasAnswer['value'] =  answerObj.get('value')
+				#options.push(answerObj.get('option').get('label')) if !_.isUndefined(answerObj.get('option'))
+				options.push(answerObj.get('option').id) if !_.isUndefined(answerObj.get('option'))
 				hasAnswer['option'] = options
+				hasAnswer['value'] =  answerObj.get('value')
 				hasAnswer['date'] = answerObj.get('updatedAt')
-	 		
 			promise.resolve(hasAnswer)
 		, (error) ->
 			promise.reject error
@@ -169,25 +167,25 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		getCurrentAnswer(questionObj, responseObj)
 		.then (hasAnswer) ->
 			questionData['hasAnswer'] = hasAnswer
-#if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input' or questionObj.get('type') == 'descriptive'
-			optionsQuery = new Parse.Query "Options"
-			optionsQuery.equalTo('question', questionObj)
-			optionsQuery.find()
-			.then (optionObjs) ->
-				options = []
-				for option in optionObjs 
-					optionObj = {} 			
-					optionObj['id'] = option.id
-					optionObj['option'] = option.get('label')
-					optionObj['score'] = option.get('score')
-					options.push(optionObj)
-				questionData['options'] = options
-				promise.resolve(questionData)	
+			if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input' or questionObj.get('type') == 'descriptive'
+				optionsQuery = new Parse.Query "Options"
+				optionsQuery.equalTo('question', questionObj)
+				optionsQuery.find()
+				.then (optionObjs) ->
+					options = []
+					for option in optionObjs 
+						optionObj = {} 			
+						optionObj['id'] = option.id
+						optionObj['option'] = option.get('label')
+						optionObj['score'] = option.get('score')
+						options.push(optionObj)
+					questionData['options'] = options
+					promise.resolve(questionData)	
 
-			, (error) ->
-				promise.reject error
-#			else
-#				promise.resolve questionData
+				, (error) ->
+					promise.reject error
+			else
+				promise.resolve questionData
 		, (error) ->
 			promise.reject error
 	, (error) ->
@@ -217,11 +215,14 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 			.then (questionObj) ->
 				saveAnswer responseObj, questionObj, options, value
 				.then (answersArray) ->
+
 					getNextQuestion(questionObj, options)
 					.then (nextQuestionObj) ->
+
 						if !_.isEmpty(nextQuestionObj)
 							getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
 							.then (questionData) ->
+
 								response.success questionData
 							,(error) ->
 								response.error error
@@ -248,6 +249,7 @@ getNextQuestion = (questionObj, option) ->
 	promise = new Parse.Promise()
 
 	getRequiredQuestion = () ->
+		console.log "getQuestionData"
 		if !_.isUndefined questionObj.get('nextQuestion')
 			promise.resolve(questionObj.get('nextQuestion'))
 
@@ -281,6 +283,7 @@ getNextQuestion = (questionObj, option) ->
 				,(error) ->
 					promise.error error
 			else
+
 				getRequiredQuestion()
 
 
@@ -294,34 +297,36 @@ getNextQuestion = (questionObj, option) ->
 
 
 getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
-    promise = new Parse.Promise()
+	promise = new Parse.Promise()
 
-    answerQuery = new Parse.Query('Answer')
-    answerQuery.equalTo("question", questionObject)
-    answerQuery.equalTo("patient", patientId)
-    answerQuery.notEqualTo("response", responseObj)
-    answerQuery.descending('updatedAt');
-    answerQuery.find()
-    .then (answerObjects) ->
-        result = {}
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.equalTo("question", questionObject)
+	answerQuery.equalTo("patient", patientId)
+	answerQuery.notEqualTo("response", responseObj)
+	answerQuery.descending('updatedAt');
+	answerQuery.find()
+	.then (answerObjects) ->
+		result = {}
 
-        if !_.isEmpty answerObjects
-            optionIds = []
-            if questionObject.get('type') == 'multi-choice'
-                optionIds = (answerObj.get('option').id  for answerObj in answerObjects)
-            else if questionObject.get('type') == 'single-choice'
-                optionIds = [answerObjects[0].get('option').id]
+		if !_.isEmpty answerObjects
+			optionIds = []
+			if questionObject.get('type') == 'multi-choice'
+				first = answerObjects[0]
+				optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.id == first.id)
+			else 
+				if !_.isUndefined(answerObjects[0])
+					optionIds = [answerObjects[0].get('option').id] if !_.isUndefined(answerObjects[0].get('option')) 
 
-            result = 
-                "optionId" : optionIds
-                "value" : answerObjects[0].get('value')
-                "date" : answerObjects[0].updatedAt  
-                 
-        promise.resolve result
-    , (error) ->
-        promise.reject error
+			result = 
+				"optionId" : optionIds
+				"value" : answerObjects[0].get('value')
+				"date" : answerObjects[0].updatedAt  
 
-    promise
+		promise.resolve result
+	, (error) ->
+		promise.reject error
+
+	promise
 
 
 
@@ -347,6 +352,7 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 					answer.set "value",value
 					answerPromise = answer.save()
 					promiseArr.push answerPromise
+					console.log("saved")
 				, (error) ->
 					promise.reject error
 
@@ -358,6 +364,7 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 			answer.set "question",questionObj
 			answer.set "value",value
 			answerPromise = answer.save()
+			console.log("saved")
 			promiseArr.push answerPromise
 
 		Parse.Promise.when(promiseArr)
@@ -387,23 +394,34 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		questionQuery = new Parse.Query('Questions')
-		questionQuery.include('previousQuestion')
-		questionQuery.get(questionId)
+		if responseObj.get('status') == 'Completed'
+			response.error "Questionnaire already answered."
+		else
+			questionQuery = new Parse.Query('Questions')
+			questionQuery.include('previousQuestion')
+			questionQuery.get(questionId)
 
-			.then (questionObj) ->
-				saveAnswer responseObj, questionObj, options, value
-					.then (answersArray) ->
-						getNextQuestion(questionObj, options)
-						getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
-						.then (questionData) ->
-							response.success questionData
+				.then (questionObj) ->
+					saveAnswer responseObj, questionObj, options, value
+						.then (answersArray) ->
+							if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+								getQuestionData questionObj, responseObj, responseObj.get('patient')
+								.then (questionData) ->
+									response.success questionData
+								,(error) ->
+									response.error error
+
+							else
+								getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
+								.then (questionData) ->
+									response.success questionData
+								,(error) ->
+									response.error error
+
 						,(error) ->
 							response.error error
-					,(error) ->
-						response.error error
-			,(error) ->
-				response.error error
+				,(error) ->
+					response.error error
 	,(error) ->
 		response.error error
 

@@ -161,12 +161,8 @@
       return questionsQuery.find().then(function(questionsObjs) {
         var checkAll, checkIfFirstQuestion, questionObj;
         checkIfFirstQuestion = function(questionObj) {
-          if (_.isUndefined(questionObj.get('previousQuestion'))) {
-            if (!questionObj.get('isChild')) {
-              return true;
-            } else {
-              return false;
-            }
+          if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+            return true;
           } else {
             return false;
           }
@@ -233,7 +229,7 @@
         var answerObj, j, len;
         for (j = 0, len = answerObjs.length; j < len; j++) {
           answerObj = answerObjs[j];
-          options.push(answerObj.get('option').get('label'));
+          options.push(answerObj.get('option').id);
         }
         hasAnswer['option'] = options;
         if (!_.isUndefined(answerObjs[0])) {
@@ -249,9 +245,11 @@
     } else {
       answerQuery.first().then(function(answerObj) {
         if (!_.isUndefined(answerObj)) {
-          options.push(answerObj.get('option').get('label'));
-          hasAnswer['value'] = answerObj.get('value');
+          if (!_.isUndefined(answerObj.get('option'))) {
+            options.push(answerObj.get('option').id);
+          }
           hasAnswer['option'] = options;
+          hasAnswer['value'] = answerObj.get('value');
           hasAnswer['date'] = answerObj.get('updatedAt');
         }
         return promise.resolve(hasAnswer);
@@ -281,24 +279,28 @@
       return getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
         var optionsQuery;
         questionData['hasAnswer'] = hasAnswer;
-        optionsQuery = new Parse.Query("Options");
-        optionsQuery.equalTo('question', questionObj);
-        return optionsQuery.find().then(function(optionObjs) {
-          var j, len, option, optionObj, options;
-          options = [];
-          for (j = 0, len = optionObjs.length; j < len; j++) {
-            option = optionObjs[j];
-            optionObj = {};
-            optionObj['id'] = option.id;
-            optionObj['option'] = option.get('label');
-            optionObj['score'] = option.get('score');
-            options.push(optionObj);
-          }
-          questionData['options'] = options;
+        if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input' || questionObj.get('type') === 'descriptive') {
+          optionsQuery = new Parse.Query("Options");
+          optionsQuery.equalTo('question', questionObj);
+          return optionsQuery.find().then(function(optionObjs) {
+            var j, len, option, optionObj, options;
+            options = [];
+            for (j = 0, len = optionObjs.length; j < len; j++) {
+              option = optionObjs[j];
+              optionObj = {};
+              optionObj['id'] = option.id;
+              optionObj['option'] = option.get('label');
+              optionObj['score'] = option.get('score');
+              options.push(optionObj);
+            }
+            questionData['options'] = options;
+            return promise.resolve(questionData);
+          }, function(error) {
+            return promise.reject(error);
+          });
+        } else {
           return promise.resolve(questionData);
-        }, function(error) {
-          return promise.reject(error);
-        });
+        }
       }, function(error) {
         return promise.reject(error);
       });
@@ -363,6 +365,7 @@
     promise = new Parse.Promise();
     getRequiredQuestion = function() {
       var reponseObj;
+      console.log("getQuestionData");
       if (!_.isUndefined(questionObj.get('nextQuestion'))) {
         return promise.resolve(questionObj.get('nextQuestion'));
       } else if (_.isUndefined(questionObj.get('nextQuestion') && !responObj.get(isChild))) {
@@ -422,22 +425,29 @@
     answerQuery.notEqualTo("response", responseObj);
     answerQuery.descending('updatedAt');
     answerQuery.find().then(function(answerObjects) {
-      var answerObj, optionIds, result;
+      var answerObj, first, optionIds, result;
       result = {};
       if (!_.isEmpty(answerObjects)) {
         optionIds = [];
         if (questionObject.get('type') === 'multi-choice') {
+          first = answerObjects[0];
           optionIds = (function() {
             var j, len, results1;
             results1 = [];
             for (j = 0, len = answerObjects.length; j < len; j++) {
               answerObj = answerObjects[j];
-              results1.push(answerObj.get('option').id);
+              if (answerObj.id === first.id) {
+                results1.push(answerObj.get('option').id);
+              }
             }
             return results1;
           })();
-        } else if (questionObject.get('type') === 'single-choice') {
-          optionIds = [answerObjects[0].get('option').id];
+        } else {
+          if (!_.isUndefined(answerObjects[0])) {
+            if (!_.isUndefined(answerObjects[0].get('option'))) {
+              optionIds = [answerObjects[0].get('option').id];
+            }
+          }
         }
         result = {
           "optionId": optionIds,
@@ -476,7 +486,8 @@
             answer.set("option", optionObj);
             answer.set("value", value);
             answerPromise = answer.save();
-            return promiseArr.push(answerPromise);
+            promiseArr.push(answerPromise);
+            return console.log("saved");
           }, function(error) {
             return promise.reject(error);
           });
@@ -488,6 +499,7 @@
         answer.set("question", questionObj);
         answer.set("value", value);
         answerPromise = answer.save();
+        console.log("saved");
         promiseArr.push(answerPromise);
       }
       return Parse.Promise.when(promiseArr);
@@ -518,22 +530,33 @@
     responseQuery = new Parse.Query('Response');
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery;
-      questionQuery = new Parse.Query('Questions');
-      questionQuery.include('previousQuestion');
-      return questionQuery.get(questionId).then(function(questionObj) {
-        return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
-          getNextQuestion(questionObj, options);
-          return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
-            return response.success(questionData);
+      if (responseObj.get('status') === 'Completed') {
+        return response.error("Questionnaire already answered.");
+      } else {
+        questionQuery = new Parse.Query('Questions');
+        questionQuery.include('previousQuestion');
+        return questionQuery.get(questionId).then(function(questionObj) {
+          return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+            if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+              return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                return response.success(questionData);
+              }, function(error) {
+                return response.error(error);
+              });
+            } else {
+              return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
+                return response.success(questionData);
+              }, function(error) {
+                return response.error(error);
+              });
+            }
           }, function(error) {
             return response.error(error);
           });
         }, function(error) {
           return response.error(error);
         });
-      }, function(error) {
-        return response.error(error);
-      });
+      }
     }, function(error) {
       return response.error(error);
     });
