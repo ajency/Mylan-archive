@@ -94,6 +94,20 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
+    QuestionAPI.getPrevQuest = function(options) {
+      var defer, param, url;
+      defer = $q.defer();
+      url = PARSE_URL + '/getPreviousQuestion ';
+      param = options;
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
     return QuestionAPI;
   }
 ]);

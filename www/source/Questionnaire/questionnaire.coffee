@@ -223,53 +223,28 @@ angular.module 'PatientApp.Quest',[]
 						@loadNextQuestion(options)
 
 
-
-
-
-				# CSpinner.show '', 'Please wait..'
-				# # CSpinner.hide()
-				# # CSpinner.show '', 'Please wait...'
-				# if @data.questionType == 'descr'
-				# 	error = 0
-				# 	sizeOfField = _.size(@data.fields)
-				# 	sizeOfTestboxAns = _.size(@val_answerValue)
-				# 	console.log '******----******'
-				# 	console.log sizeOfTestboxAns
-				# 	if (sizeOfTestboxAns == 0)
-				# 		error = 1
-				# 	else
-				# 		_.each @val_answerValue, (value)->
-				# 			if value == null
-				# 				error = 1
-
-				# 	if error == 1
-				# 		CToast.show 'Please enter the values'
-				# 	else
-				# 		@navigate()
-						
-
-				# else if @data.questionType == 'scq'
-				# 	if @go == ''
-				#  		CToast.show 'Please select your answer'
-				#  	else 
-				#  		@navigate()
-				 		
-
-				# else if @data.questionType == 'mcq'
-				# 	if ! _.contains(_.pluck(@data.option, 'checked'), true)
-				# 		CToast.show 'Please select your answer'
-				# 	else
-				# 		@navigate()
-						
-
 			prevQuestion : ->
-				action =
-					questionId : @data.questionId
-					mode : 'prev'
+				CSpinner.show '', 'Please wait..'
+				Storage.setData 'responseId','get'
+				.then (responseId)=>
+					param =
+						"responseId" : responseId
+						"questionId" : @data.questionId
+						"options": []
+						"value": ""
+					QuestionAPI.getPrevQuest param
+					.then (data)=>
+						@data = []
+						@data = data.result
+					,(error)=>
+						console.log error
+						if error == 'offline'
+							CToast.showLongBottom 'Check net connection,answer not saved'
+						else
+							CToast.show 'Error in saving answer,try again'
+					.finally ->
+						CSpinner.hide()
 
-				QuestionAPI.setAction 'set', action
-
-				@init()
 
 			showDiv : ->
 				@pastAnswerDiv = 1
@@ -295,6 +270,9 @@ angular.module 'PatientApp.Quest',[]
 				moment(date).format('MMMM Do YYYY')
 
 			pastAnswer:(previousQuestionnaireAnswer, optionId )->
+				# console.log 'passtAnswerr'
+				# console.log previousQuestionnaireAnswer
+				# console.log optionId
 				optId = _.pluck(optionId, 'id')
 				indexOf = optId.indexOf(previousQuestionnaireAnswer)
 				indexOf++

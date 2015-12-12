@@ -190,13 +190,31 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       prevQuestion: function() {
-        var action;
-        action = {
-          questionId: this.data.questionId,
-          mode: 'prev'
-        };
-        QuestionAPI.setAction('set', action);
-        return this.init();
+        CSpinner.show('', 'Please wait..');
+        return Storage.setData('responseId', 'get').then((function(_this) {
+          return function(responseId) {
+            var param;
+            param = {
+              "responseId": responseId,
+              "questionId": _this.data.questionId,
+              "options": [],
+              "value": ""
+            };
+            return QuestionAPI.getPrevQuest(param).then(function(data) {
+              _this.data = [];
+              return _this.data = data.result;
+            }, function(error) {
+              console.log(error);
+              if (error === 'offline') {
+                return CToast.showLongBottom('Check net connection,answer not saved');
+              } else {
+                return CToast.show('Error in saving answer,try again');
+              }
+            })["finally"](function() {
+              return CSpinner.hide();
+            });
+          };
+        })(this));
       },
       showDiv: function() {
         return this.pastAnswerDiv = 1;

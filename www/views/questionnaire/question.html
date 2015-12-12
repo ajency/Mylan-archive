@@ -198,13 +198,12 @@
       class="bar bar-footer bar-light"
       ng-if = "view.display == 'noError'"
      >
-        <button 
+            <button 
                ng-if = "view.data.previous == true"
-              class="button button-balanced pull-left"
-             >
+               class="button button-balanced pull-left"
+               ng-click="view.prevQuestion()">
                <span class="ion-arrow-left-b"></span> Previous
-             
-          </button>
+             </button>
             <button 
                 ng-if = "view.data.next == true"
                 class="button button-balanced pull-right"
