@@ -15,6 +15,7 @@ angular.module 'PatientApp.Quest',[]
 			errorType : ''
 			display : 'loader'
 			infoBox : true
+			descriptiveAnswer : ''
 
 			
 			getLocal :()->
@@ -25,34 +26,38 @@ angular.module 'PatientApp.Quest',[]
 				defer.promise
 
 			getQuestion :(questNo) ->
+				# "patientId":refcode
+				# "questionnaireId": patientData.questionnaire.id
+
 				@display = 'loader'
 
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 				
-					Storage.setData 'patientData','get'
-					.then (patientData)=>
-						@patientId = patientData.patient_id
-						options =
-							"responseId": ''
-							"questionnaireId": patientData.questionnaire.id
-							"patientId":refcode
+					# Storage.setData 'patientData','get'
+					# .then (patientData)=>
+					# 	@patientId = patientData.patient_id
 
-						QuestionAPI.getQuestion options
-						.then (data)=>
-							console.log 'inside then'
-							console.log data
-							@data = data.result
-							Storage.setData 'responseId', 'set', data.result.responseId
-							@display = 'noError'
+					options =
+						"responseId": ''
+						"questionnaireId": 'yA3DYxxje8'
+						"patientId":'12345678'
 
-							# $timeout =>
-							# 	console.log 'timeoutt'
-							# 	@infoBox = false
-							# , 30000
-						,(error)=>
-							@display = 'error'
-							@errorType = error
+					QuestionAPI.getQuestion options
+					.then (data)=>
+						console.log 'inside then'
+						console.log data
+						@data = data.result
+						Storage.setData 'responseId', 'set', data.result.responseId
+						@display = 'noError'
+
+						# $timeout =>
+						# 	console.log 'timeoutt'
+						# 	@infoBox = false
+						# , 30000
+					,(error)=>
+						@display = 'error'
+						@errorType = error
 
 
 			getPrevQuestion : ->
@@ -74,26 +79,27 @@ angular.module 'PatientApp.Quest',[]
 					
 
 			navigate : ->
+				App.navigate 'summary', quizID: 111
 				# value = 
-				@getLocal()
-				.then (result)=> 
-					value = result
-					# Storage.getNextQuestion('get').then (value) ->
-					value = parseInt(value)
-					value++
-					Storage.getNextQuestion 'set' , value
-					if value == 4
-						CSpinner.hide()
-						App.navigate 'summary', quizID: 111
-					else
+				# @getLocal()
+				# .then (result)=> 
+				# 	value = result
+				# 	# Storage.getNextQuestion('get').then (value) ->
+				# 	value = parseInt(value)
+				# 	value++
+				# 	Storage.getNextQuestion 'set' , value
+				# 	if value == 4
+				# 		CSpinner.hide()
+				# 		App.navigate 'summary', quizID: 111
+				# 	else
 
-						Storage.getNextQuestion 'set' , value
-						# $window.location.reload()
+				# 		Storage.getNextQuestion 'set' , value
+				# 		# $window.location.reload()
 
-						$timeout ->
-							CSpinner.hide()
-							$window.location.reload()
-						,500
+				# 		$timeout ->
+				# 			CSpinner.hide()
+				# 			$window.location.reload()
+				# 		,500
 
 			loadNextQuestion :(param)->
 				Storage.setData 'responseId','get'
@@ -109,8 +115,16 @@ angular.module 'PatientApp.Quest',[]
 						console.log '******'
 						console.log 'next question'
 						console.log data
+						@singleChoiceValue = ''
+
+						@val_answerValue = ''
 						@data = []
 						@data = data.result
+						if !_.isUndefined(@data.status)
+							Storage.summary('set', @data.summary)
+							App.navigate 'summary'
+							CSpinner.hide()
+
 						@display = 'noError'					
 					,(error)=>
 						console.log 'inside save error'
@@ -168,7 +182,7 @@ angular.module 'PatientApp.Quest',[]
 								optionId.push(opt.id)
 
 						options =
-							"questionId" : 'Bzha5uwxMM'
+							"questionId" : @data.questionId
 							"options": optionId
 							"value": valueInput
 
@@ -196,50 +210,41 @@ angular.module 'PatientApp.Quest',[]
 
 					@loadNextQuestion(options)
 
-				# CSpinner.show '', 'Please wait..'
-				# # CSpinner.hide()
-				# # CSpinner.show '', 'Please wait...'
-				# if @data.questionType == 'descr'
-				# 	error = 0
-				# 	sizeOfField = _.size(@data.fields)
-				# 	sizeOfTestboxAns = _.size(@val_answerValue)
-				# 	console.log '******----******'
-				# 	console.log sizeOfTestboxAns
-				# 	if (sizeOfTestboxAns == 0)
-				# 		error = 1
-				# 	else
-				# 		_.each @val_answerValue, (value)->
-				# 			if value == null
-				# 				error = 1
+				if @data.questionType == 'descriptive'
 
-				# 	if error == 1
-				# 		CToast.show 'Please enter the values'
-				# 	else
-				# 		@navigate()
-						
+					if (@descriptiveAnswer == '')
+						CToast.show 'Please Fill in the following'
+					else
+						options =
+							"questionId" : @data.questionId
+							"options": []
+							"value": @descriptiveAnswer
 
-				# else if @data.questionType == 'scq'
-				# 	if @go == ''
-				#  		CToast.show 'Please select your answer'
-				#  	else 
-				#  		@navigate()
-				 		
+						@loadNextQuestion(options)
 
-				# else if @data.questionType == 'mcq'
-				# 	if ! _.contains(_.pluck(@data.option, 'checked'), true)
-				# 		CToast.show 'Please select your answer'
-				# 	else
-				# 		@navigate()
-						
 
 			prevQuestion : ->
-				action =
-					questionId : @data.questionId
-					mode : 'prev'
+				CSpinner.show '', 'Please wait..'
+				Storage.setData 'responseId','get'
+				.then (responseId)=>
+					param =
+						"responseId" : responseId
+						"questionId" : @data.questionId
+						"options": []
+						"value": ""
+					QuestionAPI.getPrevQuest param
+					.then (data)=>
+						@data = []
+						@data = data.result
+					,(error)=>
+						console.log error
+						if error == 'offline'
+							CToast.showLongBottom 'Check net connection,answer not saved'
+						else
+							CToast.show 'Error in saving answer,try again'
+					.finally ->
+						CSpinner.hide()
 
-				QuestionAPI.setAction 'set', action
-
-				@init()
 
 			showDiv : ->
 				@pastAnswerDiv = 1
@@ -262,12 +267,13 @@ angular.module 'PatientApp.Quest',[]
 				_.isEmpty(pastAnswerObject)
 
 			pastDate:(date)->
-				console.log 'sdsdsdsd'
 				moment(date).format('MMMM Do YYYY')
 
 			pastAnswer:(previousQuestionnaireAnswer, optionId )->
+				# console.log 'passtAnswerr'
+				# console.log previousQuestionnaireAnswer
+				# console.log optionId
 				optId = _.pluck(optionId, 'id')
-				console.log optId
 				indexOf = optId.indexOf(previousQuestionnaireAnswer)
 				indexOf++
 

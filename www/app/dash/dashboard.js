@@ -17,11 +17,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         this.data = this.getSubmission();
         return console.log(this.data);
       },
-      summary: function() {
-        return App.navigate('summary', {
-          quizID: 111
-        });
-      }
+      summary: function() {}
     };
   }
 ]).config([

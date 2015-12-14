@@ -29,6 +29,7 @@ angular.module 'PatientApp.Auth'
 		params = 
 			"referenceCode" : refrencecode
 			"password": password
+			"installationId" : "dsawdsa"
 
 		defer = $q.defer()
 

@@ -26,7 +26,8 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
       var defer, params, url;
       params = {
         "referenceCode": refrencecode,
-        "password": password
+        "password": password,
+        "installationId": "dsawdsa"
       };
       defer = $q.defer();
       url = AUTH_URL + '/user/login';

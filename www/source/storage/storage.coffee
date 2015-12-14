@@ -10,6 +10,8 @@ angular.module 'PatientApp.storage', []
 
   userInfo = {}
 
+  summary = {}
+
 
   Storage.setup = (action)->
     switch action
@@ -118,6 +120,14 @@ angular.module 'PatientApp.storage', []
 
       when 'get'
         localforage.getItem variableName
+
+  Storage.summary = (action, data)->
+    switch action
+      when 'set'
+        summary = data
+
+      when 'get'
+        summary
 
 
   Storage

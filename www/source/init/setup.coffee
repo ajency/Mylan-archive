@@ -41,30 +41,22 @@ angular.module 'PatientApp.init'
 						Storage.hospital_data 'set', data.hospitalData 
 						Storage.setRefernce 'set', @refcode
 						if data.code == 'do_login'
-							CSpinner.hide() #remove this
 							Storage.refcode 'set',@refcode
 							.then ()->
 								App.navigate "main_login"
 						else if data.code == 'set_password'
-							CSpinner.hide() #remove this
 							Storage.refcode 'set',@refcode
 							.then ()->
 								App.navigate "setup_password"
 						else if data.code == 'limit_exceeded'
-							CSpinner.hide() #remove this
-							CToast.show 'Cannot do setup more then 5 times'
+							@emptyfield = 'Cannot do setup more then 5 times'
 						else 
-							CSpinner.hide() #remove this
-							CToast.show 'Please check reference code'
-
+							@emptyfield = 'Please check reference code'
 						# @navigateUser data.code, @refcode // Use this function can make code more clean
-
 					, (error)=>
-						CToast.show 'Please try again'
-						CSpinner.hide() #remove this
-					# Use finally function insted of hiding spinner everywhere
-					# .finally ()->
-					# 	CSpinner.hide()
+						@emptyfield = 'Please try again'
+					.finally ()->
+						CSpinner.hide()
 
 			tologin : ->
 					# Storage.setup 'get'

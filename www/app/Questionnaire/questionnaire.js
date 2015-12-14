@@ -10,6 +10,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       errorType: '',
       display: 'loader',
       infoBox: true,
+      descriptiveAnswer: '',
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -22,24 +23,21 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
-            return Storage.setData('patientData', 'get').then(function(patientData) {
-              var options;
-              _this.patientId = patientData.patient_id;
-              options = {
-                "responseId": '',
-                "questionnaireId": patientData.questionnaire.id,
-                "patientId": refcode
-              };
-              return QuestionAPI.getQuestion(options).then(function(data) {
-                console.log('inside then');
-                console.log(data);
-                _this.data = data.result;
-                Storage.setData('responseId', 'set', data.result.responseId);
-                return _this.display = 'noError';
-              }, function(error) {
-                _this.display = 'error';
-                return _this.errorType = error;
-              });
+            var options;
+            options = {
+              "responseId": '',
+              "questionnaireId": 'yA3DYxxje8',
+              "patientId": '12345678'
+            };
+            return QuestionAPI.getQuestion(options).then(function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data.result;
+              Storage.setData('responseId', 'set', data.result.responseId);
+              return _this.display = 'noError';
+            }, function(error) {
+              _this.display = 'error';
+              return _this.errorType = error;
             });
           };
         })(this));
@@ -65,27 +63,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.getQuestion();
       },
       navigate: function() {
-        return this.getLocal().then((function(_this) {
-          return function(result) {
-            var value;
-            value = result;
-            value = parseInt(value);
-            value++;
-            Storage.getNextQuestion('set', value);
-            if (value === 4) {
-              CSpinner.hide();
-              return App.navigate('summary', {
-                quizID: 111
-              });
-            } else {
-              Storage.getNextQuestion('set', value);
-              return $timeout(function() {
-                CSpinner.hide();
-                return $window.location.reload();
-              }, 500);
-            }
-          };
-        })(this));
+        return App.navigate('summary', {
+          quizID: 111
+        });
       },
       loadNextQuestion: function(param) {
         return Storage.setData('responseId', 'get').then((function(_this) {
@@ -98,8 +78,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log('******');
               console.log('next question');
               console.log(data);
+              _this.singleChoiceValue = '';
+              _this.val_answerValue = '';
               _this.data = [];
               _this.data = data.result;
+              if (!_.isUndefined(_this.data.status)) {
+                Storage.summary('set', _this.data.summary);
+                App.navigate('summary');
+                CSpinner.hide();
+              }
               return _this.display = 'noError';
             }, function(error) {
               console.log('inside save error');
@@ -162,7 +149,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               };
             })(this));
             options = {
-              "questionId": 'Bzha5uwxMM',
+              "questionId": this.data.questionId,
               "options": optionId,
               "value": valueInput
             };
@@ -187,17 +174,47 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             "options": selectedvalue,
             "value": ""
           };
-          return this.loadNextQuestion(options);
+          this.loadNextQuestion(options);
+        }
+        if (this.data.questionType === 'descriptive') {
+          if (this.descriptiveAnswer === '') {
+            return CToast.show('Please Fill in the following');
+          } else {
+            options = {
+              "questionId": this.data.questionId,
+              "options": [],
+              "value": this.descriptiveAnswer
+            };
+            return this.loadNextQuestion(options);
+          }
         }
       },
       prevQuestion: function() {
-        var action;
-        action = {
-          questionId: this.data.questionId,
-          mode: 'prev'
-        };
-        QuestionAPI.setAction('set', action);
-        return this.init();
+        CSpinner.show('', 'Please wait..');
+        return Storage.setData('responseId', 'get').then((function(_this) {
+          return function(responseId) {
+            var param;
+            param = {
+              "responseId": responseId,
+              "questionId": _this.data.questionId,
+              "options": [],
+              "value": ""
+            };
+            return QuestionAPI.getPrevQuest(param).then(function(data) {
+              _this.data = [];
+              return _this.data = data.result;
+            }, function(error) {
+              console.log(error);
+              if (error === 'offline') {
+                return CToast.showLongBottom('Check net connection,answer not saved');
+              } else {
+                return CToast.show('Error in saving answer,try again');
+              }
+            })["finally"](function() {
+              return CSpinner.hide();
+            });
+          };
+        })(this));
       },
       showDiv: function() {
         return this.pastAnswerDiv = 1;
@@ -220,13 +237,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return _.isEmpty(pastAnswerObject);
       },
       pastDate: function(date) {
-        console.log('sdsdsdsd');
         return moment(date).format('MMMM Do YYYY');
       },
       pastAnswer: function(previousQuestionnaireAnswer, optionId) {
         var indexOf, optId;
         optId = _.pluck(optionId, 'id');
-        console.log(optId);
         indexOf = optId.indexOf(previousQuestionnaireAnswer);
         indexOf++;
         return indexOf;
