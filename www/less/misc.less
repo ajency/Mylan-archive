@@ -38,6 +38,15 @@ html,html * {
 	.b-b{
 		border-bottom: 0.071em solid #bbb;
 	}
+	.b-t{
+		border-top: 0.071em solid #bbb;
+	}
+	.b-l{
+		border-left: 0.071em solid #bbb;
+	}
+	.b-r{
+		border-right: 0.071em solid #bbb;
+	}
 	.bg-gray{
 		background: @color-light-gray;
 		h6{
@@ -74,7 +83,7 @@ html,html * {
 	.text-muted{
 		color: @color-icon-gray;
 	}
-.dashboard{
+	.dashboard{
 	p{
 		line-height: 18px;
 		margin-bottom: 0;
@@ -84,6 +93,7 @@ html,html * {
 		
 	}
 }
+	
 	/***HEADER & FOOTER STYLES***/
 	.bar{
 	&.bar-header{
@@ -402,8 +412,22 @@ html,html * {
 		}
 	}
 	
-	.item.item-checkbox span{
-		white-space: normal;
+
+	.item.item-checkbox{
+		
+		div span{
+			position: absolute;
+    		left: 15px;
+    		width: 28px;
+    		height: 28px;
+    		border-radius: 50%;
+    		text-align: center;
+    		background: #eee;
+    		top: 12px;
+    		line-height: 28px;
+    		z-index: 9;
+    		}
+    	
 	}
 	.clm-list{
 		.button{
@@ -644,6 +668,9 @@ html,html * {
 	.item.item-radio{
 		.item-content{
 			padding: 28px 16px 28px 69px;
+			span{
+				top: 23px;
+			}
 		}
 		.radio-icon{
 			left: 28px;

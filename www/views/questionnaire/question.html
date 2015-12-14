@@ -45,26 +45,20 @@
 
               <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
               <div class="bg-gray">
-                <div class="prev-answers padding">
-                               <div class="col">  
-                                  <h6 class="f-w-400 text-green">
+                <div class="prev-answers row">
+                               <div class="col col-50">
+                               <h6 class="f-w-400 text-green">
                                       Previous Answers &nbsp;&nbsp;
                                     </h6>
-                                        <p class="f-w-400 text-green">{{view.data.previousQuestionnaireAnswer.value}}</p>
-                                    <hr>
-                                   
-                                        <p>
-                                        <i class="icon ion-calendar"></i>
-                                        <span class="text-green">
-                                          Submitted On: 
-                                          {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
-                                        </span>
-                                        </p>
                                         
-                                        
+                                    </div>
+                                    <div class="col col-50">
+                                      <div class="text-right">{{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}</div> 
                                     </div>
                                   
                              </div>
+                             <div class="padding"><p class="f-w-400 text-green">{{view.data.previousQuestionnaireAnswer.value}}</p>
+                                  </div>
               </div>
               </div>
      
@@ -74,7 +68,7 @@
                   <div 
                     class="col"
                     ng-repeat ="answerValue in view.data.options">
-                    <label class="item-input item-icon-right b-b">
+                    <label class="item-input  item-icon-right b-b b-t b-l b-r">
                     <input 
                       type="text" 
                       placeholder="{{answerValue.option}}"
@@ -157,7 +151,7 @@
                     <input type="radio" name="group" ng-model="view.singleChoiceValue" 
                       ng-value="answerValue.id" >
                       <div class="item-content">
-                        <span>{{$index + 1}} </span> &nbsp; {{answerValue.option}} 
+                        <span>{{$index + 1}} </span>  {{answerValue.option}} 
                       </div>
                   <!-- <i class="radio-icon ion-checkmark"></i>   -->
                 </label> 
@@ -174,9 +168,9 @@
                       <input type="checkbox" ng-model="answerValue.checked" 
                       ng-checked="answerValue.checked">
                   </label>
-                  <span>
-                      {{$index + 1}}. {{answerValue.option}}
-                  </span>
+                  <div>
+                      <span>{{$index + 1}}</span> {{answerValue.option}}
+                  </div >
                 </li>
               </ul>
          </div>

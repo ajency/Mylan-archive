@@ -38,6 +38,15 @@ p {
 .b-b {
   border-bottom: 0.071em solid #bbb;
 }
+.b-t {
+  border-top: 0.071em solid #bbb;
+}
+.b-l {
+  border-left: 0.071em solid #bbb;
+}
+.b-r {
+  border-right: 0.071em solid #bbb;
+}
 .bg-gray {
   background: #eeeeee;
 }
@@ -389,8 +398,17 @@ input[id=password] {
   background: #7bc67a;
   border-color: #7bc67a;
 }
-.item.item-checkbox span {
-  white-space: normal;
+.item.item-checkbox div span {
+  position: absolute;
+  left: 15px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  text-align: center;
+  background: #eee;
+  top: 12px;
+  line-height: 28px;
+  z-index: 9;
 }
 .clm-list .button {
   margin: 0.286em;
@@ -615,6 +633,9 @@ input[id=password] {
   }
   .item.item-radio .item-content {
     padding: 28px 16px 28px 69px;
+  }
+  .item.item-radio .item-content span {
+    top: 23px;
   }
   .item.item-radio .radio-icon {
     left: 28px;
