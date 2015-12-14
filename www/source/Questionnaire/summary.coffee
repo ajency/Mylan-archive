@@ -14,31 +14,29 @@ angular.module 'PatientApp.Quest'
 				@data = Storage.summary('get')
 				console.log 'summmmm'
 				console.log @data
-				# options = 
-				# 	responseId: $stateParams.responseID
 
-				# QuestionAPI.getSummary options
-				# .then (data)=>
-				# 	console.log data
-				# 	@data = data 
-				# , (error)=>
-				# 	console.log 'err'
+			getSummaryApi :(param)->
+				QuestionAPI.getSummary param
+				.then (data)=>
+					console.log '--getSummaryApi---'
+					@data = data.result
+					console.log @data
+					@display = 'noError'
+				,(error)=>
+					@display = 'error'
+					@errorType = error
 					
 			init : ->
-				@getSummary()
+				summarytype = $stateParams.summary
+				if summarytype == 'set'
+					@getSummary()
+				else 
+					param =
+						'responseId' : $stateParams.summary
+					@getSummaryApi(param)
 
 			submitSummary : ->
 				ionic.Platform.exitApp()
-				# options = 
-				# 	quizID: $stateParams.quizID
-
-				# QuestionAPI.submitSummary options
-				# .then (data)=>
-				# 	Storage.getNextQuestion 'set' , 1
-				# 	Storage.quizDetails('remove')
-				# 	App.navigate 'dashboard', {}, {animate: false, back: false}
-				# , (error)=>
-				# 	console.log 'err'
 
 			prevQuestion : ->
 				valueAction = QuestionAPI.setAction 'get'
@@ -57,7 +55,7 @@ angular.module 'PatientApp.Quest'
 	$stateProvider
 
 	.state 'summary',
-			url: '/summary'
+			url: '/summary:summary'
 			parent: 'parent-questionnaire'
 			views: 
 				"QuestionContent":

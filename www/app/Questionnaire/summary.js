@@ -10,8 +10,32 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         console.log('summmmm');
         return console.log(this.data);
       },
+      getSummaryApi: function(param) {
+        return QuestionAPI.getSummary(param).then((function(_this) {
+          return function(data) {
+            console.log('--getSummaryApi---');
+            _this.data = data.result;
+            console.log(_this.data);
+            return _this.display = 'noError';
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            _this.display = 'error';
+            return _this.errorType = error;
+          };
+        })(this));
+      },
       init: function() {
-        return this.getSummary();
+        var param, summarytype;
+        summarytype = $stateParams.summary;
+        if (summarytype === 'set') {
+          return this.getSummary();
+        } else {
+          param = {
+            'responseId': $stateParams.summary
+          };
+          return this.getSummaryApi(param);
+        }
       },
       submitSummary: function() {
         return ionic.Platform.exitApp();
@@ -33,7 +57,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('summary', {
-      url: '/summary',
+      url: '/summary:summary',
       parent: 'parent-questionnaire',
       views: {
         "QuestionContent": {

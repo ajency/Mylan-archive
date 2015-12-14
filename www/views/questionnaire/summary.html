@@ -13,25 +13,6 @@
       Summary
     </ion-nav-title>   
     <ion-content ng-init="view.init();" class="has-footer">
-     <!--  <div class="bg-yellow">
-         <div class="padding">
-            <h5 class="f-w-400">
-               Thank you for filling in your questionnaire. Please review your answers
-               below before you Submit.
-            </h5>
-            <br>
-            <div class="row no-list">
-               <div class="no"><b>1</b></div>
-               <span>If your are ready to submit your answers, please click on "Submit"</span>
-               </div>
-            <br>
-            <div class="row no-list">
-               <div class="no"><b>2</b></div>
-               <span>If you want to return to the questions press "Back"</span>
-            </div>
-            <br>
-         </div>
-      </div> -->
      
       <div ng-repeat ="summary in view.data">
       <div class="padding">
@@ -39,9 +20,13 @@
          <h5 class="f-w-400">{{summary.question}}
          </h5>
               
-         <span class="text-green f-w-400" ng-repeat = "answer in summary.optionSelected track by $index">
-            {{answer }}
+         <span class="text-green f-w-400" ng-if="summary.input ===''"
+         ng-repeat = "answer in summary.optionSelected track by $index">
+            {{answer}} <br> 
          </span>
+         <span class="text-green f-w-400" ng-if="summary.input !==''">
+            {{summary.input}} &nbsp; {{summary.optionSelected[0]}}
+         <span>
         
       </div>
        <hr>
