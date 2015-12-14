@@ -5,6 +5,9 @@ h3 {
 h3 span {
   font-weight: 200;
 }
+.m-t-25 {
+  margin-top: 25px;
+}
 .fancy-title {
   line-height: 40px;
   color: #666;
@@ -460,10 +463,6 @@ h3.line-title span {
   }
 }
 @media (max-width: 599px) {
-  .carousel .carousel-inner h3,
-  .panel h3 {
-    font-size: 21px;
-  }
   .carousel .carousel-inner label,
   .panel label {
     display: block;
@@ -581,4 +580,25 @@ form .fa.fa-question {
 form .fa.fa-question::before {
   position: relative;
   bottom: 9px;
+}
+@media (max-width: 767px) {
+  h3 {
+    font-size: 19px;
+    line-height: 27px;
+  }
+  h2 {
+    font-size: 23px;
+  }
+  h2 .badge-round {
+    width: 38px;
+    height: 38px;
+    top: -1px;
+  }
+  .item.item-radio .item-content {
+    padding: 11px 11px 11px 0;
+  }
+  .timeline h3,
+  .timeline h4 {
+    font-size: 15px;
+  }
 }

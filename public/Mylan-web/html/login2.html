@@ -47,18 +47,23 @@
                 <input type="password" class="form-control input-lg b-b" id="password" placeholder="Enter your Password" />
                 </form>
                 <br>
+                 <div class="checkbox text-left">
+                  <p>
+    <label>
+      <input type="checkbox"> Remember Me
+    </label>
+  </p>
+  </div>
                 <br>
-                <div class="row">
-                <div class="col-sm-12">
-                <button type="submit" class="btn btn-info btn-block">Login</button>
-                </div>
-                <div class="col-sm-12">
-                <button class="btn btn-link">Forgot your password ?</button>
-                </div>
-                </div>
+                
+                
+                <a type="submit" href="dashboard.html" class="btn btn-info btn-block">Login</a>
+                
+               
+                
                 <br>
                 <br class="hidden-xs">
-                <a href="#" class="text-center"><p>Login with a different Reference Code</p></a>
+                <a href="#" class="text-center" data-toggle="modal" data-target=".bs-example-modal-sm"><p>Forgot Reference Code or Password ?</p></a>
               <br>
             </div>
           </div>
@@ -68,7 +73,34 @@
       </div>
 
     </div>
-
+  <!-- Modal -->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+        <div class="text-center">
+         <br>
+          <h3>We are Sorry!</h3>
+          <br>
+          <p>Without your Reference Code you cannot use this Portal</p>
+          <br>
+          <p>Contact your Hospital Administrator or Physician and recheck your Reference Code.</p><br>
+        <h3 class="f-w-400 line-title"><span>OR</span></h3>
+          <br>
+          <p>Call our Helpline : <span class="text-info">080 - 234 - 6534</span></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-18"><button class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+        <div class="col-sm-3"></div></div>
+      </div>
+    </div>
+    <br>
+  </div>
+  </div>
+</div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
