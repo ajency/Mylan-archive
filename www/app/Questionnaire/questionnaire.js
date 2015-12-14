@@ -11,6 +11,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       display: 'loader',
       infoBox: true,
       descriptiveAnswer: '',
+      variables: function() {
+        this.descriptiveAnswer = '';
+        this.singleChoiceValue = '';
+        return this.val_answerValue = [];
+      },
       getLocal: function() {
         var defer;
         defer = $q.defer();
@@ -23,38 +28,25 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
-            var options;
-            options = {
-              "responseId": '',
-              "questionnaireId": 'yA3DYxxje8',
-              "patientId": '12345678'
-            };
-            return QuestionAPI.getQuestion(options).then(function(data) {
-              console.log('inside then');
-              console.log(data);
-              _this.data = data.result;
-              Storage.setData('responseId', 'set', data.result.responseId);
-              return _this.display = 'noError';
-            }, function(error) {
-              _this.display = 'error';
-              return _this.errorType = error;
+            return Storage.setData('patientData', 'get').then(function(patientData) {
+              var options;
+              _this.patientId = patientData.patient_id;
+              options = {
+                "responseId": '',
+                "questionnaireId": patientData.questionnaire.id,
+                "patientId": refcode
+              };
+              return QuestionAPI.getQuestion(options).then(function(data) {
+                console.log('inside then');
+                console.log(data);
+                _this.data = data.result;
+                Storage.setData('responseId', 'set', data.result.responseId);
+                return _this.display = 'noError';
+              }, function(error) {
+                _this.display = 'error';
+                return _this.errorType = error;
+              });
             });
-          };
-        })(this));
-      },
-      getPrevQuestion: function() {
-        var options;
-        options = {
-          quizID: $stateParams.quizID,
-          questionId: this.actionValue.questionId
-        };
-        return QuestionAPI.getQuestion(options).then((function(_this) {
-          return function(data) {
-            return _this.data = data;
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            return console.log('err');
           };
         })(this));
       },
@@ -150,13 +142,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             })(this));
             options = {
               "questionId": this.data.questionId,
-              "options": optionId,
-              "value": valueInput
+              "options": [optionId[0]],
+              "value": valueInput[0]
             };
             this.loadNextQuestion(options);
           }
         }
         if (this.data.questionType === 'multi-choice') {
+          console.log('------multi-choice optionss -----');
+          console.log(this.data.options);
           if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
             CToast.show('Please select your answer');
           } else {
@@ -201,14 +195,40 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               "value": ""
             };
             return QuestionAPI.getPrevQuest(param).then(function(data) {
+              var ObjId;
+              console.log('previous data');
+              console.log(data);
+              _this.variables();
               _this.data = [];
-              return _this.data = data.result;
+              _this.data = data.result;
+              if (_this.data.questionType === 'descriptive') {
+                _this.descriptiveAnswer = _this.data.hasAnswer.value;
+              }
+              if (_this.data.questionType === 'single-choice') {
+                _this.singleChoiceValue = _this.data.hasAnswer.option[0];
+              }
+              if (_this.data.questionType === 'multi-choice') {
+                _.each(_this.data.options, function(value) {
+                  if (_.contains(_this.data.hasAnswer.option, value.id)) {
+                    return value['checked'] = true;
+                  }
+                });
+              }
+              if (_this.data.questionType === 'input') {
+                ObjId = _.findWhere(_this.data.options, {
+                  id: _this.data.hasAnswer.option[0]
+                });
+                console.log('objjj id');
+                console.log(ObjId);
+                _this.val_answerValue[ObjId.option] = _this.data.hasAnswer.value;
+              }
+              return console.log(_this.data);
             }, function(error) {
               console.log(error);
               if (error === 'offline') {
                 return CToast.showLongBottom('Check net connection,answer not saved');
               } else {
-                return CToast.show('Error in saving answer,try again');
+                return CToast.show('Error ,try again');
               }
             })["finally"](function() {
               return CSpinner.hide();
