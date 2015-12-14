@@ -110,18 +110,51 @@
     if ((responseId !== "") && (!_.isUndefined(responseId)) && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
+        var answeredQuestions, questionQuery;
         if (responseObj.get('status') === 'Completed') {
-          return response.error("Questionnaire already answered");
+          return response.error("questionnaire_submitted");
         } else {
-          return firstQuestion(questionnaireId).then(function(questionObj) {
-            return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
-              return response.success(questionData);
+          answeredQuestions = responseObj.get('answeredQuestions');
+          questionQuery = new Parse.Query('Questions');
+          questionQuery.include('nextQuestion');
+          questionQuery.include('previousQuestion');
+          if (answeredQuestions.length !== 0) {
+            return questionQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(questionObj) {
+              return getNextQuestion(questionObj, []).then(function(nextQuestionObj) {
+                if (!_.isEmpty(nextQuestionObj)) {
+                  return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                } else {
+                  return getSummary(responseObj).then(function(summaryObjects) {
+                    var result;
+                    result = {};
+                    result['status'] = "saved_successfully";
+                    result['summary'] = summaryObjects;
+                    return response.success(result);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                }
+              }, function(error) {
+                return response.error(error);
+              });
             }, function(error) {
               return response.error(error);
             });
-          }, function(error) {
-            return response.error(error);
-          });
+          } else {
+            return firstQuestion(questionnaireId).then(function(questionObj) {
+              return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
+                return response.success(questionData);
+              }, function(error) {
+                return response.error(error);
+              });
+            }, function(error) {
+              return response.error(error);
+            });
+          }
         }
       }, function(error) {
         return response.error(error);
@@ -318,7 +351,7 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery;
       if (responseObj.get('status') === 'Completed') {
-        return response.error("questionnaire already submitted.");
+        return response.error("questionnaire_submitted.");
       } else {
         questionQuery = new Parse.Query('Questions');
         questionQuery.include('nextQuestion');
@@ -529,7 +562,7 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery;
       if (responseObj.get('status') === 'Completed') {
-        return response.error("Questionnaire already answered.");
+        return response.error("questionnaire_submitted.");
       } else {
         questionQuery = new Parse.Query('Questions');
         questionQuery.include('previousQuestion');
@@ -699,10 +732,33 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       responseObj.set("status", "Completed");
       return responseObj.save().then(function(responseObj) {
-        return response.success(responseObj.id);
+        return response.success("submitted_successfully");
       }, function(error) {
         return response.error(error);
       });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("dashboard", function(request, response) {
+    var patientId, responseQuery;
+    patientId = request.params.patientId;
+    responseQuery = new Parse.Query("Response");
+    responseQuery.equalTo('patient', patientId);
+    return responseQuery.find().then(function(responseObjs) {
+      var j, len, responseObj, results, value;
+      results = [];
+      for (j = 0, len = responseObjs.length; j < len; j++) {
+        responseObj = responseObjs[j];
+        value = {
+          response_id: responseObj.id,
+          date_time: responseObj.createdAt,
+          status: responseObj.get('status')
+        };
+        results.push(value);
+      }
+      return response.success(results);
     }, function(error) {
       return response.error(error);
     });

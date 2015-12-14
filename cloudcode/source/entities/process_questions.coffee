@@ -9,18 +9,51 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		responseQuery.get(responseId)
 		.then (responseObj) ->
 			if responseObj.get('status') == 'Completed'
-				response.error "Questionnaire already answered"
+				response.error "questionnaire_submitted"
 
 			else
-				firstQuestion questionnaireId
-				.then (questionObj) ->
-					getQuestionData questionObj, responseObj, patientId
-					.then (questionData) ->
-						response.success questionData
+				answeredQuestions = responseObj.get('answeredQuestions')
+				questionQuery = new Parse.Query('Questions')
+				questionQuery.include('nextQuestion')
+				questionQuery.include('previousQuestion')
+				if answeredQuestions.length != 0
+					questionQuery.get(answeredQuestions[answeredQuestions.length - 1])
+					.then (questionObj) ->
+						getNextQuestion(questionObj, [])
+						.then (nextQuestionObj) ->
+
+							if !_.isEmpty(nextQuestionObj)
+								getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
+								.then (questionData) ->
+
+									response.success questionData
+								,(error) ->
+									response.error error
+							else
+								getSummary(responseObj)
+								.then (summaryObjects) ->
+									result = {}
+									result['status'] = "saved_successfully"
+									result['summary'] = summaryObjects
+									response.success result
+								,(error) ->
+									response.error error					       
+						,(error) ->
+							response.error error
 					,(error) ->
-						response.error error	
-				,(error) ->
-					response.error error
+						response.error error
+
+				else
+					firstQuestion questionnaireId
+					.then (questionObj) ->
+						getQuestionData questionObj, responseObj, patientId
+						.then (questionData) ->
+							response.success questionData
+						,(error) ->
+							response.error error	
+					,(error) ->
+						response.error error
+
 		,(error) ->
 			response.error error
 
@@ -77,6 +110,7 @@ firstQuestion = (questionnaireId) ->
 	, (error) ->
 		promise.reject error
 	promise
+
 
 
 createResponse = (questionnaireId, patientId) ->
@@ -203,7 +237,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		if responseObj.get('status') == 'Completed'
-			response.error "questionnaire already submitted."
+			response.error "questionnaire_submitted."
 		else 
 			questionQuery = new Parse.Query('Questions')
 			questionQuery.include('nextQuestion')
@@ -394,7 +428,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		if responseObj.get('status') == 'Completed'
-			response.error "Questionnaire already answered."
+			response.error "questionnaire_submitted."
 		else
 			questionQuery = new Parse.Query('Questions')
 			questionQuery.include('previousQuestion')
@@ -513,8 +547,31 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 		responseObj.set "status", "Completed"
 		responseObj.save()
 		.then (responseObj) ->
-			response.success responseObj.id
+			response.success "submitted_successfully"
 		, (error) ->
 			response.error error
 	, (error) ->
 		response.error error
+
+
+Parse.Cloud.define "dashboard", (request, response) ->
+	patientId = request.params.patientId
+
+	responseQuery = new Parse.Query("Response")
+	responseQuery.equalTo('patient', patientId)
+	responseQuery.find()
+	.then (responseObjs) ->
+		results = []
+
+		for responseObj in responseObjs
+			value = 
+				response_id: responseObj.id
+				date_time: responseObj.createdAt
+				status: responseObj.get('status')
+			results.push(value)
+
+		response.success results
+
+	, (error) ->
+		response.error error
+
