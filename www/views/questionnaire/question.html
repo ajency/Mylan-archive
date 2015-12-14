@@ -52,8 +52,8 @@
                                     </h6>
                                         
                                     </div>
-                                    <div class="col col-50">
-                                      <div class="text-right">{{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}</div> 
+                                    <div class="col col-50 text-right">
+                                      <small>{{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}</small> 
                                     </div>
                                   
                              </div>
@@ -114,28 +114,29 @@
               <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
               <div class="bg-gray"
                 ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
-                <div class="prev-answers padding">
-                               <div class="col">  
+                <div class="prev-answers row">
+                               <div class="col col-50">  
                                   <h6 class="f-w-400 text-green">
                                       Previous Answers &nbsp;&nbsp;
                                     </h6>
-                                        <p class="f-w-400 text-green">
+                                          </div>
+                                   
+                                   
+                                        <div class="col col-50 text-right">  
+                                        
+                                        <small>
+                                        {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
+                                        </div>
+                                        
+                                        </small>
+                                        
+                                  
+                                 
+                                      </div>
+                                       <div class="padding"><p class="f-w-400 text-green">
                                           Last time you answered option: &nbsp;
           {{ view.pastAnswer(view.data.previousQuestionnaireAnswer.optionId[0], view.data.options)}}
                                         </p>
-                                    <hr>
-                                   
-                                        
-                                        <p>
-                                        <i class="icon ion-calendar"></i>
-                                        <span class="text-green">Submitted On: 
-                                        {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
-                                        </span>
-                                        </p>
-                                        
-                                        
-                                    </div>
-                                  
                              </div>
               </div>
             </div>
