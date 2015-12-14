@@ -17,7 +17,12 @@ angular.module 'PatientApp.Quest',[]
 			infoBox : true
 			descriptiveAnswer : ''
 
-			
+			variables :()->
+				@descriptiveAnswer = ''
+				@singleChoiceValue = ''
+				@val_answerValue = []
+
+
 			getLocal :()->
 				defer = $q.defer()
 				Storage.getNextQuestion 'get'
@@ -58,20 +63,6 @@ angular.module 'PatientApp.Quest',[]
 					,(error)=>
 						@display = 'error'
 						@errorType = error
-
-
-			getPrevQuestion : ->
-				options = 
-					quizID: $stateParams.quizID
-					questionId : @actionValue.questionId
-
-				QuestionAPI.getQuestion options
-				.then (data)=>
-					@data = data 
-
-				, (error)=>
-					console.log 'err'
-
 					
 			init : ->
 				@data = ''
@@ -80,27 +71,7 @@ angular.module 'PatientApp.Quest',[]
 
 			navigate : ->
 				App.navigate 'summary', quizID: 111
-				# value = 
-				# @getLocal()
-				# .then (result)=> 
-				# 	value = result
-				# 	# Storage.getNextQuestion('get').then (value) ->
-				# 	value = parseInt(value)
-				# 	value++
-				# 	Storage.getNextQuestion 'set' , value
-				# 	if value == 4
-				# 		CSpinner.hide()
-				# 		App.navigate 'summary', quizID: 111
-				# 	else
-
-				# 		Storage.getNextQuestion 'set' , value
-				# 		# $window.location.reload()
-
-				# 		$timeout ->
-				# 			CSpinner.hide()
-				# 			$window.location.reload()
-				# 		,500
-
+			
 			loadNextQuestion :(param)->
 				Storage.setData 'responseId','get'
 				.then (responseId)=>	
@@ -136,6 +107,7 @@ angular.module 'PatientApp.Quest',[]
 
 					.finally ->
 						CSpinner.hide()
+
 
 			nextQuestion : ->
 		
@@ -183,13 +155,15 @@ angular.module 'PatientApp.Quest',[]
 
 						options =
 							"questionId" : @data.questionId
-							"options": optionId
-							"value": valueInput
+							"options": [optionId[0]]
+							"value": valueInput[0]
 
 						@loadNextQuestion(options)
 
 			
 				if @data.questionType == 'multi-choice'
+					console.log '------multi-choice optionss -----'
+					console.log @data.options
 
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select your answer'
@@ -232,16 +206,44 @@ angular.module 'PatientApp.Quest',[]
 						"questionId" : @data.questionId
 						"options": []
 						"value": ""
+
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
+						console.log 'previous data'
+						console.log data
+
+						@variables()
 						@data = []
 						@data = data.result
+
+						if @data.questionType == 'descriptive'
+							@descriptiveAnswer = @data.hasAnswer.value
+
+						if @data.questionType == 'single-choice'
+							@singleChoiceValue = @data.hasAnswer.option[0]
+
+						if @data.questionType == 'multi-choice'
+							_.each @data.options, (value) =>
+								if (_.contains(@data.hasAnswer.option, value.id))
+									value['checked'] = true
+
+						if @data.questionType == 'input'
+							ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
+							console.log 'objjj id'
+							console.log ObjId
+							@val_answerValue[ObjId.option] = @data.hasAnswer.value
+									
+						console.log @data	
+							
+
+
+
 					,(error)=>
 						console.log error
 						if error == 'offline'
 							CToast.showLongBottom 'Check net connection,answer not saved'
 						else
-							CToast.show 'Error in saving answer,try again'
+							CToast.show 'Error ,try again'
 					.finally ->
 						CSpinner.hide()
 
