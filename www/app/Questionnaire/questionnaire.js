@@ -65,6 +65,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             CSpinner.show('', 'Please wait..');
             param.responseId = responseId;
             return QuestionAPI.saveAnswer(param).then(function(data) {
+              var summary;
               App.resize();
               CToast.show('Your answer is saved');
               console.log('******');
@@ -75,9 +76,13 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.data = [];
               _this.data = data.result;
               if (!_.isUndefined(_this.data.status)) {
-                Storage.summary('set', _this.data.summary);
-                App.navigate('summary');
-                CSpinner.hide();
+                summary = {};
+                summary['summary'] = _this.data.summary;
+                summary['responseId'] = responseId;
+                Storage.summary('set', summary);
+                App.navigate('summary', {
+                  summary: 'set'
+                });
               }
               return _this.display = 'noError';
             }, function(error) {

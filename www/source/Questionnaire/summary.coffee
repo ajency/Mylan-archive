@@ -9,13 +9,20 @@ angular.module 'PatientApp.Quest'
 			data : []
 			go : ''
 			response : ''
+			display : 'loader'
 
 			getSummary : ->
-				@data = Storage.summary('get')
-				console.log 'summmmm'
-				console.log @data
+				@display = 'noError'
+				@summary = Storage.summary('get')
+				console.log '---summary---'
+				console.log @summary
+				@data = @summary.summary
+				@responseId = @summary.responseId
 
-			getSummaryApi :(param)->
+			getSummaryApi :()->
+				param =
+						'responseId' : $stateParams.summary
+				@display = 'loader'
 				QuestionAPI.getSummary param
 				.then (data)=>
 					console.log '--getSummaryApi---'
@@ -27,15 +34,24 @@ angular.module 'PatientApp.Quest'
 					@errorType = error
 					
 			init : ->
-				summarytype = $stateParams.summary
-				if summarytype == 'set'
+				@summarytype = $stateParams.summary
+				if @summarytype == 'set'
 					@getSummary()
 				else 
-					param =
-						'responseId' : $stateParams.summary
-					@getSummaryApi(param)
+					@getSummaryApi()
 
 			submitSummary : ->
+				param = 
+					responseId : @responseId
+				QuestionAPI.submitSummary param
+				.then (data)=>
+					console.log 'data'
+					console.log 'succ submiteed'
+				,(error)=>
+					console.log 'error'
+					console.log error
+
+					
 				ionic.Platform.exitApp()
 
 			prevQuestion : ->
@@ -46,9 +62,11 @@ angular.module 'PatientApp.Quest'
 				QuestionAPI.setAction 'set', action
 				App.navigate 'questionnaire', quizID: $stateParams.quizID
 
+			onTapToRetry : ->
+				@display = 'loader'
+				@getSummaryApi()
 		
 ]
-
 
 .config ['$stateProvider', ($stateProvider)->
 

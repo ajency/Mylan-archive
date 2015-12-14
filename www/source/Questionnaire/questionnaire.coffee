@@ -55,11 +55,6 @@ angular.module 'PatientApp.Quest',[]
 							@data = data.result
 							Storage.setData 'responseId', 'set', data.result.responseId
 							@display = 'noError'
-
-							# $timeout =>
-							# 	console.log 'timeoutt'
-							# 	@infoBox = false
-							# , 30000
 						,(error)=>
 							@display = 'error'
 							@errorType = error
@@ -76,9 +71,7 @@ angular.module 'PatientApp.Quest',[]
 				Storage.setData 'responseId','get'
 				.then (responseId)=>	
 					CSpinner.show '', 'Please wait..'
-
 					param.responseId = responseId
-
 					QuestionAPI.saveAnswer param
 					.then (data)=>
 						App.resize()
@@ -92,10 +85,11 @@ angular.module 'PatientApp.Quest',[]
 						@data = []
 						@data = data.result
 						if !_.isUndefined(@data.status)
-							Storage.summary('set', @data.summary)
-							App.navigate 'summary'
-							CSpinner.hide()
-
+							summary = {}
+							summary['summary'] = @data.summary
+							summary['responseId'] = responseId
+							Storage.summary('set', summary)
+							App.navigate 'summary', summary:'set'
 						@display = 'noError'					
 					,(error)=>
 						console.log 'inside save error'

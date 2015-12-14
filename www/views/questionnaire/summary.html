@@ -1,40 +1,54 @@
-<ion-view
-   >
-    <ion-nav-bar class="bar-light">
-
-
-   <ion-nav-back-button
+<ion-view>
+  <ion-nav-bar class="bar-light">
+    <ion-nav-back-button
       ng-click="view.onBackClick()">
-   </ion-nav-back-button>
+    </ion-nav-back-button>
+  </ion-nav-bar>
+  <ion-nav-title>
+    Summary
+  </ion-nav-title>   
+  <ion-content 
+    ng-init="view.init();" 
+    class="has-footer"
+    ng-switch="view.display">
 
+    <div class="loader" ng-switch-when="loader">
+        <ion-spinner>
+        </ion-spinner>
+    </div>
+    <div ng-switch-when="noError">
+    <div ng-repeat ="summary in view.data">
+        <div class="padding">
 
- </ion-nav-bar>
-   <ion-nav-title>
-      Summary
-    </ion-nav-title>   
-    <ion-content ng-init="view.init();" class="has-footer">
-     
-      <div ng-repeat ="summary in view.data">
-      <div class="padding">
-         
-         <h5 class="f-w-400">{{summary.question}}
-         </h5>
-              
-         <span class="text-green f-w-400" ng-if="summary.input ===''"
-         ng-repeat = "answer in summary.optionSelected track by $index">
-            {{answer}} <br> 
-         </span>
-         <span class="text-green f-w-400" ng-if="summary.input !==''">
-            {{summary.input}} &nbsp; {{summary.optionSelected[0]}}
-         <span>
-        
-      </div>
-       <hr>
-      </div>
-      
-      <br>
-   </ion-content>
-   <div class="bar bar-footer submission">
+            <h5 class="f-w-400">
+                {{summary.question}}
+            </h5>
+
+            <span 
+              class="text-green f-w-400" 
+              ng-if="summary.input ===''"
+              ng-repeat = "answer in summary.optionSelected track by $index">
+                {{answer}} <br> 
+            </span>
+            <span 
+              class="text-green f-w-400" 
+              ng-if="summary.input !==''">
+                {{summary.input}} &nbsp; {{summary.optionSelected[0]}}
+            <span>
+
+        </div>
+        <hr>
+    </div>
+  </div>
+  <aj-error class="errors"
+            error-type="view.errorType"
+            ng-switch-when="error"
+            tap-to-retry="view.onTapToRetry();">
+  </aj-error>
+
+    <br>
+  </ion-content>
+  <div class="bar bar-footer submission">
       <div class="button-bar">
          <button 
             class="button button-balanced"
@@ -43,6 +57,7 @@
          </button>
          <button 
             class="button button-assertive"
+            ng-if = "view.summarytype === 'set'"
             ng-click="view.submitSummary()">
          Submit
          </button>

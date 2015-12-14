@@ -5,12 +5,21 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       data: [],
       go: '',
       response: '',
+      display: 'loader',
       getSummary: function() {
-        this.data = Storage.summary('get');
-        console.log('summmmm');
-        return console.log(this.data);
+        this.display = 'noError';
+        this.summary = Storage.summary('get');
+        console.log('---summary---');
+        console.log(this.summary);
+        this.data = this.summary.summary;
+        return this.responseId = this.summary.responseId;
       },
-      getSummaryApi: function(param) {
+      getSummaryApi: function() {
+        var param;
+        param = {
+          'responseId': $stateParams.summary
+        };
+        this.display = 'loader';
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
             console.log('--getSummaryApi---');
@@ -26,18 +35,29 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
-        var param, summarytype;
-        summarytype = $stateParams.summary;
-        if (summarytype === 'set') {
+        this.summarytype = $stateParams.summary;
+        if (this.summarytype === 'set') {
           return this.getSummary();
         } else {
-          param = {
-            'responseId': $stateParams.summary
-          };
-          return this.getSummaryApi(param);
+          return this.getSummaryApi();
         }
       },
       submitSummary: function() {
+        var param;
+        param = {
+          responseId: this.responseId
+        };
+        QuestionAPI.submitSummary(param).then((function(_this) {
+          return function(data) {
+            console.log('data');
+            return console.log('succ submiteed');
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            console.log('error');
+            return console.log(error);
+          };
+        })(this));
         return ionic.Platform.exitApp();
       },
       prevQuestion: function() {
@@ -51,6 +71,10 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return App.navigate('questionnaire', {
           quizID: $stateParams.quizID
         });
+      },
+      onTapToRetry: function() {
+        this.display = 'loader';
+        return this.getSummaryApi();
       }
     };
   }

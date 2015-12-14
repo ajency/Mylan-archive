@@ -47,7 +47,7 @@ angular.module 'PatientApp.Quest'
 		url = PARSE_URL+'/getSummary'
 		param = opts
 				
-		App.sendRequest(url, param,PARSE_HEADERS)
+		App.sendRequest(url, param, PARSE_HEADERS)
 		.then (data)->
 			defer.resolve data.data
 		, (error)=>
@@ -55,40 +55,18 @@ angular.module 'PatientApp.Quest'
 			
 		defer.promise
 
-		# defer = $q.defer()
-
-		# params = 
-		# 	"userdId" : '55'
-		# 	"quizID": opts.quizID
-
-		# data =
-		# 	summary:
-		# 		0:
-		# 		 question : 'What is your current Statement best describes your pain ?'
-		# 		 answer : 'pain is present ,but not needed for pain killer'
-		# 		1:
-		# 		 question : 'Has your weight changed in the past month ?'
-		# 		 answer : 'No change'
-		# 		2:
-		# 		 question : 'Has your weight changed in the past month ?'
-		# 		 answer : 'No change'
-				
-
-		# defer.resolve data
-
-		# defer.promise
-
 	QuestionAPI.submitSummary = (opts)->
 		defer = $q.defer()
 
-		params = 
-			"userdId" : '55'
-			"quizID": opts.quizID
-
-		data = 'success'
-
-		defer.resolve data
-
+		url = PARSE_URL+'/submitQuestionnaire'
+		param = opts
+				
+		App.sendRequest(url, param, PARSE_HEADERS)
+		.then (data)->
+			defer.resolve data.data
+		, (error)=>
+			defer.reject error
+			
 		defer.promise
 
 	QuestionAPI.setAction = (action, data={})->

@@ -46,14 +46,17 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       return defer.promise;
     };
     QuestionAPI.submitSummary = function(opts) {
-      var data, defer, params;
+      var defer, param, url;
       defer = $q.defer();
-      params = {
-        "userdId": '55',
-        "quizID": opts.quizID
-      };
-      data = 'success';
-      defer.resolve(data);
+      url = PARSE_URL + '/submitQuestionnaire';
+      param = opts;
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
       return defer.promise;
     };
     QuestionAPI.setAction = function(action, data) {
