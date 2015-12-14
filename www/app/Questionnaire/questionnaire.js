@@ -28,21 +28,24 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
-            var options;
-            options = {
-              "responseId": '',
-              "questionnaireId": 'yA3DYxxje8',
-              "patientId": '12345678'
-            };
-            return QuestionAPI.getQuestion(options).then(function(data) {
-              console.log('inside then');
-              console.log(data);
-              _this.data = data.result;
-              Storage.setData('responseId', 'set', data.result.responseId);
-              return _this.display = 'noError';
-            }, function(error) {
-              _this.display = 'error';
-              return _this.errorType = error;
+            return Storage.setData('patientData', 'get').then(function(patientData) {
+              var options;
+              _this.patientId = patientData.patient_id;
+              options = {
+                "responseId": '',
+                "questionnaireId": patientData.questionnaire.id,
+                "patientId": refcode
+              };
+              return QuestionAPI.getQuestion(options).then(function(data) {
+                console.log('inside then');
+                console.log(data);
+                _this.data = data.result;
+                Storage.setData('responseId', 'set', data.result.responseId);
+                return _this.display = 'noError';
+              }, function(error) {
+                _this.display = 'error';
+                return _this.errorType = error;
+              });
             });
           };
         })(this));

@@ -39,30 +39,30 @@ angular.module 'PatientApp.Quest',[]
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 				
-					# Storage.setData 'patientData','get'
-					# .then (patientData)=>
-					# 	@patientId = patientData.patient_id
+					Storage.setData 'patientData','get'
+					.then (patientData)=>
+						@patientId = patientData.patient_id
 
-					options =
-						"responseId": ''
-						"questionnaireId": 'yA3DYxxje8'
-						"patientId":'12345678'
+						options =
+							"responseId": ''
+							"questionnaireId": patientData.questionnaire.id
+							"patientId": refcode
 
-					QuestionAPI.getQuestion options
-					.then (data)=>
-						console.log 'inside then'
-						console.log data
-						@data = data.result
-						Storage.setData 'responseId', 'set', data.result.responseId
-						@display = 'noError'
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data.result
+							Storage.setData 'responseId', 'set', data.result.responseId
+							@display = 'noError'
 
-						# $timeout =>
-						# 	console.log 'timeoutt'
-						# 	@infoBox = false
-						# , 30000
-					,(error)=>
-						@display = 'error'
-						@errorType = error
+							# $timeout =>
+							# 	console.log 'timeoutt'
+							# 	@infoBox = false
+							# , 30000
+						,(error)=>
+							@display = 'error'
+							@errorType = error
 					
 			init : ->
 				@data = ''
