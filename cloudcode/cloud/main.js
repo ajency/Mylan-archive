@@ -231,12 +231,10 @@
           answerObj = answerObjs[j];
           options.push(answerObj.get('option').id);
         }
-        hasAnswer['option'] = options;
         if (!_.isUndefined(answerObjs[0])) {
           hasAnswer['value'] = answerObjs[0].get('value');
           hasAnswer['date'] = answerObjs[0].get('updatedAt');
-        } else {
-          hasAnswer['value'] = "";
+          hasAnswer['option'] = options;
         }
         return promise.resolve(hasAnswer);
       }, function(error) {
@@ -536,7 +534,25 @@
         questionQuery = new Parse.Query('Questions');
         questionQuery.include('previousQuestion');
         return questionQuery.get(questionId).then(function(questionObj) {
-          return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+          if (!_.isEmpty(options) || value !== "") {
+            return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+              if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                  return response.success(questionData);
+                }, function(error) {
+                  return response.error(error);
+                });
+              } else {
+                return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
+                  return response.success(questionData);
+                }, function(error) {
+                  return response.error(error);
+                });
+              }
+            }, function(error) {
+              return response.error(error);
+            });
+          } else {
             if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
               return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                 return response.success(questionData);
@@ -550,9 +566,7 @@
                 return response.error(error);
               });
             }
-          }, function(error) {
-            return response.error(error);
-          });
+          }
         }, function(error) {
           return response.error(error);
         });

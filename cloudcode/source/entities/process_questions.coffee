@@ -118,13 +118,12 @@ getCurrentAnswer = (questionObj, responseObj) ->
 		.then (answerObjs) ->
 			#options.push answerObj.get('option').get('label') for answerObj in answerObjs
 			options.push answerObj.get('option').id for answerObj in answerObjs
-			hasAnswer['option'] = options
+			
 			if (!_.isUndefined(answerObjs[0]))
 				hasAnswer['value'] =  answerObjs[0].get('value')
 				hasAnswer['date'] = answerObjs[0].get('updatedAt')
-			else
-				hasAnswer['value'] =  ""
-
+				hasAnswer['option'] = options
+			
 			promise.resolve(hasAnswer)
 
 		, (error) ->
@@ -402,24 +401,38 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 			questionQuery.get(questionId)
 
 				.then (questionObj) ->
-					saveAnswer responseObj, questionObj, options, value
-						.then (answersArray) ->
-							if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
-								getQuestionData questionObj, responseObj, responseObj.get('patient')
-								.then (questionData) ->
-									response.success questionData
-								,(error) ->
-									response.error error
+					if !_.isEmpty(options) or value != ""
+						saveAnswer responseObj, questionObj, options, value
+							.then (answersArray) ->
+								if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+									getQuestionData questionObj, responseObj, responseObj.get('patient')
+									.then (questionData) ->
+										response.success questionData
+									,(error) ->
+										response.error error
 
-							else
-								getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
-								.then (questionData) ->
-									response.success questionData
-								,(error) ->
-									response.error error
+								else
+									getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
+									.then (questionData) ->
+										response.success questionData
+									,(error) ->
+										response.error error
+							,(error) ->
+								response.error error										
+					else
+						if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+							getQuestionData questionObj, responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
 
-						,(error) ->
-							response.error error
+						else
+							getQuestionData questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
 				,(error) ->
 					response.error error
 	,(error) ->
