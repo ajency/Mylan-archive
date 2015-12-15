@@ -974,14 +974,18 @@
     return queryTokenStorage.first({
       useMasterKey: true
     }).then(function(tokenStorageObj) {
-      var appData, storedAuthKey, user;
+      var appData, querySession, storedAuthKey, user;
       if (_.isEmpty(tokenStorageObj)) {
         appData = {
           installationId: installationId,
           referenceCode: referenceCode
         };
         return createNewUser(authKey, appData).then(function(user) {
-          return response.success(user);
+          var result;
+          result = {
+            sessionToken: user.getSessionToken()
+          };
+          return response.success(result);
         }, function(error) {
           return response.error(error);
         });
@@ -989,16 +993,36 @@
         storedAuthKey = tokenStorageObj.get("authKey");
         user = tokenStorageObj.get("user");
         if (storedAuthKey === authKey) {
-          return user.fetch().then(function(user) {
-            return response.success(user);
+          querySession = new Parse.Query(Parse.Session);
+          querySession.equalTo('user', user);
+          querySession.equalTo('installationId', installationId);
+          return querySession.first({
+            useMasterKey: true
+          }).then(function(sessionObj) {
+            var result, sessionToken;
+            sessionToken = sessionObj.get('sessionToken');
+            result = {
+              sessionToken: sessionToken
+            };
+            return response.success(result);
           }, function(error) {
             return response.error(error);
           });
         } else {
           tokenStorageObj.set("authKey", authKey);
           return tokenStorageObj.save().then(function(newTokenStorageObj) {
-            return user.fetch().then(function(user) {
-              return response.success(user);
+            querySession = new Parse.Query(Parse.Session);
+            querySession.equalTo('user', user);
+            querySession.equalTo('installationId', installationId);
+            return querySession.first({
+              useMasterKey: true
+            }).then(function(sessionObj) {
+              var result, sessionToken;
+              sessionToken = sessionObj.get('sessionToken');
+              result = {
+                sessionToken: sessionToken
+              };
+              return response.success(result);
             }, function(error) {
               return response.error(error);
             });

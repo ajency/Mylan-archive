@@ -35,7 +35,9 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 
     		createNewUser(authKey, appData)
     		.then (user)->
-    			response.success user 
+    			result = 
+    				sessionToken: user.getSessionToken()
+    			response.success result 
     		, (error) ->
     			response.error error
     	else
@@ -44,20 +46,31 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
     		user = tokenStorageObj.get("user")
 
     		if storedAuthKey is authKey
-    			user.fetch()
-    			.then (user) ->
-    				response.success user
+    			querySession = new Parse.Query(Parse.Session)
+    			querySession.equalTo('user', user)
+    			querySession.equalTo('installationId', installationId)
+    			querySession.first(useMasterKey: true)
+    			.then (sessionObj) ->
+    				sessionToken =  sessionObj.get('sessionToken')
+	    			result = 
+	    				sessionToken: sessionToken  
+    				response.success result 	    				 				
     			, (error) ->
     				response.error error 
     		else
     			# update new auth key
-
     			tokenStorageObj.set "authKey" , authKey
     			tokenStorageObj.save()
     			.then (newTokenStorageObj) ->
-	    			user.fetch()
-	    			.then (user) ->
-	    				response.success user
+	    			querySession = new Parse.Query(Parse.Session)
+	    			querySession.equalTo('user', user)
+	    			querySession.equalTo('installationId', installationId)
+	    			querySession.first(useMasterKey: true)
+	    			.then (sessionObj) ->
+	    				sessionToken =  sessionObj.get('sessionToken')
+		    			result = 
+		    				sessionToken: sessionToken  
+	    				response.success result 	    				 				
 	    			, (error) ->
 	    				response.error error 
     			, (error) ->
