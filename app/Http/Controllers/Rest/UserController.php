@@ -271,28 +271,45 @@ class UserController extends Controller
 
                     $projectId = $user['project_id'];
                     $hospitalId = $user['hospital_id'];
-                    $apiKey = $user->apiKey()->first();
+                    $apiKey = $user->apiKey()->first()->key;
+
                     $parseUser = $this->getParseUser($referenceCode,$installationId,$apiKey);
                     if($parseUser!='error')
                     {
+
                         $data = $this -> postLoginData($hospitalId,$projectId);
                         $hospitalData = $data['hospital']; 
                         $questionnaireData = $data['questionnaire']; 
                         $parseUser =json_decode($parseUser,true); 
+
+                        //if schedule not set for patient
+                        /******************************/
+                        if(!isset($parseUser['result']['scheduleFlag']))
+                        {
+                            $questionnaireObj = new ParseQuery("Questionnaire");
+                            $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
+
+                            $date = new \DateTime();
+ 
+
+                            $schedule = new ParseObject("Schedule");
+                            $schedule->set("questionnaire", $questionnaire);
+                            $schedule->set("patient", $referenceCode);
+                            $schedule->set("startDate", $date);
+                            $schedule->set("nextOccurrence", $date);
+                            $schedule->save();
+                        }
+
+                        /**************************/
+                         
                         $json_resp = array( 
-                            'user'=> $parseUser['result'],
+                            'user'=> $parseUser['result']['sessionToken'],
                             'hospital'=> $hospitalData,
                             'questionnaire'=> $questionnaireData,
                             'code' => 'successful_login' , 
                             'message' => 'Successfully logged in'
                         );
-                   //       $json_resp = array( 
-                   //     'user-auth-key'=> $apiKey['key'],
-                   //     'hospital'=> $hospitalData,
-                   //     'questionnaire'=> $questionnaireData,
-                   //     'code' => 'successful_login' , 
-                   //     'message' => 'Successfully logged in'
-                   // );
+
                         $status_code = 200;
                     }
                     else
@@ -341,8 +358,8 @@ class UserController extends Controller
 
         $c = curl_init(); 
         curl_setopt($c, CURLOPT_URL, 'https://api.parse.com/1/functions/loginParseUser');
-        curl_setopt($c,CURLOPT_POST,1);  
-        curl_setopt($c,CURLOPT_POSTFIELDS,$objectData); 
+        curl_setopt($c, CURLOPT_POST,1);  
+        curl_setopt($c, CURLOPT_POSTFIELDS,$objectData); 
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
@@ -358,7 +375,7 @@ class UserController extends Controller
 
         $info=curl_getinfo($c,CURLINFO_HTTP_CODE);
         curl_close($c);
-        
+     
         if($info==200){
             return $o;
         }else{
