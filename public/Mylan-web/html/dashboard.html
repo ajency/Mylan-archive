@@ -12,12 +12,10 @@
        <link href="../css/font-awesome.min.css" rel="stylesheet">
        <link href="../css/style.css" rel="stylesheet">
 
-      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-      <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-      <![endif]-->
+      <script src="../js/amcharts.js" type="text/javascript"></script>
+    <script src="../js/pie.js" type="text/javascript"></script>
+    <script src="../js/responsive.js" type="text/javascript"></script>
+
     </head>
     <body>
        <nav class="navbar navbar-default hospital-nav">
@@ -154,5 +152,39 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
       <script src="../js/bootstrap.min.js"></script>
+      <script>
+
+            AmCharts.makeChart("chartdiv", {
+                "type": "pie",
+                "dataProvider": [{
+                    "questionnaires": "Questionnaires Missed",
+                        "litres": 144
+                }, {
+                    "questionnaires": "Questionnaires Submitted",
+                        "litres": 216
+                }],
+                "responsive": {
+                    "enabled": true
+                  },
+                "titleField": "questionnaires",
+                "valueField": "litres",
+              
+                "colors": [
+                    "#959595",
+                    "#7bc67a"
+                  ],
+                  "marginBottom": 0,
+  "marginTop": 0,
+                "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                "legend": {
+                    "align": "center",
+                    "valueWidth": 100,
+                    "valueText": "[[percents]]%  [[value]]",
+                    "markerType": "circle"
+                }
+
+            });
+
+        </script>
     </body>
   </html>
