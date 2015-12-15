@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAllResponsesPerPatient, getAnswers, getCurrentAnswer, getDueDate, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getSummary, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAllResponsesPerPatient, getAnswers, getCurrentAnswer, getDueDate, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getSummary, moment, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -847,6 +847,8 @@
 
   _ = require('underscore.js');
 
+  moment = require('cloud/moment.js');
+
   Parse.Cloud.define('doSetup', function(request, response) {
     var deviceIdentifier, referenceCode, userObj;
     referenceCode = request.params.referenceCode;
@@ -1025,6 +1027,50 @@
         }
         return promise.resolve(result, function(error) {
           return promise.resolve(error);
+        });
+      }
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define('updateMissedQuestionnaire', function(request, response) {
+    var scheduleQuery;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.notEqualTo("patient", '');
+    scheduleQuery.include("questionnaire");
+    return scheduleQuery.find().then(function(scheduleObjects) {
+      var responseQuery, result, schedules;
+      result = {};
+      schedules = {};
+      _.each(scheduleObjects, function(scheduleObject) {
+        var currentDateTime, diffrence, gracePeriod, newDateTime, nextOccurrence;
+        gracePeriod = scheduleObject.get("questionnaire").get("gracePeriod");
+        nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
+        newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
+        currentDateTime = moment();
+        diffrence = moment(currentDateTime).diff(newDateTime);
+        if (diffrence > 1) {
+          return schedules.push(scheduleObject);
+        }
+      });
+      if (_.isEmpty(schedules)) {
+        responseQuery = new Parse.Query('Response');
+        responseQuery.containedIn('schedule', schedules);
+        return responseQuery.find().then(function(responseObjects) {
+          var responseSaveArr;
+          responseSaveArr = [];
+          _.each(responseObjects, function(responseObject) {
+            responseObject.set('status', 'missed');
+            return responseSaveArr.push(responseObject);
+          });
+          return Parse.Object.saveAll(responseSaveArr).then(function(objs) {
+            return response.success(objs);
+          }, function(error) {
+            return response.error(error);
+          });
+        }, function(error) {
+          return response.error(error);
         });
       }
     }, function(error) {
