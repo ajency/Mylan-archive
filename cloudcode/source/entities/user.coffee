@@ -174,7 +174,7 @@ Parse.Cloud.define 'userLogin', (request, response) ->
         response.error error
     
     
-Parse.Cloud.define 'updateMissedQuestionnaire', (request, response) ->
+Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.notEqualTo("patient", '')
