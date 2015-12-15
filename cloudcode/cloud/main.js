@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -1065,15 +1065,16 @@
     });
   });
 
-  Parse.Cloud.job('updateMissedQuestionnaire', function(request, response) {
+  Parse.Cloud.define('updateMissedQuestionnaire', function(request, response) {
     var scheduleQuery;
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.notEqualTo("patient", '');
     scheduleQuery.include("questionnaire");
     return scheduleQuery.find().then(function(scheduleObjects) {
-      var responseSaveArr, result;
+      var responseSaveArr, result, scheduleSaveArr;
       result = {};
       responseSaveArr = [];
+      scheduleSaveArr = [];
       _.each(scheduleObjects, function(scheduleObject) {
         var Response, currentDateTime, diffrence, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
         questionnaire = scheduleObject.get("questionnaire");
@@ -1082,7 +1083,7 @@
         nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
         newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
         currentDateTime = moment();
-        diffrence = moment(currentDateTime).diff(newDateTime);
+        diffrence = moment(newDateTime).diff(currentDateTime);
         console.log(newDateTime);
         console.log(currentDateTime);
         console.log(diffrence);
@@ -1095,13 +1096,25 @@
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);
-          return responseSaveArr.push(responseObj);
+          responseSaveArr.push(responseObj);
+          return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
+            var data, newNextOccurrence;
+            frequency = parseInt(frequency);
+            newNextOccurrence = moment(nextOccurrence).add(frequency, 'days');
+            data = new Date(newNextOccurrence);
+            scheduleObject.set('nextOccurrence', data);
+            return scheduleSaveArr.push(scheduleObject);
+          }, function(error) {
+            return response.error(error);
+          });
         }
       });
-      return Parse.Object.saveAll(responseSaveArr).then(function(objs) {
-        return response.success(objs);
-      }, function(error) {
-        return response.error(error);
+      return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
+        return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
+          return response.success(scheduleObjs);
+        }, function(error) {
+          return response.error(error);
+        });
       }, function(error) {
         return response.error(error);
       });
@@ -1109,6 +1122,19 @@
       return response.error(error);
     });
   });
+
+  getQuestionnaireFrequency = function(questionnaireObj) {
+    var promise, questionnaireScheduleQuery;
+    promise = new Parse.Promise();
+    questionnaireScheduleQuery = new Parse.Query('Schedule');
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj);
+    questionnaireScheduleQuery.first().then(function(questionnaireScheduleObj) {
+      return promise.resolve(questionnaireScheduleObj.get("frequency"));
+    }, function(error) {
+      return promise.resolve(error);
+    });
+    return promise;
+  };
 
   Buffer = require('buffer').Buffer;
 

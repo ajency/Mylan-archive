@@ -174,7 +174,7 @@ Parse.Cloud.define 'userLogin', (request, response) ->
         response.error error
     
     
-Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
+Parse.Cloud.define 'updateMissedQuestionnaire', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.notEqualTo("patient", '')
@@ -183,6 +183,7 @@ Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
     .then (scheduleObjects) ->
         result ={}
         responseSaveArr =[]
+        scheduleSaveArr =[]
         _.each scheduleObjects , (scheduleObject) ->
             questionnaire = scheduleObject.get("questionnaire")
             patient = scheduleObject.get("patient")
@@ -191,7 +192,7 @@ Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
  
-            diffrence = moment(currentDateTime).diff(newDateTime)
+            diffrence = moment(newDateTime).diff(currentDateTime)
             console.log newDateTime
             console.log currentDateTime
             console.log diffrence
@@ -206,20 +207,43 @@ Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
                 responseObj = new Response responseData
                 responseSaveArr.push(responseObj)
 
-
-        Parse.Object.saveAll responseSaveArr
-                .then (objs) ->
-                    response.success objs
+                getQuestionnaireFrequency(questionnaire)
+                .then (frequency) ->
+                    frequency = parseInt frequency
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 'days')
+                    data = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',data)
+                    scheduleSaveArr.push(scheduleObject)
                 , (error) ->
-                    response.error (error)
+                    response.error error
 
-
+        # save all responses
+        Parse.Object.saveAll responseSaveArr
+            .then (resObjs) ->
+                # update all schedule nextoccurrence
+                Parse.Object.saveAll scheduleSaveArr
+                    .then (scheduleObjs) ->
+                        response.success scheduleObjs
+                    , (error) ->
+                        response.error (error)   
             , (error) ->
-                response.error error
+                response.error (error)
 
     , (error) ->
         response.error error
 
 
+getQuestionnaireFrequency =  ( questionnaireObj ) ->
+    promise = new Parse.Promise()
+
+    questionnaireScheduleQuery = new Parse.Query('Schedule')
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
+    questionnaireScheduleQuery.first()
+    .then (questionnaireScheduleObj) ->
+        promise.resolve questionnaireScheduleObj.get("frequency")
+    , (error) ->
+        promise.resolve error
+
+    promise
 
 
