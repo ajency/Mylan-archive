@@ -20,48 +20,44 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 	referenceCode = String(request.params.referenceCode)
 	installationId = String(request.params.installationId)
 
-	queryTokenStorage = new Parse.Query("TokenStorage")
-	queryTokenStorage.equalTo('referenceCode', referenceCode)
-	queryTokenStorage.equalTo('installationId', installationId)
+	scheduleFlag = false
 
-	queryTokenStorage.first(useMasterKey: true)
-    .then (tokenStorageObj) ->	
+	querySchedule = new Parse.Query("Schedule")
+	querySchedule.equalTo('patient', referenceCode)
+	querySchedule.first()
+	.then (scheduleObj) ->
 
-    	if(_.isEmpty(tokenStorageObj))
-    		# create new user and store its reference in tokenstorage table
-    		appData =
-    			installationId: installationId
-    			referenceCode: referenceCode
+		if(!_.isEmpty(scheduleObj))
+			scheduleFlag = true
 
-    		createNewUser(authKey, appData)
-    		.then (user)->
-    			result = 
-    				sessionToken: user.getSessionToken()
-    			response.success result 
-    		, (error) ->
-    			response.error error
-    	else
-    		# check if authKey matches with the one stored 
-    		storedAuthKey = tokenStorageObj.get("authKey")
-    		user = tokenStorageObj.get("user")
 
-    		if storedAuthKey is authKey
-    			querySession = new Parse.Query(Parse.Session)
-    			querySession.equalTo('user', user)
-    			querySession.equalTo('installationId', installationId)
-    			querySession.first(useMasterKey: true)
-    			.then (sessionObj) ->
-    				sessionToken =  sessionObj.get('sessionToken')
+		queryTokenStorage = new Parse.Query("TokenStorage")
+		queryTokenStorage.equalTo('referenceCode', referenceCode)
+		queryTokenStorage.equalTo('installationId', installationId)
+
+		queryTokenStorage.first(useMasterKey: true)
+	    .then (tokenStorageObj) ->	
+
+	    	if(_.isEmpty(tokenStorageObj))
+	    		# create new user and store its reference in tokenstorage table
+	    		appData =
+	    			installationId: installationId
+	    			referenceCode: referenceCode
+
+	    		createNewUser(authKey, appData)
+	    		.then (user)->
 	    			result = 
-	    				sessionToken: sessionToken  
-    				response.success result 	    				 				
-    			, (error) ->
-    				response.error error 
-    		else
-    			# update new auth key
-    			tokenStorageObj.set "authKey" , authKey
-    			tokenStorageObj.save()
-    			.then (newTokenStorageObj) ->
+	    				sessionToken: user.getSessionToken()
+	    				scheduleFlag : scheduleFlag
+	    			response.success result 
+	    		, (error) ->
+	    			response.error error
+	    	else
+	    		# check if authKey matches with the one stored 
+	    		storedAuthKey = tokenStorageObj.get("authKey")
+	    		user = tokenStorageObj.get("user")
+
+	    		if storedAuthKey is authKey
 	    			querySession = new Parse.Query(Parse.Session)
 	    			querySession.equalTo('user', user)
 	    			querySession.equalTo('installationId', installationId)
@@ -69,12 +65,33 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 	    			.then (sessionObj) ->
 	    				sessionToken =  sessionObj.get('sessionToken')
 		    			result = 
-		    				sessionToken: sessionToken  
+		    				sessionToken: sessionToken 
+		    				scheduleFlag:scheduleFlag 
 	    				response.success result 	    				 				
 	    			, (error) ->
 	    				response.error error 
-    			, (error) ->
-    				response.error error	
+	    		else
+	    			# update new auth key
+	    			tokenStorageObj.set "authKey" , authKey
+	    			tokenStorageObj.save()
+	    			.then (newTokenStorageObj) ->
+		    			querySession = new Parse.Query(Parse.Session)
+		    			querySession.equalTo('user', user)
+		    			querySession.equalTo('installationId', installationId)
+		    			querySession.first(useMasterKey: true)
+		    			.then (sessionObj) ->
+		    				sessionToken =  sessionObj.get('sessionToken')
+			    			result = 
+			    				sessionToken: sessionToken
+			    				scheduleFlag : scheduleFlag  
+		    				response.success result 	    				 				
+		    			, (error) ->
+		    				response.error error 
+	    			, (error) ->
+	    				response.error error
+
+	, (error) ->
+		response.error error	
 
 
 
