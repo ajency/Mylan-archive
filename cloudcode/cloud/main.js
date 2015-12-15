@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -753,12 +753,17 @@
       return getResumeObject(scheduleObj, patientId).then(function(resumeObj) {
         return getStartObject(scheduleObj, patientId).then(function(startObj) {
           return getUpcomingObject(scheduleObj, patientId).then(function(upcomingObj) {
-            return getCompletedObjects(patientId).then(function(completedObjs) {
-              results['resume'] = resumeObj;
-              results['start'] = startObj;
-              results['upcoming'] = upcomingObj;
-              results['completed'] = completedObjs;
-              return response.success(results);
+            return getCompletedObjects(patientId).then(function(completedObj) {
+              return getMissedObjects(scheduleObj, patientId).then(function(missedObj) {
+                results['resume'] = resumeObj;
+                results['start'] = startObj;
+                results['upcoming'] = upcomingObj;
+                results['completed'] = completedObj;
+                results['missed'] = missedObj;
+                return response.success(results);
+              }, function(error) {
+                return response.error(error);
+              });
             }, function(error) {
               return response.error(error);
             });
@@ -814,8 +819,10 @@
       responseQuery.first().then(function(responseObj) {
         if (!_.isUndefined(responseObj)) {
           resumeObj['status'] = "resume";
+          resumeObj['responseId'] = responseObj.id;
         } else {
           resumeObj['status'] = "no_resume";
+          resumeObj['responseId'] = {};
         }
         return promise.resolve(resumeObj);
       }, function(error) {
@@ -823,6 +830,7 @@
       });
     } else {
       resumeObj['status'] = "no_resume";
+      resumeObj['responseId'] = {};
       promise.resolve(resumeObj);
     }
     return promise;
@@ -885,33 +893,37 @@
   };
 
   getCompletedObjects = function(patientId) {
-    var completedObjs, promise, responseQuery, timeObj;
-    completedObjs = {};
+    var completedObj, promise, responseQuery;
+    completedObj = {};
     promise = new Parse.Promise();
-    timeObj = getValidPeriod(scheduleObj);
-    if (isValidTime(timeObj)) {
-      responseQuery = new Parse.Query('Response');
-      responseQuery.equalTo('patient', patientId);
-      responseQuery.equalTo('status', 'Started');
-      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
-      responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
-      responseQuery.first().then(function(responseObj) {
-        if (!_.isUndefined(responseObj)) {
-          resumeObj['status'] = "resume";
-          resumeObj['responseId'] = responseObj.id;
-        } else {
-          resumeObj['status'] = "no_resume";
-          resumeObj['responseId'] = {};
+    responseQuery = new Parse.Query('Response');
+    responseQuery.equalTo('patient', patientId);
+    responseQuery.equalTo('status', 'Completed');
+    responseQuery.descending('createdAt');
+    responseQuery.find().then(function(responseObjs) {
+      var responseObj;
+      completedObj['status'] = "completed";
+      completedObj['responseIds'] = (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = responseObjs.length; j < len; j++) {
+          responseObj = responseObjs[j];
+          results1.push(responseObj.id);
         }
-        return promise.resolve(resumeObj);
-      }, function(error) {
-        return promise.error(error);
-      });
-    } else {
-      resumeObj['status'] = "no_resume";
-      resumeObj['responseId'] = {};
-      promise.resolve(resumeObj);
-    }
+        return results1;
+      })();
+      return promise.resolve(completedObj);
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
+
+  getMissedObjects = function(scheduleObj, patientId) {
+    var missedObj, promise;
+    missedObj = {};
+    promise = new Parse.Promise();
+    promise.resolve(missedObj);
     return promise;
   };
 

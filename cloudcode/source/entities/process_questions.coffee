@@ -568,9 +568,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 
 Parse.Cloud.define "dashboard", (request, response) ->
 	patientId = request.params.patientId
-
 	results = {}
-
 
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.equalTo('patient', patientId)
@@ -584,12 +582,17 @@ Parse.Cloud.define "dashboard", (request, response) ->
 				getUpcomingObject(scheduleObj, patientId)
 				.then (upcomingObj) ->
 					getCompletedObjects(patientId)
-					.then (completedObjs) ->
-						results['resume'] = resumeObj
-						results['start'] = startObj
-						results['upcoming'] = upcomingObj
-						results['completed'] = completedObjs
-						response.success results
+					.then (completedObj) ->
+						getMissedObjects(scheduleObj, patientId)
+						.then (missedObj) ->
+							results['resume'] = resumeObj
+							results['start'] = startObj
+							results['upcoming'] = upcomingObj
+							results['completed'] = completedObj
+							results['missed'] = missedObj
+							response.success results
+						, (error) ->
+							response.error error				
 					, (error) ->
 						response.error error				
 				, (error) ->
@@ -645,16 +648,16 @@ getResumeObject = (scheduleObj, patientId) ->
 		.then (responseObj) ->
 			if !_.isUndefined(responseObj)
 				resumeObj['status'] = "resume"
-				#resumeObj['responseId'] = responseObj.id
+				resumeObj['responseId'] = responseObj.id
 			else
 				resumeObj['status'] = "no_resume"
-				#resumeObj['responseId'] = {}
+				resumeObj['responseId'] = {}
 			promise.resolve(resumeObj)
 		, (error) ->
 			promise.error error
 	else
 		resumeObj['status'] = "no_resume"
-		#resumeObj['responseId'] = {}
+		resumeObj['responseId'] = {}
 		promise.resolve(resumeObj)
 
 	promise
@@ -725,31 +728,24 @@ isValidUpcomingTime = (timeObj) ->
 
 
 getCompletedObjects = (patientId) ->
-	completedObjs = {}
+	completedObj = {}
 	promise = new Parse.Promise()
 	
-	timeObj = getValidPeriod(scheduleObj)
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo('patient', patientId)
+	responseQuery.equalTo('status', 'Completed')
+	responseQuery.descending('createdAt')
+	responseQuery.find()
+	.then (responseObjs) ->
+		completedObj['status'] = "completed"
+		completedObj['responseIds'] = (responseObj.id for responseObj in responseObjs)
+		promise.resolve(completedObj)
+	, (error) ->
+		promise.error error
+	promise
 
-	if isValidTime(timeObj) 
-		responseQuery = new Parse.Query('Response')
-		responseQuery.equalTo('patient', patientId)
-		responseQuery.equalTo('status', 'Started')
-		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-		responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
-		responseQuery.first()
-		.then (responseObj) ->
-			if !_.isUndefined(responseObj)
-				resumeObj['status'] = "resume"
-				resumeObj['responseId'] = responseObj.id
-			else
-				resumeObj['status'] = "no_resume"
-				resumeObj['responseId'] = {}
-			promise.resolve(resumeObj)
-		, (error) ->
-			promise.error error
-	else
-		resumeObj['status'] = "no_resume"
-		resumeObj['responseId'] = {}
-		promise.resolve(resumeObj)
-
+getMissedObjects = (scheduleObj, patientId) ->
+	missedObj = {}
+	promise = new Parse.Promise()
+	promise.resolve(missedObj)
 	promise
