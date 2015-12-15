@@ -1,11 +1,7 @@
  <ion-nav-bar class="bar-light">
 
  	<ion-nav-buttons side="left">
-				<!-- <img
-					ng-click="view.resetPassword()"
-					src="images/logo.jpg"
-					style="height: 30px; z-index: 10;"/> -->
-					<button class="button icon ion-gear-a" ng-click="view.resetPassword()"></button>
+		<button class="button icon ion-gear-a" ng-click="view.resetPassword()"></button>
 	</ion-nav-buttons>
 
 	<ion-nav-back-button
@@ -14,11 +10,16 @@
 
 	<ion-nav-buttons side="right" class="buttons">
 		<button
-			ng-click="view.resetPassword()"
+			ng-click="view.contact()"
 			class="button contact">Contact Us
 		</button>
 		  
-		<button class="button update"><div class="badge badge-assertive">2</div> Updates</button>	
+		<button
+			ng-click="view.update()" 
+			class="button update">
+			<div class="badge badge-assertive">2</div> 
+			Updates
+		</button>	
 	</ion-nav-buttons>
 
  </ion-nav-bar>

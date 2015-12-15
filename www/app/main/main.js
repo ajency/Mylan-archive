@@ -7,8 +7,13 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return App.goBack(count);
       },
       resetPassword: function() {
-        console.log('s');
         return App.navigate('reset_password');
+      },
+      contact: function() {
+        return App.navigate('contact');
+      },
+      update: function() {
+        return App.navigate('notification');
       }
     };
   }

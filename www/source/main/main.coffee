@@ -10,8 +10,13 @@ angular.module 'PatientApp.main', []
 				App.goBack count
 
 			resetPassword : ->
-				console.log 's'
 				App.navigate 'reset_password'
+
+			contact : ->
+				App.navigate 'contact'
+
+			update : ->
+				App.navigate 'notification'
 
 
 ]
