@@ -174,5 +174,52 @@ Parse.Cloud.define 'userLogin', (request, response) ->
         response.error error
     
     
+Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
+
+    scheduleQuery = new Parse.Query('Schedule')
+    scheduleQuery.notEqualTo("patient", '')
+    scheduleQuery.include("questionnaire")
+    scheduleQuery.find()
+    .then (scheduleObjects) ->
+        result ={}
+        responseSaveArr =[]
+        _.each scheduleObjects , (scheduleObject) ->
+            questionnaire = scheduleObject.get("questionnaire")
+            patient = scheduleObject.get("patient")
+            gracePeriod = questionnaire.get("gracePeriod")
+            nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+            newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
+            currentDateTime = moment()
+ 
+            diffrence = moment(currentDateTime).diff(newDateTime)
+            console.log newDateTime
+            console.log currentDateTime
+            console.log diffrence
+            if(diffrence>1)
+                responseData=
+                    patient: patient
+                    questionnaire: questionnaire
+                    status : 'missed'
+                    schedule : scheduleObject
+
+                Response = Parse.Object.extend("Response") 
+                responseObj = new Response responseData
+                responseSaveArr.push(responseObj)
+
+
+        Parse.Object.saveAll responseSaveArr
+                .then (objs) ->
+                    response.success objs
+                , (error) ->
+                    response.error (error)
+
+
+            , (error) ->
+                response.error error
+
+    , (error) ->
+        response.error error
+
+
 
 

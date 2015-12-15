@@ -26,7 +26,7 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 
 	queryTokenStorage.first(useMasterKey: true)
     .then (tokenStorageObj) ->	
-
+    
     	if(_.isEmpty(tokenStorageObj))
     		# create new user and store its reference in tokenstorage table
     		appData =
