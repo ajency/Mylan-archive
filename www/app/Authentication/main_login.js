@@ -27,15 +27,22 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
               return function(data) {
                 console.log(data);
                 if (data.code === 'successful_login') {
-                  Storage.login('set');
-                  Storage.hospital_data('set', data.hospital);
-                  Storage.setPatientId('set', data.patient_id);
-                  Storage.setProjectId('set', data.project_id);
-                  Storage.setData('patientData', 'set', data);
-                  CSpinner.hide();
-                  return App.navigate("dashboard", {}, {
-                    animate: false,
-                    back: false
+                  return Parse.User.become(data.user).then(function(user) {
+                    console.log('succ user');
+                    console.log(user);
+                    Storage.login('set');
+                    Storage.hospital_data('set', data.hospital);
+                    Storage.setPatientId('set', data.patient_id);
+                    Storage.setProjectId('set', data.project_id);
+                    Storage.setData('patientData', 'set', data);
+                    CSpinner.hide();
+                    return App.navigate("dashboard", {}, {
+                      animate: false,
+                      back: false
+                    });
+                  }, function(error) {
+                    console.log('in error');
+                    return console.log(error);
                   });
                 } else {
                   CToast.show('Please check credentials');

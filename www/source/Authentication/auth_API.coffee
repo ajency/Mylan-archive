@@ -25,17 +25,19 @@ angular.module 'PatientApp.Auth'
 		defer.promise
 
 	AuthAPI.validateUser = (refrencecode,password )->
-		# console.log refcode + password
-		params = 
-			"referenceCode" : refrencecode
-			"password": password
-			"installationId" : "dsawdsa"
 
 		defer = $q.defer()
-
-		url = AUTH_URL+'/user/login'
-				
-		App.sendRequest(url, params, AUTH_HEADERS)
+		App.getInstallationId()
+		.then (installationId)->
+			console.log '--installtionId--'
+			console.log installationId
+			params = 
+				"referenceCode" : refrencecode
+				"password": password
+				"installationId" : installationId
+			url = AUTH_URL+'/user/login'
+					
+			App.sendRequest(url, params, AUTH_HEADERS)
 		.then (data)->
 			defer.resolve data.data
 		, (error)=>

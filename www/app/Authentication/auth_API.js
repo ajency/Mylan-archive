@@ -23,15 +23,20 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
       return defer.promise;
     };
     AuthAPI.validateUser = function(refrencecode, password) {
-      var defer, params, url;
-      params = {
-        "referenceCode": refrencecode,
-        "password": password,
-        "installationId": "dsawdsa"
-      };
+      var defer;
       defer = $q.defer();
-      url = AUTH_URL + '/user/login';
-      App.sendRequest(url, params, AUTH_HEADERS).then(function(data) {
+      App.getInstallationId().then(function(installationId) {
+        var params, url;
+        console.log('--installtionId--');
+        console.log(installationId);
+        params = {
+          "referenceCode": refrencecode,
+          "password": password,
+          "installationId": installationId
+        };
+        url = AUTH_URL + '/user/login';
+        return App.sendRequest(url, params, AUTH_HEADERS);
+      }).then(function(data) {
         return defer.resolve(data.data);
       }, (function(_this) {
         return function(error) {
