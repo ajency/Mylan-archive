@@ -1104,6 +1104,51 @@
     });
   });
 
+  Parse.Cloud.job('updateMissedQuestionnaire', function(request, response) {
+    var scheduleQuery;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.notEqualTo("patient", '');
+    scheduleQuery.include("questionnaire");
+    return scheduleQuery.find().then(function(scheduleObjects) {
+      var responseSaveArr, result;
+      result = {};
+      responseSaveArr = [];
+      _.each(scheduleObjects, function(scheduleObject) {
+        var Response, currentDateTime, diffrence, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
+        questionnaire = scheduleObject.get("questionnaire");
+        patient = scheduleObject.get("patient");
+        gracePeriod = questionnaire.get("gracePeriod");
+        nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
+        newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
+        currentDateTime = moment();
+        diffrence = moment(currentDateTime).diff(newDateTime);
+        console.log(newDateTime);
+        console.log(currentDateTime);
+        console.log(diffrence);
+        if (diffrence > 1) {
+          responseData = {
+            patient: patient,
+            questionnaire: questionnaire,
+            status: 'missed',
+            schedule: scheduleObject
+          };
+          Response = Parse.Object.extend("Response");
+          responseObj = new Response(responseData);
+          return responseSaveArr.push(responseObj);
+        }
+      });
+      return Parse.Object.saveAll(responseSaveArr).then(function(objs) {
+        return response.success(objs);
+      }, function(error) {
+        return response.error(error);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   Buffer = require('buffer').Buffer;
 
   TokenRequest = Parse.Object.extend("TokenRequest");
