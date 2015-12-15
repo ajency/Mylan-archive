@@ -1,4 +1,6 @@
 _ = require('underscore.js')
+moment = require('cloud/moment.js')
+
 
 Parse.Cloud.define 'doSetup', (request, response) ->
     referenceCode = request.params.referenceCode
