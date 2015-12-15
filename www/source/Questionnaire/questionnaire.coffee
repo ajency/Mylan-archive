@@ -20,7 +20,7 @@ angular.module 'PatientApp.Quest',[]
 			variables :()->
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
-				@val_answerValue = []
+				@val_answerValue = {}
 
 
 			getLocal :()->
@@ -225,7 +225,11 @@ angular.module 'PatientApp.Quest',[]
 							ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
 							console.log 'objjj id'
 							console.log ObjId
+							console.log 'valAnswer1'
+							console.log @val_answerValue
 							@val_answerValue[ObjId.option] = @data.hasAnswer.value
+							console.log 'valAnswer2'
+							console.log @val_answerValue
 									
 						console.log @data	
 							

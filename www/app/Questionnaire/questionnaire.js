@@ -14,7 +14,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       variables: function() {
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
-        return this.val_answerValue = [];
+        return this.val_answerValue = {};
       },
       getLocal: function() {
         var defer;
@@ -225,7 +225,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 });
                 console.log('objjj id');
                 console.log(ObjId);
+                console.log('valAnswer1');
+                console.log(_this.val_answerValue);
                 _this.val_answerValue[ObjId.option] = _this.data.hasAnswer.value;
+                console.log('valAnswer2');
+                console.log(_this.val_answerValue);
               }
               return console.log(_this.data);
             }, function(error) {
