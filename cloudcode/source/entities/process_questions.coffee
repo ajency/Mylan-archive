@@ -402,6 +402,10 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 
 		Parse.Promise.when(promiseArr)
 
+
+	hasAnswer = getCurrentAnswer(questionObj, responseObj)
+	isEditable = responseObj.get(questionnaire).get('editable')
+
 	getAnswers().then -> 
 		answeredQuestions = responseObj.get('answeredQuestions')
 		if questionObj.id not in answeredQuestions
@@ -425,6 +429,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	value = request.params.value
 
 	responseQuery = new Parse.Query('Response')
+	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		if responseObj.get('status') == 'Completed'
@@ -501,6 +506,10 @@ getSummary = (responseObj) ->
 		promise.error error
 	promise
 
+
+
+
+
 getAnswers = (answerObjects) ->
 
 	results = (answerObj) ->
@@ -539,6 +548,8 @@ getAnswers = (answerObjects) ->
 	results answerObj for answerObj in answers   
 
 
+
+#Change the 'status' of the responseObj to 'Completed'
 Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
@@ -554,24 +565,104 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 		response.error error
 
 
+
+
+#Dashoard screen of the user
 Parse.Cloud.define "dashboard", (request, response) ->
+	#input
 	patientId = request.params.patientId
 
+	results = {}
+	scheduleQuery = new Parse.Query("Schedule")
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.include('questionnaire')
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		getAllResponsesPerPatient(patientId)
+		.then (responseObjects) ->
+			getDueDate(scheduleObj)
+			.then (dueDate) ->
+				results['responseObjects'] = responseObjects
+				results['next_occurence'] = scheduleObj.get('nextOccurrence')
+				results['due_date'] = dueDate
+				results['upcoming'] = "toBeAdded"
+				results['missed'] = "toBeAdded"
+				response.success results
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+Parse.Cloud.define "getAllResponsesPerPatient", (request, response) ->
+	patientId = request.params.patientId
+
+	getAllResponsesPerPatient(patientId)
+	.then (responseObjects) ->
+		response.success responseObjects
+	, (error) ->
+		response.error error
+
+Parse.Cloud.define "getDueDate", (request, response) ->
+	patientId = request.params.patientId
+
+	scheduleQuery = new Parse.Query("Schedule")
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.include('questionnaire')
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		getDueDate(scheduleObj)
+		.then (dueDate) ->
+			response.success dueDate
+		, (error) ->
+			response.error error
+
+
+getAllResponsesPerPatient = (patientId) ->
+	promise = new Parse.Promise()
 	responseQuery = new Parse.Query("Response")
 	responseQuery.equalTo('patient', patientId)
 	responseQuery.find()
 	.then (responseObjs) ->
-		results = []
+		responseObjects = []
 
 		for responseObj in responseObjs
 			value = 
 				response_id: responseObj.id
 				date_time: responseObj.createdAt
 				status: responseObj.get('status')
-			results.push(value)
+			responseObjects.push(value)
 
-		response.success results
-
+		promise.resolve(responseObjects)
 	, (error) ->
-		response.error error
+		promise.error error
+	promise
+
+
+getDueDate = (scheduleObj) ->
+	promise = new Parse.Promise()
+
+	patientId = scheduleObj.get('patient')
+	checkStartDate = scheduleObj.get('startDate')
+	checkNextOccurrence = scheduleObj.get('nextOccurrence')
+	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod')
+	checkEndDate = new Date(checkNextOccurrence.getTime())
+	checkEndDate.setDate(checkEndDate.getDate() + gracePeriod)
+
+	responseQuery = new Parse.Query("Response")
+	responseQuery.equalTo('patient', patientId)
+	responseQuery.greaterThanOrEqualTo('createdAt', checkStartDate)
+	responseQuery.lessThanOrEqualTo('createdAt', checkEndDate)
+	responseQuery.find()
+	.then (responseObjs) ->
+		if !_.isEmpty(responseObjs)
+			promise.resolve("not_due")
+		else
+			promise.resolve(checkStartDate)
+	, (error) ->
+		promise.error error
+	promise
+
+
 
