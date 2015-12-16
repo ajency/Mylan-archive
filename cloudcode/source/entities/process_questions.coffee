@@ -568,7 +568,8 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 
 Parse.Cloud.define "dashboard", (request, response) ->
 	patientId = request.params.patientId
-	results = {}
+#	results = {}
+	results = []
 
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.equalTo('patient', patientId)
@@ -585,11 +586,16 @@ Parse.Cloud.define "dashboard", (request, response) ->
 					.then (completedObj) ->
 						getMissedObjects(scheduleObj, patientId)
 						.then (missedObj) ->
-							results['resume'] = resumeObj
-							results['start'] = startObj
-							results['upcoming'] = upcomingObj
-							results['completed'] = completedObj
-							results['missed'] = missedObj
+							results.push(resumeObj)
+							results.push(startObj)
+							results.push(upcomingObj)
+							results.push(completedObj)
+							results.push(missedObj)
+#							results['resume'] = resumeObj
+#							results['start'] = startObj
+#							results['upcoming'] = upcomingObj
+#							results['completed'] = completedObj
+#							results['missed'] = missedObj
 							response.success results
 						, (error) ->
 							response.error error				
@@ -632,35 +638,6 @@ isValidTime = (timeObj) ->
 	else
 		false
 
-getResumeObject = (scheduleObj, patientId) ->
-	resumeObj = {}
-	promise = new Parse.Promise()
-	
-	timeObj = getValidPeriod(scheduleObj)
-
-	if isValidTime(timeObj) 
-		responseQuery = new Parse.Query('Response')
-		responseQuery.equalTo('patient', patientId)
-		responseQuery.equalTo('status', 'Started')
-		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-		responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
-		responseQuery.first()
-		.then (responseObj) ->
-			if !_.isUndefined(responseObj)
-				resumeObj['status'] = "resume"
-				resumeObj['responseId'] = responseObj.id
-			else
-				resumeObj['status'] = "no_resume"
-				resumeObj['responseId'] = {}
-			promise.resolve(resumeObj)
-		, (error) ->
-			promise.error error
-	else
-		resumeObj['status'] = "no_resume"
-		resumeObj['responseId'] = {}
-		promise.resolve(resumeObj)
-
-	promise
 
 
 
@@ -685,17 +662,17 @@ getStartObject = (scheduleObj, patientId) ->
 		responseQuery.first()
 		.then (responseObj) ->
 			if !_.isUndefined(responseObj)
-				startObj['status'] = "no_start"
-				#startObj['responseId'] = {}
+				startObj['status'] = "not_start"
+				#startObj['responseId'] = ""
 			else
 				startObj['status'] = "start"
-				#startObj['responseId'] = {}
+				#startObj['responseId'] = ""
 			promise.resolve(startObj)
 		, (error) ->
 			promise.error error
 	else
-		startObj['status'] = "no_start"
-		#startObj['responseId'] = {}
+		startObj['status'] = "not_start"
+		#startObj['responseId'] = ""
 		promise.resolve(startObj)
 
 	promise
@@ -710,11 +687,11 @@ getUpcomingObject = (scheduleObj, patientId) ->
 
 	if isValidUpcomingTime(timeObj) 
 		upcomingObj['status'] = "upcoming"
-		#upcomingObj['responseId'] = {}
+		#upcomingObj['responseId'] = ""
 		promise.resolve(upcomingObj)
 	else
-		upcomingObj['status'] = "no_upcoming"
-		#upcomingObj['responseId'] = {}
+		upcomingObj['status'] = "not_upcoming"
+		#upcomingObj['responseId'] = ""
 		promise.resolve(upcomingObj)
 	promise
 
@@ -725,6 +702,7 @@ isValidUpcomingTime = (timeObj) ->
 		true
 	else
 		false
+
 
 
 getCompletedObjects = (patientId) ->
@@ -744,8 +722,103 @@ getCompletedObjects = (patientId) ->
 		promise.error error
 	promise
 
+
+
+
+
+
+getResumeObject = (scheduleObj, patientId) ->
+	resumeObj = {}
+	promise = new Parse.Promise()
+	
+	timeObj = getValidPeriod(scheduleObj)
+
+	if isValidTime(timeObj) 
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('patient', patientId)
+		responseQuery.equalTo('status', 'Started')
+		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
+		responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+		responseQuery.first()
+		.then (responseObj) ->
+			if !_.isUndefined(responseObj)
+				resumeObj['status'] = "resume"
+				resumeObj['responseId'] = responseObj.id
+			else
+				resumeObj['status'] = "not_resume"
+				resumeObj['responseId'] = ""
+			promise.resolve(resumeObj)
+		, (error) ->
+			promise.error error
+	else
+		resumeObj['status'] = "not_resume"
+		resumeObj['responseId'] = ""
+		promise.resolve(resumeObj)
+
+	promise
+
+
+
+
 getMissedObjects = (scheduleObj, patientId) ->
 	missedObj = {}
 	promise = new Parse.Promise()
-	promise.resolve(missedObj)
+
+	timeObj = getValidPeriod(scheduleObj)
+
+	if !isValidMissedTime(timeObj) 
+		missedObj['status'] = "not_missed"
+		missedObj['responseId'] = ""
+		promise.resolve(missedObj)
+
+	else 
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('patient', patientId)
+		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
+		#responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+		responseQuery.first()
+		.then (responseObj) ->
+			if !_.isUndefined(responseObj) and responseObj.get('status') == 'Completed'
+				missedObj['status'] = "not_missed"
+				missedObj['responseId'] = ""
+				promise.resolve(missedObj)
+
+			else if !_.isUndefined(responseObj) and responseObj.get('status') == 'missed'
+				missedObj['status'] = "missed"
+				missedObj['responseId'] = responseObj.id
+				promise.resolve(missedObj)
+
+			else if !_.isUndefined(responseObj) and responseObj.get('status') == 'Started'
+				responseObj.set('status', 'missed')
+				responseObj.save()
+				.then (responseObj) ->
+					missedObj['status'] = "missed"
+					missedObj['responseId'] = responseObj.id
+					promise.resolve(missedObj)
+				, (error) ->
+					promise.error error
+			else if _.isUndefined(responseObj)
+				createResponse(scheduleObj.get('questionnaire').id, patientId)
+				.then (responseObj) ->
+					responseObj.set('status', 'missed')
+					responseObj.save()
+					.then (responseObj) ->
+						missedObj['status'] = "missed"
+						missedObj['responseId'] = responseObj.id
+						promise.resolve(missedObj)
+					, (error) ->
+						promise.error error
+				, (error) ->
+					promise.error error
+		, (error) ->
+			promise.error error
 	promise
+
+
+isValidMissedTime = (timeObj) ->
+	currentTime = new Date()
+
+	if timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()
+		true
+	else
+		false
