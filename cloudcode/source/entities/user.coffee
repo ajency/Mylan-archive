@@ -174,10 +174,10 @@ Parse.Cloud.define 'userLogin', (request, response) ->
         response.error error
     
     
-Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
+Parse.Cloud.define 'createMissedResponse', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
-    scheduleQuery.notEqualTo("patient", '')
+    scheduleQuery.notEqualTo("patient", '(undefined)')
     scheduleQuery.include("questionnaire")
     scheduleQuery.find()
     .then (scheduleObjects) ->
@@ -210,9 +210,9 @@ Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
                 getQuestionnaireFrequency(questionnaire)
                 .then (frequency) ->
                     frequency = parseInt frequency
-                    newNextOccurrence = moment(nextOccurrence).add(frequency, 'days')
-                    data = new Date(newNextOccurrence)
-                    scheduleObject.set('nextOccurrence',data)
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                    date = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',date)
                     scheduleSaveArr.push(scheduleObject)
                 , (error) ->
                     response.error error
@@ -232,6 +232,66 @@ Parse.Cloud.job 'updateMissedQuestionnaire', (request, response) ->
     , (error) ->
         response.error error
 
+
+Parse.Cloud.job 'createMissedResponse', (request, response) ->
+
+    scheduleQuery = new Parse.Query('Schedule')
+    scheduleQuery.notEqualTo("patient", '(undefined)')
+    scheduleQuery.include("questionnaire")
+    scheduleQuery.find()
+    .then (scheduleObjects) ->
+        result ={}
+        responseSaveArr =[]
+        scheduleSaveArr =[]
+        _.each scheduleObjects , (scheduleObject) ->
+            questionnaire = scheduleObject.get("questionnaire")
+            patient = scheduleObject.get("patient")
+            gracePeriod = questionnaire.get("gracePeriod")
+            nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+            newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
+            currentDateTime = moment()
+ 
+            diffrence = moment(newDateTime).diff(currentDateTime)
+            diffrence2 = moment(currentDateTime).diff(newDateTime)
+            console.log newDateTime
+            console.log currentDateTime
+            console.log diffrence
+            console.log diffrence2
+            if(diffrence>1)
+                responseData=
+                    patient: patient
+                    questionnaire: questionnaire
+                    status : 'missed'
+                    schedule : scheduleObject
+
+                Response = Parse.Object.extend("Response") 
+                responseObj = new Response responseData
+                responseSaveArr.push(responseObj)
+
+                getQuestionnaireFrequency(questionnaire)
+                .then (frequency) ->
+                    frequency = parseInt frequency
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                    date = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',date)
+                    scheduleSaveArr.push(scheduleObject)
+                , (error) ->
+                    response.error error
+
+        # save all responses
+        Parse.Object.saveAll responseSaveArr
+            .then (resObjs) ->
+                # update all schedule nextoccurrence
+                Parse.Object.saveAll scheduleSaveArr
+                    .then (scheduleObjs) ->
+                        response.success scheduleObjs
+                    , (error) ->
+                        response.error (error)   
+            , (error) ->
+                response.error (error)
+
+    , (error) ->
+        response.error error
 
 getQuestionnaireFrequency =  ( questionnaireObj ) ->
     promise = new Parse.Promise()

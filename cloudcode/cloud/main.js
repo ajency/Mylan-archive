@@ -1116,10 +1116,10 @@
     });
   });
 
-  Parse.Cloud.job('updateMissedQuestionnaire', function(request, response) {
+  Parse.Cloud.define('createMissedResponse', function(request, response) {
     var scheduleQuery;
     scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.notEqualTo("patient", '');
+    scheduleQuery.notEqualTo("patient", '(undefined)');
     scheduleQuery.include("questionnaire");
     return scheduleQuery.find().then(function(scheduleObjects) {
       var responseSaveArr, result, scheduleSaveArr;
@@ -1149,11 +1149,71 @@
           responseObj = new Response(responseData);
           responseSaveArr.push(responseObj);
           return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
-            var data, newNextOccurrence;
+            var date, newNextOccurrence;
             frequency = parseInt(frequency);
-            newNextOccurrence = moment(nextOccurrence).add(frequency, 'days');
-            data = new Date(newNextOccurrence);
-            scheduleObject.set('nextOccurrence', data);
+            newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
+            date = new Date(newNextOccurrence);
+            scheduleObject.set('nextOccurrence', date);
+            return scheduleSaveArr.push(scheduleObject);
+          }, function(error) {
+            return response.error(error);
+          });
+        }
+      });
+      return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
+        return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
+          return response.success(scheduleObjs);
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.job('createMissedResponse', function(request, response) {
+    var scheduleQuery;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.notEqualTo("patient", '(undefined)');
+    scheduleQuery.include("questionnaire");
+    return scheduleQuery.find().then(function(scheduleObjects) {
+      var responseSaveArr, result, scheduleSaveArr;
+      result = {};
+      responseSaveArr = [];
+      scheduleSaveArr = [];
+      _.each(scheduleObjects, function(scheduleObject) {
+        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
+        questionnaire = scheduleObject.get("questionnaire");
+        patient = scheduleObject.get("patient");
+        gracePeriod = questionnaire.get("gracePeriod");
+        nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
+        newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
+        currentDateTime = moment();
+        diffrence = moment(newDateTime).diff(currentDateTime);
+        diffrence2 = moment(currentDateTime).diff(newDateTime);
+        console.log(newDateTime);
+        console.log(currentDateTime);
+        console.log(diffrence);
+        console.log(diffrence2);
+        if (diffrence > 1) {
+          responseData = {
+            patient: patient,
+            questionnaire: questionnaire,
+            status: 'missed',
+            schedule: scheduleObject
+          };
+          Response = Parse.Object.extend("Response");
+          responseObj = new Response(responseData);
+          responseSaveArr.push(responseObj);
+          return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
+            var date, newNextOccurrence;
+            frequency = parseInt(frequency);
+            newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
+            date = new Date(newNextOccurrence);
+            scheduleObject.set('nextOccurrence', date);
             return scheduleSaveArr.push(scheduleObject);
           }, function(error) {
             return response.error(error);
