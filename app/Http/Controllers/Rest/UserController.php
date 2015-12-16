@@ -284,7 +284,7 @@ class UserController extends Controller
 
                         //if schedule not set for patient
                         /******************************/
-                        if(!isset($parseUser['result']['scheduleFlag']))
+                        if(!isset($parseUser['result']['scheduleFlag']) && $parseUser['result']['scheduleFlag']==false)
                         {
                             $questionnaireObj = new ParseQuery("Questionnaire");
                             $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
