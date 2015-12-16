@@ -43,6 +43,10 @@ p {
 .bg-white.shadow-full {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
+.prev-answer {
+  background: #eee;
+  padding: 15px;
+}
 .inline {
   display: inline;
 }
@@ -218,6 +222,9 @@ h3.line-title span {
     margin: 0 auto;
   }
 }
+.dashboard .xs-text-left {
+  text-align: left;
+}
 /*** ALERT BOX STYLING ***/
 .alert {
   font-size: 17px;
@@ -292,6 +299,14 @@ h3.line-title span {
 .timeline .list-item .list-infotext {
   display: inline-block;
   margin-left: 20px;
+}
+@media (max-width: 767px) {
+  .timeline .list-item {
+    margin-bottom: 14px;
+  }
+  .timeline .list-item .no {
+    bottom: 19px;
+  }
 }
 /*** BUTTON STYLING ***/
 .btn.btn-primary {
@@ -375,13 +390,14 @@ h3.line-title span {
   font-weight: inherit;
   font-size: 17px;
   color: #555555;
+  width: 100%;
 }
 .item.item-radio input {
   visibility: hidden;
   position: absolute;
 }
 .item.item-radio .item-content {
-  padding: 16px 16px 16px 0;
+  padding: 16px;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon {
   background: #7bc67a;
@@ -406,6 +422,9 @@ h3.line-title span {
 }
 .item.item-radio .radio-icon::before {
   opacity: 0;
+}
+.item.item-radio .bg-yellow {
+  background: #f8fad1;
 }
 /*** SLIDER STYLING ***/
 .carousel-content {
@@ -597,10 +616,10 @@ form .fa.fa-question::before {
   .item.item-radio .item-content {
     padding: 11px 11px 11px 0;
   }
-  .timeline h3,
-  .timeline h4 {
-    font-size: 15px;
-  }
+}
+ul.q-tabs {
+  display: inline-flex;
+  list-style-type: none;
 }
 .footer {
   background-color: #D2D2D2;

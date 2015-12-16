@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Dashboard</title>
+    <title>Mylan-web</title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -37,56 +37,46 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US 0161 123 1234</span></a></li>
-       <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i></a></li>
+       <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
   <br class="hidden-xs">
-  <div class="pull-right m-t-25">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause</button>
+  <div class="pull-right">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause & Exit Questionnaire</button>
   </div>
-    <h2><div class="badge-round">B</div>&nbsp;&nbsp;Pain</h2>
+    <h3>Please Answer the following Questions </h3>
     <br>
- 
-  <div class="alert alert-success" role="alert">
-     <div class="pull-right">
-    <i class="fa fa-calendar"></i> <small class="text-muted">&nbsp;&nbsp;Submitted on 22nd october 2014</small>
-  </div>
-  <div class="f-t-200">Previous Answer :</div>
-  <br>
-  <div class="alert-numbered-list">
-    Pain present, but no need of pain killers
-
-  </div> <br  class="hidden-xs">
-</div>
-<br class="hidden-xs">
-<br class="hidden-xs">
 
   <div id="carousel-example" class="carousel slide" data-ride="carousel" data-interval="false">
     <!-- Indicators -->
      <!-- Controls --> 
 
     <!-- Wrapper for slides -->
-   <div class="carousel-inner">
-                <div class="item active">
-                    <div class="carousel-content">
-                        <div class="panel panel-default">
+  <div class="panel panel-default">
     <div class="panel-body">
-      <br class="hidden-xs">
-           <h3>Which statement best describes your pain in the past month? ?</h3>
-           <br class="hidden-xs">
+     
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="q1">
+      <div class="row">
+        <div class="col-md-17">
+          <br>
+            <h3 class="text-success">Which statement best describes your pain in the past month?</h3>
+            <br class="hidden-xs">
+              <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
+            <br class="hidden-xs">
            <label class="item item-radio">
         <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked">
+          <input type="radio" name="group" value="go" checked="checked" selected>
           <i class="radio-icon fa fa-check"></i>
           No pain
         </div>
         </label><br class="hidden-xs">
          <label class="item item-radio">
         <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked" />
+          <input type="radio" name="group" value="go" checked="checked"/>
            <i class="radio-icon fa fa-check"></i>
            Pain present, but no need for pain killers
         </div>
@@ -94,7 +84,7 @@
 
         <br class="hidden-xs">
           <label class="item item-radio">
-        <div class="item-content">
+        <div class="item-content bg-yellow">
           <input type="radio" name="group" value="go" checked="checked" />
            <i class="radio-icon fa fa-check"></i>
            Pain present, and I take occasional pain relieving medication
@@ -132,20 +122,25 @@
            The pain has been so bad I have had to go to hospital
         </div>
         </label>
-        <br class="hidden-xs">
-            <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
-            <br class="hidden-xs">
+        </div>
+        <div class="col-md-7">
+            <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
             </div>
           </div>
-                    </div>
-                </div>
-              
-                <div class="item">
-                     <div class="carousel-content">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <br class="hidden-xs">
-                             <h3>How have your bowels been in the past month?</h3>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="q2">
+          <div class="row">
+              <div class="col-md-17">
+                  <br class="hidden-xs">
+                             <h4>How have your bowels been in the past month?</h4>
                              <br class="hidden-xs">
                              <label class="item item-radio">
                           <div class="item-content">
@@ -185,19 +180,25 @@
                             Constipated
                             </div>
                           </label>
-                          <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
-                            <br class="hidden-xs">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                  <div class="item">
-                   <div class="carousel-content">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <br class="hidden-xs">
-                             <h3>What is your current weight?</h3>
+              </div>
+              <div class="col-md-7">
+                  <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
+            </div>
+              </div>
+          </div>
+      </div>
+      <div role="tabpanel" class="tab-pane" id="q3">
+            <div class="row">
+                <div class="col-md-17">
+                    <br class="hidden-xs">
+                             <h4>What is your current weight?</h4>
                               <br class="hidden-xs">
                               <form class="row">
                                 <div class="col-xs-8">
@@ -219,16 +220,65 @@
                           <br class="hidden-xs">
                               <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
                           <br class="hidden-xs">
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                <div class="item">
-                     <div class="carousel-content">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <br class="hidden-xs">
-                             <h3>Has your appetite changed in the past month?</h3>
+                <div class="col-md-7">
+                    <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
+            </div>
+                </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="q4">
+            <div class="row">
+                <div class="col-md-17">
+                    <br class="hidden-xs">
+                             <h4>What is your current weight?</h4>
+                              <br class="hidden-xs">
+                              <form class="row">
+                                <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                  <input type="text" class="form-control input-lg" id="Kgs" placeholder="Kgs">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                    <div class="form-group b-b">
+                                    <input type="text" class="form-control input-lg" id="St" placeholder="St">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                   <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
+                                  </div>
+                                  </div>
+                              </form>
+                          <br class="hidden-xs">
+                              <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
+                          <br class="hidden-xs">
+                </div>
+                <div class="col-md-7">
+                    <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
+            </div>
+                </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="q5">
+              <div class="row">
+                  <div class="col-md-17">
+                      <br class="hidden-xs">
+                             <h4>Has your appetite changed in the past month?</h4>
                              <br class="hidden-xs">
                              <label class="item item-radio">
                           <div class="item-content">
@@ -271,16 +321,25 @@
                           <br class="hidden-xs">
                               <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
                             <br class="hidden-xs">
-                      </div>
-                    </div>
                   </div>
-                </div>
-                <div class="item">
-                     <div class="carousel-content">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <br class="hidden-xs">
-                             <h3>How does your illness affect you at present?</h3>
+                  <div class="col-md-7">
+                      <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
+            </div>
+                  </div>
+              </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="q6">
+                <div class="row">
+                    <div class="col-md-17">
+                      <br class="hidden-xs">
+                             <h4>How does your illness affect you at present?</h4>
                              <br class="hidden-xs">
                              <label class="item item-radio">
                           <div class="item-content">
@@ -323,80 +382,37 @@
                           <br class="hidden-xs">
                               <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
                             <br class="hidden-xs">
-                      </div>
                     </div>
-                  </div>
-                </div>
-                <div class="item">
-                     <div class="carousel-content">
-                    <div class="panel panel-default">
-                      <div class="panel-body">
-                        <br class="hidden-xs">
-                             <h3>How has your diabetes control been over the last month?</h3>
-                             <br class="hidden-xs">
-                             <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I do not have diabetes
-                            </div>
-                          </label><br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am controlling my diabetes with diet and/or tablets
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am on insulin and my blood sugar NEVER goes above 10
-                          </div>
-                          </label>
-                            <br class="hidden-xs">
-                            <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am on insulin and my blood sugar is often above 10
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am on insulin and my blood sugar can be very high or low
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
-                            <br class="hidden-xs">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                    <div class="col-md-7">
+                      <div class="prev-answer">
+              <p>Previous Answer :</p>
+              <p class="text-muted">
+                Pain present, and I need to take regular strong painkillers
+              </p>
+              <div class="text-muted">
+                <i class="fa fa-calendar"></i> <small>&nbsp;&nbsp;Submitted on 22nd october 2014</small>
+              </div>
             </div>
-       <div >
-       <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-      <div><span>Previous</span></div>
-    </a> <a href="submission.html">Submission screen</a>
-    <a class="right carousel-control" href="#carousel-example" data-slide="next">
-      <div><span>Next</span></div>
-    </a>
-   
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example" data-slide-to="1"></li>
-    <li data-target="#carousel-example" data-slide-to="2"></li>
-    <li data-target="#carousel-example" data-slide-to="3"></li>
-    <li data-target="#carousel-example" data-slide-to="4"></li>
-    <li data-target="#carousel-example" data-slide-to="5"></li>
-  </ol>
-</div>
+                    </div>
+                </div>
+          </div>
+    </div>
+       <ul class="nav q-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#q1" aria-controls="q1" role="tab" data-toggle="tab">1</a></li>
+    <li role="presentation"><a href="#q2" aria-controls="q2" role="tab" data-toggle="tab">2</a></li>
+    <li role="presentation"><a href="#q3" aria-controls="q3" role="tab" data-toggle="tab">3</a></li>
+    <li role="presentation"><a href="#q4" aria-controls="q4" role="tab" data-toggle="tab">4</a></li>
+    <li role="presentation"><a href="#q5" aria-controls="q5" role="tab" data-toggle="tab">5</a></li>
+    <li role="presentation"><a href="#q6" aria-controls="q6" role="tab" data-toggle="tab">6</a></li>
+  </ul>
+    </div>
+  </div>
+         
+                 
+     
+      
+ 
+
 </div>
 
 
@@ -437,7 +453,7 @@
 
 <!-- Modal -->
 <div class="modal fade bs-example-modal-sm" id="pauseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-sm" role="document">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
      <div class="modal-body">
        <div class="text-center">
