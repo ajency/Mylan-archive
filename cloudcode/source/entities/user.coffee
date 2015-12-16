@@ -177,7 +177,7 @@ Parse.Cloud.define 'userLogin', (request, response) ->
 Parse.Cloud.define 'createMissedResponse', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
-    scheduleQuery.notEqualTo("patient", '(undefined)')
+    scheduleQuery.exists("patient")
     scheduleQuery.include("questionnaire")
     scheduleQuery.find()
     .then (scheduleObjects) ->
@@ -238,7 +238,7 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
 Parse.Cloud.job 'createMissedResponse', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
-    scheduleQuery.notEqualTo("patient", '(undefined)')
+    scheduleQuery.exists("patient")
     scheduleQuery.include("questionnaire")
     scheduleQuery.find()
     .then (scheduleObjects) ->

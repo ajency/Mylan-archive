@@ -1119,7 +1119,7 @@
   Parse.Cloud.define('createMissedResponse', function(request, response) {
     var scheduleQuery;
     scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.notEqualTo("patient", '(undefined)');
+    scheduleQuery.exists("patient");
     scheduleQuery.include("questionnaire");
     return scheduleQuery.find().then(function(scheduleObjects) {
       var responseSaveArr, result, scheduleSaveArr;
@@ -1179,7 +1179,7 @@
   Parse.Cloud.job('createMissedResponse', function(request, response) {
     var scheduleQuery;
     scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.notEqualTo("patient", '(undefined)');
+    scheduleQuery.exists("patient");
     scheduleQuery.include("questionnaire");
     return scheduleQuery.find().then(function(scheduleObjects) {
       var responseSaveArr, result, scheduleSaveArr;
