@@ -1260,73 +1260,85 @@
   restrictedAcl.setPublicWriteAccess(false);
 
   Parse.Cloud.define('loginParseUser', function(request, response) {
-    var authKey, installationId, queryTokenStorage, referenceCode;
+    var authKey, installationId, querySchedule, referenceCode, scheduleFlag;
     authKey = request.params.authKey;
     referenceCode = String(request.params.referenceCode);
     installationId = String(request.params.installationId);
-    queryTokenStorage = new Parse.Query("TokenStorage");
-    queryTokenStorage.equalTo('referenceCode', referenceCode);
-    queryTokenStorage.equalTo('installationId', installationId);
-    return queryTokenStorage.first({
-      useMasterKey: true
-    }).then(function(tokenStorageObj) {
-      var appData, querySession, storedAuthKey, user;
-      if (_.isEmpty(tokenStorageObj)) {
-        appData = {
-          installationId: installationId,
-          referenceCode: referenceCode
-        };
-        return createNewUser(authKey, appData).then(function(user) {
-          var result;
-          result = {
-            sessionToken: user.getSessionToken()
+    scheduleFlag = false;
+    querySchedule = new Parse.Query("Schedule");
+    querySchedule.equalTo('patient', referenceCode);
+    return querySchedule.first().then(function(scheduleObj) {
+      var queryTokenStorage;
+      if (!_.isEmpty(scheduleObj)) {
+        scheduleFlag = true;
+      }
+      queryTokenStorage = new Parse.Query("TokenStorage");
+      queryTokenStorage.equalTo('referenceCode', referenceCode);
+      queryTokenStorage.equalTo('installationId', installationId);
+      return queryTokenStorage.first({
+        useMasterKey: true
+      }).then(function(tokenStorageObj) {
+        var appData, querySession, storedAuthKey, user;
+        if (_.isEmpty(tokenStorageObj)) {
+          appData = {
+            installationId: installationId,
+            referenceCode: referenceCode
           };
-          return response.success(result);
-        }, function(error) {
-          return response.error(error);
-        });
-      } else {
-        storedAuthKey = tokenStorageObj.get("authKey");
-        user = tokenStorageObj.get("user");
-        if (storedAuthKey === authKey) {
-          querySession = new Parse.Query(Parse.Session);
-          querySession.equalTo('user', user);
-          querySession.equalTo('installationId', installationId);
-          return querySession.first({
-            useMasterKey: true
-          }).then(function(sessionObj) {
-            var result, sessionToken;
-            sessionToken = sessionObj.get('sessionToken');
+          return createNewUser(authKey, appData).then(function(user) {
+            var result;
             result = {
-              sessionToken: sessionToken
+              sessionToken: user.getSessionToken(),
+              scheduleFlag: scheduleFlag
             };
             return response.success(result);
           }, function(error) {
             return response.error(error);
           });
         } else {
-          tokenStorageObj.set("authKey", authKey);
-          return tokenStorageObj.save().then(function(newTokenStorageObj) {
+          storedAuthKey = tokenStorageObj.get("authKey");
+          user = tokenStorageObj.get("user");
+          if (storedAuthKey === authKey) {
             querySession = new Parse.Query(Parse.Session);
             querySession.equalTo('user', user);
-            querySession.equalTo('installationId', installationId);
             return querySession.first({
               useMasterKey: true
             }).then(function(sessionObj) {
               var result, sessionToken;
               sessionToken = sessionObj.get('sessionToken');
               result = {
-                sessionToken: sessionToken
+                sessionToken: sessionToken,
+                scheduleFlag: scheduleFlag
               };
               return response.success(result);
             }, function(error) {
               return response.error(error);
             });
-          }, function(error) {
-            return response.error(error);
-          });
+          } else {
+            tokenStorageObj.set("authKey", authKey);
+            return tokenStorageObj.save().then(function(newTokenStorageObj) {
+              querySession = new Parse.Query(Parse.Session);
+              querySession.equalTo('user', user);
+              return querySession.first({
+                useMasterKey: true
+              }).then(function(sessionObj) {
+                var result, sessionToken;
+                sessionToken = sessionObj.get('sessionToken');
+                result = {
+                  sessionToken: sessionToken,
+                  scheduleFlag: scheduleFlag
+                };
+                return response.success(result);
+              }, function(error) {
+                return response.error(error);
+              });
+            }, function(error) {
+              return response.error(error);
+            });
+          }
         }
-      }
+      });
+    }, function(error) {
+      return response.error(error);
     });
   });
 
