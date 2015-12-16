@@ -8312,3 +8312,6 @@ input {
 .inner-tabs li:visited a i {
   color: #999;
 }
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
