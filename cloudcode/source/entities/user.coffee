@@ -251,13 +251,13 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
  
-            diffrence = moment(newDateTime).diff(currentDateTime)
-            diffrence2 = moment(currentDateTime).diff(newDateTime)
+            diffrence = moment(newDateTime).diff(currentDateTime, 'days')
+            diffrence2 = moment(currentDateTime).diff(newDateTime, 'days')
             console.log newDateTime
             console.log currentDateTime
             console.log diffrence
             console.log diffrence2
-            if(diffrence>1)
+            if(diffrence2>1)
                 responseData=
                     patient: patient
                     questionnaire: questionnaire
