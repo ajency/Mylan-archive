@@ -753,7 +753,7 @@
       return getResumeObject(scheduleObj, patientId).then(function(resumeObj) {
         return getStartObject(scheduleObj, patientId).then(function(startObj) {
           return getUpcomingObject(scheduleObj, patientId).then(function(upcomingObj) {
-            return getCompletedObjects(patientId).then(function(completedObj) {
+            return getCompletedObjects(scheduleObj, patientId).then(function(completedObj) {
               return getMissedObjects(scheduleObj, patientId).then(function(missedObj) {
                 results.push(resumeObj);
                 results.push(startObj);
@@ -822,8 +822,10 @@
       responseQuery.first().then(function(responseObj) {
         if (!_.isUndefined(responseObj)) {
           startObj['status'] = "not_start";
+          startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         } else {
           startObj['status'] = "start";
+          startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         }
         return promise.resolve(startObj);
       }, function(error) {
@@ -831,6 +833,7 @@
       });
     } else {
       startObj['status'] = "not_start";
+      startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(startObj);
     }
     return promise;
@@ -843,9 +846,11 @@
     timeObj = getValidPeriod(scheduleObj);
     if (isValidUpcomingTime(timeObj)) {
       upcomingObj['status'] = "upcoming";
+      upcomingObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(upcomingObj);
     } else {
       upcomingObj['status'] = "not_upcoming";
+      upcomingObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(upcomingObj);
     }
     return promise;
@@ -861,7 +866,7 @@
     }
   };
 
-  getCompletedObjects = function(patientId) {
+  getCompletedObjects = function(scheduleObj, patientId) {
     var completedObj, promise, responseQuery;
     completedObj = {};
     promise = new Parse.Promise();
@@ -881,6 +886,7 @@
         }
         return results1;
       })();
+      completedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       return promise.resolve(completedObj);
     }, function(error) {
       return promise.error(error);
@@ -903,9 +909,11 @@
         if (!_.isUndefined(responseObj)) {
           resumeObj['status'] = "resume";
           resumeObj['responseId'] = responseObj.id;
+          resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         } else {
           resumeObj['status'] = "not_resume";
           resumeObj['responseId'] = "";
+          resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         }
         return promise.resolve(resumeObj);
       }, function(error) {
@@ -914,6 +922,7 @@
     } else {
       resumeObj['status'] = "not_resume";
       resumeObj['responseId'] = "";
+      resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(resumeObj);
     }
     return promise;
@@ -927,6 +936,7 @@
     if (!isValidMissedTime(timeObj)) {
       missedObj['status'] = "not_missed";
       missedObj['responseId'] = "";
+      missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(missedObj);
     } else {
       responseQuery = new Parse.Query('Response');
@@ -936,16 +946,19 @@
         if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Completed') {
           missedObj['status'] = "not_missed";
           missedObj['responseId'] = "";
+          missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
           return promise.resolve(missedObj);
         } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'missed') {
           missedObj['status'] = "missed";
           missedObj['responseId'] = responseObj.id;
+          missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
           return promise.resolve(missedObj);
         } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Started') {
           responseObj.set('status', 'missed');
           return responseObj.save().then(function(responseObj) {
             missedObj['status'] = "missed";
             missedObj['responseId'] = responseObj.id;
+            missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
             return promise.resolve(missedObj);
           }, function(error) {
             return promise.error(error);
@@ -956,6 +969,7 @@
             return responseObj.save().then(function(responseObj) {
               missedObj['status'] = "missed";
               missedObj['responseId'] = responseObj.id;
+              missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
               return promise.resolve(missedObj);
             }, function(error) {
               return promise.error(error);
