@@ -193,10 +193,12 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
             currentDateTime = moment()
  
             diffrence = moment(newDateTime).diff(currentDateTime)
+            diffrence2 = moment(currentDateTime).diff(newDateTime)
             console.log newDateTime
             console.log currentDateTime
             console.log diffrence
-            if(diffrence>1)
+            console.log diffrence2
+            if(parseInt(diffrence2) > 1)
                 responseData=
                     patient: patient
                     questionnaire: questionnaire
@@ -257,7 +259,7 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
             console.log currentDateTime
             console.log diffrence
             console.log diffrence2
-            if(diffrence>1)
+            if(parseInt(diffrence2) > 1)
                 responseData=
                     patient: patient
                     questionnaire: questionnaire

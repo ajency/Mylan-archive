@@ -1181,7 +1181,7 @@
       responseSaveArr = [];
       scheduleSaveArr = [];
       _.each(scheduleObjects, function(scheduleObject) {
-        var Response, currentDateTime, diffrence, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
+        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
         questionnaire = scheduleObject.get("questionnaire");
         patient = scheduleObject.get("patient");
         gracePeriod = questionnaire.get("gracePeriod");
@@ -1189,10 +1189,12 @@
         newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
         currentDateTime = moment();
         diffrence = moment(newDateTime).diff(currentDateTime);
+        diffrence2 = moment(currentDateTime).diff(newDateTime);
         console.log(newDateTime);
         console.log(currentDateTime);
         console.log(diffrence);
-        if (diffrence > 1) {
+        console.log(diffrence2);
+        if (parseInt(diffrence2) > 1) {
           responseData = {
             patient: patient,
             questionnaire: questionnaire,
@@ -1252,7 +1254,7 @@
         console.log(currentDateTime);
         console.log(diffrence);
         console.log(diffrence2);
-        if (diffrence > 1) {
+        if (parseInt(diffrence2) > 1) {
           responseData = {
             patient: patient,
             questionnaire: questionnaire,
