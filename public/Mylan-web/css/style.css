@@ -44,7 +44,7 @@ p {
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 .prev-answer {
-  background: #eee;
+  background: #ddd;
   padding: 15px;
 }
 .inline {
@@ -620,6 +620,26 @@ form .fa.fa-question::before {
 ul.q-tabs {
   display: inline-flex;
   list-style-type: none;
+}
+ul.q-tabs li a {
+  padding: 10px;
+  margin-right: 15px;
+  width: 30px;
+  height: 30px;
+  background: #00aaa7;
+  color: #ffffff;
+  text-align: center;
+  line-height: 9px;
+}
+ul.q-tabs li a:hover,
+ul.q-tabs li a:active,
+ul.q-tabs li a:focus {
+  background: #00aaa7;
+  color: #ffffff;
+}
+ul.q-tabs li a.disabled {
+  background: #bdbdbd;
+  color: #444444;
 }
 .footer {
   background-color: #D2D2D2;

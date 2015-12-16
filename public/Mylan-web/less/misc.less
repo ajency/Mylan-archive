@@ -42,7 +42,7 @@ p{
   }
 }
 .prev-answer{
-  background: #eee;
+  background: #ddd;
   padding: 15px;
 }
 .inline{
@@ -609,7 +609,25 @@ form{
 ul.q-tabs{
     display: inline-flex;
     list-style-type: none;
-    
+    li a{
+      padding: 10px;
+      margin-right: 15px;
+      width: 30px;
+      height: 30px;
+      background: @color-green-sea;
+      color: @color-white;
+      text-align: center;
+      line-height: 9px;
+      &:hover,&:active,&:focus{
+        background: @color-green-sea;
+        color: @color-white;
+      }
+      &.disabled{
+        background: @color-gray;
+        color: @color-text-gray;
+      }
+    }
+
 }
 .footer{
     background-color: #D2D2D2;
