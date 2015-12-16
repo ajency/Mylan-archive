@@ -1004,7 +1004,6 @@
           if (storedAuthKey === authKey) {
             querySession = new Parse.Query(Parse.Session);
             querySession.equalTo('user', user);
-            querySession.equalTo('installationId', installationId);
             return querySession.first({
               useMasterKey: true
             }).then(function(sessionObj) {
@@ -1023,7 +1022,6 @@
             return tokenStorageObj.save().then(function(newTokenStorageObj) {
               querySession = new Parse.Query(Parse.Session);
               querySession.equalTo('user', user);
-              querySession.equalTo('installationId', installationId);
               return querySession.first({
                 useMasterKey: true
               }).then(function(sessionObj) {

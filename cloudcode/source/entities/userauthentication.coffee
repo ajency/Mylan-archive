@@ -60,7 +60,7 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 	    		if storedAuthKey is authKey
 	    			querySession = new Parse.Query(Parse.Session)
 	    			querySession.equalTo('user', user)
-	    			querySession.equalTo('installationId', installationId)
+	    			# querySession.equalTo('installationId', installationId)
 	    			querySession.first(useMasterKey: true)
 	    			.then (sessionObj) ->
 	    				sessionToken =  sessionObj.get('sessionToken')
@@ -77,7 +77,7 @@ Parse.Cloud.define 'loginParseUser', (request, response) ->
 	    			.then (newTokenStorageObj) ->
 		    			querySession = new Parse.Query(Parse.Session)
 		    			querySession.equalTo('user', user)
-		    			querySession.equalTo('installationId', installationId)
+		    			# querySession.equalTo('installationId', installationId)
 		    			querySession.first(useMasterKey: true)
 		    			.then (sessionObj) ->
 		    				sessionToken =  sessionObj.get('sessionToken')
