@@ -591,6 +591,7 @@ Parse.Cloud.define "dashboard", (request, response) ->
 							results.push(upcomingObj)
 							results.push(completedObj)
 							results.push(missedObj)
+
 #							results['resume'] = resumeObj
 #							results['start'] = startObj
 #							results['upcoming'] = upcomingObj
