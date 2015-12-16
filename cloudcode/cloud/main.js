@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -745,7 +745,7 @@
   Parse.Cloud.define("dashboard", function(request, response) {
     var patientId, results, scheduleQuery;
     patientId = request.params.patientId;
-    results = {};
+    results = [];
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.equalTo('patient', patientId);
     scheduleQuery.include('questionnaire');
@@ -755,11 +755,11 @@
           return getUpcomingObject(scheduleObj, patientId).then(function(upcomingObj) {
             return getCompletedObjects(patientId).then(function(completedObj) {
               return getMissedObjects(scheduleObj, patientId).then(function(missedObj) {
-                results['resume'] = resumeObj;
-                results['start'] = startObj;
-                results['upcoming'] = upcomingObj;
-                results['completed'] = completedObj;
-                results['missed'] = missedObj;
+                results.push(resumeObj);
+                results.push(startObj);
+                results.push(upcomingObj);
+                results.push(completedObj);
+                results.push(missedObj);
                 return response.success(results);
               }, function(error) {
                 return response.error(error);
@@ -805,37 +805,6 @@
     }
   };
 
-  getResumeObject = function(scheduleObj, patientId) {
-    var promise, responseQuery, resumeObj, timeObj;
-    resumeObj = {};
-    promise = new Parse.Promise();
-    timeObj = getValidPeriod(scheduleObj);
-    if (isValidTime(timeObj)) {
-      responseQuery = new Parse.Query('Response');
-      responseQuery.equalTo('patient', patientId);
-      responseQuery.equalTo('status', 'Started');
-      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
-      responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
-      responseQuery.first().then(function(responseObj) {
-        if (!_.isUndefined(responseObj)) {
-          resumeObj['status'] = "resume";
-          resumeObj['responseId'] = responseObj.id;
-        } else {
-          resumeObj['status'] = "no_resume";
-          resumeObj['responseId'] = {};
-        }
-        return promise.resolve(resumeObj);
-      }, function(error) {
-        return promise.error(error);
-      });
-    } else {
-      resumeObj['status'] = "no_resume";
-      resumeObj['responseId'] = {};
-      promise.resolve(resumeObj);
-    }
-    return promise;
-  };
-
   getStartObject = function(scheduleObj, patientId) {
     var promise, responseQuery, responseQuery1, responseQuery2, startObj, timeObj;
     startObj = {};
@@ -852,7 +821,7 @@
       responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
       responseQuery.first().then(function(responseObj) {
         if (!_.isUndefined(responseObj)) {
-          startObj['status'] = "no_start";
+          startObj['status'] = "not_start";
         } else {
           startObj['status'] = "start";
         }
@@ -861,7 +830,7 @@
         return promise.error(error);
       });
     } else {
-      startObj['status'] = "no_start";
+      startObj['status'] = "not_start";
       promise.resolve(startObj);
     }
     return promise;
@@ -876,7 +845,7 @@
       upcomingObj['status'] = "upcoming";
       promise.resolve(upcomingObj);
     } else {
-      upcomingObj['status'] = "no_upcoming";
+      upcomingObj['status'] = "not_upcoming";
       promise.resolve(upcomingObj);
     }
     return promise;
@@ -919,12 +888,97 @@
     return promise;
   };
 
+  getResumeObject = function(scheduleObj, patientId) {
+    var promise, responseQuery, resumeObj, timeObj;
+    resumeObj = {};
+    promise = new Parse.Promise();
+    timeObj = getValidPeriod(scheduleObj);
+    if (isValidTime(timeObj)) {
+      responseQuery = new Parse.Query('Response');
+      responseQuery.equalTo('patient', patientId);
+      responseQuery.equalTo('status', 'Started');
+      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
+      responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
+      responseQuery.first().then(function(responseObj) {
+        if (!_.isUndefined(responseObj)) {
+          resumeObj['status'] = "resume";
+          resumeObj['responseId'] = responseObj.id;
+        } else {
+          resumeObj['status'] = "not_resume";
+          resumeObj['responseId'] = "";
+        }
+        return promise.resolve(resumeObj);
+      }, function(error) {
+        return promise.error(error);
+      });
+    } else {
+      resumeObj['status'] = "not_resume";
+      resumeObj['responseId'] = "";
+      promise.resolve(resumeObj);
+    }
+    return promise;
+  };
+
   getMissedObjects = function(scheduleObj, patientId) {
-    var missedObj, promise;
+    var missedObj, promise, responseQuery, timeObj;
     missedObj = {};
     promise = new Parse.Promise();
-    promise.resolve(missedObj);
+    timeObj = getValidPeriod(scheduleObj);
+    if (!isValidMissedTime(timeObj)) {
+      missedObj['status'] = "not_missed";
+      missedObj['responseId'] = "";
+      promise.resolve(missedObj);
+    } else {
+      responseQuery = new Parse.Query('Response');
+      responseQuery.equalTo('patient', patientId);
+      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
+      responseQuery.first().then(function(responseObj) {
+        if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Completed') {
+          missedObj['status'] = "not_missed";
+          missedObj['responseId'] = "";
+          return promise.resolve(missedObj);
+        } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'missed') {
+          missedObj['status'] = "missed";
+          missedObj['responseId'] = responseObj.id;
+          return promise.resolve(missedObj);
+        } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Started') {
+          responseObj.set('status', 'missed');
+          return responseObj.save().then(function(responseObj) {
+            missedObj['status'] = "missed";
+            missedObj['responseId'] = responseObj.id;
+            return promise.resolve(missedObj);
+          }, function(error) {
+            return promise.error(error);
+          });
+        } else if (_.isUndefined(responseObj)) {
+          return createResponse(scheduleObj.get('questionnaire').id, patientId).then(function(responseObj) {
+            responseObj.set('status', 'missed');
+            return responseObj.save().then(function(responseObj) {
+              missedObj['status'] = "missed";
+              missedObj['responseId'] = responseObj.id;
+              return promise.resolve(missedObj);
+            }, function(error) {
+              return promise.error(error);
+            });
+          }, function(error) {
+            return promise.error(error);
+          });
+        }
+      }, function(error) {
+        return promise.error(error);
+      });
+    }
     return promise;
+  };
+
+  isValidMissedTime = function(timeObj) {
+    var currentTime;
+    currentTime = new Date();
+    if (timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   _ = require('underscore.js');
