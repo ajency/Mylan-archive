@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', function($scope, App, QuestionAPI, $stateParams, Storage) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner) {
     return $scope.view = {
       title: 'C-weight',
       data: [],
@@ -44,21 +44,26 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       },
       submitSummary: function() {
         var param;
+        CSpinner.show('', 'Please wait..');
         param = {
           responseId: this.responseId
         };
-        QuestionAPI.submitSummary(param).then((function(_this) {
+        return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
             console.log('data');
-            return console.log('succ submiteed');
+            console.log('succ submiteed');
+            CToast.show('submiteed successfully ');
+            return App.navigate('exit-questionnaire');
           };
         })(this), (function(_this) {
           return function(error) {
             console.log('error');
-            return console.log(error);
+            console.log(error);
+            return CToast.show('Error in submitting questionnarie');
           };
-        })(this));
-        return ionic.Platform.exitApp();
+        })(this))["finally"](function() {
+          return CSpinner.hide();
+        });
       },
       prevQuestion: function() {
         var action, valueAction;

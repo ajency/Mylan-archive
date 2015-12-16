@@ -32,7 +32,7 @@ angular.module('PatientApp.Auth').factory('AuthAPI', [
         params = {
           "referenceCode": refrencecode,
           "password": password,
-          "installationId": installationId
+          "installationId": 'installationId12'
         };
         url = AUTH_URL + '/user/login';
         return App.sendRequest(url, params, AUTH_HEADERS);

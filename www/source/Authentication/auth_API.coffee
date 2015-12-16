@@ -34,7 +34,7 @@ angular.module 'PatientApp.Auth'
 			params = 
 				"referenceCode" : refrencecode
 				"password": password
-				"installationId" : installationId
+				"installationId" : 'installationId12'
 			url = AUTH_URL+'/user/login'
 					
 			App.sendRequest(url, params, AUTH_HEADERS)

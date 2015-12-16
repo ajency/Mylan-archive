@@ -13,7 +13,7 @@
       <div
         ng-switch-when="noError">
 
-        <div class="info-msg padding bg-balanced" ng-if="view.infoBox">
+        <div class="info-msg padding bg-balanced" ng-if='view.data.questionType !== "descriptive"'>
             <span  
               ng-if = 'view.data.questionType == "single-choice"'>
                 Select your Answer
@@ -43,7 +43,7 @@
                   </div>
               </div>
 
-              <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
+              <div ng-if="view.isEmpty(view.data.previousQuestionnaireAnswer) == false">
               <div class="bg-gray">
                 <div class="prev-answers row">
                                <div class="col col-50">
@@ -57,7 +57,12 @@
                                     </div>
                                   
                              </div>
-                             <div class="padding"><p class="f-w-400 text-green">{{view.data.previousQuestionnaireAnswer.value}}</p>
+                             <div class="padding">
+                              <p class="f-w-400 text-green">
+                                {{view.data.previousQuestionnaireAnswer.value}}
+                                &nbsp; 
+            {{view.pastAnswerLabel(view.data.previousQuestionnaireAnswer.optionId[0])}}
+                              </p>
                                   </div>
               </div>
               </div>
@@ -191,8 +196,7 @@
     
      <div 
       class="bar bar-footer bar-light"
-      ng-if = "view.display == 'noError'"
-     >
+      ng-if = "view.display == 'noError'">
             <button 
                ng-if = "view.data.previous == true"
                class="button button-balanced pull-left"

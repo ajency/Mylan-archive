@@ -71,10 +71,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log('******');
               console.log('next question');
               console.log(data);
-              _this.singleChoiceValue = '';
-              _this.val_answerValue = '';
+              _this.variables();
               _this.data = [];
               _this.data = data.result;
+              console.log('---loadNextQuestion---');
+              console.log(_this.data.hasAnswer);
+              if (!_.isEmpty(_this.data.hasAnswer)) {
+                console.log('not emty hasAnswer');
+                _this.hasAnswerShow();
+              }
               if (!_.isUndefined(_this.data.status)) {
                 summary = {};
                 summary['summary'] = _this.data.summary;
@@ -274,6 +279,45 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         indexOf = optId.indexOf(previousQuestionnaireAnswer);
         indexOf++;
         return indexOf;
+      },
+      pastAnswerLabel: function(optId) {
+        var ObjId;
+        if (!_.isEmpty(optId)) {
+          ObjId = _.findWhere(this.data.options, {
+            id: optId
+          });
+          return ObjId.option;
+        }
+      },
+      hasAnswerShow: function() {
+        var ObjId;
+        if (this.data.questionType === 'descriptive') {
+          this.descriptiveAnswer = this.data.hasAnswer.value;
+        }
+        if (this.data.questionType === 'single-choice') {
+          this.singleChoiceValue = this.data.hasAnswer.option[0];
+        }
+        if (this.data.questionType === 'multi-choice') {
+          _.each(this.data.options, (function(_this) {
+            return function(value) {
+              if (_.contains(_this.data.hasAnswer.option, value.id)) {
+                return value['checked'] = true;
+              }
+            };
+          })(this));
+        }
+        if (this.data.questionType === 'input') {
+          ObjId = _.findWhere(this.data.options, {
+            id: this.data.hasAnswer.option[0]
+          });
+          console.log('objjj id');
+          console.log(ObjId);
+          console.log('valAnswer1');
+          console.log(this.val_answerValue);
+          this.val_answerValue[ObjId.option] = this.data.hasAnswer.value;
+          console.log('valAnswer2');
+          return console.log(this.val_answerValue);
+        }
       }
     };
     $scope.$on('$ionicView.beforeEnter', function(event, viewData) {

@@ -79,11 +79,14 @@ angular.module 'PatientApp.Quest',[]
 						console.log '******'
 						console.log 'next question'
 						console.log data
-						@singleChoiceValue = ''
-
-						@val_answerValue = ''
+						@variables()
 						@data = []
 						@data = data.result
+						console.log '---loadNextQuestion---'
+						console.log @data.hasAnswer
+						if !_.isEmpty(@data.hasAnswer)
+							console.log 'not emty hasAnswer'
+							@hasAnswerShow()
 						if !_.isUndefined(@data.status)
 							summary = {}
 							summary['summary'] = @data.summary
@@ -278,6 +281,36 @@ angular.module 'PatientApp.Quest',[]
 				indexOf++
 
 				indexOf
+
+			pastAnswerLabel:(optId)->
+				if !_.isEmpty optId
+					ObjId = _.findWhere(@data.options, {id: optId})
+					ObjId.option
+
+
+			hasAnswerShow:()->
+				if @data.questionType == 'descriptive'
+					@descriptiveAnswer = @data.hasAnswer.value
+
+				if @data.questionType == 'single-choice'
+					@singleChoiceValue = @data.hasAnswer.option[0]
+
+				if @data.questionType == 'multi-choice'
+					_.each @data.options, (value) =>
+						if (_.contains(@data.hasAnswer.option, value.id))
+							value['checked'] = true
+
+				if @data.questionType == 'input'
+					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
+					console.log 'objjj id'
+					console.log ObjId
+					console.log 'valAnswer1'
+					console.log @val_answerValue
+					@val_answerValue[ObjId.option] = @data.hasAnswer.value
+					console.log 'valAnswer2'
+					console.log @val_answerValue
+
+
 
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->

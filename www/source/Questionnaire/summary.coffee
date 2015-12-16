@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Quest'
 
 .controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'Storage'
-	, ($scope, App, QuestionAPI, $stateParams, Storage)->
+	'Storage', 'CToast', 'CSpinner'
+	, ($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -41,18 +41,25 @@ angular.module 'PatientApp.Quest'
 					@getSummaryApi()
 
 			submitSummary : ->
+				CSpinner.show '', 'Please wait..'
+
 				param = 
 					responseId : @responseId
 				QuestionAPI.submitSummary param
 				.then (data)=>
 					console.log 'data'
 					console.log 'succ submiteed'
+					CToast.show 'submiteed successfully '
+					App.navigate 'exit-questionnaire'
 				,(error)=>
 					console.log 'error'
 					console.log error
+					CToast.show 'Error in submitting questionnarie'
+				.finally ->
+					CSpinner.hide()
 
 					
-				ionic.Platform.exitApp()
+				# ionic.Platform.exitApp()
 
 			prevQuestion : ->
 				valueAction = QuestionAPI.setAction 'get'
