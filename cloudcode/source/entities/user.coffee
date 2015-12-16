@@ -251,8 +251,8 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
  
-            diffrence = moment(newDateTime).diff(currentDateTime, 'days')
-            diffrence2 = moment(currentDateTime).diff(newDateTime, 'days')
+            diffrence = moment(newDateTime).diff(currentDateTime)
+            diffrence2 = moment(currentDateTime).diff(newDateTime)
             console.log newDateTime
             console.log currentDateTime
             console.log diffrence
