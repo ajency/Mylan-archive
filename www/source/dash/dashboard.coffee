@@ -7,6 +7,8 @@ angular.module 'PatientApp.dashboard',[]
 			hospitalName: HospitalData.name
 			projectName : HospitalData.project
 			SubmissionData : []
+			data : []
+			display : 'loader'
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
@@ -14,20 +16,52 @@ angular.module 'PatientApp.dashboard',[]
 				# @hospitalName = value['name']
 				# @projectName = value['project']
 
-			startQuiz :(quizID) ->
+			startQuiz :() ->
 				# App.navigate 'questionnaire', quizID: quizID
 				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
-				DashboardAPI.get()
+				@display = 'loader'
+				Storage.setData 'refcode','get'
+				.then (refcode)=>
+					param = 
+						"patientId":refcode
+					DashboardAPI.get param
+					.then (data)=>
+						console.log 'inside then'
+						console.log data
+						@data = data.result
+						@display = 'noError'
+					,(error)=>
+						@display = 'error'
+						@errorType = error
+
+				# DashboardAPI.get()
 
 
 			displaydata : ->
-				@data = @getSubmission()	
-				console.log @data 
+				@getSubmission()	
+				
 
-			summary :->
-				# App.navigate 'summary', quizID: 111
+			summary : (id)->
+				console.log '---summary---id'
+				console.log id
+				App.navigate 'summary', summary:id
+
+			resumeQuiz : (id)->
+				console.log 'resumeQuiz'
+				console.log id
+				App.navigate 'questionnaire', respStatus:id
+
+			onTapToRetry : ->
+				@display = 'loader'
+				console.log 'onTapToRetry'
+				@getSubmission()
+
+			pastDate: (date) ->
+				moment(date).format('MMMM Do YYYY')
+
+
 	
 ]
 

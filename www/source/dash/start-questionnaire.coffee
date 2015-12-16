@@ -5,7 +5,7 @@ angular.module 'PatientApp.dashboard'
 
 		$scope.view =
 			startQuiz :(quizID) ->
-				App.navigate 'questionnaire'
+				App.navigate 'questionnaire', respStatus:'noValue'
 ]
 
 .config ['$stateProvider', ($stateProvider)->

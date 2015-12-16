@@ -30,9 +30,10 @@ angular.module 'PatientApp.Quest',[]
 					defer.resolve details
 				defer.promise
 
-			getQuestion :(questNo) ->
+			getQuestion :() ->
 				# "patientId":refcode
 				# "questionnaireId": patientData.questionnaire.id
+				
 
 				@display = 'loader'
 
@@ -43,8 +44,14 @@ angular.module 'PatientApp.Quest',[]
 					.then (patientData)=>
 						@patientId = patientData.patient_id
 
+						@respStatus = $stateParams.respStatus
+						if @respStatus == 'noValue'
+							responseId = ''
+						else 
+							responseId = $stateParams.respStatus
+
 						options =
-							"responseId": ''
+							"responseId": responseId
 							"questionnaireId": patientData.questionnaire.id
 							"patientId": refcode
 
@@ -346,7 +353,7 @@ angular.module 'PatientApp.Quest',[]
 	$stateProvider
 
 	.state 'questionnaire',
-			url: '/questionnaire:quizID'
+			url: '/questionnaire:respStatus'
 			parent: 'parent-questionnaire'
 			cache: false
 			views: 

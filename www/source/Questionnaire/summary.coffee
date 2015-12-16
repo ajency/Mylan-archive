@@ -72,6 +72,12 @@ angular.module 'PatientApp.Quest'
 			onTapToRetry : ->
 				@display = 'loader'
 				@getSummaryApi()
+
+			back :->
+				if @summarytype != 'set'
+					App.navigate 'dashboard'
+
+
 		
 ]
 

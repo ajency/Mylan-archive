@@ -2,48 +2,18 @@ angular.module('PatientApp.dashboard').factory('DashboardAPI', [
   '$q', '$http', 'App', '$stateParams', function($q, $http, App, $stateParams) {
     var DashboardAPI;
     DashboardAPI = {};
-    DashboardAPI.get = function() {
-      var summary_data;
-      summary_data = {
-        array: {
-          0: {
-            response_id: '101',
-            date_time: '20-10-2015|15.30',
-            status: 'Upcoming',
-            action: '',
-            quizId: '105'
-          },
-          1: {
-            response_id: '102',
-            date_time: '20-10-2015|15.30',
-            status: 'Due',
-            action: 'Start',
-            quizId: '106'
-          },
-          2: {
-            response_id: '103',
-            date_time: '20-10-2015|15.30',
-            status: 'Missed',
-            action: '',
-            quizId: '107'
-          },
-          3: {
-            response_id: '104',
-            date_time: '20-10-2015|15.30',
-            status: 'Submitted',
-            action: 'View',
-            quizId: '108'
-          },
-          4: {
-            response_id: '105',
-            date_time: '20-10-2015|15.30',
-            status: 'Submitted',
-            action: 'View',
-            quizId: '109'
-          }
-        }
-      };
-      return summary_data;
+    DashboardAPI.get = function(param) {
+      var defer, url;
+      defer = $q.defer();
+      url = PARSE_URL + '/dashboard';
+      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
+        return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
     };
     return DashboardAPI;
   }

@@ -24,15 +24,21 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         });
         return defer.promise;
       },
-      getQuestion: function(questNo) {
+      getQuestion: function() {
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             return Storage.setData('patientData', 'get').then(function(patientData) {
-              var options;
+              var options, responseId;
               _this.patientId = patientData.patient_id;
+              _this.respStatus = $stateParams.respStatus;
+              if (_this.respStatus === 'noValue') {
+                responseId = '';
+              } else {
+                responseId = $stateParams.respStatus;
+              }
               options = {
-                "responseId": '',
+                "responseId": responseId,
                 "questionnaireId": patientData.questionnaire.id,
                 "patientId": refcode
               };
@@ -341,7 +347,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('questionnaire', {
-      url: '/questionnaire:quizID',
+      url: '/questionnaire:respStatus',
       parent: 'parent-questionnaire',
       cache: false,
       views: {

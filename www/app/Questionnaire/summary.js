@@ -80,6 +80,11 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       onTapToRetry: function() {
         this.display = 'loader';
         return this.getSummaryApi();
+      },
+      back: function() {
+        if (this.summarytype !== 'set') {
+          return App.navigate('dashboard');
+        }
       }
     };
   }

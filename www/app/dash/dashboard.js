@@ -4,20 +4,59 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
       SubmissionData: [],
+      data: [],
+      display: 'loader',
       init: function() {
         return Storage.getNextQuestion('set', 1);
       },
-      startQuiz: function(quizID) {
+      startQuiz: function() {
         return App.navigate('start-questionnaire');
       },
       getSubmission: function() {
-        return DashboardAPI.get();
+        this.display = 'loader';
+        return Storage.setData('refcode', 'get').then((function(_this) {
+          return function(refcode) {
+            var param;
+            param = {
+              "patientId": refcode
+            };
+            return DashboardAPI.get(param).then(function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data.result;
+              return _this.display = 'noError';
+            }, function(error) {
+              _this.display = 'error';
+              return _this.errorType = error;
+            });
+          };
+        })(this));
       },
       displaydata: function() {
-        this.data = this.getSubmission();
-        return console.log(this.data);
+        return this.getSubmission();
       },
-      summary: function() {}
+      summary: function(id) {
+        console.log('---summary---id');
+        console.log(id);
+        return App.navigate('summary', {
+          summary: id
+        });
+      },
+      resumeQuiz: function(id) {
+        console.log('resumeQuiz');
+        console.log(id);
+        return App.navigate('questionnaire', {
+          respStatus: id
+        });
+      },
+      onTapToRetry: function() {
+        this.display = 'loader';
+        console.log('onTapToRetry');
+        return this.getSubmission();
+      },
+      pastDate: function(date) {
+        return moment(date).format('MMMM Do YYYY');
+      }
     };
   }
 ]).config([
