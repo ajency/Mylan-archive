@@ -420,15 +420,12 @@ html,html * {
 				opacity: 0;
 			}
 		}
-		.checkbox input:checked:before, .checkbox input:checked + .checkbox-icon:before{
-			background: @color-light-green;
-			border-color:@color-light-green; 
-		}
+		
 	}
 	
-
-	.item.item-checkbox{
-		
+ul{
+	.item.item-checkbox.mcq{
+		    white-space: initial;
 		div span{
 			position: absolute;
     		left: 15px;
@@ -441,8 +438,21 @@ html,html * {
     		line-height: 28px;
     		z-index: 9;
     		}
-    	
+    	input::before{
+    			opacity: 0;
+    		}
 	}
+	.mcq_active{
+    		background: @color-pale-yellow;
+    		div span{
+			
+    		background: @color-light-green!important;
+    		color: #fff;
+    		}
+
+    	}
+}
+	
 	.clm-list{
 		.button{
 			margin: 0.286em;
@@ -704,10 +714,11 @@ html,html * {
 	.item.item-checkbox{
 		    padding: 28px 16px 28px 69px;
 		span{
-			padding: 10px;
+			padding: 23px;
 		}
 		.checkbox input, .checkbox-icon{
-			left: 15px;
+			left: 28px;
+			top:35px;
 		}
 	}
 	.no-list .no{
