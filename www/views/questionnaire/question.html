@@ -16,15 +16,15 @@
         <div class="info-msg padding bg-balanced" ng-if='view.data.questionType !== "descriptive"'>
             <span  
               ng-if = 'view.data.questionType == "single-choice"'>
-                Select your Answer
+                Touch the answer you would like to select
             </span>
             <span  
               ng-if = 'view.data.questionType == "multi-choice"'>
-              Select your Answers
+              Touch the answers you would like to select
             </span>
             <span  
               ng-if = 'view.data.questionType == "input"'>
-              Enter either of the following
+              Please complete EITHER Kg OR stones and lbs box
             </span>
         </div> 
 
@@ -35,7 +35,6 @@
               <div 
                 class="padding">
                     <div class="col">
-                        
                         <h5 class="f-w-400">  
                          {{view.data.question}}
                         </h5>
@@ -106,6 +105,7 @@
                 class="padding"
                 ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"'>
                     <div class="col">
+                      <h4 class="q-title"><span class="badge badge-assertive badge-round">1</span>PAIN</h4>
                         <h5 class="f-w-400"
                           ng-if = 'view.data.questionType == "single-choice"'>
                           {{view.data.question}}</h5>
