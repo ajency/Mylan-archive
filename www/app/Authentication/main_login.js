@@ -1,20 +1,10 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
   '$scope', 'App', 'Storage', 'refrencecodeValue', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, refrencecodeValue, $ionicLoading, AuthAPI, CToast, CSpinner) {
-    return $scope.view = {
+    $scope.view = {
       temprefrencecode: '',
       loginerror: '',
       password: '',
-      refrencecode: Storage.setRefernce('get'),
-      showPassword: false,
-      getrefcode: function() {
-        Storage.refcode('get').then(function(value) {
-          return console.log(value);
-        });
-        return value;
-      },
-      refre: function() {
-        return this.refrencecode = Storage.setRefernce('get');
-      },
+      refrencecode: refrencecodeValue,
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
           return this.loginerror = "Please Enter the credentials ";
@@ -30,15 +20,15 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   return Parse.User.become(data.user).then(function(user) {
                     console.log('succ user');
                     console.log(user);
-                    Storage.login('set');
-                    Storage.hospital_data('set', data.hospital);
-                    Storage.setPatientId('set', data.patient_id);
-                    Storage.setProjectId('set', data.project_id);
-                    Storage.setData('patientData', 'set', data);
-                    CSpinner.hide();
-                    return App.navigate("dashboard", {}, {
-                      animate: false,
-                      back: false
+                    return Storage.setData('logged', 'set', true).then(function() {
+                      return Storage.setData('refcode', 'set', _this.refrencecode).then(function() {
+                        return Storage.setData('hospital_details', 'set', data.hospital).then(function() {
+                          return App.navigate("dashboard", {}, {
+                            animate: false,
+                            back: false
+                          });
+                        });
+                      });
                     });
                   }, function(error) {
                     console.log('in error');
@@ -46,16 +36,16 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   });
                 } else {
                   CToast.show('Please check credentials');
-                  _this.loginerror = "Password entered is incorrect, Please try again";
-                  return CSpinner.hide();
+                  return _this.loginerror = "Password entered is incorrect, Please try again";
                 }
               };
             })(this), (function(_this) {
               return function(error) {
-                CToast.show('Please try again');
-                return CSpinner.hide();
+                return CToast.show('Please try again');
               };
-            })(this));
+            })(this))["finally"](function() {
+              return CSpinner.hide();
+            });
           }
         }
       },
@@ -74,7 +64,15 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
         return {
           hideOnStateChange: false
         };
+      },
+      reset: function() {
+        var loginerror, password;
+        loginerror = '';
+        return password = '';
       }
     };
+    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      return $scope.view.reset();
+    });
   }
 ]);

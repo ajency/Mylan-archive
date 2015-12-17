@@ -5,28 +5,15 @@ angular.module 'PatientApp.Auth'
 	 , ($scope, App, Storage, refrencecodeValue,
 	 	 $ionicLoading, AuthAPI, CToast, CSpinner)->
 
-		
 		$scope.view =
 			temprefrencecode :''
 			loginerror: ''
 			password:''
-			refrencecode: Storage.setRefernce('get')
-			showPassword: false
+			refrencecode: refrencecodeValue
 
-			getrefcode :->
-				Storage.refcode('get').then (value)->
-						console.log value
-				value	
-				 
-
-			refre :->
-					@refrencecode = Storage.setRefernce('get')
-
-						
 			mainlogin : ->
 				if @refrencecode =='' || @password ==''
 					@loginerror = "Please Enter the credentials "
-
 				else	
 					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
 						@loginerror = "Please Enter valid credentials "
@@ -34,7 +21,6 @@ angular.module 'PatientApp.Auth'
 						CSpinner.show '', 'Checking credentials please wait'
 						AuthAPI.validateUser(@refrencecode,@password )
 						.then (data)=>
-							
 							console.log data
 							if data.code == 'successful_login'
 								Parse.User.become data.user
@@ -42,28 +28,31 @@ angular.module 'PatientApp.Auth'
 									console.log 'succ user'
 									console.log user
 
-									Storage.login 'set'
-									Storage.hospital_data 'set', data.hospital
-									Storage.setPatientId 'set', data.patient_id 
-									Storage.setProjectId 'set', data.project_id 
+									# Storage.login 'set'
+									# Storage.hospital_data 'set', data.hospital
+									# Storage.setPatientId 'set', data.patient_id 
+									# Storage.setProjectId 'set', data.project_id
 
-									Storage.setData 'patientData','set', data
-
-									CSpinner.hide()
-									App.navigate "dashboard", {}, {animate: false, back: false}
+									Storage.setData 'logged','set', true
+									.then ()=> 
+										Storage.setData 'refcode','set', @refrencecode
+										.then ()=>
+											Storage.setData 'hospital_details', 'set', data.hospital
+											.then ()=>
+												App.navigate "dashboard", {}, {animate: false, back: false}
 								, (error)->
 									console.log 'in error'
 									console.log error
 							else
 								CToast.show 'Please check credentials'
-								@loginerror ="Password entered is incorrect, Please try again"
-								CSpinner.hide()
+								@loginerror = "Password entered is incorrect, Please try again"
 						, (error)=>
 							CToast.show 'Please try again'
+						.finally ()->
 							CSpinner.hide()
 
 			cleardiv :->
-				@loginerror =""
+				@loginerror = ""
 
 			forgetRefcodeorPass:->
 					$ionicLoading.show
@@ -75,8 +64,14 @@ angular.module 'PatientApp.Auth'
 			        $ionicLoading.hide();
 			        hideOnStateChange: false
 
-		
-							
+			reset:->
+				loginerror = ''
+				password = ''
 
+
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.reset();
+
+		
 			
 ]

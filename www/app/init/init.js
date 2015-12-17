@@ -48,8 +48,8 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
         refrencecodeValue: function($q, Storage) {
           var defer;
           defer = $q.defer();
-          Storage.refcode('get').then(function(details) {
-            return defer.resolve(details);
+          Storage.setData('refcode', 'get').then(function(refcode) {
+            return defer.resolve(refcode);
           });
           return defer.promise;
         }
@@ -74,7 +74,7 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
             HospitalData: function($q, Storage) {
               var defer;
               defer = $q.defer();
-              Storage.hospital_data('get').then(function(data) {
+              Storage.setData('hospital_details', 'get').then(function(data) {
                 return defer.resolve(data);
               });
               return defer.promise;

@@ -64,9 +64,9 @@ angular.module 'PatientApp.init', []
 			resolve:
 				refrencecodeValue : ($q, Storage)->
 					defer = $q.defer()
-					Storage.refcode 'get'
-					.then (details)->
-						defer.resolve details
+					Storage.setData 'refcode', 'get'
+					.then (refcode)->
+						defer.resolve refcode
 					defer.promise	
 
 		.state 'setup',
@@ -87,7 +87,7 @@ angular.module 'PatientApp.init', []
 					resolve:
 						HospitalData :($q, Storage)->
 							defer = $q.defer()
-							Storage.hospital_data 'get'
+							Storage.setData 'hospital_details', 'get'
 							.then (data)->
 								defer.resolve data
 							defer.promise

@@ -11,10 +11,10 @@ angular.module 'PatientApp.Auth',[]
 			hospitalName : HospitalData.name
 			projectName : HospitalData.project
 
-			init: ->
-				# value = Storage.setHospitalData 'get'
-				# @hospitalName = value['name']
-				# @projectName = value['project']
+			reset :()->
+				@New_password = ''
+				@Re_password = ''
+				@passwordmissmatch = ''
 
 			completesetup : ->
 					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)))
@@ -22,17 +22,17 @@ angular.module 'PatientApp.Auth',[]
 					else			
 						if angular.equals(@New_password, @Re_password)
                         	CSpinner.show '', 'Please wait..'
-                        	Storage.refcode('get')
+                        	Storage.setData 'refcode', 'get'
                         	.then (refcode) =>
                         		console.log refcode
                         		console.log App.previousState
 		                        AuthAPI.setPassword(refcode, @Re_password)
 		                        .then (data)=>
-		                        	CSpinner.hide()
 		                        	console.log data
 		                        	if App.previousState == 'setup' then  App.navigate "main_login" else CToast.show 'Your password is updated '
 		                        , (error)=>
 		                        	CToast.show 'Please try again'
+		                        .finally ()->
 		                        	CSpinner.hide()
 						else	
 							@passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.'
@@ -49,11 +49,7 @@ angular.module 'PatientApp.Auth',[]
 			        $ionicLoading.hide();
 			        hideOnStateChange: false	
 					
-		# $scope.$on '$ionicView.beforeEnter', (event, viewData)->
-
-		# 	value = Storage.setHospitalData 'get'
-		# 	$scope.view.hospitalName = value['name']
-		# 	$scope.view.projectName = value['project']
-
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.reset();
 
 ]

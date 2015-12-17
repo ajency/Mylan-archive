@@ -4,12 +4,8 @@ angular.module('PatientApp.init').controller('setupCtr', [
       refcode: '',
       emptyfield: '',
       deviceOS: '',
-      deviceType: '',
-      accessType: '',
       deviceUUID: '',
-      last: '',
       verifyRefCode: function() {
-        Storage.setRefernce('set', this.refcode);
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
           return this.emptyfield = "Please Enter Valid Reference Code";
         } else {
@@ -23,22 +19,19 @@ angular.module('PatientApp.init').controller('setupCtr', [
           CSpinner.show('', 'Please wait...');
           return AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceOS).then((function(_this) {
             return function(data) {
-              Storage.setHospitalData('set', data.hospitalData);
-              Storage.hospital_data('set', data.hospitalData);
-              Storage.setRefernce('set', _this.refcode);
-              if (data.code === 'do_login') {
-                return Storage.refcode('set', _this.refcode).then(function() {
-                  return App.navigate("main_login");
+              return Storage.setData('hospital_details', 'set', data.hospitalData).then(function() {
+                return Storage.setData('refcode', 'set', _this.refcode).then(function() {
+                  if (data.code === 'do_login') {
+                    return App.navigate("main_login");
+                  } else if (data.code === 'set_password') {
+                    return App.navigate("setup_password");
+                  } else if (data.code === 'limit_exceeded') {
+                    return _this.emptyfield = 'Cannot do setup more then 5 times';
+                  } else {
+                    return _this.emptyfield = 'Please check reference code';
+                  }
                 });
-              } else if (data.code === 'set_password') {
-                return Storage.refcode('set', _this.refcode).then(function() {
-                  return App.navigate("setup_password");
-                });
-              } else if (data.code === 'limit_exceeded') {
-                return _this.emptyfield = 'Cannot do setup more then 5 times';
-              } else {
-                return _this.emptyfield = 'Please check reference code';
-              }
+              });
             };
           })(this), (function(_this) {
             return function(error) {

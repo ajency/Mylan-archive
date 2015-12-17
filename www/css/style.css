@@ -19,7 +19,6 @@ h4 {
 h5 {
   font-size: 1.286em;
   font-weight: 200;
-  line-height: 26px;
 }
 h6 {
   font-size: 1.000em;
@@ -69,7 +68,7 @@ hr.broad {
   border: 0.5em solid #eeeeee;
 }
 .text-primary {
-  color: #00bae5 !important;
+  color: #00bae5;
 }
 .text-danger {
   color: #ee5235;
@@ -135,19 +134,6 @@ hr.broad {
 .bar.bar-footer.broad-footer {
   height: 5.357em;
 }
-.q-title {
-  font-weight: 500;
-}
-.q-title .badge {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: #ee5235;
-  position: relative;
-  top: -4px;
-  margin-right: 9px;
-  line-height: 23px;
-}
 /***ICONS***/
 .ic {
   width: 5.000em;
@@ -203,7 +189,7 @@ h3.line-title span {
   float: left;
   margin-right: 7px;
   position: relative;
-  top: -3px;
+  top: -6px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -363,13 +349,13 @@ input[id=password] {
 .item.item-radio .item-content span,
 .item.item-checkbox .item-content span {
   position: absolute;
-  left: 20px;
+  left: 26px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
   text-align: center;
   background: #eee;
-  top: 13px;
+  top: 12px;
   line-height: 28px;
 }
 .item.item-radio.item-radio input:checked ~ .item-content,
@@ -436,9 +422,6 @@ input[id=password] {
   position: relative;
   top: 2px;
 }
-.clm-list div.row {
-  border-bottom: 1px solid #ddd;
-}
 .card {
   margin-top: 0;
 }
@@ -486,9 +469,6 @@ input[id=password] {
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;
-  }
-  .info-msg.bg-balanced i.ion-ios-information-outline {
-    top: -6px;
   }
 }
 /*-------------------------------------------
@@ -680,18 +660,6 @@ input[id=password] {
   #chartdiv text {
     font-size: 12px;
   }
-  .q-title {
-    font-weight: 500;
-  }
-  .q-title .badge {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    top: -11px;
-    margin-right: 18px;
-    line-height: 49px;
-    font-size: 25px;
-  }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
@@ -859,9 +827,6 @@ input[id=password] {
   .item.item-radio .item-content {
     padding: 28px 16px 28px 69px;
   }
-  .item.item-radio .item-content span {
-    top: 23px;
-  }
   .item.item-radio .radio-icon {
     left: 28px;
     top: 35px;
@@ -881,18 +846,6 @@ input[id=password] {
     height: 30px;
     top: -5px;
     font-size: 14px;
-  }
-  .q-title {
-    font-weight: 500;
-  }
-  .q-title .badge {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    top: -11px;
-    margin-right: 18px;
-    line-height: 49px;
-    font-size: 25px;
   }
 }
 @media screen and (min-width: 768px) and (orientation: landscape) {
