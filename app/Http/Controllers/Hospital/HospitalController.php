@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Hospital;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-use \File;
-use \Input;
 use App\Hospital;
 
-class MediaController extends Controller
+class HospitalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -50,9 +47,14 @@ class MediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($hospitalSlug)
     {
-        //
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        return view('hospital.dashbord')->with('active_menu', 'dashbord')
+                                        ->with('hospital', $hospital)
+                                        ->with('logoUrl', $logoUrl);
     }
 
     /**
@@ -88,7 +90,4 @@ class MediaController extends Controller
     {
         //
     }
-
-    
-
 }

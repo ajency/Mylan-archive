@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Hospital;
 
 use Illuminate\Http\Request;
 
@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
-
+use App\Hospital;
 
 class SubmissionController extends Controller
 {
@@ -17,8 +17,12 @@ class SubmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    { 
+    public function index($hospitalId)
+    {
+        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+
         $responseQry = new ParseQuery("Response");
         $responseQry->descending("updatedAt");
         $responses = $responseQry->find(); 
@@ -35,7 +39,9 @@ class SubmissionController extends Controller
         }
 
          return view('hospital.submissions-list')->with('active_menu', 'submission')
-                                              ->with('responseList', $responseList);
+                                                 ->with('hospital', $hospital)
+                                                 ->with('logoUrl', $logoUrl)
+                                                 ->with('responseList', $responseList);
     }
 
     /**

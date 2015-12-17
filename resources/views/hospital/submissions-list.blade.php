@@ -1,4 +1,4 @@
-@extends('layouts.single-mylan')
+@extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
       <p>

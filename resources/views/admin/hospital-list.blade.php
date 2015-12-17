@@ -46,13 +46,13 @@
                         @foreach($hospitals as $hospital)
                         <div>
                            <div class="pull-right">
-                              <button class="btn btn-default btn-small m-r-15">Login as {{ $hospital['name'] }}</button>
+                              <a target="_blank" href="/hospital/{{ $hospital['url_slug'] }}/" ><button class="btn btn-default btn-small m-r-15">Login as {{ $hospital['name'] }}</button></a>
                               <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
 
                            </div>
-                           <a href="single-hospital.html">
-                              <h3><span class="semi-bold">{{ $hospital['name'] }},</span> {{ $hospital['location'] }}</h3>
+                           <a href="/admin/hospitals/{{ $hospital['id'] }}/edit">
+                              <h3><span class="semi-bold">{{ $hospital['name'] }},</span> {{ $hospital['city'] }}</h3>
                            </a>
                         </div>
                         <br>

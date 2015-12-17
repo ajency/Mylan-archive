@@ -18,13 +18,16 @@ class CreateHospitalsTable extends Migration
             $table->string('logo');
             $table->string('email');
             $table->string('phone');
-            $table->text('address');
+            $table->string('address_line_1');
+            $table->string('address_line_2');
+            $table->string('city');
+            $table->string('country');
+            $table->string('postal_code');
             $table->string('website');
             $table->string('primary_phone');
             $table->string('primary_email');
             $table->string('contact_person_name');
-            $table->string('location');
-
+            $table->string('url_slug')->unique();
             $table->timestamps();
         });
     }

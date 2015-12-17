@@ -38,6 +38,20 @@ class RedirectIfAuthenticated
             return redirect('/home');
         }
 
+        // if ($this->auth->check()) {
+
+        //     $routePrefix = $request->route()->getPrefix();
+        //     if(str_contains($routePrefix, 'admin'))
+        //             return redirect('/admin'); 
+        //     elseif(str_contains($routePrefix, 'hospital'))
+        //     {
+        //         $id= $request->id;
+        //         return redirect('/hospital/'.$id); 
+                 
+        //     }
+            
+        // }
+
         return $next($request);
     }
 }

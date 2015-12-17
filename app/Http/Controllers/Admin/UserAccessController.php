@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
+use App\UserAccess;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use \File;
-use \Input;
-use App\Hospital;
-
-class MediaController extends Controller
+class UserAccessController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -86,9 +82,11 @@ class MediaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        UserAccess::find($id)->delete();
+
+        return response()->json([
+                    'code' => 'useraccess_deleted',
+                    'message' => 'User Hopital Access Successfully Deleted'
+                        ], 204);
     }
-
-    
-
 }

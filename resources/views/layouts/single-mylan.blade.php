@@ -43,7 +43,7 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="index.html"><img src="{{ asset('img/nhs.gif') }}" class="logo" alt=""  data-src="{{ asset('img/nhs.gif') }}" data-src-retina="{{ asset('img/nhs.gif') }}" width="106" height="21"/></a>
+               <a href="index.html"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" data-src-retina="{{ asset('img/mylan-logo.png') }}" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
@@ -67,7 +67,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="{{ asset('img/nhs.gif') }}" class="logo" alt=""  data-src="{{ asset('img/nhs.gif') }}" width="auto" height="40"/></a>
+               <a href="index.html" class="pull-left"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
@@ -120,13 +120,9 @@
                            <span><i class="fa fa-hospital-o"></i> Hospitals </span>
                            </a>
                         </li>
-                        <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
-                           <a href="{{ url( 'admin/patients/' ) }}">
-                           <span><i class="fa fa-users"></i> Patients </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="javascript:;">
+                        
+                        <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/users/' ) }}">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
@@ -135,11 +131,7 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
-                        <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
-                           <a href="{{ url( 'admin/submissions/' ) }}">
-                           <span><i class="fa fa-list-alt"></i> Submissions </span>
-                           </a>
-                        </li>
+          
                      </ul>
                   </div>
                </div>

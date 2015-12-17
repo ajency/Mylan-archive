@@ -3,7 +3,7 @@
    <head>
       <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
       <meta charset="utf-8" />
-      <title>Mylan - Hospital Administrator</title>
+      <title>{{ $hospital['name'] }} Administrator</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta content="" name="description" />
       <meta content="" name="author" />
@@ -41,7 +41,7 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="index.html"><img src="{{ asset('hospital/img/logo.png') }}" class="logo" alt=""  data-src="{{ asset('hospital/img/logo.png') }}" data-src-retina="{{ asset('hospital/img/logo2x.png') }}" width="106" height="21"/></a>
+               <a href="index.html"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" data-src-retina="{{ $logoUrl }}" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
@@ -65,7 +65,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="{{ asset('hospital/img/hospital-logo.png') }}" class="logo" alt=""  data-src="{{ asset('hospital/img/hospital-logo.png') }}" width="auto" height="40"/></a>
+               <a href="index.html" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
@@ -109,19 +109,28 @@
                   <div class="bar-inner">
                      <ul>
                         <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
-                           <a href="{{ url( 'admin/dashbord/' ) }}">
+                           <a href="{{ url( $hospital['url_slug'].'/dashbord/' ) }}">
                            <span><i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>
-                        <li class="{{ ( $active_menu == 'hospital')? 'active-item' : ''}}">
-                           <a href="{{ url( 'admin/hospitals/' ) }}">
-                           <span><i class="fa fa-hospital-o"></i> Hospitals </span>
+                        <li class="{{ ( $active_menu == 'project')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/projects/' ) }}">
+                           <span><i class="fa fa-hospital-o"></i> Projects </span>
                            </a>
                         </li>
-                        
+                        <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/patients/' ) }}">
+                           <span><i class="fa fa-users"></i> Patients </span>
+                           </a>
+                        </li>
                         <li>
-                           <a href="users-list.html">
+                           <a href="#">
                            <span><i class="fa fa-users"></i> Users </span>
+                           </a>
+                        </li>
+                        <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}">
+                           <span><i class="fa fa-list-alt"></i> Submissions </span>
                            </a>
                         </li>
                         <li>

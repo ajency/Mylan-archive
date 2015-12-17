@@ -1,17 +1,18 @@
-
-@extends('layouts.single-mylan')
+@extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
-      <p>
+<p>
       <ul class="breadcrumb">
          <li>
-            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
+            <a href="#" class="active" > HOME</a>
          </li>
          <li>
-            <a href="#" class="active">Patients</a>
+            <a href="#"> Patients</a>
          </li>
+          
       </ul>
       </p>
+       
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
@@ -25,7 +26,7 @@
                         <div class="col-lg-4 col-md-5 m-t-25">
                            <div class="row">
                               <div class="col-md-6">
-                                 <a href="{{ url( 'admin/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
+                                 <a href="{{ url($hospital['url_slug'].'/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
                               </div>
                         
                            </div>
@@ -47,7 +48,7 @@
                     <tbody> 
                         @foreach ($patients as $patient)
                             <tr class="" >
-                                <td>{{ $patient['reference_code'] }}</td>
+                                <td><a href="/{{ $hospital['url_slug'] }}/patients/{{ $patient['id'] }}/edit">{{ $patient['reference_code'] }}</a></td>
                                 <td>{{ date('d/m/Y',strtotime($patient['created_at'])) }}</td>
                                 <td>{{  date('d/m/Y',strtotime($patient['updated_at'])) }}</td>
                             </tr>
