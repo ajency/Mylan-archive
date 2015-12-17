@@ -60,7 +60,7 @@
                               <p class="f-w-400 text-green">
                                 {{view.data.previousQuestionnaireAnswer.value}}
                                 &nbsp; 
-            {{view.pastAnswerLabel(view.data.previousQuestionnaireAnswer.optionId[0])}}
+                              {{view.pastAnswerLabel(view.data.previousQuestionnaireAnswer.optionId[0])}}
                               </p>
                                   </div>
               </div>
@@ -140,7 +140,7 @@
                                       </div>
                                        <div class="padding"><p class="f-w-400 text-green">
                                           Last time you answered option: &nbsp;
-          {{ view.pastAnswer(view.data.previousQuestionnaireAnswer.optionId[0], view.data.options)}}
+                                         {{ view.pastAnswer(view.data.previousQuestionnaireAnswer.optionId[0], view.data.options)}}
                                         </p>
                              </div>
               </div>
@@ -165,10 +165,11 @@
 
               <!-- multi choice  -->
               <ul 
+                mcq-select
                 class="list"
                 ng-if = 'view.data.questionType == "multi-choice"'>
                 <li 
-                  class="item item-checkbox"
+                  class="item item-checkbox mcq"
                   ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
                   <label class="checkbox" >
                       <input type="checkbox" ng-model="answerValue.checked" 
