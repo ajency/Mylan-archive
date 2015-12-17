@@ -16,6 +16,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 				questionQuery = new Parse.Query('Questions')
 				questionQuery.include('nextQuestion')
 				questionQuery.include('previousQuestion')
+				questionQuery.include('questionnaire')
 				if answeredQuestions.length != 0
 					questionQuery.get(answeredQuestions[answeredQuestions.length - 1])
 					.then (questionObj) ->
@@ -89,6 +90,7 @@ firstQuestion = (questionnaireId) ->
 	.then (questionnaireObj) ->
 		questionsQuery = new Parse.Query("Questions")
 		questionsQuery.equalTo('questionnaire', questionnaireObj)
+		questionsQuery.include('questionnaire')
 		questionsQuery.find()
 		.then (questionsObjs) ->
 			checkIfFirstQuestion = (questionObj) ->
@@ -193,32 +195,42 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 	questionData['options'] = []
 	questionData['hasAnswer'] = {}
 	questionData['previousQuestionnaireAnswer'] = {}
+	questionData['questionTitle'] = questionObj.get('title')
+	questionData['editable'] = {}
 
-	getPreviousQuestionnaireAnswer(questionObj, responseObj, patientId)
-	.then (previousQuestionnaireAnswer) ->
-		questionData['previousQuestionnaireAnswer'] = previousQuestionnaireAnswer
-		getCurrentAnswer(questionObj, responseObj)
-		.then (hasAnswer) ->
-			questionData['hasAnswer'] = hasAnswer
-			if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input'
-				optionsQuery = new Parse.Query "Options"
-				optionsQuery.equalTo('question', questionObj)
-				optionsQuery.find()
-				.then (optionObjs) ->
-					options = []
-					for option in optionObjs 
-						optionObj = {} 			
-						optionObj['id'] = option.id
-						optionObj['option'] = option.get('label')
-						optionObj['score'] = option.get('score')
-						options.push(optionObj)
-					questionData['options'] = options
-					promise.resolve(questionData)	
+	editable = questionObj.get('questionnaire')
 
-				, (error) ->
-					promise.reject error
-			else
-				promise.resolve questionData
+	editable.fetch()
+	.then ->
+		questionData['editable'] = editable.get('editable')
+
+		getPreviousQuestionnaireAnswer(questionObj, responseObj, patientId)
+		.then (previousQuestionnaireAnswer) ->
+			questionData['previousQuestionnaireAnswer'] = previousQuestionnaireAnswer
+			getCurrentAnswer(questionObj, responseObj)
+			.then (hasAnswer) ->
+				questionData['hasAnswer'] = hasAnswer
+				if questionObj.get('type') == 'single-choice' or questionObj.get('type') == 'multi-choice' or questionObj.get('type') == 'input'
+					optionsQuery = new Parse.Query "Options"
+					optionsQuery.equalTo('question', questionObj)
+					optionsQuery.find()
+					.then (optionObjs) ->
+						options = []
+						for option in optionObjs 
+							optionObj = {} 			
+							optionObj['id'] = option.id
+							optionObj['option'] = option.get('label')
+							optionObj['score'] = option.get('score')
+							options.push(optionObj)
+						questionData['options'] = options
+						promise.resolve(questionData)	
+
+					, (error) ->
+						promise.reject error
+				else
+					promise.resolve questionData
+			, (error) ->
+				promise.reject error
 		, (error) ->
 			promise.reject error
 	, (error) ->
@@ -242,7 +254,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 			questionQuery = new Parse.Query('Questions')
 			questionQuery.include('nextQuestion')
 			questionQuery.include('previousQuestion')
-
+			questionQuery.include('questionnaire')
 			questionQuery.get(questionId)
 
 			.then (questionObj) ->
@@ -282,7 +294,6 @@ getNextQuestion = (questionObj, option) ->
 	promise = new Parse.Promise()
 
 	getRequiredQuestion = () ->
-		console.log "getQuestionData"
 		if !_.isUndefined questionObj.get('nextQuestion')
 			promise.resolve(questionObj.get('nextQuestion'))
 
@@ -309,6 +320,7 @@ getNextQuestion = (questionObj, option) ->
 			conditionalQuestion = ( condition['questionId'] for condition in conditions when condition['optionId'] == optionObj.id)
 			if conditionalQuestion.length != 0
 				questionQuery = new Parse.Query("Questions")
+				questionQuery.include('questionnaire')
 				questionQuery.get(conditionalQuestion[0])
 				.then (optionQuestionObj) ->
 					promise.resolve(optionQuestionObj)
@@ -403,21 +415,58 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 		Parse.Promise.when(promiseArr)
 
 
-#	hasAnswer = getCurrentAnswer(questionObj, responseObj)
-#	isEditable = responseObj.get(questionnaire).get('editable')
+	hasAnswer = getCurrentAnswer(questionObj, responseObj)
+	isEditable = questionObj.get('questionnaire').get('editable')
+	
+	if !isEditable and !_.isEmpty(hasAnswer)
+		promise.resolve("already_answered")
 
-	getAnswers().then -> 
-		answeredQuestions = responseObj.get('answeredQuestions')
-		if questionObj.id not in answeredQuestions
-			answeredQuestions.push(questionObj.id)
-		responseObj.set 'answeredQuestions', answeredQuestions
-		responseObj.save()
-		.then (responseObj) ->      
-			promise.resolve(responseObj)    
+	else if isEditable and !_.isEmpty(hasAnswer)
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('response', responseObj)
+		answerQuery.equalTo('question', questionObj)
+		answerQuery.find()
+		.then (answers) ->
+			promiseDelete = Parse.Promise.as()
+			_.each answers, (answer) ->
+				promiseDelete = promiseDelete
+				.then ->
+					answer.destroy()
+				,(error) ->
+					promise.error error
+			promiseDelete
 		, (error) ->
-			promise.error error         
-	, (error) ->
-		promise.error error
+			promise.error error
+		.then ->
+			getAnswers().then -> 
+				answeredQuestions = responseObj.get('answeredQuestions')
+				if questionObj.id not in answeredQuestions
+					answeredQuestions.push(questionObj.id)
+				responseObj.set 'answeredQuestions', answeredQuestions
+				responseObj.save()
+				.then (responseObj) ->      
+					promise.resolve(responseObj)    
+				, (error) ->
+					promise.error error         
+			, (error) ->
+				promise.error error
+		, (error) ->
+			promise.error error
+	else
+		getAnswers().then -> 
+			answeredQuestions = responseObj.get('answeredQuestions')
+			if questionObj.id not in answeredQuestions
+				answeredQuestions.push(questionObj.id)
+			responseObj.set 'answeredQuestions', answeredQuestions
+			responseObj.save()
+			.then (responseObj) ->      
+				promise.resolve(responseObj)    
+			, (error) ->
+				promise.error error         
+		, (error) ->
+			promise.error error
+
+	promise
 
 
 
@@ -437,6 +486,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 		else
 			questionQuery = new Parse.Query('Questions')
 			questionQuery.include('previousQuestion')
+			questionQuery.include('questionnaire')
 			questionQuery.get(questionId)
 
 				.then (questionObj) ->
@@ -858,8 +908,6 @@ getMissedObjects = (scheduleObj, patientId) ->
 			#missedObj['responseId'] = ""
 			missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence')
 			promise.resolve(missedObj)
-
-
 	, (error) ->
 		promise.error error
 	promise
@@ -875,3 +923,52 @@ isValidMissedTime = (timeObj) ->
 		true
 	else
 		false
+
+isValidMissedTime = (timeObj) ->
+	currentTime = new Date()
+
+	if timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()
+		true
+	else
+		false
+
+
+Parse.Cloud.define "dashboard1", (request, response) ->
+	patientId = request.params.patientId
+	results = []
+
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.include('questionnaire')
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('patient', patientId)
+		responseQuery.descending('createdAt')
+		responseQuery.find()
+		.then (responseObjs) ->
+			timeObj = getValidPeriod(scheduleObj)
+			status =""
+			if isValidTime(timeObj)
+				status ="Start"
+			else if isValidUpcomingTime(timeObj)
+				status = "Upcoming"
+
+			
+			upcoming_due =
+				date: scheduleObj.get('nextOccurrence')
+				status: status 
+
+			results.push(upcoming_due)
+			for responseObj in responseObjs
+				result = {}
+				result['status'] = responseObj.get('status')
+				result['date'] = responseObj.createdAt
+				result['responseId'] = responseObj.id
+				results.push(result)
+
+			response.success(results)
+		, (error) ->
+			response.error error 
+	, (error) ->
+		response.error error
