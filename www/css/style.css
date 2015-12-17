@@ -405,14 +405,10 @@ input[id=password] {
   top: -3px;
   opacity: 0;
 }
-.item.item-radio .checkbox input:checked:before,
-.item.item-checkbox .checkbox input:checked:before,
-.item.item-radio .checkbox input:checked + .checkbox-icon:before,
-.item.item-checkbox .checkbox input:checked + .checkbox-icon:before {
-  background: #7bc67a;
-  border-color: #7bc67a;
+ul .item.item-checkbox.mcq {
+  white-space: initial;
 }
-.item.item-checkbox div span {
+ul .item.item-checkbox.mcq div span {
   position: absolute;
   left: 15px;
   width: 28px;
@@ -423,6 +419,16 @@ input[id=password] {
   top: 12px;
   line-height: 28px;
   z-index: 9;
+}
+ul .item.item-checkbox.mcq input::before {
+  opacity: 0;
+}
+ul .mcq_active {
+  background: #f8fad1;
+}
+ul .mcq_active div span {
+  background: #7bc67a !important;
+  color: #fff;
 }
 .clm-list .button {
   margin: 0.286em;
@@ -665,11 +671,12 @@ input[id=password] {
     padding: 28px 16px 28px 69px;
   }
   .item.item-checkbox span {
-    padding: 10px;
+    padding: 23px;
   }
   .item.item-checkbox .checkbox input,
   .item.item-checkbox .checkbox-icon {
-    left: 15px;
+    left: 28px;
+    top: 35px;
   }
   .no-list .no {
     width: 30px;
