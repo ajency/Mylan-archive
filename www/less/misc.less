@@ -18,6 +18,7 @@ html,html * {
 	h5{
 		font-size: 1.286em;
 		font-weight: 200;
+		line-height: 26px;
 	}
 	h6{
 		font-size: 1.000em;
@@ -69,7 +70,7 @@ html,html * {
 		}
 	}
 	.text-primary{
-		color: @color-primary;
+		color: @color-primary!important;
 	}
 	.text-danger{
 		color: @color-danger;
@@ -143,6 +144,19 @@ html,html * {
 		}
 
 	}
+	.q-title{
+		font-weight: 500;
+		.badge{
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+    		background: #ee5235;
+    		position: relative;
+    		top: -4px;
+    		margin-right: 9px;
+    		line-height: 23px;
+		}
+	}
 	/***ICONS***/
 	.ic{
 		width: 5.000em;
@@ -196,7 +210,7 @@ html,html * {
 			float: left;
 			margin-right: 7px;
 			position: relative;
-    		top: -6px;
+    		top: -3px;
 		}
 		
 		&.bg-balanced{
@@ -364,13 +378,13 @@ html,html * {
     		position: relative;
     		span{
     			position: absolute;
-    			left: 26px;
+    			left: 20px;
     			width: 28px;
     			height: 28px;
     			border-radius: 50%;
     			text-align: center;
     			background: #eee;
-    			top: 12px;
+    			top: 13px;
     			line-height: 28px;
     		}
 		}
@@ -442,6 +456,9 @@ html,html * {
 				top:2px;
 			}
 		}
+		div.row{
+			border-bottom: 1px solid #ddd;
+		}
 	}
 	.card{
 		margin-top: 0;
@@ -490,11 +507,18 @@ html,html * {
 	.loader{
 		padding-top: 21%;
 	}
+	.info-msg.bg-balanced{
+
+		i.ion-ios-information-outline{
+			top: -6px;
+		}
+	}
 }
 @media (max-width: 768px){
 	.bar.bar-white{
 		
 	}
+	
 }
   /*-------------------------------------------
                   TABLET SCREENS
@@ -704,6 +728,18 @@ html,html * {
   			font-size: 12px;
   		}
   	}
+  	.q-title{
+		font-weight: 500;
+		.badge{
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+    		top: -11px;
+    		margin-right: 18px;
+    		line-height: 49px;
+    		font-size: 25px;
+		}
+	}
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation:portrait){
   	.centering{
@@ -881,6 +917,9 @@ html,html * {
 	.item.item-radio{
 		.item-content{
 			padding: 28px 16px 28px 69px;
+			span{
+				top: 23px;
+			}
 		}
 		.radio-icon{
 			left: 28px;
@@ -902,13 +941,18 @@ html,html * {
 		top:-5px;
 		font-size: 14px;
 	}
-	// .notification{
- //  			width: 17px;
- //  			height: 17px;
- //  			font-size: 0.643em;
- //  			right: 2px;
- //  			top: -2px;
- //  			}
+.q-title{
+		font-weight: 500;
+		.badge{
+			width: 60px;
+			height: 60px;
+			border-radius: 50%;
+    		top: -11px;
+    		margin-right: 18px;
+    		line-height: 49px;
+    		font-size: 25px;
+		}
+	}	
 }
 @media screen and (min-width:768px) and (orientation:landscape){
 	.loader{

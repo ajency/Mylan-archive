@@ -56,7 +56,7 @@ angular.module 'PatientApp.Auth'
 									console.log error
 							else
 								CToast.show 'Please check credentials'
-								@loginerror ="Entered password is not correct please try again "
+								@loginerror ="Password entered is incorrect, Please try again"
 								CSpinner.hide()
 						, (error)=>
 							CToast.show 'Please try again'
