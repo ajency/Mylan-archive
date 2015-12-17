@@ -119,6 +119,11 @@
                            <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
+                        <li>
+                           <a href="submissions.html">
+                           <span><i class="fa fa-list-alt"></i> Submissions</span>
+                           </a>
+                        </li>
                       <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
@@ -167,8 +172,6 @@
                   <div class="tab-pane" id="Submissions">
                      <ul class="nav nav-tabs inner-tabs" id="tab-01">
                         <li class="active"><a href="#allPatients">All</a></li>
-                        <li><a href="#submissions">Submissions</a></li>
-                        <li><a href="#missedSubmissions">Missed Submissions</a></li>
                         <li><a href="#flags">Flags</a></li>
                         <li><a href="#locked">Locked</a></li>
                      </ul>
@@ -309,112 +312,6 @@
                                     <td>5</td>
                                     <td> <span class="label label-danger">Locked</span></td>
                                  </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                        <div class="tab-pane" id="submissions">
-                           <table class="table table-hover table-flip-scroll cf">
-                              <thead class="cf">
-                                 <tr>
-                                    <th>Patient ID</th>
-                                    <th>Doctor In-charge</th>
-                                    <th>Last Clinic Visit</th>
-                                    <th>Last Submission Date</th>
-                                    <th>Sequence Number</th>
-                                    <th>Number of Flags</th>
-                                    <th>Status</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td><span class="label label-warning">Review Pending</span></td>
-                                 </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
-                                 </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td><span class="label label-warning">Review Pending</span></td>
-                                 </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>3</td>
-                                    <td>5</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                        <div class="tab-pane" id="missedSubmissions">
-                           <table class="table table-hover table-flip-scroll cf">
-                              <thead class="cf">
-                                 <tr>
-                                    <th>Patient ID</th>
-                                    <th>Doctor In-charge</th>
-                                    <th>Date Registered</th>
-                                    <th>Last Clinic Visit</th>
-                                    <th>Last Submission Date</th>
-                                    <th>Sequence Number</th>
-                                    <th>Number of Missed</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>1/8/12</td>
-                                    <td>23</td>
-                                    <td>5</td>
-                                </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>1/8/12</td>
-                                    <td>23</td>
-                                    <td>5</td>
-                                </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>1/8/12</td>
-                                    <td>23</td>
-                                    <td>5</td>
-                                </tr>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1234</td>
-                                    <td>Dr. Jones Smith</td>
-                                    <td>6/10/12</td>
-                                    <td>3/9/12</td>
-                                    <td>1/8/12</td>
-                                    <td>23</td>
-                                    <td>5</td>
-                                </tr>
                               </tbody>
                            </table>
                         </div>

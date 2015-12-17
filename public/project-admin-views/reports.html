@@ -118,6 +118,11 @@
                            <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
+                         <li>
+                           <a href="submissions.html">
+                           <span><i class="fa fa-list-alt"></i> Submissions</span>
+                           </a>
+                        </li>
                       <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
@@ -161,13 +166,34 @@
                   </div>
                   <div class="grid simple">
                      <div class="grid-body no-border">
-                        <br>
-                        <div class="pull-right">
-                           <button class="btn btn-default btn-small">Day</button>
-                           <button class="btn btn-default btn-small">Week</button>
-                           <button class="btn btn-default btn-small">Month</button>
+                        
+                          
+                       
+                        <div class="row">
+                          <div class="col-md-7">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <h4><span class="semi-bold">Patient</span>  Report Highlights</h4>
+                              </div>
+                              <div class="col-md-3 m-t-10">
+                                <select name="role" id="role" class="select2 form-control"  >
+                                <option value="1">Status</option>
+                                <option value="2">Reviewed</option>
+                                <option value="2">Under Review</option>
+                              </select>
+                              </div>
+                              <div class="col-md-4"></div>
+                            </div>
+                              
+                              
+                          </div>
+                          <div class="col-md-5 m-t-15 text-right">
+                              <button class="btn btn-default btn-small">Day</button>
+                              <button class="btn btn-default btn-small">Week</button>
+                              <button class="btn btn-default btn-small active-label">Month</button>
+                          </div>
                         </div>
-                        <h4><span class="semi-bold">Patient</span>  Report Highlights</h4>
+                        
                         <br>
                         <div class="row">
                            <div class="col-md-2">
@@ -348,19 +374,7 @@ $(function() {
             },
             color: "rgba(10, 166, 153, 0.7)"
         },
-        {
-            label: "Product 4",
-            data: d1_4,
-            bars: {
-                    show: true,
-                barWidth: 12*24*60*60*300*2,
-                fill: true,
-                lineWidth: 0,
-                order: 0,
-                fillColor:  "rgba(0, 144, 217, 0.7)"
-            },
-            color: "rgba(0, 144, 217, 0.7)"
-        },
+        
 
     ];
    
