@@ -16,21 +16,21 @@ $(document).ready(function() {
    
 
 	Morris.Line({
-	  element: 'line-example',
-	  data: [
-		{ y: '1-June', a: 100 },
-		{ y: '8-June', a: 65},
-		{ y: '15-June', a: 50},
-		{ y: '22-June', a: 75},
-		{ y: '6-Jul', a: 50},
-		{ y: '13-Jul', a: 75},
-		{ y: '20-Jul', a: 100}
-	  ],
-	  xkey: 'y',
-	  ykeys: ['a', 'b'],
-	  labels: ['Series A'],
-	  lineColors:['#0aa699'],
-	});
+      element: 'line-example',
+      data: [
+        { y: '2006', a: 100, b: 50 },
+        { y: '2007', a: 75,  b: 50 },
+        { y: '2008', a: 50,  b: 50 },
+        { y: '2009', a: 75,  b: 50 },
+        { y: '2010', a: 50,  b: 50 },
+        { y: '2011', a: 65,  b: 50 },
+        { y: '2012', a: 50, b: 50 }
+      ],
+      xkey: 'y',
+      ykeys: ['a', 'b'],
+      labels: ['Series A', 'Series B'],
+      lineColors:['#0aa699','#FAA56B'],
+    });
 	
 	//Bar Chart  - Jquert flot
 	
