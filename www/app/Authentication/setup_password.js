@@ -9,7 +9,10 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       reset: function() {
         this.New_password = '';
         this.Re_password = '';
-        return this.passwordmissmatch = '';
+        this.passwordmissmatch = '';
+        App.ContactUsEnabled = false;
+        App.UpdatesEnabled = false;
+        return App.resetPassword = false;
       },
       completesetup: function() {
         if ((this.New_password === '' || this.Re_password === '') || (_.isUndefined(this.New_password) && _.isUndefined(this.New_password))) {
@@ -57,8 +60,13 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         };
       }
     };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       return $scope.view.reset();
+    });
+    return $scope.$on('$ionicView.afterLeave', function(event, viewData) {
+      App.ContactUsEnabled = true;
+      App.UpdatesEnabled = true;
+      return App.resetPassword = true;
     });
   }
 ]);

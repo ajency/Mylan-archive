@@ -30,7 +30,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           return function(refcode) {
             return Storage.setData('patientData', 'get').then(function(patientData) {
               var options, responseId;
-              _this.patientId = patientData.patient_id;
               _this.respStatus = $stateParams.respStatus;
               if (_this.respStatus === 'noValue') {
                 responseId = '';
@@ -39,7 +38,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               }
               options = {
                 "responseId": responseId,
-                "questionnaireId": patientData.questionnaire.id,
+                "questionnaireId": patientData.id,
                 "patientId": refcode
               };
               return QuestionAPI.getQuestion(options).then(function(data) {

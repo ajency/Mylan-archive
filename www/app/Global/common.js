@@ -9,6 +9,9 @@ angular.module('PatientApp.Global', []).factory('App', [
         left: false,
         right: false
       },
+      ContactUsEnabled: true,
+      UpdatesEnabled: true,
+      resetPassword: true,
       previousState: '',
       currentState: '',
       navigate: function(state, params, opts) {

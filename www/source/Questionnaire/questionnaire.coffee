@@ -42,7 +42,6 @@ angular.module 'PatientApp.Quest',[]
 				
 					Storage.setData 'patientData','get'
 					.then (patientData)=>
-						@patientId = patientData.patient_id
 
 						@respStatus = $stateParams.respStatus
 						if @respStatus == 'noValue'
@@ -52,7 +51,7 @@ angular.module 'PatientApp.Quest',[]
 
 						options =
 							"responseId": responseId
-							"questionnaireId": patientData.questionnaire.id
+							"questionnaireId": patientData.id
 							"patientId": refcode
 
 						QuestionAPI.getQuestion options

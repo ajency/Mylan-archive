@@ -23,9 +23,11 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                     return Storage.setData('logged', 'set', true).then(function() {
                       return Storage.setData('refcode', 'set', _this.refrencecode).then(function() {
                         return Storage.setData('hospital_details', 'set', data.hospital).then(function() {
-                          return App.navigate("dashboard", {}, {
-                            animate: false,
-                            back: false
+                          return Storage.setData('patientData', 'set', data.questionnaire).then(function() {
+                            return App.navigate("dashboard", {}, {
+                              animate: false,
+                              back: false
+                            });
                           });
                         });
                       });

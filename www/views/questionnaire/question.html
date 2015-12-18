@@ -35,6 +35,10 @@
               <div 
                 class="padding">
                     <div class="col">
+                        <h4 class="q-title">
+                        <span class="badge badge-assertive badge-round">1</span>
+                        {{view.data.questionTitle}}
+                      </h4>
                         <h5 class="f-w-400">  
                          {{view.data.question}}
                         </h5>
@@ -74,7 +78,7 @@
                     ng-repeat ="answerValue in view.data.options">
                     <label class="item-input  item-icon-right b-b b-t b-l b-r">
                     <input 
-                      type="text" 
+                      type="number" 
                       placeholder="{{answerValue.option}}"
                       ng-model="view.val_answerValue[answerValue.option]">
                     </label>
@@ -105,7 +109,10 @@
                 class="padding"
                 ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"'>
                     <div class="col">
-                      <h4 class="q-title"><span class="badge badge-assertive badge-round">1</span>PAIN</h4>
+                      <h4 class="q-title">
+                        <span class="badge badge-assertive badge-round">1</span>
+                        {{view.data.questionTitle}}
+                      </h4>
                         <h5 class="f-w-400"
                           ng-if = 'view.data.questionType == "single-choice"'>
                           {{view.data.question}}</h5>

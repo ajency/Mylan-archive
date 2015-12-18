@@ -39,7 +39,9 @@ angular.module 'PatientApp.Auth'
 										.then ()=>
 											Storage.setData 'hospital_details', 'set', data.hospital
 											.then ()=>
-												App.navigate "dashboard", {}, {animate: false, back: false}
+												Storage.setData 'patientData', 'set', data.questionnaire
+												.then ()=>
+													App.navigate "dashboard", {}, {animate: false, back: false}
 								, (error)->
 									console.log 'in error'
 									console.log error
