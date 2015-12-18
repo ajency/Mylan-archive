@@ -46,7 +46,7 @@
                         @foreach($hospitals as $hospital)
                         <div>
                            <div class="pull-right">
-                              <a target="_blank" href="/hospital/{{ $hospital['url_slug'] }}/" ><button class="btn btn-default btn-small m-r-15">Login as {{ $hospital['name'] }}</button></a>
+                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/" ><button class="btn btn-default btn-small m-r-15">Login as {{ $hospital['name'] }}</button></a>
                               <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
 

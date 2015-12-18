@@ -64,7 +64,7 @@ class ProjectController extends Controller
         $project->save();
         $projectId = $project->id;
          
-        return redirect(url('/hospital/' . $hospitalSlug . '/projects/' . $projectId . '/edit'));
+        return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
     }
 
     /**
@@ -113,7 +113,7 @@ class ProjectController extends Controller
      
         $project->save();
          
-        return redirect(url('/hospital/' . $hospitalSlug . '/projects/' . $projectId . '/edit'));
+        return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
     }
 
     /**

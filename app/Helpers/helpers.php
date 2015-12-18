@@ -48,7 +48,6 @@ function hasMylanPermission($userPermission)
     $user = App\User::find($userId); 
     $hasAccess = $user->mylan_access; 
     
- 
     $flag = false;
     
     $permissions =[];
@@ -59,21 +58,41 @@ function hasMylanPermission($userPermission)
         $userAccess = $user->access()->where(['object_type'=>'mylan', 'object_id'=>0])->whereIn('access_type',$userPermission)->get()->toArray();
     	
     	if(!empty($userAccess))
-	    {
 	        $flag = true;
-	    }
     }
     else
-    {
     	$flag = true;
-    }
     
+    return $flag;
+}
+
+function hasHospitalPermission($hospitalSlug,$userPermission)
+{  
+    $userId =  Auth::user()->id;
+    $user = App\User::find($userId); 
+    $hasAccess = $user->project_access; 
+    $userType =  $user->type; 
+
     
+    $flag = false;
+    
+    $permissions =[];
+    $userAccess = [];
+
+    $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
     
 
-     
+    if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
+    {
+        $userAccess = $user->access()->where(['object_type'=>'hospital', 'object_id'=>$hospital['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+        
+        if(!empty($userAccess))
+            $flag = true;
+    }
+    else
+        $flag = true;
+    
     return $flag;
- 
 }
 
 

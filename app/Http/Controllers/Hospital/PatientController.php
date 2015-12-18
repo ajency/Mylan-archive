@@ -44,8 +44,14 @@ class PatientController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
  
 
-        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();  
-
+        // $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();  
+        $projectQry = new ParseQuery("Project");
+        $projectData = $projectQry->find();
+        $projects = [];
+        foreach ($projectData as $key => $project) {
+             $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
+              
+         }
 
         return view('hospital.patients.add')->with('active_menu', 'patients')
                                             ->with('hospital', $hospital)
@@ -83,7 +89,7 @@ class PatientController extends Controller
         $apiKey->save();
 
  
-        return redirect(url('/hospital/' . $hospitalSlug . '/patients/' . $userId . '/edit')); 
+        return redirect(url($hospitalSlug . '/patients/' . $userId . '/edit')); 
     }
 
     /**
@@ -109,8 +115,14 @@ class PatientController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
-
+        // $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
+        $projectQry = new ParseQuery("Project");
+        $projectData = $projectQry->find();
+        $projects = [];
+        foreach ($projectData as $key => $project) {
+             $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
+              
+         }
         $patient = User::find($patientId)->toArray();
         
         return view('hospital.patients.edit')->with('active_menu', 'patients')
@@ -142,7 +154,67 @@ class PatientController extends Controller
         $user->save();
 
 
-        return redirect(url('/hospital/' . $hospitalSlug . '/patients/' . $id . '/edit')); 
+        return redirect(url($hospitalSlug . '/patients/' . $id . '/edit')); 
+    }
+
+    public function getSubmissionReports($hospitalSlug ,$patientId)
+    {
+
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $patient = User::find($patientId)->toArray();
+
+        $anwserQry = new ParseQuery("Answer");
+        $anwserQry->equalTo("patient", $patient['reference_code']);
+        $anwserQry->includeKey("response");
+        $anwserQry->includeKey("option");
+        $anwserQry->includeKey("question");
+        $anwsers = $anwserQry->find(); 
+
+        $baseLineArr = [];
+        $submissionArr = [];
+        $questionArr = [];
+        $responseArr = [];
+
+        foreach ($anwsers as   $anwser) {
+            $responseStatus = $anwser->get("response")->get("status");
+            $questionId = $anwser->get("question")->getObjectId();
+            $questionType = $anwser->get("question")->get("type");
+            $questionTitle = $anwser->get("question")->get("title");
+            $responseId = $anwser->get("response")->getObjectId();
+            $optionScore = $anwser->get("option")->get("score");
+            $optionValue = $anwser->get("value");
+
+            $questionArr[$questionId]= $questionTitle;
+            if($questionType=='input')
+            {
+                $optionScore = $optionValue;
+            }  
+
+            if($responseStatus=="base_line")
+            {
+               $baseLineArr[$questionId] =$optionScore;
+            }
+            else
+            {
+               $submissionArr[$responseId][$questionId] = $optionScore;
+            }
+
+            $responseArr[$responseId]= $anwser->get("response")->getCreatedAt()->format('d M');
+
+        }
+        
+
+        return view('hospital.patients.submission-report')->with('active_menu', 'patients')
+                                        ->with('hospital', $hospital)
+                                        ->with('logoUrl', $logoUrl)
+                                        ->with('patient', $patient)
+                                        ->with('responseArr', $responseArr)
+                                        ->with('questionArr', $questionArr)
+                                        ->with('baseLineArr', $baseLineArr)
+                                        ->with('submissionArr', $submissionArr);
+
     }
 
     /**

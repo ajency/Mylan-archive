@@ -56,12 +56,15 @@ Route::get( '/dashbord', 'Patient\PatientController@index' );
 
 });
 
-Route::group( ['prefix' => '{id}' , 'as'=>'hospital/{id}' , 'middleware' => ['auth']], function() {
+Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
 Route::get( '/', 'Hospital\HospitalController@show' );
 Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'patients', 'Hospital\PatientController' );
 Route::resource( 'submissions', 'Hospital\SubmissionController' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
+Route::resource( 'users', 'Hospital\UserController' );
+
+Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
 
 });
 

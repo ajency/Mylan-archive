@@ -1,4 +1,4 @@
-@extends('layouts.single-mylan')
+@extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
    <p>
@@ -20,9 +20,9 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Add User</span></h3>
-   <p>(Create a Hospital under Mylan)</p>
+   <p>(Create a Hospital under {{ $hospital['name'] }})</p>
 </div>
-<form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url('admin/users') }}" data-parsley-validate>
+<form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users') }}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed">
@@ -50,41 +50,14 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
-         <div class="user-description-box">
-            <div class="row">
-               <div class="col-md-3">Mylan</div>
-               <div class="col-md-3">
-                  <div class="checkbox check-primary">
-                  <input id="had_mylan_access" type="checkbox" name="had_mylan_access" value="yes" >
-                  <label for="had_mylan_access">Access to all Mylan </label>
-               </div>
-                  Access  (Individual)
-               </div>
-            </div>
-            <br>
-            <div class="row hospital_users">
-               <div class="col-md-3">
-                   
-               </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
-                     <input id="mylan_access_view" type="radio" name="mylan_access" value="view" checked="checked">
-                     <label for="mylan_access_view">View</label>
-                     <input id="mylan_access_edit" type="radio" name="mylan_access" value="edit">
-                     <label for="mylan_access_edit">Edit</label>
-                  </div>
-               </div>
-            </div>
-
-         </div>
-         <br>
+          
              <div class="user-description-box">
             <div class="row">
-               <div class="col-md-3">Hospital</div>
+               <div class="col-md-3">Projects</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
                   <input id="has_access" type="checkbox" name="has_access" value="yes" >
-                  <label for="has_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
+                  <label for="has_access">Access to all Projects<small> (This would automatically give access to future Projects.)</small></label>
                </div>
                   Access  (Individual)
                </div>
@@ -92,10 +65,10 @@
             <br>
             <div class="row hospital_users">
                <div class="col-md-3">
-                  <select name="hospital[]" id="hospital" class="select2 form-control"  >
-                     <option value="">Select Hospital</option>
-                     @foreach($hospitals as $hospital)
-                     <option value="{{ $hospital['id'] }}">{{ $hospital['name'] }}</option>
+                  <select name="projects[]" id="projects" class="select2 form-control"  >
+                     <option value="">Select Project</option>
+                     @foreach($projects as $project)
+                     <option value="{{ $project['id'] }}">{{ $project['name'] }}</option>
                      @endforeach
  
                   </select>
@@ -113,7 +86,7 @@
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="0">
-                  <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
+                  <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-user-access"><i class="fa fa-plus"></i> Add Project</button>
                </div>
                <div class="col-md-3">
                  
@@ -138,7 +111,5 @@
    </div>
 </div>
 </form>
-<script>
-   var HOSPITAL_ID = 0;
-</script>
+
 @endsection

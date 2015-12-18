@@ -31,5 +31,6 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'api_auth' => \App\Http\Middleware\APIAuthentication::class,
         'permission' => \App\Http\Middleware\Permission::class,
+        'hospital.permission' => \App\Http\Middleware\HospitalPermission::class,
     ];
 }

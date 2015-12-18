@@ -20,14 +20,14 @@ class Permission
                      'admin.hospitals.index'=>['view'],
                      'admin.hospitals.create'=>['edit'],
                      'admin.hospitals.store'=>['edit'],
-                     'admin.hospitals.show'=>['edit'],
+                     'admin.hospitals.show'=>['view'],
                      'admin.hospitals.edit'=>['edit'],
                      'admin.hospitals.update'=>['edit'],
 
                      'admin.users.index'=>['view'],
                      'admin.users.create'=>['edit'],
                      'admin.users.store'=>['edit'],
-                     'admin.users.show'=>['edit'],
+                     'admin.users.show'=>['view'],
                      'admin.users.edit'=>['edit'],
                      'admin.users.update'=>['edit'],
 

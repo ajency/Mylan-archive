@@ -24,6 +24,9 @@
       <link href="{{ asset('hospital/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('hospital/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
+      <script>
+         var HOSPITAL_ID = 0;
+      </script>
    </head>
    <!-- END HEAD -->
    <!-- BEGIN BODY -->
@@ -120,14 +123,15 @@
                         </li>
                         <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
                            <a href="{{ url( $hospital['url_slug'].'/patients/' ) }}">
-                           <span><i class="fa fa-users"></i> Patients </span>
+                           <span><i class="fa fa-wheelchair"></i> Patients </span>
                            </a>
                         </li>
-                        <li>
-                           <a href="#">
+                        <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/users/' ) }}">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
+         
                         <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
                            <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}">
                            <span><i class="fa fa-list-alt"></i> Submissions </span>
@@ -177,7 +181,6 @@
       <script src="{{ asset('plugins/jquery-block-ui/jqueryblockui.js') }}" type="text/javascript"></script>
       <!-- END CORE JS FRAMEWORK -->
       <!-- BEGIN PAGE LEVEL JS -->
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js') }}"></script>
       <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
@@ -193,13 +196,18 @@
       <script src="{{ asset('plugins/jquery-sparkline/jquery-sparkline.js') }}"></script>
       <script src="{{ asset('plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js') }}"></script>
       <script src="{{ asset('plugins/dropzone/dropzone.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('plugins/bootstrap-select2/select2.min.js') }}" type="text/javascript"></script>
       <!-- END PAGE LEVEL PLUGINS -->
-      <script src="{{ asset('js/charts.js') }}" type="text/javascript"></script>
+       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
+      <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
+      
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/demo.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/tabs_accordian.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
+
    </body>
 </html>

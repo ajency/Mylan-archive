@@ -41,6 +41,7 @@
                     <thead>
                         <tr>
                             <th style="width: 22%;">Reference Code</th>
+                            <th class="date-sort" style="width: 12%;">Submission Reports</th>
                             <th class="date-sort" style="width: 12%;">Created On</th>
                             <th class="date-sort" style="width: 12%;">Modified On</th>
                         </tr>
@@ -49,6 +50,7 @@
                         @foreach ($patients as $patient)
                             <tr class="" >
                                 <td><a href="/{{ $hospital['url_slug'] }}/patients/{{ $patient['id'] }}/edit">{{ $patient['reference_code'] }}</a></td>
+                                <td><a href="/{{ $hospital['url_slug'] }}/patients/{{ $patient['id'] }}/submission-reports">Reports</a></td>
                                 <td>{{ date('d/m/Y',strtotime($patient['created_at'])) }}</td>
                                 <td>{{  date('d/m/Y',strtotime($patient['updated_at'])) }}</td>
                             </tr>

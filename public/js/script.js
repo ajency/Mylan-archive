@@ -88,9 +88,11 @@ $('.deleteHospitalLogo').click(function (event) {
 
 $('.add-hospital-user').click(function (event) { 
 
+    var objectType = $(this).attr('object-type');
+
     if($(".hospital_users:last").find('select').val()=='')
     {
-        alert('Please Select Hospital');
+        alert('Please Select '+ objectType);
         return;
     }
 
