@@ -173,7 +173,7 @@
                      <ul class="nav nav-tabs inner-tabs" id="tab-01">
                         <li class="active"><a href="#allPatients">All</a></li>
                         <li><a href="#flags">Flags</a></li>
-                        <li><a href="#locked">Locked</a></li>
+                        
                      </ul>
                      <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
                      <div class="tab-content table-data">
@@ -182,135 +182,148 @@
                               <thead>
                                  <tr>
                                     <th>Patient ID</th>
-                                    <th>Doctor In-Charge</th>
                                     <th>Date Registered</th>
                                     <th>Last Clinic Visit</th>
                                     <th>Last Submission Date</th>
-                                    <th>Sequence No.</th>
-                                    <th>Number of Flags</th>
+                                    <th>Number of Submissions</th>
+                                    <th>Number of Submissions Done</th>
+                                    <th>Total Number of Flags</th>
+                                    <th>Total of Open Flags</th>
                                     <th>Status</th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-success">Submitted</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
-                                    <td>06/03/1993</td>
+                                   <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-warning">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
-                                    <td>06/03/1993</td>
+                                   <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
-                                    <td> <span class="label label-danger">Locked</span></td>
-                                 </tr>
-                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
-                                    <td>123</td>
-                                    <td>Dr. Smith</td>
-                                    <td>06/03/1993</td>
-                                    <td>09/04/1984</td>
-                                    <td>09/04/1984</td>
-                                    <td>3</td>
-                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-success">Submitted</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td> <span class="label label-success">Submitted</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
+                                    <td>123</td>
+                                    <td>06/03/1993</td>
+                                    <td>09/04/1984</td>
+                                    <td>09/04/1984</td>
+                                    <td>3</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-warning">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
-                                    <td> <span class="label label-danger">Locked</span></td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td> <span class="label label-warning ">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-warning">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
-                                    <td> <span class="label label-danger">Locked</span></td>
-                                 </tr>
-                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
-                                    <td>123</td>
-                                    <td>Dr. Smith</td>
-                                    <td>06/03/1993</td>
-                                    <td>09/04/1984</td>
-                                    <td>09/04/1984</td>
-                                    <td>3</td>
-                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-warning">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
-                                    <td> <span class="label label-danger">Locked</span></td>
-                                 </tr>
-                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
-                                    <td>123</td>
-                                    <td>Dr. Smith</td>
-                                    <td>06/03/1993</td>
-                                    <td>09/04/1984</td>
-                                    <td>09/04/1984</td>
-                                    <td>3</td>
-                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
                                     <td> <span class="label label-warning">Missed</span></td>
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
                                     <td>123</td>
-                                    <td>Dr. Smith</td>
                                     <td>06/03/1993</td>
                                     <td>09/04/1984</td>
                                     <td>09/04/1984</td>
                                     <td>3</td>
                                     <td>5</td>
-                                    <td> <span class="label label-danger">Locked</span></td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td> <span class="label label-success">Submitted</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
+                                    <td>123</td>
+                                    <td>06/03/1993</td>
+                                    <td>09/04/1984</td>
+                                    <td>09/04/1984</td>
+                                    <td>3</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td> <span class="label label-warning">Missed</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
+                                    <td>123</td>
+                                    <td>06/03/1993</td>
+                                    <td>09/04/1984</td>
+                                    <td>09/04/1984</td>
+                                    <td>3</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                    <td> <span class="label label-success">Submitted</span></td>
                                  </tr>
                               </tbody>
                            </table>
@@ -400,49 +413,6 @@
                                     <td><i class="fa fa-flag text-warning"></i></td>
                                     <td>06/03/1993</td>
                                     <td> <span class="label label-warning">De-Flag</span></td>
-                                 </tr>
-                              </tbody>
-                           </table>
-                        </div>
-                        <div class="tab-pane" id="locked">
-                           <table class="table table-hover" id="example" >
-                              <thead>
-                                 <tr>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Locked Reason</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
-                                    <td>123</td>
-                                    <td>Dr. Mark</td>
-                                    <td>5 attempts to login with wrong password</td>
-                                    <td>12/03/1993</td>
-                                    <td> <span class="label label-danger">Activate</span></td>
-                                 </tr>
-                                <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
-                                    <td>234</td>
-                                    <td>Dr. Jones</td>
-                                    <td>5 missed submissions</td>
-                                    <td>28 /03/1993</td>
-                                    <td> <span class="label label-danger">Activate</span></td>
-                                 </tr>
-                                 <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
-                                    <td>345</td>
-                                    <td>Dr. Annes</td>
-                                    <td>5 attempts to login with wrong password</td>
-                                    <td>06/03/1989</td>
-                                    <td> <span class="label label-danger">Activate</span></td>
-                                 </tr>
-                                 <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
-                                    <td>456</td>
-                                    <td>Dr. North</td>
-                                    <td>5 missed submissions</td>
-                                    <td>06/03/1978</td>
-                                    <td> <span class="label label-danger">Activate</span></td>
                                  </tr>
                               </tbody>
                            </table>
