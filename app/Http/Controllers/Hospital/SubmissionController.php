@@ -17,13 +17,14 @@ class SubmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($hospitalId)
+    public function index($hospitalSlug)
     {
-        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
 
         $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
         $responseQry->descending("updatedAt");
         $responses = $responseQry->find(); 
         $responseList =[];
@@ -71,8 +72,11 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($responseId)
+    public function show($hospitalSlug ,$responseId)
     {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
         $data =  $this->getSubmissionData($responseId);
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
@@ -82,7 +86,7 @@ class SubmissionController extends Controller
         $responseQry->notEqualTo("objectId", $responseId);
         $responseQry->descending("updatedAt");
         $response = $responseQry->first();
-
+         
         $previousAnswersList =[];
         if(!empty($response))
         {
@@ -91,6 +95,9 @@ class SubmissionController extends Controller
         }
 
         return view('hospital.submissions-view')->with('active_menu', 'submission')
+                                            ->with('referenceCode', $response->get("patient"))
+                                            ->with('hospital', $hospital)
+                                            ->with('logoUrl', $logoUrl)
                                             ->with('questionnaire', $questionnaire)
                                             ->with('date', $date)
                                             ->with('answersList', $answersList)

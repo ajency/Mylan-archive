@@ -140,8 +140,9 @@ class AuthController extends Controller
                                       ->with('logoUrl', $logoUrl);
     }
 
-    public function postHospitalLogin(Request $request,$hospitalId)
+    public function postHospitalLogin(Request $request,$hospitalSlug)
     { 
+
         $email = $request->input('email');
         $password = trim($request->input('password'));
         if($request->has('remember'))
@@ -154,18 +155,18 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {
-                return redirect()->intended('hospital/'.$hospitalId.'/dashbord');
+                return redirect()->intended($hospitalSlug.'/dashbord');
             }
             else
             {
                 Auth::logout();
-                return redirect('hospital/'.$hospitalId.'/login')->withErrors([
+                return redirect($hospitalSlug.'/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
         }
         
-        return redirect('hospital/'.$hospitalId.'/login')->withErrors([
+        return redirect($hospitalSlug.'/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
     }

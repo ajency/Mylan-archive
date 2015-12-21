@@ -18,7 +18,7 @@
 
     <div class="page-title">
                      <h3><span class="semi-bold">Submissions</span> </h3>
-                    <p>(Showing Submissions for Cardiac Care)</p>
+
                   </div>
                   <div class="grid simple">
                      <div class="grid-body">
@@ -33,7 +33,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($responseList as $response)
-                                       <tr onclick="window.document.location='/admin/submissions/{{$response['id']}}';">
+                                       <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/submissions/{{$response['id']}}';">
                                           <td>{{ $response['patient'] }}</td>
                                           <td>{{ $response['updatedAt'] }}</td>
                               

@@ -17,8 +17,8 @@
 
 
     <div class="page-title">
-                     <h3><span class="semi-bold">Submission 5</span> </h3>
-                    <p>(Showing Submission 5 details)</p>
+                     <h3><span class="semi-bold">{{ $referenceCode }}</span> </h3>
+                    
                   </div>
                  
                            <div class="user-description-box">

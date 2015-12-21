@@ -19,7 +19,7 @@
               </ul>
             </div>
           @endif
-     <form id="login-form" class="login-form" role="form" method="POST" action="/hospital/{{ $hospital['id']}}/login">
+     <form id="login-form" class="login-form" role="form" method="POST" action="/{{ $hospital['url_slug']}}/login">
      <div class="row">
      <div class="form-group col-md-10">
             <label class="form-label">Email</label>
