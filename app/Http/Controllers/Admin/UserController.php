@@ -164,7 +164,6 @@ class UserController extends Controller
         $user = User::find($userId);
         $name =  ucfirst($request->input('name'));
         $user->name = $name;
- 
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');     
         $user->project_access = ($request->has('has_access'))?'yes':'no';

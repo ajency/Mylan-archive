@@ -132,16 +132,17 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getHospitalLogin($hospitalId)
+    public function getHospitalLogin($hospitalSlug)
     {
-        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
         return view('auth.user-login')->with('hospital', $hospital)
                                       ->with('logoUrl', $logoUrl);
     }
 
-    public function postHospitalLogin(Request $request,$hospitalId)
+    public function postHospitalLogin(Request $request,$hospitalSlug)
     { 
+
         $email = $request->input('email');
         $password = trim($request->input('password'));
         if($request->has('remember'))
@@ -154,20 +155,37 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {
-                return redirect()->intended('hospital/'.$hospitalId.'/dashbord');
+                return redirect()->intended($hospitalSlug.'/dashbord');
             }
             else
             {
                 Auth::logout();
-                return redirect('hospital/'.$hospitalId.'/login')->withErrors([
+                return redirect($hospitalSlug.'/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
         }
         
-        return redirect('hospital/'.$hospitalId.'/login')->withErrors([
+        return redirect($hospitalSlug.'/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
+    }
+
+    public function getLogout()
+    {  
+        Auth::logout();
+        $routePrefix = \Request::route()->getPrefix();
+        if(str_contains($routePrefix, 'admin'))
+            return redirect('admin/login');
+        elseif(str_contains($routePrefix, 'patient'))
+        {
+            return redirect('patient/login');
+        }
+        else 
+        {
+            $hospitalslug = \Request::segment(1);  
+            return redirect($hospitalslug.'/login');
+        }
     }
 
  

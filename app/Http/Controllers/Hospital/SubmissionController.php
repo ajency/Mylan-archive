@@ -17,13 +17,14 @@ class SubmissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($hospitalId)
+    public function index($hospitalSlug)
     {
-        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
 
         $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
         $responseQry->descending("updatedAt");
         $responses = $responseQry->find(); 
         $responseList =[];
@@ -71,26 +72,39 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($responseId)
+    public function show($hospitalSlug ,$responseId)
     {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
         $data =  $this->getSubmissionData($responseId);
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
         $answersList = $data['answers'];
+        $response = $data['response'];
+
+        $referenceCode = $response->get("patient");
 
         $responseQry = new ParseQuery("Response");
         $responseQry->notEqualTo("objectId", $responseId);
+        $responseQry->equalTo("patient", $referenceCode);
+        $responseQry->equalTo("status", "completed");
+        $responseQry->lessThan("createdAt", $response->getCreatedAt()); 
         $responseQry->descending("updatedAt");
-        $response = $responseQry->first();
+        $oldResponse = $responseQry->first();
+
 
         $previousAnswersList =[];
-        if(!empty($response))
+        if(!empty($oldResponse))
         {
-            $previousData =  $this->getSubmissionData($response->getObjectId());
+            $previousData =  $this->getSubmissionData($oldResponse->getObjectId());
             $previousAnswersList = $previousData['answers'];
         }
 
         return view('hospital.submissions-view')->with('active_menu', 'submission')
+                                            ->with('referenceCode', $referenceCode)
+                                            ->with('hospital', $hospital)
+                                            ->with('logoUrl', $logoUrl)
                                             ->with('questionnaire', $questionnaire)
                                             ->with('date', $date)
                                             ->with('answersList', $answersList)
@@ -98,7 +112,7 @@ class SubmissionController extends Controller
     }
 
     public function getSubmissionData($responseId)
-    {
+    { 
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $responseId);
         $responseQry->includeKey('questionnaire');
@@ -157,7 +171,7 @@ class SubmissionController extends Controller
            
         }
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList] ;
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList, 'response'=>$response] ;
         return $data;
     }
 

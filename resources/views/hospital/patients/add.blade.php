@@ -25,7 +25,7 @@
                 <div class="col-md-6">
                   <div class="form-row">
                      <label>Reference Code</label>
-                        <input name="reference_code" id="reference_code" type="text"  class="form-control" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                        <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                     </div>
                     <div class="row form-row">
                
@@ -54,5 +54,8 @@
             </div>
           </div>
 
+<script>
+   var PATIENT_ID = 0;
+</script>
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
