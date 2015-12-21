@@ -195,7 +195,7 @@ class UserController extends Controller
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $project['id']);
         $questionnaire = $questionnaireQry->first(); 
-        
+       
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $data = $hospitalData = $questionnareData = [];
@@ -206,17 +206,17 @@ class UserController extends Controller
         $hospitalData['project_id'] = $project['id'];
         $hospitalData['project'] = $project['name'];
 
-        $questionnareData=[];
-        if(!empty($questionnaire))
-        {
-            $questionnareData['id'] = $questionnaire->getObjectId();
-            $questionnareData['name'] = $questionnaire->get('name');
-            $questionnareData['description'] = $questionnaire->get('description');
-        }
-        
+        // $questionnareData=[];
+        // if(!empty($questionnaire))
+        // {
+        //     $questionnareData['id'] = $questionnaire->getObjectId();
+        //     $questionnareData['name'] = $questionnaire->get('name');
+        //     $questionnareData['description'] = $questionnaire->get('description');
+        // }
+         
 
         $data['hospital'] = $hospitalData;
-        $data['questionnaire'] = $questionnareData;
+        $data['questionnaire'] = $questionnaire;
          
         return $data;
     }
@@ -284,8 +284,8 @@ class UserController extends Controller
                         /******************************/
                         if($parseUser['result']['scheduleFlag']==false)
                         {
-                            $questionnaireObj = new ParseQuery("Questionnaire");
-                            $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
+                            // $questionnaireObj = new ParseQuery("Questionnaire");
+                            // $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
 
                             $date = new \DateTime();
  
