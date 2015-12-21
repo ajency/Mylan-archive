@@ -23,8 +23,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
+            _this.refcode = refcode;
+            return Storage.setData('patientData', 'get');
+          };
+        })(this)).then((function(_this) {
+          return function(patientData) {
             var options, responseId;
-            Storage.setData('patientData', 'get').then(function(patientData) {});
             _this.respStatus = $stateParams.respStatus;
             if (_this.respStatus === 'noValue') {
               responseId = '';
@@ -34,7 +38,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             options = {
               "responseId": responseId,
               "questionnaireId": patientData.id,
-              "patientId": refcode
+              "patientId": _this.refcode
             };
             return QuestionAPI.getQuestion(options).then(function(data) {
               console.log('inside then');
@@ -70,6 +74,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.readonly = true;
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
+                _this.readonly = _this.data.editable;
               }
               _this.pastAnswer();
               if (!_.isUndefined(_this.data.status)) {
@@ -185,6 +190,36 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
       },
+      loadPrevQuestion: function(param) {
+        return Storage.setData('responseId', 'get').then((function(_this) {
+          return function(responseId) {
+            CSpinner.show('', 'Please wait..');
+            param.responseId = responseId;
+            return QuestionAPI.getPrevQuest(param).then(function(data) {
+              console.log('previous data');
+              console.log(_this.data);
+              _this.variables();
+              _this.data = [];
+              _this.data = data.result;
+              _this.readonly = _this.data.editable;
+              _this.pastAnswer();
+              if (!_.isEmpty(_this.data.hasAnswer)) {
+                _this.hasAnswerShow();
+              }
+              return console.log(_this.data);
+            }, function(error) {
+              console.log(error);
+              if (error === 'offline') {
+                return CToast.showLongBottom('Check net connection,answer not saved');
+              } else {
+                return CToast.show('Error ,try again');
+              }
+            })["finally"](function() {
+              return CSpinner.hide();
+            });
+          };
+        })(this));
+      },
       prevQuestion: function() {
         CSpinner.show('', 'Please wait..');
         return Storage.setData('responseId', 'get').then((function(_this) {
@@ -202,7 +237,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.variables();
               _this.data = [];
               _this.data = data.result;
-              _this.readonly = _this.data.previous;
+              _this.readonly = _this.data.editable;
               _this.pastAnswer();
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
@@ -295,7 +330,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           ObjId = _.findWhere(this.data.options, {
             id: this.data.hasAnswer.option[0]
           });
-          return this.val_answerValue[ObjId.option] = this.data.hasAnswer.value;
+          return this.val_answerValue[ObjId.option] = parseInt(this.data.hasAnswer.value);
         }
       }
     };
@@ -318,19 +353,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     return $scope.$on('$ionicView.leave', function() {
       return $ionicPlatform.offHardwareBackButton(onDeviceBack);
     });
-  }
-]).controller('PastAnswerCtrl', [
-  '$scope', function($scope) {
-    var date, indexOf, optId;
-    console.log('Request time');
-    console.log($scope.view.data.previousQuestionnaireAnswer);
-    optId = _.pluck($scope.view.data.options, 'id');
-    console.log(optId);
-    indexOf = optId.indexOf($scope.view.data.previousQuestionnaireAnswer.optionId[0]);
-    indexOf++;
-    $scope.view.data.lastOption = indexOf;
-    date = $scope.view.data.previousQuestionnaireAnswer.date.iso;
-    return $scope.view.data.submitedDate = moment(date).format('MMMM Do YYYY');
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

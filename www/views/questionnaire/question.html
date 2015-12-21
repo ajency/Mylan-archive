@@ -80,7 +80,7 @@
               type="number" 
               placeholder="{{answerValue.option}}"
               ng-model="view.val_answerValue[answerValue.option]"
-              >
+              ng-readonly = "!view.readonly">
           </label>
         </div>
       </div>
@@ -92,6 +92,7 @@
             <input 
               type="text" 
               ng-model="view.descriptiveAnswer"
+              ng-readonly = "!view.readonly"
               >
           </label>
         </div>

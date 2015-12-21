@@ -31,15 +31,12 @@ angular.module 'PatientApp.Quest',[]
 				# "questionnaireId": patientData.id
 				# "patientId": refcode
 
-
 				@display = 'loader'
-
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
-				
+					@refcode = refcode
 					Storage.setData 'patientData','get'
-					.then (patientData)=>
-
+				.then (patientData)=>
 					@respStatus = $stateParams.respStatus
 					if @respStatus == 'noValue'
 						responseId = ''
@@ -49,7 +46,7 @@ angular.module 'PatientApp.Quest',[]
 					options =
 						"responseId": responseId
 						"questionnaireId": patientData.id
-						"patientId": refcode
+						"patientId": @refcode
 
 					QuestionAPI.getQuestion options
 					.then (data)=>
@@ -84,6 +81,9 @@ angular.module 'PatientApp.Quest',[]
 
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()
+							@readonly = @data.editable
+
+
 
 						@pastAnswer()
 
@@ -194,6 +194,34 @@ angular.module 'PatientApp.Quest',[]
 						@loadNextQuestion(options)
 
 
+			loadPrevQuestion :(param)->
+				Storage.setData 'responseId','get'
+				.then (responseId)=>	
+					CSpinner.show '', 'Please wait..'
+					param.responseId = responseId
+					QuestionAPI.getPrevQuest param
+					.then (data)=>
+						console.log 'previous data'
+						console.log @data	
+						@variables()
+						@data = []
+						@data = data.result
+						@readonly = @data.editable
+						@pastAnswer()
+						if !_.isEmpty(@data.hasAnswer)
+							@hasAnswerShow()	
+						console.log @data	
+						
+					,(error)=>
+						console.log error
+						if error == 'offline'
+							CToast.showLongBottom 'Check net connection,answer not saved'
+						else
+							CToast.show 'Error ,try again'
+					.finally ->
+						CSpinner.hide()
+
+
 			prevQuestion : ->
 				CSpinner.show '', 'Please wait..'
 				Storage.setData 'responseId','get'
@@ -211,7 +239,7 @@ angular.module 'PatientApp.Quest',[]
 						@variables()
 						@data = []
 						@data = data.result
-						@readonly = @data.previous
+						@readonly = @data.editable
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()	
@@ -286,7 +314,7 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = @data.hasAnswer.value
+					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
 
 		onDeviceBack = ->
 			if $scope.view.data.previous == false || _.isElement($scope.view.data) 
@@ -310,20 +338,6 @@ angular.module 'PatientApp.Quest',[]
 		
 ]
 
-.controller 'PastAnswerCtrl', ['$scope', ($scope )->
-
-	console.log 'Request time'
-	console.log $scope.view.data.previousQuestionnaireAnswer
-	optId = _.pluck($scope.view.data.options, 'id')
-	console.log optId
-	indexOf = optId.indexOf($scope.view.data.previousQuestionnaireAnswer.optionId[0])
-	indexOf++
-
-	$scope.view.data.lastOption = indexOf
-	date = $scope.view.data.previousQuestionnaireAnswer.date.iso
-	$scope.view.data.submitedDate = moment(date).format('MMMM Do YYYY')
-	
-]
 
 
 .config ['$stateProvider', ($stateProvider)->
