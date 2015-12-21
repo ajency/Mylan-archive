@@ -44,14 +44,14 @@ class PatientController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
  
 
-        // $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();  
-        $projectQry = new ParseQuery("Project");
-        $projectData = $projectQry->find();
-        $projects = [];
-        foreach ($projectData as $key => $project) {
-             $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
+        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();  
+        // $projectQry = new ParseQuery("Project");
+        // $projectData = $projectQry->find();
+        // $projects = [];
+        // foreach ($projectData as $key => $project) {
+        //      $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
               
-         }
+        //  }
 
         return view('hospital.patients.add')->with('active_menu', 'patients')
                                             ->with('hospital', $hospital)
@@ -115,14 +115,14 @@ class PatientController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        // $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
-        $projectQry = new ParseQuery("Project");
-        $projectData = $projectQry->find();
-        $projects = [];
-        foreach ($projectData as $key => $project) {
-             $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
+        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
+        // $projectQry = new ParseQuery("Project");
+        // $projectData = $projectQry->find();
+        // $projects = [];
+        // foreach ($projectData as $key => $project) {
+        //      $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
               
-         }
+        //  }
         $patient = User::find($patientId)->toArray();
         
         return view('hospital.patients.edit')->with('active_menu', 'patients')
