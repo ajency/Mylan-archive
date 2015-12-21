@@ -27,13 +27,15 @@ Route::get('patient/login', 'Auth\AuthController@getLogin');
 Route::post('patient/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
-Route::get('hospital/{id}/login', 'Auth\AuthController@getHospitalLogin');
-Route::post('hospital/{id}/login', 'Auth\AuthController@postHospitalLogin');
-Route::get('hospital/{id}/logout', 'Auth\AuthController@getLogout');
-
 Route::get('admin/login', 'Auth\AuthController@getAdminLogin');
 Route::post('admin/login', 'Auth\AuthController@postAdminLogin');
 Route::get('admin/logout', 'Auth\AuthController@getLogout');
+
+Route::get('{hospitalslug}/login', 'Auth\AuthController@getHospitalLogin');
+Route::post('{hospitalslug}/login', 'Auth\AuthController@postHospitalLogin');
+Route::get('{hospitalslug}/logout', 'Auth\AuthController@getLogout');
+
+
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth','permission']], function() {

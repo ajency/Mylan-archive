@@ -132,9 +132,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getHospitalLogin($hospitalId)
+    public function getHospitalLogin($hospitalSlug)
     {
-        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
         return view('auth.user-login')->with('hospital', $hospital)
                                       ->with('logoUrl', $logoUrl);

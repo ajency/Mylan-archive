@@ -44,8 +44,12 @@ class Authenticate
                     return redirect()->guest('admin/login');
                 elseif(str_contains($routePrefix, 'hospital'))
                 {
-                    $id= $request->id;
-                    return redirect()->guest('hospital/'.$id.'/login');
+                    $hospitalslug= $request->hospitalslug;
+                    return redirect()->guest($hospitalslug.'/login');
+                }
+                elseif(str_contains($routePrefix, 'patient'))
+                {
+                    return redirect()->guest('patient/login');
                 }
 
             }
