@@ -171,6 +171,22 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getLogout()
+    {  
+        $routePrefix = \Request::route()->getPrefix();
+        if(str_contains($routePrefix, 'admin'))
+            return redirect('admin/login');
+        elseif(str_contains($routePrefix, 'patient'))
+        {
+            return redirect('patient/login');
+        }
+        else 
+        {
+            $hospitalslug = \Request::segment(1);  
+            return redirect($hospitalslug.'/login');
+        }
+    }
+
  
 
 }
