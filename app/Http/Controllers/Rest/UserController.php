@@ -193,7 +193,7 @@ class UserController extends Controller
         $project = Projects::find($projectId)->toArray(); 
         
         $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project", $project);
+        $questionnaireQry->equalTo("project", $project['id']);
         $questionnaire = $questionnaireQry->first(); 
         
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
