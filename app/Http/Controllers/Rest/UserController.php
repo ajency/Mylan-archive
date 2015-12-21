@@ -275,9 +275,9 @@ class UserController extends Controller
                     if($parseUser!='error')
                     {
 
-                        $data = $this -> postLoginData($hospitalId,$projectId);
+                        $data = $this->postLoginData($hospitalId,$projectId);
                         $hospitalData = $data['hospital']; 
-                        $questionnaireData = $data['questionnaire']; 
+                        $questionnaireObj = $data['questionnaire']; 
                         $parseUser =json_decode($parseUser,true); 
 
                         //if schedule not set for patient
@@ -291,7 +291,7 @@ class UserController extends Controller
  
 
                             $schedule = new ParseObject("Schedule");
-                            $schedule->set("questionnaire", $questionnaire);
+                            $schedule->set("questionnaire", $questionnaireObj);
                             $schedule->set("patient", $referenceCode);
                             $schedule->set("startDate", $date);
                             $schedule->set("nextOccurrence", $date);
