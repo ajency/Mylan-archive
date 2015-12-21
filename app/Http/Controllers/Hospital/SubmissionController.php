@@ -81,12 +81,16 @@ class SubmissionController extends Controller
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
         $answersList = $data['answers'];
+        $response = $data['response'];
+
+        $referenceCode = $response->get("patient");
 
         $responseQry = new ParseQuery("Response");
         $responseQry->notEqualTo("objectId", $responseId);
+        $responseQry->equalTo("patient", $referenceCode);
         $responseQry->descending("updatedAt");
-        $response = $responseQry->first();
-         
+        $oldResponse = $responseQry->first();
+
         $previousAnswersList =[];
         if(!empty($response))
         {
@@ -95,7 +99,7 @@ class SubmissionController extends Controller
         }
 
         return view('hospital.submissions-view')->with('active_menu', 'submission')
-                                            ->with('referenceCode', $response->get("patient"))
+                                            ->with('referenceCode', $referenceCode)
                                             ->with('hospital', $hospital)
                                             ->with('logoUrl', $logoUrl)
                                             ->with('questionnaire', $questionnaire)
@@ -105,7 +109,7 @@ class SubmissionController extends Controller
     }
 
     public function getSubmissionData($responseId)
-    {
+    { 
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $responseId);
         $responseQry->includeKey('questionnaire');
@@ -164,7 +168,7 @@ class SubmissionController extends Controller
            
         }
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList] ;
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList, 'response'=>$response] ;
         return $data;
     }
 
