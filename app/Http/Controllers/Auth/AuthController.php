@@ -173,6 +173,7 @@ class AuthController extends Controller
 
     public function getLogout()
     {  
+        Auth::logout();
         $routePrefix = \Request::route()->getPrefix();
         if(str_contains($routePrefix, 'admin'))
             return redirect('admin/login');

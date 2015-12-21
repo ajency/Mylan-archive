@@ -89,6 +89,7 @@ class SubmissionController extends Controller
         $responseQry->notEqualTo("objectId", $responseId);
         $responseQry->equalTo("patient", $referenceCode);
         $responseQry->equalTo("status", "completed");
+        $responseQry->lessThan("createdAt", $response->getCreatedAt()); 
         $responseQry->descending("updatedAt");
         $oldResponse = $responseQry->first();
 
