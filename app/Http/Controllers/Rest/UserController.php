@@ -189,12 +189,15 @@ class UserController extends Controller
     public function postLoginData($hospitalId , $projectId)
     {
 
+        
+        
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
         $questionnaire = $questionnaireQry->first(); 
         
         $hospital = Hospital::find($hospitalId)->toArray();  
         $project = Projects::find($projectId)->toArray(); 
+        
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $data = $hospitalData = $questionnareData = [];
@@ -205,17 +208,17 @@ class UserController extends Controller
         $hospitalData['project_id'] = $project['id'];
         $hospitalData['project'] = $project['name'];
 
-        // $questionnareData=[];
-        // if(!empty($questionnaire))
-        // {
-        //     $questionnareData['id'] = $questionnaire->getObjectId();
-        //     $questionnareData['name'] = $questionnaire->get('name');
-        //     $questionnareData['description'] = $questionnaire->get('description');
-        // }
-         
+        $questionnareData=[];
+        if(!empty($questionnaire))
+        {
+            $questionnareData['id'] = $questionnaire->getObjectId();
+            $questionnareData['name'] = $questionnaire->get('name');
+            $questionnareData['description'] = $questionnaire->get('description');
+        }
+        
 
         $data['hospital'] = $hospitalData;
-        $data['questionnaire'] = $questionnaire;
+        $data['questionnaire'] = $questionnareData;
          
         return $data;
     }
@@ -274,23 +277,23 @@ class UserController extends Controller
                     if($parseUser!='error')
                     {
 
-                        $data = $this->postLoginData($hospitalId,$projectId);
+                        $data = $this -> postLoginData($hospitalId,$projectId);
                         $hospitalData = $data['hospital']; 
-                        $questionnaireObj = $data['questionnaire']; 
+                        $questionnaireData = $data['questionnaire']; 
                         $parseUser =json_decode($parseUser,true); 
 
                         //if schedule not set for patient
                         /******************************/
                         if($parseUser['result']['scheduleFlag']==false)
                         {
-                            // $questionnaireObj = new ParseQuery("Questionnaire");
-                            // $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
+                            $questionnaireObj = new ParseQuery("Questionnaire");
+                            $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
 
                             $date = new \DateTime();
  
 
                             $schedule = new ParseObject("Schedule");
-                            $schedule->set("questionnaire", $questionnaireObj);
+                            $schedule->set("questionnaire", $questionnaire);
                             $schedule->set("patient", $referenceCode);
                             $schedule->set("startDate", $date);
                             $schedule->set("nextOccurrence", $date);
