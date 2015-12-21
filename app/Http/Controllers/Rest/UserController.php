@@ -189,13 +189,12 @@ class UserController extends Controller
     public function postLoginData($hospitalId , $projectId)
     {
 
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project", $projectId);
+        $questionnaire = $questionnaireQry->first(); 
+        
         $hospital = Hospital::find($hospitalId)->toArray();  
         $project = Projects::find($projectId)->toArray(); 
-        
-        $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project", $project['id']);
-        $questionnaire = $questionnaireQry->first(); 
-       
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $data = $hospitalData = $questionnareData = [];
