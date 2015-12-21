@@ -109,7 +109,8 @@
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
-                      <ul>
+                      <div class="bar-inner">
+                     <ul>
                         <li>
                            <a href="dashboard.html">
                            <span> <i class="fa fa-tachometer"></i> Dashboard </span>
@@ -137,6 +138,7 @@
                         </li>
                      </ul>
                   </div>
+                  </div>
                </div>
             </div>
             <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
@@ -151,31 +153,31 @@
             <div class="container m-b-50">
                <div class="content">
                   <p>
-                  <ul class="breadcrumb">
+                   <ul class="breadcrumb">
                      <li>
                         <a href="dashboard.html">HOME</a>
                      </li>
                      <li>
                         <a href="patients.html">Patients</a>
                      </li>
-                     <li>
-                        <a href="patient-summary.html">Patient 123</a>
-                     </li>
-                     <li><a href="#" class="active">Submissions</a> </li>
+
+                     <li><a href="patient-summary.html">Patient 123</a> </li>
+                     <li><a href="patient-submissions.html">Submissions</a> </li>
+                     <li><a href="#" class="active">Submission 5</a> </li>
                   </ul>
                   </p>
-                  <div class="pull-right">
-                     <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
-                  </div>
+                  <!-- <div class="pull-right m-t-10">
+                     <a href="new-project.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Project</a>
+                  </div> -->
                   <div class="page-title">
                      <h3>Patient <span class="semi-bold">#123</span></h3>
-                  </div>
+                  </div> 
                   <div class="tabbable tabs-left">
-                     
                      <ul class="nav nav-tabs inner-tabs" id="tab-2">
+                        
                         <li class=""><a href="patient-summary.html"><i class="fa fa-wheelchair"></i> Summary</a></li>
-                        <li class="active"><a href="#submissions"><i class="fa fa-list-alt"></i> Submissions</a></li>
-                        <li class=""><a href="baseline-score.html"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
+                        <li><a href="patient-submissions.html"><i class="fa fa-list-alt"></i> Submissions</a></li>
+                        <li class="active"><a href="#"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
                         <li class=""><a href="#Reports"><i class="fa fa-bar-chart"></i> Reports</a></li>
                      </ul>
                      <div class="tab-content">
@@ -342,46 +344,211 @@
                               </tbody>
                            </table>
                         </div>
-                        <div class="tab-pane active" id="submissions">
-                           <a href="#" class="btn btn-danger pull-right"><i class="fa fa-download"></i> Download CSV</a>
-                           <h4><span class="semi-bold">Recent Submissions</span> (Showing 10 recent submissions)</h4>
-                                 <br>
-                                 <table class="table table-hover table-flip-scroll cf">
-                                    <thead class="cf">
-                                       <tr>
-                                          <th>Submission Date</th>
-                                          <th>Sequence Number</th>
-                                          <th>Number of Flags</th>
-                                          <th>Open Flags</th>
-                                          <th>Status</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>6/10/12</td>
-                                          <td>4</td>
-                                          <td>3</td>
-                                          <td>5</td>
-                                          <td><span class="label label-warning">Review Pending</span></td>
-                                       </tr>
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>25/10/16</td>
-                                          <td>4</td>
-                                          <td>3</td>
-                                          <td>8</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>6/10/12</td>
-                                          <td>4</td>
-                                          <td>3</td>
-                                          <td>5</td>
-                                          <td><span class="label label-warning">Review Pending</span></td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
+                        <div class="tab-pane" id="submissions">
+                           <h4><span class="semi-bold">Submission 5</span></h4>
+                           <p>(Showing Submission 5 details)</p>
+                           <br>
+                           <div class="user-description-box">
+                           <div class="row">
+                              <div class="col-md-6">
+                                 <h5 class="semi-bold">MRI Pancreatitis: Sequence 4</h5>
+                                 <p>Submitted on 06/11/2015</p>
+                              </div>
+                              <div class="col-md-3">
+                                 <div class="row">
+                                    <div class="col-md-2">
+                                       <h4><i class="fa fa-circle text-success"></i></h4>
+                                    </div>
+                                    <div class="col-md-8 m-t-5"> 
+                                       <select name="role" id="role" class="select2 form-control"  >
+                                          <option value="1">Status</option>
+                                          <option value="2">Reviewed</option>
+                                          <option value="2">Under Review</option>
+                                       </select>
+                                      
+                                    </div>
+                                    <div class="col-md-2 m-t-15"> <span class="cf-loader"></span></div>
+                                 </div>
+                                
+                              </div>
+                              <div class="col-md-3 m-t-10 text-right">
+                                 <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
+                              </div>
+                           </div>
                               
-                           
+                           </div>
+                           <br>
+                           <div class="user-description-box">
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-danger">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q1) Which statement best describes your pain in the past month?</label>
+                                    <h5 class="text-success semi-bold">A: No pain</h5>
+                                    <h5 class="text-success"><span class="text-muted">Previous Answer:</span> <span class="text-info">Pain present, but no need for painkillers</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-warning">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q2) How have your bowels been in the past month?</label>
+                                    <h5 class="text-success semi-bold">A: Normal</h5>
+                                    <h5 class="text-success"><span class="text-muted">Previous Answer:</span> <span class="text-info">Diarrhoea up to 5 times daily</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">5</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-success">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q3) What is your current weight?<label>
+                                    <h5 class="text-success semi-bold">A: 43Kgs</h5>
+                                    <h5><span class="text-muted">Previous Answer:</span> <span class="text-info">55Kgs</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-success">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q3) Has your appetite changed in the past month?<label>
+                                    <h5 class="text-success semi-bold">A: No Change</h5>
+                                    <h5><span class="text-muted">Previous Answer:</span> <span class="text-info">Not managing to eat on a daily basis</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-success">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q3) How does your illness affect you at present?<label>
+                                    <h5 class="text-success semi-bold">A: It has no effect on my day to day living</h5>
+                                    <h5><span class="text-muted">Previous Answer:</span> <span class="text-info">I am unable to do simple tasks at home</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <div class="pull-right">
+                                       <span class="text-success">Score : 4 <i class="fa fa-flag"></i></span>
+                                     </div>
+                                    <label class="semi-bold">Q3) How has your diabetes control been over the last month?<label>
+                                    <h5 class="text-success semi-bold">A: I do not have diabetes</h5>
+                                    <h5><span class="text-muted">Previous Answer:</span> <span class="text-info">I am on insulin and my blood sugar NEVER goes above 10</span></h5>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="tab-pane active" id="baseline">
+                           <h4><span class="semi-bold">MRI Pancreatitis</span></h4>
+                           <p>(Baseline score for Patient Id #123)</p>
+                           <br>
+                          <div class="user-description-box">
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <label class="semi-bold">Q1) Which statement best describes your pain in the past month?</label>
+                                    <select name="role" id="role" class="select2 form-control">
+                                         <option value="1">Select option for Baseline</option>
+                                         <option value="2">1. No pain</option>
+                                         <option value="3">2. Pain present, but no need for painkillers</option>
+                                         <option value="4">3. Pain present, and I take occasional pain relieving medication</option>
+                                         <option value="5">4. Pain present, and I take pain relieving medication daily</option>
+                                         <option value="6">5. Pain present, and I need to take regular strong painkillers</option>
+                                         <option value="7">6. Pain present, and it is not controlled by strong painkillers</option>
+                                         <option value="8">7. The pain has been so bad I have had to go to hospital</option>
+                                       </select>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                   <label class="semi-bold">Q2) How have your bowels been in the past month?</label>
+                                    <select name="role" id="role" class="select2 form-control">
+                                         <option value="1">Select option for Baseline</option>
+                                         <option value="2">1. Normal</option>
+                                         <option value="3">2. Loose</option>
+                                         <option value="4">3. Diarrhoea up to 5 times daily</option>
+                                         <option value="5">4. Diarrhoea more than 5 times daily</option>
+                                         <option value="6">5. Constipated</option>
+                                      </select>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">5</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                   <label class="semi-bold">Q3) What is your current weight?<label><br>
+                                    <div class="row">
+                                          <div class="col-md-4">
+                                             <label>Kgs</label>
+                                             <input class="form-control" type="text" pla/>
+                                          </div>
+                                          <div class="col-md-4">
+                                             <label>Stones</label>
+                                             <input class="form-control" type="text" pla/>
+                                          </div>
+                                          <div class="col-md-4">
+                                             <label>Pounds</label>
+                                             <input class="form-control" type="text" pla/>
+                                          </div>
+                                    </div>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <label class="semi-bold">Q3) Has your appetite changed in the past month?<label>
+                                    <select name="role" id="role" class="select2 form-control">
+                                         <option value="1">Select option for Baseline</option>
+                                         <option value="2">1. No Change</option>
+                                         <option value="3">2. Unable to finish a full meal but eating regularly</option>
+                                         <option value="4">3. Not eating regularly but managing something every day</option>
+                                         <option value="5">4. Not managing to eat on a daily basis</option>
+                                         <option value="6">5. Not eating at all</option>
+                                      </select>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                   <label class="semi-bold">Q3) How does your illness affect you at present?<label>
+                                    <select name="role" id="role" class="select2 form-control">
+                                         <option value="1">Select option for Baseline</option>
+                                         <option value="2">1. It has no effect on my day to day living</option>
+                                         <option value="3">2. I have had to take some time off work</option>
+                                         <option value="4">3. I am on sick leave or unable to work</option>
+                                         <option value="5">4. I am unable to leave the house</option>
+                                         <option value="6">5. I am unable to do simple tasks at home</option>
+                                      </select>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="grid simple">
+                                 <div class="grid-body">
+                                    <label class="semi-bold">Q3) How has your diabetes control been over the last month?<label>
+                                    <select name="role" id="role" class="select2 form-control">
+                                         <option value="1">Select option for Baseline</option>
+                                         <option value="2">1. I do not have diabetes</option>
+                                         <option value="3">2. I am controlling my diabetes with diet and/or tablets</option>
+                                         <option value="4">3. I am on insulin and my blood sugar NEVER goes above 10</option>
+                                         <option value="5">4. I am on insulin and my blood sugar is often above 10</option>
+                                         <option value="6">5. I am on insulin and my blood sugar can be very high or low</option>
+                                      </select>
+                                    <h5 class="text-success"><span class="text-muted">Baseline Score:</span> <span class="text-info">4</span></h5>
+                                 </div>
+                              </div>
+                              <div class="text-right">
+                              <button class="btn btn-primary"><i class="fa fa-check"></i> Save</button>
+                           </div>
+                           </div>
                         </div>
                         <div class="tab-pane" id="Reports">
                         </div>

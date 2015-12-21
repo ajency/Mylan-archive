@@ -1,11 +1,47 @@
-body {
+.page-content {
   background: #f9f9f9;
 }
-body .bar {
+.page-content .bar {
   background: #05A8A5;
 }
-body .bar ul li a {
+.page-content .bar ul li a {
   opacity: 0.9;
+  color: #fff;
+}
+.page-content .bar ul li.active-item {
+  background: #fff;
+}
+.page-content .bar ul li.active-item a {
+  color: #63696d;
+}
+.page-content .grid.simple .grid-body {
+  border: 1px solid #f4f4f4;
+}
+.page-content .btn.btn-danger,
+.page-content .label-danger {
+  background: rgba(253, 127, 104, 0.99);
+}
+.page-content .btn.btn-red {
+  background: #FF7979;
+  color: #fff;
+}
+.page-content .label-warning {
+  background-color: #DEB65D;
+}
+.page-content .text-danger {
+  color: rgba(253, 127, 104, 0.99);
+}
+.page-content .text-warning {
+  color: #DEB65D;
+}
+.page-content .bg-danger {
+  background-color: #F3AFAF;
+}
+.page-content .bg-warning {
+  background-color: #F7D3AB;
+}
+.page-content .bg-success {
+  background-color: #88CAC4;
 }
 label {
   font-size: 15px;
@@ -18,9 +54,6 @@ label {
 }
 .m-l-42 {
   margin-left: 42px;
-}
-.page-title {
-  margin: 0 0 30px;
 }
 .table-data div.DTTT .btn:first-child {
   display: none;
@@ -81,9 +114,6 @@ label {
 .table tbody tr {
   cursor: pointer;
 }
-.active-item {
-  background: #fff;
-}
 .select2-container.select2,
 input {
   margin-bottom: 15px;
@@ -96,6 +126,12 @@ input {
 }
 .page-title h3 {
   width: auto;
+}
+.page-title a i {
+  font-size: 20px;
+  margin-left: 12px;
+  top: -5px;
+  float: none;
 }
 .bg-gray {
   background: #eee;
@@ -121,4 +157,42 @@ input {
 }
 .footer span {
   color: #757575;
+}
+.ios-switch {
+  height: 30px!important;
+  width: 55px!important;
+}
+.ios-switch .handle {
+  width: 26px!important;
+  height: 26px!important;
+}
+.ios-switch.on .handle {
+  -o-transform: translate3d(25px, 0, 0) !important;
+  -ms-transform: translate3d(25px, 0, 0) !important;
+  -moz-transform: translate3d(25px, 0, 0) !important;
+  -webkit-transform: translate3d(25px, 0, 0) !important;
+  transform: translate3d(25px, 0, 0) !important;
+}
+.inner-tabs {
+  background: transparent;
+  border-bottom: none;
+  border-right: none!important;
+}
+.inner-tabs li a {
+  color: #505558;
+}
+.inner-tabs li.active a,
+.inner-tabs li:hover a,
+.inner-tabs li:focus a,
+.inner-tabs li:visited a {
+  color: #0aa699;
+}
+.inner-tabs li.active a i,
+.inner-tabs li:hover a i,
+.inner-tabs li:focus a i,
+.inner-tabs li:visited a i {
+  color: #999;
+}
+ul.parsley-errors-list li {
+  color: #f35958!important;
 }
