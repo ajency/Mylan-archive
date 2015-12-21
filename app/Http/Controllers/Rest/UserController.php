@@ -11,6 +11,8 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\User;
 use App\UserDevice;
+use App\Hospital;
+use App\Projects;
 
 
 
@@ -195,7 +197,7 @@ class UserController extends Controller
         $questionnaire = $questionnaireQry->first(); 
         
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-        
+
         $data = $hospitalData = $questionnareData = [];
         $hospitalData['id'] = $hospital['id'];
         $hospitalData['name'] = $hospital['name'];
