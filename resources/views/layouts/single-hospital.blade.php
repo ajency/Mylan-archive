@@ -7,6 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta content="" name="description" />
       <meta content="" name="author" />
+      <meta name="csrf-token" content="{{ csrf_token() }}" />
       <!-- BEGIN PLUGIN CSS -->
       <link href="{{ asset('hospital/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       <link href="{{ asset('hospital/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
@@ -26,6 +27,8 @@
       <!-- END CSS TEMPLATE -->
       <script>
          var HOSPITAL_ID = 0;
+         var PATIENT_ID = 0;
+         var BASEURL = '{{ url() }}/{{ $hospital["url_slug"] }}';
       </script>
    </head>
    <!-- END HEAD -->
@@ -173,6 +176,7 @@
       </div>
       <!-- END CONTAINER -->
       <!-- BEGIN CORE JS FRAMEWORK--> 
+      <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
       <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/boostrapv3/js/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -198,9 +202,11 @@
       <script src="{{ asset('plugins/dropzone/dropzone.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/bootstrap-select2/select2.min.js') }}" type="text/javascript"></script>
       <!-- END PAGE LEVEL PLUGINS -->
+
        <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
-      
+      <script src="{{ asset('bower_components/notifyjs/dist/notify.min.js') }}" type="text/javascript"></script>
+
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>

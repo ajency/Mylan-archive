@@ -65,6 +65,6 @@ Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
 
 Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
-
+Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
 });
 

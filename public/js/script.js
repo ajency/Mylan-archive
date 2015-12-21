@@ -4,7 +4,45 @@ $.ajaxSetup({
     }
 });
 
+ $.notify.defaults({
+    globalPosition: 'bottom right'
+  });
 
+$(document).ajaxComplete(function() {
+    var args, ref, ref1, xhr;
+    var objects = arguments;
+    
+    xhr = objects[1];
+    if ((ref = xhr.status) === 201 || ref === 202 || ref === 203) {
+      return $.notify(xhr.responseText.message, 'success');
+    } else if ((ref1 = xhr.status) === 200) {
+      return $.notify(xhr.responseText.message, 'error');
+    }
+  });
+
+ 
+$('.validateRefernceCode').change(function (event) { 
+    // $(".cf-loader").removeClass('hidden');
+    $.ajax({
+        url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
+        type: "POST",
+        data: {
+            reference_code: $(this).val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            if (!response.data)
+            {   
+                alert('Reference Code Already Taken');
+                $("#reference_code").val('');
+            }
+
+            // $(".cf-loader").addClass('hidden');
+        }
+    });
+    
+ 
+});
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
      
