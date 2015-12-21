@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -640,26 +640,75 @@
     return promise;
   };
 
+  getLastQuestion = function(questionnaireObj) {
+    var promise, questionQuery;
+    promise = new Parse.Promise();
+    questionQuery = new Parse.Query('Questions');
+    questionQuery.equalTo('questionnaire', questionnaireObj);
+    questionQuery.find().then(function(questionObjects) {
+      var j, lastQuestion, len, questionObj;
+      lastQuestion = "";
+      for (j = 0, len = questionObjects.length; j < len; j++) {
+        questionObj = questionObjects[j];
+        if (!questionObj.get('isChild') && _.isUndefined(questionObj.get('nextQuestion'))) {
+          lastQuestion = questionObj;
+        }
+      }
+      return promise.resolve(lastQuestion);
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
+
   Parse.Cloud.define("getPreviousQuestion", function(request, response) {
-    var options, questionId, responseId, responseQuery, value;
+    var last, options, questionId, responseId, responseQuery, value;
     responseId = request.params.responseId;
-    questionId = request.params.questionId;
+    last = questionId = request.params.questionId;
     options = request.params.options;
     value = request.params.value;
     responseQuery = new Parse.Query('Response');
     responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery;
-      if (responseObj.get('status') === 'completed') {
+      if (responseObj.get('status') === 'Completed') {
         return response.error("questionnaire_submitted.");
       } else {
-        questionQuery = new Parse.Query('Questions');
-        questionQuery.include('previousQuestion');
-        questionQuery.include('questionnaire');
-        return questionQuery.get(questionId).then(function(questionObj) {
-          if (!_.isEmpty(options) || value !== "") {
-            return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+        return getLastQuestion(responseObj.get('questionnaire')).then(function(lastQuestion) {
+          var questionQuery;
+          if (questionId === "") {
+            questionId = lastQuestion.id;
+          }
+          questionQuery = new Parse.Query('Questions');
+          questionQuery.include('previousQuestion');
+          questionQuery.include('questionnaire');
+          return questionQuery.get(questionId).then(function(questionObj) {
+            if (!_.isEmpty(options) || value !== "") {
+              return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+                if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                  return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                } else {
+                  return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                }
+              }, function(error) {
+                return response.error(error);
+              });
+            } else {
+              console.log(last);
               if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                  return response.success(questionData);
+                }, function(error) {
+                  return response.error(error);
+                });
+              } else if (last === "") {
                 return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                   return response.success(questionData);
                 }, function(error) {
@@ -672,24 +721,10 @@
                   return response.error(error);
                 });
               }
-            }, function(error) {
-              return response.error(error);
-            });
-          } else {
-            if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
-              return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
-                return response.success(questionData);
-              }, function(error) {
-                return response.error(error);
-              });
-            } else {
-              return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
-                return response.success(questionData);
-              }, function(error) {
-                return response.error(error);
-              });
             }
-          }
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });

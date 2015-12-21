@@ -503,11 +503,25 @@ saveAnswer = (responseObj, questionObj, options, value) ->
 	promise
 
 
+getLastQuestion = (questionnaireObj) ->
+	promise = new Parse.Promise()
+	questionQuery = new Parse.Query('Questions')
+	questionQuery.equalTo('questionnaire', questionnaireObj)
+	questionQuery.find()
+	.then (questionObjects) ->
+		lastQuestion = ""
+		for questionObj in questionObjects
+			if !questionObj.get('isChild') and _.isUndefined(questionObj.get('nextQuestion'))
+				lastQuestion = questionObj
+		promise.resolve lastQuestion
+	, (error) ->
+		promise.error error
+	promise
 
 
 Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseId = request.params.responseId
-	questionId = request.params.questionId
+	last = questionId = request.params.questionId
 	options = request.params.options
 	value = request.params.value
 
@@ -515,14 +529,18 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		if responseObj.get('status') == 'completed'
+		if responseObj.get('status') == 'Completed'
 			response.error "questionnaire_submitted."
-		else
-			questionQuery = new Parse.Query('Questions')
-			questionQuery.include('previousQuestion')
-			questionQuery.include('questionnaire')
-			questionQuery.get(questionId)
 
+		else
+			getLastQuestion(responseObj.get('questionnaire'))
+			.then (lastQuestion) ->
+				if questionId == ""
+					questionId = lastQuestion.id
+				questionQuery = new Parse.Query('Questions')
+				questionQuery.include('previousQuestion')
+				questionQuery.include('questionnaire')
+				questionQuery.get(questionId)
 				.then (questionObj) ->
 					if !_.isEmpty(options) or value != ""
 						saveAnswer responseObj, questionObj, options, value
@@ -543,7 +561,15 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 							,(error) ->
 								response.error error										
 					else
+						console.log last
 						if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+							getQuestionData questionObj, responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
+
+						else if last == ""
 							getQuestionData questionObj, responseObj, responseObj.get('patient')
 							.then (questionData) ->
 								response.success questionData
@@ -558,8 +584,13 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 								response.error error
 				,(error) ->
 					response.error error
+			,(error) ->
+				response.error error
 	,(error) ->
 		response.error error
+
+
+
 
 
 Parse.Cloud.define 'getSummary', (request, response) ->
