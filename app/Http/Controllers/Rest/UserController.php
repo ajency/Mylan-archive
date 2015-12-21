@@ -187,26 +187,22 @@ class UserController extends Controller
     public function postLoginData($hospitalId , $projectId)
     {
 
-        $hospitalQry = new ParseQuery("Hospital");
-        $hospitalQry->equalTo("objectId", $hospitalId);
-        $hospital = $hospitalQry->first();  
-
-        $projectQry = new ParseQuery("Project");
-        $projectQry->equalTo("objectId", $projectId);
-        $project = $projectQry->first();
+        $hospital = Hospital::find($hospitalId)->toArray();  
+        $project = Projects::find($projectId)->toArray(); 
         
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $project);
         $questionnaire = $questionnaireQry->first(); 
         
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
         
         $data = $hospitalData = $questionnareData = [];
-        $hospitalData['id'] = $hospital->getObjectId();
-        $hospitalData['name'] = $hospital->get('name');
-        $hospitalData['logo'] = $hospital->get('logo');
-        $hospitalData['contact_number'] = $hospital->get('contact_number');
-        $hospitalData['project_id'] = $project->getObjectId();
-        $hospitalData['project'] = $project->get('name');
+        $hospitalData['id'] = $hospital['id'];
+        $hospitalData['name'] = $hospital['name'];
+        $hospitalData['logo'] = $logoUrl;
+        $hospitalData['contact_number'] = $hospital['contact_number'];
+        $hospitalData['project_id'] = $project['id'];
+        $hospitalData['project'] = $project['name'];
 
         $questionnareData=[];
         if(!empty($questionnaire))
