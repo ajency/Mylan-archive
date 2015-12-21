@@ -88,13 +88,15 @@ class SubmissionController extends Controller
         $responseQry = new ParseQuery("Response");
         $responseQry->notEqualTo("objectId", $responseId);
         $responseQry->equalTo("patient", $referenceCode);
+        $responseQry->equalTo("status", "completed");
         $responseQry->descending("updatedAt");
         $oldResponse = $responseQry->first();
 
+
         $previousAnswersList =[];
-        if(!empty($response))
+        if(!empty($oldResponse))
         {
-            $previousData =  $this->getSubmissionData($response->getObjectId());
+            $previousData =  $this->getSubmissionData($oldResponse->getObjectId());
             $previousAnswersList = $previousData['answers'];
         }
 
