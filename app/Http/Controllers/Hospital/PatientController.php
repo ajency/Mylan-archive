@@ -75,7 +75,6 @@ class PatientController extends Controller
         $user = new User();
         $user->reference_code = $referanceCode;
         $user->password = '';
-        $user->email = $referanceCode;
         $user->account_status = 'created';
         $user->hospital_id = $hospital;
         $user->project_id = $project;

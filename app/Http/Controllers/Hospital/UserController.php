@@ -63,7 +63,6 @@ class UserController extends Controller
         $user = new User;
         $name =  ucfirst($request->input('name'));
         $user->name = $name;
-        $user->reference_code = $request->input('email');
         $user->email = $request->input('email');
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
