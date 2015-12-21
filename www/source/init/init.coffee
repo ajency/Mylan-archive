@@ -61,13 +61,7 @@ angular.module 'PatientApp.init', []
 			url: '/main_login'
 			templateUrl: 'views/authentication-view/Main-Screen-login.html'
 			controller: 'main_loginCtr'
-			resolve:
-				refrencecodeValue : ($q, Storage)->
-					defer = $q.defer()
-					Storage.setData 'refcode', 'get'
-					.then (refcode)->
-						defer.resolve refcode
-					defer.promise	
+			
 
 		.state 'setup',
 			url: '/setup'

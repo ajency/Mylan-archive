@@ -23,30 +23,29 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
-            return Storage.setData('patientData', 'get').then(function(patientData) {
-              var options, responseId;
-              _this.respStatus = $stateParams.respStatus;
-              if (_this.respStatus === 'noValue') {
-                responseId = '';
-              } else {
-                responseId = $stateParams.respStatus;
-              }
-              options = {
-                "responseId": responseId,
-                "questionnaireId": patientData.id,
-                "patientId": refcode
-              };
-              return QuestionAPI.getQuestion(options).then(function(data) {
-                console.log('inside then');
-                console.log(data);
-                _this.data = data.result;
-                _this.pastAnswer();
-                Storage.setData('responseId', 'set', data.result.responseId);
-                return _this.display = 'noError';
-              }, function(error) {
-                _this.display = 'error';
-                return _this.errorType = error;
-              });
+            var options, responseId;
+            Storage.setData('patientData', 'get').then(function(patientData) {});
+            _this.respStatus = $stateParams.respStatus;
+            if (_this.respStatus === 'noValue') {
+              responseId = '';
+            } else {
+              responseId = $stateParams.respStatus;
+            }
+            options = {
+              "responseId": responseId,
+              "questionnaireId": patientData.id,
+              "patientId": refcode
+            };
+            return QuestionAPI.getQuestion(options).then(function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data.result;
+              _this.pastAnswer();
+              Storage.setData('responseId', 'set', data.result.responseId);
+              return _this.display = 'noError';
+            }, function(error) {
+              _this.display = 'error';
+              return _this.errorType = error;
             });
           };
         })(this));

@@ -5,7 +5,7 @@ AUTH_URL = 'http://54.213.248.21/api/v1';
 AUTH_HEADERS = {
   headers: {
     "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-    "X-Authorization": '51714a4f57d87cf01461bf770c6bc9a96dcdcf8f',
+    "X-Authorization": '2e4e960cd99d63036ee78b4cd5bed368e0dc191e',
     "Content-Type": 'application/json'
   }
 };

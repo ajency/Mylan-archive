@@ -1,5 +1,6 @@
+<ion-view>   
 <ion-content>
-    <div class="row">
+    <div class="row" ng-init="view.init()">
           <div class="col">
             <div class="text-center centering">
                   <div class="padding">
@@ -22,7 +23,8 @@
                         name="ref_"
                         id="ref_"
                         ng-model="view.refrencecode"
-                        ng-click="view.cleardiv()"/>
+                        ng-click="view.cleardiv()"/
+                        ng-readonly = "view.readonly">
                       </label>
                             
                       <div style="position:relative;">
@@ -78,3 +80,4 @@
           </div>
     </div>
 </ion-content>
+</ion-view> 

@@ -6,7 +6,7 @@ AUTH_URL = 'http://54.213.248.21/api/v1'
 AUTH_HEADERS = 
 	headers:
 		"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-		"X-Authorization" : '51714a4f57d87cf01461bf770c6bc9a96dcdcf8f'
+		"X-Authorization" : '2e4e960cd99d63036ee78b4cd5bed368e0dc191e'
 		"Content-Type" : 'application/json'
 
 
@@ -21,19 +21,10 @@ REST_API_KEY = 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
 
 PARSE_URL = 'https://api.parse.com/1/functions'
 
-# PARSE_HEADERS = 
-# 	X-Parse-Application-Id : 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA'
-# 	X-Parse-REST-API-Ke : 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
-
 
 PARSE_HEADERS =
 	headers:
 		"X-Parse-Application-Id" : 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA'
 		"X-Parse-REST-API-KeY" : 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
-
-	# timeout : 15000
-	
-
-# "X-Authorization" : 'e7544bd1e3743b71ea473cee30d73227135358aa'
 
 

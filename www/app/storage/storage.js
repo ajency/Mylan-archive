@@ -111,6 +111,8 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return localforage.setItem(variableName, projectId);
         case 'get':
           return localforage.getItem(variableName);
+        case 'remove':
+          return localforage.removeItem(variableName);
       }
     };
     Storage.summary = function(action, data) {

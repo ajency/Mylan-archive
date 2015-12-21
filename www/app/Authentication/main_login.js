@@ -1,10 +1,10 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', 'refrencecodeValue', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, refrencecodeValue, $ionicLoading, AuthAPI, CToast, CSpinner) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner) {
     $scope.view = {
       temprefrencecode: '',
       loginerror: '',
       password: '',
-      refrencecode: refrencecodeValue,
+      readonly: '',
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
           return this.loginerror = "Please Enter the credentials ";
@@ -18,19 +18,17 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                 console.log(data);
                 if (data.code === 'successful_login') {
                   return Parse.User.become(data.user).then(function(user) {
-                    console.log('succ user');
-                    console.log(user);
-                    return Storage.setData('logged', 'set', true).then(function() {
-                      return Storage.setData('refcode', 'set', _this.refrencecode).then(function() {
-                        return Storage.setData('hospital_details', 'set', data.hospital).then(function() {
-                          return Storage.setData('patientData', 'set', data.questionnaire).then(function() {
-                            return App.navigate("dashboard", {}, {
-                              animate: false,
-                              back: false
-                            });
-                          });
-                        });
-                      });
+                    return Storage.setData('logged', 'set', true);
+                  }).then(function() {
+                    return Storage.setData('refcode', 'set', _this.refrencecode);
+                  }).then(function() {
+                    return Storage.setData('hospital_details', 'set', data.hospital);
+                  }).then(function() {
+                    return Storage.setData('patientData', 'set', data.questionnaire);
+                  }).then(function() {
+                    return App.navigate("dashboard", {}, {
+                      animate: false,
+                      back: false
                     });
                   }, function(error) {
                     console.log('in error');
@@ -68,13 +66,22 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
         };
       },
       reset: function() {
-        var loginerror, password;
-        loginerror = '';
-        return password = '';
+        this.loginerror = '';
+        return this.password = '';
       }
     };
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      return $scope.view.reset();
+      $scope.view.reset();
+      return Storage.setData('refcode', 'get').then((function(_this) {
+        return function(refcode) {
+          $scope.view.refrencecode = refcode;
+          if ($scope.view.refrencecode === null) {
+            return $scope.view.readonly = false;
+          } else {
+            return $scope.view.readonly = true;
+          }
+        };
+      })(this));
     });
   }
 ]);

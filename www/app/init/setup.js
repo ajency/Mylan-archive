@@ -19,19 +19,24 @@ angular.module('PatientApp.init').controller('setupCtr', [
           CSpinner.show('', 'Please wait...');
           return AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceOS).then((function(_this) {
             return function(data) {
-              return Storage.setData('hospital_details', 'set', data.hospitalData).then(function() {
-                return Storage.setData('refcode', 'set', _this.refcode).then(function() {
-                  if (data.code === 'do_login') {
-                    return App.navigate("main_login");
-                  } else if (data.code === 'set_password') {
-                    return App.navigate("setup_password");
-                  } else if (data.code === 'limit_exceeded') {
-                    return _this.emptyfield = 'Cannot do setup more then 5 times';
-                  } else {
-                    return _this.emptyfield = 'Please check reference code';
-                  }
-                });
-              });
+              _this.data = data;
+              return Storage.setData('hospital_details', 'set', _this.data.hospitalData);
+            };
+          })(this)).then((function(_this) {
+            return function() {
+              return Storage.setData('refcode', 'set', _this.refcode);
+            };
+          })(this)).then((function(_this) {
+            return function() {
+              if (_this.data.code === 'do_login') {
+                return App.navigate("main_login");
+              } else if (_this.data.code === 'set_password') {
+                return App.navigate("setup_password");
+              } else if (_this.data.code === 'limit_exceeded') {
+                return _this.emptyfield = 'Cannot do setup more then 5 times';
+              } else {
+                return _this.emptyfield = 'Please check reference code';
+              }
             };
           })(this), (function(_this) {
             return function(error) {
@@ -43,6 +48,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
         }
       },
       tologin: function() {
+        Storage.setData('refcode', 'remove');
         return App.navigate("main_login");
       },
       forgetRefcode: function() {

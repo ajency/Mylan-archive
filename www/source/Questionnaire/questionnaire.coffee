@@ -26,6 +26,12 @@ angular.module 'PatientApp.Quest',[]
 				@val_answerValue = {}
 
 			getQuestion :() ->
+
+				# "responseId": responseId
+				# "questionnaireId": patientData.id
+				# "patientId": refcode
+
+
 				@display = 'loader'
 
 				Storage.setData 'refcode','get'
@@ -34,28 +40,28 @@ angular.module 'PatientApp.Quest',[]
 					Storage.setData 'patientData','get'
 					.then (patientData)=>
 
-						@respStatus = $stateParams.respStatus
-						if @respStatus == 'noValue'
-							responseId = ''
-						else 
-							responseId = $stateParams.respStatus
+					@respStatus = $stateParams.respStatus
+					if @respStatus == 'noValue'
+						responseId = ''
+					else 
+						responseId = $stateParams.respStatus
 
-						options =
-							"responseId": responseId
-							"questionnaireId": patientData.id
-							"patientId": refcode
+					options =
+						"responseId": responseId
+						"questionnaireId": patientData.id
+						"patientId": refcode
 
-						QuestionAPI.getQuestion options
-						.then (data)=>
-							console.log 'inside then'
-							console.log data
-							@data = data.result
-							@pastAnswer()
-							Storage.setData 'responseId', 'set', data.result.responseId
-							@display = 'noError'
-						,(error)=>
-							@display = 'error'
-							@errorType = error
+					QuestionAPI.getQuestion options
+					.then (data)=>
+						console.log 'inside then'
+						console.log data
+						@data = data.result
+						@pastAnswer()
+						Storage.setData 'responseId', 'set', data.result.responseId
+						@display = 'noError'
+					,(error)=>
+						@display = 'error'
+						@errorType = error
 					
 			init : ->
 				@getQuestion()	

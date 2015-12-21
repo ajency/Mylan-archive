@@ -1,15 +1,16 @@
 angular.module 'PatientApp.Auth'
 
 .controller 'main_loginCtr',['$scope', 'App', 'Storage'
-	 ,'refrencecodeValue','$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner'
-	 , ($scope, App, Storage, refrencecodeValue,
+	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner'
+	 , ($scope, App, Storage,
 	 	 $ionicLoading, AuthAPI, CToast, CSpinner)->
 
 		$scope.view =
 			temprefrencecode :''
 			loginerror: ''
 			password:''
-			refrencecode: refrencecodeValue
+			readonly : ''
+			
 
 			mainlogin : ->
 				if @refrencecode =='' || @password ==''
@@ -25,23 +26,15 @@ angular.module 'PatientApp.Auth'
 							if data.code == 'successful_login'
 								Parse.User.become data.user
 								.then (user)=>
-									console.log 'succ user'
-									console.log user
-
-									# Storage.login 'set'
-									# Storage.hospital_data 'set', data.hospital
-									# Storage.setPatientId 'set', data.patient_id 
-									# Storage.setProjectId 'set', data.project_id
-
 									Storage.setData 'logged','set', true
-									.then ()=> 
-										Storage.setData 'refcode','set', @refrencecode
-										.then ()=>
-											Storage.setData 'hospital_details', 'set', data.hospital
-											.then ()=>
-												Storage.setData 'patientData', 'set', data.questionnaire
-												.then ()=>
-													App.navigate "dashboard", {}, {animate: false, back: false}
+								.then ()=> 
+									Storage.setData 'refcode','set', @refrencecode
+								.then ()=>
+									Storage.setData 'hospital_details', 'set', data.hospital
+								.then ()=>
+									Storage.setData 'patientData', 'set', data.questionnaire
+								.then ()=>
+									App.navigate "dashboard", {}, {animate: false, back: false}
 								, (error)->
 									console.log 'in error'
 									console.log error
@@ -67,13 +60,17 @@ angular.module 'PatientApp.Auth'
 			        hideOnStateChange: false
 
 			reset:->
-				loginerror = ''
-				password = ''
-
+				@loginerror = ''
+				@password = ''
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reset();
-
+			Storage.setData 'refcode', 'get'
+			.then (refcode)=>
+				$scope.view.refrencecode = refcode
+				if $scope.view.refrencecode == null
+					$scope.view.readonly = false
+				else
+					$scope.view.readonly = true
 		
-			
 ]

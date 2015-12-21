@@ -22,24 +22,26 @@ angular.module 'PatientApp.init'
 					CSpinner.show '', 'Please wait...'  
 					AuthAPI.validateRefCode @refcode, @deviceUUID ,@deviceOS
 					.then (data)=>
-						Storage.setData 'hospital_details', 'set', data.hospitalData
-						.then ()=>
-							Storage.setData 'refcode', 'set', @refcode
-							.then ()=>
-								if data.code == 'do_login'
-									App.navigate "main_login"
-								else if data.code == 'set_password'
-									App.navigate "setup_password"
-								else if data.code == 'limit_exceeded'
-									@emptyfield = 'Cannot do setup more then 5 times'
-								else 
-									@emptyfield = 'Please check reference code'
+						@data = data
+						Storage.setData 'hospital_details', 'set', @data.hospitalData
+					.then () =>
+						Storage.setData 'refcode', 'set', @refcode
+					.then ()=>
+						if @data.code == 'do_login'
+							App.navigate "main_login"
+						else if @data.code == 'set_password'
+							App.navigate "setup_password"
+						else if @data.code == 'limit_exceeded'
+							@emptyfield = 'Cannot do setup more then 5 times'
+						else 
+							@emptyfield = 'Please check reference code'
 					, (error)=>
 						@emptyfield = 'Please try again'
 					.finally ()->
 						CSpinner.hide()
 
 			tologin : ->
+				Storage.setData 'refcode', 'remove'
 				App.navigate "main_login"
 
 			forgetRefcode:->
