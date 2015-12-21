@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
+use App\Hospital;
 
 class AuthController extends Controller
 {
@@ -97,6 +98,7 @@ class AuthController extends Controller
 
     public function getAdminLogin()
     {
+
         return view('auth.admin-login');
     }
 
@@ -126,6 +128,44 @@ class AuthController extends Controller
         }
         
         return redirect('/admin/login')->withErrors([
+            'email' => 'The credentials you entered did not match our records. Try again?',
+        ]);
+    }
+
+    public function getHospitalLogin($hospitalId)
+    {
+        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+        return view('auth.user-login')->with('hospital', $hospital)
+                                      ->with('logoUrl', $logoUrl);
+    }
+
+    public function postHospitalLogin(Request $request,$hospitalId)
+    { 
+        $email = $request->input('email');
+        $password = trim($request->input('password'));
+        if($request->has('remember'))
+            $remember = $request->input('remember');
+        else
+           $remember = 0;
+            
+        
+        if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
+        {   
+            if(Auth::user()->account_status=='active')
+            {
+                return redirect()->intended('hospital/'.$hospitalId.'/dashbord');
+            }
+            else
+            {
+                Auth::logout();
+                return redirect('hospital/'.$hospitalId.'/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
+            }
+        }
+        
+        return redirect('hospital/'.$hospitalId.'/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
     }

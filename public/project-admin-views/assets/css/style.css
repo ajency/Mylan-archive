@@ -8315,3 +8315,7 @@ input {
 ul.parsley-errors-list li {
   color: #f35958!important;
 }
+ul.parsley-errors-list{
+  list-style-type: none;
+  padding-left: 0;
+}

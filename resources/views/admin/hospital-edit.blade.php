@@ -32,11 +32,14 @@
                   <div id="hospital_logo_block">
                    @if($hospital['logo']!='')
                   <img src="{{ $imagePath }}">
-                  @else
-                  <a id="pickfiles" href="javascript:;">[Select files]</a>
-                  <span id="loader"></span>
-                   @endif
+                  <a  class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
+                  @endif
                   </div>
+                  <a class="{{ ($hospital['logo']!='')?'hidden':'' }}" id="pickfiles" href="javascript:;">[Select files]</a>
+                  <span id="loader"></span>
+                   
+
+                  
                   <input type="hidden" name="hospital_logo" id="hospital_logo">     
                </div>
            </div>
@@ -57,8 +60,44 @@
                        </div>
                    </div>
                    <div class="form-row">
-                       <label>Address</label>
-                       <textarea id="address" name="address" rows="3" style="width:100%;" data-parsley-required>{{ $hospital['address'] }}</textarea>
+                   
+                           <div class="form-row">
+                               <label>Address Line 1</label>
+                               <input name="address_line_1" id="address_line_1" value="{{ $hospital['address_line_1'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       
+                        
+                   </div>
+                   <div class="form-row">
+                        
+                           <div class="form-row">
+                               <label>Address Line 2</label>
+                               <input name="address_line_2" id="address_line_2" value="{{ $hospital['address_line_2'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                      
+                   </div>
+                   <div class="row form-row">
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Town/City</label>
+                               <input name="city" id="city" type="text" value="{{ $hospital['city'] }}" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Country</label>
+                               <input name="country" id="country" value="{{ $hospital['country'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="row form-row">
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Postal Code</label>
+                               <input name="postal_code" id="postal_code" value="{{ $hospital['postal_code'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+            
                    </div>
                    <div class="row form-row">
                        <div class="col-md-6">

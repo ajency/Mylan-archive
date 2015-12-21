@@ -124,6 +124,11 @@
                            <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
+                         <li>
+                           <a href="submissions.html">
+                           <span><i class="fa fa-list-alt"></i> Submissions</span>
+                           </a>
+                        </li>
                         <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
@@ -175,12 +180,10 @@
                               <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
                            </div>
-                           <a href="project-summary.html">
-                              <h3><span class="semi-bold">Cardiac</span> Care</h3>
-                           </a>
+                           <h3><span class="semi-bold">MRI</span> Pancreatitis</h3>
                         </div>
                         <br>
-                        <em>This Project consists of patients with various cardiac conditions that requires continuous monitoring and treatment</em>
+                        <em>This Project consists of patients with acute Pancreatitis</em>
                         <br><br><br>
                         <div class="row feature-list">
                            <div class="col-md-3 b-r">
@@ -198,19 +201,19 @@
                               <h5 class="semi-bold black m-b-20"><i class="fa fa-comment text-muted"></i> RESPONSE RATE</h5>
                               <div>
                                  <p>
-                                    Displays percentages of patients who regurarly take the questionnaire with Mylan
+                                    Displays percentages of patients who regularly take the questionnaire with Mylan
                                  </p>
                                  <a href="response-rate.html" class="text-success">View Response Rate</a>
                               </div>
                            </div>
                            <div class="col-md-3 b-r">
                               <h3 class="pull-right text-success">35</h3>
-                              <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
+                              <h5 class="semi-bold black m-b-20"><i class="fa fa-list-alt text-muted"></i>  SUBMISSIONS</h5>
                               <div>
                                  <p>
-                                    2 Read<br>3 Edit
+                                    Gives an account of the number of Questionnaires a Patient has submitted.
                                  </p>
-                                 <a href="users.html" class="text-success">View Users</a>
+                                 <a href="submissions.html" class="text-success">View Submissions</a>
                               </div>
                            </div>
                            <div class="col-md-3">
@@ -230,10 +233,10 @@
                        <br>
                            <div class="row">
                               <div class="col-md-7">
-                                  <table class="table table-hover table-flip-scroll cf b-t b-b b-l b-r">
+                                  <table class="table table-hover table-flip-scroll cf b-t b-b b-l b-r " id="example">
                               <thead class="cf">
                                  <tr>
-                                    <th>Scores</th>
+                                    <th>Patient ID</th>
                                     <th>Base line Score</th>
                                     <th>Previous Score</th>
                                     <th>Current Score</th>
@@ -244,7 +247,7 @@
                               </thead>
                               <tbody>
                                  <tr onclick="window.document.location='single-submission.html';">
-                                    <td>Jack Smith</td>
+                                    <td>123</td>
                                     <td>8</td>
                                     <td>9</td>
                                     <td>11</td>
@@ -253,8 +256,8 @@
                                     <td>Jan-14</td>
                                  </tr>
                                  <tr onclick="window.document.location='single-submission.html';">
-                                    <td>Jack Smith</td>
-                                    <td>8</td>
+                                    <td>234</td>
+                                    <td>7</td>
                                     <td>9</td>
                                     <td>11</td>
                                     <td class="bg-danger">3</td>
@@ -262,8 +265,8 @@
                                     <td>Jan-14</td>
                                  </tr>
                                  <tr onclick="window.document.location='single-submission.html';">
-                                    <td>Jack Smith</td>
-                                    <td>8</td>
+                                    <td>345</td>
+                                    <td>6</td>
                                     <td>9</td>
                                     <td>11</td>
                                     <td class="bg-warning">3</td>
@@ -271,8 +274,8 @@
                                     <td>Jan-14</td>
                                  </tr>
                                  <tr onclick="window.document.location='single-submission.html';">
-                                    <td>Jack Smith</td>
-                                    <td>8</td>
+                                    <td>456</td>
+                                    <td>5 </td>
                                     <td>9</td>
                                     <td>11</td>
                                     <td class="bg-success">3</td>
@@ -283,15 +286,23 @@
                               </tbody>
                            </table>
                               </div>
-                              <div class="col-md-5 text-center">
+                              <div class="col-md-5">
                                  <div class="text-center m-b-20">
                      <a href="reports-red.html" class="btn btn-red">Red's</a>
                      <a href="reports-amber.html" class="btn btn-warning">Amber's</a>
                      <a href="reports-green.html" class="btn btn-primary">Green's</a>
                      <a href="patients.html" class="btn btn-success">Patient List</a>
-                  </div>
-                                 <div id="sparkline-pie"></div>
+                  </div>   <div class="row">
+                                 <div class="col-md-3"></div>
+                                 <div class="col-md-9">
+                                    <br>
+                                       <div id="sparkline-pie"></div>
+                                       <br>
                                  <h4>Patients Enrolled : <span class="semi-bold text-success">20</span></h4>
+                              
+                                 </div>
+                                 
+                           </div>
                               </div>
                               
                               
@@ -304,6 +315,29 @@
                               <div class="col-md-8">
                                  <div class="user-description-box">
                                      <h4><span class="semi-bold">Tracker</span></h4>
+                                     <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
                                  <table class="table table-flip-scroll cf">
                                           <thead class="cf">
                                              <tr>
@@ -319,7 +353,7 @@
                                                 <th>10 Aug</th>
                                                 <th>17 Aug</th>
                                                 <th>24 Aug</th>
-                                                <th>31 Aug</th>
+                                               
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -332,6 +366,11 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-warning"></td>
                                                 <td class="bg-warning"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-warning"></td>
+                                                <td class="bg-warning"></td>
+                                                
                                              </tr>
                                              <tr>
                                                 <td>Diarrhea</td>
@@ -342,9 +381,18 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+
                                              </tr>
                                              <tr>
                                                 <td>Weight</td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
@@ -362,9 +410,13 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
                                              </tr>
                                              <tr>
-                                                <td>well Being</td>
+                                                <td>Well Being</td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
@@ -372,6 +424,10 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-danger"></td>
+                                                <td class="bg-warning"></td>
                                              </tr>
                                              <tr>
                                                 <td>Diabetes</td>
@@ -382,6 +438,10 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-danger"></td>
+                                                <td class="bg-warning"></td>
                                              </tr>
                                              <tr>
                                                 <td>Score</td>
@@ -392,68 +452,72 @@
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
                                                 <td class="bg-success"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-danger"></td>
+                                                <td class="bg-success"></td>
+                                                <td class="bg-warning"></td>
                                              </tr>
                                           </tbody>
                                        </table>
                                        </div>
                               </div>
                               <div class="col-md-4">
-                                 <table class="table  table-flip-scroll cf b-t b-b b-l b-r">
+                                 <table class="table  table-flip-scroll cf b-t b-b b-l b-r" id="example">
                               <thead class="cf">
                                  <tr>
-                                    <th>Last Visit</th>
+                                    <th>Patient Id</th>
                                     <th>Last Clinic Visit</th>
                                     <th>Score</th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>123</td>
                                     <td class="bg-danger">Jan-14</td>
                                     <td>4</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>234</td>
                                     <td class="bg-danger">Jan-14</td>
-                                    <td>4</td>
+                                    <td>9</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
-                                    <td class="bg-danger">Jan-14</td>
-                                    <td>4</td>
+                                    <td>345</td>
+                                    <td class="bg-danger">Dec-13</td>
+                                    <td>8</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>543</td>
+                                    <td class="bg-warning">Jan-14</td>
+                                    <td>2</td>
+                                 </tr>
+                                 <tr>
+                                    <td>654</td>
+                                    <td class="bg-warning">Feb-12</td>
+                                    <td>5</td>
+                                 </tr>
+                                 <tr>
+                                    <td>765</td>
                                     <td class="bg-warning">Jan-14</td>
                                     <td>4</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
-                                    <td class="bg-warning">Jan-14</td>
-                                    <td>4</td>
+                                    <td>876</td>
+                                    <td class="bg-success">June-11</td>
+                                    <td>3</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
-                                    <td class="bg-warning">Jan-14</td>
-                                    <td>4</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>879</td>
                                     <td class="bg-success">Jan-14</td>
-                                    <td>4</td>
+                                    <td>5</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>987</td>
                                     <td class="bg-success">Jan-14</td>
-                                    <td>4</td>
+                                    <td>6</td>
                                  </tr>
                                  <tr>
-                                    <td>Fredd Brogs</td>
-                                    <td class="bg-success">Jan-14</td>
-                                    <td>4</td>
-                                 </tr>
-                                 <tr>
-                                    <td>Fredd Brogs</td>
+                                    <td>678</td>
                                     <td class="bg-success">Jan-14</td>
                                     <td>4</td>
                                  </tr>

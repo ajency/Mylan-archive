@@ -44,4 +44,20 @@ class User extends Model implements AuthenticatableContract,
     public function devices() {
         return $this->hasMany( 'App\UserDevices');
     }
+
+    public function access() {
+        return $this->hasMany( 'App\UserAccess' );
+    }
+
+    public function toArray()
+    {
+        $data = parent::toArray();
+        if($data['type']!='patient')
+        {
+            $userAccess =  $this->access()->get()->toArray();
+            $data['access'] = $userAccess;
+        }
+
+        return $data;
+    }
 }

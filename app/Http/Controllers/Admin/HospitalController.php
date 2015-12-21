@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Hospital;
+use \File;
+use \Input;
 
 class HospitalController extends Controller
 {
@@ -48,13 +50,18 @@ class HospitalController extends Controller
         $hospital->name = $name;
         $hospital->logo = $request->input('hospital_logo');
         $hospital->email = $request->input('email');
-        $hospital->phone = $request->input('phone');
-        $hospital->address = $request->input('address');
+        $hospital->phone = $request->input('phone');  
+        $hospital->address_line_1 = $request->input('address_line_1');
+        $hospital->address_line_2 = $request->input('address_line_2');
+        $hospital->city = $request->input('city');
+        $hospital->country = $request->input('country');
+        $hospital->postal_code = $request->input('postal_code');
         $hospital->website = $request->input('website');
         $hospital->primary_phone = $request->input('primary_phone');
         $hospital->primary_email = $request->input('primary_email');
         $hospital->contact_person_name = $request->input('contact_person');
-        // $hospital->location = $request->input('location');
+        $hospital->url_slug = str_slug($request->input('name').' '.$request->input('city'),'-');
+     
          
         $hospital->save();
         $hospitalId = $hospital->id;
@@ -103,12 +110,16 @@ class HospitalController extends Controller
         $hospital->name = $name;
         $hospital->email = $request->input('email');
         $hospital->phone = $request->input('phone');
-        $hospital->address = $request->input('address');
+        $hospital->address_line_1 = $request->input('address_line_1');
+        $hospital->address_line_2 = $request->input('address_line_2');
+        $hospital->city = $request->input('city');
+        $hospital->country = $request->input('country');
+        $hospital->postal_code = $request->input('postal_code');
         $hospital->website = $request->input('website');
         $hospital->primary_phone = $request->input('primary_phone');
         $hospital->primary_email = $request->input('primary_email');
         $hospital->contact_person_name = $request->input('contact_person');
-        // $hospital->location = $request->input('location');
+        $hospital->url_slug = str_slug($request->input('name').' '.$request->input('city'),'-');
          
         $hospital->save();
  
@@ -125,5 +136,70 @@ class HospitalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function uploadLogo(Request $request,$hospitalId)
+    {
+        $targetDir = public_path() . "/mylan/hospitals/";
+        $imageUrl = url() . "/mylan/hospitals/";
+
+        File::makeDirectory( $targetDir, $mode = 0755, true, true );
+
+        if ($request->hasFile( 'file' )) {
+            
+            $file = $request->file( 'file' );
+     
+            $fileName = $file->getClientOriginalName();
+            $fileData = explode('.', $fileName);
+
+            //$newFilename = rand() . '_' . $projectId . '.' . $fileExt;
+            $newFilename = $fileName;
+
+            $request->file( 'file' )->move( $targetDir, $newFilename );
+
+            if($hospitalId)
+            {
+                $hospital = Hospital::find($hospitalId);
+                $hospital->logo = $newFilename;
+                $hospital->save();
+            }
+        
+         }    
+
+        return response()->json( [
+                    'code' => 'logo_uploaded',
+                    'message' => 'Image Uploaded' ,
+                    'data' => [
+                        'image_path' => $imageUrl . $newFilename,
+                        'filename' => $newFilename
+                    ]
+            ], 201 );
+    }
+
+    public function deleteLogo(Request $request,$hospitalId)
+    {
+
+            $targetDir = public_path() . "/mylan/hospitals/";
+
+            if($hospitalId)
+            {
+                $hospital = Hospital::find($hospitalId);
+                $imageName= $hospital->logo;
+                $hospital->logo = '';
+                $hospital->save();
+            }
+            else
+            {
+                $imageName=$request['imageName'];
+            }
+
+            File::delete($targetDir.$imageName);
+            
+
+        return response()->json( [
+                    'code' => 'logo_deleted',
+                    'message' => 'Image deleted' ,
+                
+            ], 203 );
     }
 }

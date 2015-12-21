@@ -34,11 +34,20 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
+        
         if ($this->auth->guest()) {
             if ($request->ajax()) {
                 return response('Unauthorized.', 401);
             } else {
-                return redirect()->guest('admin/login');
+                $routePrefix = $request->route()->getPrefix();
+                if(str_contains($routePrefix, 'admin'))
+                    return redirect()->guest('admin/login');
+                elseif(str_contains($routePrefix, 'hospital'))
+                {
+                    $id= $request->id;
+                    return redirect()->guest('hospital/'.$id.'/login');
+                }
+
             }
         }
 

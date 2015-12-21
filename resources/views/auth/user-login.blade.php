@@ -4,8 +4,8 @@
 <div class="container">
   <div class="row login-container column-seperation">  
         <div class="col-md-5 col-md-offset-1">
-          <img src="{{ asset('hospital/img/hospital-logo.png') }}" class="logo" alt=""  data-src="{{ asset('hospital/img/hospital-logo.png') }}" width="auto" height="auto"/>
-          <h2>Slutter Davis Hospital</h2>
+          <img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="auto"/>
+          <h2>{{ $hospital['name'] }}</h2>
           
         </div>
         <div class="col-md-5 "> <br>
@@ -19,7 +19,7 @@
               </ul>
             </div>
           @endif
-     <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/user/login') }}">
+     <form id="login-form" class="login-form" role="form" method="POST" action="/hospital/{{ $hospital['id']}}/login">
      <div class="row">
      <div class="form-group col-md-10">
             <label class="form-label">Email</label>

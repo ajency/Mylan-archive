@@ -1,4 +1,4 @@
-@extends('layouts.single-mylan')
+@extends('layouts.single-hospital')
 
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
@@ -20,23 +20,15 @@
       </div> 
      <div class="grid simple">
            <div class="grid-body">
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url('admin/patients') }}" data-parsley-validate>
+      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients') }}" data-parsley-validate>
               <div class="row column-seperation">
                 <div class="col-md-6">
                   <div class="form-row">
                      <label>Reference Code</label>
-                        <input name="referance_code" id="referance_code" type="text"  class="form-control" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                        <input name="reference_code" id="reference_code" type="text"  class="form-control" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                     </div>
                     <div class="row form-row">
-                      <div class="col-sm-6">
-                      <label>Hospital</label>
-                      <select name="hospital" id="hospital" class="select2 form-control"  data-parsley-required>
-                          <option value="">Select</option>
-                          @foreach($hospitals as $hospital)
-                          <option value="{{ $hospital['id'] }}">{{ $hospital['name'] }}</option>
-                          @endforeach
-                        </select>
-                    </div>
+               
                     <div class="col-sm-6">
                       <label>Project</label>
                       <select name="project" id="project" class="select2 form-control"  data-parsley-required>
