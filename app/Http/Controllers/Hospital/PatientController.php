@@ -141,17 +141,17 @@ class PatientController extends Controller
      */
     public function update(Request $request, $hospitalSlug , $id)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
-        $referanceCode = $request->input('reference_code');
-        $hospital = $hospital['id'];//$request->input('hospital');
-        $project = $request->input('project');
+        // $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
+        // $referanceCode = $request->input('reference_code');
+        // $hospital = $hospital['id'];//$request->input('hospital');
+        // $project = $request->input('project');
         
-        $user = User::find($id);
-        $user->reference_code = $referanceCode;
-        $user->hospital_id = $hospital;
-        $user->project_id = $project;
-        $user->type = 'patient';
-        $user->save();
+        // $user = User::find($id);
+        // $user->reference_code = $referanceCode;
+        // $user->hospital_id = $hospital;
+        // $user->project_id = $project;
+        // $user->type = 'patient';
+        // $user->save();
 
 
         return redirect(url($hospitalSlug . '/patients/' . $id . '/edit')); 
