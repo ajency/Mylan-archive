@@ -1,8 +1,9 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout'
-	($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner, $q, $timeout)->
+	'$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout', '$ionicPlatform',
+	($scope, App, QuestionAPI, $stateParams, $window, Storage,
+	 CToast, CSpinner, $q, $timeout, $ionicPlatform)->
 
 		$scope.view =
 			# noError / error / loader
@@ -16,25 +17,15 @@ angular.module 'PatientApp.Quest',[]
 			display : 'loader'
 			infoBox : true
 			descriptiveAnswer : ''
+			flag : true
+			readonly : true
 
 			variables :()->
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
 				@val_answerValue = {}
 
-
-			getLocal :()->
-				defer = $q.defer()
-				Storage.getNextQuestion 'get'
-				.then (details)->
-					defer.resolve details
-				defer.promise
-
 			getQuestion :() ->
-				# "patientId":refcode
-				# "questionnaireId": patientData.questionnaire.id
-				
-
 				@display = 'loader'
 
 				Storage.setData 'refcode','get'
@@ -59,6 +50,7 @@ angular.module 'PatientApp.Quest',[]
 							console.log 'inside then'
 							console.log data
 							@data = data.result
+							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.result.responseId
 							@display = 'noError'
 						,(error)=>
@@ -66,13 +58,8 @@ angular.module 'PatientApp.Quest',[]
 							@errorType = error
 					
 			init : ->
-				@data = ''
 				@getQuestion()	
 					
-
-			navigate : ->
-				App.navigate 'summary', quizID: 111
-			
 			loadNextQuestion :(param)->
 				Storage.setData 'responseId','get'
 				.then (responseId)=>	
@@ -82,17 +69,18 @@ angular.module 'PatientApp.Quest',[]
 					.then (data)=>
 						App.resize()
 						CToast.show 'Your answer is saved'
-						console.log '******'
-						console.log 'next question'
+						console.log '******next question******'
 						console.log data
 						@variables()
 						@data = []
 						@data = data.result
-						console.log '---loadNextQuestion---'
-						console.log @data.hasAnswer
+						@readonly = true
+
 						if !_.isEmpty(@data.hasAnswer)
-							console.log 'not emty hasAnswer'
 							@hasAnswerShow()
+
+						@pastAnswer()
+
 						if !_.isUndefined(@data.status)
 							summary = {}
 							summary['summary'] = @data.summary
@@ -159,7 +147,7 @@ angular.module 'PatientApp.Quest',[]
 						options =
 							"questionId" : @data.questionId
 							"options": [optionId[0]]
-							"value": valueInput[0]
+							"value": valueInput[0].toString()
 
 						@loadNextQuestion(options)
 
@@ -213,38 +201,16 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
 						console.log 'previous data'
-						console.log data
-
+						console.log @data	
 						@variables()
 						@data = []
 						@data = data.result
-
-						if @data.questionType == 'descriptive'
-							@descriptiveAnswer = @data.hasAnswer.value
-
-						if @data.questionType == 'single-choice'
-							@singleChoiceValue = @data.hasAnswer.option[0]
-
-						if @data.questionType == 'multi-choice'
-							_.each @data.options, (value) =>
-								if (_.contains(@data.hasAnswer.option, value.id))
-									value['checked'] = true
-
-						if @data.questionType == 'input'
-							ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-							console.log 'objjj id'
-							console.log ObjId
-							console.log 'valAnswer1'
-							console.log @val_answerValue
-							@val_answerValue[ObjId.option] = @data.hasAnswer.value
-							console.log 'valAnswer2'
-							console.log @val_answerValue
-									
+						@readonly = @data.previous
+						@pastAnswer()
+						if !_.isEmpty(@data.hasAnswer)
+							@hasAnswerShow()	
 						console.log @data	
-							
-
-
-
+						
 					,(error)=>
 						console.log error
 						if error == 'offline'
@@ -275,24 +241,30 @@ angular.module 'PatientApp.Quest',[]
 			isEmpty :(pastAnswerObject)->
 				_.isEmpty(pastAnswerObject)
 
-			pastDate:(date)->
-				moment(date).format('MMMM Do YYYY')
+			pastAnswer:()->
+				previousAns = @data.previousQuestionnaireAnswer
 
-			pastAnswer:(previousQuestionnaireAnswer, optionId )->
-				# console.log 'passtAnswerr'
-				# console.log previousQuestionnaireAnswer
-				# console.log optionId
-				optId = _.pluck(optionId, 'id')
-				indexOf = optId.indexOf(previousQuestionnaireAnswer)
-				indexOf++
+				if !_.isEmpty(previousAns)
 
-				indexOf
+					if @data.questionType == 'input'
+						if !_.isEmpty previousAns.optionId[0] 
+							ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
+							ObjId.option
+							@data.previousQuestionnaireAnswer['label'] = ObjId.option
 
-			pastAnswerLabel:(optId)->
-				if !_.isEmpty optId
-					ObjId = _.findWhere(@data.options, {id: optId})
-					ObjId.option
+					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
+						console.log 'have an'
+						optionSelectedArray = []
+						sortedArray = _.sortBy( @data.options, 'score' )
+						pluckId = _.pluck(sortedArray, 'id')
+						_.each previousAns.optionId, (value) =>
+							a = _.indexOf(pluckId, value)
+							if a != -1
+								a++
+								optionSelectedArray.push(a)
+						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
+					@data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY')
 
 			hasAnswerShow:()->
 				if @data.questionType == 'descriptive'
@@ -308,25 +280,26 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					console.log 'objjj id'
-					console.log ObjId
-					console.log 'valAnswer1'
-					console.log @val_answerValue
 					@val_answerValue[ObjId.option] = @data.hasAnswer.value
-					console.log 'valAnswer2'
-					console.log @val_answerValue
 
+		onDeviceBack = ->
+			if $scope.view.data.previous == false || _.isElement($scope.view.data) 
+				App.navigate 'dashboard', {}, {animate: false, back: false}
+			else
+				$scope.view.prevQuestion()
 
-
+					
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
 
-		$scope.$on '$ionicView.afterEnter', (event, viewData)->
-			# $timeout ->
-			# 	console.log 'timeoutt'
-			# 	$scope.view.infoBox = false
-			# , 300
+		$scope.$on '$ionicView.enter', ->
+			#Device hardware back button for android
+			$ionicPlatform.onHardwareBackButton onDeviceBack
+		
+
+		$scope.$on '$ionicView.leave', ->
+			$ionicPlatform.offHardwareBackButton onDeviceBack
 
 		
 ]
