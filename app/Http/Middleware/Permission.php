@@ -33,6 +33,11 @@ class Permission
 
                     ];
 
+        $uri        =[  'admin'=>['view'],
+                        'admin/dashbord'=>['view'],
+                    
+                        ]; 
+
         $resourceName = $request->route()->getName();
         $uriPath =$request->route()->getPath();  
 
