@@ -1181,7 +1181,7 @@
       responseSaveArr = [];
       scheduleSaveArr = [];
       _.each(scheduleObjects, function(scheduleObject) {
-        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
+        var currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseQuery;
         questionnaire = scheduleObject.get("questionnaire");
         patient = scheduleObject.get("patient");
         gracePeriod = questionnaire.get("gracePeriod");
@@ -1190,31 +1190,43 @@
         currentDateTime = moment();
         diffrence = moment(newDateTime).diff(currentDateTime);
         diffrence2 = moment(currentDateTime).diff(newDateTime);
-        console.log(newDateTime);
-        console.log(currentDateTime);
-        console.log(diffrence);
-        console.log(diffrence2);
-        if (parseInt(diffrence2) > 1) {
-          responseData = {
-            patient: patient,
-            questionnaire: questionnaire,
-            status: 'missed',
-            schedule: scheduleObject
-          };
-          Response = Parse.Object.extend("Response");
-          responseObj = new Response(responseData);
-          responseSaveArr.push(responseObj);
-          return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
-            var date, newNextOccurrence;
-            frequency = parseInt(frequency);
-            newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
-            date = new Date(newNextOccurrence);
-            scheduleObject.set('nextOccurrence', date);
-            return scheduleSaveArr.push(scheduleObject);
-          }, function(error) {
-            return response.error(error);
-          });
-        }
+        responseQuery = new Parse.Query('Response');
+        responseQuery.equalTo("status", "started");
+        return responseQuery.first().then(function(responseObject) {
+          var Response, newoccurrenceDateTime, occurrenceDateTime, responseData, responseDiffrence, responseObj;
+          if (_.isEmpty(responseObject)) {
+            occurrenceDateTime = moment(responseObject.get("occurrenceDate"));
+            newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's');
+            responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime);
+            if (parseInt(responseDiffrence) > 1) {
+              responseObject.set('status', 'missed');
+              responseObject.save();
+            }
+          }
+          if (parseInt(diffrence2) > 1) {
+            responseData = {
+              patient: patient,
+              questionnaire: questionnaire,
+              status: 'missed',
+              schedule: scheduleObject
+            };
+            Response = Parse.Object.extend("Response");
+            responseObj = new Response(responseData);
+            responseSaveArr.push(responseObj);
+            return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
+              var date, newNextOccurrence;
+              frequency = parseInt(frequency);
+              newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
+              date = new Date(newNextOccurrence);
+              scheduleObject.set('nextOccurrence', date);
+              return scheduleSaveArr.push(scheduleObject);
+            }, function(error) {
+              return response.error(error);
+            });
+          }
+        }, function(error) {
+          return response.error(error);
+        });
       });
       return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
         return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
@@ -1241,7 +1253,7 @@
       responseSaveArr = [];
       scheduleSaveArr = [];
       _.each(scheduleObjects, function(scheduleObject) {
-        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
+        var currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseQuery;
         questionnaire = scheduleObject.get("questionnaire");
         patient = scheduleObject.get("patient");
         gracePeriod = questionnaire.get("gracePeriod");
@@ -1250,31 +1262,43 @@
         currentDateTime = moment();
         diffrence = moment(newDateTime).diff(currentDateTime);
         diffrence2 = moment(currentDateTime).diff(newDateTime);
-        console.log(newDateTime);
-        console.log(currentDateTime);
-        console.log(diffrence);
-        console.log(diffrence2);
-        if (parseInt(diffrence2) > 1) {
-          responseData = {
-            patient: patient,
-            questionnaire: questionnaire,
-            status: 'missed',
-            schedule: scheduleObject
-          };
-          Response = Parse.Object.extend("Response");
-          responseObj = new Response(responseData);
-          responseSaveArr.push(responseObj);
-          return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
-            var date, newNextOccurrence;
-            frequency = parseInt(frequency);
-            newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
-            date = new Date(newNextOccurrence);
-            scheduleObject.set('nextOccurrence', date);
-            return scheduleSaveArr.push(scheduleObject);
-          }, function(error) {
-            return response.error(error);
-          });
-        }
+        responseQuery = new Parse.Query('Response');
+        responseQuery.equalTo("status", "started");
+        return responseQuery.first().then(function(responseObject) {
+          var Response, newoccurrenceDateTime, occurrenceDateTime, responseData, responseDiffrence, responseObj;
+          if (_.isEmpty(responseObject)) {
+            occurrenceDateTime = moment(responseObject.get("occurrenceDate"));
+            newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's');
+            responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime);
+            if (parseInt(responseDiffrence) > 1) {
+              responseObject.set('status', 'missed');
+              responseObject.save();
+            }
+          }
+          if (parseInt(diffrence2) > 1) {
+            responseData = {
+              patient: patient,
+              questionnaire: questionnaire,
+              status: 'missed',
+              schedule: scheduleObject
+            };
+            Response = Parse.Object.extend("Response");
+            responseObj = new Response(responseData);
+            responseSaveArr.push(responseObj);
+            return getQuestionnaireFrequency(questionnaire).then(function(frequency) {
+              var date, newNextOccurrence;
+              frequency = parseInt(frequency);
+              newNextOccurrence = moment(nextOccurrence).add(frequency, 's');
+              date = new Date(newNextOccurrence);
+              scheduleObject.set('nextOccurrence', date);
+              return scheduleSaveArr.push(scheduleObject);
+            }, function(error) {
+              return response.error(error);
+            });
+          }
+        }, function(error) {
+          return response.error(error);
+        });
       });
       return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
         return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
