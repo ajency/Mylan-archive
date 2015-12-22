@@ -104,47 +104,6 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 
 
 
-getValidPeriod = (scheduleObj) ->
-	nextOccurrence = scheduleObj.get('nextOccurrence')
-	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
-
-	graceBeforeOccurrence = new Date(nextOccurrence.getTime())
-	graceBeforeOccurrence.setTime(graceBeforeOccurrence.getTime() - gracePeriod)
-
-	graceAfterOccurrence = new Date(nextOccurrence.getTime())
-	graceAfterOccurrence.setTime(graceAfterOccurrence.getTime() + gracePeriod)
-
-	timeObj = {}
-
-	timeObj['graceBeforeOccurrence'] = graceBeforeOccurrence
-	timeObj['graceAfterOccurrence'] = graceAfterOccurrence
-
-	timeObj
-
-
-isValidTime = (timeObj) ->
-	currentTime = new Date()
-
-	if (timeObj['graceBeforeOccurrence'].getTime() <= currentTime.getTime()) and (timeObj['graceAfterOccurrence'].getTime() >= currentTime.getTime())
-		true
-	else
-		false
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -178,27 +137,6 @@ firstQuestion = (questionnaireId) ->
 		promise.reject error
 	promise
 
-
-
-createResponse = (questionnaireId, patientId) ->
-	promise = new Parse.Promise()
-	questionnaireQuery = new Parse.Query("Questionnaire")
-	questionnaireQuery.get(questionnaireId)
-	.then (questionnaireObj) ->
-		responseObj = new Parse.Object "Response"
-		responseObj.set 'patient', patientId
-		responseObj.set 'hospital', questionnaireObj.get('hospital')
-		responseObj.set 'project', questionnaireObj.get('project')
-		responseObj.set 'questionnaire', questionnaireObj
-		responseObj.set 'answeredQuestions', []
-		responseObj.save()
-		.then (responseObj) ->
-			promise.resolve responseObj
-		, (error) ->
-			promise.reject error			
-	, (error) ->
-		promise.reject error
-	promise
 
 
 getCurrentAnswer = (questionObj, responseObj) ->
@@ -812,8 +750,8 @@ getStartObject = (scheduleObj, patientId) ->
 
 		responseQuery = Parse.Query.or(responseQuery1, responseQuery2)
 		responseQuery.equalTo('patient', patientId)
-		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-		responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit'])
+		responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit'])
 
 		responseQuery.first()
 		.then (responseObj) ->
@@ -861,7 +799,7 @@ getUpcomingObject = (scheduleObj, patientId) ->
 isValidUpcomingTime = (timeObj) ->
 	currentTime = new Date()
 
-	if timeObj['graceBeforeOccurrence'].getTime() > currentTime.getTime()
+	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
 		true
 	else
 		false
@@ -901,8 +839,8 @@ getResumeObject = (scheduleObj, patientId) ->
 		responseQuery = new Parse.Query('Response')
 		responseQuery.equalTo('patient', patientId)
 		responseQuery.equalTo('status', 'started')
-		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-		responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit'])
+		responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit'])
 		responseQuery.first()
 		.then (responseObj) ->
 			if !_.isUndefined(responseObj)
@@ -946,8 +884,8 @@ getResumeObject = (scheduleObj, patientId) ->
 # 	else 
 # 		responseQuery = new Parse.Query('Response')
 # 		responseQuery.equalTo('patient', patientId)
-# 		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-# 		#responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+# 		responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit'])
+# 		#responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit'])
 # 		responseQuery.first()
 # 		.then (responseObj) ->
 # 			if !_.isUndefined(responseObj) and responseObj.get('status') == 'completed'
@@ -997,8 +935,8 @@ getMissedObjects = (scheduleObj, patientId) ->
 
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', patientId)
-	#responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence'])
-	#responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence'])
+	#responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit'])
+	#responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit'])
 	responseQuery.equalTo('status', 'missed')
 	responseQuery.descending('createdAt')
 	responseQuery.first()
@@ -1019,23 +957,6 @@ getMissedObjects = (scheduleObj, patientId) ->
 
 
 	
-
-
-isValidMissedTime = (timeObj) ->
-	currentTime = new Date()
-
-	if timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()
-		true
-	else
-		false
-
-isValidMissedTime = (timeObj) ->
-	currentTime = new Date()
-
-	if timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()
-		true
-	else
-		false
 
 
 Parse.Cloud.define "dashboard1", (request, response) ->
@@ -1060,6 +981,7 @@ Parse.Cloud.define "dashboard1", (request, response) ->
 				status = "Upcoming"
 
 			
+
 			upcoming_due =
 				date: scheduleObj.get('nextOccurrence')
 				status: status 
@@ -1077,3 +999,205 @@ Parse.Cloud.define "dashboard1", (request, response) ->
 			response.error error 
 	, (error) ->
 		response.error error
+
+
+
+
+
+
+Parse.Cloud.define "dashboard2", (request, response) ->
+	patientId = request.params.patientId
+	results = []
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.include('questionnaire')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+	#	updateMissedObjects scheduleObj, patientId
+	#	.then () ->
+			responseQuery = new Parse.Query('Response')
+			responseQuery.equalTo('patient', patientId)
+			responseQuery.descending('occurrenceDate')
+			responseQuery.find()
+			.then (responseObjs) ->
+				timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+				status =""
+				if isValidTime(timeObj)
+					status ="Due"
+				else if isValidUpcomingTime(timeObj)
+					status = "Upcoming"
+				upcoming_due =
+					#time: timeObj
+					valid: isValidTime(timeObj)
+					upcoming: isValidUpcomingTime(timeObj)
+					date: scheduleObj.get('nextOccurrence')
+					curr: new Date()
+					status: status 
+				results.push(upcoming_due)
+				for responseObj in responseObjs
+					result = {}
+					result['status'] = responseObj.get('status')
+					result['occurrenceDate'] = responseObj.get('occurrenceDate')
+					result['occurrenceId'] = responseObj.id
+					results.push result
+				#response.success (results)
+				response.success (timeObj)
+			, (error) ->
+				response.error error 
+	#	, (error) ->
+	#		response.error error 
+	, (error) ->
+		response.error error 
+
+
+
+
+
+updateMissedObjects = (scheduleObj, patientId) ->
+	promise = new Parse.Promise()
+
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo('patient', patientId)
+	responseQuery.equalTo('status', 'started')
+	responseQuery.include('questionnaire')
+	responseQuery.first()
+	.then (responseObj) ->
+		if !_.isUndefined(responseObj)
+			timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+			if isValidMissedTime(timeObj)
+				responseObj.set 'status', 'missed'
+				responseObj.save()
+				.then (responseObj) ->
+					promise.resolve()
+				, (error) ->
+					promise.error error
+			else
+				promise.resolve()
+		else
+			timeObj = getValidPeriod(scheduleObj)
+			if isValidMissedTime(timeObj)
+				createResponse(scheduleObj.get('questionnaire').id, patientId)
+				.then (responseObj) ->
+					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+					responseObj.set 'status', 'missed'
+					responseObj.save()
+					.then (responseObj) ->
+						scheduleQuery = new Parse.Query('Schedule')
+						scheduleQuery.doesNotExist('patient')
+						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+						scheduleQuery.first()
+						.then (scheduleQuestionnaireObj) ->
+							newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+							newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+							scheduleObj.set 'nextOccurrence', newNextOccurrence
+							scheduleObj.save()
+							.then (scheduleObj) ->
+								promise.resolve()
+							, (error) ->
+								promise.error error
+						, (error) ->
+							promise.error error
+					, (error) ->
+						promise.error error
+				, (error) ->
+					promise.error error
+	, (error) ->
+		promise.error error
+	promise
+
+
+Parse.Cloud.define "updateMissedObjects", (request, response) ->
+	patientId = request.params.patientId
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		updateMissedObjects scheduleObj, patientId
+		.then () ->
+			response.success scheduleObj
+		, (error) ->
+			promise.error error
+	, (error) ->
+		promise.error error
+
+
+createResponse = (questionnaireId, patientId) ->
+	promise = new Parse.Promise()
+	questionnaireQuery = new Parse.Query("Questionnaire")
+	questionnaireQuery.get(questionnaireId)
+	.then (questionnaireObj) ->
+		responseObj = new Parse.Object "Response"
+		responseObj.set 'patient', patientId
+		responseObj.set 'hospital', questionnaireObj.get('hospital')
+		responseObj.set 'project', questionnaireObj.get('project')
+		responseObj.set 'questionnaire', questionnaireObj
+		responseObj.set 'answeredQuestions', []
+		responseObj.save()
+		.then (responseObj) ->
+			promise.resolve responseObj
+		, (error) ->
+			promise.reject error			
+	, (error) ->
+		promise.reject error
+	promise
+
+isValidUpcomingTime = (timeObj) ->
+	currentTime = new Date()
+
+	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
+		true
+	else
+		false
+
+isValidMissedTime = (timeObj) ->
+	currentTime = new Date()
+
+	if timeObj['upperLimit'].getTime() < currentTime.getTime()
+		true
+	else
+		false
+
+getValidTimeFrame = (questionnaireObj, occurrenceDate) ->
+	gracePeriod = questionnaireObj.get('gracePeriod') * 1000
+
+	upperLimit = new Date(occurrenceDate.getTime())
+	upperLimit.setTime(occurrenceDate.getTime() + gracePeriod)
+
+	lowerLimit = new Date(occurrenceDate.getTime())
+	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+
+	timeObj = {}
+
+	timeObj['upperLimit'] = upperLimit
+	timeObj['lowerLimit'] = lowerLimit
+
+	timeObj
+
+getValidPeriod = (scheduleObj) ->
+	nextOccurrence = scheduleObj.get('nextOccurrence')
+	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
+
+	lowerLimit = new Date(nextOccurrence.getTime())
+	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+
+	upperLimit = new Date(nextOccurrence.getTime())
+	upperLimit.setTime(upperLimit.getTime() + gracePeriod)
+
+	timeObj = {}
+
+	timeObj['lowerLimit'] = lowerLimit
+	timeObj['upperLimit'] = upperLimit
+
+	timeObj
+
+
+isValidTime = (timeObj) ->
+	currentTime = new Date()
+
+	if (timeObj['lowerLimit'].getTime() <= currentTime.getTime()) and (timeObj['upperLimit'].getTime() >= currentTime.getTime())
+		true
+	else
+		false
+
+
+
