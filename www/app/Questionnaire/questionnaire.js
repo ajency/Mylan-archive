@@ -133,10 +133,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else {
             valueInput = [];
             optionId = [];
-            console.log('uuuu0');
-            console.log(this.val_answerValue);
-            console.log('uuuu0');
-            console.log(this.data.options);
             _.each(this.data.options, (function(_this) {
               return function(opt) {
                 var a;
@@ -156,8 +152,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'multi-choice') {
-          console.log('------multi-choice optionss -----');
-          console.log(this.data.options);
           if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
             CToast.show('Please select your answer');
           } else {
@@ -168,8 +162,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               }
             });
           }
-          console.log('selectedvalue');
-          console.log(selectedvalue);
           options = {
             "questionId": this.data.questionId,
             "options": selectedvalue,
@@ -221,40 +213,57 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       prevQuestion: function() {
-        CSpinner.show('', 'Please wait..');
-        return Storage.setData('responseId', 'get').then((function(_this) {
-          return function(responseId) {
-            var param;
-            param = {
-              "responseId": responseId,
-              "questionId": _this.data.questionId,
-              "options": [],
-              "value": ""
-            };
-            return QuestionAPI.getPrevQuest(param).then(function(data) {
-              console.log('previous data');
-              console.log(_this.data);
-              _this.variables();
-              _this.data = [];
-              _this.data = data.result;
-              _this.readonly = _this.data.editable;
-              _this.pastAnswer();
-              if (!_.isEmpty(_this.data.hasAnswer)) {
-                _this.hasAnswerShow();
-              }
-              return console.log(_this.data);
-            }, function(error) {
-              console.log(error);
-              if (error === 'offline') {
-                return CToast.showLongBottom('Check net connection,answer not saved');
-              } else {
-                return CToast.show('Error ,try again');
-              }
-            })["finally"](function() {
-              return CSpinner.hide();
-            });
+        var optionId, options, selectedvalue, valueInput;
+        if (this.data.questionType === 'single-choice') {
+          options = {
+            "questionId": this.data.questionId,
+            "options": [this.singleChoiceValue],
+            "value": ""
           };
-        })(this));
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'multi-choice') {
+          selectedvalue = [];
+          _.each(this.data.options, function(opt) {
+            if (opt.checked === true) {
+              return selectedvalue.push(opt.id);
+            }
+          });
+          options = {
+            "questionId": this.data.questionId,
+            "options": selectedvalue,
+            "value": ""
+          };
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'descriptive') {
+          options = {
+            "questionId": this.data.questionId,
+            "options": [],
+            "value": this.descriptiveAnswer
+          };
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'input') {
+          valueInput = [];
+          optionId = [];
+          _.each(this.data.options, (function(_this) {
+            return function(opt) {
+              var a;
+              a = _this.val_answerValue[opt.option];
+              if (!_.isUndefined(a) && a !== '') {
+                valueInput.push(a);
+                return optionId.push(opt.id);
+              }
+            };
+          })(this));
+          options = {
+            "questionId": this.data.questionId,
+            "options": [optionId[0]],
+            "value": valueInput[0].toString()
+          };
+          return this.loadPrevQuestion(options);
+        }
       },
       showDiv: function() {
         return this.pastAnswerDiv = 1;

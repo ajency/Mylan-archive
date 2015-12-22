@@ -139,11 +139,6 @@ angular.module 'PatientApp.Quest',[]
 						valueInput = []
 						optionId = []
 
-						console.log 'uuuu0'
-						console.log @val_answerValue
-						console.log 'uuuu0'
-						console.log @data.options
-
 						_.each @data.options, (opt)=>
 							a = @val_answerValue[opt.option]
 							if !_.isUndefined(a) && a !=''
@@ -159,9 +154,6 @@ angular.module 'PatientApp.Quest',[]
 
 			
 				if @data.questionType == 'multi-choice'
-					console.log '------multi-choice optionss -----'
-					console.log @data.options
-
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select your answer'
 					else
@@ -170,9 +162,6 @@ angular.module 'PatientApp.Quest',[]
 						_.each @data.options, (opt)->
 							if opt.checked == true
 								selectedvalue.push opt.id		
-
-					console.log 'selectedvalue'
-					console.log selectedvalue
 
 					options =
 						"questionId" : @data.questionId
@@ -211,7 +200,6 @@ angular.module 'PatientApp.Quest',[]
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()	
 						console.log @data	
-						
 					,(error)=>
 						console.log error
 						if error == 'offline'
@@ -223,36 +211,88 @@ angular.module 'PatientApp.Quest',[]
 
 
 			prevQuestion : ->
-				CSpinner.show '', 'Please wait..'
-				Storage.setData 'responseId','get'
-				.then (responseId)=>
-					param =
-						"responseId" : responseId
+				if @data.questionType == 'single-choice'
+					options =
 						"questionId" : @data.questionId
-						"options": []
+						"options": [@singleChoiceValue]
 						"value": ""
 
-					QuestionAPI.getPrevQuest param
-					.then (data)=>
-						console.log 'previous data'
-						console.log @data	
-						@variables()
-						@data = []
-						@data = data.result
-						@readonly = @data.editable
-						@pastAnswer()
-						if !_.isEmpty(@data.hasAnswer)
-							@hasAnswerShow()	
-						console.log @data	
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'multi-choice'
+					
+					selectedvalue = []
+
+					_.each @data.options, (opt)->
+						if opt.checked == true
+							selectedvalue.push opt.id		
+
+					options =
+						"questionId" : @data.questionId
+						"options": selectedvalue
+						"value": ""
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'descriptive'
+					options =
+							"questionId" : @data.questionId
+							"options": []
+							"value": @descriptiveAnswer
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'input'
+
+					valueInput = []
+					optionId = []
+
+					_.each @data.options, (opt)=>
+						a = @val_answerValue[opt.option]
+						if !_.isUndefined(a) && a !=''
+							valueInput.push(a)
+							optionId.push(opt.id)
+
+					options =
+						"questionId" : @data.questionId
+						"options": [optionId[0]]
+						"value": valueInput[0].toString()
+
+					@loadPrevQuestion(options)
+
+
+
+
+				# CSpinner.show '', 'Please wait..'
+				# Storage.setData 'responseId','get'
+				# .then (responseId)=>
+				# 	param =
+				# 		"responseId" : responseId
+				# 		"questionId" : @data.questionId
+				# 		"options": []
+				# 		"value": ""
+
+				# 	QuestionAPI.getPrevQuest param
+				# 	.then (data)=>
+				# 		console.log 'previous data'
+				# 		console.log @data	
+				# 		@variables()
+				# 		@data = []
+				# 		@data = data.result
+				# 		@readonly = @data.editable
+				# 		@pastAnswer()
+				# 		if !_.isEmpty(@data.hasAnswer)
+				# 			@hasAnswerShow()	
+				# 		console.log @data	
 						
-					,(error)=>
-						console.log error
-						if error == 'offline'
-							CToast.showLongBottom 'Check net connection,answer not saved'
-						else
-							CToast.show 'Error ,try again'
-					.finally ->
-						CSpinner.hide()
+				# 	,(error)=>
+				# 		console.log error
+				# 		if error == 'offline'
+				# 			CToast.showLongBottom 'Check net connection,answer not saved'
+				# 		else
+				# 			CToast.show 'Error ,try again'
+				# 	.finally ->
+				# 		CSpinner.hide()
 
 
 			showDiv : ->
