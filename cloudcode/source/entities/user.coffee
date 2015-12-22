@@ -191,75 +191,63 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
             nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
-            console.log "currentDateTime"
-            console.log currentDateTime
  
             diffrence = moment(newDateTime).diff(currentDateTime)
             diffrence2 = moment(currentDateTime).diff(newDateTime)
+            console.log newDateTime
+            console.log currentDateTime
+            console.log diffrence
+            console.log diffrence2
+            if(parseInt(diffrence2) > 1)
+                console.log "schedule"
+                console.log scheduleObject.id
+                responseData=
+                    patient: patient
+                    questionnaire: questionnaire
+                    status : 'missed'
+                    schedule : scheduleObject
 
-            # check in response table if occurrence + grace date passed current date
-            responseQuery = new Parse.Query('Response')
-            responseQuery.equalTo("schedule", scheduleObject)
-            responseQuery.equalTo("status", "started")
-            responseQuery.first()
-            .then (responseObject) ->
-                console.log "responseObject"
-                console.log responseObject
-                if _.isEmpty responseObject
-                    occurrenceDateTime = moment(responseObject.get("occurrenceDate"))
-                    newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's')
-                    responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime)
-                    
-                    console.log "responseDiffrence"
-                    if(parseInt(responseDiffrence) > 1)
-                        console.log responseDiffrence
-                        responseObject.set('status','missed')
-                        responseObject.save()
+                Response = Parse.Object.extend("Response") 
+                responseObj = new Response responseData
+                responseSaveArr.push(responseObj)
 
-                     
-                # check if next occurrence + grace date passed current date
-                if(parseInt(diffrence2) > 1)
-                    responseData=
-                        patient: patient
-                        questionnaire: questionnaire
-                        status : 'missed'
-                        schedule : scheduleObject
+                getQuestionnaireFrequency(questionnaire)
+                .then (frequency) ->
+                    frequency = parseInt frequency
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                    date = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',date)
+                    scheduleSaveArr.push(scheduleObject)
+                , (error) ->
+                    response.error error
 
-                    Response = Parse.Object.extend("Response") 
-                    responseObj = new Response responseData
-                    responseSaveArr.push(responseObj)
+        # updated started questionnaire to missed if occurrence + grace greater then current date
+        updateStartedQuestionnaireStatus(scheduleObjects)
+        .then (startedQuestionnaireStatusObjs) ->
+            Parse.Object.saveAll startedQuestionnaireStatusObjs
+                .then (startedQuestionnaireResObjs) ->
+                    # save all responses
+                    Parse.Object.saveAll responseSaveArr
+                        .then (resObjs) ->
+                            # update all schedule nextoccurrence
+                            Parse.Object.saveAll scheduleSaveArr
+                                .then (scheduleObjs) ->
+                                    response.success scheduleObjs
+                                , (error) ->
+                                    response.error (error)   
+                        , (error) ->
+                            response.error (error)
+                , (error) ->
+                        response.error (error)             
+        , (error) ->
+            response.error error
 
-                    getQuestionnaireFrequency(questionnaire)
-                    .then (frequency) ->
-                        frequency = parseInt frequency
-                        newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
-                        date = new Date(newNextOccurrence)
-                        scheduleObject.set('nextOccurrence',date)
-                        scheduleSaveArr.push(scheduleObject)
-                    , (error) ->
-                        response.error error
-
-                    
-
-            , (error) ->
-                response.error error
-
-
-
-        # save all responses
-        Parse.Object.saveAll responseSaveArr
-            .then (resObjs) ->
-                # update all schedule nextoccurrence
-                Parse.Object.saveAll scheduleSaveArr
-                    .then (scheduleObjs) ->
-                        response.success scheduleObjs
-                    , (error) ->
-                        response.error (error)   
-            , (error) ->
-                response.error (error)
+        
 
     , (error) ->
         response.error error
+
+
 
 
 Parse.Cloud.job 'createMissedResponse', (request, response) ->
@@ -282,61 +270,55 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
  
             diffrence = moment(newDateTime).diff(currentDateTime)
             diffrence2 = moment(currentDateTime).diff(newDateTime)
+            console.log newDateTime
+            console.log currentDateTime
+            console.log diffrence
+            console.log diffrence2
+            if(parseInt(diffrence2) > 1)
+                console.log "schedule"
+                console.log scheduleObject.id
+                responseData=
+                    patient: patient
+                    questionnaire: questionnaire
+                    status : 'missed'
+                    schedule : scheduleObject
 
-            # check in response table if occurrence + grace date passed current date
-            responseQuery = new Parse.Query('Response')
-            responseQuery.equalTo("status", "started")
-            responseQuery.first()
-            .then (responseObject) ->
-                if _.isEmpty responseObject
-                    occurrenceDateTime = moment(responseObject.get("occurrenceDate"))
-                    newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's')
-                    responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime)
-                    
-                    if(parseInt(responseDiffrence) > 1)
-                        responseObject.set('status','missed')
-                        responseObject.save()
-                     
-                # check if next occurrence + grace date passed current date
-                if(parseInt(diffrence2) > 1)
-                    responseData=
-                        patient: patient
-                        questionnaire: questionnaire
-                        status : 'missed'
-                        schedule : scheduleObject
+                Response = Parse.Object.extend("Response") 
+                responseObj = new Response responseData
+                responseSaveArr.push(responseObj)
 
-                    Response = Parse.Object.extend("Response") 
-                    responseObj = new Response responseData
-                    responseSaveArr.push(responseObj)
+                getQuestionnaireFrequency(questionnaire)
+                .then (frequency) ->
+                    frequency = parseInt frequency
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                    date = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',date)
+                    scheduleSaveArr.push(scheduleObject)
+                , (error) ->
+                    response.error error
 
-                    getQuestionnaireFrequency(questionnaire)
-                    .then (frequency) ->
-                        frequency = parseInt frequency
-                        newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
-                        date = new Date(newNextOccurrence)
-                        scheduleObject.set('nextOccurrence',date)
-                        scheduleSaveArr.push(scheduleObject)
-                    , (error) ->
-                        response.error error
+        # updated started questionnaire to missed if occurrence + grace greater then current date
+        updateStartedQuestionnaireStatus(scheduleObjects)
+        .then (startedQuestionnaireStatusObjs) ->
+            Parse.Object.saveAll startedQuestionnaireStatusObjs
+                .then (startedQuestionnaireResObjs) ->
+                    # save all responses
+                    Parse.Object.saveAll responseSaveArr
+                        .then (resObjs) ->
+                            # update all schedule nextoccurrence
+                            Parse.Object.saveAll scheduleSaveArr
+                                .then (scheduleObjs) ->
+                                    response.success scheduleObjs
+                                , (error) ->
+                                    response.error (error)   
+                        , (error) ->
+                            response.error (error)
+                , (error) ->
+                        response.error (error)             
+        , (error) ->
+            response.error error
 
-
-
-            , (error) ->
-                response.error error
-
-
-
-        # save all responses
-        Parse.Object.saveAll responseSaveArr
-            .then (resObjs) ->
-                # update all schedule nextoccurrence
-                Parse.Object.saveAll scheduleSaveArr
-                    .then (scheduleObjs) ->
-                        response.success scheduleObjs
-                    , (error) ->
-                        response.error (error)   
-            , (error) ->
-                response.error (error)
+        
 
     , (error) ->
         response.error error
@@ -354,4 +336,34 @@ getQuestionnaireFrequency =  ( questionnaireObj ) ->
 
     promise
 
+updateStartedQuestionnaireStatus =  ( scheduleObjects ) ->
+    promise = new Parse.Promise()
 
+    responseSaveArr =[]
+    responseQuery = new Parse.Query('Response')
+    responseQuery.containedIn("schedule", scheduleObjects)
+    responseQuery.include("questionnaire")
+    responseQuery.equalTo("status", "started")
+    responseQuery.find()
+    .then (startedResponseObjs) ->
+        _.each startedResponseObjs , (startedResponseObj) ->
+            questionnaire = startedResponseObj.get("questionnaire")
+            gracePeriod = questionnaire.get("gracePeriod")
+            occurrenceDate =  moment(startedResponseObj.get("occurrenceDate"))
+            newDateTime = moment(occurrenceDate).add(gracePeriod, 's')
+            currentDateTime = moment()
+ 
+            diffrence = moment(currentDateTime).diff(newDateTime)
+
+            if(parseInt(diffrence) > 1)
+                console.log "response"
+                console.log startedResponseObj.id
+                startedResponseObj.set('status','missed')
+                
+                responseSaveArr.push(startedResponseObj)
+                
+        promise.resolve responseSaveArr        
+    , (error) ->
+        promise.reject error
+
+    promise
