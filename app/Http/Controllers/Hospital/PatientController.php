@@ -164,8 +164,10 @@ class PatientController extends Controller
 
         $patient = User::find($patientId)->toArray();
 
+
         $anwserQry = new ParseQuery("Answer");
         $anwserQry->equalTo("patient", $patient['reference_code']);
+        $anwserQry->notEqualTo("option", null);
         $anwserQry->includeKey("response");
         $anwserQry->includeKey("option");
         $anwserQry->includeKey("question");
@@ -175,6 +177,7 @@ class PatientController extends Controller
         $submissionArr = [];
         $questionArr = [];
         $responseArr = [];
+       
 
         foreach ($anwsers as   $anwser) {
             $responseStatus = $anwser->get("response")->get("status");
@@ -185,22 +188,40 @@ class PatientController extends Controller
             $optionScore = $anwser->get("option")->get("score");
             $optionValue = $anwser->get("value");
 
-            $questionArr[$questionId]= $questionTitle;
-            if($questionType=='input')
+           
+            if($questionType=='input' || $questionType=='descriptive')
             {
                 $optionScore = $optionValue;
-            }  
-
-            if($responseStatus=="base_line")
-            {
-               $baseLineArr[$questionId] =$optionScore;
+                continue;
             }
-            else
+            elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
+               if($responseStatus=="base_line")
+                {
+                    if(isset($baseLineArr[$questionId]))
+                        $baseLineArr[$questionId] += $optionScore;
+                    else
+                        $baseLineArr[$questionId] = $optionScore;
+                }
+                else
+                {
+                    if(isset($submissionArr[$responseId][$questionId]))
+                        $submissionArr[$responseId][$questionId] += $optionScore;
+                    else
+                        $submissionArr[$responseId][$questionId] = $optionScore;
+                   
+                }
+            } 
+            else  
             {
-               $submissionArr[$responseId][$questionId] = $optionScore;
-            }
+                if($responseStatus=="base_line")
+                   $baseLineArr[$questionId] =$optionScore;
+                else
+                   $submissionArr[$responseId][$questionId] = $optionScore;
 
-            $responseArr[$responseId]= $anwser->get("response")->getCreatedAt()->format('d M');
+             } 
+            
+            $questionArr[$questionId]= $questionTitle;
+            $responseArr[$responseId]= $anwser->get("response")->getCreatedAt()->format('d M'); //get('occurrenceData')
 
         }
         
