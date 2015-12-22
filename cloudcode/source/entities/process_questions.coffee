@@ -1092,7 +1092,6 @@ updateMissedObjects = (scheduleObj, patientId) ->
 			console.log timeObj
 			console.log "======================================================================"
 
-
 			if isValidMissedTime(timeObj)
 				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)
 				.then (responseObj) ->

@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData, updateMissedObjects, updateStartedQuestionnaireStatus,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -1519,11 +1519,14 @@
         console.log(diffrence);
         console.log(diffrence2);
         if (parseInt(diffrence2) > 1) {
+          console.log("schedule");
+          console.log(scheduleObject.id);
           responseData = {
             patient: patient,
             questionnaire: questionnaire,
             status: 'missed',
-            schedule: scheduleObject
+            schedule: scheduleObject,
+            occurrenceDate: nextOccurrence
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);
@@ -1540,9 +1543,17 @@
           });
         }
       });
-      return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
-        return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
-          return response.success(scheduleObjs);
+      return updateStartedQuestionnaireStatus(scheduleObjects).then(function(startedQuestionnaireStatusObjs) {
+        return Parse.Object.saveAll(startedQuestionnaireStatusObjs).then(function(startedQuestionnaireResObjs) {
+          return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
+            return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
+              return response.success(scheduleObjs);
+            }, function(error) {
+              return response.error(error);
+            });
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -1579,11 +1590,14 @@
         console.log(diffrence);
         console.log(diffrence2);
         if (parseInt(diffrence2) > 1) {
+          console.log("schedule");
+          console.log(scheduleObject.id);
           responseData = {
             patient: patient,
             questionnaire: questionnaire,
             status: 'missed',
-            schedule: scheduleObject
+            schedule: scheduleObject,
+            occurrenceDate: nextOccurrence
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);
@@ -1600,9 +1614,17 @@
           });
         }
       });
-      return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
-        return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
-          return response.success(scheduleObjs);
+      return updateStartedQuestionnaireStatus(scheduleObjects).then(function(startedQuestionnaireStatusObjs) {
+        return Parse.Object.saveAll(startedQuestionnaireStatusObjs).then(function(startedQuestionnaireResObjs) {
+          return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
+            return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
+              return response.success(scheduleObjs);
+            }, function(error) {
+              return response.error(error);
+            });
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -1623,6 +1645,37 @@
       return promise.resolve(questionnaireScheduleObj.get("frequency"));
     }, function(error) {
       return promise.resolve(error);
+    });
+    return promise;
+  };
+
+  updateStartedQuestionnaireStatus = function(scheduleObjects) {
+    var promise, responseQuery, responseSaveArr;
+    promise = new Parse.Promise();
+    responseSaveArr = [];
+    responseQuery = new Parse.Query('Response');
+    responseQuery.containedIn("schedule", scheduleObjects);
+    responseQuery.include("questionnaire");
+    responseQuery.equalTo("status", "started");
+    responseQuery.find().then(function(startedResponseObjs) {
+      _.each(startedResponseObjs, function(startedResponseObj) {
+        var currentDateTime, diffrence, gracePeriod, newDateTime, occurrenceDate, questionnaire;
+        questionnaire = startedResponseObj.get("questionnaire");
+        gracePeriod = questionnaire.get("gracePeriod");
+        occurrenceDate = moment(startedResponseObj.get("occurrenceDate"));
+        newDateTime = moment(occurrenceDate).add(gracePeriod, 's');
+        currentDateTime = moment();
+        diffrence = moment(currentDateTime).diff(newDateTime);
+        if (parseInt(diffrence) > 1) {
+          console.log("response");
+          console.log(startedResponseObj.id);
+          startedResponseObj.set('status', 'missed');
+          return responseSaveArr.push(startedResponseObj);
+        }
+      });
+      return promise.resolve(responseSaveArr);
+    }, function(error) {
+      return promise.reject(error);
     });
     return promise;
   };
