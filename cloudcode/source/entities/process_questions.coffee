@@ -1040,8 +1040,8 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 					result['occurrenceDate'] = responseObj.get('occurrenceDate')
 					result['occurrenceId'] = responseObj.id
 					results.push result
-				#response.success (results)
-				response.success (timeObj)
+				response.success (results)
+				#response.success (timeObj)
 			, (error) ->
 				response.error error 
 	#	, (error) ->

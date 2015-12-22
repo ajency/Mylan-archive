@@ -1132,7 +1132,7 @@
           result['occurrenceId'] = responseObj.id;
           results.push(result);
         }
-        return response.success(timeObj);
+        return response.success(results);
       }, function(error) {
         return response.error(error);
       });
