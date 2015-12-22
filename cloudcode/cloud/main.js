@@ -164,10 +164,9 @@
       scheduleQuery = new Parse.Query('Schedule');
       scheduleQuery.equalTo('patient', patientId);
       return scheduleQuery.first().then(function(scheduleObj) {
-        return createResponse(questionnaireId, patientId).then(function(responseObj) {
+        return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
           responseObj.set('status', 'started');
           responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-          responseObj.set('schedule', scheduleObj);
           return responseObj.save().then(function(responseObj) {
             scheduleQuery = new Parse.Query('Schedule');
             scheduleQuery.doesNotExist('patient');
@@ -1168,7 +1167,7 @@
       } else {
         timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
         if (isValidMissedTime(timeObj)) {
-          return createResponse(scheduleObj.get('questionnaire').id, patientId).then(function(responseObj) {
+          return createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
             responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
             responseObj.set('status', 'missed');
             return responseObj.save().then(function(responseObj) {
@@ -1219,7 +1218,7 @@
     });
   });
 
-  createResponse = function(questionnaireId, patientId) {
+  createResponse = function(questionnaireId, patientId, scheduleObj) {
     var promise, questionnaireQuery;
     promise = new Parse.Promise();
     questionnaireQuery = new Parse.Query("Questionnaire");
@@ -1231,6 +1230,7 @@
       responseObj.set('project', questionnaireObj.get('project'));
       responseObj.set('questionnaire', questionnaireObj);
       responseObj.set('answeredQuestions', []);
+      responseObj.set('schedule', scheduleObj);
       return responseObj.save().then(function(responseObj) {
         return promise.resolve(responseObj);
       }, function(error) {

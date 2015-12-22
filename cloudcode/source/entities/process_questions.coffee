@@ -63,11 +63,10 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
-			createResponse questionnaireId, patientId
+			createResponse questionnaireId, patientId, scheduleObj
 			.then (responseObj) ->
 				responseObj.set 'status', 'started'
 				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-				responseObj.set 'schedule', scheduleObj
 				responseObj.save()
 				.then (responseObj) ->
 					scheduleQuery = new Parse.Query('Schedule')
@@ -1074,7 +1073,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 		else
 			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			if isValidMissedTime(timeObj)
-				createResponse(scheduleObj.get('questionnaire').id, patientId)
+				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)
 				.then (responseObj) ->
 					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 					responseObj.set 'status', 'missed'
@@ -1119,7 +1118,7 @@ Parse.Cloud.define "updateMissedObjects", (request, response) ->
 		promise.error error
 
 
-createResponse = (questionnaireId, patientId) ->
+createResponse = (questionnaireId, patientId, scheduleObj) ->
 	promise = new Parse.Promise()
 	questionnaireQuery = new Parse.Query("Questionnaire")
 	questionnaireQuery.get(questionnaireId)
@@ -1130,6 +1129,7 @@ createResponse = (questionnaireId, patientId) ->
 		responseObj.set 'project', questionnaireObj.get('project')
 		responseObj.set 'questionnaire', questionnaireObj
 		responseObj.set 'answeredQuestions', []
+		responseObj.set 'schedule', scheduleObj
 		responseObj.save()
 		.then (responseObj) ->
 			promise.resolve responseObj
@@ -1138,6 +1138,7 @@ createResponse = (questionnaireId, patientId) ->
 	, (error) ->
 		promise.reject error
 	promise
+
 
 isValidUpcomingTime = (timeObj) ->
 	currentTime = new Date()
