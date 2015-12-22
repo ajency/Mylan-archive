@@ -59,26 +59,91 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 			response.error error
 
 	else if  (responseId == "") and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
-		createResponse questionnaireId, patientId
-		.then (responseObj) ->
-			responseObj.set 'status', 'started'
-			responseObj.save()
+		scheduleQuery = new Parse.Query('Schedule')
+		scheduleQuery.equalTo('patient', patientId)
+		scheduleQuery.first()
+		.then (scheduleObj) ->
+			createResponse questionnaireId, patientId
 			.then (responseObj) ->
-				firstQuestion questionnaireId
-				.then (questionObj) ->
-					getQuestionData questionObj, responseObj, patientId
-					.then (questionData) ->
-						response.success questionData
+				responseObj.set 'status', 'started'
+				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+				responseObj.save()
+				.then (responseObj) ->
+					scheduleQuery = new Parse.Query('Schedule')
+					scheduleQuery.doesNotExist('patient')
+					scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+					scheduleQuery.first()
+					.then (scheduleQuestionnaireObj) ->
+						newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+						newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+						scheduleObj.set 'nextOccurrence', newNextOccurrence
+						scheduleObj.save()
+						.then (scheduleObj) ->
+							firstQuestion questionnaireId
+							.then (questionObj) ->
+								getQuestionData questionObj, responseObj, patientId
+								.then (questionData) ->
+									response.success questionData
+								,(error) ->
+									response.error error	
+							,(error) ->
+								response.error error
+						,(error) ->
+							response.error error
 					,(error) ->
-						response.error error	
+						response.error error
 				,(error) ->
-					response.error error
+					response.error error	
 			,(error) ->
-				response.error error	
+				response.error error
 		,(error) ->
 			response.error error
+
 	else
 		response.error "Invalid request."
+
+
+
+getValidPeriod = (scheduleObj) ->
+	nextOccurrence = scheduleObj.get('nextOccurrence')
+	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
+
+	graceBeforeOccurrence = new Date(nextOccurrence.getTime())
+	graceBeforeOccurrence.setTime(graceBeforeOccurrence.getTime() - gracePeriod)
+
+	graceAfterOccurrence = new Date(nextOccurrence.getTime())
+	graceAfterOccurrence.setTime(graceAfterOccurrence.getTime() + gracePeriod)
+
+	timeObj = {}
+
+	timeObj['graceBeforeOccurrence'] = graceBeforeOccurrence
+	timeObj['graceAfterOccurrence'] = graceAfterOccurrence
+
+	timeObj
+
+
+isValidTime = (timeObj) ->
+	currentTime = new Date()
+
+	if (timeObj['graceBeforeOccurrence'].getTime() <= currentTime.getTime()) and (timeObj['graceAfterOccurrence'].getTime() >= currentTime.getTime())
+		true
+	else
+		false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -728,32 +793,6 @@ Parse.Cloud.define "dashboard", (request, response) ->
 		response.error error 
 
 
-
-getValidPeriod = (scheduleObj) ->
-	nextOccurrence = scheduleObj.get('nextOccurrence')
-	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
-
-	graceBeforeOccurrence = new Date(nextOccurrence.getTime())
-	graceBeforeOccurrence.setTime(graceBeforeOccurrence.getTime() - gracePeriod)
-
-	graceAfterOccurrence = new Date(nextOccurrence.getTime())
-	graceAfterOccurrence.setTime(graceAfterOccurrence.getTime() + gracePeriod)
-
-	timeObj = {}
-
-	timeObj['graceBeforeOccurrence'] = graceBeforeOccurrence
-	timeObj['graceAfterOccurrence'] = graceAfterOccurrence
-
-	timeObj
-
-
-isValidTime = (timeObj) ->
-	currentTime = new Date()
-
-	if (timeObj['graceBeforeOccurrence'].getTime() <= currentTime.getTime()) and (timeObj['graceAfterOccurrence'].getTime() >= currentTime.getTime())
-		true
-	else
-		false
 
 
 
