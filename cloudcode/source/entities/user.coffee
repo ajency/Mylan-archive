@@ -191,23 +191,31 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
             nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
+            console.log "currentDateTime"
+            console.log currentDateTime
  
             diffrence = moment(newDateTime).diff(currentDateTime)
             diffrence2 = moment(currentDateTime).diff(newDateTime)
 
             # check in response table if occurrence + grace date passed current date
             responseQuery = new Parse.Query('Response')
+            responseQuery.equalTo("schedule", scheduleObject)
             responseQuery.equalTo("status", "started")
             responseQuery.first()
             .then (responseObject) ->
+                console.log "responseObject"
+                console.log responseObject
                 if _.isEmpty responseObject
                     occurrenceDateTime = moment(responseObject.get("occurrenceDate"))
                     newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's')
                     responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime)
                     
+                    console.log "responseDiffrence"
                     if(parseInt(responseDiffrence) > 1)
+                        console.log responseDiffrence
                         responseObject.set('status','missed')
                         responseObject.save()
+
                      
                 # check if next occurrence + grace date passed current date
                 if(parseInt(diffrence2) > 1)
@@ -311,7 +319,7 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
                     , (error) ->
                         response.error error
 
-                    
+
 
             , (error) ->
                 response.error error

@@ -1503,17 +1503,24 @@
         nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
         newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
         currentDateTime = moment();
+        console.log("currentDateTime");
+        console.log(currentDateTime);
         diffrence = moment(newDateTime).diff(currentDateTime);
         diffrence2 = moment(currentDateTime).diff(newDateTime);
         responseQuery = new Parse.Query('Response');
+        responseQuery.equalTo("schedule", scheduleObject);
         responseQuery.equalTo("status", "started");
         return responseQuery.first().then(function(responseObject) {
           var Response, newoccurrenceDateTime, occurrenceDateTime, responseData, responseDiffrence, responseObj;
+          console.log("responseObject");
+          console.log(responseObject);
           if (_.isEmpty(responseObject)) {
             occurrenceDateTime = moment(responseObject.get("occurrenceDate"));
             newoccurrenceDateTime = moment(occurrenceDateTime).add(gracePeriod, 's');
             responseDiffrence = moment(currentDateTime).diff(newoccurrenceDateTime);
+            console.log("responseDiffrence");
             if (parseInt(responseDiffrence) > 1) {
+              console.log(responseDiffrence);
               responseObject.set('status', 'missed');
               responseObject.save();
             }
