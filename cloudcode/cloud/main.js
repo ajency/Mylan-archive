@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getCompletedObjects, getCurrentAnswer, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, storeDeviceData, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -103,7 +103,7 @@
   });
 
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
-    var patientId, questionnaireId, responseId, responseQuery;
+    var patientId, questionnaireId, responseId, responseQuery, scheduleQuery;
     responseId = request.params.responseId;
     questionnaireId = request.params.questionnaireId;
     patientId = request.params.patientId;
@@ -111,13 +111,14 @@
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
         var answeredQuestions, questionQuery;
-        if (responseObj.get('status') === 'Completed') {
+        if (responseObj.get('status') === 'completed') {
           return response.error("questionnaire_submitted");
         } else {
           answeredQuestions = responseObj.get('answeredQuestions');
           questionQuery = new Parse.Query('Questions');
           questionQuery.include('nextQuestion');
           questionQuery.include('previousQuestion');
+          questionQuery.include('questionnaire');
           if (answeredQuestions.length !== 0) {
             return questionQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(questionObj) {
               return getNextQuestion(questionObj, []).then(function(nextQuestionObj) {
@@ -160,12 +161,34 @@
         return response.error(error);
       });
     } else if ((responseId === "") && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
-      return createResponse(questionnaireId, patientId).then(function(responseObj) {
-        responseObj.set('status', 'Started');
-        return responseObj.save().then(function(responseObj) {
-          return firstQuestion(questionnaireId).then(function(questionObj) {
-            return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
-              return response.success(questionData);
+      scheduleQuery = new Parse.Query('Schedule');
+      scheduleQuery.equalTo('patient', patientId);
+      return scheduleQuery.first().then(function(scheduleObj) {
+        return createResponse(questionnaireId, patientId).then(function(responseObj) {
+          responseObj.set('status', 'started');
+          responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+          return responseObj.save().then(function(responseObj) {
+            scheduleQuery = new Parse.Query('Schedule');
+            scheduleQuery.doesNotExist('patient');
+            scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+            return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+              var newNextOccurrence;
+              newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+              scheduleObj.set('nextOccurrence', newNextOccurrence);
+              return scheduleObj.save().then(function(scheduleObj) {
+                return firstQuestion(questionnaireId).then(function(questionObj) {
+                  return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                }, function(error) {
+                  return response.error(error);
+                });
+              }, function(error) {
+                return response.error(error);
+              });
             }, function(error) {
               return response.error(error);
             });
@@ -191,6 +214,7 @@
       var questionsQuery;
       questionsQuery = new Parse.Query("Questions");
       questionsQuery.equalTo('questionnaire', questionnaireObj);
+      questionsQuery.include('questionnaire');
       return questionsQuery.find().then(function(questionsObjs) {
         var checkAll, checkIfFirstQuestion, questionObj;
         checkIfFirstQuestion = function(questionObj) {
@@ -214,29 +238,6 @@
           return results1;
         })();
         return promise.resolve(checkAll[0]);
-      }, function(error) {
-        return promise.reject(error);
-      });
-    }, function(error) {
-      return promise.reject(error);
-    });
-    return promise;
-  };
-
-  createResponse = function(questionnaireId, patientId) {
-    var promise, questionnaireQuery;
-    promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query("Questionnaire");
-    questionnaireQuery.get(questionnaireId).then(function(questionnaireObj) {
-      var responseObj;
-      responseObj = new Parse.Object("Response");
-      responseObj.set('patient', patientId);
-      responseObj.set('hospital', questionnaireObj.get('hospital'));
-      responseObj.set('project', questionnaireObj.get('project'));
-      responseObj.set('questionnaire', questionnaireObj);
-      responseObj.set('answeredQuestions', []);
-      return responseObj.save().then(function(responseObj) {
-        return promise.resolve(responseObj);
       }, function(error) {
         return promise.reject(error);
       });
@@ -292,46 +293,59 @@
   };
 
   getQuestionData = function(questionObj, responseObj, patientId) {
-    var promise, questionData;
+    var promise;
     promise = new Parse.Promise();
-    questionData = {};
-    questionData['responseId'] = responseObj.id;
-    questionData['responseStatus'] = responseObj.get('status');
-    questionData['questionId'] = questionObj.id;
-    questionData['questionType'] = questionObj.get('type');
-    questionData['question'] = questionObj.get('question');
-    questionData['next'] = !_.isUndefined(questionObj.get('nextQuestion')) ? true : false;
-    questionData['previous'] = !_.isUndefined(questionObj.get('previousQuestion')) ? true : false;
-    questionData['options'] = [];
-    questionData['hasAnswer'] = {};
-    questionData['previousQuestionnaireAnswer'] = {};
-    getPreviousQuestionnaireAnswer(questionObj, responseObj, patientId).then(function(previousQuestionnaireAnswer) {
-      questionData['previousQuestionnaireAnswer'] = previousQuestionnaireAnswer;
-      return getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
-        var optionsQuery;
-        questionData['hasAnswer'] = hasAnswer;
-        if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input') {
-          optionsQuery = new Parse.Query("Options");
-          optionsQuery.equalTo('question', questionObj);
-          return optionsQuery.find().then(function(optionObjs) {
-            var j, len, option, optionObj, options;
-            options = [];
-            for (j = 0, len = optionObjs.length; j < len; j++) {
-              option = optionObjs[j];
-              optionObj = {};
-              optionObj['id'] = option.id;
-              optionObj['option'] = option.get('label');
-              optionObj['score'] = option.get('score');
-              options.push(optionObj);
+    questionObj.fetch().then(function() {
+      var editable, questionData;
+      questionData = {};
+      questionData['responseId'] = responseObj.id;
+      questionData['responseStatus'] = responseObj.get('status');
+      questionData['questionId'] = questionObj.id;
+      questionData['questionType'] = questionObj.get('type');
+      questionData['question'] = questionObj.get('question');
+      questionData['next'] = !_.isUndefined(questionObj.get('nextQuestion')) ? true : false;
+      questionData['previous'] = !_.isUndefined(questionObj.get('previousQuestion')) ? true : false;
+      questionData['options'] = [];
+      questionData['hasAnswer'] = {};
+      questionData['previousQuestionnaireAnswer'] = {};
+      questionData['questionTitle'] = questionObj.get('title');
+      questionData['editable'] = {};
+      editable = questionObj.get('questionnaire');
+      return editable.fetch().then(function() {
+        questionData['editable'] = editable.get('editable');
+        return getPreviousQuestionnaireAnswer(questionObj, responseObj, patientId).then(function(previousQuestionnaireAnswer) {
+          questionData['previousQuestionnaireAnswer'] = previousQuestionnaireAnswer;
+          return getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
+            var optionsQuery;
+            questionData['hasAnswer'] = hasAnswer;
+            if (questionObj.get('type') === 'single-choice' || questionObj.get('type') === 'multi-choice' || questionObj.get('type') === 'input') {
+              optionsQuery = new Parse.Query("Options");
+              optionsQuery.equalTo('question', questionObj);
+              return optionsQuery.find().then(function(optionObjs) {
+                var j, len, option, optionObj, options;
+                options = [];
+                for (j = 0, len = optionObjs.length; j < len; j++) {
+                  option = optionObjs[j];
+                  optionObj = {};
+                  optionObj['id'] = option.id;
+                  optionObj['option'] = option.get('label');
+                  optionObj['score'] = option.get('score');
+                  options.push(optionObj);
+                }
+                questionData['options'] = options;
+                return promise.resolve(questionData);
+              }, function(error) {
+                return promise.reject(error);
+              });
+            } else {
+              return promise.resolve(questionData);
             }
-            questionData['options'] = options;
-            return promise.resolve(questionData);
           }, function(error) {
             return promise.reject(error);
           });
-        } else {
-          return promise.resolve(questionData);
-        }
+        }, function(error) {
+          return promise.reject(error);
+        });
       }, function(error) {
         return promise.reject(error);
       });
@@ -350,12 +364,13 @@
     responseQuery = new Parse.Query('Response');
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery;
-      if (responseObj.get('status') === 'Completed') {
+      if (responseObj.get('status') === 'completed') {
         return response.error("questionnaire_submitted.");
       } else {
         questionQuery = new Parse.Query('Questions');
         questionQuery.include('nextQuestion');
         questionQuery.include('previousQuestion');
+        questionQuery.include('questionnaire');
         return questionQuery.get(questionId).then(function(questionObj) {
           return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
             return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
@@ -395,21 +410,23 @@
     var getRequiredQuestion, optionsQuery, promise;
     promise = new Parse.Promise();
     getRequiredQuestion = function() {
-      var reponseObj;
-      console.log("getQuestionData");
       if (!_.isUndefined(questionObj.get('nextQuestion'))) {
         return promise.resolve(questionObj.get('nextQuestion'));
-      } else if (_.isUndefined(questionObj.get('nextQuestion') && !responObj.get(isChild))) {
+      } else if ((_.isUndefined(questionObj.get('nextQuestion'))) && !questionObj.get('isChild')) {
         return promise.resolve({});
       } else {
-        while (responObj.get(isChild) || !_.isUndefined(responseObj.get(previousQuestion))) {
-          reponseObj = reponseObj.get(previousQuestion);
+        while (questionObj.get('isChild')) {
+          questionObj = questionObj.get('previousQuestion');
         }
-        if (!_.isUndefined(questionObj.get('nextQuestion'))) {
-          return promise.resolve(questionObj.get('nextQuestion'));
-        } else {
-          return promise.resolve({});
-        }
+        return questionObj.fetch().then(function() {
+          if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+            return promise.resolve(questionObj.get('nextQuestion'));
+          } else {
+            return promise.resolve({});
+          }
+        }, function(error) {
+          return promise.error(error);
+        });
       }
     };
     if (questionObj.get('type') === 'single-choice' && (!_.isUndefined(questionObj.get('condition')))) {
@@ -430,6 +447,7 @@
         })();
         if (conditionalQuestion.length !== 0) {
           questionQuery = new Parse.Query("Questions");
+          questionQuery.include('questionnaire');
           return questionQuery.get(conditionalQuestion[0]).then(function(optionQuestionObj) {
             return promise.resolve(optionQuestionObj);
           }, function(error) {
@@ -452,12 +470,24 @@
     promise = new Parse.Promise();
     answerQuery = new Parse.Query('Answer');
     answerQuery.equalTo("question", questionObject);
+    answerQuery.include('response');
     answerQuery.equalTo("patient", patientId);
     answerQuery.notEqualTo("response", responseObj);
     answerQuery.descending('updatedAt');
     answerQuery.find().then(function(answerObjects) {
       var answerObj, first, optionIds, result;
       result = {};
+      answerObjects = (function() {
+        var j, len, results1;
+        results1 = [];
+        for (j = 0, len = answerObjects.length; j < len; j++) {
+          answerObj = answerObjects[j];
+          if (answerObj.get('response').get('status') === 'completed') {
+            results1.push(answerObj);
+          }
+        }
+        return results1;
+      })();
       if (!_.isEmpty(answerObjects)) {
         optionIds = [];
         if (questionObject.get('type') === 'multi-choice') {
@@ -535,42 +565,149 @@
       }
       return Parse.Promise.when(promiseArr);
     };
-    return getAnswers().then(function() {
-      var answeredQuestions, ref;
-      answeredQuestions = responseObj.get('answeredQuestions');
-      if (ref = questionObj.id, indexOf.call(answeredQuestions, ref) < 0) {
-        answeredQuestions.push(questionObj.id);
+    getCurrentAnswer(questionObj, responseObj).then(function(hasAnswer) {
+      var answerQuery, isEditable;
+      isEditable = questionObj.get('questionnaire').get('editable');
+      if (!isEditable && !_.isEmpty(hasAnswer)) {
+        console.log("----------------------------------");
+        console.log(isEditable);
+        console.log(hasAnswer);
+        console.log("----------------------------------");
+        return promise.resolve("already_answered");
+      } else if (isEditable && !_.isEmpty(hasAnswer)) {
+        console.log("==================================");
+        console.log(isEditable);
+        console.log(hasAnswer);
+        answerQuery = new Parse.Query('Answer');
+        answerQuery.equalTo('response', responseObj);
+        answerQuery.equalTo('question', questionObj);
+        return answerQuery.find().then(function(answers) {
+          var promiseDelete;
+          promiseDelete = Parse.Promise.as();
+          _.each(answers, function(answer) {
+            return promiseDelete = promiseDelete.then(function() {
+              return answer.destroy();
+            }, function(error) {
+              return promise.error(error);
+            });
+          });
+          return promiseDelete;
+        }, function(error) {
+          return promise.error(error);
+        }).then(function() {
+          return getAnswers().then(function() {
+            var answeredQuestions, ref;
+            answeredQuestions = responseObj.get('answeredQuestions');
+            if (ref = questionObj.id, indexOf.call(answeredQuestions, ref) < 0) {
+              answeredQuestions.push(questionObj.id);
+            }
+            responseObj.set('answeredQuestions', answeredQuestions);
+            return responseObj.save().then(function(responseObj) {
+              return promise.resolve(responseObj);
+            }, function(error) {
+              return promise.error(error);
+            });
+          }, function(error) {
+            return promise.error(error);
+          });
+        }, function(error) {
+          return promise.error(error);
+        });
+      } else {
+        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++");
+        console.log(isEditable);
+        console.log(hasAnswer);
+        return getAnswers().then(function() {
+          var answeredQuestions, ref;
+          answeredQuestions = responseObj.get('answeredQuestions');
+          if (ref = questionObj.id, indexOf.call(answeredQuestions, ref) < 0) {
+            answeredQuestions.push(questionObj.id);
+          }
+          responseObj.set('answeredQuestions', answeredQuestions);
+          return responseObj.save().then(function(responseObj) {
+            return promise.resolve(responseObj);
+          }, function(error) {
+            return promise.error(error);
+          });
+        }, function(error) {
+          return promise.error(error);
+        });
       }
-      responseObj.set('answeredQuestions', answeredQuestions);
-      return responseObj.save().then(function(responseObj) {
-        return promise.resolve(responseObj);
-      }, function(error) {
-        return promise.error(error);
-      });
     }, function(error) {
       return promise.error(error);
     });
+    return promise;
+  };
+
+  getLastQuestion = function(questionnaireObj) {
+    var promise, questionQuery;
+    promise = new Parse.Promise();
+    questionQuery = new Parse.Query('Questions');
+    questionQuery.equalTo('questionnaire', questionnaireObj);
+    questionQuery.find().then(function(questionObjects) {
+      var j, lastQuestion, len, questionObj;
+      lastQuestion = "";
+      for (j = 0, len = questionObjects.length; j < len; j++) {
+        questionObj = questionObjects[j];
+        if (!questionObj.get('isChild') && _.isUndefined(questionObj.get('nextQuestion'))) {
+          lastQuestion = questionObj;
+        }
+      }
+      return promise.resolve(lastQuestion);
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
   };
 
   Parse.Cloud.define("getPreviousQuestion", function(request, response) {
-    var options, questionId, responseId, responseQuery, value;
+    var last, options, questionId, responseId, responseQuery, value;
     responseId = request.params.responseId;
-    questionId = request.params.questionId;
+    last = questionId = request.params.questionId;
     options = request.params.options;
     value = request.params.value;
     responseQuery = new Parse.Query('Response');
     responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery;
       if (responseObj.get('status') === 'Completed') {
         return response.error("questionnaire_submitted.");
       } else {
-        questionQuery = new Parse.Query('Questions');
-        questionQuery.include('previousQuestion');
-        return questionQuery.get(questionId).then(function(questionObj) {
-          if (!_.isEmpty(options) || value !== "") {
-            return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+        return getLastQuestion(responseObj.get('questionnaire')).then(function(lastQuestion) {
+          var questionQuery;
+          if (questionId === "") {
+            questionId = lastQuestion.id;
+          }
+          questionQuery = new Parse.Query('Questions');
+          questionQuery.include('previousQuestion');
+          questionQuery.include('questionnaire');
+          return questionQuery.get(questionId).then(function(questionObj) {
+            if (!_.isEmpty(options) || value !== "") {
+              return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+                if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                  return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                } else {
+                  return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
+                    return response.success(questionData);
+                  }, function(error) {
+                    return response.error(error);
+                  });
+                }
+              }, function(error) {
+                return response.error(error);
+              });
+            } else {
+              console.log(last);
               if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                  return response.success(questionData);
+                }, function(error) {
+                  return response.error(error);
+                });
+              } else if (last === "") {
                 return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                   return response.success(questionData);
                 }, function(error) {
@@ -583,24 +720,10 @@
                   return response.error(error);
                 });
               }
-            }, function(error) {
-              return response.error(error);
-            });
-          } else {
-            if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
-              return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
-                return response.success(questionData);
-              }, function(error) {
-                return response.error(error);
-              });
-            } else {
-              return getQuestionData(questionObj.get('previousQuestion'), responseObj, responseObj.get('patient')).then(function(questionData) {
-                return response.success(questionData);
-              }, function(error) {
-                return response.error(error);
-              });
             }
-          }
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -632,6 +755,7 @@
     answerQuery = new Parse.Query('Answer');
     answerQuery.include("question");
     answerQuery.include("option");
+    answerQuery.ascending('createdAt');
     answerQuery.equalTo("response", responseObj);
     answerQuery.find().then(function(answerObjects) {
       return promise.resolve(getAnswers(answerObjects));
@@ -731,7 +855,7 @@
     responseId = request.params.responseId;
     responseQuery = new Parse.Query("Response");
     return responseQuery.get(responseId).then(function(responseObj) {
-      responseObj.set("status", "Completed");
+      responseObj.set("status", "completed");
       return responseObj.save().then(function(responseObj) {
         return response.success("submitted_successfully");
       }, function(error) {
@@ -753,7 +877,7 @@
       return getResumeObject(scheduleObj, patientId).then(function(resumeObj) {
         return getStartObject(scheduleObj, patientId).then(function(startObj) {
           return getUpcomingObject(scheduleObj, patientId).then(function(upcomingObj) {
-            return getCompletedObjects(patientId).then(function(completedObj) {
+            return getCompletedObjects(scheduleObj, patientId).then(function(completedObj) {
               return getMissedObjects(scheduleObj, patientId).then(function(missedObj) {
                 results.push(resumeObj);
                 results.push(startObj);
@@ -781,30 +905,6 @@
     });
   });
 
-  getValidPeriod = function(scheduleObj) {
-    var graceAfterOccurrence, graceBeforeOccurrence, gracePeriod, nextOccurrence, timeObj;
-    nextOccurrence = scheduleObj.get('nextOccurrence');
-    gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000;
-    graceBeforeOccurrence = new Date(nextOccurrence.getTime());
-    graceBeforeOccurrence.setTime(graceBeforeOccurrence.getTime() - gracePeriod);
-    graceAfterOccurrence = new Date(nextOccurrence.getTime());
-    graceAfterOccurrence.setTime(graceAfterOccurrence.getTime() + gracePeriod);
-    timeObj = {};
-    timeObj['graceBeforeOccurrence'] = graceBeforeOccurrence;
-    timeObj['graceAfterOccurrence'] = graceAfterOccurrence;
-    return timeObj;
-  };
-
-  isValidTime = function(timeObj) {
-    var currentTime;
-    currentTime = new Date();
-    if ((timeObj['graceBeforeOccurrence'].getTime() <= currentTime.getTime()) && (timeObj['graceAfterOccurrence'].getTime() >= currentTime.getTime())) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   getStartObject = function(scheduleObj, patientId) {
     var promise, responseQuery, responseQuery1, responseQuery2, startObj, timeObj;
     startObj = {};
@@ -812,18 +912,20 @@
     timeObj = getValidPeriod(scheduleObj);
     if (isValidTime(timeObj)) {
       responseQuery1 = new Parse.Query('Response');
-      responseQuery1.equalTo('status', 'Started');
+      responseQuery1.equalTo('status', 'started');
       responseQuery2 = new Parse.Query('Response');
-      responseQuery2.equalTo('status', 'Completed');
+      responseQuery2.equalTo('status', 'completed');
       responseQuery = Parse.Query.or(responseQuery1, responseQuery2);
       responseQuery.equalTo('patient', patientId);
-      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
-      responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
+      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit']);
+      responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit']);
       responseQuery.first().then(function(responseObj) {
         if (!_.isUndefined(responseObj)) {
           startObj['status'] = "not_start";
+          startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         } else {
           startObj['status'] = "start";
+          startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         }
         return promise.resolve(startObj);
       }, function(error) {
@@ -831,6 +933,7 @@
       });
     } else {
       startObj['status'] = "not_start";
+      startObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(startObj);
     }
     return promise;
@@ -843,9 +946,11 @@
     timeObj = getValidPeriod(scheduleObj);
     if (isValidUpcomingTime(timeObj)) {
       upcomingObj['status'] = "upcoming";
+      upcomingObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(upcomingObj);
     } else {
       upcomingObj['status'] = "not_upcoming";
+      upcomingObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(upcomingObj);
     }
     return promise;
@@ -854,20 +959,20 @@
   isValidUpcomingTime = function(timeObj) {
     var currentTime;
     currentTime = new Date();
-    if (timeObj['graceBeforeOccurrence'].getTime() > currentTime.getTime()) {
+    if (timeObj['lowerLimit'].getTime() > currentTime.getTime()) {
       return true;
     } else {
       return false;
     }
   };
 
-  getCompletedObjects = function(patientId) {
+  getCompletedObjects = function(scheduleObj, patientId) {
     var completedObj, promise, responseQuery;
     completedObj = {};
     promise = new Parse.Promise();
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo('patient', patientId);
-    responseQuery.equalTo('status', 'Completed');
+    responseQuery.equalTo('status', 'completed');
     responseQuery.descending('createdAt');
     responseQuery.find().then(function(responseObjs) {
       var responseObj;
@@ -881,6 +986,7 @@
         }
         return results1;
       })();
+      completedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       return promise.resolve(completedObj);
     }, function(error) {
       return promise.error(error);
@@ -896,16 +1002,18 @@
     if (isValidTime(timeObj)) {
       responseQuery = new Parse.Query('Response');
       responseQuery.equalTo('patient', patientId);
-      responseQuery.equalTo('status', 'Started');
-      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
-      responseQuery.lessThanOrEqualTo('createdAt', timeObj['graceAfterOccurrence']);
+      responseQuery.equalTo('status', 'started');
+      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['lowerLimit']);
+      responseQuery.lessThanOrEqualTo('createdAt', timeObj['upperLimit']);
       responseQuery.first().then(function(responseObj) {
         if (!_.isUndefined(responseObj)) {
           resumeObj['status'] = "resume";
           resumeObj['responseId'] = responseObj.id;
+          resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         } else {
           resumeObj['status'] = "not_resume";
           resumeObj['responseId'] = "";
+          resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
         }
         return promise.resolve(resumeObj);
       }, function(error) {
@@ -914,49 +1022,170 @@
     } else {
       resumeObj['status'] = "not_resume";
       resumeObj['responseId'] = "";
+      resumeObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
       promise.resolve(resumeObj);
     }
     return promise;
   };
 
   getMissedObjects = function(scheduleObj, patientId) {
-    var missedObj, promise, responseQuery, timeObj;
+    var missedObj, promise, responseQuery;
     missedObj = {};
     promise = new Parse.Promise();
-    timeObj = getValidPeriod(scheduleObj);
-    if (!isValidMissedTime(timeObj)) {
-      missedObj['status'] = "not_missed";
-      missedObj['responseId'] = "";
-      promise.resolve(missedObj);
-    } else {
+    responseQuery = new Parse.Query('Response');
+    responseQuery.equalTo('patient', patientId);
+    responseQuery.equalTo('status', 'missed');
+    responseQuery.descending('createdAt');
+    responseQuery.first().then(function(responseObj) {
+      if (!_.isUndefined(responseObj) && responseObj.get('status') === 'missed') {
+        missedObj['status'] = "missed";
+        missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
+        return promise.resolve(missedObj);
+      } else {
+        missedObj['status'] = "not_missed";
+        missedObj['occurrenceDate'] = scheduleObj.get('nextOccurrence');
+        return promise.resolve(missedObj);
+      }
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
+
+  Parse.Cloud.define("dashboard1", function(request, response) {
+    var patientId, results, scheduleQuery;
+    patientId = request.params.patientId;
+    results = [];
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.equalTo('patient', patientId);
+    scheduleQuery.include('questionnaire');
+    return scheduleQuery.first().then(function(scheduleObj) {
+      var responseQuery;
       responseQuery = new Parse.Query('Response');
       responseQuery.equalTo('patient', patientId);
-      responseQuery.greaterThanOrEqualTo('createdAt', timeObj['graceBeforeOccurrence']);
-      responseQuery.first().then(function(responseObj) {
-        if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Completed') {
-          missedObj['status'] = "not_missed";
-          missedObj['responseId'] = "";
-          return promise.resolve(missedObj);
-        } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'missed') {
-          missedObj['status'] = "missed";
-          missedObj['responseId'] = responseObj.id;
-          return promise.resolve(missedObj);
-        } else if (!_.isUndefined(responseObj) && responseObj.get('status') === 'Started') {
+      responseQuery.descending('createdAt');
+      return responseQuery.find().then(function(responseObjs) {
+        var j, len, responseObj, result, status, timeObj, upcoming_due;
+        timeObj = getValidPeriod(scheduleObj);
+        status = "";
+        if (isValidTime(timeObj)) {
+          status = "Start";
+        } else if (isValidUpcomingTime(timeObj)) {
+          status = "Upcoming";
+        }
+        upcoming_due = {
+          date: scheduleObj.get('nextOccurrence'),
+          status: status
+        };
+        results.push(upcoming_due);
+        for (j = 0, len = responseObjs.length; j < len; j++) {
+          responseObj = responseObjs[j];
+          result = {};
+          result['status'] = responseObj.get('status');
+          result['date'] = responseObj.createdAt;
+          result['responseId'] = responseObj.id;
+          results.push(result);
+        }
+        return response.success(results);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("dashboard2", function(request, response) {
+    var patientId, results, scheduleQuery;
+    patientId = request.params.patientId;
+    results = [];
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.include('questionnaire');
+    scheduleQuery.equalTo('patient', patientId);
+    return scheduleQuery.first().then(function(scheduleObj) {
+      var responseQuery;
+      responseQuery = new Parse.Query('Response');
+      responseQuery.equalTo('patient', patientId);
+      responseQuery.descending('occurrenceDate');
+      return responseQuery.find().then(function(responseObjs) {
+        var j, len, responseObj, result, status, timeObj, upcoming_due;
+        timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
+        status = "";
+        if (isValidTime(timeObj)) {
+          status = "Due";
+        } else if (isValidUpcomingTime(timeObj)) {
+          status = "Upcoming";
+        }
+        upcoming_due = {
+          valid: isValidTime(timeObj),
+          upcoming: isValidUpcomingTime(timeObj),
+          date: scheduleObj.get('nextOccurrence'),
+          curr: new Date(),
+          status: status
+        };
+        results.push(upcoming_due);
+        for (j = 0, len = responseObjs.length; j < len; j++) {
+          responseObj = responseObjs[j];
+          result = {};
+          result['status'] = responseObj.get('status');
+          result['occurrenceDate'] = responseObj.get('occurrenceDate');
+          result['occurrenceId'] = responseObj.id;
+          results.push(result);
+        }
+        return response.success(results);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  updateMissedObjects = function(scheduleObj, patientId) {
+    var promise, responseQuery;
+    promise = new Parse.Promise();
+    responseQuery = new Parse.Query('Response');
+    responseQuery.equalTo('patient', patientId);
+    responseQuery.equalTo('status', 'started');
+    responseQuery.include('questionnaire');
+    responseQuery.first().then(function(responseObj) {
+      var timeObj;
+      if (!_.isUndefined(responseObj)) {
+        timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'));
+        if (isValidMissedTime(timeObj)) {
           responseObj.set('status', 'missed');
           return responseObj.save().then(function(responseObj) {
-            missedObj['status'] = "missed";
-            missedObj['responseId'] = responseObj.id;
-            return promise.resolve(missedObj);
+            return promise.resolve();
           }, function(error) {
             return promise.error(error);
           });
-        } else if (_.isUndefined(responseObj)) {
+        } else {
+          return promise.resolve();
+        }
+      } else {
+        timeObj = getValidPeriod(scheduleObj);
+        if (isValidMissedTime(timeObj)) {
           return createResponse(scheduleObj.get('questionnaire').id, patientId).then(function(responseObj) {
+            responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
             responseObj.set('status', 'missed');
             return responseObj.save().then(function(responseObj) {
-              missedObj['status'] = "missed";
-              missedObj['responseId'] = responseObj.id;
-              return promise.resolve(missedObj);
+              var scheduleQuery;
+              scheduleQuery = new Parse.Query('Schedule');
+              scheduleQuery.doesNotExist('patient');
+              scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+              return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                var newNextOccurrence;
+                newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+                newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+                scheduleObj.set('nextOccurrence', newNextOccurrence);
+                return scheduleObj.save().then(function(scheduleObj) {
+                  return promise.resolve();
+                }, function(error) {
+                  return promise.error(error);
+                });
+              }, function(error) {
+                return promise.error(error);
+              });
             }, function(error) {
               return promise.error(error);
             });
@@ -964,17 +1193,103 @@
             return promise.error(error);
           });
         }
+      }
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
+
+  Parse.Cloud.define("updateMissedObjects", function(request, response) {
+    var patientId, scheduleQuery;
+    patientId = request.params.patientId;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.equalTo('patient', patientId);
+    return scheduleQuery.first().then(function(scheduleObj) {
+      return updateMissedObjects(scheduleObj, patientId).then(function() {
+        return response.success(scheduleObj);
       }, function(error) {
         return promise.error(error);
       });
-    }
+    }, function(error) {
+      return promise.error(error);
+    });
+  });
+
+  createResponse = function(questionnaireId, patientId) {
+    var promise, questionnaireQuery;
+    promise = new Parse.Promise();
+    questionnaireQuery = new Parse.Query("Questionnaire");
+    questionnaireQuery.get(questionnaireId).then(function(questionnaireObj) {
+      var responseObj;
+      responseObj = new Parse.Object("Response");
+      responseObj.set('patient', patientId);
+      responseObj.set('hospital', questionnaireObj.get('hospital'));
+      responseObj.set('project', questionnaireObj.get('project'));
+      responseObj.set('questionnaire', questionnaireObj);
+      responseObj.set('answeredQuestions', []);
+      return responseObj.save().then(function(responseObj) {
+        return promise.resolve(responseObj);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
     return promise;
+  };
+
+  isValidUpcomingTime = function(timeObj) {
+    var currentTime;
+    currentTime = new Date();
+    if (timeObj['lowerLimit'].getTime() > currentTime.getTime()) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   isValidMissedTime = function(timeObj) {
     var currentTime;
     currentTime = new Date();
-    if (timeObj['graceAfterOccurrence'].getTime() < currentTime.getTime()) {
+    if (timeObj['upperLimit'].getTime() < currentTime.getTime()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  getValidTimeFrame = function(questionnaireObj, occurrenceDate) {
+    var gracePeriod, lowerLimit, timeObj, upperLimit;
+    gracePeriod = questionnaireObj.get('gracePeriod') * 1000;
+    upperLimit = new Date(occurrenceDate.getTime());
+    upperLimit.setTime(occurrenceDate.getTime() + gracePeriod);
+    lowerLimit = new Date(occurrenceDate.getTime());
+    lowerLimit.setTime(lowerLimit.getTime() - gracePeriod);
+    timeObj = {};
+    timeObj['upperLimit'] = upperLimit;
+    timeObj['lowerLimit'] = lowerLimit;
+    return timeObj;
+  };
+
+  getValidPeriod = function(scheduleObj) {
+    var gracePeriod, lowerLimit, nextOccurrence, timeObj, upperLimit;
+    nextOccurrence = scheduleObj.get('nextOccurrence');
+    gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000;
+    lowerLimit = new Date(nextOccurrence.getTime());
+    lowerLimit.setTime(lowerLimit.getTime() - gracePeriod);
+    upperLimit = new Date(nextOccurrence.getTime());
+    upperLimit.setTime(upperLimit.getTime() + gracePeriod);
+    timeObj = {};
+    timeObj['lowerLimit'] = lowerLimit;
+    timeObj['upperLimit'] = upperLimit;
+    return timeObj;
+  };
+
+  isValidTime = function(timeObj) {
+    var currentTime;
+    currentTime = new Date();
+    if ((timeObj['lowerLimit'].getTime() <= currentTime.getTime()) && (timeObj['upperLimit'].getTime() >= currentTime.getTime())) {
       return true;
     } else {
       return false;
