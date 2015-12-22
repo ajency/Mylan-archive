@@ -212,9 +212,10 @@ angular.module 'PatientApp.Quest',[]
 
 			prevQuestion : ->
 				if @data.questionType == 'single-choice'
+					
 					options =
 						"questionId" : @data.questionId
-						"options": [@singleChoiceValue]
+						"options": if @singleChoiceValue == '' then [] else [@singleChoiceValue]
 						"value": ""
 
 					@loadPrevQuestion(options)
@@ -229,7 +230,7 @@ angular.module 'PatientApp.Quest',[]
 
 					options =
 						"questionId" : @data.questionId
-						"options": selectedvalue
+						"options": if selectedvalue == [] then [] else selectedvalue
 						"value": ""
 
 					@loadPrevQuestion(options)
@@ -238,7 +239,7 @@ angular.module 'PatientApp.Quest',[]
 					options =
 							"questionId" : @data.questionId
 							"options": []
-							"value": @descriptiveAnswer
+							"value": if @descriptiveAnswer == '' then '' else @descriptiveAnswer
 
 					@loadPrevQuestion(options)
 
@@ -255,8 +256,8 @@ angular.module 'PatientApp.Quest',[]
 
 					options =
 						"questionId" : @data.questionId
-						"options": [optionId[0]]
-						"value": valueInput[0].toString()
+						"options": if optionId == [] then [] else [optionId[0]]
+						"value": if valueInput == [] then [] else valueInput[0].toString()
 
 					@loadPrevQuestion(options)
 

@@ -217,7 +217,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         if (this.data.questionType === 'single-choice') {
           options = {
             "questionId": this.data.questionId,
-            "options": [this.singleChoiceValue],
+            "options": this.singleChoiceValue === '' ? [] : [this.singleChoiceValue],
             "value": ""
           };
           this.loadPrevQuestion(options);
@@ -231,7 +231,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           });
           options = {
             "questionId": this.data.questionId,
-            "options": selectedvalue,
+            "options": selectedvalue === [] ? [] : selectedvalue,
             "value": ""
           };
           this.loadPrevQuestion(options);
@@ -240,7 +240,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           options = {
             "questionId": this.data.questionId,
             "options": [],
-            "value": this.descriptiveAnswer
+            "value": this.descriptiveAnswer === '' ? '' : this.descriptiveAnswer
           };
           this.loadPrevQuestion(options);
         }
@@ -259,8 +259,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           })(this));
           options = {
             "questionId": this.data.questionId,
-            "options": [optionId[0]],
-            "value": valueInput[0].toString()
+            "options": optionId === [] ? [] : [optionId[0]],
+            "value": valueInput === [] ? [] : valueInput[0].toString()
           };
           return this.loadPrevQuestion(options);
         }
