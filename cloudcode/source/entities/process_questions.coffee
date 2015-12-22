@@ -63,7 +63,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
-			createResponse questionnaireId, patientId, scheduleObj
+			createResponse questionnaireId, patientId, scheduleObj, 'started', scheduleObj.get('nextOccurrence')
 			.then (responseObj) ->
 				responseObj.set 'status', 'started'
 				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
@@ -1086,19 +1086,24 @@ updateMissedObjects = (scheduleObj, patientId) ->
 		else
 
 			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-			console.log "======================================================================"
-			console.log scheduleObj
-			console.log patientId 
-			console.log timeObj
-			console.log "======================================================================"
-
 			if isValidMissedTime(timeObj)
-				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)
+				console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+				console.log responseObj
+				console.log patientId
+				console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+				
+				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj, 'missed', scheduleObj.get('nextOccurrence'))
 				.then (responseObj) ->
+					console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+					console.log responseObj
+					console.log patientId
+					console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
+
 					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 					responseObj.set 'status', 'missed'
 					responseObj.save()
 					.then (responseObj) ->
+
 						scheduleQuery = new Parse.Query('Schedule')
 						scheduleQuery.doesNotExist('patient')
 						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
@@ -1126,7 +1131,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 
 
 
-createResponse = (questionnaireId, patientId, scheduleObj) ->
+createResponse = (questionnaireId, patientId, scheduleObj, status, occurrenceDate) ->
 	promise = new Parse.Promise()
 	questionnaireQuery = new Parse.Query("Questionnaire")
 	questionnaireQuery.get(questionnaireId)
@@ -1138,8 +1143,22 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 		responseObj.set 'questionnaire', questionnaireObj
 		responseObj.set 'answeredQuestions', []
 		responseObj.set 'schedule', scheduleObj
+		responseObj.set 'status', status
+		responseObj.set 'occurrenceDate', occurrenceDate
+		console.log "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+		console.log responseObj
+		console.log patientId 
+		console.log "timeObj"
+		console.log "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
 		responseObj.save()
 		.then (responseObj) ->
+			console.log "======================================================================"
+			console.log responseObj
+			console.log patientId 
+			console.log "timeObj"
+			console.log "======================================================================"
+
 			promise.resolve responseObj
 		, (error) ->
 			promise.reject error			
