@@ -167,6 +167,7 @@
         return createResponse(questionnaireId, patientId).then(function(responseObj) {
           responseObj.set('status', 'started');
           responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+          responseObj.set('schedule', scheduleObj);
           return responseObj.save().then(function(responseObj) {
             scheduleQuery = new Parse.Query('Schedule');
             scheduleQuery.doesNotExist('patient');
@@ -1103,36 +1104,38 @@
     scheduleQuery.include('questionnaire');
     scheduleQuery.equalTo('patient', patientId);
     return scheduleQuery.first().then(function(scheduleObj) {
-      var responseQuery;
-      responseQuery = new Parse.Query('Response');
-      responseQuery.equalTo('patient', patientId);
-      responseQuery.descending('occurrenceDate');
-      return responseQuery.find().then(function(responseObjs) {
-        var j, len, responseObj, result, status, timeObj, upcoming_due;
-        timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
-        status = "";
-        if (isValidTime(timeObj)) {
-          status = "Due";
-        } else if (isValidUpcomingTime(timeObj)) {
-          status = "Upcoming";
-        }
-        upcoming_due = {
-          valid: isValidTime(timeObj),
-          upcoming: isValidUpcomingTime(timeObj),
-          date: scheduleObj.get('nextOccurrence'),
-          curr: new Date(),
-          status: status
-        };
-        results.push(upcoming_due);
-        for (j = 0, len = responseObjs.length; j < len; j++) {
-          responseObj = responseObjs[j];
-          result = {};
-          result['status'] = responseObj.get('status');
-          result['occurrenceDate'] = responseObj.get('occurrenceDate');
-          result['occurrenceId'] = responseObj.id;
-          results.push(result);
-        }
-        return response.success(results);
+      return updateMissedObjects(scheduleObj, patientId).then(function() {
+        var responseQuery;
+        responseQuery = new Parse.Query('Response');
+        responseQuery.equalTo('patient', patientId);
+        responseQuery.descending('occurrenceDate');
+        return responseQuery.find().then(function(responseObjs) {
+          var j, len, responseObj, result, status, timeObj, upcoming_due;
+          timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
+          status = "";
+          if (isValidTime(timeObj)) {
+            status = "Due";
+          } else if (isValidUpcomingTime(timeObj)) {
+            status = "Upcoming";
+          }
+          upcoming_due = {
+            date: scheduleObj.get('nextOccurrence'),
+            curr: new Date(),
+            status: status
+          };
+          results.push(upcoming_due);
+          for (j = 0, len = responseObjs.length; j < len; j++) {
+            responseObj = responseObjs[j];
+            result = {};
+            result['status'] = responseObj.get('status');
+            result['occurrenceDate'] = responseObj.get('occurrenceDate');
+            result['occurrenceId'] = responseObj.id;
+            results.push(result);
+          }
+          return response.success(results);
+        }, function(error) {
+          return response.error(error);
+        });
       }, function(error) {
         return response.error(error);
       });
@@ -1163,7 +1166,7 @@
           return promise.resolve();
         }
       } else {
-        timeObj = getValidPeriod(scheduleObj);
+        timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
         if (isValidMissedTime(timeObj)) {
           return createResponse(scheduleObj.get('questionnaire').id, patientId).then(function(responseObj) {
             responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
