@@ -206,6 +206,7 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
                     questionnaire: questionnaire
                     status : 'missed'
                     schedule : scheduleObject
+                    occurrenceDate : nextOccurrence
 
                 Response = Parse.Object.extend("Response") 
                 responseObj = new Response responseData
@@ -282,6 +283,7 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
                     questionnaire: questionnaire
                     status : 'missed'
                     schedule : scheduleObject
+                    occurrenceDate : nextOccurrence
 
                 Response = Parse.Object.extend("Response") 
                 responseObj = new Response responseData

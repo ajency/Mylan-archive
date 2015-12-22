@@ -1519,7 +1519,8 @@
             patient: patient,
             questionnaire: questionnaire,
             status: 'missed',
-            schedule: scheduleObject
+            schedule: scheduleObject,
+            occurrenceDate: nextOccurrence
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);
@@ -1589,7 +1590,8 @@
             patient: patient,
             questionnaire: questionnaire,
             status: 'missed',
-            schedule: scheduleObject
+            schedule: scheduleObject,
+            occurrenceDate: nextOccurrence
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);
