@@ -19,6 +19,7 @@ h4 {
 h5 {
   font-size: 1.286em;
   font-weight: 200;
+  line-height: 26px;
 }
 h6 {
   font-size: 1.000em;
@@ -28,6 +29,12 @@ p {
   line-height: 1.929em;
   font-weight: 200;
   color: #444444;
+}
+.m-b-20 {
+  margin-bottom: 20px;
+}
+.m-t-10 {
+  margin-top: 10px;
 }
 .f-w-400 {
   font-weight: 400;
@@ -68,7 +75,7 @@ hr.broad {
   border: 0.5em solid #eeeeee;
 }
 .text-primary {
-  color: #00bae5;
+  color: #00bae5 !important;
 }
 .text-danger {
   color: #ee5235;
@@ -134,6 +141,19 @@ hr.broad {
 .bar.bar-footer.broad-footer {
   height: 5.357em;
 }
+.q-title {
+  font-weight: 500;
+}
+.q-title .badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ee5235;
+  position: relative;
+  top: -4px;
+  margin-right: 9px;
+  line-height: 23px;
+}
 /***ICONS***/
 .ic {
   width: 5.000em;
@@ -189,7 +209,7 @@ h3.line-title span {
   float: left;
   margin-right: 7px;
   position: relative;
-  top: -6px;
+  top: -3px;
 }
 .info-msg.bg-balanced {
   background: #00aaa7;
@@ -349,13 +369,13 @@ input[id=password] {
 .item.item-radio .item-content span,
 .item.item-checkbox .item-content span {
   position: absolute;
-  left: 26px;
+  left: 20px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
   text-align: center;
   background: #eee;
-  top: 12px;
+  top: 13px;
   line-height: 28px;
 }
 .item.item-radio.item-radio input:checked ~ .item-content,
@@ -416,6 +436,9 @@ ul .mcq_active div span {
   background: #7bc67a !important;
   color: #fff;
 }
+.clm-list {
+  border-bottom: 1px solid #eee;
+}
 .clm-list .button {
   margin: 0.286em;
 }
@@ -427,6 +450,9 @@ ul .mcq_active div span {
   font-size: 1.429em;
   position: relative;
   top: 2px;
+}
+.clm-list div.row {
+  border-bottom: 1px solid #ddd;
 }
 .card {
   margin-top: 0;
@@ -472,9 +498,24 @@ ul .mcq_active div span {
 .buttons .button-light.button-outline {
   width: auto;
 }
+.q-title {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.q-title .badge {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  top: -2px;
+  line-height: 22px;
+  position: relative;
+}
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;
+  }
+  .info-msg.bg-balanced i.ion-ios-information-outline {
+    top: -6px;
   }
 }
 /*-------------------------------------------
@@ -522,7 +563,7 @@ ul .mcq_active div span {
   }
   .info-msg i.ion-ios-information-outline {
     font-size: 34px;
-    top: -8px;
+    top: -7px;
   }
   .button {
     min-height: 55px;
@@ -573,6 +614,9 @@ ul .mcq_active div span {
   .clm-list h6.f-w-400 {
     font-size: 21px;
     margin-top: 0;
+  }
+  .start img {
+    width: 140px;
   }
   .loading-container .loading .popup p {
     font-size: 23px;
@@ -667,6 +711,18 @@ ul .mcq_active div span {
   #chartdiv text {
     font-size: 12px;
   }
+  .q-title {
+    font-weight: 500;
+  }
+  .q-title .badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: -11px;
+    margin-right: 18px;
+    line-height: 49px;
+    font-size: 25px;
+  }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
@@ -717,7 +773,15 @@ ul .mcq_active div span {
   }
   .info-msg i.ion-ios-information-outline {
     font-size: 34px;
-    top: -8px;
+    top: -7px;
+  }
+  .errors {
+    text-align: center;
+    padding-top: 24%;
+    color: #6B6B6B;
+  }
+  .errors .ion-sad-outline {
+    font-size: 76px;
   }
   .button {
     min-height: 55px;
@@ -834,6 +898,9 @@ ul .mcq_active div span {
   .item.item-radio .item-content {
     padding: 28px 16px 28px 69px;
   }
+  .item.item-radio .item-content span {
+    top: 23px;
+  }
   .item.item-radio .radio-icon {
     left: 28px;
     top: 35px;
@@ -854,18 +921,30 @@ ul .mcq_active div span {
     top: -5px;
     font-size: 14px;
   }
+  .q-title {
+    font-weight: 500;
+  }
+  .q-title .badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: -11px;
+    margin-right: 18px;
+    line-height: 49px;
+    font-size: 25px;
+  }
 }
 @media screen and (min-width: 768px) and (orientation: landscape) {
   .loader {
     padding-top: 20%;
   }
-}
-.errors {
-  text-align: center;
-  padding-top: 24%;
-  color: #6B6B6B;
-}
-.errors .ion-sad-outline {
-  font-size: 76px;
+  .errors {
+    text-align: center;
+    padding-top: 10%;
+    color: #6B6B6B;
+  }
+  .errors .ion-sad-outline {
+    font-size: 76px;
+  }
 }
 /***FOOTER***/
