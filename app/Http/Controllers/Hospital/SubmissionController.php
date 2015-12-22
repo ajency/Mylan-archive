@@ -85,13 +85,18 @@ class SubmissionController extends Controller
 
         $referenceCode = $response->get("patient");
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->notEqualTo("objectId", $responseId);
-        $responseQry->equalTo("patient", $referenceCode);
-        $responseQry->equalTo("status", "completed");
-        $responseQry->lessThan("createdAt", $response->getCreatedAt()); 
-        $responseQry->descending("updatedAt");
-        $oldResponse = $responseQry->first();
+        $oldResponseQry = new ParseQuery("Response");
+        $oldResponseQry->notEqualTo("objectId", $responseId);
+        $oldResponseQry->equalTo("patient", $referenceCode);
+        $oldResponseQry->equalTo("status", "completed");
+        $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
+        $oldResponseQry->descending("updatedAt");
+        $oldResponse = $oldResponseQry->first();
+
+        $baseLineResponseQry = new ParseQuery("Response");
+        $baseLineResponseQry->equalTo("patient", $referenceCode);
+        $baseLineResponseQry->equalTo("status", "base_line");
+        $baseLineResponse = $baseLineResponseQry->first();
 
 
         $previousAnswersList =[];
@@ -101,6 +106,13 @@ class SubmissionController extends Controller
             $previousAnswersList = $previousData['answers'];
         }
 
+        $baseLineAnswersList =[];
+        if(!empty($baseLineResponse))
+        {
+            $baseLineData =  $this->getSubmissionData($baseLineResponse->getObjectId());
+            $baseLineAnswersList = $baseLineData['answers'];
+        }
+
         return view('hospital.submissions-view')->with('active_menu', 'submission')
                                             ->with('referenceCode', $referenceCode)
                                             ->with('hospital', $hospital)
@@ -108,7 +120,8 @@ class SubmissionController extends Controller
                                             ->with('questionnaire', $questionnaire)
                                             ->with('date', $date)
                                             ->with('answersList', $answersList)
-                                            ->with('previousAnswersList', $previousAnswersList);
+                                            ->with('previousAnswersList', $previousAnswersList)
+                                            ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 
     public function getSubmissionData($responseId)

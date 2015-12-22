@@ -44,7 +44,7 @@
                                       $x = 'A';
                                     ?>
                                       @foreach($answer['option'] as $option)
-                                      <h5 class="text-success semi-bold">{{ $x }}: {{ $option }}</h5>
+                                      <h5 class="text-success semi-bold">{{ $x }} : {{ $option }}</h5>
                                       <?php $x++;?>
                                       @endforeach
                                     @else
@@ -56,14 +56,40 @@
                                     <h5 class="text-success"><span class="text-muted">Previous Answer:</span>
    
                                         @if($previousAnswersList[$answer['questionId']]['questionType']=='multi-choice')
-                                         <span class="text-info">{{ implode(" , ",$previousAnswersList[$answer['questionId']]['option'])}}</span>
+                                           <?php
+                                              $x = 'A';
+                                            ?>
+                                            <br>
+                                            @foreach($previousAnswersList[$answer['questionId']]['option'] as $option)
+                                            <span class="text-info"><b>{{ $x }}</b> : {{ $option }}</span>  <br>
+                                            <?php $x++;?>
+                                            @endforeach
+                                          
            
                                         @else
                                           <span class="text-info">{{ $previousAnswersList[$answer['questionId']]['value']}} {{ $previousAnswersList[$answer['questionId']]['option']}}</span>
                                         @endif
                                      </h5>
                                     @endif
-
+                                    @if(isset($baseLineAnswersList[$answer['questionId']]))
+                                    <h5 class="text-success"><span class="text-muted">Base Line Answer:</span>
+   
+                                        @if($baseLineAnswersList[$answer['questionId']]['questionType']=='multi-choice')
+                                          <?php
+                                            $x = 'A';
+                                          ?>
+                                          <br>
+                                          @foreach($baseLineAnswersList[$answer['questionId']]['option'] as $option)
+                                          <span class="text-info"><b>{{ $x }}</b>: {{ $option }}</span>  <br>
+                                          <?php $x++;?>
+                                          @endforeach
+                               
+           
+                                        @else
+                                          <span class="text-info">{{ $baseLineAnswersList[$answer['questionId']]['value']}} {{ $baseLineAnswersList[$answer['questionId']]['option']}}</span>
+                                        @endif
+                                     </h5>
+                                    @endif
                                  </div>
                               </div>
                               <?php $i++;?>
