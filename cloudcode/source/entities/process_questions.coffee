@@ -1001,13 +1001,26 @@ Parse.Cloud.define "dashboard1", (request, response) ->
 		response.error error
 
 
+Parse.Cloud.define "updateMissedObjects", (request, response) ->
+	patientId = request.params.patientId
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		updateMissedObjects scheduleObj, patientId
+		.then () ->
+			response.success scheduleObj
+		, (error) ->
+			promise.error error
+	, (error) ->
+		promise.error error
 
 
 
 
 Parse.Cloud.define "dashboard2", (request, response) ->
-	patientId = request.params.patientId
 	results = []
+	patientId = request.params.patientId
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.include('questionnaire')
 	scheduleQuery.equalTo('patient', patientId)
@@ -1071,7 +1084,15 @@ updateMissedObjects = (scheduleObj, patientId) ->
 			else
 				promise.resolve()
 		else
+
 			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+			console.log "======================================================================"
+			console.log scheduleObj
+			console.log patientId 
+			console.log timeObj
+			console.log "======================================================================"
+
+
 			if isValidMissedTime(timeObj)
 				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)
 				.then (responseObj) ->
@@ -1098,24 +1119,12 @@ updateMissedObjects = (scheduleObj, patientId) ->
 						promise.error error
 				, (error) ->
 					promise.error error
+			promise.resolve()
 	, (error) ->
 		promise.error error
 	promise
 
 
-Parse.Cloud.define "updateMissedObjects", (request, response) ->
-	patientId = request.params.patientId
-	scheduleQuery = new Parse.Query('Schedule')
-	scheduleQuery.equalTo('patient', patientId)
-	scheduleQuery.first()
-	.then (scheduleObj) ->
-		updateMissedObjects scheduleObj, patientId
-		.then () ->
-			response.success scheduleObj
-		, (error) ->
-			promise.error error
-	, (error) ->
-		promise.error error
 
 
 createResponse = (questionnaireId, patientId, scheduleObj) ->

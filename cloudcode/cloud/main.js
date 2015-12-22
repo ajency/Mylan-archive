@@ -1095,10 +1095,26 @@
     });
   });
 
+  Parse.Cloud.define("updateMissedObjects", function(request, response) {
+    var patientId, scheduleQuery;
+    patientId = request.params.patientId;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.equalTo('patient', patientId);
+    return scheduleQuery.first().then(function(scheduleObj) {
+      return updateMissedObjects(scheduleObj, patientId).then(function() {
+        return response.success(scheduleObj);
+      }, function(error) {
+        return promise.error(error);
+      });
+    }, function(error) {
+      return promise.error(error);
+    });
+  });
+
   Parse.Cloud.define("dashboard2", function(request, response) {
     var patientId, results, scheduleQuery;
-    patientId = request.params.patientId;
     results = [];
+    patientId = request.params.patientId;
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.include('questionnaire');
     scheduleQuery.equalTo('patient', patientId);
@@ -1166,8 +1182,13 @@
         }
       } else {
         timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
+        console.log("======================================================================");
+        console.log(scheduleObj);
+        console.log(patientId);
+        console.log(timeObj);
+        console.log("======================================================================");
         if (isValidMissedTime(timeObj)) {
-          return createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
+          createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
             responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
             responseObj.set('status', 'missed');
             return responseObj.save().then(function(responseObj) {
@@ -1195,28 +1216,13 @@
             return promise.error(error);
           });
         }
+        return promise.resolve();
       }
     }, function(error) {
       return promise.error(error);
     });
     return promise;
   };
-
-  Parse.Cloud.define("updateMissedObjects", function(request, response) {
-    var patientId, scheduleQuery;
-    patientId = request.params.patientId;
-    scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.equalTo('patient', patientId);
-    return scheduleQuery.first().then(function(scheduleObj) {
-      return updateMissedObjects(scheduleObj, patientId).then(function() {
-        return response.success(scheduleObj);
-      }, function(error) {
-        return promise.error(error);
-      });
-    }, function(error) {
-      return promise.error(error);
-    });
-  });
 
   createResponse = function(questionnaireId, patientId, scheduleObj) {
     var promise, questionnaireQuery;
