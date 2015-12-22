@@ -67,6 +67,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 			.then (responseObj) ->
 				responseObj.set 'status', 'started'
 				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+				responseObj.set 'schedule', scheduleObj
 				responseObj.save()
 				.then (responseObj) ->
 					scheduleQuery = new Parse.Query('Schedule')
@@ -1013,8 +1014,8 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 	scheduleQuery.equalTo('patient', patientId)
 	scheduleQuery.first()
 	.then (scheduleObj) ->
-	#	updateMissedObjects scheduleObj, patientId
-	#	.then () ->
+		updateMissedObjects scheduleObj, patientId
+		.then () ->
 			responseQuery = new Parse.Query('Response')
 			responseQuery.equalTo('patient', patientId)
 			responseQuery.descending('occurrenceDate')
@@ -1027,9 +1028,6 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 				else if isValidUpcomingTime(timeObj)
 					status = "Upcoming"
 				upcoming_due =
-					#time: timeObj
-					valid: isValidTime(timeObj)
-					upcoming: isValidUpcomingTime(timeObj)
 					date: scheduleObj.get('nextOccurrence')
 					curr: new Date()
 					status: status 
@@ -1044,8 +1042,8 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 				#response.success (timeObj)
 			, (error) ->
 				response.error error 
-	#	, (error) ->
-	#		response.error error 
+		, (error) ->
+			response.error error 
 	, (error) ->
 		response.error error 
 
@@ -1074,7 +1072,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 			else
 				promise.resolve()
 		else
-			timeObj = getValidPeriod(scheduleObj)
+			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			if isValidMissedTime(timeObj)
 				createResponse(scheduleObj.get('questionnaire').id, patientId)
 				.then (responseObj) ->
