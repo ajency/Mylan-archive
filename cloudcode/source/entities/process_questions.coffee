@@ -63,7 +63,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
-			createResponse questionnaireId, patientId, scheduleObj, 'started', scheduleObj.get('nextOccurrence')
+			createResponse questionnaireId, patientId, scheduleObj
 			.then (responseObj) ->
 				responseObj.set 'status', 'started'
 				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
@@ -685,7 +685,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 
 
 
-Parse.Cloud.define "dashboard", (request, response) ->
+Parse.Cloud.define "dashboard2", (request, response) ->
 	patientId = request.params.patientId
 #	results = {}
 	results = []
@@ -1005,6 +1005,7 @@ Parse.Cloud.define "updateMissedObjects", (request, response) ->
 	patientId = request.params.patientId
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.include('questionnaire')
 	scheduleQuery.first()
 	.then (scheduleObj) ->
 		updateMissedObjects scheduleObj, patientId
@@ -1018,7 +1019,7 @@ Parse.Cloud.define "updateMissedObjects", (request, response) ->
 
 
 
-Parse.Cloud.define "dashboard2", (request, response) ->
+Parse.Cloud.define "dashboard", (request, response) ->
 	results = []
 	patientId = request.params.patientId
 	scheduleQuery = new Parse.Query('Schedule')
@@ -1036,12 +1037,11 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 				timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				status =""
 				if isValidTime(timeObj)
-					status ="Due"
+					status ="due"
 				else if isValidUpcomingTime(timeObj)
-					status = "Upcoming"
+					status = "upcoming"
 				upcoming_due =
-					date: scheduleObj.get('nextOccurrence')
-					curr: new Date()
+					occurrenceDate: scheduleObj.get('nextOccurrence')
 					status: status 
 				results.push(upcoming_due)
 				for responseObj in responseObjs
@@ -1065,7 +1065,6 @@ Parse.Cloud.define "dashboard2", (request, response) ->
 
 updateMissedObjects = (scheduleObj, patientId) ->
 	promise = new Parse.Promise()
-
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', patientId)
 	responseQuery.equalTo('status', 'started')
@@ -1084,26 +1083,14 @@ updateMissedObjects = (scheduleObj, patientId) ->
 			else
 				promise.resolve()
 		else
-
 			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			if isValidMissedTime(timeObj)
-				console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-				console.log responseObj
-				console.log patientId
-				console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-				
-				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj, 'missed', scheduleObj.get('nextOccurrence'))
+				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)#, 'missed', scheduleObj.get('nextOccurrence'))
 				.then (responseObj) ->
-					console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-					console.log responseObj
-					console.log patientId
-					console.log "ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo"
-
 					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 					responseObj.set 'status', 'missed'
 					responseObj.save()
 					.then (responseObj) ->
-
 						scheduleQuery = new Parse.Query('Schedule')
 						scheduleQuery.doesNotExist('patient')
 						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
@@ -1123,7 +1110,8 @@ updateMissedObjects = (scheduleObj, patientId) ->
 						promise.error error
 				, (error) ->
 					promise.error error
-			promise.resolve()
+			else 
+				promise.resolve()
 	, (error) ->
 		promise.error error
 	promise
@@ -1131,7 +1119,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 
 
 
-createResponse = (questionnaireId, patientId, scheduleObj, status, occurrenceDate) ->
+createResponse = (questionnaireId, patientId, scheduleObj) -> 
 	promise = new Parse.Promise()
 	questionnaireQuery = new Parse.Query("Questionnaire")
 	questionnaireQuery.get(questionnaireId)
@@ -1143,22 +1131,8 @@ createResponse = (questionnaireId, patientId, scheduleObj, status, occurrenceDat
 		responseObj.set 'questionnaire', questionnaireObj
 		responseObj.set 'answeredQuestions', []
 		responseObj.set 'schedule', scheduleObj
-		responseObj.set 'status', status
-		responseObj.set 'occurrenceDate', occurrenceDate
-		console.log "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-		console.log responseObj
-		console.log patientId 
-		console.log "timeObj"
-		console.log "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
 		responseObj.save()
 		.then (responseObj) ->
-			console.log "======================================================================"
-			console.log responseObj
-			console.log patientId 
-			console.log "timeObj"
-			console.log "======================================================================"
-
 			promise.resolve responseObj
 		, (error) ->
 			promise.reject error			
