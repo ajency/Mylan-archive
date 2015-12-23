@@ -12,6 +12,7 @@
       <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/>
       <link href="assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
       <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen"/>
+      <link rel="stylesheet" href="assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
       <!-- END PLUGIN CSS -->
       <!-- BEGIN CORE CSS FRAMEWORK -->
       <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -178,6 +179,13 @@
                      <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
                      <div class="tab-content table-data">
                         <div class="tab-pane active" id="allPatients">
+                           <ul class="nav nav-tabs view-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#list-view" aria-controls="list-view" role="tab" data-toggle="tab"><i class="fa fa-list"></i></a></li>
+    <li role="presentation"><a href="#grid-view" aria-controls="grid-view" role="tab" data-toggle="tab"><i class="fa fa-cubes"></i></a></li>
+  </ul>
+  <br><br><br>
+                     <div class="tab-content ">
+                        <div role="tabpanel" class="tab-pane fade in active" id="list-view">
                            <table class="table table-hover" id="example1" >
                               <thead>
                                  <tr>
@@ -235,91 +243,128 @@
                               </tbody>
                            </table>
                         </div>
+                        <div role="tabpanel" class="tab-pane fade" id="grid-view">
+                           <div class="grid simple vertical green">
+                              <div class="grid-body">
+                                 <div class="row">
+                                    <div class="col-md-4">
+                                       <h4 class="semi-bold">Patient Id : 1001</h4>
+                                       <h5 class="text-error">Open Red Flags : <b>30</b></h5>
+                                       <h5 class="text-danger">Open Amber Flags : <b>30</b></h5>
+                                       <h5  class="text-success">Number of Pending Review Submissions : <b>4</b></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                       <div id="sparkline-pie"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                       <div id="line-example" style="width:100%;height:250px;"> </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        </div>
+                        </div>
                         <div class="tab-pane" id="flags">
                            <table class="table table-hover" id="example" >
                               <thead>
                                  <tr>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
+                                    <th>Patient Id</th>
+                                    <th>Date</th>
                                     <th>Sequence No.</th>
                                     <th>Reason for Flag</th>
                                     <th>Type</th>
-                                    <th>Date</th>
                                     <th>Action</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
-                                    <td>123</td>
-                                    <td>Dr. Mark</td>
-                                    <td>4</td>
-                                    <td>Difference of more than 5 units in previous answer</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,1</td>
+                                    <td>4 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='single-submission.html';">
-                                    <td>234</td>
-                                    <td>Dr. Stanley</td>
-                                    <td>3</td>
-                                    <td>5 missed submission</td>
-                                    <td ><i class="fa fa-flag text-success"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,3</td>
+                                    <td>3 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='single-submission.html';">
-                                    <td>456</td>
-                                    <td>Dr. Stanley</td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,4</td>
+                                    <td>2 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,2</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Nov</td>
                                     <td>5</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                    <td>Missed a Questionnaire</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="even gradeA"  onclick="window.document.location='single-submission.html';">
-                                    <td>123</td>
-                                    <td>Dr. Keean</td>
-                                    <td>6</td>
-                                    <td>5 missed submission</td>
-                                   <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,1</td>
+                                    <td>10 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="odd gradeA"  onclick="window.document.location='single-submission.html';">
-                                    <td>56</td>
-                                    <td>Dr. Nell</td>
-                                    <td>7</td>
-                                    <td >7 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,3</td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
-                                    <td>90</td>
-                                    <td>Keean</td>
-                                    <td>10</td>
-                                    <td>12 missed submission</td>
-                                     <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,5</td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
-                                    <td>4564</td>
-                                    <td>Keean</td>
-                                    <td>2</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
-                                    <td>342</td>
-                                    <td>Keean</td>
-                                    <td>9</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>06/03/1993</td>
-                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,4</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>1003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>2 points higher than the previous answer</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
                                  </tr>
                               </tbody>
                            </table>
@@ -354,6 +399,14 @@
       <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript" ></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+      <script src="assets/plugins/jquery-morris-chart/js/morris.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.time.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.selection.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.animator.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.orderBars.js"></script>
+      <script src="assets/plugins/jquery-sparkline/jquery-sparkline.js"></script>
       <script src="assets/js/tabs_accordian.js" type="text/javascript"></script> 
       <!-- END PAGE LEVEL PLUGINS -->
       <script src="assets/js/datatables.js" type="text/javascript"></script>
@@ -361,5 +414,34 @@
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script> 
       <!-- END CORE TEMPLATE JS --> 
+              <script type="text/javascript">
+$(document).ready(function() {   
+   $("#sparkline-pie").sparkline([8,5], {
+      type: 'pie',
+      width: '100%',
+      height: '100%',
+      sliceColors: ['#53C1B7','#F7D3AB',],
+      offset: 10,
+      borderWidth: 0,
+      borderColor: '#000000 '
+   });
+   Morris.Line({
+     element: 'line-example',
+     data: [
+      { y: '2006', a: 50, b: 40 },
+      { y: '2007', a: 65,  b: 55 },
+      { y: '2008', a: 50,  b: 40 },
+      { y: '2009', a: 75,  b: 65 },
+      { y: '2010', a: 50,  b: 40 },
+      { y: '2011', a: 75,  b: 65 },
+      { y: '2012', a: 100, b: 90 }
+     ],
+     xkey: 'y',
+     ykeys: ['a', 'b'],
+     labels: ['Series A', 'Series B'],
+     lineColors:['#0aa699','#d1dade'],
+   });
+});
+   </script>
    </body>
 </html>
