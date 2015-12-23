@@ -170,17 +170,18 @@
         mcq-select
         class="list"
         ng-if = 'view.data.questionType == "multi-choice"'>
+        <div ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index"  >
           <li 
-          class="item item-checkbox mcq"
-          ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
+          class="item item-checkbox mcq" ng-class="{mcq_active : answerValue.checked}">
           <label class="checkbox" >
             <input type="checkbox" ng-model="answerValue.checked" 
             ng-checked="answerValue.checked" ng-disabled="!view.readonly">
           </label>
           <div>
-            <span>{{$index + 1}}</span> {{answerValue.option}}
+            <span>{{$index + 1}}</span> {{answerValue.option}} -- {{answerValue.checked}}
           </div >
-        </li>
+          </li>
+        </div>
       </ul>
 
       </div>

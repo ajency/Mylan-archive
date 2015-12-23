@@ -38,27 +38,74 @@ angular.module 'PatientApp.Quest',[]
 					Storage.setData 'patientData','get'
 				.then (patientData)=>
 					@respStatus = $stateParams.respStatus
-					if @respStatus == 'noValue'
+					if @respStatus == 'lastQuestion'
+						param =
+							"questionId" : ''
+							"options": []
+							"value": ""
+						Storage.setData 'responseId','get'
+						.then (responseId)=>	
+							param.responseId = responseId
+							QuestionAPI.getPrevQuest param
+							.then (data)=>
+								console.log 'previous data'
+								console.log @data	
+								@variables()
+								@data = []
+								@data = data.result
+								@readonly = @data.editable
+								@pastAnswer()
+								if !_.isEmpty(@data.hasAnswer)
+									@hasAnswerShow()	
+								@display = 'noError'
+							,(error)=>
+								@display = 'error'
+								console.log error
+								if error == 'offline'
+									CToast.showLongBottom 'Check net connection,answer not saved'
+								else
+									CToast.show 'Error ,try again'
+							
+
+					else if @respStatus == 'noValue'
 						responseId = ''
+
+						options =
+							"responseId": responseId
+							"questionnaireId": patientData.id
+							"patientId": @refcode
+
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data.result
+							@pastAnswer()
+							Storage.setData 'responseId', 'set', data.result.responseId
+							@display = 'noError'
+						,(error)=>
+							@display = 'error'
+							@errorType = error
+
 					else 
 						responseId = $stateParams.respStatus
 
-					options =
-						"responseId": responseId
-						"questionnaireId": patientData.id
-						"patientId": @refcode
+						options =
+							"responseId": responseId
+							"questionnaireId": patientData.id
+							"patientId": @refcode
 
-					QuestionAPI.getQuestion options
-					.then (data)=>
-						console.log 'inside then'
-						console.log data
-						@data = data.result
-						@pastAnswer()
-						Storage.setData 'responseId', 'set', data.result.responseId
-						@display = 'noError'
-					,(error)=>
-						@display = 'error'
-						@errorType = error
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data.result
+							@pastAnswer()
+							Storage.setData 'responseId', 'set', data.result.responseId
+							@display = 'noError'
+						,(error)=>
+							@display = 'error'
+							@errorType = error
 					
 			init : ->
 				@getQuestion()	
@@ -88,11 +135,11 @@ angular.module 'PatientApp.Quest',[]
 						@pastAnswer()
 
 						if !_.isUndefined(@data.status)
-							summary = {}
-							summary['summary'] = @data.summary
-							summary['responseId'] = responseId
-							Storage.summary('set', summary)
-							App.navigate 'summary', summary:'set'
+							# summary = {}
+							# summary['summary'] = @data.summary
+							# summary['responseId'] = responseId
+							# Storage.summary('set', summary)
+							App.navigate 'summary', summary:responseId
 						@display = 'noError'					
 					,(error)=>
 						console.log 'inside save error'
@@ -250,14 +297,27 @@ angular.module 'PatientApp.Quest',[]
 
 					_.each @data.options, (opt)=>
 						a = @val_answerValue[opt.option]
-						if !_.isUndefined(a) && a !=''
+						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
 							valueInput.push(a)
 							optionId.push(opt.id)
 
+					console.log '***'
+					console.log optionId
+
+					# aa = if _.isEmpty(optionId) then [] else [optionId[0]] 
+					# bb = if  _.isEmpty(valueInput) then [] else value = valueInput[0]	
+					if  _.isEmpty(optionId)
+						optionId = []
+					else
+					 	optionId = [optionId[0]] 	
+					if  _.isEmpty(valueInput)
+						value = []
+					else
+					 	value = valueInput[0].toString()
 					options =
 						"questionId" : @data.questionId
-						"options": if optionId == [] then [] else [optionId[0]]
-						"value": if valueInput == [] then [] else valueInput[0].toString()
+						"options": optionId
+						"value": value.toString()
 
 					@loadPrevQuestion(options)
 
@@ -352,6 +412,7 @@ angular.module 'PatientApp.Quest',[]
 					_.each @data.options, (value) =>
 						if (_.contains(@data.hasAnswer.option, value.id))
 							value['checked'] = true
+						
 
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})

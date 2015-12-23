@@ -74,8 +74,14 @@ angular.module 'PatientApp.Quest'
 				@getSummaryApi()
 
 			back :->
-				if @summarytype != 'set'
+				if App.previousState == 'dashboard'
 					App.navigate 'dashboard'
+				else
+					App.navigate 'questionnaire', respStatus:'lastQuestion'
+
+				# App.navigate 'questionnaire', respStatus:'lastQuestion'
+				# if @summarytype != 'set'
+				# 	App.navigate 'dashboard'
 
 
 		
