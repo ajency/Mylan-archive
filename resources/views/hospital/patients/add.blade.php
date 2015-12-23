@@ -19,6 +19,7 @@
         <h3><span class="semi-bold">Patients</span></h3>
       </div> 
      <div class="grid simple">
+     @include('hospital.flashmessage')
            <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients') }}" data-parsley-validate>
               <div class="row column-seperation">
