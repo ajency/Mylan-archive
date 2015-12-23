@@ -174,8 +174,8 @@
                      
                      <ul class="nav nav-tabs inner-tabs" id="tab-2">
                         <li class=""><a href="patient-summary.html"><i class="fa fa-wheelchair"></i> Summary</a></li>
-                        <li class="active"><a href="#submissions"><i class="fa fa-list-alt"></i> Submissions</a></li>
-                        <li><a href="patient-flag.html"><i class="fa fa-flag"></i> Flags</a></li>
+                        <li class=""><a href="#submissions"><i class="fa fa-list-alt"></i> Submissions</a></li>
+                        <li class="active"><a href="patient-flag.html"><i class="fa fa-flag"></i> Flags</a></li>
                         <li class=""><a href="baseline-score.html"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
                         <li class=""><a href="patient-reports.html"><i class="fa fa-bar-chart"></i> Reports</a></li>
                         <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li>
@@ -345,65 +345,96 @@
                            </table>
                         </div>
                         <div class="tab-pane active" id="submissions">
-                           <!-- <a href="#" class="btn btn-danger pull-right"><i class="fa fa-download"></i> Download CSV</a> -->
-                           <h4><span class="semi-bold">Submission Details</span><!--  (Showing 10 recent submissions) --></h4>
+                           <!-- <a href="#" class="btn btn-danger pull-right"><i class="fa fa-download"></i> Download CSV</a>
+                           <h4><span class="semi-bold">Recent Submissions</span> (Showing 10 recent submissions)</h4> -->
                                  <br>
-                                 <table class="table table-hover table-flip-scroll cf">
-                                    <thead class="cf">
-                                       <tr>
-                                          <th>Submission Date</th>
-                                          <th>Sequence Number</th>
-                                          <th>Number of Flags</th>
-                                          <th>Open Flags</th>
-                                          <th>Status</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody>
-                                       <tr onclick="window.document.location='single-submission-01-dec.html';">
-                                          <td>06/12/15</td>
-                                          <td>12</td>
-                                          <td>0</td>
-                                          <td>0</td>
-                                          <td><span class="label label-warning">To Be Reviewed</span></td>
-                                       </tr>                                       
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>08/07/15</td>
-                                          <td>7</td>
-                                          <td>0</td>
-                                          <td>0</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>06/06/15</td>
-                                          <td>6</td>
-                                          <td>6</td>
-                                          <td>5</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>07/05/15</td>
-                                          <td>5</td>
-                                          <td>4</td>
-                                          <td>3</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>                                       
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>07/02/15</td>
-                                          <td>2</td>
-                                          <td>3</td>
-                                          <td>2</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                       <tr onclick="window.document.location='single-submission.html';">
-                                          <td>04/01/15</td>
-                                          <td>1</td>
-                                          <td>1</td>
-                                          <td>0</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
+                                 <table class="table table-hover" id="example" >
+                              <thead>
+                                 <tr>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Sequence No.</th>
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission.html';">
+                                    <td>123</td>
+                                    <td>Dr. Mark</td>
+                                    <td>4</td>
+                                    <td>Difference of more than 5 units in previous answer</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 </tr>
+                                 <tr class="even gradeC" onclick="window.document.location='single-submission.html';">
+                                    <td>234</td>
+                                    <td>Dr. Stanley</td>
+                                    <td>3</td>
+                                    <td>5 missed submission</td>
+                                    <td ><i class="fa fa-flag text-success"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeA" onclick="window.document.location='single-submission.html';">
+                                    <td>456</td>
+                                    <td>Dr. Stanley</td>
+                                    <td>5</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 </tr>
+                                 <tr class="even gradeA"  onclick="window.document.location='single-submission.html';">
+                                    <td>123</td>
+                                    <td>Dr. Keean</td>
+                                    <td>6</td>
+                                    <td>5 missed submission</td>
+                                   <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeA"  onclick="window.document.location='single-submission.html';">
+                                    <td>56</td>
+                                    <td>Dr. Nell</td>
+                                    <td>7</td>
+                                    <td >7 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 </tr>
+                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
+                                    <td>90</td>
+                                    <td>Keean</td>
+                                    <td>10</td>
+                                    <td>12 missed submission</td>
+                                     <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 </tr>
+                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
+                                    <td>4564</td>
+                                    <td>Keean</td>
+                                    <td>2</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-success">Open Flag</span></td>
+                                 </tr>
+                                 <tr class="gradeA" onclick="window.document.location='single-submission.html';">
+                                    <td>342</td>
+                                    <td>Keean</td>
+                                    <td>9</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>06/03/1993</td>
+                                    <td> <span class="label label-warning">Closed Flag</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
                               
                            
                         </div>
