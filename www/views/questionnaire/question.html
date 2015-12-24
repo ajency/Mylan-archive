@@ -36,7 +36,7 @@
         class="padding">
         <div class="col">
           <h4 class="q-title">
-            <span class="badge badge-assertive badge-round">1</span>
+            <span class="badge badge-assertive badge-round">Q</span>
             {{view.data.questionTitle}}
           </h4>
           <h5 class="f-w-400">  
@@ -105,11 +105,12 @@
       <div
           ng-if = 'view.data.questionType == "single-choice" 
           || view.data.questionType == "multi-choice"'>
+
       <div 
         class="padding">
           <div class="col">
               <h4 class="q-title">
-                <span class="badge badge-assertive badge-round">1</span>
+                <span class="badge badge-assertive badge-round">Q</span>
                 {{view.data.questionTitle}}
               </h4>
               <h5 class="f-w-400"
@@ -178,7 +179,7 @@
             ng-checked="answerValue.checked" ng-disabled="!view.readonly">
           </label>
           <div>
-            <span>{{$index + 1}}</span> {{answerValue.option}} -- {{answerValue.checked}}
+            <span>{{$index + 1}}</span> {{answerValue.option}} 
           </div >
           </li>
         </div>

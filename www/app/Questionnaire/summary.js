@@ -1,6 +1,7 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner) {
-    return $scope.view = {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform) {
+    var deregister, onDeviceBack;
+    $scope.view = {
       title: 'C-weight',
       data: [],
       go: '',
@@ -46,14 +47,15 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         var param;
         CSpinner.show('', 'Please wait..');
         param = {
-          responseId: this.responseId
+          responseId: $stateParams.summary
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
             console.log('data');
             console.log('succ submiteed');
             CToast.show('submiteed successfully ');
-            return App.navigate('exit-questionnaire');
+            App.navigate('exit-questionnaire');
+            return deregister();
           };
         })(this), (function(_this) {
           return function(error) {
@@ -82,6 +84,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       back: function() {
+        deregister();
         if (App.previousState === 'dashboard') {
           return App.navigate('dashboard');
         } else {
@@ -91,6 +94,16 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         }
       }
     };
+    onDeviceBack = function() {
+      return $scope.view.back();
+    };
+    deregister = null;
+    $scope.$on('$ionicView.afterEnter', function() {
+      return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
+    });
+    return $scope.$on('$ionicView.leave', function() {
+      return $ionicPlatform.offHardwareBackButton(onDeviceBack);
+    });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

@@ -36,7 +36,6 @@ angular.module 'PatientApp.dashboard',[]
 						@display = 'error'
 						@errorType = error
 
-				# DashboardAPI.get()
 
 
 			displaydata : ->

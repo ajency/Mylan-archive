@@ -1,6 +1,6 @@
 angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
   '$scope', 'App', 'QuestionAPI', '$stateParams', '$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout', '$ionicPlatform', function($scope, App, QuestionAPI, $stateParams, $window, Storage, CToast, CSpinner, $q, $timeout, $ionicPlatform) {
-    var onDeviceBack;
+    var onDeviceBack, onHardwareBackButton1;
     $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -110,7 +110,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             param.responseId = responseId;
             return QuestionAPI.saveAnswer(param).then(function(data) {
               App.resize();
-              CToast.show('Your answer is saved');
+              if (_this.readonly === true) {
+                CToast.show('Your answer is saved');
+              }
               console.log('******next question******');
               console.log(data);
               _this.variables();
@@ -129,8 +131,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               }
               return _this.display = 'noError';
             }, function(error) {
-              console.log('inside save error');
-              console.log(error);
               if (error === 'offline') {
                 return CToast.showLongBottom('Check net connection,answer not saved');
               } else {
@@ -332,7 +332,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
-        console.log('onTapToRetry');
         return this.getQuestion();
       },
       isEmpty: function(pastAnswerObject) {
@@ -352,7 +351,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }
           }
           if (this.data.questionType === 'single-choice' || this.data.questionType === 'multi-choice') {
-            console.log('have an');
             optionSelectedArray = [];
             sortedArray = _.sortBy(this.data.options, 'score');
             pluckId = _.pluck(sortedArray, 'id');
@@ -394,26 +392,35 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           });
           return this.val_answerValue[ObjId.option] = parseInt(this.data.hasAnswer.value);
         }
+      },
+      navigateOnDevice: function() {
+        if (this.data.previous === false) {
+          onHardwareBackButton1();
+          return App.navigate('dashboard', {}, {
+            animate: false,
+            back: false
+          });
+        } else {
+          return $scope.view.prevQuestion();
+        }
       }
     };
     onDeviceBack = function() {
-      if ($scope.view.data.previous === false || _.isElement($scope.view.data)) {
-        return App.navigate('dashboard', {}, {
-          animate: false,
-          back: false
-        });
-      } else {
-        return $scope.view.prevQuestion();
-      }
+      return $scope.view.navigateOnDevice();
     };
+    onHardwareBackButton1 = null;
     $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      return $scope.view.reInit();
+      $scope.view.reInit();
+      if (!viewData.enableBack) {
+        return viewData.enableBack = true;
+      }
     });
     $scope.$on('$ionicView.enter', function() {
-      return $ionicPlatform.onHardwareBackButton(onDeviceBack);
+      return onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      return $ionicPlatform.offHardwareBackButton(onDeviceBack);
+      console.log('$ionicView.leave');
+      return onHardwareBackButton1();
     });
   }
 ]).config([

@@ -118,7 +118,7 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.saveAnswer param
 					.then (data)=>
 						App.resize()
-						CToast.show 'Your answer is saved'
+						if @readonly == true then CToast.show 'Your answer is saved'
 						console.log '******next question******'
 						console.log data
 						@variables()
@@ -129,26 +129,15 @@ angular.module 'PatientApp.Quest',[]
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()
 							@readonly = @data.editable
-
-
-
 						@pastAnswer()
-
 						if !_.isUndefined(@data.status)
-							# summary = {}
-							# summary['summary'] = @data.summary
-							# summary['responseId'] = responseId
-							# Storage.summary('set', summary)
 							App.navigate 'summary', summary:responseId
 						@display = 'noError'					
 					,(error)=>
-						console.log 'inside save error'
-						console.log error
 						if error == 'offline'
 							CToast.showLongBottom 'Check net connection,answer not saved'
 						else
 							CToast.show 'Error in saving answer,try again'
-
 					.finally ->
 						CSpinner.hide()
 
@@ -321,41 +310,6 @@ angular.module 'PatientApp.Quest',[]
 
 					@loadPrevQuestion(options)
 
-
-
-
-				# CSpinner.show '', 'Please wait..'
-				# Storage.setData 'responseId','get'
-				# .then (responseId)=>
-				# 	param =
-				# 		"responseId" : responseId
-				# 		"questionId" : @data.questionId
-				# 		"options": []
-				# 		"value": ""
-
-				# 	QuestionAPI.getPrevQuest param
-				# 	.then (data)=>
-				# 		console.log 'previous data'
-				# 		console.log @data	
-				# 		@variables()
-				# 		@data = []
-				# 		@data = data.result
-				# 		@readonly = @data.editable
-				# 		@pastAnswer()
-				# 		if !_.isEmpty(@data.hasAnswer)
-				# 			@hasAnswerShow()	
-				# 		console.log @data	
-						
-				# 	,(error)=>
-				# 		console.log error
-				# 		if error == 'offline'
-				# 			CToast.showLongBottom 'Check net connection,answer not saved'
-				# 		else
-				# 			CToast.show 'Error ,try again'
-				# 	.finally ->
-				# 		CSpinner.hide()
-
-
 			showDiv : ->
 				@pastAnswerDiv = 1
 
@@ -370,7 +324,6 @@ angular.module 'PatientApp.Quest',[]
 
 			onTapToRetry : ->
 				@display = 'loader'
-				console.log 'onTapToRetry'
 				@getQuestion()
 
 			isEmpty :(pastAnswerObject)->
@@ -388,7 +341,6 @@ angular.module 'PatientApp.Quest',[]
 							@data.previousQuestionnaireAnswer['label'] = ObjId.option
 
 					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
-						console.log 'have an'
 						optionSelectedArray = []
 						sortedArray = _.sortBy( @data.options, 'score' )
 						pluckId = _.pluck(sortedArray, 'id')
@@ -418,26 +370,40 @@ angular.module 'PatientApp.Quest',[]
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
 					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
 
+			navigateOnDevice:()->
+				if @data.previous == false 
+					onHardwareBackButton1()
+					App.navigate 'dashboard', {}, {animate: false, back: false}
+				else
+					$scope.view.prevQuestion()
+
+
 		onDeviceBack = ->
-			if $scope.view.data.previous == false || _.isElement($scope.view.data) 
-				App.navigate 'dashboard', {}, {animate: false, back: false}
-			else
-				$scope.view.prevQuestion()
+			$scope.view.navigateOnDevice() 
+			
 
 					
-
+		onHardwareBackButton1 = null 
+			
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
+			if !viewData.enableBack
+				viewData.enableBack = true
+
 
 		$scope.$on '$ionicView.enter', ->
 			#Device hardware back button for android
-			$ionicPlatform.onHardwareBackButton onDeviceBack
+			# $ionicPlatform.onHardwareBackButton onDeviceBack
+			onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
 		
 
 		$scope.$on '$ionicView.leave', ->
-			$ionicPlatform.offHardwareBackButton onDeviceBack
+			console.log '$ionicView.leave'
+			onHardwareBackButton1()
+			# console.log onHardwareBackButton1
+			# if onHardwareBackButton1 then onHardwareBackButton1()
+			# $ionicPlatform.offHardwareBackButton onDeviceBack
 
-		
 ]
 
 

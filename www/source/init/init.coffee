@@ -11,6 +11,7 @@ angular.module 'PatientApp.init', []
 				App.navigate 'setup', {}, {animate: false, back: false}
 			else 
 				App.navigate 'dashboard', {}, {animate: false, back: false}
+				# App.navigate 'start-questionnaire'
 
 				# Storage.login('get').then (value) ->
 				# 	if _.isNull(value)

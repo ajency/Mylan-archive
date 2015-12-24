@@ -30,7 +30,7 @@
          <h6>It's time to complete your Questionnaire</h6>
       </div>
 
-       <div >
+       <div>
       <div class="loader" ng-switch-when="loader">
         <ion-spinner>
         </ion-spinner>
@@ -57,7 +57,7 @@
          </div>
        </div>
 
-        <div ng-if="submissions.status == 'start'" >
+        <div ng-if="submissions.status == 'due'" >
          <div class="clm-list" >
             <div class="row" >
                <div class="col">
@@ -77,7 +77,7 @@
          </div>
        </div>
 
-       <div ng-if="submissions.status == 'resume'" >
+       <div ng-if="submissions.status == 'started'" >
          <div class="clm-list" >
             <div class="row" >
                <div class="col">
@@ -89,7 +89,7 @@
                <div class="col col-20 text-right">
                   <button 
                      class="button button-block button-small button-assertive"
-                     ng-click = "view.resumeQuiz(submissions.responseId);">
+                     ng-click = "view.resumeQuiz(submissions.occurrenceId);">
                      Resume
                    </button>
                </div>
@@ -113,7 +113,7 @@
          </div>
        </div>
 
-        <div ng-if="submissions.status == 'completed' && submissions.responseIds.length > 0" >
+        <div ng-if="submissions.status == 'completed' " >
          <div class="clm-list" >
             <div class="row">
                <div class="col">
@@ -124,7 +124,7 @@
                </div>
                <div class="col col-20 text-right">
                   <button class="button button-block button-small button-balanced"  
-                  ng-click = "view.summary(submissions.responseIds[0]);">View</button>
+                  ng-click = "view.summary(submissions.occurrenceId);">View</button>
                </div>
             </div>
          </div>
