@@ -180,23 +180,22 @@
                            <br>
                         <div class="row">
                            <div class="col-sm-6"><h3 class="margin-none"><span class="bold">MRI Pancreatitis</span></h3></div>
-                           <div class="col-sm-3">
-                              <select>
-                                <option value="volvo">No of open flags</option>
-                                <option value="saab">No of total flags</option>
-                                <option value="mercedes">No of submissions</option>
-                                <option value="audi">No of new setups</option>
-                              </select>
+                         
+                        </div>
+                     <hr>
+                     <div></div>
+                      <div class="row">
+                           <div class="col-sm-6"></div>
+                           <div class="col-sm-2">
                            </div>
-                           <div class="col-sm-3">
-                              <div class="input-group input-daterange">
+                           <div class="col-sm-4">
+                                  <div class="input-group input-daterange">
                                   <input type="text" class="form-control" value="2012-04-05">
                                   <span class="input-group-addon">to</span>
                                   <input type="text" class="form-control" value="2012-04-19">
                               </div>
                            </div>
-                        </div>
-                     <hr>
+                        </div><br>
                         <div class="row ">
                            <div class="col-md-3 ">
                               <h1 class="bold num-data">25 
@@ -229,6 +228,20 @@
                         </div>
                         <br>
                         <!-- Chart - Added -->
+                        <br>
+                        <div class="row">
+                           <div class="col-sm-6"></div>
+                           <div class="col-sm-3">
+                           </div>
+                           <div class="col-sm-3">
+                                   <select>
+                                      <option value="volvo">No of open flags</option>
+                                      <option value="saab">No of total flags</option>
+                                      <option value="mercedes">No of submissions</option>
+                                      <option value="audi">No of new setups</option>
+                                  </select>
+                           </div>
+                        </div>
                              <div id="chartdiv"></div>  
                         <!-- Chart - Added -->
                         <br>
@@ -237,7 +250,7 @@
                                <div class="alert alert-info alert-black">
                                  Flags Summary
                               </div>
-                     <table class="table table-flip-scroll">
+                     <table class="table table-flip-scroll dashboard-tbl">
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
@@ -412,7 +425,7 @@
                                 <div class="alert alert-info alert-black">
                                  Submission Summary
                               </div>
-                                <table class="table table-flip-scroll">
+                                <table class="table table-flip-scroll dashboard-tbl">
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
@@ -621,11 +634,11 @@
                           <div class="alert alert-info alert-black">
                               Patients Summary
                           </div>
-                         <table class="table table-flip-scroll">
+                         <table class="table table-flip-scroll ">
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
-                                    <th>Last/Next Submissions</th>
+                                    <th>Total Submissions</th>
                                     <th>Number of red flags</th>
                                     <th>Number of amber flags</th>
                                  </tr>
@@ -801,7 +814,7 @@
 
         <style type="text/css">
         #chartdiv {
-            width : 105%;
+            width : 106%;
             height   : 300px;
          }                                                  
       .demo { position: relative; }
