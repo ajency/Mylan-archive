@@ -8301,6 +8301,10 @@ ul.parsley-errors-list li {
 .m-t-5 {
   margin-top: 5px;
 }
+.sm {
+  font-size: 11px;
+  font-weight: 600;
+}
 .num-data span {
   font-size: 14px;
   font-weight: 100;
@@ -8313,7 +8317,7 @@ ul.parsley-errors-list li {
   margin: 0px;
 }
 .alert-black {
-  background: #333;
+  background: #ABABAB;
   border: 0px;
   font-size: 16px;
   color: #fff;
