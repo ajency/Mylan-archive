@@ -160,7 +160,7 @@
                   </ul>
                   </p>
                   <div>
-                     <div class="pull-right m-t-25">
+                     <div class="pull-right m-t-25 hidden">
                         <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
                      </div>
                      <div class="page-title">
@@ -170,8 +170,8 @@
                   </div>
                   <div class="tab-pane tab-active" id="Submissions">
                      <ul class="nav nav-tabs inner-tabs" id="tab-01">
-                        <li class="active"><a href="#submissions">Submissions</a></li>
-                        <li><a href="#missedSubmissions">Missed Submissions</a></li>
+                        <li class="active"><a href="#submissions">Reviewed</a></li>
+                        <li><a href="#missedSubmissions">Pending Review</a></li>
                      </ul>
                      <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
                      <div class="tab-content table-data">
@@ -186,65 +186,89 @@
                                     <th>Last Submission Date</th>
                                     <th>Sequence Number</th>
                                     <th>Number of Flags</th>
-                                    <th>Status</th>
+                                    <th class="hidden">Status</th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr onclick="window.document.location='p1-submission1.html';">
-                                    <td>1001</td>
+                                    <td>10000001</td>
                                     <td>Dr. Jones Smith</td>
-                                    <td>2/1/15</td>
+                                    <td>2/1/2015</td>
                                     <td>6/1/2015</td>
                                     <td>1</td>
                                     <td>0</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
                                  <tr onclick="window.document.location='p1-submission2.html';">
-                                    <td>1001</td>
+                                    <td>10000001</td>
                                     <td>Dr. Jones Smith</td>
-                                    <td>5/1/15</td>
+                                    <td>5/1/2015</td>
                                     <td>6/2/2015</td>
                                     <td>2</td>
                                     <td>6</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
                                  
                                  <tr onclick="window.document.location='p1-submission3.html';">
-                                    <td>1001</td>
+                                    <td>10000001</td>
                                     <td>Dr. Jones Smith</td>
                                     <td>16/4/2015</td>
                                     <td>6/5/2015</td>
                                     <td>5</td>
                                     <td>6</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
                                  <tr onclick="window.document.location='p1-submission4.html';">
-                                    <td>1001</td>
+                                    <td>10000001</td>
                                     <td>Dr. Jones Smith</td>
                                     <td>12/5/2015</td>
                                     <td>6/6/2015</td>
                                     <td>6</td>
                                     <td>6</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
                                  <tr onclick="window.document.location='p1-submission5.html';">
-                                    <td>1001</td>
+                                    <td>10000001</td>
                                     <td>Dr. Jones Smith</td>
                                     <td>9/6/2015</td>
                                     <td>6/7/2015</td>
                                     <td>7</td>
                                     <td>6</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
-                                <tr onclick="window.document.location='p1-submission6.html';">
-                                    <td>1001</td>
+                                
+
+
+
+                                 <tr onclick="window.document.location='p2-submission1.html';">
+                                    <td>10000002</td>
                                     <td>Dr. Jones Smith</td>
-                                    <td>8/11/2015</td>
-                                    <td>6/12/2015</td>
-                                    <td>12</td>
-                                    <td>6</td>
-                                    <td><span class="label label-success">Reviewed</span></td>
+                                    <td>2/7/2015</td>
+                                    <td>7/8/2015</td>
+                                    <td>8</td>
+                                    <td>0</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
+                                 <tr onclick="window.document.location='p2-submission2.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>15/8/2015</td>
+                                    <td>6/9/2015</td>
+                                    <td>9</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 
+                                 <tr onclick="window.document.location='p2-submission3.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>16/10/2015</td>
+                                    <td>8/11/2015</td>
+                                    <td>11</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 
                               </tbody>
                            </table>
                         </div>
@@ -252,21 +276,45 @@
                            <table class="table table-hover table-flip-scroll cf">
                               <thead class="cf">
                                  <tr>
-                                    <th>Patient ID</th>
+                                    <!-- <th>Patient ID</th>
                                     <th>Last Clinic Visit</th>
                                     <th>Last Submission Date</th>
                                     <th>Sequence Number Missed</th>
-                                    <th>Number of Submissions Missed</th>
+                                    <th>Number of Submissions Missed</th> -->
+                                    <th>Patient ID</th>
+                                    <th>Doctor In-charge</th>
+                                    <th>Last Clinic Visit</th>
+                                    <th>Last Submission Date</th>
+                                    <th>Sequence Number</th>
+                                    <th>Number of Flags</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr onclick="window.document.location='single-submission.html';">
-                                    <td>1003</td>
+                                 <tr class="hidden" onclick="window.document.location='single-submission.html';">
+                                    <td>10000003</td>
                                     <td>5th May</td>
                                     <td>29th Oct</td>
                                     <td>5</td>
                                     <td>1</td>
                                 </tr>
+                                <tr onclick="window.document.location='p1-submission6.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>8/11/2015</td>
+                                    <td>6/12/2015</td>
+                                    <td>12</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-warning">Pending Review</span></td>
+                                 </tr>
+                                <tr onclick="window.document.location='p2-submission4.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>12/11/2015</td>
+                                    <td>6/12/2015</td>
+                                    <td>12</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-warning">Pending Review</span></td>
+                                 </tr>
                               </tbody>
                            </table>
                         </div>
