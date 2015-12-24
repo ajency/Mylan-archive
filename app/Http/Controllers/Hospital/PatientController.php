@@ -12,6 +12,7 @@ use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use App\Hospital;
 use App\Projects;
+use \Session;
 
 class PatientController extends Controller
 {
@@ -71,6 +72,13 @@ class PatientController extends Controller
         $referanceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
         $project = $request->input('project');
+
+        $validateRefernceCode = User::where('reference_code',$referanceCode)->get()->toArray();
+        if(!empty($validateRefernceCode))
+        {
+           Session::flash('error_message','Error !!! Referance Code Already Exist ');    
+           return redirect(url($hospitalSlug . '/patients/create'));
+        }
         
         $user = new User();
         $user->reference_code = $referanceCode;
@@ -97,9 +105,22 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($hospitalSlug , $patientId)
     {
-        //
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $patient = User::find($patientId);
+        $projectName = Projects::find($patient['project_id'])->name;
+        
+        
+        return view('hospital.patients.show')->with('active_menu', 'patients')
+                                        ->with('active_tab', 'summary')
+                                        ->with('tab', '01')
+                                        ->with('hospital', $hospital)
+                                        ->with('logoUrl', $logoUrl)
+                                        ->with('patient', $patient)
+                                        ->with('projectName', $projectName);
     }
 
     /**
@@ -177,6 +198,10 @@ class PatientController extends Controller
         $submissionArr = [];
         $questionArr = [];
         $responseArr = [];
+        $inputScores = [];
+        
+        $inputBaseQuestionId = '';
+        $inputLable = '';
        
 
         foreach ($anwsers as   $anwser) {
@@ -189,9 +214,17 @@ class PatientController extends Controller
             $optionValue = $anwser->get("value");
 
            
-            if($questionType=='input' || $questionType=='descriptive')
+            if($questionType=='input')
             {
                 $optionScore = $optionValue;
+                $inputBaseQuestionId = $questionId;
+                $inputLable = $questionTitle;
+
+                if($responseStatus=="base_line")
+                    $inputBaseLineScore = $optionScore;
+                else
+                    $inputScores[$responseId] = $optionScore;
+
                 continue;
             }
             elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
@@ -221,19 +254,25 @@ class PatientController extends Controller
              } 
             
             $questionArr[$questionId]= $questionTitle;
-            $responseArr[$responseId]= $anwser->get("response")->getCreatedAt()->format('d M'); //get('occurrenceData')
+            if($responseStatus!="base_line")
+                $responseArr[$responseId]= $anwser->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
 
         }
-        
-
-        return view('hospital.patients.submission-report')->with('active_menu', 'patients')
+ 
+      
+        return view('hospital.patients.reports')->with('active_menu', 'patients')
+                                        ->with('active_tab', 'reports')
+                                        ->with('tab', '04')
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('responseArr', $responseArr)
                                         ->with('questionArr', $questionArr)
                                         ->with('baseLineArr', $baseLineArr)
-                                        ->with('submissionArr', $submissionArr);
+                                        ->with('submissionArr', $submissionArr)
+                                        ->with('inputBaseLineScore', $inputBaseLineScore)
+                                        ->with('inputLable', $inputLable)
+                                        ->with('inputScores', $inputScores); 
 
     }
 
