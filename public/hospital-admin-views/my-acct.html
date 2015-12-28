@@ -170,14 +170,16 @@
  -->                     <h4 class="semi-bold">Account Details</h4><br>
                            <div class="row">
                               <div class="col-md-4">
-                                    <div class="row-fluid">
-                    <form action="/file-upload" class="dropzone no-margin">
-                      <div class="fallback">
-                        <input name="file" type="file" multiple />
-                      </div>
-                    </form>
-                  </div>   
-                              </div>
+                                 <form action="" method="post" enctype="multipart/form-data">
+                                        <div class="upload">
+                                            <div class="img-div">
+                                            <i class="fa fa-image fa-3x"></i><br>
+                                            <h5 class="text-muted">Click to upload Hospital Logo</h5>
+                                            </div>
+                                            <input type="file" name="upload"/>
+                                        </div>
+                                    </form>
+                                 </div>
                               <div class="col-md-8">
                                  <dl class="dl-horizontal m-l-30">
                                        <dt><span>Name</span></dt>
