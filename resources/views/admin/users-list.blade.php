@@ -21,7 +21,7 @@
                   </div>
 <div class="page-title">
                      <h3><span class="semi-bold">Users</span></h3>
-                      <p>(List User for Mylan)</p>
+                      <p>(Users on Mylan)</p>
                   </div>
                   <div class="grid simple">
                         <div class="grid-body no-border table-data">

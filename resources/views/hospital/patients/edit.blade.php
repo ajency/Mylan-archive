@@ -15,7 +15,7 @@
 
 @section('content')
 <!-- BEGIN PAGE TITLE -->
-<div class="page-title"> <i class="icon-custom-left"></i>
+<div class="page-title">
         <h3><span class="semi-bold">Patients</span></h3>
       </div> 
      <div class="grid simple">
@@ -47,8 +47,8 @@
           <div class="text-right">
           <input type="hidden" name="_method" value="PUT">
                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-            <button class="btn btn-primary btn-cons-md" type="submit"><i class="icon-ok"></i> Save</button>
-            <a href="{{'/admin/patients'}}"><button class="btn btn-default btn-cons-md" type="button">Cancel</button></a>
+            <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+            <a href="{{'/admin/patients'}}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
           </div>
           </div>
       </form>

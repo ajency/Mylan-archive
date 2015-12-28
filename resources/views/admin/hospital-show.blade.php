@@ -10,7 +10,7 @@
             <a href="#"> Hospitals</a>
          </li>
          <li>
-            <a href="#"> Add Hospital</a>
+            <a href="#"> Edit Hospital</a>
          </li>
       </ul>
       </p>
@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Edit Hospital</span></h3>
-   <p>(Create a Hospital under Mylan)</p>
+   <p>(Update the Hospital details)</p>
 </div>
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="/admin/hospitals/{{$hospital['id']}}" data-parsley-validate>
 <div class="grid simple">
