@@ -513,9 +513,14 @@ ul .mcq_active div span {
   height: 25px;
   border-radius: 50%;
   top: -2px;
-  line-height: 22px;
+  line-height: 21px;
   position: relative;
   margin-right: 2px;
+}
+.scroll-down {
+  position: fixed;
+  right: 15px;
+  top: 5%;
 }
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
