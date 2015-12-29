@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Add User</span></h3>
-   <p>(Create a Hospital under Mylan)</p>
+   <p>(Create a User)</p>
 </div>
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url('admin/users') }}" data-parsley-validate>
 <div class="grid simple">

@@ -20,6 +20,8 @@
                 <br>
                 <br>
                 @if (count($errors) > 0)
+                <div class="row">
+                  <div class="col-sm-10">
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -28,6 +30,8 @@
 								@endforeach
 							</ul>
 						</div>
+          </div>
+          </div>
 					@endif
                 <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/patient/login') }}">
                 <div class="has-feedback b-b">

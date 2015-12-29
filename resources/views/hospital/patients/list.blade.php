@@ -16,27 +16,19 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-<div class="row">
-                        <div class="col-lg-8 col-md-7">
+                <div class="row">
+                <div class="col-lg-8 col-md-7">
                   <div class="page-title">
                      <h3 class="m-b-0"><span class="semi-bold">Patients</span></h3>
                      <p>(Showing all Patients under Mylan)</p>
                   </div>
                   </div>
-                        <div class="col-lg-4 col-md-5 m-t-25">
-                           <div class="row">
-                              <div class="col-md-6">
-                                 <a href="{{ url($hospital['url_slug'].'/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
-                              </div>
-                        
-                           </div>
-                        </div>
-
-                  </div>
-
-                  <div class="grid simple">
-                     <div class="grid-body">
-
+                    <div class="col-lg-4 col-md-5 m-t-25 text-right">
+                       <a href="{{ url($hospital['url_slug'].'/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
+                    </div>
+                </div>
+                <div class="grid simple">
+                  <div class="grid-body">
                   <table class="table table-hover table-flip-scroll cf">
                     <thead>
                         <tr>
@@ -56,8 +48,8 @@
                             </tr>
                         @endforeach
                     </tbody>
-                                 </table>
-                                  </div>
+                  </table>
+                  </div>
                   </div>
  
                   
