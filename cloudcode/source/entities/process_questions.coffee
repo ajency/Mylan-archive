@@ -361,149 +361,9 @@ getNextQuestion = (questionObj, option) ->
 	promise
 
 
-getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
-	promise = new Parse.Promise()
-
-	answerQuery = new Parse.Query('Answer')
-	answerQuery.equalTo("question", questionObject)
-	answerQuery.include('response')
-	answerQuery.equalTo("patient", patientId)
-	answerQuery.notEqualTo("response", responseObj)
-	answerQuery.descending('updatedAt');
-	answerQuery.find()
-	.then (answerObjects) ->
-		result = {}
-		answerObjects = (answerObj for answerObj in answerObjects when answerObj.get('response').get('status') == 'completed')
-		if !_.isEmpty answerObjects
-
-				optionIds = []
-				if questionObject.get('type') == 'multi-choice'
-					first = answerObjects[0].get('response').id
-					optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.get('response').id == first)
-				else 
-					if !_.isUndefined(answerObjects[0])
-						optionIds = [answerObjects[0].get('option').id] if !_.isUndefined(answerObjects[0].get('option')) 
-
-				result = 
-					"optionId" : optionIds
-					"value" : answerObjects[0].get('value')
-					"date" : answerObjects[0].updatedAt  
-
-			promise.resolve result
-	, (error) ->
-		promise.reject error
-
-	promise
 
 
 
-saveAnswer = (responseObj, questionObj, options, value) ->
-	promiseArr = []
-	promise = new Parse.Promise()
-	responseObject = 
-				"__type" : "Pointer",
-				"className":"Response",
-				"objectId":responseObj.id
-
-	getAnswers = () ->
-		if !_.isEmpty options
-			_.each options, (optionId) ->
-				optionQuery = new Parse.Query('Options')
-				optionQuery.get(optionId)
-				.then (optionObj) ->
-					answer = new Parse.Object('Answer')
-					answer.set "response",responseObject
-					answer.set "patient", responseObj.get('patient')
-					answer.set "question",questionObj
-					answer.set "option",optionObj
-					answer.set "value",value
-					answerPromise = answer.save()
-					promiseArr.push answerPromise
-					console.log("saved")
-				, (error) ->
-					promise.reject error
-
-		else
-
-			answer = new Parse.Object('Answer')
-			answer.set "response",responseObj
-			answer.set "patient",responseObj.get('patient')
-			answer.set "question",questionObj
-			answer.set "value",value
-			answerPromise = answer.save()
-			console.log("saved")
-			promiseArr.push answerPromise
-
-		Parse.Promise.when(promiseArr)
-
-
-	getCurrentAnswer(questionObj, responseObj)
-	.then (hasAnswer) ->
-		isEditable = questionObj.get('questionnaire').get('editable')
-		
-		if !isEditable and !_.isEmpty(hasAnswer)
-			console.log "----------------------------------"
-			console.log isEditable
-			console.log hasAnswer
-			console.log "----------------------------------"
-			promise.resolve("already_answered")
-
-		else if isEditable and !_.isEmpty(hasAnswer)
-			console.log "=================================="
-			console.log isEditable
-			console.log hasAnswer
-
-			answerQuery = new Parse.Query('Answer')
-			answerQuery.equalTo('response', responseObj)
-			answerQuery.equalTo('question', questionObj)
-			answerQuery.find()
-			.then (answers) ->
-				promiseDelete = Parse.Promise.as()
-				_.each answers, (answer) ->
-					promiseDelete = promiseDelete
-					.then ->
-						answer.destroy()
-					,(error) ->
-						promise.error error
-				promiseDelete
-			, (error) ->
-				promise.error error
-			.then ->
-				getAnswers().then -> 
-					answeredQuestions = responseObj.get('answeredQuestions')
-					if questionObj.id not in answeredQuestions
-						answeredQuestions.push(questionObj.id)
-					responseObj.set 'answeredQuestions', answeredQuestions
-					responseObj.save()
-					.then (responseObj) ->      
-						promise.resolve(responseObj)    
-					, (error) ->
-						promise.error error         
-				, (error) ->
-					promise.error error
-			, (error) ->
-				promise.error error
-		else
-			console.log "++++++++++++++++++++++++++++++++++++++++++++++++++"
-			console.log isEditable
-			console.log hasAnswer
-
-			getAnswers().then -> 
-				answeredQuestions = responseObj.get('answeredQuestions')
-				if questionObj.id not in answeredQuestions
-					answeredQuestions.push(questionObj.id)
-				responseObj.set 'answeredQuestions', answeredQuestions
-				responseObj.save()
-				.then (responseObj) ->      
-					promise.resolve(responseObj)    
-				, (error) ->
-					promise.error error         
-			, (error) ->
-				promise.error error
-	, (error) ->
-		promise.error error
-
-	promise
 
 
 getLastQuestion = (questionnaireObj) ->
@@ -666,22 +526,6 @@ getAnswers = (answerObjects) ->
 	getUniqueQuestions answerObj for answerObj in answerObjects
 	results answerObj for answerObj in answers   
 
-
-
-#Change the 'status' of the responseObj to 'completed'
-Parse.Cloud.define "submitQuestionnaire", (request, response) ->
-	responseId = request.params.responseId
-	responseQuery = new Parse.Query("Response")
-	responseQuery.get(responseId)
-	.then (responseObj) -> 
-		responseObj.set "status", "completed"
-		responseObj.save()
-		.then (responseObj) ->
-			response.success "submitted_successfully"
-		, (error) ->
-			response.error error
-	, (error) ->
-		response.error error
 
 
 
@@ -1124,16 +968,27 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 	questionnaireQuery = new Parse.Query("Questionnaire")
 	questionnaireQuery.get(questionnaireId)
 	.then (questionnaireObj) ->
-		responseObj = new Parse.Object "Response"
-		responseObj.set 'patient', patientId
-		responseObj.set 'hospital', questionnaireObj.get('hospital')
-		responseObj.set 'project', questionnaireObj.get('project')
-		responseObj.set 'questionnaire', questionnaireObj
-		responseObj.set 'answeredQuestions', []
-		responseObj.set 'schedule', scheduleObj
-		responseObj.save()
-		.then (responseObj) ->
-			promise.resolve responseObj
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('questionnaire', questionnaireObj)
+		responseQuery.equalTo('patient', patientId)
+		responseQuery.descending('occurrenceDate')
+		responseQuery.notEqualTo('status', 'base_line')
+		responseQuery.find()
+		.then (responseObjs) ->
+			responseObj = new Parse.Object "Response"
+			responseObj.set 'patient', patientId
+			responseObj.set 'hospital', questionnaireObj.get('hospital')
+			responseObj.set 'project', questionnaireObj.get('project')
+			responseObj.set 'questionnaire', questionnaireObj
+			responseObj.set 'answeredQuestions', []
+			responseObj.set 'schedule', scheduleObj
+			responseObj.set 'sequenceNumber', responseObjs.length + 1
+			responseObj.set 'flagStatus', 'open'
+			responseObj.save()
+			.then (responseObj) ->
+				promise.resolve responseObj
+			, (error) ->
+				promise.reject error
 		, (error) ->
 			promise.reject error			
 	, (error) ->
@@ -1200,4 +1055,775 @@ isValidTime = (timeObj) ->
 		false
 
 
+
+
+
+
+
+saveAnswer1 = (responseObj, questionObj, options, value) ->
+	promiseArr = []
+	promise = new Parse.Promise()
+	responseObject = 
+				"__type" : "Pointer",
+				"className":"Response",
+				"objectId":responseObj.id
+
+	getAnswers = () ->
+		if !_.isEmpty options
+			_.each options, (optionId) ->
+				optionQuery = new Parse.Query('Options')
+				optionQuery.get(optionId)
+				.then (optionObj) ->
+					answer = new Parse.Object('Answer')
+					answer.set "response",responseObject
+					answer.set "patient", responseObj.get('patient')
+					answer.set "question",questionObj
+					answer.set "option",optionObj
+					answer.set "value",value
+					answerPromise = answer.save()
+					promiseArr.push answerPromise
+					console.log("saved")
+				, (error) ->
+					promise.reject error
+
+		else
+
+			answer = new Parse.Object('Answer')
+			answer.set "response",responseObj
+			answer.set "patient",responseObj.get('patient')
+			answer.set "question",questionObj
+			answer.set "value",value
+			answerPromise = answer.save()
+			console.log("saved")
+			promiseArr.push answerPromise
+
+		Parse.Promise.when(promiseArr)
+
+
+	getCurrentAnswer(questionObj, responseObj)
+	.then (hasAnswer) ->
+		isEditable = questionObj.get('questionnaire').get('editable')
+		
+		if !isEditable and !_.isEmpty(hasAnswer)
+			console.log "----------------------------------"
+			console.log isEditable
+			console.log hasAnswer
+			console.log "----------------------------------"
+			promise.resolve("already_answered")
+
+		else if isEditable and !_.isEmpty(hasAnswer)
+			console.log "=================================="
+			console.log isEditable
+			console.log hasAnswer
+
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.equalTo('question', questionObj)
+			answerQuery.find()
+			.then (answers) ->
+				promiseDelete = Parse.Promise.as()
+				_.each answers, (answer) ->
+					promiseDelete = promiseDelete
+					.then ->
+						answer.destroy()
+					,(error) ->
+						promise.error error
+				promiseDelete
+			, (error) ->
+				promise.error error
+			.then ->
+				getAnswers().then -> 
+					answeredQuestions = responseObj.get('answeredQuestions')
+					if questionObj.id not in answeredQuestions
+						answeredQuestions.push(questionObj.id)
+					responseObj.set 'answeredQuestions', answeredQuestions
+					responseObj.save()
+					.then (responseObj) ->      
+						promise.resolve(responseObj)    
+					, (error) ->
+						promise.error error         
+				, (error) ->
+					promise.error error
+			, (error) ->
+				promise.error error
+		else
+			console.log "++++++++++++++++++++++++++++++++++++++++++++++++++"
+			console.log isEditable
+			console.log hasAnswer
+
+			getAnswers().then -> 
+				answeredQuestions = responseObj.get('answeredQuestions')
+				if questionObj.id not in answeredQuestions
+					answeredQuestions.push(questionObj.id)
+				responseObj.set 'answeredQuestions', answeredQuestions
+				responseObj.save()
+				.then (responseObj) ->      
+					promise.resolve(responseObj)    
+				, (error) ->
+					promise.error error         
+			, (error) ->
+				promise.error error
+	, (error) ->
+		promise.error error
+
+	promise
+
+
+
+
+
+Parse.Cloud.define "saveAnswer", (request, response) ->
+	responseId = request.params.responseId
+	questionId = request.params.questionId
+	options = request.params.options
+	value = request.params.value
+
+	responseQuery = new Parse.Query('Response')
+	responseQuery.include('questionnaire')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		questionsQuery = new Parse.Query('Questions')
+		questionsQuery.include('questionnaire')
+		questionsQuery.get(questionId)
+		.then (questionsObj) ->
+			saveAnswer(responseObj, questionsObj, options, value)
+			.then (answerObjs) ->
+				#result = []
+				#for answer in answerObjs
+				#	result.push(answer.id)
+				#response.success(result)
+				response.success(answerObjs)
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+
+saveAnswer = (responseObj, questionsObj, options, value) ->
+	promise = new Parse.Promise()
+
+	if questionsObj.get('type') == 'single-choice'
+		saveSingleChoice(responseObj, questionsObj, options)
+		.then (answerObj) ->
+			answeredQuestions = responseObj.get('answeredQuestions')
+			if questionsObj.id not in answeredQuestions
+				answeredQuestions.push(questionsObj.id)
+			responseObj.set 'answeredQuestions', answeredQuestions
+			responseObj.save()
+			.then (responseObj) ->      
+				promise.resolve()    
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	else if questionsObj.get('type') == 'multi-choice'
+		saveMultiChoice(responseObj, questionsObj, options)
+		.then (answerObjs) ->
+			answeredQuestions = responseObj.get('answeredQuestions')
+			if questionsObj.id not in answeredQuestions
+				answeredQuestions.push(questionsObj.id)
+			responseObj.set 'answeredQuestions', answeredQuestions
+			responseObj.save()
+			.then (responseObj) ->      
+				promise.resolve()    
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	else if questionsObj.get('type') == 'input'
+		saveInput(responseObj, questionsObj, options, value)
+		.then (answerObj) ->
+			answeredQuestions = responseObj.get('answeredQuestions')
+			if questionsObj.id not in answeredQuestions
+				answeredQuestions.push(questionsObj.id)
+			responseObj.set 'answeredQuestions', answeredQuestions
+			responseObj.save()
+			.then (responseObj) ->      
+				promise.resolve()    
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	else
+		saveDescriptive(responseObj, questionsObj, value)
+		.then (answerObj) ->
+			answeredQuestions = responseObj.get('answeredQuestions')
+			if questionsObj.id not in answeredQuestions
+				answeredQuestions.push(questionsObj.id)
+			responseObj.set 'answeredQuestions', answeredQuestions
+			responseObj.save()
+			.then (responseObj) ->      
+				promise.resolve()    
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	promise
+
+
+
+saveMultiChoice = (responseObj, questionsObj, options) ->
+	promiseArr = []
+	promise = new Parse.Promise()
+
+
+	getAnswers = () ->
+		promise1 = Parse.Promise.as();
+		_.each options, (optionsId) ->
+			promise1 = promise1
+			.then () ->
+				optionsQuery = new Parse.Query('Options')
+				optionsQuery.get(optionsId)
+				.then (optionsObj) ->
+					answer = new Parse.Object('Answer')
+					answer.set "response",responseObj
+					answer.set "patient", responseObj.get('patient')
+					answer.set "question",questionsObj
+					answer.set "option",optionsObj
+					answer.set "flagStatus", "open"
+					answer.set "score", optionsObj.get('score')
+					answer.set 'project', responseObj.get('project')
+					answer.save()
+				, (error) ->
+					promise.reject error
+			, (error) ->
+				promise.reject error
+		promise1
+
+
+	deleteAnswers = (answers) ->
+		promise1 = Parse.Promise.as();
+		_.each answers, (answerObj) ->
+			promise1 = promise1
+			.then () ->
+				answerObj.destroy()
+			, (error) ->
+				promise.reject error
+		promise1
+
+
+	getCurrentAnswer(questionsObj, responseObj)
+	.then (hasAnswer) ->
+		isEditable = responseObj.get('questionnaire').get('editable')
+		if !isEditable and !_.isEmpty(hasAnswer)
+			promise.reject("notEditable")
+		else if isEditable and !_.isEmpty(hasAnswer)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.equalTo('question', questionsObj)
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.find()
+			.then (answers) ->
+				deleteAnswers(answers)
+				.then () ->
+					getAnswers()
+					.then () ->
+						promise.resolve("saved")
+					, (error) ->
+						promise.reject error
+				, (error) ->
+					promise.reject error
+			, (error) ->
+				promise.reject error
+		else
+			getAnswers()
+			.then () ->
+				promise.resolve("saved")
+			, (error) ->
+				promise.reject("someError")
+	, (error) ->
+		promise.reject error
+	promise
+
+
+getFlag = (value) ->
+	flag = ""
+	if value <= -2
+		flag = "red"
+	else if value == -1
+		flag = "amber"
+	else if value == 0
+		flag = "no_colour"
+	else 
+		flag = "green"
+	flag
+
+
+#Change the 'status' of the responseObj to 'completed'
+Parse.Cloud.define "submitQuestionnaire", (request, response) ->
+	responseId = request.params.responseId
+	responseQuery = new Parse.Query("Response")
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		getBaseLineScores(responseObj) 
+		.then (BaseLine) ->
+			getPreviousScores(responseObj)
+			.then (previous) ->
+				responseObj.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+				responseObj.set "comparedToPrevious", previous['comparedToPrevious']
+				responseObj.set "baseLineFlag", BaseLine['baseLineFlag']
+				responseObj.set "previousFlag", previous['previousFlag']
+				responseObj.set "status", "completed"
+				responseObj.set "totalScore", BaseLine['totalScore']
+				responseObj.save()
+				.then (responseObj) ->
+					response.success "submitted_successfully"
+				, (error) ->
+					response.error error
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+
+getPreviousScores = (responseObj) ->
+	promise = new Parse.Promise()
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo('patient', responseObj.get('patient'))
+	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
+	responseQuery.equalTo('status', 'completed')
+	responseQuery.descending('occurrenceDate')
+	responseQuery.first()
+	.then (previousResponseObj) ->
+		if !_.isEmpty(previousResponseObj)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.include('question')
+			answerQuery.equalTo('response', previousResponseObj)
+			answerQuery.find()
+			.then (previousAnswers) ->
+				answerQuery = new Parse.Query('Answer')
+				answerQuery.include('question')
+				answerQuery.equalTo('response', responseObj)
+				answerQuery.find()
+				.then (answers) ->
+					totalPreviousScore = 0
+					totalAnswerScore = 0
+					for answer in answers
+						if answer.get('question').get('type') == 'single-choice'
+							totalAnswerScore += answer.get('score')
+
+					for answer in previousAnswers
+						if answer.get('question').get('type') == 'single-choice'
+							totalPreviousScore += answer.get('score')
+					previous = {}
+					previous['comparedToPrevious'] = totalAnswerScore - totalPreviousScore
+					previous['previousFlag'] = getFlag(totalAnswerScore - totalPreviousScore)			
+					promise.resolve(previous)
+				, (error) ->
+					promise.reject error
+			, (error) ->
+				promise.reject error
+		else
+			getBaseLineScores(responseObj)
+			.then (baseLine) ->
+				previous = {}
+				previous['comparedToPrevious'] = baseLine['comparedToBaseLine']
+				previous['previousFlag'] = baseLine['baseLineFlag']			
+				promise.resolve(previous)
+			, (error) ->
+				promise.reject error
+	, (error) ->
+		promise.reject error
+	promise
+
+
+
+
+getBaseLineScores = (responseObj) -> 
+	promise = new Parse.Promise()
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo('patient', responseObj.get('patient'))
+	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
+	responseQuery.equalTo('status', 'base_line')
+	responseQuery.first()
+	.then (responseBaseLine) ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('response', responseBaseLine)
+		answerQuery.include('question')
+		answerQuery.find()
+		.then (answersBaseLine) ->
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.include('question')
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.find()
+			.then (answers) ->
+				totalBaseLineScore = 0
+				totalAnswerScore = 0
+				for answer in answers
+					if answer.get('question').get('type') == 'single-choice'
+						totalAnswerScore += answer.get('score')
+
+				for answer in answersBaseLine
+					if answer.get('question').get('type') == 'single-choice'
+						totalBaseLineScore += answer.get('score')
+				BaseLine = {}
+				BaseLine['totalScore'] = totalAnswerScore
+				BaseLine['comparedToBaseLine'] = totalAnswerScore - totalBaseLineScore
+				BaseLine['baseLineFlag'] = getFlag(totalAnswerScore - totalBaseLineScore)			
+				promise.resolve(BaseLine)
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	, (error) ->
+		promise.reject error
+	promise	
+
+
+
+
+
+
+getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
+	promise = new Parse.Promise()
+	responseQuery = new Parse.Query('Response')
+	responseQuery.equalTo('patient', responseObj.get('patient'))
+	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
+	responseQuery.equalTo('status', 'base_line')
+	responseQuery.first()
+	.then (responseBaseLine) ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('response', responseBaseLine)
+		answerQuery.equalTo('question', questionsObj)
+		answerQuery.first()
+		.then (BaseLineAnswer) ->
+			BaseLineValue = BaseLineAnswer.get('score')
+			BaseLineValue = optionsObj.get('score') - BaseLineValue
+			BaseLine  = {}
+			BaseLine['comparedToBaseLine'] = BaseLineValue
+			BaseLine['baseLineFlag'] = getFlag(BaseLineValue)
+			promise.resolve(BaseLine)
+		, (error) ->
+			promise.reject error
+	, (error) ->
+		promise.reject error
+	promise	
+
+getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
+	promise = new Parse.Promise()
+
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.equalTo("question", questionObject)
+	answerQuery.include('response')
+	answerQuery.equalTo("patient", patientId)
+	answerQuery.notEqualTo("response", responseObj)
+	answerQuery.descending('occurrenceDate');
+	answerQuery.find()
+	.then (answerObjects) ->
+		result = {}
+		answerObjects = (answerObj for answerObj in answerObjects when answerObj.get('response').get('status') == 'completed')
+		if !_.isEmpty answerObjects
+
+				optionIds = []
+				if questionObject.get('type') == 'multi-choice'
+					first = answerObjects[0].get('response').id
+					optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.get('response').id == first)
+				else 
+					if !_.isUndefined(answerObjects[0])
+						optionIds = [answerObjects[0].get('option').id] if !_.isUndefined(answerObjects[0].get('option')) 
+
+				result = 
+					"optionId" : optionIds
+					"value" : answerObjects[0].get('value')
+					"date" : answerObjects[0].updatedAt
+					"answerId": answerObjects[0].id
+
+		promise.resolve result
+	, (error) ->
+		promise.reject error
+
+	promise
+
+
+getPreviousValues = (responseObj, questionsObj, optionsObj) ->
+	promise = new Parse.Promise()
+	getPreviousQuestionnaireAnswer(questionsObj, responseObj, responseObj.get('patient'))
+	.then (previousQuestion) ->
+		console.log "========================================================="
+		console.log previousQuestion
+		console.log "---------------------------------------------------------"
+	
+		if !_.isEmpty(previousQuestion)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.get(previousQuestion['answerId'])
+			.then (answerObj) ->
+				previousValue = answerObj.get('score')
+				previousValue = optionsObj.get('score') - previousValue
+				previousFlag = ""
+				if previousValue <= -2
+					previousFlag = "red"
+				else if previousValue == -1
+					previousFlag = "amber"
+				else if previousValue == 0
+					previousFlag = "no_colour"
+				else 
+					previousFlag = "green"
+
+				previous  = {}
+				previous['comparedToPrevious'] = previousValue
+				previous['previousFlag'] = previousFlag
+				promise.resolve(previous)
+			, (error) ->
+				promise.reject error
+		else
+			getBaseLineValues(responseObj, questionsObj, optionsObj)
+				.then (BaseLine) ->
+					previous  = {}
+					previous['comparedToPrevious'] = BaseLine['comparedToBaseLine']
+					previous['previousFlag'] = BaseLine['baseLineFlag']
+					promise.resolve(previous)
+				, (error) ->
+					promise.reject error
+	, (error) ->
+		promise.reject error
+	promise
+
+saveSingleChoice = (responseObj, questionsObj, options) ->
+	promise = new Parse.Promise()
+	getCurrentAnswer(questionsObj, responseObj)
+	.then (hasAnswer) ->
+		isEditable = responseObj.get('questionnaire').get('editable')
+		if !isEditable and !_.isEmpty(hasAnswer)
+			promise.reject("notEditable")
+		else if isEditable and !_.isEmpty(hasAnswer)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.equalTo('question', questionsObj)
+			answerQuery.first()
+			.then (answer) ->
+				if !_.isEmpty(options)
+					optionsQuery = new Parse.Query "Options"
+					optionsQuery.equalTo('question', questionsObj)
+					optionsQuery.equalTo('objectId', options[0])
+					optionsQuery.first()
+					.then (optionsObj) ->
+						getBaseLineValues(responseObj, questionsObj, optionsObj)
+						.then (BaseLine) ->
+							getPreviousValues(responseObj, questionsObj, optionsObj)
+							.then (previous) ->
+								answer.set "option", optionsObj
+								answer.set "score", optionsObj.get('score')
+								answer.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+								answer.set "comparedToPrevious", previous['comparedToPrevious']
+								answer.set "baseLineFlag", BaseLine['baseLineFlag']
+								answer.set "previousFlag", previous['previousFlag']
+								answer.save()
+								.then (answer) ->
+									promise.resolve(answer)
+								, (error) ->
+									promise.reject error
+							, (error) ->
+								promise.reject error
+						, (error) ->
+							promise.reject error
+					, (error) ->
+						promise.reject error
+				else
+					promise.reject "noOptionSelected"
+			, (error) ->
+				promise.reject error
+		else
+			answer = new Parse.Object('Answer')
+			answer.set "response",responseObj
+			answer.set "patient",responseObj.get('patient')
+			answer.set "question",questionsObj
+			answer.set "flagStatus", "open"
+			answer.set 'project', responseObj.get('project')
+			answer.save()
+			.then (answer) ->
+				if !_.isEmpty(options)
+					optionsQuery = new Parse.Query "Options"
+					optionsQuery.equalTo('question', questionsObj)
+					optionsQuery.equalTo('objectId', options[0])
+					optionsQuery.first()
+					.then (optionsObj) ->
+						answer.set "option", optionsObj
+						answer.set "score", optionsObj.get('score')
+						answer.save()
+						.then (answer) ->
+							getBaseLineValues(responseObj, questionsObj, optionsObj)
+							.then (BaseLine) ->
+								getPreviousValues(responseObj, questionsObj, optionsObj)
+								.then (previous) ->
+									answer.set "option", optionsObj
+									answer.set "score", optionsObj.get('score')
+									answer.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+									answer.set "comparedToPrevious", previous['comparedToPrevious']
+									answer.set "baseLineFlag", BaseLine['baseLineFlag']
+									answer.set "previousFlag", previous['previousFlag']
+									answer.save()
+									.then (answer) ->
+										promise.resolve(answer)
+									, (error) ->
+										promise.reject error
+								, (error) ->
+									promise.reject error
+							, (error) ->
+								promise.reject error
+						, (error) ->
+							promise.reject error
+					, (error) ->
+						promise.reject error
+				else
+					promise.reject("noOptionSelected")
+			, (error) ->
+				promise.reject error
+	, (error) ->
+		promise.reject error
+	promise	
+
+
+saveInput = (responseObj, questionsObj, options, value) ->
+	promise = new Parse.Promise()
+	getCurrentAnswer(questionsObj, responseObj)
+	.then (hasAnswer) ->
+		isEditable = responseObj.get('questionnaire').get('editable')
+		if !isEditable and !_.isEmpty(hasAnswer)
+			promise.reject("notEditable")
+		else if isEditable and !_.isEmpty(hasAnswer)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.equalTo('question', questionsObj)
+			answerQuery.first()
+			.then (answer) ->
+				if !_.isEmpty(options)
+					optionsQuery = new Parse.Query "Options"
+					optionsQuery.equalTo('question', questionsObj)
+					optionsQuery.equalTo('objectId', options[0])
+					optionsQuery.first()
+					.then (optionsObj) ->
+						answer.set "option", optionsObj
+						answer.set "score", optionsObj.get('score')
+						answer.set "value", value
+						answer.save()
+						.then (answer) ->
+							promise.resolve(answer)
+						, (error) ->
+							promise.reject error
+					, (error) ->
+						promise.reject error
+				else
+					answer.set "value", value
+					answer.save()
+					.then (answer) ->
+						promise.resolve(answer)
+					, (error) ->
+						promise.reject error
+			, (error) ->
+				promise.reject error
+		else
+			answer = new Parse.Object('Answer')
+			answer.set "response",responseObj
+			answer.set "patient",responseObj.get('patient')
+			answer.set "question",questionsObj
+			answer.set "value",value
+			answer.set "flagStatus", "open"
+			answer.set 'project', responseObj.get('project')
+			answer.save()
+			.then (answer) ->
+				if !_.isEmpty(options)
+					optionsQuery = new Parse.Query "Options"
+					optionsQuery.equalTo('question', questionsObj)
+					optionsQuery.equalTo('objectId', options[0])
+					optionsQuery.first()
+					.then (optionsObj) ->
+						answer.set "option", optionsObj
+						answer.set "score", optionsObj.get('score')
+						answer.save()
+						.then (answer) ->
+							promise.resolve(answer)
+						, (error) ->
+							promise.reject error
+					, (error) ->
+						promise.reject error
+				else
+					promise.resolve(answer)
+			, (error) ->
+				promise.reject error
+	, (error) ->
+		promise.reject error
+
+	promise
+
+
+
+
+saveDescriptive = (responseObj, questionsObj, value) ->
+	promise = new Parse.Promise()
+
+	getCurrentAnswer(questionsObj, responseObj)
+	.then (hasAnswer) ->
+		isEditable = responseObj.get('questionnaire').get('editable')
+		if !isEditable and !_.isEmpty(hasAnswer)
+			promise.reject("notEditable")
+		else if isEditable and !_.isEmpty(hasAnswer)
+			answerQuery = new Parse.Query('Answer')
+			answerQuery.equalTo('response', responseObj)
+			answerQuery.equalTo('question', questionsObj)
+			answerQuery.first()
+			.then (answer) ->
+				answer.set "value", value
+				answer.save()
+				.then (answer) ->
+					promise.resolve(answer)
+				, (error) ->
+					promise.reject error
+		else
+			answer = new Parse.Object('Answer')
+			answer.set "response",responseObj
+			answer.set "patient",responseObj.get('patient')
+			answer.set "question",questionsObj
+			answer.set "value",value
+			answer.set 'project', responseObj.get('project')
+			answer.set "flagStatus", "closed"
+			answer.save()
+			.then (answer) ->
+				promise.resolve(answer)
+			, (error) ->
+				promise.reject error
+	, (error) ->
+		promise.reject error
+
+	promise
+
+
+Parse.Cloud.define "baseLine", (request, response) ->
+	responseId = request.params.responseId
+	questionId = request.params.questionId
+	options = request.params.options
+	value = request.params.value
+
+	responseQuery = new Parse.Query('Response')
+	responseQuery.include('questionnaire')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		questionsQuery = new Parse.Query('Questions')
+		questionsQuery.include('questionnaire')
+		questionsQuery.get(questionId)
+		.then (questionsObj) ->
+			answer = new Parse.Object('Answer')
+			answer.set "question", questionsObj
+			answer.set "patient", responseObj.get('patient')
+			answer.set "response", responseObj
+			answer.set "score", value
+			answer.set 'project', responseObj.get('project')
+			answer.save()
+			.then (answerObj) ->
+				getNextQuestion questionsObj, []
+				.then (question) ->
+
+				#result = []
+				#for answer in answerObjs
+				#	result.push(answer.id)
+				#response.success(result)
+					response.success(question)
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
 
