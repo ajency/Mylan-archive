@@ -190,7 +190,7 @@ class UserController extends Controller
     {
 
         
-        
+        $projectId = intval ($projectId);
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
         $questionnaire = $questionnaireQry->first(); 
