@@ -54,11 +54,12 @@
                                                 @foreach($responseArr as $responseId => $response)
                                                 <?php
                                                 $myscore ='';
-                                                
+                                                $difference ='';
+
                                                 if(isset($submissionArr[$responseId][$questionId]))
                                                 {
                                                   $myscore = $submissionArr[$responseId][$questionId];
-                                                  
+                                                  $difference = ($lastSubmittedScore - $myscore);
                                                   if($lastSubmittedScore < $myscore)
                                                     $class='bg-danger';
                                                   elseif($lastSubmittedScore > $myscore)
@@ -71,7 +72,7 @@
                                                   $class='bg-gray';
                                                 }
                                                 ?>
-                                                <td class="{{ $class }}">{{ $myscore }}</td>
+                                                <td class="{{ $class }}"> {{ $difference }} {{ $myscore }}</td>
                                                  <?php 
                                                   if($myscore!='')
                                                      $lastSubmittedScore = $myscore;
@@ -108,10 +109,12 @@
                                                 @foreach($responseArr as $responseId => $response)
                                                 <?php
                                                 $myscore ='';
+                                                $difference ='';
                                                 if(isset($submissionArr[$responseId][$questionId]))
                                                 {
                                                   $myscore = $submissionArr[$responseId][$questionId];
                                                   $baseLineScore = $baseLineArr[$questionId];
+                                                  $difference = ($baseLineScore - $myscore);
                                                   
                                                   if($baseLineScore < $myscore)
                                                     $class='bg-danger';
@@ -123,7 +126,7 @@
                                                 else
                                                   $class='bg-gray';
                                                 ?>
-                                                <td class="{{ $class }}">{{ $myscore }}</td>
+                                                <td class="{{ $class }}"> {{ $difference }} {{ $myscore }}</td>
                                                 @endforeach
                                                 <td>{{ $baseLineScore }}</td>
                                              </tr>
@@ -135,9 +138,9 @@
                                        <br>
                               <hr>
                               <br>
-                              <h4>Report on Weight of the Patient</h4>
-                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
-                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                              <h4>Report on {{$inputLable}} of the Patient</h4>
+                                 <p>The Table below shows the {{$inputLable}} of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current {{$inputLable}}" submitted by the Patient as part of
                                     Questionnaire "Cardiac Care Project 1".</p>
                               <br><br>
                               
@@ -178,7 +181,7 @@
     ],
     "valueAxes": [{
         "integersOnly": true,
-        "maximum": 150,
+        "maximum": <?php echo (max($inputScores) + 10)?>,
         "minimum": 0,
         "reversed": false,
         "axisAlpha": 0,

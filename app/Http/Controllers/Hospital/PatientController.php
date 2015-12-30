@@ -218,7 +218,7 @@ class PatientController extends Controller
             {
                 $optionScore = $optionValue;
                 $inputBaseQuestionId = $questionId;
-                $inputLable = $questionTitle;
+                $inputLable =  ucfirst(strtolower($questionTitle));
 
                 if($responseStatus=="base_line")
                     $inputBaseLineScore = $optionScore;

@@ -27,21 +27,20 @@
    <div class="grid-body">
        <div class="row">
            <div class="col-md-4 text-center">
-               <div class="row-fluid">
-                  
-                  <div id="hospital_logo_block">
-                   @if($hospital['logo']!='')
-                  <img src="{{ $imagePath }}">
-                  <a  class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
-                  @endif
-                  </div>
-                  <a class="{{ ($hospital['logo']!='')?'hidden':'' }}" id="pickfiles" href="javascript:;">[Select files]</a>
-                  <span id="loader"></span>
-                   
-
-                  
-                  <input type="hidden" name="hospital_logo" id="hospital_logo">     
-               </div>
+                <div class="upload">
+                        <div class="img-div" id="hospital_logo_block">
+                        @if($hospital['logo']!='')
+                        <img src="{{ $imagePath }}">
+                        <a  class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
+                        @else
+                         <i class="fa fa-image fa-3x"></i><br>
+                        @endif
+                        <h5 class="{{ ($hospital['logo']!='')?'hidden':'' }}" id="pickfiles" class="text-muted">Click to upload Hospital Logo</h5>
+                        <span id="loader"></span>
+                        </div>
+                        <input type="hidden" name="hospital_logo" id="hospital_logo">    
+                    </div>
+                
            </div>
            <div class="col-md-8">
                
