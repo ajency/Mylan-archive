@@ -2219,12 +2219,13 @@
       responseSaveArr = [];
       scheduleSaveArr = [];
       _.each(scheduleObjects, function(scheduleObject) {
-        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, project, questionnaire, responseData, responseObj;
+        var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, project, questionnaire, responseData, responseObj, scheduleNextOccurrence;
         questionnaire = scheduleObject.get("questionnaire");
         patient = scheduleObject.get("patient");
         gracePeriod = questionnaire.get("gracePeriod");
         project = questionnaire.get("project");
-        nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
+        scheduleNextOccurrence = scheduleObject.get("nextOccurrence");
+        nextOccurrence = moment(scheduleNextOccurrence);
         newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
         currentDateTime = moment();
         diffrence = moment(newDateTime).diff(currentDateTime);
@@ -2239,7 +2240,8 @@
             questionnaire: questionnaire,
             status: 'missed',
             project: project,
-            schedule: scheduleObject
+            schedule: scheduleObject,
+            occurrenceDate: scheduleNextOccurrence
           };
           Response = Parse.Object.extend("Response");
           responseObj = new Response(responseData);

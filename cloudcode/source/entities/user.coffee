@@ -249,7 +249,9 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
             questionnaire = scheduleObject.get("questionnaire")
             patient = scheduleObject.get("patient")
             gracePeriod = questionnaire.get("gracePeriod")
-            nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+            project = questionnaire.get("project")
+            scheduleNextOccurrence = scheduleObject.get("nextOccurrence")
+            nextOccurrence =  moment(scheduleNextOccurrence)
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
  
@@ -264,8 +266,9 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
                     patient: patient
                     questionnaire: questionnaire
                     status : 'missed'
+                    project: project
                     schedule : scheduleObject
-
+                    occurrenceDate : scheduleNextOccurrence
                 Response = Parse.Object.extend("Response") 
                 responseObj = new Response responseData
                 responseSaveArr.push(responseObj)
