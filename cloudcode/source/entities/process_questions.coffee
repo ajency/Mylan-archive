@@ -983,7 +983,9 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 			responseObj.set 'answeredQuestions', []
 			responseObj.set 'schedule', scheduleObj
 			responseObj.set 'sequenceNumber', responseObjs.length + 1
-			responseObj.set 'flagStatus', 'open'
+			responseObj.set 'baseLineFlagStatus', 'open'
+			responseObj.set 'previousFlagStatus', 'open'
+			#responseObj.set 'flagStatus', 'open'
 			responseObj.save()
 			.then (responseObj) ->
 				promise.resolve responseObj
@@ -1282,7 +1284,7 @@ saveMultiChoice = (responseObj, questionsObj, options) ->
 					answer.set "patient", responseObj.get('patient')
 					answer.set "question",questionsObj
 					answer.set "option",optionsObj
-					answer.set "flagStatus", "open"
+					#answer.set "flagStatus", "open"
 					answer.set "score", optionsObj.get('score')
 					answer.set 'project', responseObj.get('project')
 					answer.save()
@@ -1630,7 +1632,7 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 			answer.set "response",responseObj
 			answer.set "patient",responseObj.get('patient')
 			answer.set "question",questionsObj
-			answer.set "flagStatus", "open"
+			#answer.set "flagStatus", "open"
 			answer.set 'project', responseObj.get('project')
 			answer.save()
 			.then (answer) ->
@@ -1654,6 +1656,8 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 									answer.set "comparedToPrevious", previous['comparedToPrevious']
 									answer.set "baseLineFlag", BaseLine['baseLineFlag']
 									answer.set "previousFlag", previous['previousFlag']
+									answer.set "baseLineFlagStatus", 'open'
+									answer.set "previousFlagStatus", 'open'
 									answer.save()
 									.then (answer) ->
 										promise.resolve(answer)
@@ -1720,7 +1724,7 @@ saveInput = (responseObj, questionsObj, options, value) ->
 			answer.set "patient",responseObj.get('patient')
 			answer.set "question",questionsObj
 			answer.set "value",value
-			answer.set "flagStatus", "open"
+			#answer.set "flagStatus", "open"
 			answer.set 'project', responseObj.get('project')
 			answer.save()
 			.then (answer) ->
@@ -1778,7 +1782,7 @@ saveDescriptive = (responseObj, questionsObj, value) ->
 			answer.set "question",questionsObj
 			answer.set "value",value
 			answer.set 'project', responseObj.get('project')
-			answer.set "flagStatus", "closed"
+			#answer.set "flagStatus", "closed"
 			answer.save()
 			.then (answer) ->
 				promise.resolve(answer)

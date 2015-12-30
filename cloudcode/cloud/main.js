@@ -1051,7 +1051,8 @@
         responseObj.set('answeredQuestions', []);
         responseObj.set('schedule', scheduleObj);
         responseObj.set('sequenceNumber', responseObjs.length + 1);
-        responseObj.set('flagStatus', 'open');
+        responseObj.set('baseLineFlagStatus', 'open');
+        responseObj.set('previousFlagStatus', 'open');
         return responseObj.save().then(function(responseObj) {
           return promise.resolve(responseObj);
         }, function(error) {
@@ -1354,7 +1355,6 @@
             answer.set("patient", responseObj.get('patient'));
             answer.set("question", questionsObj);
             answer.set("option", optionsObj);
-            answer.set("flagStatus", "open");
             answer.set("score", optionsObj.get('score'));
             answer.set('project', responseObj.get('project'));
             return answer.save();
@@ -1756,7 +1756,6 @@
         answer.set("response", responseObj);
         answer.set("patient", responseObj.get('patient'));
         answer.set("question", questionsObj);
-        answer.set("flagStatus", "open");
         answer.set('project', responseObj.get('project'));
         return answer.save().then(function(answer) {
           var optionsQuery;
@@ -1776,6 +1775,8 @@
                     answer.set("comparedToPrevious", previous['comparedToPrevious']);
                     answer.set("baseLineFlag", BaseLine['baseLineFlag']);
                     answer.set("previousFlag", previous['previousFlag']);
+                    answer.set("baseLineFlagStatus", 'open');
+                    answer.set("previousFlagStatus", 'open');
                     return answer.save().then(function(answer) {
                       return promise.resolve(answer);
                     }, function(error) {
@@ -1853,7 +1854,6 @@
         answer.set("patient", responseObj.get('patient'));
         answer.set("question", questionsObj);
         answer.set("value", value);
-        answer.set("flagStatus", "open");
         answer.set('project', responseObj.get('project'));
         return answer.save().then(function(answer) {
           var optionsQuery;
@@ -1912,7 +1912,6 @@
         answer.set("question", questionsObj);
         answer.set("value", value);
         answer.set('project', responseObj.get('project'));
-        answer.set("flagStatus", "closed");
         return answer.save().then(function(answer) {
           return promise.resolve(answer);
         }, function(error) {
