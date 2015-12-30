@@ -30,14 +30,18 @@
                 <div class="upload">
                         <div class="img-div" id="hospital_logo_block">
                         @if($hospital['logo']!='')
-                        <img src="{{ $imagePath }}">
-                        <a  class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
-                        @else
-                         <i class="fa fa-image fa-3x"></i><br>
+                        <img src="{{ $imagePath }}" class="img-responsive">
+                        <a class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
                         @endif
-                        <h5 class="{{ ($hospital['logo']!='')?'hidden':'' }}" id="pickfiles" class="text-muted">Click to upload Hospital Logo</h5>
-                        <span id="loader"></span>
+                                               
                         </div>
+                        <span id="loader"></span>
+                        <a id="pickfiles" class="{{ ($hospital['logo']!='')?'hidden':'' }}" href="javascript:;">
+                        <i class=" fa fa-image fa-3x"></i><br>
+                        <h5 class="text-muted">Click to upload Hospital Logo</h5>
+                        </a>
+                        
+
                         <input type="hidden" name="hospital_logo" id="hospital_logo">    
                     </div>
                 

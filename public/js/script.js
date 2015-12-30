@@ -74,6 +74,7 @@ var uploader = new plupload.Uploader({
  
         FilesAdded: function(up, files) {
             uploader.start();
+            $('#loader').removeClass('hidden');
         },
  
         UploadProgress: function(up, file) {
@@ -82,12 +83,12 @@ var uploader = new plupload.Uploader({
 
         FileUploaded: function (up, file, xhr) {
             fileResponse = JSON.parse(xhr.response);
-
-            var Img = '<img src="'+ fileResponse.data.image_path +'">';
-            
+            $('#pickfiles').addClass('hidden');
+            var imgStr = '<img src="'+ fileResponse.data.image_path +'" class="img-responsive">';
+            imgStr += '<a class="deleteHospitalLogo" data-type="hospital" data-value="'+HOSPITAL_ID+'" href="javascript:;">[delete]</a>';
             $('#hospital_logo').val(fileResponse.data.filename);
-            $('#hospital_logo_block').html(Img);
- 
+            $('#hospital_logo_block').html(imgStr);
+            $('#loader').addClass('hidden');
 
          },
  
@@ -100,7 +101,8 @@ var uploader = new plupload.Uploader({
 uploader.init();
 
 
-$('.deleteHospitalLogo').click(function (event) { 
+$('.upload').on('click', '.deleteHospitalLogo', function(event) {
+
     if (confirm('Are you sure you want to delete this hospital logo?') === false) {
         return;
     }
@@ -108,19 +110,27 @@ $('.deleteHospitalLogo').click(function (event) {
     var hospitalId = $(this).attr("data-value");
     var imageName ='';
     if(!hospitalId)
+    {
         imageName = $("#hospital_logo").val();
+        $('#hospital_logo_block').html('');
+        $('#pickfiles').removeClass('hidden');
+    }
+    else
+    {
+        $.ajax({
+            url: BASEURL + "/admin/hospital/" + hospitalId + "/deletelogo",
+            type: "POST",
+            data: {
+                imageName: imageName
+            },
+            success: function (response) {
+                $('#hospital_logo_block').html('');
+                $('#pickfiles').removeClass('hidden');
+            }
+        });
+    }
 
-    $.ajax({
-        url: BASEURL + "/admin/hospital/" + hospitalId + "/deletelogo",
-        type: "POST",
-        data: {
-            imageName: imageName
-        },
-        success: function (response) {
-            $('#hospital_logo_block').html('');
-            $('#pickfiles').removeClass('hidden');
-        }
-    });
+    
 
 });
 
