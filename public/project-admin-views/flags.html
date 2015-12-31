@@ -124,12 +124,12 @@
                            <span><i class="fa fa-list-alt"></i> Submissions</span>
                            </a>
                         </li>
-                     <!--  <li class="active-item">
+                        <!-- <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li> -->
-                        <li>
+                        <li class="active-item">
                            <a href="flags.html">
                            <span><i class="fa fa-flag"></i> Flags </span>
                            </a>
@@ -139,6 +139,7 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
+                        
                      </ul>
                   </div>
                </div>
@@ -159,26 +160,32 @@
                      <li>
                         <a href="dashboard.html">HOME</a>
                      </li>
-                     <li><a href="#" class="active">Users</a> </li>
+                     <li><a href="#" class="active">Flags</a> </li>
                   </ul>
                   </p>
                   
                   <div class="row">
                      <div class="col-md-6">
                   <div class="page-title">
-                     <h3><span class="semi-bold">Users</span></h3>
+                     <h3><span class="semi-bold">Flags</span></h3>
                      <!-- <p>(Showing administrators within Royal Hospital)</p> -->
                   </div>
                   </div>
-                  <div class="col-md-6 m-t-10">
-                     <div class="row">
-                     <div class="col-md-6">
-                           <a href="add-user.html" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add User</a>
+                  <div class="col-md-6 m-t-10 text-right">
+                     
+                           <a href="add-patient.html" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
                            <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
                      
                   
-                     </div>
-                     <div class="col-md-6">
+                     
+                 
+                  </div>
+                  <div class="tabbable tabs-left">
+                     <div class="grid simple">
+                        <div class="grid-body table-data">
+                        <div class="row">
+                        <div class="col-md-8"></div>
+                        <div class="col-md-4 text-right">
                         <select name="role" id="role" class="select2 form-control inline"  >
                                  <option value="1">Select User from the list</option>
                                  <option value="2">Ryan Mainwaring</option>
@@ -186,57 +193,138 @@
                                  <option value="2">Estelle Dumas</option>
                                  <option value="2">Peter Geert</option>
                               </select>
-                     </div>
-                     
-                  </div>
-                  </div>
-                  <div class="tabbable tabs-left">
-                     <div class="grid simple">
-                        <div class="grid-body table-data">
-                           <table class="table table-hover" id="example" >
+                              </div>
+                              </div>
+                              <hr>
+                           <table class="table table-hover">
                               <thead>
                                  <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Email Address</th>
-                                    <th>Contact Number</th>
-                                    <th>Access</th>
-                                    <th>Role</th>
+                                    <th>Patient Id</th>
+                                    <th><span class="p-l-10 p-r-10">When</span></th>                                    
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='user-nhs01.html';">
-                                    <td>nhs01</td>
-                                    <td>Ryan Mainwaring</td>
-                                    <td>ryan@nhshospital.com</td>
-                                    <td class="center">+44 788020202 </td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>Super Admin</td>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 12 <span class="sm text-muted"> On 6th Dec </span></h4>
+                                       </div>
+                                    </td>                                 
+                                    <td>4 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='user-nhs02.html';">
-                                    <td>nhs02</td>
-                                    <td>Nancy Walsh</td>
-                                    <td>nancy@nhshospital.com</td>
-                                    <td class="center">+44 788020203</td>
-                                    <td class="center"><i class="fa fa-eye"></i></td>
-                                    <td>Admin</td>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission5.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 07 <span class="sm text-muted"> On 6th Jul </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>3 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='user-nhs03.html';">
-                                    <td>nhs03</td>
-                                    <td>Estelle Dumas</td>
-                                    <td>estelle@nhshospital.com</td>
-                                    <td class="center">+44 788020204</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>Super Admin</td>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission4.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 06 <span class="sm text-muted"> On 6th Jun </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>2 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
                                  </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='user-nhs04.html';">
-                                    <td>nhs04</td>
-                                    <td>Peter Geert</td>
-                                    <td>peter@nhshospital.com</td>
-                                    <td class="center">+44 788020205</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
-                                    <td>Super Admin</td>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission3.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 05 <span class="sm text-muted"> On 6th May </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
                                  </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission2.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 02 <span class="sm text-muted"> On 6th Feb </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>Missed a Questionnaire</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                    <td>10000001</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 01 <span class="sm text-muted"> On 6th Jan </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>10 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission4.html';">
+                                    <td>10000002</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 05 <span class="sm text-muted"> On 6th Dec </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission3.html';">
+                                    <td>10000002</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 04 <span class="sm text-muted"> On 8th Nov </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission2.html';">
+                                    <td>10000002</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 02 <span class="sm text-muted"> On 6th Sep </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission1.html';">
+                                    <td>10000002</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> 01 <span class="sm text-muted"> On 7th Aug </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="text-warning">De-Flag</span></td>
+                                 </tr>
+                                 <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>2 points higher than the previous answer</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr> -->
                               </tbody>
                            </table>
                         </div>
@@ -262,22 +350,24 @@
       <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
       <script src="assets/plugins/breakpoints.js" type="text/javascript"></script>
       <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+       <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
       <!-- END CORE JS FRAMEWORK -->
       <!-- BEGIN PAGE LEVEL JS -->
       <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>    
       <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
       <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
-      <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
       <script src="assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript" ></script>
       <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript" ></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
-      <script src="assets/js/tabs_accordian.js" type="text/javascript"></script> 
+
+      
       <!-- END PAGE LEVEL PLUGINS -->
       <script src="assets/js/datatables.js" type="text/javascript"></script>
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
-      <!-- END CORE TEMPLATE JS --> 
+      <!-- END CORE TEMPLATE JS -->      
+
    </body>
 </html>
