@@ -132,9 +132,14 @@
                            <span><i class="fa fa-list-alt"></i> Submissions</span>
                            </a>
                         </li>
-                        <li>
+                       <!--  <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
+                           </a>
+                        </li> -->
+                        <li>
+                           <a href="flags.html">
+                           <span><i class="fa fa-flag"></i> Flags </span>
                            </a>
                         </li>
                         <li>
@@ -157,14 +162,19 @@
             <div class="clearfix"></div>
             <div class="container m-b-50">
                <div class="content">
-                  <!-- <p>
+                  <p>
                   <ul class="breadcrumb">
                      <li>
                         <a href="dashboard.html">HOME</a>
                      </li>
-                     <li><a href="#" class="active">Reports</a> </li>
+                     <li><a href="#" class="active">Submissions</a> </li>
                   </ul>
-                  </p> -->
+                  </p>
+
+                  <div class="page-title">
+                        <h3><span class="semi-bold">Submissions</span></h3>
+                        <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
+                     </div>
              
 
                      <div class="grid simple">
@@ -172,10 +182,10 @@
                            <br>
                      
                       <div class="row">
-                           <div class="col-sm-6"> <h3 class="bold margin-none">Submissions</h3></div>
+                           <!-- <div class="col-sm-6"> <h3 class="bold margin-none">Submissions</h3></div> -->
                            <div class="col-sm-2">
                            </div>
-                           <div class="col-sm-4">
+                           <div class="col-sm-4 pull-right">
                                   <div class="input-group input-daterange">
                                   <input type="text" class="form-control" value="2012-04-05">
                                   <span class="input-group-addon">to</span>
@@ -232,11 +242,11 @@
                           <div class="alert alert-info alert-black">
                               Patients Summary
                           </div>
-                              <table class="table table-flip-scroll tbl-summary ">
+                              <table class="table table-flip-scroll tbl-summary table-hover">
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
-                                    <th>When</th>
+                                    <th><span class="p-l-10 p-r-10">When</span></th>
                                     <th>Compared To Previous</th>
                                     <th>Compared To Baseline</th>
                                     <th>Status</th>
@@ -600,10 +610,7 @@
                                  </tr>
                               </tbody>
                      </table>
-                     <hr style="    margin: 0px 0px 10px 0px;">
-                           <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
-                           </div>
+                     <hr style="    margin: 0px 0px 10px 0px;">                         
                       
                          
                       </div>
