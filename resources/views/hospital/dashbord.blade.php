@@ -13,60 +13,390 @@
 @section('content')
 
 
-      <div class="page-title">
-         <h3 class="m-b-0"><span class="semi-bold">Dashboard</span> </h3>
-         <p>(Showing Real-Time Hospital data at a Glance)</p>
-      </div>
-      <div class="grid simple">
-         <div class="grid-body no-border">
-            <br>
-            <div class="row">
-               <div class="col-md-6">
-                  <h4><span class="semi-bold"> Flags</span> Summary</h4>
-                  <p>(Showing overall Flags Summary)</p>
-                  <br>
-                  <div id="line-example" style="width:100%;height:250px;"> </div>
-               </div>
-               <div class="col-md-6">
-                  <h4><span class="semi-bold">Comparison</span>  of Projects</h4>
-                  <p>(Showing Open Flags for each Project)</p>
-                  <br>
-                  <div id="placeholder-bar-chart" style="height:250px"></div>
-               </div>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-               <div class="col-md-6">
-                  <h4><span class="semi-bold"> Submission</span> Details</h4>
-                  <p>(Showing overall Submissions and Missed Submissions)</p>
-                  <br>
-                  <div id="sparkline-pie" class="col-md-12"></div>
-               </div>
-               <div class="col-md-6">
-                  <h4><span class="semi-bold">Comparison</span>  of Projects</h4>
-                  <p>(Showing Response Rate of each Project)</p>
-                  <br>
-                  <div id="placeholder-bar-chart1" style="height:250px"></div>
-               </div>
-            </div>   
-         </div>
-      </div>
-      <div class="grid simple">
-         <div class="grid-body no-border">
-          <br>
-            <h4>Recent <span class="semi-bold"> Activities</span></h4>
-            <p>(Keeping you updated)</p>
-            <br>
-            <ul class="list-group">
-               <li class="list-group-item"><i class="fa fa-check text-success"></i> <a href="#">Patient 123</a> was flagged.</li>
-               <li class="list-group-item"><i class="fa fa-check text-success"></i> New user <a href="#">Mr.Willington</a> created.</li>
-               <li class="list-group-item"><i class="fa fa-check text-success"></i> New Hospital was created and will be managed by Mr.Moon</li>
-               <li class="list-group-item"><i class="fa fa-check text-success"></i> <a href="#">Patient 456</a> was discharged from ward number 5.</li>
-               <li class="list-group-item"><i class="fa fa-check text-success"></i>New user <a href="#">Ms.Annez</a> created.</li>
-               <li class="list-group-item"><i class="fa fa-check text-success"></i> Existing user <a href="#">Mr.Willington</a> was removed.</li>
-            </ul>
-         </div>
-      </div>
+      <div class="pull-right m-t-25">
+                      <a href="patients.html" class="btn btn-white"><span class="text-success"><i class="fa fa-plus"></i> View/Edit Patient</span></a>
+                     <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+                    
+                  </div>
+                  <div class="page-title">
+                     <h3><span class="semi-bold">Dashboard</span></h3>
+                     <p>(Showing intuitive observations at a glance)</p>
+                 </div>
+                  
+                     <div class="grid simple">
+                        <div class="grid-body no-border table-data">
+                           <br>
+                        <div class="row">
+                           <div class="col-sm-6"><h3 class="margin-none"><span class="bold">{{ $project['name'] }}</span></h3></div>
+                         
+                        </div>
+                     <hr>
+                     <div></div>
+                      <div class="row">
+                           <div class="col-sm-6"></div>
+                           <div class="col-sm-2">
+                           </div>
+                           <div class="col-sm-4">
+                                  <div class="input-group input-daterange">
+                                  <input type="text" class="form-control" value="{{ $startDate }}">
+                                  <span class="input-group-addon">to</span>
+                                  <input type="text" class="form-control" value="{{ $endDate }}">
+                              </div>
+                           </div>
+                        </div><br>
+                        <div class="row ">
+                           <div class="col-md-2 ">
+                              <h1 class="bold num-data">{{ $projectResponseCount['baseLineOpenFlagsCount'] }}  
+                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                               </h1>
+                              <h5>Base Line Open Flags </h5>
+                              <em class="line"></em>
+                           </div>
+                           <div class="col-md-2 ">
+                              <h1 class="bold num-data">{{ $projectResponseCount['previousOpenFlagsCount'] }}  
+                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                               </h1>
+                              <h5>Previous Open Flags </h5>
+                              <em class="line"></em>
+                           </div>
+                           <div class="col-md-2 ">
+                                <h1 class="bold num-data">{{ $projectResponseCount['totalFlagsCount'] }}  
+                                  <i class="icon-custom-down text-error"></i><span class="text-error"> (5.5 %)</span>
+                               </h1>
+                              <h5>Total Flags </h5>
+                              <em class="line"></em>
+                           </div>
+                           <div class="col-md-3 ">
+                                <h1 class="bold num-data">{{ $projectResponseCount['submissionCount'] }} 
+                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (20.4 %)</span>
+                               </h1>
+                              <h5>Total Submissions</h5>
+                              <em class="line"></em>
+                           </div>
+                           <div class="col-md-3">
+                               <h1 class="bold num-data">{{ $projectResponseCount['patientsCount'] }}
+                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (6.7 %)</span>
+                            
+                               </h1>
+                              <h5>Total Patients </h5>
+                              <em class="line"></em>
+                           </div>
+                        </div>
+                        <br>
+                        <!-- Chart - Added -->
+                        <br>
+                        <div class="row">
+                           <div class="col-sm-6"></div>
+                           <div class="col-sm-3">
+                           </div>
+                           <div class="col-sm-3">
+                                   <select>
+                                      <option value="volvo">No of open flags</option>
+                                      <option value="saab">No of total flags</option>
+                                      <option value="mercedes">No of submissions</option>
+                                      <option value="audi">No of new setups</option>
+                                  </select>
+                           </div>
+                        </div>
+                             <div id="chartdiv"></div>  
+                        <!-- Chart - Added -->
+                        <br>
+                        <div class="row">
+                           <div class="col-sm-6">
+                               <div class="alert alert-info alert-black">
+                                 Flags Summary
+                              </div>
+                     <table class="table table-flip-scroll dashboard-tbl">
+                              <thead class="cf">
+                                 <tr>
+                                    <th>Patient ID</th>
+                                    <th>When</th>
+                                    <th>Base Line Flag</th>
+                                    <th>Previous Flag</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($patientFlagSummary as $flagSummary)
+                                 <tr>
+                                    <td>{{ $flagSummary['patient'] }}</td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h4 class="text-muted no-margin bold"> {{ $flagSummary['sequenceNumber'] }}<span class="sm text-muted"> On {{ $flagSummary['occurrenceDate'] }} </span></h4>                                        
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                       @if($flagSummary['baseLineFlag']=='red')
+                                          <i class="fa fa-flag text-error"></i>
+                                       @elseif($flagSummary['baseLineFlag']=='green')
+                                          <i class="fa fa-flag text-success"></i>
+                                       @elseif($flagSummary['baseLineFlag']=='amber')
+                                          <i class="fa fa-flag text-warning"></i>
+                                       @endif                                          
+                                         {{ $flagSummary['baseLineStatus'] }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20"> 
+                                       @if($flagSummary['previousFlag']=='red')
+                                          <i class="fa fa-flag text-error"></i>
+                                       @elseif($flagSummary['previousFlag']=='green')
+                                          <i class="fa fa-flag text-success"></i>
+                                       @elseif($flagSummary['previousFlag']=='amber')
+                                          <i class="fa fa-flag text-warning"></i>
+                                       @endif           
+                                         {{ $flagSummary['previousStatus'] }}
+                                       </div>
+                                    </td>
+                                    
+                                </tr>
+                                @endforeach
+                                  
+                              </tbody>
+                     </table>
+                     <hr style="    margin: 0px 0px 10px 0px;">
+                       <div class="text-right">
+                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                           </div>
+                           </div>
+                           <div class="col-sm-6">
+                                <div class="alert alert-info alert-black">
+                                 Submission Summary
+                              </div>
+                                <table class="table table-flip-scroll dashboard-tbl">
+                              <thead class="cf">
+                                 <tr>
+                                    <th>Patient ID</th>
+                                    <th>When</th>
+                                    <th>Compared To Previous</th>
+                                    <th>Compared To Baseline</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($submissionFlags as $submissionFlag)
+                                 <tr>
+                                    <td>{{ $submissionFlag['patient'] }}</td>
+                                    <td width="110px">
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                            <h4 class="text-muted no-margin bold"> {{ $submissionFlag['sequenceNumber'] }} <span class="sm text-muted"> On {{ $submissionFlag['occurrenceDate'] }} </span></h4>
+                                       </div>
+                                    </td>
+                                    <td>
+                                      <div class="lst-sub">
+                                          <h3 class="bold pull-left">{{ $submissionFlag['baselineScore'] }}</h3>
+                                          <div class="pull-left m-t-5">
+                                             <span class="sm-font">  {{ count($submissionFlag['baseLineFlag']['green']) }} &nbsp;<i class="fa fa-flag text-success"></i> </span>
+                                              <span class="sm-font">{{ count($submissionFlag['baseLineFlag']['red']) }} &nbsp;<i class="fa fa-flag text-error"></i>  </span>
+                                               <span class="sm-font">{{ count($submissionFlag['baseLineFlag']['amber']) }} &nbsp;<i class="fa fa-flag text-warning"></i></span>
+                                          </div>
 
+                                       </div>
+                                    </td>
+                                    <td>
+                                      <div class="lst-sub">
+                                          <h3 class="bold pull-left">{{ $submissionFlag['previousScore'] }}</h3>
+                                          <div class="pull-left m-t-5">
+                                            <span class="sm-font">  {{ count($submissionFlag['previosFlag']['green']) }} &nbsp;<i class="fa fa-flag text-success"></i> </span>
+                                              <span class="sm-font">{{ count($submissionFlag['previosFlag']['red']) }}  &nbsp;<i class="fa fa-flag text-error"></i>  </span>
+                                               <span class="sm-font">{{ count($submissionFlag['previosFlag']['amber']) }}  &nbsp;<i class="fa fa-flag text-warning"></i></span>
+                                          </div>
+
+                                       </div>
+                                    </td>
+                                    <td><span class=" text-warning">{{ $submissionFlag['status'] }}</span></td>
+                                </tr>
+                                @endforeach
+                                        
+                              </tbody>
+                     </table>
+                     <hr style="    margin: 0px 0px 10px 0px;">
+                       <div class="text-right">
+                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                           </div>
+                           </div>
+                        </div>
+                        <br>
+                          <div class="alert alert-info alert-black">
+                              Patients Summary
+                          </div>
+                         <table class="table table-flip-scroll ">
+                              <thead class="cf">
+                                 <tr>
+                                    <th>Patient ID</th>
+                                    <th>Total Submissions</th>
+                                    <th>Base Line Red Flags</th>
+                                    <th>Previous Red Flags</th>
+                                    <th>Base Line amber flags</th>
+                                    <th>Previous amber flags</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                              @foreach($patientsSummary as $patientId => $patientSummary)
+                                 <tr>
+                                    <td>{{ $patientId }}</td>
+                                    <td>
+                                       <div class="lst-sub">
+                                          <h2 class="bold pull-left">{{ count($patientSummary['count']) }}</h2>
+                                          <div class="pull-left m-t-5">
+                                             <span class="sm-font">Last Submission  <b>{{ $patientSummary['lastSubmission'] }}</b></span>
+                                              <span class="sm-font">Next Submission  <b>{{ $patientSummary['nextSubmission'] }}</b></span>
+                                               <span class="sm-font">Total Missed  <b>{{ count($patientSummary['missed']) }}</b></span>
+                                          </div>
+
+                                       </div>
+
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 @endforeach
+                                    
+                              </tbody>
+                           </table>
+                           <div class="text-right">
+                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                           </div>
+                      
+                         
+                      </div>
+                     </div>
+        <style type="text/css">
+        #chartdiv {
+            width : 106%;
+            height   : 300px;
+         }                                                  
+      .demo { position: relative; }
+      .demo i {
+        position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
+      }
+      </style>
+
+      <script type="text/javascript">
+      $(document).ready(function() {
+         $('.input-daterange input').datepicker({
+             format: 'dd-mm-yyyy'
+         }); 
+
+
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "marginRight":80,
+    "autoMarginOffset":20,
+    "dataDateFormat": "YYYY-MM-DD HH:NN",
+    "dataProvider": [ 
+    <?php
+        ksort($projectOpenFlags);
+        foreach($projectOpenFlags as $date => $value)
+        {
+          
+          ?>
+          {
+              "date": "<?php echo date('Y-m-d',strtotime($date)) ?>",
+              "base_line":<?php echo $value['baseLine']?>,
+              "previous":<?php echo $value['previous'] ?>,
+          },
+           
+          <?php 
+            
+        }
+ 
+    ?>
+ 
+
+    ],
+    "valueAxes": [{
+        "axisAlpha": 0,
+        "guides": [{
+            "fillAlpha": 0.1,
+            "fillColor": "#888888",
+            "lineAlpha": 0,
+            "toValue": 16,
+            "value": 10
+        }],
+        "position": "left",
+        "tickLength": 0
+    }],
+    "graphs": [{
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>Base Line:[[base_line]]</span></b>",
+        "bullet": "round",
+        "dashLength": 3,
+        "colorField":"color",
+        "valueField": "base_line"
+    },
+    {
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>Previous:[[previous]]</span></b>",
+        "bullet": "round",
+        "dashLength": 3,
+        "colorField":"color",
+        "valueField": "previous"
+    }
+    ],
+    // "trendLines": [{
+    //     "finalDate": "2012-01-11 12",
+    //     "finalValue": 19,
+    //     "initialDate": "2012-01-02 12",
+    //     "initialValue": 10,
+    //     "lineColor": "#CC0000"
+    // }, {
+    //     "finalDate": "2012-01-22 12",
+    //     "finalValue": 10,
+    //     "initialDate": "2012-01-17 12",
+    //     "initialValue": 16,
+    //     "lineColor": "#CC0000"
+    // }],
+    "chartScrollbar": {
+        "scrollbarHeight":2,
+        "offset":-1,
+        "backgroundAlpha":0.1,
+        "backgroundColor":"#888888",
+        "selectedBackgroundColor":"#67b7dc",
+        "selectedBackgroundAlpha":1
+    },
+    "chartCursor": {
+        "fullWidth":true,
+        "valueLineEabled":true,
+        "valueLineBalloonEnabled":true,
+        "valueLineAlpha":0.5,
+        "cursorAlpha":0
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "axisAlpha": 0,
+        "gridAlpha": 0.1,
+        "minorGridAlpha": 0.1,
+        "minorGridEnabled": true
+    },
+    "export": {
+        "enabled": true
+     }
+});
+
+
+      });
+      </script>
 @endsection
