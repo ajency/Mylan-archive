@@ -99,6 +99,14 @@ hr.broad {
 .dashboard .title {
   margin-bottom: 5px;
 }
+.errors {
+  text-align: center;
+  padding-top: 30%;
+  color: #6B6B6B;
+}
+.errors i.ion-sad-outline {
+  font-size: 76px;
+}
 /***HEADER & FOOTER STYLES***/
 .bar.bar-header {
   -webkit-box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
@@ -529,6 +537,9 @@ ul .mcq_active div span {
   .info-msg.bg-balanced i.ion-ios-information-outline {
     top: -6px;
   }
+  .errors {
+    padding-top: 5%;
+  }
 }
 /*-------------------------------------------
                   TABLET SCREENS
@@ -792,7 +803,7 @@ ul .mcq_active div span {
     padding-top: 24%;
     color: #6B6B6B;
   }
-  .errors .ion-sad-outline {
+  .errors i.ion-sad-outline {
     font-size: 76px;
   }
   .button {
