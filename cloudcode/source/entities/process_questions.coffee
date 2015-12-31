@@ -1,4 +1,7 @@
 Parse.Cloud.define "startQuestionnaire", (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#	else
 	responseId = request.params.responseId
 	questionnaireId = request.params.questionnaireId
 	patientId = request.params.patientId
@@ -246,6 +249,9 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 
 
 Parse.Cloud.define 'getNextQuestion', (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#	else
 	responseId = request.params.responseId
 	questionId = request.params.questionId
 	options = request.params.options
@@ -383,6 +389,10 @@ getLastQuestion = (questionnaireObj) ->
 
 
 Parse.Cloud.define "getPreviousQuestion", (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#
+#	else
 	responseId = request.params.responseId
 	last = questionId = request.params.questionId
 	options = request.params.options
@@ -457,6 +467,10 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 
 
 Parse.Cloud.define 'getSummary', (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#
+#	else
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo("objectId", responseId)
@@ -864,6 +878,12 @@ Parse.Cloud.define "updateMissedObjects", (request, response) ->
 
 
 Parse.Cloud.define "dashboard", (request, response) ->
+	console.log "---------------------------"
+	console.log request
+	console.log "-------------------------------"
+#	if !request.user
+#		response.error('Must be logged in.')
+#	else
 	results = []
 	patientId = request.params.patientId
 	scheduleQuery = new Parse.Query('Schedule')
@@ -1354,6 +1374,10 @@ getFlag = (value) ->
 
 #Change the 'status' of the responseObj to 'completed'
 Parse.Cloud.define "submitQuestionnaire", (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#
+#	else
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
 	responseQuery.get(responseId)

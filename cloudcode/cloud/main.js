@@ -924,6 +924,9 @@
 
   Parse.Cloud.define("dashboard", function(request, response) {
     var patientId, results, scheduleQuery;
+    console.log("---------------------------");
+    console.log(request);
+    console.log("-------------------------------");
     results = [];
     patientId = request.params.patientId;
     scheduleQuery = new Parse.Query('Schedule');
