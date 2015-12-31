@@ -115,6 +115,12 @@ angular.module 'PatientApp.Global', []
 
 				defer.promise
 
+			scrollTop : ->
+				$ionicScrollDelegate.scrollTop true
+
+			scrollBottom : ->
+				$ionicScrollDelegate.scrollBottom true
+
 
 
 

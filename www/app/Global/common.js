@@ -131,6 +131,12 @@ angular.module('PatientApp.Global', []).factory('App', [
           defer.resolve('DUMMY_INSTALLATION_ID');
         }
         return defer.promise;
+      },
+      scrollTop: function() {
+        return $ionicScrollDelegate.scrollTop(true);
+      },
+      scrollBottom: function() {
+        return $ionicScrollDelegate.scrollBottom(true);
       }
     };
   }
