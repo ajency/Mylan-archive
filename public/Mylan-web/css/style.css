@@ -37,19 +37,20 @@ p {
     padding: 0 10px 0 10px;
   }
 }
-.f-w-200 {
-  font-weight: 200;
-}
 .bg-white {
   background: #ffffff;
 }
-.bg-white .panel {
+.bg-white .panel-default {
   margin-bottom: 0;
   box-shadow: none;
   border: initial;
+  background: #fff;
 }
-.bg-white.shadow-full {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+.bg-white .panel-default .panel-body {
+  padding: 10px;
+}
+.bg-white .panel-default .panel-body h4 {
+  font-weight: 400;
 }
 .panel-default {
   background: #f2f2f2;
@@ -57,7 +58,7 @@ p {
 .inline {
   display: inline;
 }
-.f-t-200 {
+.f-w-200 {
   font-weight: 200!important;
 }
 .b-b {
@@ -330,6 +331,29 @@ h3.line-title span {
   .timeline .list-item .no {
     bottom: 19px;
   }
+}
+.btn-hover {
+  width: 100%;
+}
+.btn-hover span {
+  position: relative;
+  transition: 0.5s;
+}
+.btn-hover span:after {
+  content: '\f101';
+  font-family: fontawesome;
+  position: absolute;
+  opacity: 0;
+  top: -2px;
+  right: -20px;
+  transition: 0.5s;
+}
+.btn-hover:hover span {
+  padding-right: 25px;
+}
+.btn-hover:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 /*** BUTTON STYLING ***/
 .btn.btn-primary:hover,
@@ -631,8 +655,8 @@ ul.q-tabs li a:focus {
   border: 1px solid #ddd;
 }
 ul.q-tabs li a.disabled {
-  background: #7bc67a;
-  color: #ffffff;
+  background: #F2F2F2;
+  color: #C3C0C0;
 }
 .sidebar {
   line-height: 30px;
