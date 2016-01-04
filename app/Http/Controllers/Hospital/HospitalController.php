@@ -74,9 +74,9 @@ class HospitalController extends Controller
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
         $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
-        $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
+        $submissionFlags = [];//$this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $patientFlagSummary = [];//$this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
+        $patientsSummary = [];//$this->patientSummary($projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -168,7 +168,7 @@ class HospitalController extends Controller
 
     public function getResponseAnswers($projectId,$page=0,$anwsersData,$startDate,$endDate)
     {
-        $displayLimit = 50; 
+        $displayLimit = 20; 
 
         $answersQry = new ParseQuery("Answer");
         $answersQry->equalTo("project",$projectId);
@@ -187,7 +187,7 @@ class HospitalController extends Controller
             $page++;
             $anwsersData = $this->getResponseAnswers($projectId,$page,$anwsersData ,$startDate,$endDate);
         }  
-         
+        
         return $anwsersData;
      
     }
@@ -342,7 +342,8 @@ class HospitalController extends Controller
             $comparedToBaslineScore = $anwser->get("response")->get("comparedToBaseLine");
             $comparedToPrevious = $anwser->get("response")->get("comparedToPrevious");
             $responseId = $anwser->get("response")->getObjectId();
-            $responseStatus = $anwser->get("response")->get("baseLineFlagStatus");
+            $baseLineFlagStatus = $anwser->get("response")->get("baseLineFlagStatus");
+            $previousFlagStatus = $anwser->get("response")->get("previousFlagStatus");
             $patient = $anwser->get("response")->get("patient");
             $sequenceNumber = $anwser->get("response")->get("sequenceNumber");
             $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
@@ -365,7 +366,8 @@ class HospitalController extends Controller
             }
 
             $submissionFlags[$responseId]['patient'] = $patient;
-            $submissionFlags[$responseId]['status'] = $responseStatus;
+            $submissionFlags[$responseId]['baseLineFlagStatus'] = $baseLineFlagStatus;
+            $submissionFlags[$responseId]['previousFlagStatus'] = $previousFlagStatus;
             $submissionFlags[$responseId]['baselineScore']= $comparedToBaslineScore;
             $submissionFlags[$responseId]['previousScore']= $comparedToPrevious;
             $submissionFlags[$responseId]['sequenceNumber']= $sequenceNumber;

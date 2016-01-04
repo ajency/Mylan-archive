@@ -101,7 +101,7 @@
                         <!-- Chart - Added -->
                         <br>
                         <div class="row">
-                           <div class="col-sm-6">
+                           <div class="col-sm-5">
                                <div class="alert alert-info alert-black">
                                  Flags Summary
                               </div>
@@ -158,7 +158,7 @@
                               <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
-                           <div class="col-sm-6">
+                           <div class="col-sm-7">
                                 <div class="alert alert-info alert-black">
                                  Submission Summary
                               </div>
@@ -169,7 +169,8 @@
                                     <th>When</th>
                                     <th>Compared To Previous</th>
                                     <th>Compared To Baseline</th>
-                                    <th>Status</th>
+                                    <th>Previous Flag Status</th>
+                                    <th>Baseline Flag Status</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -203,15 +204,17 @@
 
                                        </div>
                                     </td>
-                                    <td><span class=" text-warning">{{ $submissionFlag['status'] }}</span></td>
+                                    <td><span class=" text-warning">{{ $submissionFlag['previousFlagStatus'] }}</span></td>
+                                    <td><span class=" text-warning">{{ $submissionFlag['baseLineFlagStatus'] }}</span></td>
+                                    
                                 </tr>
                                 @endforeach
                                         
                               </tbody>
                      </table>
-                     <hr style="    margin: 0px 0px 10px 0px;">
+                     <hr style="margin: 0px 0px 10px 0px;">
                        <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
                         </div>
