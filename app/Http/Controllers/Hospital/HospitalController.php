@@ -58,7 +58,7 @@ class HospitalController extends Controller
 
         $project = Projects::where('hospital_id',$hospital['id'])->where('id',2)->first();
         
-        $projectId = $project['id'];   
+        $projectId = intval($project['id']);   
         
         $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
