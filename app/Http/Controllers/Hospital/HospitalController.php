@@ -57,7 +57,8 @@ class HospitalController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $project = Projects::where('hospital_id',$hospital['id'])->where('id',2)->first();
-        $projectId = $project['id'];   
+        
+        $projectId = intval($project['id']);   
         
         $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
@@ -106,7 +107,7 @@ class HospitalController extends Controller
 
         //get all answers for project
         $anwsers = $this->getResponseAnswers($projectId,0,[] ,$startDate,$endDate);
-         
+                 
         $totalFlags = [];
         $totalFlagCount =0;
         $baseLineOpenFlags = [];
@@ -210,6 +211,7 @@ class HospitalController extends Controller
             $questionId = $anwser->get("question")->getObjectId();
             $questionType = $anwser->get("question")->get("type");
             $answerDate = $anwser->get("response")->get("occurrenceDate")->format('d-m-Y');
+            $answerDate = strtotime($answerDate);
  
 
             if($responseStatus!='completed')
@@ -243,7 +245,7 @@ class HospitalController extends Controller
             
         }
 
-        
+        ksort($openFlagsByDate);
         return $openFlagsByDate;
     }
 
@@ -469,8 +471,17 @@ class HospitalController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->descending("occurrenceDate");
+        $responseQry->ascending("status");
         $responses = $responseQry->find(); 
+
+        $completedResponses = [];
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            if($status=='missed')
+                break;
+
+            $completedResponses[]=$response;
+        }
 
 
         $scheduleQry = new ParseQuery("Schedule");
@@ -489,8 +500,9 @@ class HospitalController extends Controller
         $patientResponses = [];
 
         $answersQry = new ParseQuery("Answer");
-        $answersQry->containedIn("response", $responses);
+        $answersQry->containedIn("response", $completedResponses);
         $anwsers = $answersQry->find();
+        
          
         $submissionFlags = [];  
         
@@ -500,21 +512,31 @@ class HospitalController extends Controller
             $previousFlag = $anwser->get("previousFlag");
             $patient = $anwser->get("patient");
 
+            if(!isset($submissionFlags[$patient]))
+            {
+                $submissionFlags[$patient]['baseLineFlag']['red']=[];
+                $submissionFlags[$patient]['previousFlag']['red']=[];
+                $submissionFlags[$patient]['baseLineFlag']['green']=[];
+                $submissionFlags[$patient]['previousFlag']['green']=[];
+                $submissionFlags[$patient]['baseLineFlag']['amber']=[];
+                $submissionFlags[$patient]['previousFlag']['amber']=[];
+            }
+
             if($baseLineFlag !=null )
             {   
                 $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $submissionFlags[$patient]['previousFlag'][$baseLineFlag][]= $previousFlag;
+                $submissionFlags[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
                 $submissionFlags[$patient]['totalFlags'][]= $previousFlag;
                 
             }
 
         }
-
+         
 
         foreach ($responses as   $response) {
 
             $responseId = $response->getObjectId();
-            $patientId = $response->get("patient");
+            $patient = $response->get("patient");
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             $status = $response->get("status");
             

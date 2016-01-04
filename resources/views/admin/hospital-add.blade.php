@@ -30,10 +30,11 @@
                
                     <div class="upload">
                         <div class="img-div" id="hospital_logo_block">
-                        <i class="fa fa-image fa-3x"></i><br>
-                        <h5 id="pickfiles" class="text-muted">Click to upload Hospital Logo</h5>
-                        <span id="loader"></span>
+                    
                         </div>
+                        <span id="loader"></span>
+                        <a id="pickfiles" href="javascript:;"> <i class="fa fa-image fa-3x"></i><br>
+                        <h5  class="text-muted">Click to upload Hospital Logo</h5></a>
                         <input type="hidden" name="hospital_logo" id="hospital_logo" data-parsley-required>
                     </div>
                 
