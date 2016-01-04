@@ -512,6 +512,16 @@ class HospitalController extends Controller
             $previousFlag = $anwser->get("previousFlag");
             $patient = $anwser->get("patient");
 
+            if(!isset($submissionFlags[$patient]))
+            {
+                $submissionFlags[$patient]['baseLineFlag']['red']=[];
+                $submissionFlags[$patient]['previousFlag']['red']=[];
+                $submissionFlags[$patient]['baseLineFlag']['green']=[];
+                $submissionFlags[$patient]['previousFlag']['green']=[];
+                $submissionFlags[$patient]['baseLineFlag']['amber']=[];
+                $submissionFlags[$patient]['previousFlag']['amber']=[];
+            }
+
             if($baseLineFlag !=null )
             {   
                 $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
