@@ -34,8 +34,29 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
-        <li><a href="contact.html"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Contact Us</span></a></li>T
-       <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i></a></li>
+        <li><a href="contact.html"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Contact Us</span></a></li>
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="notification">2</div>
+                        <i class="fa fa-bell"></i> <span class="text-muted">Messages</span> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Questionnaire 2 is pending. Click to resume.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> A few seconds ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have an upcoming Questionnaire on 23rd Dec 2015
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 7 hours ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have not submitted the Questionnaire for the month of Jan.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 2 Days ago</small> 
+            </a></li>
+            
+            <li class="bg-gray text-center"><a href="notification.html">See All</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

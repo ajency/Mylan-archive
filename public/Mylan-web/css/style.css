@@ -55,6 +55,11 @@ p {
 .panel-default {
   background: #f2f2f2;
 }
+.panel-green {
+  border: 1px solid #DDDDDD;
+  background: rgba(0, 170, 167, 0.21);
+  border-radius: 4px;
+}
 .inline {
   display: inline;
 }
@@ -62,13 +67,13 @@ p {
   font-weight: 200!important;
 }
 .b-b {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #bbb!important;
 }
 .bg-gray {
   background: #eee;
 }
 .b-b-g {
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #ddd;
 }
 .b-r-g {
   border-right: 1px solid #eeeeee;
@@ -142,6 +147,11 @@ p {
 }
 .badge-round.green .fa-phone {
   font-size: 14px;
+}
+.notification-list li {
+  background: transparent;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 10px;
 }
 .question {
   font-size: 22px;
@@ -356,6 +366,9 @@ h3.line-title span {
   right: 0;
 }
 /*** BUTTON STYLING ***/
+.btn {
+  border-radius: 3px;
+}
 .btn.btn-primary:hover,
 .btn.btn-primary:active,
 .btn.btn-primary:focus {
@@ -556,7 +569,8 @@ form .form-control {
   line-height: 17px;
   border: none;
   box-shadow: none;
-  padding-left: 0;
+  background: transparent;
+  font-size: 14px;
 }
 form .form-control:focus {
   box-shadow: none;
@@ -634,50 +648,98 @@ form .fa.fa-question::before {
     padding: 11px 11px 11px 0;
   }
 }
-ul.q-tabs {
-  display: inline-flex;
-  list-style-type: none;
-}
-ul.q-tabs li a {
-  padding: 5px;
-  margin-right: 7px;
-  width: 25px;
-  height: 25px;
+div.q-tabs div {
+  width: 40px;
+  height: 40px;
+  margin-right: 2px;
+  margin-bottom: 5px;
+  display: inline-block;
   border: 1px solid #ddd;
-  color: #444444;
   text-align: center;
-  font-size: 12px;
-  line-height: 14px;
+  line-height: 38px;
+  position: relative;
+  background: #F2F2F2;
 }
-ul.q-tabs li a:hover,
-ul.q-tabs li a:active,
-ul.q-tabs li a:focus {
+div.q-tabs div a {
+  color: #9A9A9A;
+  text-decoration: none;
+  font-size: 14px;
+  padding: 5px;
+  font-weight: 400;
+}
+div.q-tabs div:hover,
+div.q-tabs div:active,
+div.q-tabs div:focus {
   border: 1px solid #ddd;
 }
-ul.q-tabs li a.disabled {
-  background: #F2F2F2;
+div.q-tabs div.disabled {
+  background: rgba(248, 250, 209, 0.52);
   color: #C3C0C0;
+}
+div.q-tabs .active {
+  border: 2px solid #7bc67a;
+  position: relative;
+}
+div.q-tabs .active::before {
+  content: "\f0d8";
+  font-family: fontawesome;
+  position: absolute;
+  bottom: -16px;
+  left: 15px;
+  color: #7bc67a;
+}
+div.q-tabs .active:hover {
+  border: 2px solid #7bc67a;
 }
 .sidebar {
   line-height: 30px;
+  text-align: center;
+  padding: 30px;
+  border: 1px solid #ddd;
+  margin-bottom: 25px;
+}
+.sidebar .icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  border: 1px dashed #00AAAC;
+  border-radius: 50%;
+  display: table;
+}
+.sidebar .icon i {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 22px;
+  color: #666;
 }
 .sidebar h4,
 .sidebar h5.prev-ans {
   padding-bottom: 20px;
   border-bottom: 1px dotted #ddd;
 }
+.sidebar h6 {
+  color: #666;
+}
 .sidebar p {
   font-size: 14px;
   margin-bottom: 25px;
+  font-weight: 200;
+}
+.sidebar p span {
+  font-size: 20px;
+}
+.sidebar p a {
+  font-size: 18px;
 }
 .instr-list {
   list-style-type: none;
   padding-left: 20px;
 }
 .instr-list li {
-  margin-bottom: 25px;
+  margin-bottom: 33px;
   text-indent: -11px;
-  line-height: 23px;
+  line-height: 26px;
+  font-weight: 200;
 }
 .instr-list li::before {
   content: '\f0da';
@@ -687,9 +749,6 @@ ul.q-tabs li a.disabled {
 }
 .footer {
   background-color: #D2D2D2;
-  position: absolute;
-  left: 0;
-  right: 0;
   padding: 15px;
   margin-top: 50px;
 }
@@ -705,4 +764,34 @@ ul.q-tabs li a.disabled {
 }
 .footer.posinitial {
   position: inherit;
+}
+.date {
+  width: 69px;
+  height: 76px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+.date .month {
+  background: #00aaa7;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 200;
+  text-transform: uppercase;
+  padding: 3px;
+  letter-spacing: 1px;
+}
+.date .day {
+  font-size: 18px;
+  padding: 3px 0 3px 0;
+}
+.date .year {
+  color: #00aaa7;
+  font-size: 12px;
+}
+.addr dt {
+  width: 92px;
+}
+.addr dd {
+  margin-left: 124px;
+  line-height: 25px;
 }

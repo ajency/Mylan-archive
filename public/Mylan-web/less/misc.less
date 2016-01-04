@@ -56,6 +56,11 @@ p{
 .panel-default{
   background: #f2f2f2;
 }
+.panel-green{
+  border: 1px solid #DDDDDD;
+    background: rgba(0, 170, 167, 0.21);
+    border-radius: 4px;
+}
 .inline{
   display: inline;
 }
@@ -63,13 +68,13 @@ p{
   font-weight: 200!important;
 }
 .b-b{
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #bbb!important;
 }
 .bg-gray{
   background:#eee;
 }
 .b-b-g{
-  border-bottom: 1px solid @color-light-gray;
+  border-bottom: 1px solid #ddd;
 }
 .b-r-g{
   border-right: 1px solid @color-light-gray;
@@ -143,6 +148,11 @@ p{
           font-size: 14px;
         }
       }
+  }
+  .notification-list li{
+    background: transparent;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 10px;
   }
   .question{
     font-size: 22px;
@@ -356,7 +366,7 @@ h4.line-title,h3.line-title {
 }
   /*** BUTTON STYLING ***/
 .btn{
-  
+    border-radius: 3px;
   &.btn-primary{
 	  // -moz-box-shadow:0px 4px 0 0 #A8A8A8;
   	// -webkit-box-shadow:0px 4px 0 0 #A8A8A8;
@@ -589,7 +599,8 @@ form{
       line-height: 17px;
       border: none;
       box-shadow: none;
-      padding-left: 0;
+      background: transparent;
+      font-size: 14px;
       &:focus{
         box-shadow: none;
       }
@@ -638,6 +649,7 @@ form{
             bottom: 9px;
           }
       }
+
 }
 @media(max-width:767px){
   h3{
@@ -660,46 +672,98 @@ form{
   }
  
 }
-ul.q-tabs{
-    display: inline-flex;
-    list-style-type: none;
-    li a{
-        padding: 5px;
-        margin-right: 7px;
-        width: 25px;
-        height: 25px;
+div.q-tabs{
+    
+    div{
+        width: 40px;
+        height: 40px;
+        margin-right: 2px;
+        margin-bottom: 5px;
+        display: inline-block;
         border:1px solid #ddd;
-        color: @color-text-gray;
         text-align: center;
-        font-size: 12px;
-        line-height: 14px;
+        line-height: 38px;
+        position: relative;
+        background: #F2F2F2;
+        a{
+              color: #9A9A9A;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 5px;
+    font-weight: 400;
+        }
       &:hover,&:active,&:focus{
         border:1px solid #ddd;
       }
       &.disabled{
-        background: #F2F2F2;
+        background: rgba(248, 250, 209, 0.52);
         color: #C3C0C0;
+        
+      }
+    }
+    .active{
+      border:2px solid @color-light-green;
+      position: relative;
+      &::before{
+        content: "\f0d8";
+        font-family: fontawesome;
+        position: absolute;
+        bottom: -16px;
+        left: 15px;
+        color: @color-light-green;
+      }
+      &:hover{
+        border:2px solid @color-light-green;
       }
     }
 }
 .sidebar{
   line-height: 30px;
+      text-align: center;
+    padding: 30px;
+    border: 1px solid #ddd;
+    margin-bottom: 25px;
+    .icon{
+            width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    border: 1px dashed #00AAAC;
+    border-radius: 50%;
+    display: table;
+        i{
+              display: table-cell;
+    vertical-align: middle;
+    font-size: 22px;
+    color: #666;
+        }
+    }
   h4,h5.prev-ans{
     padding-bottom: 20px;
     border-bottom: 1px dotted #ddd;
   }
+  h6{
+    color: #666;
+  }
   p{
     font-size: 14px;
     margin-bottom: 25px;
+        font-weight: 200;
+    span{
+      font-size: 20px;
+    }
+    a{
+      font-size: 18px;
+    }
   }
 }
 .instr-list{
   list-style-type: none;
   padding-left: 20px;
   li{
-    margin-bottom: 25px;
+    margin-bottom: 33px;
     text-indent: -11px;
-    line-height: 23px;
+    line-height: 26px;
+    font-weight: 200;
     &::before{
       content: '\f0da';
       font-family: fontawesome;
@@ -710,9 +774,6 @@ ul.q-tabs{
 }
 .footer{
     background-color: #D2D2D2;
-    position: absolute;
-    left: 0;
-    right: 0;
     padding: 15px;
     margin-top: 50px;
     
@@ -728,5 +789,37 @@ ul.q-tabs{
   }
   &.posinitial{
     position: inherit;
+  }
+}
+.date{
+  width: 69px;
+  height: 76px;
+  border:1px solid #ddd;
+  border-radius: 3px;
+  .month{
+    background: @color-green-sea;
+    color: @color-white;
+        font-size: 10px;
+    font-weight: 200;
+    text-transform: uppercase;
+    padding: 3px;
+    letter-spacing: 1px;
+  }
+  .day{
+    font-size: 18px;
+    padding: 3px 0 3px 0;
+  }
+  .year{
+    color: @color-green-sea;
+    font-size: 12px;
+  }
+}
+.addr{
+  dt{
+    width: 92px;
+  }
+  dd {
+    margin-left: 124px;
+    line-height: 25px;
   }
 }

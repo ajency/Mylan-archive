@@ -36,7 +36,28 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
      <ul class="nav navbar-nav navbar-right">
         <li><a href="contact.html"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Contact Us</span></a></li>
-       <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- <span> -->
+                        <i class="fa fa-bell"></i> <span class="text-muted">Messages</span> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Questionnaire 2 is pending. Click to resume.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> A few seconds ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have an upcoming Questionnaire on 23rd Dec 2015
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 7 hours ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have not submitted the Questionnaire for the month of Jan.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 2 Days ago</small> 
+            </a></li>
+            
+            <li class="bg-gray text-center"><a href="notification.html">See All</a></li>
+          </ul>
+        </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -44,28 +65,49 @@
 <div class="container">
   <!-- Wrapper for slides --><br> 
   <h3>Messages</h3>
-
+  <br>
     <div class="row">
     <div class="col-md-17">
      
         <div class="panel panel-default">
           <div class="panel-body">
-            <br>
-            <div class="text-muted">
-                <ul class="list-group">
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                   <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                   <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
-                    <li class="list-group-item"><span class="pull-right"><i class="fa fa-trash"></i></span>If you feel unwell or would like to chat with someone at the hospital about your illness</li>
+            
+                <ul class="list-group notification-list">
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>Your Questionnaire is due on 12th Feb 2016.
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                   <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                    <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                   </li>
+                   <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                    <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                   </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
+                    <li class="list-group-item"><span class="pull-right"><a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a></span>If you feel unwell or would like to chat with someone at the hospital about your illness
+                      <div class="text-muted"><small><i class="fa fa-clock-o"></i> A few seconds ago.</small></div>
+                    </li>
                 </ul>
-            </div>
+            
             
            </div>
         </div>
@@ -73,86 +115,39 @@
     </div>
     <div class="col-md-7">
       <div class="sidebar">
-        <h4>REACH US</h4>
-        <p>If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
-        <h5>CALL US ON</h5>
+        <div class="icon">
+          <i class="glyphicon glyphicon-phone-alt"></i>
+        </div>
+        <br>
+        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
+        <h6><b>CALL US ON</b></h6>
           <p><i class="fa fa-phone text-muted"></i>
           <a href="tel:0909384985" class="text-success">090 9384 985</a>
         </p>
-        <h5>MAIL US AT</h5>
+        <p>OR</p>
+        <h6><b>MAIL US AT</b></h6>
           <p><i class="fa fa-envelope text-muted"></i>
           <a href="mailto:MRIPanc@nhshospitals.nhs.uk" class="text-success">MRIPanc@nhshospitals.nhs.uk</a>
         </p>
       </div>
+      <div class="sidebar panel-green">
+        <i class="fa fa-ambulance fa-3x text-danger"></i>
+        <p>In an emergency call the emergency services ! We are right here to help you.</p>
+         <a href="contact.html" class="btn btn-default">Contact Us</a>
+      </div>
       </div>
     </div>
-     <div class="row alert alert-warning m-t-25">
-      <div class="text-muted">
-              <div class="col-sm-2"><i class="fa fa-ambulance fa-3x"></i></div>
-              <div class="col-sm-18"><h4 class="m-t-10 f-w-200">In an emergency call the emergency services ! We are right here to help you.</h4></div>
-              <div class="col-sm-4 text-right">
-                <a href="contact.html" class="btn btn-default">Contact Us</a>
-              </div>
-              </div>
-            </div>
+   
 </div>
-<div class="footer bottom">
+<footer class="footer bottom">
                 <div class="container">
                   <div class="footer-content text-center">
                    <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
                   </div>
                 </div>
-              </div>
-<!-- Modal -->
-<div class="modal fade bs-example-modal-md" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-     <div class="modal-body">
-       <div class="text-center">
-      <div class="padding">
-      <br>
-      <i class="fa fa-times-circle text-danger"></i>
-      <br><br>
-      <p>Are you sure your want to cancel all the Answers you answered ? </p>
-      <br>
-    </div>
-    </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-        <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
-        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal -->
-<div class="modal fade bs-example-modal-sm" id="pauseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-md" role="document">
-    <div class="modal-content">
-     <div class="modal-body">
-       <div class="text-center">
-      <div class="padding">
-      <br>
-      <div class="ic">
-      <i class="fa fa-pause"></i>
-      </div>
-      <br><br>
-      <p>Are you sure you want to pause and answer your Questionnaire later ? The answers answered till now will be saved.</p>
-      <br>
-    </div>
-    </div>
-      </div>
-      <div class="modal-footer">
-        <div class="row">
-        <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
-        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
+              </footer>
+
+
  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
