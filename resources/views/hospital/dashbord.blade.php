@@ -47,36 +47,35 @@
                         <div class="row ">
                            <div class="col-md-2 ">
                               <h1 class="bold num-data">{{ $projectResponseCount['baseLineOpenFlagsCount'] }}  
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                                 
                                </h1>
                               <h5>Base Line Open Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-2 ">
                               <h1 class="bold num-data">{{ $projectResponseCount['previousOpenFlagsCount'] }}  
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                                 
                                </h1>
                               <h5>Previous Open Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-2 ">
                                 <h1 class="bold num-data">{{ $projectResponseCount['totalFlagsCount'] }}  
-                                  <i class="icon-custom-down text-error"></i><span class="text-error"> (5.5 %)</span>
+                                  
                                </h1>
                               <h5>Total Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-3 ">
                                 <h1 class="bold num-data">{{ $projectResponseCount['submissionCount'] }} 
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (20.4 %)</span>
+                                  
                                </h1>
                               <h5>Total Submissions</h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-3">
                                <h1 class="bold num-data">{{ $projectResponseCount['patientsCount'] }}
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (6.7 %)</span>
-                            
+                                                              
                                </h1>
                               <h5>Total Patients </h5>
                               <em class="line"></em>
@@ -156,7 +155,7 @@
                      </table>
                      <hr style="    margin: 0px 0px 10px 0px;">
                        <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
                            <div class="col-sm-6">
@@ -249,25 +248,25 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['red']) }} </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['red']) }} </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['amber']) }} </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['amber']) }} </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
@@ -277,7 +276,7 @@
                               </tbody>
                            </table>
                            <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                       
                          
