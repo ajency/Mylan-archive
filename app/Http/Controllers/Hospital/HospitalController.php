@@ -508,7 +508,6 @@ class HospitalController extends Controller
 
             if(!isset($submissionFlags[$patient]))
             {
-                $submissionFlags[$patient] =[];
                 $submissionFlags[$patient]['baseLineFlag']['red']=[];
                 $submissionFlags[$patient]['previousFlag']['red']=[];
                 $submissionFlags[$patient]['baseLineFlag']['green']=[];
@@ -534,6 +533,14 @@ class HospitalController extends Controller
             $patient = $response->get("patient");
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             $status = $response->get("status");
+
+            $patientResponses[$patientId]['count'][]=$responseId;
+
+            if($status=='missed')
+            {
+                $patientResponses[$patientId]['missed'][]=$responseId;
+                continue;
+            }
             
             if(!isset($patientResponses[$patientId]))
             {
@@ -544,13 +551,7 @@ class HospitalController extends Controller
                 $patientResponses[$patientId]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
                 $patientResponses[$patientId]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
             }
-
-            if($status=='missed')
-            {
-                $patientResponses[$patientId]['missed'][]=$responseId;
-            }
-
-            $patientResponses[$patientId]['count'][]=$responseId;
+ 
             
         }
  
