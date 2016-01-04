@@ -508,6 +508,7 @@ class HospitalController extends Controller
 
             if(!isset($submissionFlags[$patient]))
             {
+                $submissionFlags[$patient] =[];
                 $submissionFlags[$patient]['baseLineFlag']['red']=[];
                 $submissionFlags[$patient]['previousFlag']['red']=[];
                 $submissionFlags[$patient]['baseLineFlag']['green']=[];
