@@ -72,10 +72,10 @@ class HospitalController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $projectResponseCount = [];//$this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
-        $projectOpenFlags = [];//$this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = [];//$this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
-        $patientFlagSummary = [];//$this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
+        $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
+        $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
+        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
         $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
