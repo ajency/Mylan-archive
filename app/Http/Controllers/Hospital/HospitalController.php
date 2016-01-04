@@ -57,7 +57,7 @@ class HospitalController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $project = Projects::where('hospital_id',$hospital['id'])->where('id',2)->first();
-        print_r($project);
+        
         $projectId = $project['id'];   
         
         $startDate =  date('d-m-Y', strtotime('-1 months'));
@@ -107,8 +107,7 @@ class HospitalController extends Controller
 
         //get all answers for project
         $anwsers = $this->getResponseAnswers($projectId,0,[] ,$startDate,$endDate);
-        dd($anwsers);
-         
+                 
         $totalFlags = [];
         $totalFlagCount =0;
         $baseLineOpenFlags = [];
