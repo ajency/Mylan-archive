@@ -192,6 +192,7 @@ class PatientController extends Controller
         $anwserQry->includeKey("response");
         $anwserQry->includeKey("option");
         $anwserQry->includeKey("question");
+        $anwserQry->descending("createdAt");
         $anwsers = $anwserQry->find(); 
 
         $baseLineArr = [];
@@ -202,7 +203,7 @@ class PatientController extends Controller
         
         $inputBaseQuestionId = '';
         $inputLable = '';
-       
+        $inputBaseLineScore ='';
 
         foreach ($anwsers as   $anwser) {
             $responseStatus = $anwser->get("response")->get("status");
@@ -219,6 +220,7 @@ class PatientController extends Controller
                 $optionScore = $optionValue;
                 $inputBaseQuestionId = $questionId;
                 $inputLable =  ucfirst(strtolower($questionTitle));
+
 
                 if($responseStatus=="base_line")
                     $inputBaseLineScore = $optionScore;

@@ -210,6 +210,7 @@ class HospitalController extends Controller
             $questionId = $anwser->get("question")->getObjectId();
             $questionType = $anwser->get("question")->get("type");
             $answerDate = $anwser->get("response")->get("occurrenceDate")->format('d-m-Y');
+            $answerDate = strtotime($answerDate);
  
 
             if($responseStatus!='completed')
@@ -243,7 +244,7 @@ class HospitalController extends Controller
             
         }
 
-        
+        ksort($openFlagsByDate);
         return $openFlagsByDate;
     }
 
@@ -469,8 +470,17 @@ class HospitalController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->descending("occurrenceDate");
+        $responseQry->ascending("status");
         $responses = $responseQry->find(); 
+
+        $completedResponses = [];
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            if($status=='missed')
+                break;
+
+            $completedResponses[]=$response;
+        }
 
 
         $scheduleQry = new ParseQuery("Schedule");
@@ -489,8 +499,9 @@ class HospitalController extends Controller
         $patientResponses = [];
 
         $answersQry = new ParseQuery("Answer");
-        $answersQry->containedIn("response", $responses);
+        $answersQry->containedIn("response", $completedResponses);
         $anwsers = $answersQry->find();
+        
          
         $submissionFlags = [];  
         
@@ -503,18 +514,18 @@ class HospitalController extends Controller
             if($baseLineFlag !=null )
             {   
                 $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $submissionFlags[$patient]['previousFlag'][$baseLineFlag][]= $previousFlag;
+                $submissionFlags[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
                 $submissionFlags[$patient]['totalFlags'][]= $previousFlag;
                 
             }
 
         }
-
+         
 
         foreach ($responses as   $response) {
 
             $responseId = $response->getObjectId();
-            $patientId = $response->get("patient");
+            $patient = $response->get("patient");
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             $status = $response->get("status");
             

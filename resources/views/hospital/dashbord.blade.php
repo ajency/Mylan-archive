@@ -309,13 +309,12 @@ var chart = AmCharts.makeChart("chartdiv", {
     "dataDateFormat": "YYYY-MM-DD HH:NN",
     "dataProvider": [ 
     <?php
-        ksort($projectOpenFlags);
+        
         foreach($projectOpenFlags as $date => $value)
-        {
-          
+        { 
           ?>
           {
-              "date": "<?php echo date('Y-m-d',strtotime($date)) ?>",
+              "date": "<?php echo date('Y-m-d',$date) ?>",
               "base_line":<?php echo $value['baseLine']?>,
               "previous":<?php echo $value['previous'] ?>,
           },
