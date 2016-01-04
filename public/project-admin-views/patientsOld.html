@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+      <meta charset="utf-8" />
+      <title>Mylan - Project Administrator</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <meta content="" name="description" />
+      <meta content="" name="author" />
+      <!-- BEGIN PLUGIN CSS -->
+      <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen"/>
+      <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/>
+      <link href="assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen"/>
+      <link rel="stylesheet" href="assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
+      <!-- END PLUGIN CSS -->
+      <!-- BEGIN CORE CSS FRAMEWORK -->
+      <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
+      <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
+      <!-- END CORE CSS FRAMEWORK -->
+      <!-- BEGIN CSS TEMPLATE -->
+      <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+      <!-- END CSS TEMPLATE -->
+   </head>
+   <!-- END HEAD -->
+   <!-- BEGIN BODY -->
+   <body class="horizontal-menu">
+      <!-- BEGIN HEADER -->
+      <div class="header navbar navbar-inverse ">
+         <!-- BEGIN TOP NAVIGATION BAR -->
+         <div class="navbar-inner">
+            <div class="header-seperation">
+               <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
+                  <li class="dropdown">
+                     <a id="horizontal-menu-toggle" href="#"  class="" >
+                        <div class="iconset top-menu-toggle-white"></div>
+                     </a>
+                  </li>
+               </ul>
+               <!-- BEGIN LOGO -->  
+               <a href="index.html"><img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/></a>
+               <!-- END LOGO --> 
+               <ul class="nav pull-right notifcation-center">
+                  <li class="dropdown" id="header_task_bar">
+                     <a href="index.html" class="dropdown-toggle active" data-toggle="">
+                        <div class="iconset top-home"></div>
+                     </a>
+                  </li>
+                  <li class="dropdown" id="header_inbox_bar" >
+                     <a href="email.html" class="dropdown-toggle" >
+                        <div class="iconset top-messages"></div>
+                        <span class="badge" id="msgs-badge">2</span> 
+                     </a>
+                  </li>
+                  <li class="dropdown" id="portrait-chat-toggler" style="display:none">
+                     <a href="#sidr" class="chat-menu-toggle">
+                        <div class="iconset top-chat-white "></div>
+                     </a>
+                  </li>
+               </ul>
+            </div>
+            <!-- END RESPONSIVE MENU TOGGLER --> 
+            <div class="header-quick-nav container text-center" >
+               <!-- BEGIN TOP NAVIGATION MENU -->
+               <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt=""  data-src="assets/img/nhs.gif" width="auto" height="40"/></a>
+               <!-- END TOP NAVIGATION MENU -->
+               <!-- BEGIN CHAT TOGGLER -->
+               <div class="pull-right">
+                  <div class="chat-toggler">
+                     <a href="#">
+                        <div class="user-details">
+                           <div class="username">
+                              John <span class="bold">Smith</span>    
+                              <span class="badge badge-default">Project Admin</span>               
+                           </div>
+                        </div>
+                     </a>
+                  </div>
+                  <ul class="nav quick-section ">
+                     <li class="quicklinks">
+                        <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+                           <div class="iconset top-settings-dark "></div>
+                        </a>
+                        <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                           <li><a href="my-acct.html"> My Account</a>
+                           </li>
+                           <li class="divider"></li>
+                           <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                        </ul>
+                     </li>
+                  </ul>
+               </div>
+               <!-- END CHAT TOGGLER -->
+            </div>
+            <!-- END TOP NAVIGATION MENU --> 
+         </div>
+         <!-- END TOP NAVIGATION BAR --> 
+      </div>
+      <!-- END HEADER -->
+      <!-- BEGIN CONTAINER -->
+      <div class="page-container row-fluid">
+         <!-- BEGIN PAGE CONTAINER-->
+         <div class="page-content">
+            <div class="bar">
+               <div class="container">
+                  <div class="bar-inner">
+                      <ul>
+                        <li>
+                           <a href="dashboard.html">
+                           <span> <i class="fa fa-tachometer"></i> Dashboard </span>
+                           </a>
+                        </li>
+                       <li class="active-item">
+                           <a href="patients.html">
+                           <span><i class="fa fa-wheelchair"></i> Patients</span>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="submissions.html">
+                           <span><i class="fa fa-list-alt"></i> Submissions</span>
+                           </a>
+                        </li>
+                     <!--  <li>
+                           <a href="users.html">
+                           <span><i class="fa fa-users"></i> Users </span>
+                           </a>
+                        </li> -->
+                        <li>
+                           <a href="flags.html">
+                           <span><i class="fa fa-flag"></i> Flags </span>
+                           </a>
+                        </li>
+                        <li>
+                           <a href="reports.html">
+                           <span><i class="fa fa-bar-chart"></i> Reports </span>
+                           </a>
+                        </li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+            <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+            <div id="portlet-config" class="modal hide">
+               <div class="modal-header">
+                  <button data-dismiss="modal" class="close" type="button"></button>
+                  <h3>Widget Settings</h3>
+               </div>
+               <div class="modal-body"> Widget settings form goes here </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="container m-b-50">
+               <div class="content">
+                  <p>
+                  <ul class="breadcrumb">
+                     <li>
+                        <a href="dashboard.html">HOME</a>
+                     </li>
+                     <li>
+                        <a href="#" class="active">Patients</a> 
+                     </li>
+                  </ul>
+                  </p>
+                  <div>
+                     <div class="pull-right m-t-25">
+                        <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
+                        <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+                     </div>
+                     <div class="page-title">
+                        <h3><span class="semi-bold">Patients</span></h3>
+                        <p>(Click on any Patient ID to see Profile Details)</p>
+                     </div>
+                  </div>
+                  <div class="tab-pane" id="Submissions">
+                     <ul class="nav nav-tabs inner-tabs" id="tab-01">
+                        <li class="active"><a href="#allPatients"><i class="fa fa-wheelchair"></i> Patients</a></li>
+                        <li><a href="#flags"><i class="fa fa-flag"></i> Flags</a></li>
+                        
+                     </ul>
+                     <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+                     <div class="tab-content table-data">
+                        <div class="tab-pane active" id="allPatients">
+                           <ul class="nav nav-tabs view-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#list-view" aria-controls="list-view" role="tab" data-toggle="tab"><i class="fa fa-list"></i></a></li>
+    <li role="presentation"><a href="#grid-view" aria-controls="grid-view" role="tab" data-toggle="tab"><i class="fa fa-cubes"></i></a></li>
+  </ul>
+  <br><br><br>
+                     <div class="tab-content ">
+                        <div role="tabpanel" class="tab-pane fade in active" id="list-view">
+                           <table class="table table-hover" id="example1" >
+                              <thead>
+                                 <tr>
+                                    <th>Patient ID</th>
+                                    <th>Date Registered</th>
+                                    <th>Last Clinic Visit</th>
+                                    <th>Last Submission Date</th>
+                                    <th>Number of Submissions</th>
+                                    <th>Number of Red Flags</th>
+                                    <th>Number of Amber Flags</th>
+                                    <th>Status</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='patient-summary.html';">
+                                    <td>10000001</td>
+                                    <td>6th Jan</td>
+                                    <td>5th Jan</td>
+                                    <td>6th Nov</td>
+                                    <td><span class="text-success">New : 11</span> | <span>Total : 11</span></td>
+                                    <td><span class="text-error">New : 0</span> | <span>Total : 3</span></td>
+                                    <td><span class="text-danger">New : 0</span> | <span>Total : 4</span></td>
+                                    <td class="text-right"><span class="label label-success">Submitted</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='patient-summaryP2.html';">
+                                    <td>10000002</td>
+                                    <td>10th Feb</td>
+                                    <td>6th April</td>
+                                    <td>12th Nov</td>
+                                    <td><span class="text-success">New : 8</span> | <span>Total : 9</span></td>
+                                    <td><span class="text-error">New : 3</span> | <span>Total : 14</span></td>
+                                    <td><span class="text-danger">New : 1</span> | <span>Total : 10</span></td>
+                                    <td class="text-right"><span class="label label-success">Submitted</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX hidden" onclick="window.document.location='patient-summary.html';">
+                                    <td>10000003</td>
+                                    <td>3rd March</td>
+                                    <td>5th May</td>
+                                    <td>29th Oct</td>
+                                    <td><span class="text-success">New : 4</span> | <span>Total : 6</span></td>
+                                    <td><span class="text-error">New : 3</span> | <span>Total : 7</span></td>
+                                    <td><span class="text-danger">New : 2</span> | <span>Total : 9</span></td>
+                                    <td class="text-right"><span class="label label-warning">Missed</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX hidden" onclick="window.document.location='patient-summary.html';">
+                                    <td>10000004</td>
+                                    <td>10th Oct</td>
+                                    <td>15th Nov</td>
+                                    <td>25th Nov</td>
+                                    <td><span class="text-success">New : 2</span> | <span>Total : 2</span></td>
+                                    <td><span class="text-error">New : 4</span> | <span>Total : 12</span></td>
+                                    <td><span class="text-danger">New : 3</span> | <span>Total : 6</span></td>
+                                    <td class="text-right"><span class="label label-success">Submitted</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="grid-view">
+                           <div class="grid simple vertical green">
+                              <div class="grid-body">
+                                 <div class="row">
+                                    <div class="col-md-4">
+                                       <h4 class="semi-bold">Patient Id : 10000001</h4>
+                                       <h5 class="text-error">Open Red Flags : <b>30</b></h5>
+                                       <h5 class="text-danger">Open Amber Flags : <b>30</b></h5>
+                                       <h5  class="text-success">Number of Pending Review Submissions : <b>4</b></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                       <div id="sparkline-pie"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                       <div id="line-example" style="width:100%;height:250px;"> </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="tab-pane" id="flags">
+                           <table class="table table-hover" id="example" >
+                              <thead>
+                                 <tr>
+                                    <th>Patient Id</th>
+                                    <th>Date</th>
+                                    <th>Sequence No.</th>
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                    <th>Action</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,1</td>
+                                    <td>4 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,3</td>
+                                    <td>3 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,4</td>
+                                    <td>2 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000002</td>
+                                    <td>6th Nov</td>
+                                    <td>8,2</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Nov</td>
+                                    <td>5</td>
+                                    <td>Missed a Questionnaire</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,1</td>
+                                    <td>10 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,3</td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,5</td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,4</td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>2 points higher than the previous answer</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="footer">
+                <div class="container">
+                  <div class="footer-content text-center">
+                   <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+         </div>
+      </div>
+      <!-- END CONTAINER -->
+      <!-- BEGIN CORE JS FRAMEWORK--> 
+      <script src="assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
+      <script src="assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+      <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+      <script src="assets/plugins/breakpoints.js" type="text/javascript"></script>
+      <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+      <!-- END CORE JS FRAMEWORK -->
+      <!-- BEGIN PAGE LEVEL JS -->
+      <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>    
+      <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
+      <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
+      <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+      <script src="assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript" ></script>
+      <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript" ></script>
+      <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+      <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+      <script src="assets/plugins/jquery-morris-chart/js/morris.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.time.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.selection.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.animator.min.js"></script>
+      <script src="assets/plugins/jquery-flot/jquery.flot.orderBars.js"></script>
+      <script src="assets/plugins/jquery-sparkline/jquery-sparkline.js"></script>
+      <script src="assets/js/tabs_accordian.js" type="text/javascript"></script> 
+      <!-- END PAGE LEVEL PLUGINS -->
+      <script src="assets/js/datatables.js" type="text/javascript"></script>
+      <!-- BEGIN CORE TEMPLATE JS -->
+      <script src="assets/js/core.js" type="text/javascript"></script>
+      <script src="assets/js/demo.js" type="text/javascript"></script> 
+      <!-- END CORE TEMPLATE JS --> 
+              <script type="text/javascript">
+$(document).ready(function() {   
+   $("#sparkline-pie").sparkline([8,5], {
+      type: 'pie',
+      width: '100%',
+      height: '100%',
+      sliceColors: ['#53C1B7','#F7D3AB',],
+      offset: 10,
+      borderWidth: 0,
+      borderColor: '#000000 '
+   });
+   Morris.Line({
+     element: 'line-example',
+     data: [
+      { y: '2006', a: 50, b: 40 },
+      { y: '2007', a: 65,  b: 55 },
+      { y: '2008', a: 50,  b: 40 },
+      { y: '2009', a: 75,  b: 65 },
+      { y: '2010', a: 50,  b: 40 },
+      { y: '2011', a: 75,  b: 65 },
+      { y: '2012', a: 100, b: 90 }
+     ],
+     xkey: 'y',
+     ykeys: ['a', 'b'],
+     labels: ['Series A', 'Series B'],
+     lineColors:['#0aa699','#d1dade'],
+   });
+});
+   </script>
+   </body>
+</html>
