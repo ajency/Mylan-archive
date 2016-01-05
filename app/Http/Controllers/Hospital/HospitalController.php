@@ -73,10 +73,10 @@ class HospitalController extends Controller
                      );
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
-        $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
-        $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
+        $projectOpenFlags = [];//$this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
+        $submissionFlags = [];//$this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $patientFlagSummary = [];//$this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
+        $patientsSummary = [];//$this->patientSummary($projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -464,7 +464,7 @@ class HospitalController extends Controller
 
     public function patientSummary($projectId,$startDate,$endDate)
     {
-        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(5)->toArray();
+        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
 
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
 
@@ -540,19 +540,20 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
                 $patientResponses[$patient]['missed'] = [];
                 $patientResponses[$patient]['totalFlags'] =[];
-                if($status!='missed')
-                {
-                    $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                    $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                    $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
-                }
             }
-            $patientResponses[$patient]['count'][]=$responseId;
 
             if($status=='missed')
             {
                 $patientResponses[$patient]['missed'][]=$responseId;
             }
+            else
+            {
+                $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+                $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+                $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+            }
+
+            $patientResponses[$patient]['count'][]=$responseId;
             
         }
  
