@@ -478,7 +478,7 @@ class HospitalController extends Controller
             $patientNextOccurrence[$patientId]=$nextOccurrence;
 
         }
-        
+
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
         $completedResponses = [];
         $patientResponses = [];
@@ -530,6 +530,7 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['previousFlag']['green']=[];
                 $patientResponses[$patient]['baseLineFlag']['amber']=[];
                 $patientResponses[$patient]['previousFlag']['amber']=[];
+                $patientResponses[$patient]['totalFlags']=[];
             }
 
             if($baseLineFlag !=null )
