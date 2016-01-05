@@ -589,7 +589,7 @@ class HospitalController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->descending("occurrenceDate");
+        $responseQry->ascending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
