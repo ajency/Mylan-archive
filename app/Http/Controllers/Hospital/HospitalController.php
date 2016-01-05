@@ -534,21 +534,21 @@ class HospitalController extends Controller
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             $status = $response->get("status");
            
-            if(!isset($patientResponses[$patientId]))
+            if(!isset($patientResponses[$patient]))
             {
-                $patientResponses[$patientId]['lastSubmission'] = $occurrenceDate;
-                $patientResponses[$patientId]['nextSubmission'] = $patientNextOccurrence[$patientId];
-                $patientResponses[$patientId]['missed'] = [];
-                $patientResponses[$patientId]['totalFlags'] =[];
-                $patientResponses[$patientId]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                $patientResponses[$patientId]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                $patientResponses[$patientId]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+                $patientResponses[$patient]['missed'] = [];
+                $patientResponses[$patient]['totalFlags'] =[];
+                $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+                $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+                $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
             }
-            $patientResponses[$patientId]['count'][]=$responseId;
+            $patientResponses[$patient]['count'][]=$responseId;
 
             if($status=='missed')
             {
-                $patientResponses[$patientId]['missed'][]=$responseId;
+                $patientResponses[$patient]['missed'][]=$responseId;
             }
             
         }
