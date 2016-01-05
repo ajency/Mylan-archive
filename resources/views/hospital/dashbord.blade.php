@@ -47,36 +47,35 @@
                         <div class="row ">
                            <div class="col-md-2 ">
                               <h1 class="bold num-data">{{ $projectResponseCount['baseLineOpenFlagsCount'] }}  
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                                 
                                </h1>
                               <h5>Base Line Open Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-2 ">
                               <h1 class="bold num-data">{{ $projectResponseCount['previousOpenFlagsCount'] }}  
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                                 
                                </h1>
                               <h5>Previous Open Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-2 ">
                                 <h1 class="bold num-data">{{ $projectResponseCount['totalFlagsCount'] }}  
-                                  <i class="icon-custom-down text-error"></i><span class="text-error"> (5.5 %)</span>
+                                  
                                </h1>
                               <h5>Total Flags </h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-3 ">
                                 <h1 class="bold num-data">{{ $projectResponseCount['submissionCount'] }} 
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (20.4 %)</span>
+                                  
                                </h1>
                               <h5>Total Submissions</h5>
                               <em class="line"></em>
                            </div>
                            <div class="col-md-3">
                                <h1 class="bold num-data">{{ $projectResponseCount['patientsCount'] }}
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (6.7 %)</span>
-                            
+                                                              
                                </h1>
                               <h5>Total Patients </h5>
                               <em class="line"></em>
@@ -102,7 +101,7 @@
                         <!-- Chart - Added -->
                         <br>
                         <div class="row">
-                           <div class="col-sm-6">
+                           <div class="col-sm-5">
                                <div class="alert alert-info alert-black">
                                  Flags Summary
                               </div>
@@ -156,10 +155,10 @@
                      </table>
                      <hr style="    margin: 0px 0px 10px 0px;">
                        <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
-                           <div class="col-sm-6">
+                           <div class="col-sm-7">
                                 <div class="alert alert-info alert-black">
                                  Submission Summary
                               </div>
@@ -170,7 +169,8 @@
                                     <th>When</th>
                                     <th>Compared To Previous</th>
                                     <th>Compared To Baseline</th>
-                                    <th>Status</th>
+                                    <th>Previous Flag Status</th>
+                                    <th>Baseline Flag Status</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -204,15 +204,17 @@
 
                                        </div>
                                     </td>
-                                    <td><span class=" text-warning">{{ $submissionFlag['status'] }}</span></td>
+                                    <td><span class=" text-warning">{{ $submissionFlag['previousFlagStatus'] }}</span></td>
+                                    <td><span class=" text-warning">{{ $submissionFlag['baseLineFlagStatus'] }}</span></td>
+                                    
                                 </tr>
                                 @endforeach
                                         
                               </tbody>
                      </table>
-                     <hr style="    margin: 0px 0px 10px 0px;">
+                     <hr style="margin: 0px 0px 10px 0px;">
                        <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
                         </div>
@@ -225,6 +227,8 @@
                                  <tr>
                                     <th>Patient ID</th>
                                     <th>Total Submissions</th>
+                                    <th>Base Line Green flags</th>
+                                    <th>Previous Green flags</th>
                                     <th>Base Line Red Flags</th>
                                     <th>Previous Red Flags</th>
                                     <th>Base Line amber flags</th>
@@ -249,25 +253,73 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">
+                                           @if(isset($patientSummary['baseLineFlag']['green']))
+                                            {{ count($patientSummary['baseLineFlag']['green']) }}
+                                            @else
+                                            0
+                                           @endif
+                                             </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['red']) }} <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">
+                                            @if(isset($patientSummary['previousFlag']['green']))
+                                            {{ count($patientSummary['previousFlag']['green']) }}
+                                            @else
+                                            0
+                                           @endif
+                                            </h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">
+                                           @if(isset($patientSummary['baseLineFlag']['red']))
+                                            {{ count($patientSummary['baseLineFlag']['red']) }}
+                                            @else
+                                            0
+                                           @endif
+                                             </h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">
+                                            @if(isset($patientSummary['previousFlag']['red']))
+                                            {{ count($patientSummary['previousFlag']['red']) }}
+                                            @else
+                                            0
+                                           @endif
+                                            </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['baseLineFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">
+                                            @if(isset($patientSummary['baseLineFlag']['amber']))
+                                            {{ count($patientSummary['baseLineFlag']['amber']) }}
+                                            @else
+                                            0
+                                            @endif
+                                            </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">{{ count($patientSummary['previousFlag']['amber']) }} <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
+                                           <h3 class="text-muted no-margin bold">
+                                            @if(isset($patientSummary['previousFlag']['amber']))
+                                            {{ count($patientSummary['previousFlag']['amber']) }}
+                                            @else
+                                            0
+                                            @endif
+                                            </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
                                        </div>
                                     </td>
@@ -277,7 +329,7 @@
                               </tbody>
                            </table>
                            <div class="text-right">
-                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                              <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                       
                          

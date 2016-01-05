@@ -168,7 +168,7 @@ class HospitalController extends Controller
 
     public function getResponseAnswers($projectId,$page=0,$anwsersData,$startDate,$endDate)
     {
-        $displayLimit = 50; 
+        $displayLimit = 20; 
 
         $answersQry = new ParseQuery("Answer");
         $answersQry->equalTo("project",$projectId);
@@ -187,7 +187,7 @@ class HospitalController extends Controller
             $page++;
             $anwsersData = $this->getResponseAnswers($projectId,$page,$anwsersData ,$startDate,$endDate);
         }  
-         
+        
         return $anwsersData;
      
     }
@@ -342,7 +342,8 @@ class HospitalController extends Controller
             $comparedToBaslineScore = $anwser->get("response")->get("comparedToBaseLine");
             $comparedToPrevious = $anwser->get("response")->get("comparedToPrevious");
             $responseId = $anwser->get("response")->getObjectId();
-            $responseStatus = $anwser->get("response")->get("baseLineFlagStatus");
+            $baseLineFlagStatus = $anwser->get("response")->get("baseLineFlagStatus");
+            $previousFlagStatus = $anwser->get("response")->get("previousFlagStatus");
             $patient = $anwser->get("response")->get("patient");
             $sequenceNumber = $anwser->get("response")->get("sequenceNumber");
             $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
@@ -365,7 +366,8 @@ class HospitalController extends Controller
             }
 
             $submissionFlags[$responseId]['patient'] = $patient;
-            $submissionFlags[$responseId]['status'] = $responseStatus;
+            $submissionFlags[$responseId]['baseLineFlagStatus'] = $baseLineFlagStatus;
+            $submissionFlags[$responseId]['previousFlagStatus'] = $previousFlagStatus;
             $submissionFlags[$responseId]['baselineScore']= $comparedToBaslineScore;
             $submissionFlags[$responseId]['previousScore']= $comparedToPrevious;
             $submissionFlags[$responseId]['sequenceNumber']= $sequenceNumber;
@@ -462,27 +464,7 @@ class HospitalController extends Controller
 
     public function patientSummary($projectId,$startDate,$endDate)
     {
-        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(5)->toArray();
-
-        $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","missed"]);
-        $responseQry->notEqualTo("status",'base_line');
-        $responseQry->containedIn("patient",$patients);
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->ascending("status");
-        $responses = $responseQry->find(); 
-
-        $completedResponses = [];
-        foreach ($responses as $key => $response) {
-            $status = $response->get("status");
-            if($status=='missed')
-                break;
-
-            $completedResponses[]=$response;
-        }
-
+        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
 
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
@@ -497,70 +479,130 @@ class HospitalController extends Controller
 
         }
 
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
+        $completedResponses = [];
         $patientResponses = [];
+
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            $patient = $response->get("patient");
+            $responseId = $response->getObjectId();
+            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+ 
+            if(!isset($patientResponses[$patient]))
+            {
+                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+                $patientResponses[$patient]['totalFlags']=[];
+            }
+
+            $patientResponses[$patient]['count'][]=$responseId;
+            if($status=='missed')
+            {
+                $patientResponses[$patient]['missed'][]=$responseId;
+                continue;
+            }
+
+            $completedResponses[]=$response;
+        }
+         
 
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
+        $answersQry->includeKey("response");
         $anwsers = $answersQry->find();
         
          
-        $submissionFlags = [];  
-        
+        // $submissionFlags = [];  
+         
         foreach ($anwsers as  $anwser) {
 
             $baseLineFlag = $anwser->get("baseLineFlag");
             $previousFlag = $anwser->get("previousFlag");
             $patient = $anwser->get("patient");
+            $responseId = $anwser->get("response")->getObjectId();
+            $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
 
-            if(!isset($submissionFlags[$patient]))
+            if(!isset($patientResponses[$patient]))
             {
-                $submissionFlags[$patient]['baseLineFlag']['red']=[];
-                $submissionFlags[$patient]['previousFlag']['red']=[];
-                $submissionFlags[$patient]['baseLineFlag']['green']=[];
-                $submissionFlags[$patient]['previousFlag']['green']=[];
-                $submissionFlags[$patient]['baseLineFlag']['amber']=[];
-                $submissionFlags[$patient]['previousFlag']['amber']=[];
+                $patientResponses[$patient]['baseLineFlag']['red']=[];
+                $patientResponses[$patient]['previousFlag']['red']=[];
+                $patientResponses[$patient]['baseLineFlag']['green']=[];
+                $patientResponses[$patient]['previousFlag']['green']=[];
+                $patientResponses[$patient]['baseLineFlag']['amber']=[];
+                $patientResponses[$patient]['previousFlag']['amber']=[];
+
             }
 
             if($baseLineFlag !=null )
             {   
-                $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $submissionFlags[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
-                $submissionFlags[$patient]['totalFlags'][]= $previousFlag;
+                $patientResponses[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
+                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
+                $patientResponses[$patient]['totalFlags'][]= $previousFlag;
                 
             }
 
         }
          
 
-        foreach ($responses as   $response) {
+        // foreach ($responses as   $response) {
 
-            $responseId = $response->getObjectId();
-            $patient = $response->get("patient");
-            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
-            $status = $response->get("status");
+        //     $responseId = $response->getObjectId();
+        //     $patient = $response->get("patient");
+        //     $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+        //     $status = $response->get("status");
+           
+        //     if(!isset($patientResponses[$patient]))
+        //     {
+        //         $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+        //         $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+        //         $patientResponses[$patient]['missed'] = [];
+        //         $patientResponses[$patient]['totalFlags'] =[];
+        //     }
+
+        //     if($status=='missed')
+        //     {
+        //         $patientResponses[$patient]['missed'][]=$responseId;
+        //     }
+        //     else
+        //     {
+        //         $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+        //         $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+        //         $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+        //     }
+
+        //     $patientResponses[$patient]['count'][]=$responseId;
             
-            if(!isset($patientResponses[$patientId]))
-            {
-                $patientResponses[$patientId]['lastSubmission'] = $occurrenceDate;
-                $patientResponses[$patientId]['nextSubmission'] = $patientNextOccurrence[$patientId];
-                $patientResponses[$patientId]['missed'] = [];
-                $patientResponses[$patientId]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                $patientResponses[$patientId]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                $patientResponses[$patientId]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
-            }
-
-            if($status=='missed')
-            {
-                $patientResponses[$patientId]['missed'][]=$responseId;
-            }
-
-            $patientResponses[$patientId]['count'][]=$responseId;
-            
-        }
+        // }
  
         return $patientResponses;
         
+    }
+
+    public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$startDate,$endDate)
+    {
+        $displayLimit = 20; 
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->containedIn("status",["completed","missed"]);
+        $responseQry->containedIn("patient",$patients);
+        $responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $responseQry->ascending("occurrenceDate");
+        $responseQry->limit($displayLimit);
+        $responseQry->skip($page * $displayLimit);
+        $responses = $responseQry->find();  
+        $responseData = array_merge($responses,$responseData); 
+
+        if(!empty($responses))
+        {
+            $page++;
+            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData ,$startDate,$endDate);
+        }  
+        
+        return $responseData;
+     
     }
 
     /**
