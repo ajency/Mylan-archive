@@ -469,10 +469,18 @@ class HospitalController extends Controller
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
       
         $completedResponses = [];
+        $patientResponses = [];
+
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
+            $patient = $response->get("patient");
+
+            $patientResponses[$patient]['count'][]=$responseId;
             if($status=='missed')
-                break;
+            {
+                $patientResponses[$patient]['missed'][]=$responseId;
+                continue;
+            }
 
             $completedResponses[]=$response;
         }
@@ -491,71 +499,75 @@ class HospitalController extends Controller
 
         }
 
-        $patientResponses = [];
-        dd($completedResponses);
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
+        $answersQry->includeKey("response");
         $anwsers = $answersQry->find();
         
          
-        $submissionFlags = [];  
+        // $submissionFlags = [];  
          
         foreach ($anwsers as  $anwser) {
 
             $baseLineFlag = $anwser->get("baseLineFlag");
             $previousFlag = $anwser->get("previousFlag");
             $patient = $anwser->get("patient");
+            $responseId = $anwser->get("response")->getObjectId();
+            $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
 
-            if(!isset($submissionFlags[$patient]))
+            if(!isset($patientResponses[$patient]))
             {
-                $submissionFlags[$patient]['baseLineFlag']['red']=[];
-                $submissionFlags[$patient]['previousFlag']['red']=[];
-                $submissionFlags[$patient]['baseLineFlag']['green']=[];
-                $submissionFlags[$patient]['previousFlag']['green']=[];
-                $submissionFlags[$patient]['baseLineFlag']['amber']=[];
-                $submissionFlags[$patient]['previousFlag']['amber']=[];
+                $patientResponses[$patient]['baseLineFlag']['red']=[];
+                $patientResponses[$patient]['previousFlag']['red']=[];
+                $patientResponses[$patient]['baseLineFlag']['green']=[];
+                $patientResponses[$patient]['previousFlag']['green']=[];
+                $patientResponses[$patient]['baseLineFlag']['amber']=[];
+                $patientResponses[$patient]['previousFlag']['amber']=[];
+                
+                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
             }
 
             if($baseLineFlag !=null )
             {   
-                $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $submissionFlags[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
-                $submissionFlags[$patient]['totalFlags'][]= $previousFlag;
+                $patientResponses[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
+                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
+                $patientResponses[$patient]['totalFlags'][]= $previousFlag;
                 
             }
 
         }
          
 
-        foreach ($responses as   $response) {
+        // foreach ($responses as   $response) {
 
-            $responseId = $response->getObjectId();
-            $patient = $response->get("patient");
-            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
-            $status = $response->get("status");
+        //     $responseId = $response->getObjectId();
+        //     $patient = $response->get("patient");
+        //     $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+        //     $status = $response->get("status");
            
-            if(!isset($patientResponses[$patient]))
-            {
-                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
-                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
-                $patientResponses[$patient]['missed'] = [];
-                $patientResponses[$patient]['totalFlags'] =[];
-            }
+        //     if(!isset($patientResponses[$patient]))
+        //     {
+        //         $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+        //         $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+        //         $patientResponses[$patient]['missed'] = [];
+        //         $patientResponses[$patient]['totalFlags'] =[];
+        //     }
 
-            if($status=='missed')
-            {
-                $patientResponses[$patient]['missed'][]=$responseId;
-            }
-            else
-            {
-                $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
-            }
+        //     if($status=='missed')
+        //     {
+        //         $patientResponses[$patient]['missed'][]=$responseId;
+        //     }
+        //     else
+        //     {
+        //         $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+        //         $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+        //         $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+        //     }
 
-            $patientResponses[$patient]['count'][]=$responseId;
+        //     $patientResponses[$patient]['count'][]=$responseId;
             
-        }
+        // }
  
         return $patientResponses;
         
