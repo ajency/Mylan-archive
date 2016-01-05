@@ -540,9 +540,12 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
                 $patientResponses[$patient]['missed'] = [];
                 $patientResponses[$patient]['totalFlags'] =[];
-                $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+                if($status!='missed')
+                {
+                    $patientResponses[$patient]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+                    $patientResponses[$patient]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+                    $patientResponses[$patient]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
+                }
             }
             $patientResponses[$patient]['count'][]=$responseId;
 
