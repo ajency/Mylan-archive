@@ -466,27 +466,6 @@ class HospitalController extends Controller
     {
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
 
-        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
-      
-        $completedResponses = [];
-        $patientResponses = [];
-
-        foreach ($responses as $key => $response) {
-            $status = $response->get("status");
-            $patient = $response->get("patient");
-            $responseId = $response->getObjectId();
-
-            $patientResponses[$patient]['count'][]=$responseId;
-            if($status=='missed')
-            {
-                $patientResponses[$patient]['missed'][]=$responseId;
-                continue;
-            }
-
-            $completedResponses[]=$response;
-        }
-         
-
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
         $schedules = $scheduleQry->find();
@@ -499,6 +478,33 @@ class HospitalController extends Controller
             $patientNextOccurrence[$patientId]=$nextOccurrence;
 
         }
+        
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
+        $completedResponses = [];
+        $patientResponses = [];
+
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            $patient = $response->get("patient");
+            $responseId = $response->getObjectId();
+            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+ 
+            if(!isset($patientResponses[$patient]))
+            {
+                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+            }
+
+            $patientResponses[$patient]['count'][]=$responseId;
+            if($status=='missed')
+            {
+                $patientResponses[$patient]['missed'][]=$responseId;
+                continue;
+            }
+
+            $completedResponses[]=$response;
+        }
+         
 
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
@@ -524,9 +530,6 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['previousFlag']['green']=[];
                 $patientResponses[$patient]['baseLineFlag']['amber']=[];
                 $patientResponses[$patient]['previousFlag']['amber']=[];
-
-                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
-                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
             }
 
             if($baseLineFlag !=null )
@@ -584,7 +587,7 @@ class HospitalController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->descending("status");
+        $responseQry->descending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
