@@ -506,16 +506,6 @@ class HospitalController extends Controller
             $previousFlag = $anwser->get("previousFlag");
             $patient = $anwser->get("patient");
 
-            if(!isset($submissionFlags[$patient]))
-            {
-                $submissionFlags[$patient]['baseLineFlag']['red']=[];
-                $submissionFlags[$patient]['previousFlag']['red']=[];
-                $submissionFlags[$patient]['baseLineFlag']['green']=[];
-                $submissionFlags[$patient]['previousFlag']['green']=[];
-                $submissionFlags[$patient]['baseLineFlag']['amber']=[];
-                $submissionFlags[$patient]['previousFlag']['amber']=[];
-            }
-
             if($baseLineFlag !=null )
             {   
                 $submissionFlags[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
@@ -534,30 +524,34 @@ class HospitalController extends Controller
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             $status = $response->get("status");
 
-            
-
-            
+           
             
             if(!isset($patientResponses[$patientId]))
             {
+
+                $patientResponses[$patient]['baseLineFlag']['red']=[];
+                $patientResponses[$patient]['previousFlag']['red']=[];
+                $patientResponses[$patient]['baseLineFlag']['green']=[];
+                $patientResponses[$patient]['previousFlag']['green']=[];
+                $patientResponses[$patient]['baseLineFlag']['amber']=[];
+                $patientResponses[$patient]['previousFlag']['amber']=[];
+                $patientResponses[$patient]['totalFlags']=[];
+
                 $patientResponses[$patientId]['lastSubmission'] = $occurrenceDate;
                 $patientResponses[$patientId]['nextSubmission'] = $patientNextOccurrence[$patientId];
                 $patientResponses[$patientId]['missed'] = [];
-                
-                if($status!='missed')
-                {
-                    $patientResponses[$patientId]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
-                    $patientResponses[$patientId]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
-                    $patientResponses[$patientId]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
-                }
+                $patientResponses[$patientId]['baseLineFlag'] = $submissionFlags[$patient]['baseLineFlag'];
+                $patientResponses[$patientId]['previousFlag'] = $submissionFlags[$patient]['previousFlag'];
+                $patientResponses[$patientId]['totalFlags'] = $submissionFlags[$patient]['totalFlags'];
             }
+
+            $patientResponses[$patientId]['count'][]=$responseId;
 
             if($status=='missed')
             {
                 $patientResponses[$patientId]['missed'][]=$responseId;
             }
-
-            $patientResponses[$patientId]['count'][]=$responseId;
+ 
             
         }
  
