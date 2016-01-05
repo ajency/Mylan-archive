@@ -493,6 +493,7 @@ class HospitalController extends Controller
             {
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
                 $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
+                $patientResponses[$patient]['totalFlags']=[];
             }
 
             $patientResponses[$patient]['count'][]=$responseId;
@@ -530,7 +531,7 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['previousFlag']['green']=[];
                 $patientResponses[$patient]['baseLineFlag']['amber']=[];
                 $patientResponses[$patient]['previousFlag']['amber']=[];
-                $patientResponses[$patient]['totalFlags']=[];
+
             }
 
             if($baseLineFlag !=null )
