@@ -227,6 +227,8 @@
                                  <tr>
                                     <th>Patient ID</th>
                                     <th>Total Submissions</th>
+                                    <th>Base Line Green flags</th>
+                                    <th>Previous Green flags</th>
                                     <th>Base Line Red Flags</th>
                                     <th>Previous Red Flags</th>
                                     <th>Base Line amber flags</th>
@@ -252,8 +254,34 @@
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
                                            <h3 class="text-muted no-margin bold">
+                                           @if(isset($patientSummary['baseLineFlag']['green']))
+                                            {{ count($patientSummary['baseLineFlag']['green']) }}
+                                            @else
+                                            0
+                                           @endif
+                                             </h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">
+                                            @if(isset($patientSummary['previousFlag']['green']))
+                                            {{ count($patientSummary['previousFlag']['green']) }}
+                                            @else
+                                            0
+                                           @endif
+                                            </h3>
+                                          Total Flags {{ count($patientSummary['totalFlags']) }}
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
+                                           <h3 class="text-muted no-margin bold">
                                            @if(isset($patientSummary['baseLineFlag']['red']))
                                             {{ count($patientSummary['baseLineFlag']['red']) }}
+                                            @else
+                                            0
                                            @endif
                                              </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
@@ -264,6 +292,8 @@
                                            <h3 class="text-muted no-margin bold">
                                             @if(isset($patientSummary['previousFlag']['red']))
                                             {{ count($patientSummary['previousFlag']['red']) }}
+                                            @else
+                                            0
                                            @endif
                                             </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
@@ -274,6 +304,8 @@
                                            <h3 class="text-muted no-margin bold">
                                             @if(isset($patientSummary['baseLineFlag']['amber']))
                                             {{ count($patientSummary['baseLineFlag']['amber']) }}
+                                            @else
+                                            0
                                             @endif
                                             </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
@@ -284,6 +316,8 @@
                                            <h3 class="text-muted no-margin bold">
                                             @if(isset($patientSummary['previousFlag']['amber']))
                                             {{ count($patientSummary['previousFlag']['amber']) }}
+                                            @else
+                                            0
                                             @endif
                                             </h3>
                                           Total Flags {{ count($patientSummary['totalFlags']) }}
