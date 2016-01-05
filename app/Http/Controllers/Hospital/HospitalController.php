@@ -467,7 +467,7 @@ class HospitalController extends Controller
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
 
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
-       
+      
         $completedResponses = [];
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
@@ -492,7 +492,7 @@ class HospitalController extends Controller
         }
 
         $patientResponses = [];
-
+        dd($completedResponses);
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
         $anwsers = $answersQry->find();
