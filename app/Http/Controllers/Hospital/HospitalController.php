@@ -73,10 +73,10 @@ class HospitalController extends Controller
                      );
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
-        $projectOpenFlags = [];//$this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = [];//$this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
-        $patientFlagSummary = [];//$this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = [];//$this->patientSummary($projectId,$startDateObj,$endDateObj);
+        $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
+        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -467,7 +467,7 @@ class HospitalController extends Controller
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
 
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
-
+       
         $completedResponses = [];
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
@@ -476,7 +476,7 @@ class HospitalController extends Controller
 
             $completedResponses[]=$response;
         }
-
+         
 
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
@@ -499,7 +499,7 @@ class HospitalController extends Controller
         
          
         $submissionFlags = [];  
-        
+         
         foreach ($anwsers as  $anwser) {
 
             $baseLineFlag = $anwser->get("baseLineFlag");
@@ -567,12 +567,11 @@ class HospitalController extends Controller
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",["completed","missed"]);
-        $responseQry->notEqualTo("status",'base_line');
         $responseQry->containedIn("patient",$patients);
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->ascending("status");
+        $responseQry->descending("status");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
