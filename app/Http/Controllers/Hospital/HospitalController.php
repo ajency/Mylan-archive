@@ -474,6 +474,7 @@ class HospitalController extends Controller
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
             $patient = $response->get("patient");
+            $responseId = $response->getObjectId();
 
             $patientResponses[$patient]['count'][]=$responseId;
             if($status=='missed')
@@ -523,7 +524,7 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['previousFlag']['green']=[];
                 $patientResponses[$patient]['baseLineFlag']['amber']=[];
                 $patientResponses[$patient]['previousFlag']['amber']=[];
-                
+
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
                 $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
             }
