@@ -15,22 +15,74 @@
 @endsection
 @section('content')
 
-
-    <div class="page-title">
-                     <h3><span class="semi-bold">Sequence Number {{ $sequenceNumber }}</span> </h3>
-                    
-                  </div>
-                 
+<div class="page-title">
+     <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+  </div>
+ <div class="tabbable tabs-left">
+                      @include('hospital.patients.side-menu')
+                     <div class="tab-content">
+                        <div class="tab-pane table-data" id="Patients">
+                        </div>
+                        <div class="tab-pane table-data active" id="Submissions">
+                        <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
+                           <p>(Showing Submission details)</p>
+                           <br>
                            <div class="user-description-box">
-                              <!-- <div class="pull-right">
-                              <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                              <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span>
-                           </div> -->
-                              <label>{{ $questionnaire }}</label>
-                              <p>Submitted on {{ $date }}</p>
-                              <p>Patient #{{ $referenceCode }}</p>
+                           <div class="row">
+                              <div class="col-md-6">
+                                 
+                                 <div class="row">
+                                    
+                                    <div class="col-md-8">
+                                       <label>Sequence Number - {{ $sequenceNumber }} </label>
+                                         
+                                       <!-- <select name="role" id="role" class="select2 form-control"  >
+                                          <option value="1">Select Sequence</option>
+                                          <option value="2">Sequence 1</option>
+                                          <option value="3">Sequence 2</option>
+                                          <option value="4">Sequence 3</option>
+                                          <option value="5">Sequence 4</option>
+                                          <option value="6">Sequence 5</option>
+                                          <option value="7">Sequence 6</option>
+                                          <option value="8">Sequence 7</option>
+                                          <option value="9">Sequence 8</option>
+                                          <option value="10">Sequence 9</option>
+                                          <option value="11">Sequence 10</option>
+                                          <option value="12">Sequence 11</option>
+                                          <option value="13" selected>Sequence 12</option>
+                                       </select> -->
+                                    </div>
+                                 </div>
+                                 <br>
+                                 <div>Submitted on {{ $date }}</div>
+                              </div>
+                              <!-- <div class="col-md-3 m-t-25">
+                                 <div class="row">
+                                    <div class="col-md-2">
+                                       <h4><i class="fa fa-circle text-warning"></i></h4>
+                                    </div>
+                                    <div class="col-md-8"> 
+                                       <select name="role" id="role" class="select2 form-control"  >
+                                          <option value="1">Status</option>
+                                          <option value="2">Reviewed</option>
+                                          <option value="2" selected>Pending Review</option>
+                                       </select>
+                                     
+                                    </div>
+
+                                    <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
+                                 </div>
+                                 -->
+                              </div>
+                              <!-- <div class="col-md-3 m-t-25 text-right ">
+                                 <span class="text-danger"><i class="fa fa-flag"></i> 4</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              <span class="text-warning"><i class="fa fa-flag"></i> 4</span>
+                              </div> -->
+                           </div>
+                              
                            </div>
                            <br>
+ 
                            <div class="user-description-box">
                            <?php $i=1;?>
                            @foreach($answersList as $answer)
@@ -114,6 +166,17 @@
                             @endforeach
  
                            </div>
+                        </div>
+                        <div class="tab-pane " id="Reports">
+
+                        </div> 
+                     </div>
+                     </div>
+
+
+ 
+                 
+
  
 
 @endsection

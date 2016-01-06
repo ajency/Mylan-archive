@@ -13,6 +13,7 @@ use Chrisbjr\ApiGuard\Models\ApiKey;
 use App\Hospital;
 use App\Projects;
 use \Session;
+use App\Http\Controllers\Hospital\HospitalController;
 
 class PatientController extends Controller
 {
@@ -186,7 +187,8 @@ class PatientController extends Controller
         $patient = User::find($patientId)->toArray();
 
         $responseArr=[];
-        $responses = $this->getResponses($patient['reference_code'],0,[]);
+        $responseStatus = ["completed",'missed'];
+        $responses = $this->getResponses($patient['reference_code'],$responseStatus,0,[]);
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
@@ -278,13 +280,13 @@ class PatientController extends Controller
 
     }
 
-    public function getResponses($patient,$page=0,$responseData)
+    public function getResponses($patient,$responseStatus,$page=0,$responseData)
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("patient", $patient);
-        $responseQry->containedIn("status",["completed",'missed']);
+        $responseQry->containedIn("status",$responseStatus);
         $responseQry->notEqualTo("occurrenceDate", null);
         $responseQry->ascending("createdAt");
         $responseQry->limit($displayLimit);
@@ -295,7 +297,7 @@ class PatientController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getResponses($patient,$page,$responseData);
+            $responseData = $this->getResponses($patient,$responseStatus,$page,$responseData);
         }  
         
         return $responseData;
@@ -326,6 +328,29 @@ class PatientController extends Controller
         
         return $answersData;
      
+    }
+
+    function getPatientSubmission($hospitalSlug ,$patientId)
+    {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $patient = User::find($patientId)->toArray();
+
+        $responseArr=[];
+        $responseStatus = ["completed"];
+        $responses = $this->getResponses($patient['reference_code'],$responseStatus,0,[]);
+
+        $hospitalController = new HospitalController();
+        $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
+
+        return view('hospital.patients.submissions')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'submissions')
+                                                ->with('tab', '02')
+                                                ->with('patient', $patient)
+                                                 ->with('hospital', $hospital)
+                                                 ->with('logoUrl', $logoUrl)
+                                                 ->with('submissionFlags', $submissionFlags);
     }
 
     /**

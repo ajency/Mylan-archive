@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\Hospital;
+use App\User;
 use App\Http\Controllers\Hospital\HospitalController;
 
 class SubmissionController extends Controller
@@ -115,6 +116,8 @@ class SubmissionController extends Controller
         $referenceCode = $response->get("patient");
         $sequenceNumber = $response->get("sequenceNumber");
 
+        $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
+
         $oldResponseQry = new ParseQuery("Response");
         $oldResponseQry->notEqualTo("objectId", $responseId);
         $oldResponseQry->equalTo("patient", $referenceCode);
@@ -143,16 +146,19 @@ class SubmissionController extends Controller
             $baseLineAnswersList = $baseLineData['answers'];
         }
 
-        return view('hospital.submissions-view')->with('active_menu', 'submission')
-                                            ->with('referenceCode', $referenceCode)
-                                            ->with('sequenceNumber', $sequenceNumber)
-                                            ->with('hospital', $hospital)
-                                            ->with('logoUrl', $logoUrl)
-                                            ->with('questionnaire', $questionnaire)
-                                            ->with('date', $date)
-                                            ->with('answersList', $answersList)
-                                            ->with('previousAnswersList', $previousAnswersList)
-                                            ->with('baseLineAnswersList', $baseLineAnswersList);
+        return view('hospital.submissions-view')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'submissions')
+                                                ->with('tab', '02')
+                                                ->with('patient', $patient)
+                                                ->with('referenceCode', $referenceCode)
+                                                ->with('sequenceNumber', $sequenceNumber)
+                                                ->with('hospital', $hospital)
+                                                ->with('logoUrl', $logoUrl)
+                                                ->with('questionnaire', $questionnaire)
+                                                ->with('date', $date)
+                                                ->with('answersList', $answersList)
+                                                ->with('previousAnswersList', $previousAnswersList)
+                                                ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 
     public function getSubmissionData($responseId)

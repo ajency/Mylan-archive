@@ -59,6 +59,7 @@ Route::get( '/dashbord', 'Patient\PatientController@index' );
 
 });
 
+/*****Hospital***/
 Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
 Route::get( '/', 'Hospital\HospitalController@show' );
 Route::get( '/dashbord', 'Hospital\HospitalController@show' );
@@ -67,6 +68,7 @@ Route::resource( 'submissions', 'Hospital\SubmissionController' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
 
+Route::get( 'patients/{id}/submissions', 'Hospital\PatientController@getPatientSubmission' );
 Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
 });
