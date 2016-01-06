@@ -2,8 +2,10 @@
 
 @section('content')
 <script>
-    var RefCode = '{{ Auth::user()->reference_code }}';
+    var patientRefCode = {{ Auth::user()->reference_code }};
+    var RefCode = patientRefCode.toString();
     console.log(RefCode);
+    console.log(patientRefCode);
 </script>
 
 <!-- <div> -->
