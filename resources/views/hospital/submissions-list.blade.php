@@ -36,7 +36,7 @@
            </div>
        </div>
        <hr>
-       <div class="row ">
+      <!--  <div class="row ">
            <div class="col-md-4 ">
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
@@ -73,7 +73,7 @@
                        </div>
                    </div>
                </div>
-           </div>
+           </div> -->
            <br>
            <!-- Chart - Added -->
            <br>
