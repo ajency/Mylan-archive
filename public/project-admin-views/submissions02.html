@@ -3,7 +3,7 @@
    <head>
       <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
       <meta charset="utf-8" />
-      <title>Mylan - Hospital Administrator</title>
+      <title>Mylan - Project Administrator</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <meta content="" name="description" />
       <meta content="" name="author" />
@@ -41,7 +41,7 @@
                      </a>
                   </li>
                </ul>
-               <!-- BEGIN LOGO --> 
+               <!-- BEGIN LOGO -->  
                <a href="index.html"><img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
@@ -71,11 +71,11 @@
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
                   <div class="chat-toggler">
-                     <a href="#" >
+                     <a href="#">
                         <div class="user-details">
                            <div class="username">
-                              John <span class="bold">Smith</span>
-                              <span class="badge badge-default">Hospital Admin</span>            
+                              John <span class="bold">Smith</span>    
+                              <span class="badge badge-default">Project Admin</span>               
                            </div>
                         </div>
                      </a>
@@ -108,8 +108,8 @@
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
-                     <ul>
-                        <li class="active-item">
+                      <ul>
+                        <li>
                            <a href="dashboard.html">
                            <span> <i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
@@ -119,12 +119,12 @@
                            <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
-                         <li>
+                        <li class="active-item">
                            <a href="submissions.html">
                            <span><i class="fa fa-list-alt"></i> Submissions</span>
                            </a>
                         </li>
-                     <!--  <li>
+                      <!-- <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
@@ -154,81 +154,177 @@
             <div class="clearfix"></div>
             <div class="container m-b-50">
                <div class="content">
-                   <p>
+                  <p>
                   <ul class="breadcrumb">
                      <li>
-                        <a href="dashboard.html"><span>HOME</span></a>
+                        <a href="dashboard.html">HOME</a>
                      </li>
-                     
-                     <li><a href="#" class="active">Red Flags</a> </li>
+                     <li>
+                        <a href="#" class="active">Submissions</a> 
+                     </li>
                   </ul>
-                  </p> 
-                 
-                 <br>
-                     <h4><span class="semi-bold">Number of Patients : </span><span class="semi-bold text-error">3</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                     <!-- <p>(Get all your Hospital information here)</p> -->
-                  <span class="semi-bold">Total Enrolled : </span><span class="semi-bold text-error">20</span></h4>
-                   
-                   <div class="grid simple">
-                        <div class="grid-body table-data">
-                           <div class="row">
-                              <div class="col-md-9">
-
-                                 <table class="table table-flip-scroll cf">
+                  </p>
+                  <div>
+                     <div class="pull-right m-t-25 hidden">
+                        <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                     </div>
+                     <div class="page-title">
+                        <h3><span class="semi-bold">Submissions</span></h3>
+                        <p>(Click on any Patient ID to review Submissions)</p>
+                     </div>
+                  </div>
+                  <div class="tab-pane tab-active" id="Submissions">
+                     <ul class="nav nav-tabs inner-tabs" id="tab-01">
+                        <li class="active"><a href="#submissions">Reviewed</a></li>
+                        <li><a href="#missedSubmissions">Pending Review</a></li>
+                     </ul>
+                     <div class="tools"> <a href="javascript:;" class="collapse"></a> <a href="#grid-config" data-toggle="modal" class="config"></a> <a href="javascript:;" class="reload"></a> <a href="javascript:;" class="remove"></a> </div>
+                     <div class="tab-content table-data">
+                        
+                        <div class="tab-pane active" id="submissions">
+                           <table class="table table-hover table-flip-scroll cf" id="example">
                               <thead class="cf">
                                  <tr>
-                                    <th>Scores</th>
-                                    <th>Base line Score</th>
-                                    <th>Previous Score</th>
-                                    <th>Current Score</th>
-                                    <th>Change vs Baseline</th>
-                                    <th>Change vs Previous</th>
+                                    <th>Patient ID</th>
+                                    <th>Doctor In-charge</th>
                                     <th>Last Clinic Visit</th>
+                                    <th>Last Submission Date</th>
+                                    <th>Sequence Number</th>
+                                    <th>Number of Flags</th>
+                                    <th class="hidden">Status</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr  onclick="window.document.location='single-patient-summary.html';">
-                                    <td>Jack Smith</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>11</td>
-                                    <td  class="bg-danger">0</td>
-                                    <td class="bg-danger">0</td>
-                                    <td>Jan-14</td>
+                                 <tr onclick="window.document.location='p1-submission1.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>2/1/2015</td>
+                                    <td>6/1/2015</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
-                                 <tr onclick="window.document.location='single-patient-summary.html';">
-                                    <td>Jack Smith</td>
-                                    <td>8</td>
-                                    <td>9</td>
-                                    <td>11</td>
-                                    <td class="bg-danger">0</td>
-                                    <td class="bg-danger">0</td>
-                                    <td>Jan-14</td>
+                                 <tr onclick="window.document.location='p1-submission2.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>5/1/2015</td>
+                                    <td>6/2/2015</td>
+                                    <td>2</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
-                                 <tr onclick="window.document.location='single-patient-summary.html';">
-                                    <td>Jack Smith</td>
+                                 
+                                 <tr onclick="window.document.location='p1-submission3.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>16/4/2015</td>
+                                    <td>6/5/2015</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 <tr onclick="window.document.location='p1-submission4.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>12/5/2015</td>
+                                    <td>6/6/2015</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 <tr onclick="window.document.location='p1-submission5.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>9/6/2015</td>
+                                    <td>6/7/2015</td>
+                                    <td>7</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                
+
+
+
+                                 <tr onclick="window.document.location='p2-submission1.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>2/7/2015</td>
+                                    <td>7/8/2015</td>
                                     <td>8</td>
+                                    <td>0</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 <tr onclick="window.document.location='p2-submission2.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>15/8/2015</td>
+                                    <td>6/9/2015</td>
                                     <td>9</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
+                                 </tr>
+                                 
+                                 <tr onclick="window.document.location='p2-submission3.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>16/10/2015</td>
+                                    <td>8/11/2015</td>
                                     <td>11</td>
-                                    <td class="bg-danger">0</td>
-                                    <td class="bg-danger">0</td>
-                                    <td>Jan-14</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-success">Reviewed</span></td>
                                  </tr>
                                  
                               </tbody>
                            </table>
-
-                              </div>
-                              <div class="col-md-3">
-                                 <a href="reports-red.html" class="btn btn-red btn-block">Red's</a><br>
-                                 <a href="reports-amber.html" class="btn btn-warning btn-block">Amber's</a><br>
-                                 <a href="reports-green.html" class="btn btn-primary btn-block">Green's</a><br>
-                                 <a href="patients.html" class="btn btn-success btn-block">Patient List</a>
-                              </div>
-                           </div>
-                  
-                           </div>
-                           </div>
+                        </div>
+                        <div class="tab-pane" id="missedSubmissions">
+                           <table class="table table-hover table-flip-scroll cf">
+                              <thead class="cf">
+                                 <tr>
+                                    <!-- <th>Patient ID</th>
+                                    <th>Last Clinic Visit</th>
+                                    <th>Last Submission Date</th>
+                                    <th>Sequence Number Missed</th>
+                                    <th>Number of Submissions Missed</th> -->
+                                    <th>Patient ID</th>
+                                    <th>Doctor In-charge</th>
+                                    <th>Last Clinic Visit</th>
+                                    <th>Last Submission Date</th>
+                                    <th>Sequence Number</th>
+                                    <th>Number of Flags</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="hidden" onclick="window.document.location='single-submission.html';">
+                                    <td>10000003</td>
+                                    <td>5th May</td>
+                                    <td>29th Oct</td>
+                                    <td>5</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr onclick="window.document.location='p1-submission6.html';">
+                                    <td>10000001</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>8/11/2015</td>
+                                    <td>6/12/2015</td>
+                                    <td>12</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-warning">Pending Review</span></td>
+                                 </tr>
+                                <tr onclick="window.document.location='p2-submission4.html';">
+                                    <td>10000002</td>
+                                    <td>Dr. Jones Smith</td>
+                                    <td>12/11/2015</td>
+                                    <td>6/12/2015</td>
+                                    <td>12</td>
+                                    <td>6</td>
+                                    <td class="hidden"><span class="label label-warning">Pending Review</span></td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
                </div>
                <div class="footer">
                 <div class="container">
@@ -239,8 +335,6 @@
               </div>
             </div>
          </div>
-         <!-- BEGIN CHAT --> 
-         <!-- END CHAT -->
       </div>
       <!-- END CONTAINER -->
       <!-- BEGIN CORE JS FRAMEWORK--> 
@@ -264,7 +358,7 @@
       <script src="assets/js/datatables.js" type="text/javascript"></script>
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
-      <script src="assets/js/demo.js" type="text/javascript"></script>
+      <script src="assets/js/demo.js" type="text/javascript"></script> 
       <!-- END CORE TEMPLATE JS --> 
    </body>
 </html>
