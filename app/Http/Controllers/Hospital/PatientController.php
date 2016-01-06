@@ -192,7 +192,6 @@ class PatientController extends Controller
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
         }
 
- 
         $anwsers = $this->getAnswers($patient['reference_code'],0,[]);
 
         $baseLineArr = [];
@@ -261,9 +260,7 @@ class PatientController extends Controller
 
         }
 
- 
- 
-      
+
         return view('hospital.patients.reports')->with('active_menu', 'patients')
                                         ->with('active_tab', 'reports')
                                         ->with('tab', '04')
