@@ -23,6 +23,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 /**
  * Auth and forgot password route
  */
+
 Route::get('patient/login', 'Auth\AuthController@getLogin');
 Route::post('patient/login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');

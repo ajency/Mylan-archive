@@ -1,12 +1,28 @@
 @extends('layouts.single-patient')
 
 @section('content')
-<div class="container dashboard">
+
+
+<!-- <div> -->
+  <!-- <input type="button" ng-click="view.getCategories()"> -->
+
+  <!-- <div id="maincontent">
+            <div id="view" ng-view></div>
+  </div>
+
+</div> -->
+<!-- <div class="container dashboard" ng-app="myApp" ng-controller="myCtrl" >
     <div class="alert alert-success" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
      You do not have any Questionnaries to be submitted now.
+    Submitt: <input type="button" ng-click="deleteComment()"><br>
+     <div class="form-group">
+            <input type="text" class="form-control input-sm" name="author" ng-model="lastName" placeholder="Name">
+        </div>
+
+<br>
   </div>
-      <div class="panel panel-default">
+      <div class="panel panel-default" ng-init="">
          <div class="panel-heading"><h3>Cardiac Group Project Questionnaire - 1</h3></div>
           <div class="panel-body">
             <div class="row">
@@ -101,5 +117,10 @@
             </div>
 
           
+  </div> -->
+
+  <div ng-app="angularApp">
+      <div ng-view></div>   
   </div>
+ 
 @endsection
