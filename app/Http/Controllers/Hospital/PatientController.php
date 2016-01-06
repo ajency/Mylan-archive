@@ -286,6 +286,7 @@ class PatientController extends Controller
         $responseQry->equalTo("patient", $patient);
         $responseQry->containedIn("status",["completed",'missed']);
         $responseQry->notEqualTo("occurrenceDate", null);
+        $responseQry->ascending("createdAt");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
