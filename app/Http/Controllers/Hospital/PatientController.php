@@ -312,6 +312,8 @@ class PatientController extends Controller
         $anwserQry->includeKey("option");
         $anwserQry->includeKey("question");
         $anwserQry->descending("createdAt");
+        $anwserQry->limit($displayLimit);
+        $anwserQry->skip($page * $displayLimit);
         $anwsers = $anwserQry->find(); 
         $answersData = array_merge($anwsers,$answersData); 
 
