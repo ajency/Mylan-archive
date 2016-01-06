@@ -6,8 +6,8 @@ angular.module 'angularApp.dashboard',[]
 		data : []
 		init :() -> 
 			console.log 'inside inita2323'
-			console.log(refernceCode);
-			id = refernceCode
+			console.log(RefCode);
+			id = RefCode
 			DashboardAPI.get(id)
 			.then (data)=>
 				@data = data.result

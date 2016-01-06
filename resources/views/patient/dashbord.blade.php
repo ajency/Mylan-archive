@@ -1,7 +1,10 @@
 @extends('layouts.single-patient')
 
 @section('content')
-
+<script>
+    var RefCode = {{ Auth::user()->reference_code }};
+    console.log(RefCode);
+</script>
 
 <!-- <div> -->
   <!-- <input type="button" ng-click="view.getCategories()"> -->
@@ -122,8 +125,5 @@
   <div ng-app="angularApp">
       <div ng-view></div>   
   </div>
-  <script>
-    var refernceCode = {{ Auth::user()->reference_code }};
-    console.log(refernceCode);
-  </script>
+  
 @endsection

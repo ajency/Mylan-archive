@@ -5,8 +5,8 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       init: function() {
         var id;
         console.log('inside inita2323');
-        console.log(refernceCode);
-        id = refernceCode;
+        console.log(RefCode);
+        id = RefCode;
         return DashboardAPI.get(id).then((function(_this) {
           return function(data) {
             _this.data = data.result;
