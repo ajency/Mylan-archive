@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-    var RefCode = {{ Auth::user()->reference_code }};
+    var RefCode = '{{ Auth::user()->reference_code }}';
     console.log(RefCode);
 </script>
 
