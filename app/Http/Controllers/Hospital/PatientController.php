@@ -185,6 +185,12 @@ class PatientController extends Controller
 
         $patient = User::find($patientId)->toArray();
 
+        $responseArr=[];
+        $responses = $this->getResponses($patient['reference_code'],0,[]);
+        foreach ($responses as  $response) {
+            $responseId = $response->getObjectId();
+            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+        }
 
         $anwserQry = new ParseQuery("Answer");
         $anwserQry->equalTo("patient", $patient['reference_code']);
@@ -198,8 +204,8 @@ class PatientController extends Controller
         $baseLineArr = [];
         $submissionArr = [];
         $questionArr = [];
-        $responseArr = [];
         $inputScores = [];
+        $completedResponseArr=[];
         
         $inputBaseQuestionId = '';
         $inputLable = '';
@@ -257,9 +263,11 @@ class PatientController extends Controller
             
             $questionArr[$questionId]= $questionTitle;
             if($responseStatus!="base_line")
-                $responseArr[$responseId]= $anwser->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
+                $completedResponseArr[$responseId]= $anwser->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
 
         }
+
+        
  
       
         return view('hospital.patients.reports')->with('active_menu', 'patients')
@@ -269,6 +277,7 @@ class PatientController extends Controller
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('responseArr', $responseArr)
+                                        ->with('completedResponseArr', $completedResponseArr)
                                         ->with('questionArr', $questionArr)
                                         ->with('baseLineArr', $baseLineArr)
                                         ->with('submissionArr', $submissionArr)
@@ -276,6 +285,29 @@ class PatientController extends Controller
                                         ->with('inputLable', $inputLable)
                                         ->with('inputScores', $inputScores); 
 
+    }
+
+    public function getResponses($patient,$page=0,$responseData)
+    {
+        $displayLimit = 20; 
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("patient", $patient);
+        $responseQry->containedIn("status",["completed",'missed']);
+        $responseQry->notEqualTo("occurrenceDate", null);
+        $responseQry->limit($displayLimit);
+        $responseQry->skip($page * $displayLimit);
+        $responses = $responseQry->find();  
+        $responseData = array_merge($responses,$responseData); 
+
+        if(!empty($responses))
+        {
+            $page++;
+            $responseData = $this->getResponses($patient,$page,$responseData);
+        }  
+        
+        return $responseData;
+     
     }
 
     /**

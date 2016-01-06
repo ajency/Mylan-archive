@@ -73,9 +73,9 @@ class HospitalController extends Controller
                      );
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
-        $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
-        $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
+        $projectOpenFlags = [];//$this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
+        $submissionFlags =  [];//$this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $patientFlagSummary =  [];//$this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
         $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
@@ -324,9 +324,18 @@ class HospitalController extends Controller
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->limit(2);
-        $responseQry->descending("createdAt");
+        $responseQry->descending("occurrenceDate");
         $responses = $responseQry->find();
 
+        $submissionFlags = $this->responseAnswerFlags($responses);
+ 
+
+        return $submissionFlags;
+       
+    }
+
+    public function responseAnswerFlags($responses)
+    {
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $responses);
         $answersQry->includeKey("question");
@@ -385,7 +394,6 @@ class HospitalController extends Controller
  
 
         return $submissionFlags;
-       
     }
 
     // public function patientFlagSummary($projectId,$startDate,$endDate)
