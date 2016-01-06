@@ -1,6 +1,6 @@
 angular.module 'angularApp.questionnaire'
 
-.factory 'QuestionAPI', ['$q', '$http', ($q, $http)->
+.factory 'QuestionAPI', ['$q', '$http', 'App', ($q, $http, App)->
 	QuestionAPI = {}
 
 	QuestionAPI.getSummary = (id)->
@@ -27,6 +27,18 @@ angular.module 'angularApp.questionnaire'
 			defer.reject error
 			
 		defer.promise
+
+	QuestionAPI.getQuestion = (options)->
+		defer = $q.defer()			
+		App.SendParseRequest('startQuestionnaire', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+
 
 	QuestionAPI	
 

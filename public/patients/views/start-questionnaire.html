@@ -1,0 +1,121 @@
+
+<nav class="navbar navbar-default hospital-nav">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="../images/nhs-logo.png" width="70"></a>
+    </div>
+<!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+     <ul class="nav navbar-nav navbar-right">
+        <li><a href="contact.html"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Contact Us</span></a></li>
+       <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="notification">2</div>
+                        <i class="fa fa-bell"></i> <span class="text-muted">Messages</span> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Questionnaire 2 is pending. Click to resume.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> A few seconds ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have an upcoming Questionnaire on 23rd Dec 2015
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 7 hours ago</small> 
+            </a></li>
+            
+            <li><a href="#">You have not submitted the Questionnaire for the month of Jan.
+              <br>
+              <small class="text-muted"><i class="fa fa-clock-o"></i> 2 Days ago</small> 
+            </a></li>
+            
+            <li class="bg-gray text-center"><a href="notification.html">See All</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container"> 
+  <!-- Wrapper for slides --><br> 
+  <h3>MRI Pancreatitis Questionnaire 1</h3>
+  <br>
+    <div class="row">
+    <div class="col-md-17">
+     
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4>Instructions</h4>
+            <br>
+            <div class="row text-muted">
+                <div class="col-sm-12">
+                    <ul class="instr-list">
+                      <li>There are a total of 6 questions to be answered.</li>
+                      <li>All Questions are cumpulsary and cannot be skipped.</li>
+                      <li>You cannot go to the next question without answering the current question.</li>
+                    </ul>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="instr-list">
+                      <li>Make sure you check the correct answer for the question. Incase you have selected the wrong         answer, you could click on the Previous button and correct it.</li>
+                      <li>Don't refresh the page when answering the Questionnaire.</li>
+                    </ul>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-16">
+                </div>
+                <div class="col-sm-8 text-right"
+                  ng-click="view.startQuiz()">
+                    <a type="button" class="btn btn-success btn-hover">
+                      <span>Start Questionnaire</span>
+                     </a>
+                </div>
+            </div>
+           </div>
+        </div>
+
+    </div>
+    <div class="col-md-7">
+      <div class="sidebar">
+        <div class="icon">
+          <i class="glyphicon glyphicon-phone-alt"></i>
+        </div>
+        <br>
+        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
+        <h6><b>CALL US ON</b></h6>
+          <p><i class="fa fa-phone text-muted"></i>
+          <a href="tel:0909384985" class="text-success">090 9384 985</a>
+        </p>
+        <p>OR</p>
+        <h6><b>MAIL US AT</b></h6>
+          <p><i class="fa fa-envelope text-muted"></i>
+          <a href="mailto:MRIPanc@nhshospitals.nhs.uk" class="text-success">MRIPanc@nhshospitals.nhs.uk</a>
+        </p>
+      </div>
+      <div class="sidebar panel-green">
+        <i class="fa fa-ambulance fa-3x text-danger"></i>
+        <p>In an emergency call the emergency services ! We are right here to help you.</p>
+         <a href="contact.html" class="btn btn-default">Contact Us</a>
+      </div>
+      </div>
+    </div>
+     
+</div> <!-- container -->
+
+<footer class="footer bottom" id="footer">
+      <div class="container">
+        <div class="footer-content text-center">
+          <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
+        </div>
+      </div>
+</footer>
+
+

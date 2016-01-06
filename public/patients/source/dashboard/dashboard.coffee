@@ -19,7 +19,11 @@ angular.module 'angularApp.dashboard',[]
 				@errorType = error
 
 		summary : (id)->
-			$location.path('summary/'+id);
+			$location.path('summary/'+id)
+
+		startQuiz :() ->
+			$location.path 'start-questionnaire'
+				
 ]
 
 .controller 'EachRequestTimeCtrl', ['$scope', ($scope)->

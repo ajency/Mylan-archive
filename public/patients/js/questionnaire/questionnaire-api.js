@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire').factory('QuestionAPI', [
-  '$q', '$http', function($q, $http) {
+  '$q', '$http', 'App', function($q, $http, App) {
     var QuestionAPI;
     QuestionAPI = {};
     QuestionAPI.getSummary = function(id) {
@@ -18,6 +18,18 @@ angular.module('angularApp.questionnaire').factory('QuestionAPI', [
       };
       $http.post(url, param, PARSE_HEADERS).then(function(data) {
         return defer.resolve(data.data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
+    QuestionAPI.getQuestion = function(options) {
+      var defer;
+      defer = $q.defer();
+      App.SendParseRequest('startQuestionnaire', options).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);

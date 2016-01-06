@@ -23,6 +23,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       },
       summary: function(id) {
         return $location.path('summary/' + id);
+      },
+      startQuiz: function() {
+        return $location.path('start-questionnaire');
       }
     };
   }
