@@ -122,5 +122,8 @@
   <div ng-app="angularApp">
       <div ng-view></div>   
   </div>
- 
+  <script>
+    var refernceCode = {{ Auth::user()->reference_code }};
+    console.log(refernceCode);
+  </script>
 @endsection
