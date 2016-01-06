@@ -192,14 +192,7 @@ class PatientController extends Controller
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
         }
 
-        $anwserQry = new ParseQuery("Answer");
-        $anwserQry->equalTo("patient", $patient['reference_code']);
-        $anwserQry->notEqualTo("option", null);
-        $anwserQry->includeKey("response");
-        $anwserQry->includeKey("option");
-        $anwserQry->includeKey("question");
-        $anwserQry->descending("createdAt");
-        $anwsers = $anwserQry->find(); 
+        $anwsers = $this->getAnswers($patient['reference_code'],0,[]);
 
         $baseLineArr = [];
         $submissionArr = [];
@@ -267,9 +260,7 @@ class PatientController extends Controller
 
         }
 
-        
- 
-      
+
         return view('hospital.patients.reports')->with('active_menu', 'patients')
                                         ->with('active_tab', 'reports')
                                         ->with('tab', '04')
@@ -295,6 +286,7 @@ class PatientController extends Controller
         $responseQry->equalTo("patient", $patient);
         $responseQry->containedIn("status",["completed",'missed']);
         $responseQry->notEqualTo("occurrenceDate", null);
+        $responseQry->ascending("createdAt");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
@@ -307,6 +299,32 @@ class PatientController extends Controller
         }  
         
         return $responseData;
+     
+    }
+
+    public function getAnswers($patient,$page=0,$answersData)
+    {
+        $displayLimit = 20; 
+
+        $anwserQry = new ParseQuery("Answer");
+        $anwserQry->equalTo("patient", $patient);
+        $anwserQry->notEqualTo("option", null);
+        $anwserQry->includeKey("response");
+        $anwserQry->includeKey("option");
+        $anwserQry->includeKey("question");
+        $anwserQry->descending("createdAt");
+        $anwserQry->limit($displayLimit);
+        $anwserQry->skip($page * $displayLimit);
+        $anwsers = $anwserQry->find(); 
+        $answersData = array_merge($anwsers,$answersData); 
+
+        if(!empty($anwsers))
+        {
+            $page++;
+            $answersData = $this->getAnswers($patient,$page,$answersData);
+        }  
+        
+        return $answersData;
      
     }
 

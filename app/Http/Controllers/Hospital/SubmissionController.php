@@ -113,6 +113,7 @@ class SubmissionController extends Controller
         $response = $data['response'];
 
         $referenceCode = $response->get("patient");
+        $sequenceNumber = $response->get("sequenceNumber");
 
         $oldResponseQry = new ParseQuery("Response");
         $oldResponseQry->notEqualTo("objectId", $responseId);
@@ -144,6 +145,7 @@ class SubmissionController extends Controller
 
         return view('hospital.submissions-view')->with('active_menu', 'submission')
                                             ->with('referenceCode', $referenceCode)
+                                            ->with('sequenceNumber', $sequenceNumber)
                                             ->with('hospital', $hospital)
                                             ->with('logoUrl', $logoUrl)
                                             ->with('questionnaire', $questionnaire)
@@ -207,6 +209,8 @@ class SubmissionController extends Controller
                                         'questionType' => $questionType, 
                                         'option' => $option,  
                                         'value' => $answers->get("value"),  
+                                        'baseLineFlag' => $answers->get("baseLineFlag"),  
+                                        'previousFlag' => $answers->get("previousFlag"),  
                                         'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
                           ];
            }
