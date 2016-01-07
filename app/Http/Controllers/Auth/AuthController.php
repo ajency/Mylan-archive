@@ -10,6 +10,12 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
 use App\Hospital;
+use Parse\ParseObject;
+use Parse\ParseQuery;
+use Parse\ParseUser;
+use \Session;
+
+use App\Http\Controllers\Rest\UserController;
 
 class AuthController extends Controller
 {
@@ -80,21 +86,68 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {
-                return redirect()->intended('patient/dashbord');
+                $apiKey = Auth::user()->apiKey()->first()->key;
+                $installationId = 'web-'.str_random(15);
+
+                //set parse user
+                $userController = new UserController();
+                $parseUser = $userController->getParseUser($referenceCode,$installationId,$apiKey);
+                if($parseUser!='error')
+                {
+                    $projectId = Auth::user()->project_id;
+                    $hospitalId = Auth::user()->hospital_id;
+                    $data = $userController -> postLoginData($hospitalId,$projectId);
+                    $hospitalData = $data['hospital']; 
+                    $questionnaireData = $data['questionnaire']; 
+                    $parseUser =json_decode($parseUser,true); 
+
+                    $sessionToken = $parseUser['result']['sessionToken'];
+                    Session::put('parseToken',$sessionToken); 
+
+                    //if schedule not set for patient
+                    /******************************/
+                    if($parseUser['result']['scheduleFlag']==false)
+                    {
+                        $questionnaireObj = new ParseQuery("Questionnaire");
+                        $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
+
+                        $date = new \DateTime();
+
+
+                        $schedule = new ParseObject("Schedule");
+                        $schedule->set("questionnaire", $questionnaire);
+                        $schedule->set("patient", $referenceCode);
+                        $schedule->set("startDate", $date);
+                        $schedule->set("nextOccurrence", $date);
+                        $schedule->save();
+                    }
+                    
+                    return redirect()->intended('dashbord');
+                }
+                else
+                {
+                    Auth::logout();
+                    return redirect('/login')->withErrors([
+                        'email' => 'Account inactive, contact administrator',
+                    ]);
+                }
+                
             }
             else
             {
                 Auth::logout();
-                return redirect('/patient/login')->withErrors([
+                return redirect('/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
         }
         
-        return redirect('/patient/login')->withErrors([
+        return redirect('login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
     }
+
+ 
 
     public function getAdminLogin()
     {
@@ -179,7 +232,7 @@ class AuthController extends Controller
             return redirect('admin/login');
         elseif(str_contains($routePrefix, 'patient'))
         {
-            return redirect('patient/login');
+            return redirect('login');
         }
         else 
         {

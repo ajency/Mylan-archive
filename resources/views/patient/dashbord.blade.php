@@ -2,10 +2,11 @@
 
 @section('content')
 <script>
-    var patientRefCode = {{ Auth::user()->reference_code }};
+    var patientRefCode = {{ $referenceCode }};
     var RefCode = patientRefCode.toString();
-    console.log(RefCode);
+    var userToken = '{{ $parseToken }}';
     console.log(patientRefCode);
+
 </script>
 
 <!-- <div> -->
@@ -28,7 +29,7 @@
 <br>
   </div>
       <div class="panel panel-default" ng-init="">
-         <div class="panel-heading"><h3>Cardiac Group Project Questionnaire - 1</h3></div>
+         <div class="panel-heading"><h3>{{ $questionnaire['name'] }}</h3></div>
           <div class="panel-body">
             <div class="row">
               <div class="col-sm-8 col-xs-24">

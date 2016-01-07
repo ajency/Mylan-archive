@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
+use App\User;
+use App\Http\Controllers\Rest\UserController;
+use \Session;
 
 class PatientController extends Controller
 {
@@ -16,7 +20,23 @@ class PatientController extends Controller
      */
     public function index()
     {
-        return view('patient.dashbord');
+        $patientId = Auth::user()->id;
+        $user = User::find($patientId);  
+
+        $referenceCode = $user['reference_code'];
+        $projectId = $user['project_id'];
+        $hospitalId = $user['hospital_id'];
+        $parseToken = Session::get('parseToken');
+
+        $userController = new UserController();
+        $data = $userController ->postLoginData($hospitalId,$projectId);
+        $hospitalData = $data['hospital']; 
+        $questionnaireData = $data['questionnaire']; 
+   
+        return view('patient.dashbord')->with('referenceCode', $referenceCode)
+                                       ->with('parseToken', $parseToken)
+                                       ->with('hospital', $hospitalData)
+                                       ->with('questionnaire', $questionnaireData);
     }
 
     /**
