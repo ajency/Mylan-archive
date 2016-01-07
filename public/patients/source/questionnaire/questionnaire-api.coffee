@@ -39,6 +39,18 @@ angular.module 'angularApp.questionnaire'
 		defer.promise
 
 
+	QuestionAPI.saveAnswer = (options)->
+		
+		defer = $q.defer()			
+		App.SendParseRequest('getNextQuestion', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+
 
 	QuestionAPI	
 

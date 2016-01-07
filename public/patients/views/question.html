@@ -69,16 +69,46 @@
             <br class="hidden-xs">
             
           <div 
-              ng-repeat ="answerValue in view.data.options">
+              ng-if = 'view.data.questionType == "single-choice"' 
+              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
              <label class="item item-radio">
                 <div class="item-content">
-                  <input type="radio" name="group" value="go">
+                  <input type="radio" name="group" ng-model="view.singleChoiceValue"
+                    ng-value="answerValue.id" ng-disabled="!view.readonly" >
                   <i class="radio-icon fa fa-check"></i>
                     {{answerValue.option}}
                 </div>
             </label>
             <br class="hidden-xs">
          </div>
+
+        <form class="row" ng-if='view.data.questionType == "input"'>
+            <div 
+              class="col-xs-8"
+              ng-repeat ="answerValue in view.data.options">
+                <div class="form-group b-b">
+                <input 
+                    type="text" 
+                    class="form-control input-lg" 
+                    ng-model="view.val_answerValue[answerValue.option]"
+                    id="Kgs" placeholder="{{answerValue.option}}"
+                    ng-readonly = "!view.readonly">
+                </div>
+            </div>
+            <!-- <div class="col-xs-8">
+              <div class="form-group b-b">
+              <input type="text" class="form-control input-lg" id="St" placeholder="St">
+              </div>
+            </div>
+            <div class="col-xs-8">
+              <div class="form-group b-b">
+              <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
+              </div>
+            </div> -->
+        </form>
+
+
+
 
 <!-- 
          <label class="item item-radio">
@@ -192,9 +222,11 @@
       <div role="tabpanel" class="tab-pane" id="q3">
         <div class="pull-right text-muted">
             <small>3 of 10</small>
-          </div>
+        </div>
         
-        <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span></h4>
+        <h4 class="question">
+          <span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span>
+        </h4>
         
                               <br class="hidden-xs">
                               <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
@@ -352,7 +384,12 @@
         <button type="button" class="btn btn-success"><i class="fa fa-chevron-circle-left"></i> Previous</button>
       </div>
       <div class="col-md-12 text-right">
-        <button type="button" class="btn btn-success">Next <i class="fa fa-chevron-circle-right"></i></button>
+        <button type="button" 
+          class="btn btn-success"
+          ng-click="view.nextQuestion()">
+          Next 12
+          <i class="fa fa-chevron-circle-right"></i>
+        </button>
       </div>
   </div>
    
@@ -388,10 +425,17 @@
       <div class="sidebar">
           <h5 class="prev-ans text-left">PREVIOUS ANSWER</h5>
           <p class="text-muted text-left">
-            <span class="text-success">A.</span> Pain present, and I need to take regular strong painkillers
+            <!-- <span class="text-success">A.</span>  -->
+             <div ng-repeat = "label in  view.data.previousQuestionnaireAnswer.labelDisplay">
+              {{label}} <br>
+             </div>
           </p>
           <div class="text-success text-left">
-            <p><i class="fa fa-calendar text-muted"></i> Submitted on <b>22nd october 2014</b></p>
+            <p>
+              <i class="fa fa-calendar text-muted"></i>
+               Submitted on 
+                <b>{{ view.data.previousQuestionnaireAnswer.date }}</b>
+            </p>
           </div>
       </div>
       </div>

@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
-  '$scope', 'QuestionAPI', '$routeParams', function($scope, QuestionAPI, $routeParams) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', function($scope, QuestionAPI, $routeParams, CToast) {
     return $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -17,6 +17,66 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
         return this.val_answerValue = {};
+      },
+      hasAnswerShow: function() {
+        var ObjId;
+        if (this.data.questionType === 'descriptive') {
+          this.descriptiveAnswer = this.data.hasAnswer.value;
+        }
+        if (this.data.questionType === 'single-choice') {
+          this.singleChoiceValue = this.data.hasAnswer.option[0];
+        }
+        if (this.data.questionType === 'multi-choice') {
+          _.each(this.data.options, (function(_this) {
+            return function(value) {
+              if (_.contains(_this.data.hasAnswer.option, value.id)) {
+                return value['checked'] = true;
+              }
+            };
+          })(this));
+        }
+        if (this.data.questionType === 'input') {
+          ObjId = _.findWhere(this.data.options, {
+            id: this.data.hasAnswer.option[0]
+          });
+          return this.val_answerValue[ObjId.option] = parseInt(this.data.hasAnswer.value);
+        }
+      },
+      pastAnswer: function() {
+        var ObjId, optionSelectedArray, optionSelectedValue, pluckId, pluckValue, previousAns, sortedArray;
+        previousAns = this.data.previousQuestionnaireAnswer;
+        if (!_.isEmpty(previousAns)) {
+          if (this.data.questionType === 'input') {
+            if (!_.isEmpty(previousAns.optionId[0])) {
+              ObjId = _.findWhere(this.data.options, {
+                id: previousAns.optionId[0]
+              });
+              ObjId.option;
+              this.data.previousQuestionnaireAnswer['label'] = ObjId.option;
+            }
+          }
+          if (this.data.questionType === 'single-choice' || this.data.questionType === 'multi-choice') {
+            optionSelectedArray = [];
+            optionSelectedValue = [];
+            sortedArray = _.sortBy(this.data.options, 'score');
+            pluckId = _.pluck(sortedArray, 'id');
+            pluckValue = _.pluck(sortedArray, 'option');
+            _.each(previousAns.optionId, (function(_this) {
+              return function(value) {
+                var a;
+                a = _.indexOf(pluckId, value);
+                if (a !== -1) {
+                  optionSelectedValue.push(pluckValue[a]);
+                  a++;
+                  return optionSelectedArray.push(a);
+                }
+              };
+            })(this));
+            this.data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue;
+            this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
+          }
+          return this.data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY');
+        }
       },
       getQuestion: function() {
         var options, responseId;
@@ -36,6 +96,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data;
+              _this.pastAnswer();
               return _this.display = 'noError';
             };
           })(this), (function(_this) {
@@ -49,43 +110,34 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       loadNextQuestion: function(param) {
-        return Storage.setData('responseId', 'get').then((function(_this) {
-          return function(responseId) {
-            CSpinner.show('', 'Please wait..');
-            param.responseId = responseId;
-            return QuestionAPI.saveAnswer(param).then(function(data) {
-              App.resize();
-              if (_this.readonly === true) {
-                CToast.show('Your answer is saved');
-              }
-              console.log('******next question******');
-              console.log(data);
-              _this.variables();
-              _this.data = [];
-              _this.data = data.result;
-              _this.readonly = true;
-              if (!_.isEmpty(_this.data.hasAnswer)) {
-                _this.hasAnswerShow();
-                _this.readonly = _this.data.editable;
-              }
-              _this.pastAnswer();
-              if (!_.isUndefined(_this.data.status)) {
-                App.navigate('summary', {
-                  summary: responseId
-                });
-              }
-              return _this.display = 'noError';
-            }, function(error) {
-              if (error === 'offline') {
-                return CToast.showLongBottom('Check net connection,answer not saved');
-              } else {
-                return CToast.show('Error in saving answer,try again');
-              }
-            })["finally"](function() {
-              return CSpinner.hide();
-            });
+        param.responseId = 'v85D3Hn1Ht';
+        return QuestionAPI.saveAnswer(param).then((function(_this) {
+          return function(data) {
+            if (_this.readonly === true) {
+              CToast.show('Your answer is saved');
+            }
+            console.log('******next question******');
+            console.log(data);
+            _this.variables();
+            _this.data = [];
+            _this.data = data;
+            _this.readonly = true;
+            if (!_.isEmpty(_this.data.hasAnswer)) {
+              _this.hasAnswerShow();
+              _this.readonly = _this.data.editable;
+            }
+            _this.pastAnswer();
+            return _this.display = 'noError';
           };
-        })(this));
+        })(this), (function(_this) {
+          return function(error) {
+            if (error === 'offline') {
+              return CToast.show('Check net connection,answer not saved');
+            } else {
+              return CToast.show('Error in saving answer,try again');
+            }
+          };
+        })(this))["finally"](function() {});
       },
       nextQuestion: function() {
         var error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;

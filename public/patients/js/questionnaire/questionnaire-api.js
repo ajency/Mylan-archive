@@ -37,6 +37,18 @@ angular.module('angularApp.questionnaire').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
+    QuestionAPI.saveAnswer = function(options) {
+      var defer;
+      defer = $q.defer();
+      App.SendParseRequest('getNextQuestion', options).then(function(data) {
+        return defer.resolve(data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
     return QuestionAPI;
   }
 ]);
