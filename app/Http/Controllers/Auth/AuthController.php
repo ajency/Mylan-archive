@@ -230,7 +230,7 @@ class AuthController extends Controller
         $routePrefix = \Request::route()->getPrefix();
         if(str_contains($routePrefix, 'admin'))
             return redirect('admin/login');
-        elseif(str_contains($routePrefix, 'patient'))
+        elseif(str_contains($routePrefix, ''))
         {
             return redirect('login');
         }

@@ -2,6 +2,7 @@
 
 @section('content')
 <script>
+    var questionnaire = {{ $questionnaire['id'] }};
     var patientRefCode = {{ $referenceCode }};
     var RefCode = patientRefCode.toString();
     var userToken = '{{ $parseToken }}';
