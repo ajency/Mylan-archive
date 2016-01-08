@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, storeDeviceData, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, createNewUser, createResponse, firstQuestion, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationType, getNotifications, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -84,6 +84,184 @@
     });
   });
 
+  Parse.Cloud.define("testNotifications", function(request, response) {
+    return getNotifications().then(function(notifications) {
+      return sendNotifications().then(function(notifications) {
+        return response.success(notifications);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getNotifications = function() {
+    var promise, scheduleQuery;
+    promise = new Parse.Promise();
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.exists('patient');
+    scheduleQuery.include('questionnaire');
+    scheduleQuery.find().then(function(scheduleObjs) {
+      var getAllNotifications;
+      getAllNotifications = function() {
+        var promise1;
+        promise1 = Parse.Promise.as();
+        _.each(scheduleObjs, function(scheduleObj) {
+          return promise1 = promise1.then(function() {
+            var notificationObj, notificationType;
+            notificationType = getNotificationType(scheduleObj);
+            if (notificationType !== "") {
+              notificationObj = new Parse.Object('Notification');
+              notificationObj.set('hasSeen', false);
+              notificationObj.set('patient', scheduleObj.get('patient'));
+              notificationObj.set('type', notificationType);
+              notificationObj.set('processed', false);
+              return notificationObj.save().then(function(notificationObj) {
+                return promise.resolve();
+              }, function(error) {
+                return promise.reject(error);
+              });
+            } else {
+              return promise1;
+            }
+          }, function(error) {
+            return promise.reject(error);
+          });
+        });
+        return promise1;
+      };
+      return getAllNotifications().then(function() {
+        return promise.resolve();
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  getNotificationType = function(scheduleObj) {
+    var afterReminder, beforeReminder, currentDate, graceDate, nextOccurrence, reminderTime;
+    nextOccurrence = scheduleObj.get('nextOccurrence');
+    currentDate = new Date();
+    graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (scheduleObj.get('questionnaire').get('gracePeriod') * 1000));
+    reminderTime = scheduleObj.get('questionnaire').get('reminderTime');
+    beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000);
+    afterReminder = new Date(nextOccurrence.getTime() + reminderTime * 1000);
+    if (currentDate.getTime() === (nextOccurrence.getTime() - (reminderTime * 1000))) {
+      return "beforOccurrence";
+    } else if (currentDate.getTime() === (graceDate.getTime() - (reminderTime * 1000))) {
+      return "beforeGracePeriod";
+    } else if (currentDate.getTime() === graceDate.getTime()) {
+      return "missedOccurrence";
+    } else {
+      return "";
+    }
+  };
+
+  getNotificationMessage = function(scheduleObj, notificationType) {
+    var graceDate, nextOccurrence;
+    nextOccurrence = scheduleObj.get('nextOccurrence');
+    graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (scheduleObj.get('questionnaire').get('gracePeriod') * 1000));
+    if (notificationType === "beforOccurrence") {
+      return "Questionnaire is due on " + nextOccurrence;
+    } else if (notificationType === "beforeGracePeriod") {
+      return "Questionnairre was due on " + nextOccurrence + ". Please submit it by " + graceDate;
+    } else if (notificationType === "missedOccurrence") {
+      return "You have missed the questionnaire due on " + nextOccurrence;
+    } else {
+      return "";
+    }
+  };
+
+  sendNotifications = function() {
+    var Arr, notificationQuery, promise;
+    Arr = [];
+    promise = new Parse.Promise();
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.equalTo('processed', false);
+    notificationQuery.find().then(function(notifications) {
+      getNotifications = function() {
+        var promise1;
+        promise1 = Parse.Promise.as();
+        _.each(notifications, function(notification) {
+          return promise1 = promise1.then(function() {
+            notification.set('processed', true);
+            return notification.save().then(function(notification) {
+              var scheduleQuery;
+              scheduleQuery = new Parse.Query('Schedule');
+              scheduleQuery.equalTo('patient', notification.get('patient'));
+              return scheduleQuery.first().then(function(scheduleObj) {
+                var tokenStorageQuery;
+                tokenStorageQuery = new Parse.Query('TokenStorage');
+                tokenStorageQuery.equalTo('referenceCode', notification.get('patient'));
+                return tokenStorageQuery.find({
+                  useMasterKey: true
+                }).then(function(tokenStorageObjs) {
+                  var sendToInstallations;
+                  sendToInstallations = function() {
+                    var promise2;
+                    promise2 = Parse.Promise.as();
+                    _.each(tokenStorageObjs, function(tokenStorageObj) {
+                      return promise2 = promise2.then(function() {
+                        var installationQuery;
+                        installationQuery = new Parse.Query('Installation');
+                        installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
+                        installationQuery.limit(1);
+                        installationQuery.find();
+                        return Parse.Push.send({
+                          where: installationQuery,
+                          data: {
+                            alert: getNotificationMessage(scheduleObj, notification.get('type'))
+                          }
+                        });
+                      }, function(error) {
+                        return promise.reject(error);
+                      });
+                    });
+                    return promise2;
+                  };
+                  return sendToInstallations();
+                }, function(error) {
+                  return promise1.reject(error);
+                });
+              }, function(error) {
+                return promise1.reject(error);
+              });
+            }, function(error) {
+              return promise1.reject(error);
+            });
+          }, function(error) {
+            return promise1.reject(error);
+          });
+        });
+        return promise1;
+      };
+      return getNotifications().then(function() {
+        return promise.resolve(Arr);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+
+  /*
+  console.log "======================================="
+  	console.log "nextOccurrence = #{nextOccurrence}"
+  	console.log "beforeReminder =#{beforeReminder}"
+  	console.log "afterReminder =#{afterReminder}"
+  	console.log "currentDate = #{currentDate}"
+  	console.log "graceDate = #{graceDate}"
+  	console.log "rem = #{reminderTime}"
+  	console.log "=============================================="
+   */
+
   Parse.Cloud.define("pushNotification", function(request, response) {
     var installationQuery;
     installationQuery = new Parse.Query(Parse.Installation);
@@ -101,6 +279,51 @@
       }
     });
   });
+
+
+  /*
+  sendNotifications = () ->
+  	promise = new Parse.Promise()
+  	notificationQuery = new Parse.Query('Notification')
+  	notificationQuery.equalTo('processed', false)
+  	notificationQuery.find()
+  	.then (notifyObjs) ->
+  		promise1 = Parse.Promise.as()
+  		_.each notifyObjs, (notifyObj) ->
+  			promise1 = promise1
+  			.then () ->
+  				patientId = notifyObjs.get('patient') 
+  				tokenStorageQuery = new Parse.Query('TokenStorage')
+  				tokenStorageQuery.equalTo('referenceCode', patientId)
+  				tokenStorageQuery.find()
+  				.then (tokenStorageObjs) ->
+  					promise2 = Parse.Promise.as()
+  					_.each tokenStorageObjs, (tokenStorageObj) ->
+  						promise2 = promise2
+  						.then () ->
+  							installationQuery = new Parse.Query('Installation')
+  							installationQuery.equalTo(tokenStorageObj.get('installationId'))
+  							Parse.Push.send({
+  								where: installationQuery
+  								data: {alert: getNotificationMessage(notifyObj.get('type'))}
+  								})
+  							.then () ->
+  								notifyObj. set 'processed', true
+  								notifyObj.save()
+  							, (error) ->
+  								promise2.reject error
+  						, (error) ->
+  							promise2.reject error
+  					promise2
+  				, (error)
+  					promise1.reject error
+  			, (error) ->
+  				promise1.reject error
+  		promise1
+  	, (error) ->
+  		promise.reject error
+  	promise
+   */
 
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery, scheduleQuery;
@@ -372,7 +595,7 @@
         questionQuery.include('previousQuestion');
         questionQuery.include('questionnaire');
         return questionQuery.get(questionId).then(function(questionObj) {
-          return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
+          return saveAnswer(responseObj, questionObj, options, value).then(function(answers) {
             return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
               if (!_.isEmpty(nextQuestionObj)) {
                 return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
@@ -1386,7 +1609,7 @@
       var answerQuery, isEditable;
       isEditable = responseObj.get('questionnaire').get('editable');
       if (!isEditable && !_.isEmpty(hasAnswer)) {
-        return promise.reject("notEditable");
+        return promise.resolve("notEditable");
       } else if (isEditable && !_.isEmpty(hasAnswer)) {
         answerQuery = new Parse.Query('Answer');
         answerQuery.equalTo('question', questionsObj);
@@ -1714,7 +1937,7 @@
       var answer, answerQuery, isEditable;
       isEditable = responseObj.get('questionnaire').get('editable');
       if (!isEditable && !_.isEmpty(hasAnswer)) {
-        return promise.reject("notEditable");
+        return promise.resolve("notEditable");
       } else if (isEditable && !_.isEmpty(hasAnswer)) {
         answerQuery = new Parse.Query('Answer');
         answerQuery.equalTo('response', responseObj);
@@ -1817,7 +2040,7 @@
       var answer, answerQuery, isEditable;
       isEditable = responseObj.get('questionnaire').get('editable');
       if (!isEditable && !_.isEmpty(hasAnswer)) {
-        return promise.reject("notEditable");
+        return promise.resolve("notEditable");
       } else if (isEditable && !_.isEmpty(hasAnswer)) {
         answerQuery = new Parse.Query('Answer');
         answerQuery.equalTo('response', responseObj);
@@ -1895,7 +2118,7 @@
       var answer, answerQuery, isEditable;
       isEditable = responseObj.get('questionnaire').get('editable');
       if (!isEditable && !_.isEmpty(hasAnswer)) {
-        return promise.reject("notEditable");
+        return promise.resolve("notEditable");
       } else if (isEditable && !_.isEmpty(hasAnswer)) {
         answerQuery = new Parse.Query('Answer');
         answerQuery.equalTo('response', responseObj);

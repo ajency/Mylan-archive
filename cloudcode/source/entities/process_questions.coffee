@@ -271,7 +271,7 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 
 			.then (questionObj) ->
 				saveAnswer responseObj, questionObj, options, value
-				.then (answersArray) ->
+				.then (answers) ->
 
 					getNextQuestion(questionObj, options)
 					.then (nextQuestionObj) ->
@@ -1330,7 +1330,7 @@ saveMultiChoice = (responseObj, questionsObj, options) ->
 	.then (hasAnswer) ->
 		isEditable = responseObj.get('questionnaire').get('editable')
 		if !isEditable and !_.isEmpty(hasAnswer)
-			promise.reject("notEditable")
+			promise.resolve("notEditable")
 		else if isEditable and !_.isEmpty(hasAnswer)
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.equalTo('question', questionsObj)
@@ -1528,6 +1528,8 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 		promise.reject error
 	promise	
 
+
+
 getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 	promise = new Parse.Promise()
 
@@ -1613,7 +1615,7 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 	.then (hasAnswer) ->
 		isEditable = responseObj.get('questionnaire').get('editable')
 		if !isEditable and !_.isEmpty(hasAnswer)
-			promise.reject("notEditable")
+			promise.resolve("notEditable")
 		else if isEditable and !_.isEmpty(hasAnswer)
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.equalTo('response', responseObj)
@@ -1710,7 +1712,7 @@ saveInput = (responseObj, questionsObj, options, value) ->
 	.then (hasAnswer) ->
 		isEditable = responseObj.get('questionnaire').get('editable')
 		if !isEditable and !_.isEmpty(hasAnswer)
-			promise.reject("notEditable")
+			promise.resolve("notEditable")
 		else if isEditable and !_.isEmpty(hasAnswer)
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.equalTo('response', responseObj)
@@ -1786,7 +1788,7 @@ saveDescriptive = (responseObj, questionsObj, value) ->
 	.then (hasAnswer) ->
 		isEditable = responseObj.get('questionnaire').get('editable')
 		if !isEditable and !_.isEmpty(hasAnswer)
-			promise.reject("notEditable")
+			promise.resolve("notEditable")
 		else if isEditable and !_.isEmpty(hasAnswer)
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.equalTo('response', responseObj)
