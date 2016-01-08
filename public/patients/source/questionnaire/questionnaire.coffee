@@ -271,6 +271,103 @@ angular.module 'angularApp.questionnaire'
 						@loadNextQuestion(options)
 
 
+			loadPrevQuestion :(param)->
+					
+				# CSpinner.show '', 'Please wait..'
+				QuestionAPI.getPrevQuest param
+				.then (data)=>
+					console.log 'previous data'
+					console.log @data	
+					@variables()
+					@data = []
+					@data = data
+					@readonly = @data.editable
+					@pastAnswer()
+					if !_.isEmpty(@data.hasAnswer)
+						@hasAnswerShow()	
+					console.log @data	
+				,(error)=>
+					console.log error
+					if error == 'offline'
+						CToast.show 'Check net connection,answer not saved'
+					else
+						CToast.show 'Error ,try again'
+				.finally ->
+						# CSpinner.hide()
+
+
+			prevQuestion : ->
+
+				if @data.questionType == 'single-choice'
+					
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": if @singleChoiceValue == '' then [] else [@singleChoiceValue]
+						"value": ""
+
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'multi-choice'
+					
+					selectedvalue = []
+
+					_.each @data.options, (opt)->
+						if opt.checked == true
+							selectedvalue.push opt.id		
+
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": if selectedvalue == [] then [] else selectedvalue
+						"value": ""
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'descriptive'
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": []
+						"value": if @descriptiveAnswer == '' then '' else @descriptiveAnswer
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'input'
+
+					valueInput = []
+					optionId = []
+
+					_.each @data.options, (opt)=>
+						a = @val_answerValue[opt.option]
+						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
+							valueInput.push(a)
+							optionId.push(opt.id)
+
+					console.log '***'
+					console.log optionId
+
+					# aa = if _.isEmpty(optionId) then [] else [optionId[0]] 
+					# bb = if  _.isEmpty(valueInput) then [] else value = valueInput[0]	
+					if  _.isEmpty(optionId)
+						optionId = []
+					else
+					 	optionId = [optionId[0]] 	
+					if  _.isEmpty(valueInput)
+						value = []
+					else
+					 	value = valueInput[0].toString()
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": optionId
+						"value": value.toString()
+
+					@loadPrevQuestion(options)
+
+
+
 			init : ->
 				console.log 'insie questionnaire'
 				@getQuestion()	

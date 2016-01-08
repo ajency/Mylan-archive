@@ -61,6 +61,17 @@ angular.module 'angularApp.questionnaire'
 			
 		defer.promise
 
+	QuestionAPI.getPrevQuest = (options)->
+
+		defer = $q.defer()			
+		App.SendParseRequest('getPreviousQuestion', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
 
 
 	QuestionAPI	

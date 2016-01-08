@@ -226,6 +226,101 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           }
         }
       },
+      loadPrevQuestion: function(param) {
+        return QuestionAPI.getPrevQuest(param).then((function(_this) {
+          return function(data) {
+            console.log('previous data');
+            console.log(_this.data);
+            _this.variables();
+            _this.data = [];
+            _this.data = data;
+            _this.readonly = _this.data.editable;
+            _this.pastAnswer();
+            if (!_.isEmpty(_this.data.hasAnswer)) {
+              _this.hasAnswerShow();
+            }
+            return console.log(_this.data);
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            console.log(error);
+            if (error === 'offline') {
+              return CToast.show('Check net connection,answer not saved');
+            } else {
+              return CToast.show('Error ,try again');
+            }
+          };
+        })(this))["finally"](function() {});
+      },
+      prevQuestion: function() {
+        var optionId, options, selectedvalue, value, valueInput;
+        if (this.data.questionType === 'single-choice') {
+          options = {
+            "responseId": this.data.responseId,
+            "questionId": this.data.questionId,
+            "options": this.singleChoiceValue === '' ? [] : [this.singleChoiceValue],
+            "value": ""
+          };
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'multi-choice') {
+          selectedvalue = [];
+          _.each(this.data.options, function(opt) {
+            if (opt.checked === true) {
+              return selectedvalue.push(opt.id);
+            }
+          });
+          options = {
+            "responseId": this.data.responseId,
+            "questionId": this.data.questionId,
+            "options": selectedvalue === [] ? [] : selectedvalue,
+            "value": ""
+          };
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'descriptive') {
+          options = {
+            "responseId": this.data.responseId,
+            "questionId": this.data.questionId,
+            "options": [],
+            "value": this.descriptiveAnswer === '' ? '' : this.descriptiveAnswer
+          };
+          this.loadPrevQuestion(options);
+        }
+        if (this.data.questionType === 'input') {
+          valueInput = [];
+          optionId = [];
+          _.each(this.data.options, (function(_this) {
+            return function(opt) {
+              var a;
+              a = _this.val_answerValue[opt.option];
+              if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
+                valueInput.push(a);
+                return optionId.push(opt.id);
+              }
+            };
+          })(this));
+          console.log('***');
+          console.log(optionId);
+          if (_.isEmpty(optionId)) {
+            optionId = [];
+          } else {
+            optionId = [optionId[0]];
+          }
+          if (_.isEmpty(valueInput)) {
+            value = [];
+          } else {
+            value = valueInput[0].toString();
+          }
+          options = {
+            "responseId": this.data.responseId,
+            "questionId": this.data.questionId,
+            "options": optionId,
+            "value": value.toString()
+          };
+          return this.loadPrevQuestion(options);
+        }
+      },
       init: function() {
         console.log('insie questionnaire');
         return this.getQuestion();
