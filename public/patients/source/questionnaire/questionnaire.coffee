@@ -1,7 +1,7 @@
 angular.module 'angularApp.questionnaire'
 
-.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams'
-	, ($scope, QuestionAPI, $routeParams)->
+.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location'
+	, ($scope, QuestionAPI, $routeParams, CToast, $location)->
 
 		$scope.view =
 			# noError / error / loader
@@ -22,6 +22,61 @@ angular.module 'angularApp.questionnaire'
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
 				@val_answerValue = {}
+
+			hasAnswerShow:()->
+				if @data.questionType == 'descriptive'
+					@descriptiveAnswer = @data.hasAnswer.value
+
+				if @data.questionType == 'single-choice'
+					@singleChoiceValue = @data.hasAnswer.option[0]
+
+				if @data.questionType == 'multi-choice'
+					_.each @data.options, (value) =>
+						if (_.contains(@data.hasAnswer.option, value.id))
+							value['checked'] = true
+						
+
+				if @data.questionType == 'input'
+					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
+					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
+
+
+			pastAnswer:()->
+				previousAns = @data.previousQuestionnaireAnswer
+
+				if !_.isEmpty(previousAns)
+
+					if @data.questionType == 'input'
+						if !_.isEmpty previousAns.optionId[0] 
+							ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
+							ObjId.option
+							@data.previousQuestionnaireAnswer['label'] = ObjId.option
+
+					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
+						optionSelectedArray = []
+						optionSelectedValue = []
+						sortedArray = _.sortBy( @data.options, 'score' )
+						pluckId = _.pluck(sortedArray, 'id')
+						pluckValue = _.pluck(sortedArray, 'option')
+
+
+						_.each previousAns.optionId, (value) =>
+
+
+							a = _.indexOf(pluckId, value)
+							if a != -1
+								optionSelectedValue.push(pluckValue[a])
+								a++
+								optionSelectedArray.push(a)
+
+						@data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue
+
+						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
+
+
+					@data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY')
+
+
 
 
 			getQuestion :() ->
@@ -76,7 +131,7 @@ angular.module 'angularApp.questionnaire'
 						console.log 'inside then'
 						console.log data
 						@data = data
-						# @pastAnswer()
+						@pastAnswer()
 						# Storage.setData 'responseId', 'set', data.result.responseId
 						@display = 'noError'
 					,(error)=>
@@ -104,35 +159,35 @@ angular.module 'angularApp.questionnaire'
 					# 	@errorType = error
 
 			loadNextQuestion :(param)->
-				Storage.setData 'responseId','get'
-				.then (responseId)=>	
-					CSpinner.show '', 'Please wait..'
-					param.responseId = responseId
-					QuestionAPI.saveAnswer param
-					.then (data)=>
-						App.resize()
-						if @readonly == true then CToast.show 'Your answer is saved'
-						console.log '******next question******'
-						console.log data
-						@variables()
-						@data = []
-						@data = data.result
-						@readonly = true
+				# Storage.setData 'responseId','get'
+				# .then (responseId)=>	
+				# 	CSpinner.show '', 'Please wait..'
+				# param.responseId = 'v85D3Hn1Ht'
+				QuestionAPI.saveAnswer param
+				.then (data)=>
+					# App.resize()
+					if @readonly == true then CToast.show 'Your answer is saved'
+					console.log '******next question******'
+					console.log data
+					@variables()
+					@data = []
+					@data = data
+					@readonly = true
 
-						if !_.isEmpty(@data.hasAnswer)
-							@hasAnswerShow()
-							@readonly = @data.editable
-						@pastAnswer()
-						if !_.isUndefined(@data.status)
-							App.navigate 'summary', summary:responseId
-						@display = 'noError'					
-					,(error)=>
-						if error == 'offline'
-							CToast.showLongBottom 'Check net connection,answer not saved'
-						else
-							CToast.show 'Error in saving answer,try again'
-					.finally ->
-						CSpinner.hide()
+					if !_.isEmpty(@data.hasAnswer)
+						@hasAnswerShow()
+						@readonly = @data.editable
+					@pastAnswer()
+					if !_.isUndefined(@data.status)
+						$location.path('summary/'+param.responseId)
+					@display = 'noError'					
+				,(error)=>
+					if error == 'offline'
+						CToast.show 'Check net connection,answer not saved'
+					else
+						CToast.show 'Error in saving answer,try again'
+				.finally ->
+					# CSpinner.hide()
 						
 
 			nextQuestion : ->
@@ -146,6 +201,7 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": [@singleChoiceValue]
 							"value": ""
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
@@ -178,6 +234,7 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": [optionId[0]]
 							"value": valueInput[0].toString()
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
@@ -196,6 +253,7 @@ angular.module 'angularApp.questionnaire'
 						"questionId" : @data.questionId
 						"options": selectedvalue
 						"value": ""
+						"responseId" : @data.responseId
 
 					@loadNextQuestion(options)
 
@@ -208,8 +266,106 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": []
 							"value": @descriptiveAnswer
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
+
+
+			loadPrevQuestion :(param)->
+					
+				# CSpinner.show '', 'Please wait..'
+				QuestionAPI.getPrevQuest param
+				.then (data)=>
+					console.log 'previous data'
+					console.log @data	
+					@variables()
+					@data = []
+					@data = data
+					@readonly = @data.editable
+					@pastAnswer()
+					if !_.isEmpty(@data.hasAnswer)
+						@hasAnswerShow()	
+					console.log @data	
+				,(error)=>
+					console.log error
+					if error == 'offline'
+						CToast.show 'Check net connection,answer not saved'
+					else
+						CToast.show 'Error ,try again'
+				.finally ->
+						# CSpinner.hide()
+
+
+			prevQuestion : ->
+
+				if @data.questionType == 'single-choice'
+					
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": if @singleChoiceValue == '' then [] else [@singleChoiceValue]
+						"value": ""
+
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'multi-choice'
+					
+					selectedvalue = []
+
+					_.each @data.options, (opt)->
+						if opt.checked == true
+							selectedvalue.push opt.id		
+
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": if selectedvalue == [] then [] else selectedvalue
+						"value": ""
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'descriptive'
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": []
+						"value": if @descriptiveAnswer == '' then '' else @descriptiveAnswer
+
+					@loadPrevQuestion(options)
+
+				if @data.questionType == 'input'
+
+					valueInput = []
+					optionId = []
+
+					_.each @data.options, (opt)=>
+						a = @val_answerValue[opt.option]
+						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
+							valueInput.push(a)
+							optionId.push(opt.id)
+
+					console.log '***'
+					console.log optionId
+
+					# aa = if _.isEmpty(optionId) then [] else [optionId[0]] 
+					# bb = if  _.isEmpty(valueInput) then [] else value = valueInput[0]	
+					if  _.isEmpty(optionId)
+						optionId = []
+					else
+					 	optionId = [optionId[0]] 	
+					if  _.isEmpty(valueInput)
+						value = []
+					else
+					 	value = valueInput[0].toString()
+					options =
+						"responseId" : @data.responseId
+						"questionId" : @data.questionId
+						"options": optionId
+						"value": value.toString()
+
+					@loadPrevQuestion(options)
+
 
 
 			init : ->

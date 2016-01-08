@@ -31,13 +31,16 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{{ asset('patients/js/bootstrap.min.js') }}"></script>
 
+
     <script src="{{ asset('bower_components/angular/angular.min.js') }}"></script>
     <script src="{{ asset('bower_components/angular-route/angular-route.min.js') }}"></script>
     <script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('bower_components/underscore/underscore-min.js') }}"></script>
 
     <script src="{{ asset('patients/js/app.js') }}"></script>
 
     <script src="{{ asset('patients/js/common/common.js') }}"></script>
+    <script src="{{ asset('patients/js/common/angular-components.js') }}"></script>
 
     <script src="{{ asset('patients/js/dashboard/dashboard.js') }}"></script>
     <script src="{{ asset('patients/js/dashboard/dashboard_api.js') }}"></script>

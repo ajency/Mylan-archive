@@ -39,6 +39,40 @@ angular.module 'angularApp.questionnaire'
 		defer.promise
 
 
+	QuestionAPI.saveAnswer = (options)->
+		
+		defer = $q.defer()			
+		App.SendParseRequest('getNextQuestion', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+	QuestionAPI.submitSummary = (options)->
+		
+		defer = $q.defer()			
+		App.SendParseRequest('submitQuestionnaire', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+	QuestionAPI.getPrevQuest = (options)->
+
+		defer = $q.defer()			
+		App.SendParseRequest('getPreviousQuestion', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+
 
 	QuestionAPI	
 

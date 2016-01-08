@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire', []).controller('summaryController', [
-  '$scope', 'QuestionAPI', '$routeParams', function($scope, QuestionAPI, $routeParams) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', function($scope, QuestionAPI, $routeParams, CToast) {
     return $scope.view = {
       data: [],
       init: function() {
@@ -21,6 +21,25 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
             return _this.errorType = error;
           };
         })(this));
+      },
+      submitSummary: function() {
+        var param;
+        param = {
+          responseId: $routeParams.responseId
+        };
+        return QuestionAPI.submitSummary(param).then((function(_this) {
+          return function(data) {
+            console.log('data');
+            console.log('succ submiteed');
+            return CToast.show('submiteed successfully ');
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            console.log('error');
+            console.log(error);
+            return CToast.show('Error in submitting questionnarie');
+          };
+        })(this))["finally"](function() {});
       }
     };
   }

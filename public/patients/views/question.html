@@ -1,48 +1,4 @@
 
-<nav class="navbar navbar-default hospital-nav">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#"><img src="../images/nhs-logo.png" width="70"></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     <ul class="nav navbar-nav navbar-right">
-                  <li><a href="contact.html"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Contact Us</span></a></li>
-                
-                  <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><div class="notification">2</div>
-                        <i class="fa fa-bell"></i> <span class="text-muted">Messages</span> <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Questionnaire 2 is pending. Click to resume.
-              <br>
-              <small class="text-muted"><i class="fa fa-clock-o"></i> A few seconds ago</small> 
-            </a></li>
-            
-            <li><a href="#">You have an upcoming Questionnaire on 23rd Dec 2015
-              <br>
-              <small class="text-muted"><i class="fa fa-clock-o"></i> 7 hours ago</small> 
-            </a></li>
-            
-            <li><a href="#">You have not submitted the Questionnaire for the month of Jan.
-              <br>
-              <small class="text-muted"><i class="fa fa-clock-o"></i> 2 Days ago</small> 
-            </a></li>
-            
-            <li class="bg-gray text-center"><a href="notification.html">See All</a></li>
-          </ul>
-        </li>
-               </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
 <div class="container" ng-init="view.init()">
   <!-- Wrapper for slides -->
   <br>
@@ -69,10 +25,12 @@
             <br class="hidden-xs">
             
           <div 
-              ng-repeat ="answerValue in view.data.options">
+              ng-if = 'view.data.questionType == "single-choice"' 
+              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
              <label class="item item-radio">
                 <div class="item-content">
-                  <input type="radio" name="group" value="go">
+                  <input type="radio" name="group" ng-model="view.singleChoiceValue"
+                    ng-value="answerValue.id" ng-disabled="!view.readonly" >
                   <i class="radio-icon fa fa-check"></i>
                     {{answerValue.option}}
                 </div>
@@ -80,60 +38,20 @@
             <br class="hidden-xs">
          </div>
 
-<!-- 
-         <label class="item item-radio">
-            <div class="item-content">
-              <input type="radio" name="group" value="go" checked="checked"/>
-               <i class="radio-icon fa fa-check"></i>
-                Pain present, but no need for pain killers
+        <form class="row" ng-if='view.data.questionType == "input"'>
+            <div 
+              class="col-xs-8"
+              ng-repeat ="answerValue in view.data.options">
+                <div class="form-group b-b">
+                <input 
+                    type="text" 
+                    class="form-control input-lg" 
+                    ng-model="view.val_answerValue[answerValue.option]"
+                    id="Kgs" placeholder="{{answerValue.option}}"
+                    ng-readonly = "!view.readonly">
+                </div>
             </div>
-        </label>
-
-        <br class="hidden-xs">
-          <label class="item item-radio">
-        <div class="item-content bg-yellow">
-          <input type="radio" name="group" value="go" checked="checked" />
-           <i class="radio-icon fa fa-check"></i>
-           Pain present, and I take occasional pain relieving medication
-        </div>
-        </label>
-
-        <br class="hidden-xs">
-        <label class="item item-radio">
-        <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked" />
-           <i class="radio-icon fa fa-check"></i>
-           Pain present, and I take pain relieving medication daily
-          </div>
-        </label>
-
-        <br class="hidden-xs">
-        <label class="item item-radio">
-        <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked" />
-           <i class="radio-icon fa fa-check"></i>
-           Pain present, and I need to take regular strong painkillers
-          </div>
-        </label>
-
-        <br class="hidden-xs">
-        <label class="item item-radio">
-        <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked" />
-           <i class="radio-icon fa fa-check"></i>
-           Pain present, and it is not controlled by strong painkillers
-        </div>
-        </label>
-
-        <br class="hidden-xs">
-        <label class="item item-radio">
-        <div class="item-content">
-          <input type="radio" name="group" value="go" checked="checked" />
-           <i class="radio-icon fa fa-check"></i>
-           The pain has been so bad I have had to go to hospital
-        </div>
-        </label> -->
-
+        </form>
 
        </div>
       <div role="tabpanel" class="tab-pane" id="q2">
@@ -192,9 +110,11 @@
       <div role="tabpanel" class="tab-pane" id="q3">
         <div class="pull-right text-muted">
             <small>3 of 10</small>
-          </div>
+        </div>
         
-        <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span></h4>
+        <h4 class="question">
+          <span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span>
+        </h4>
         
                               <br class="hidden-xs">
                               <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
@@ -349,10 +269,20 @@
   
   <div class="row m-t-25">
       <div class="col-md-12 text-left">
-        <button type="button" class="btn btn-success"><i class="fa fa-chevron-circle-left"></i> Previous</button>
+        <button type="button" 
+          ng-click="view.prevQuestion()"
+          class="btn btn-success">
+          <i class="fa fa-chevron-circle-left"></i> 
+          Previous
+        </button>
       </div>
       <div class="col-md-12 text-right">
-        <button type="button" class="btn btn-success">Next <i class="fa fa-chevron-circle-right"></i></button>
+        <button type="button" 
+          class="btn btn-success"
+          ng-click="view.nextQuestion()">
+          Next 
+          <i class="fa fa-chevron-circle-right"></i>
+        </button>
       </div>
   </div>
    
@@ -388,10 +318,17 @@
       <div class="sidebar">
           <h5 class="prev-ans text-left">PREVIOUS ANSWER</h5>
           <p class="text-muted text-left">
-            <span class="text-success">A.</span> Pain present, and I need to take regular strong painkillers
+            <!-- <span class="text-success">A.</span>  -->
+             <div ng-repeat = "label in  view.data.previousQuestionnaireAnswer.labelDisplay">
+              {{label}} <br>
+             </div>
           </p>
           <div class="text-success text-left">
-            <p><i class="fa fa-calendar text-muted"></i> Submitted on <b>22nd october 2014</b></p>
+            <p>
+              <i class="fa fa-calendar text-muted"></i>
+               Submitted on 
+                <b>{{ view.data.previousQuestionnaireAnswer.date }}</b>
+            </p>
           </div>
       </div>
       </div>
@@ -399,13 +336,6 @@
 
 </div> <!-- container -->
 
-<footer class="footer">
-                <div class="container">
-                  <div class="footer-content text-center">
-                   <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
-                  </div>
-                </div>
-</footer>
 <!-- Modal -->
 <div class="modal fade bs-example-modal-md" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-md" role="document">

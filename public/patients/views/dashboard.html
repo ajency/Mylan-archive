@@ -1,167 +1,140 @@
-
-<nav class="navbar navbar-default hospital-nav">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#"><img src="../images/nhs-logo.png" width="70"></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
-       <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
 <div class="container dashboard" ng-init = "view.init()">
-    <div class="alert alert-success" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-        You do not have any Questionnaries to be submitted now.
-    </div>
-    <div class="panel panel-default">
-       <div class="panel-heading"><h3>Cardiac Group Project Questionnaire - 1</h3></div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-8 col-xs-24">
-              <div id="chartdiv" style="width: 100%; height: 200px;"></div>
-              <br>
-            </div>
-            <div class="col-sm-8 col-xs-12">
-              <br class="hidden-xs"><br class="hidden-sm hidden-xs">
-              <div class="b-b">
-              <h1>40%</h1>
-              <h4 class="text-muted"><span><i class="fa fa-circle text-muted"></i> 40 Questions Missed</span></h4>
-              </div>
-            </div>
-            <div class="col-sm-8 col-xs-12">
-              <br class="hidden-xs"><br class="hidden-sm hidden-xs">
-              <div class="b-b">
-              <h1>60%</h1>
-              <h4 class="text-muted"><span><i class="fa fa-circle text-warning"></i> 60 Questions Missed</span></h4>
-            </div>
-            </div>
-          </div>
-        </div>
-    </div>
-      <br class="hidden-xs">
-      <h3>Questionnaire Summary</h3>
-      <br>
-       <div class="panel panel-default">
-          <div class="bg-white">
-          <div  ng-repeat ="submissions in view.data"
-                ng-controller="EachRequestTimeCtrl">
-          
-            <div class="panel-body b-b-g" ng-if="submissions.status == 'upcoming'">
-              <div class="row">
-                  <div class="col-sm-12">
-                    <h4><i class="fa fa-arrow-circle-up text-success"></i>&nbsp;&nbsp;Upcoming</h4>
-                  </div>
-                  <div class="col-md-9 col-sm-8">
-                    <h4 class="text-muted">
-                      <span>
-                          <i class="fa fa-calendar"></i> 
-                        {{ submissions.date }}
-                     
-                      </span>
-                     </h4>
-                  </div>
-             
-                  <div class="col-md-3 col-sm-4 text-right xs-text-left">
+         <!-- <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            You do not have any Questionnaries to be submitted now.
+         </div> -->
+         <br class="hidden-xs">
+         <h3>Questionnaire Summary</h3>
+         <hr>
+         <div class="row">
+              <div class="col-md-8">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                      <div class="panel-heading">
+                        <p>Cardiac Group Project Questionnaire - 1</p>
+                     </div>
+                       <div id="chartdiv" style="width: 100%; height: 351px;"></div>
+                     </div>
                   </div>
               </div>
-            </div>
-            
-        
-            <div class="panel-body b-b-g" ng-if="submissions.status == 'due'">
-              <div class="row">
-                <div class="col-sm-12">
-                    <h4>
-                      <i class="fa fa-times-circle text-danger"></i>&nbsp;&nbsp;
-                      Due
-                    </h4>
-                </div>
-                <div class="col-md-9 col-sm-8">
-                    <h4 class="text-muted">
-                      <span>
-                        <i class="fa fa-calendar"></i> 
-                       {{ submissions.date }}
-                      </span>
-                    </h4>
-                </div>
-                <div class="col-md-3 col-sm-4 text-right xs-text-left">
-                    <a type="button" 
-                       class="btn btn-success" 
-                          ng-click = "view.startQuiz();">
-                           Start Now
-                    </a>
-                </div>
-              </div>
-            </div>
+              <div class="col-md-16 bg-white">
+                <div class="panel panel-default">
+                     <div class="panel-body b-b-g">
+                        <div class="row">
+                          <div class="col-sm-12 col-xs-7">
+                              <h5 class="f-w-200"><b>Date</b></h5>
+                           </div>
+                           <div class="col-sm-8 col-xs-9">
+                              <h5 class="f-w-200"><b>Status</b></h5>
+                           </div>
+                           </h5>
+                           <div class="col-sm-4 col-xs-8 text-right xs-text-left">
+                           </div>
+                        </div>
+                     </div>
+                      <div ng-repeat ="submissions in view.data"
+                          ng-controller="EachRequestTimeCtrl">
 
-                
-               
-            <div class="panel-body b-b-g" ng-if="submissions.status == 'missed'">
-                 <div class="row">
-                    <div class="col-sm-12 col-xs-24">
-                        <h4><i class="fa fa-minus-circle text-muted"></i>&nbsp;&nbsp;Missed</h4>
-                    </div>
-                    <div class="col-md-9 col-sm-8 col-xs-24">
-                      <h4 class="text-muted">
-                        <span>
-                          <i class="fa fa-calendar"></i>
-                           {{ submissions.date }}
-                        </span>
-                      </h4>
-                    </div>
-                    <div class="col-md-3 col-sm-4 col-xs-24 text-right xs-text-left">
-                    </div>
-                </div>
-            </div>
-                
-                
-                
-            <div class="panel-body" ng-if="submissions.status == 'completed' ">
-               <div class="row">
-                  <div class="col-sm-12 col-xs-24">
-                      <h4><i class="fa fa-check-circle text-warning"></i>&nbsp;&nbsp;Submitted --  {{ submissions.occurrenceId }}
-                      </h4>
-                  </div>
-                  <div class="col-md-9 col-sm-8 col-xs-24">
-                    <h4 class="text-muted"><span><i class="fa fa-calendar"></i> {{ submissions.date }}</span>
-                    </h4>
-                  </div>
-                  <div class="col-md-3 col-sm-4 col-xs-24 text-right xs-text-left">
-                    <a  type="button" 
-                        ng-click = "view.summary(submissions.occurrenceId);" 
-                        class="btn btn-warning">
-                        View  
-                     </a>
-                  </div>
-              </div>
-            </div>
+                         <div class="panel-body b-b-g" ng-if="submissions.status == 'upcoming'">
+                            <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                <div class="date text-center">
+                                    <div class="month">{{ submissions.month }}</div>
+                                    <div class="day"><b>{{ submissions.date }}</b></div>
+                                    <div class="year text-muted">{{ submissions.yr }}</div>
+                                </div>
+                               </div>
+                               <div class="col-sm-8 col-xs-9 p-11">
+                                  <h5 class="f-w-400 text-success">UPCOMING</h5>
+                               </div>
+                               </h5>
+                               <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                               </div>
+                            </div>
+                         </div>
+                      
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'due'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                  <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-danger">DUE</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" class="btn btn-success btn-hover" 
+                                      ng-click = "view.startQuiz();">
+                                      <span>Start</span>
+                                    </a>
+                                </div>
+                             </div>
+                          </div>
 
-          </div>
-          </div> <!-- bg-white -->
-        </div>
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'started'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                  <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-danger">DUE</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" 
+                                      class="btn btn-danger btn-hover"
+                                      ng-click = "view.resumeQuiz(submissions.occurrenceId);">
+                                      <span>Resume</span>
+                                    </a>
+                                </div>
+                             </div>
+                          </div>
 
-          
-</div> <!--container dashboard -->
-<div class="footer">
-  <div class="container">
-    <div class="footer-content text-center">
-      <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
-    </div>
-  </div>
-</div>
-   
-  
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'completed' ">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                   <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-warning">SUBMITTED</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" 
+                                      ng-click = "view.summary(submissions.occurrenceId);" 
+                                      class="btn btn-warning btn-hover"><span>View</span></a>
+                                </div>
+                             </div>
+                          </div>
+
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'missed'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                   <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-muted">MISSED</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                </div>
+                             </div>
+                          </div>
+
+                      </div>
+                  </div> <!-- panel-default -->
+                </div> <!-- col-md-16 bg-white -->
+         </div> <! -- row -->
+</div> <!-- dashboard -->
