@@ -73,8 +73,8 @@ class HospitalController extends Controller
                      );
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
-        $projectOpenFlags = $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
-        $submissionFlags = $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
+        $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
+        $submissionFlags =  $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
         $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
         $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
          
@@ -490,7 +490,7 @@ class HospitalController extends Controller
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
         $completedResponses = [];
         $patientResponses = [];
-
+        
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
             $patient = $response->get("patient");
@@ -502,6 +502,7 @@ class HospitalController extends Controller
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
                 $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
                 $patientResponses[$patient]['totalFlags']=[];
+                $patientResponses[$patient]['missed'] =[];
             }
 
             $patientResponses[$patient]['count'][]=$responseId;
