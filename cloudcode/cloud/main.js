@@ -384,6 +384,19 @@
     });
   });
 
+  getQuestionnaireFrequency = function(questionnaireObj) {
+    var promise, questionnaireScheduleQuery;
+    promise = new Parse.Promise();
+    questionnaireScheduleQuery = new Parse.Query('Schedule');
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj);
+    questionnaireScheduleQuery.first().then(function(questionnaireScheduleObj) {
+      return promise.resolve(questionnaireScheduleObj.get("frequency"));
+    }, function(error) {
+      return promise.resolve(error);
+    });
+    return promise;
+  };
+
 
   /*
   console.log "======================================="
@@ -2513,7 +2526,7 @@
 
 
   /*   
-  Parse.Cloud.define 'createMissedResponse', (request, response) ->
+  Parse.Cloud.job 'createMissedResponse', (request, response) ->
      scheduleQuery = new Parse.Query('Schedule')
      scheduleQuery.exists("patient")
      scheduleQuery.include("questionnaire")
@@ -2572,19 +2585,6 @@
      , (error) ->
          response.error error
    */
-
-  getQuestionnaireFrequency = function(questionnaireObj) {
-    var promise, questionnaireScheduleQuery;
-    promise = new Parse.Promise();
-    questionnaireScheduleQuery = new Parse.Query('Schedule');
-    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj);
-    questionnaireScheduleQuery.first().then(function(questionnaireScheduleObj) {
-      return promise.resolve(questionnaireScheduleObj.get("frequency"));
-    }, function(error) {
-      return promise.resolve(error);
-    });
-    return promise;
-  };
 
 
   /*

@@ -269,6 +269,24 @@ Parse.Cloud.job 'commonJob', (request, response) ->
 		response.error error
 
 
+
+
+
+getQuestionnaireFrequency =  ( questionnaireObj ) ->
+    promise = new Parse.Promise()
+
+    questionnaireScheduleQuery = new Parse.Query('Schedule')
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
+    questionnaireScheduleQuery.first()
+    .then (questionnaireScheduleObj) ->
+        promise.resolve questionnaireScheduleObj.get("frequency")
+    , (error) ->
+        promise.resolve error
+
+    promise
+
+
+
 ###
 console.log "======================================="
 	console.log "nextOccurrence = #{nextOccurrence}"

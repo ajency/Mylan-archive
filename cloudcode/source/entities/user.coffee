@@ -172,9 +172,9 @@ Parse.Cloud.define 'userLogin', (request, response) ->
 
     , (error) ->
         response.error error
-    
+
  ###   
-Parse.Cloud.define 'createMissedResponse', (request, response) ->
+Parse.Cloud.job 'createMissedResponse', (request, response) ->
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.exists("patient")
     scheduleQuery.include("questionnaire")
@@ -234,22 +234,7 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
         response.error error
 
 ###
-
-getQuestionnaireFrequency =  ( questionnaireObj ) ->
-    promise = new Parse.Promise()
-
-    questionnaireScheduleQuery = new Parse.Query('Schedule')
-    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
-    questionnaireScheduleQuery.first()
-    .then (questionnaireScheduleObj) ->
-        promise.resolve questionnaireScheduleObj.get("frequency")
-    , (error) ->
-        promise.resolve error
-
-    promise
-
-
-
+    
 ###
 Parse.Cloud.define 'createMissedResponse', (request, response) ->
 
