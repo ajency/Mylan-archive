@@ -49,7 +49,7 @@
     <script src="{{ asset('patients/js/questionnaire/summary.js') }}"></script>
     <script src="{{ asset('patients/js/questionnaire/questionnaire-api.js') }}"></script>
     <script src="{{ asset('patients/js/questionnaire/questionnaire.js') }}"></script>
-
+    <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
 
   </head>
   <body>
