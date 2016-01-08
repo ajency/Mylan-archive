@@ -4,17 +4,17 @@
     <h2>Sequence Number 4</h2>
     <br>
     <div class="alert alert-success" role="alert">
-       Submitted on : 6th December 2015
+       Submitted on : {{view.data.submissionDate}}
     </div>
  
     <br><br>
   <div class="timeline">
 
     <br>
-    <div ng-repeat ="summary in view.data">
+    <div ng-repeat ="summary in view.data.answerObjects track by $index">
     <div class="list-item">
         <div class="no">
-            <span>1</span>
+            <span>{{$index + 1}}</span>
         </div>
         <div class="list-infotext">
           <h3> {{summary.question}}</h3>

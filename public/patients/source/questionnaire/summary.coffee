@@ -7,16 +7,13 @@ angular.module 'angularApp.questionnaire',[]
 			data : []
 
 			init :() -> 
-				id = $routeParams.responseId
-				console.log '******'
-				console.log id
-				console.log 'inside init'
-				QuestionAPI.getSummary(id)
+				param = 
+					responseId : $routeParams.responseId
+				QuestionAPI.getSummary(param)
 				.then (data)=>
 
-					@data = data.result
-					console.log 'inside then'
-					console.log @data
+					@data = data
+					@data.submissionDate = moment(@data.submissionDate).format('MMMM Do YYYY')
 					@display = 'noError'
 				,(error)=>
 					@display = 'error'
@@ -28,8 +25,6 @@ angular.module 'angularApp.questionnaire',[]
 						responseId : $routeParams.responseId
 					QuestionAPI.submitSummary param
 					.then (data)=>
-						console.log 'data'
-						console.log 'succ submiteed'
 						CToast.show 'submiteed successfully '
 						# App.navigate 'exit-questionnaire'
 					,(error)=>

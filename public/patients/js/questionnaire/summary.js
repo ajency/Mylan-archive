@@ -3,16 +3,14 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
     return $scope.view = {
       data: [],
       init: function() {
-        var id;
-        id = $routeParams.responseId;
-        console.log('******');
-        console.log(id);
-        console.log('inside init');
-        return QuestionAPI.getSummary(id).then((function(_this) {
+        var param;
+        param = {
+          responseId: $routeParams.responseId
+        };
+        return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
-            _this.data = data.result;
-            console.log('inside then');
-            console.log(_this.data);
+            _this.data = data;
+            _this.data.submissionDate = moment(_this.data.submissionDate).format('MMMM Do YYYY');
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
@@ -29,8 +27,6 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            console.log('data');
-            console.log('succ submiteed');
             return CToast.show('submiteed successfully ');
           };
         })(this), (function(_this) {
