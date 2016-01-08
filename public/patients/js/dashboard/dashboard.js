@@ -33,7 +33,10 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
   '$scope', function($scope) {
     var setTime;
     setTime = function() {
-      return $scope.submissions.date = moment($scope.submissions.occurrenceDate.iso).format('MMMM Do YYYY');
+      console.log(moment($scope.submissions.occurrenceDate.iso).format('Do'));
+      $scope.submissions.yr = moment($scope.submissions.occurrenceDate.iso).format('YYYY');
+      $scope.submissions.month = moment($scope.submissions.occurrenceDate.iso).format('MMM');
+      return $scope.submissions.date = moment($scope.submissions.occurrenceDate.iso).format('Do');
     };
     return setTime();
   }

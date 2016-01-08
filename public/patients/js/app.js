@@ -1,10 +1,6 @@
 var app;
 
-app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common']).run([
-  '$rootScope', function($rootScope) {
-    return Parse.initialize(APP_ID, JS_KEY);
-  }
-]).config([
+app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common']).run(['$rootScope', function($rootScope) {}]).config([
   '$routeProvider', function($routeProvider) {
     return $routeProvider.when('/dashboard', {
       url: '/dashboard',

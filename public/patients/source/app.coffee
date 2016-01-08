@@ -5,7 +5,7 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 
 .run ['$rootScope', ($rootScope)->
 
-	Parse.initialize APP_ID, JS_KEY
+	# Parse.initialize APP_ID, JS_KEY
 
 ]
 
