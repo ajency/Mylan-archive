@@ -35,7 +35,7 @@
          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
          <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
          <br>
-         <form method="post" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" >
+         <form method="post" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" data-parsley-validate>
          <input type="hidden" name="baseLineResponseId" value="{{ $baseLineResponseId }}">
          <input type="hidden" name="patientId" value="{{ $patient['id']}}">
          <input type="hidden" name="questionnaireId" value="{{ $questionnaireId }}">
@@ -67,7 +67,7 @@
                      
                       
                     @elseif($questions['type']=='single-choice')
-                      <select name="question[{{ $questionId }}]" class="select2 form-control">
+                      <select name="question[{{ $questionId }}]" class="select2 form-control" data-parsley-required>
                        <option value="">Select option for Baseline</option>
                        @foreach($optionsList[$questionId] as $option)
                           <?php 
@@ -80,7 +80,7 @@
                       </select>
                        
                     @elseif($questions['type']=='multi-choice')
-                      <select name="question[{{ $questionId }}][]" id="role" class="select2 form-control" multiple="">
+                      <select name="question[{{ $questionId }}][]" id="role" class="select2 form-control" multiple="" data-parsley-required>
                        <option value="">Select option for Baseline</option>
                        @foreach($optionsList[$questionId] as $option)
                        <?php 
@@ -97,7 +97,7 @@
                           if(isset($answersList[$questionId]['value']))
                               $value = $answersList[$questionId]['value'];
                         ?>
-                        <textarea name="question[{{ $questionId }}]" class="form-control">{{ $value }}</textarea>               
+                        <textarea name="question[{{ $questionId }}]" class="form-control" data-parsley-required>{{ $value }}</textarea>               
                     @endif
 
                </div>
