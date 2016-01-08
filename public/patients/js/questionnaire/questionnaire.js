@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
-  '$scope', 'QuestionAPI', '$routeParams', 'CToast', function($scope, QuestionAPI, $routeParams, CToast) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', function($scope, QuestionAPI, $routeParams, CToast, $location) {
     return $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -110,7 +110,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       loadNextQuestion: function(param) {
-        param.responseId = 'v85D3Hn1Ht';
         return QuestionAPI.saveAnswer(param).then((function(_this) {
           return function(data) {
             if (_this.readonly === true) {
@@ -127,6 +126,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.readonly = _this.data.editable;
             }
             _this.pastAnswer();
+            if (!_.isUndefined(_this.data.status)) {
+              $location.path('summary/' + param.responseId);
+            }
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
@@ -148,7 +150,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             options = {
               "questionId": this.data.questionId,
               "options": [this.singleChoiceValue],
-              "value": ""
+              "value": "",
+              "responseId": this.data.responseId
             };
             this.loadNextQuestion(options);
           }
@@ -184,7 +187,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             options = {
               "questionId": this.data.questionId,
               "options": [optionId[0]],
-              "value": valueInput[0].toString()
+              "value": valueInput[0].toString(),
+              "responseId": this.data.responseId
             };
             this.loadNextQuestion(options);
           }
@@ -203,7 +207,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           options = {
             "questionId": this.data.questionId,
             "options": selectedvalue,
-            "value": ""
+            "value": "",
+            "responseId": this.data.responseId
           };
           this.loadNextQuestion(options);
         }
@@ -214,7 +219,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             options = {
               "questionId": this.data.questionId,
               "options": [],
-              "value": this.descriptiveAnswer
+              "value": this.descriptiveAnswer,
+              "responseId": this.data.responseId
             };
             return this.loadNextQuestion(options);
           }

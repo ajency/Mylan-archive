@@ -50,6 +50,17 @@ angular.module 'angularApp.questionnaire'
 			
 		defer.promise
 
+	QuestionAPI.submitSummary = (options)->
+		
+		defer = $q.defer()			
+		App.SendParseRequest('submitQuestionnaire', options)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
 
 
 	QuestionAPI	

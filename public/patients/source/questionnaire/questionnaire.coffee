@@ -1,7 +1,7 @@
 angular.module 'angularApp.questionnaire'
 
-.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams', 'CToast'
-	, ($scope, QuestionAPI, $routeParams, CToast)->
+.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location'
+	, ($scope, QuestionAPI, $routeParams, CToast, $location)->
 
 		$scope.view =
 			# noError / error / loader
@@ -162,7 +162,7 @@ angular.module 'angularApp.questionnaire'
 				# Storage.setData 'responseId','get'
 				# .then (responseId)=>	
 				# 	CSpinner.show '', 'Please wait..'
-				param.responseId = 'v85D3Hn1Ht'
+				# param.responseId = 'v85D3Hn1Ht'
 				QuestionAPI.saveAnswer param
 				.then (data)=>
 					# App.resize()
@@ -178,8 +178,8 @@ angular.module 'angularApp.questionnaire'
 						@hasAnswerShow()
 						@readonly = @data.editable
 					@pastAnswer()
-					# if !_.isUndefined(@data.status)
-						# App.navigate 'summary', summary:responseId
+					if !_.isUndefined(@data.status)
+						$location.path('summary/'+param.responseId)
 					@display = 'noError'					
 				,(error)=>
 					if error == 'offline'
@@ -201,6 +201,7 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": [@singleChoiceValue]
 							"value": ""
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
@@ -233,6 +234,7 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": [optionId[0]]
 							"value": valueInput[0].toString()
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
@@ -251,6 +253,7 @@ angular.module 'angularApp.questionnaire'
 						"questionId" : @data.questionId
 						"options": selectedvalue
 						"value": ""
+						"responseId" : @data.responseId
 
 					@loadNextQuestion(options)
 
@@ -263,6 +266,7 @@ angular.module 'angularApp.questionnaire'
 							"questionId" : @data.questionId
 							"options": []
 							"value": @descriptiveAnswer
+							"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
