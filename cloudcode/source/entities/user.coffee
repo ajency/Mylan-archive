@@ -173,7 +173,7 @@ Parse.Cloud.define 'userLogin', (request, response) ->
     , (error) ->
         response.error error
     
-    
+ ###   
 Parse.Cloud.define 'createMissedResponse', (request, response) ->
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.exists("patient")
@@ -233,7 +233,7 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
     , (error) ->
         response.error error
 
-
+###
 
 getQuestionnaireFrequency =  ( questionnaireObj ) ->
     promise = new Parse.Promise()
@@ -247,7 +247,6 @@ getQuestionnaireFrequency =  ( questionnaireObj ) ->
         promise.resolve error
 
     promise
-
 
 
 

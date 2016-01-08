@@ -478,10 +478,12 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 	.then (responseObj) ->
 		getSummary responseObj
 		.then (answerObjects) ->
-			result = {}
-			result['answerObjects'] = answerObjects
-			result['submissionDate'] = responseObj.updatedAt
-			response.success result
+			#result = {}
+			#result['answerObjects'] = answerObjects
+			#result['submissionDate'] = responseObj.updatedAt
+			#result['sequenceNumber'] = responseObj.get('sequenceNumber')
+			#response.success result
+			response.success answerObjects
 		, (error) ->
 			response.error error
 	, (error) ->
@@ -1828,7 +1830,9 @@ Parse.Cloud.define "baseLine", (request, response) ->
 	questionId = request.params.questionId
 	options = request.params.options
 	value = request.params.value
-
+	console.log "============================"
+	console.log (new Date())
+	console.log "==========================="
 	responseQuery = new Parse.Query('Response')
 	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
