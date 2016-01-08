@@ -145,6 +145,86 @@ sendNotifications = () ->
 		promise.reject error
 	promise
 
+
+
+createMissedResponse = () ->
+    promise = new Parse.Promise()
+    scheduleQuery = new Parse.Query('Schedule')
+    scheduleQuery.exists("patient")
+    scheduleQuery.include("questionnaire")
+    scheduleQuery.find()
+    .then (scheduleObjects) ->
+        result ={}
+        responseSaveArr =[]
+        scheduleSaveArr =[]
+        _.each scheduleObjects , (scheduleObject) ->
+            questionnaire = scheduleObject.get("questionnaire")
+            patient = scheduleObject.get("patient")
+            gracePeriod = questionnaire.get("gracePeriod")
+            nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+            newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
+            currentDateTime = moment()
+ 
+            diffrence = moment(newDateTime).diff(currentDateTime)
+            diffrence2 = moment(currentDateTime).diff(newDateTime)
+            console.log newDateTime
+            console.log currentDateTime
+            console.log diffrence
+            console.log diffrence2
+            if(parseInt(diffrence2) > 1)
+                responseData=
+                    patient: patient
+                    questionnaire: questionnaire
+                    status : 'missed'
+                    schedule : scheduleObject
+
+                Response = Parse.Object.extend("Response") 
+                responseObj = new Response responseData
+                responseSaveArr.push(responseObj)
+
+                getQuestionnaireFrequency(questionnaire)
+                .then (frequency) ->
+                    frequency = parseInt frequency
+                    newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                    date = new Date(newNextOccurrence)
+                    scheduleObject.set('nextOccurrence',date)
+                    scheduleSaveArr.push(scheduleObject)
+                , (error) ->
+                    promise.reject error
+
+        # save all responses
+        Parse.Object.saveAll responseSaveArr
+            .then (resObjs) ->
+                # update all schedule nextoccurrence
+                Parse.Object.saveAll scheduleSaveArr
+                    .then (scheduleObjs) ->
+                        promise.resolve scheduleObjs
+                    , (error) ->
+                        promise.reject (error)   
+            , (error) ->
+                promise.reject (error)
+
+    , (error) ->
+        promise.reject error
+
+    promise
+
+Parse.Cloud.job 'commonJob', (request, response) ->
+	getNotifications()
+	.then (notifications) ->
+		sendNotifications() 
+		.then (notifications) ->
+			createMissedResponse()
+			.then (responses) ->
+				response.success "job_run"
+			, (error) ->
+				response.error error				
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+
 ###
 console.log "======================================="
 	console.log "nextOccurrence = #{nextOccurrence}"

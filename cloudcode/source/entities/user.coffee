@@ -175,7 +175,6 @@ Parse.Cloud.define 'userLogin', (request, response) ->
     
     
 Parse.Cloud.define 'createMissedResponse', (request, response) ->
-
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.exists("patient")
     scheduleQuery.include("questionnaire")
@@ -235,7 +234,25 @@ Parse.Cloud.define 'createMissedResponse', (request, response) ->
         response.error error
 
 
-Parse.Cloud.job 'createMissedResponse', (request, response) ->
+
+getQuestionnaireFrequency =  ( questionnaireObj ) ->
+    promise = new Parse.Promise()
+
+    questionnaireScheduleQuery = new Parse.Query('Schedule')
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
+    questionnaireScheduleQuery.first()
+    .then (questionnaireScheduleObj) ->
+        promise.resolve questionnaireScheduleObj.get("frequency")
+    , (error) ->
+        promise.resolve error
+
+    promise
+
+
+
+
+###
+Parse.Cloud.define 'createMissedResponse', (request, response) ->
 
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.exists("patient")
@@ -249,9 +266,7 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
             questionnaire = scheduleObject.get("questionnaire")
             patient = scheduleObject.get("patient")
             gracePeriod = questionnaire.get("gracePeriod")
-            project = questionnaire.get("project")
-            scheduleNextOccurrence = scheduleObject.get("nextOccurrence")
-            nextOccurrence =  moment(scheduleNextOccurrence)
+            nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
             newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
             currentDateTime = moment()
  
@@ -266,9 +281,8 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
                     patient: patient
                     questionnaire: questionnaire
                     status : 'missed'
-                    project: project
                     schedule : scheduleObject
-                    occurrenceDate : scheduleNextOccurrence
+
                 Response = Parse.Object.extend("Response") 
                 responseObj = new Response responseData
                 responseSaveArr.push(responseObj)
@@ -297,18 +311,4 @@ Parse.Cloud.job 'createMissedResponse', (request, response) ->
 
     , (error) ->
         response.error error
-
-getQuestionnaireFrequency =  ( questionnaireObj ) ->
-    promise = new Parse.Promise()
-
-    questionnaireScheduleQuery = new Parse.Query('Schedule')
-    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
-    questionnaireScheduleQuery.first()
-    .then (questionnaireScheduleObj) ->
-        promise.resolve questionnaireScheduleObj.get("frequency")
-    , (error) ->
-        promise.resolve error
-
-    promise
-
-
+###

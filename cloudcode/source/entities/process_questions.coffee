@@ -478,7 +478,10 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 	.then (responseObj) ->
 		getSummary responseObj
 		.then (answerObjects) ->
-			response.success answerObjects
+			result = {}
+			result['answerObjects'] = answerObjects
+			result['submissionDate'] = responseObj.updatedAt
+			response.success result
 		, (error) ->
 			response.error error
 	, (error) ->
