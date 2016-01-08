@@ -90,10 +90,10 @@ angular.module 'angularApp.questionnaire'
 
 				@respStatus = $routeParams.respStatus
 				if @respStatus == 'lastQuestion'
-					# param =
-					# 	"questionId" : ''
-					# 	"options": []
-					# 	"value": ""
+					param =
+						"questionId" : ''
+						"options": []
+						"value": ""
 					# Storage.setData 'responseId','get'
 					# .then (responseId)=>	
 					# 	param.responseId = responseId
@@ -123,8 +123,8 @@ angular.module 'angularApp.questionnaire'
 
 					options =
 						"responseId": responseId
-						"questionnaireId": 'EK9UXPhvP0'
-						"patientId": '00011121'
+						"questionnaireId": questionnaireIdd
+						"patientId": RefCode
 
 					QuestionAPI.getQuestion options
 					.then (data)=>
@@ -139,24 +139,23 @@ angular.module 'angularApp.questionnaire'
 						@errorType = error
 
 				else 
-					# responseId = $stateParams.respStatus
+					responseId = @respStatus
 
-					# options =
-					# 	"responseId": responseId
-					# 	"questionnaireId": patientData.id
-					# 	"patientId": @refcode
+					options =
+						"responseId": responseId
+						"questionnaireId": questionnaireIdd
+						"patientId": RefCode
 
-					# QuestionAPI.getQuestion options
-					# .then (data)=>
-					# 	console.log 'inside then'
-					# 	console.log data
-					# 	@data = data.result
-					# 	@pastAnswer()
-					# 	Storage.setData 'responseId', 'set', data.result.responseId
-					# 	@display = 'noError'
-					# ,(error)=>
-					# 	@display = 'error'
-					# 	@errorType = error
+					QuestionAPI.getQuestion options
+					.then (data)=>
+						console.log 'inside then'
+						console.log data
+						@data = data
+						@pastAnswer()
+						@display = 'noError'
+					,(error)=>
+						@display = 'error'
+						@errorType = error
 
 			loadNextQuestion :(param)->
 				# Storage.setData 'responseId','get'

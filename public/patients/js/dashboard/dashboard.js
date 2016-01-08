@@ -26,6 +26,11 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       },
       startQuiz: function() {
         return $location.path('start-questionnaire');
+      },
+      resumeQuiz: function(id) {
+        console.log('resumeQuiz');
+        console.log(id);
+        return $location.path('questionnaire/' + id);
       }
     };
   }

@@ -3,7 +3,7 @@
 @section('content')
 <script>
     Parse.initialize(APP_ID, JS_KEY);
-    var questionnaire = '{{ $questionnaire["id"] }}';
+    var questionnaireIdd = '{{ $questionnaire["id"] }}';
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';

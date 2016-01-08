@@ -23,6 +23,13 @@ angular.module 'angularApp.dashboard',[]
 
 		startQuiz :() ->
 			$location.path 'start-questionnaire'
+
+		resumeQuiz : (id)->
+
+			console.log 'resumeQuiz'
+			console.log id
+			$location.path 'questionnaire/'+id
+
 				
 ]
 

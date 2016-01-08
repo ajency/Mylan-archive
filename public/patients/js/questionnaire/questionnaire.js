@@ -79,17 +79,21 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       getQuestion: function() {
-        var options, responseId;
+        var options, param, responseId;
         this.display = 'loader';
         this.respStatus = $routeParams.respStatus;
         if (this.respStatus === 'lastQuestion') {
-
+          return param = {
+            "questionId": '',
+            "options": [],
+            "value": ""
+          };
         } else if (this.respStatus === 'noValue') {
           responseId = '';
           options = {
             "responseId": responseId,
-            "questionnaireId": 'EK9UXPhvP0',
-            "patientId": '00011121'
+            "questionnaireId": questionnaireIdd,
+            "patientId": RefCode
           };
           return QuestionAPI.getQuestion(options).then((function(_this) {
             return function(data) {
@@ -106,7 +110,26 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
           })(this));
         } else {
-
+          responseId = this.respStatus;
+          options = {
+            "responseId": responseId,
+            "questionnaireId": questionnaireIdd,
+            "patientId": RefCode
+          };
+          return QuestionAPI.getQuestion(options).then((function(_this) {
+            return function(data) {
+              console.log('inside then');
+              console.log(data);
+              _this.data = data;
+              _this.pastAnswer();
+              return _this.display = 'noError';
+            };
+          })(this), (function(_this) {
+            return function(error) {
+              _this.display = 'error';
+              return _this.errorType = error;
+            };
+          })(this));
         }
       },
       loadNextQuestion: function(param) {
