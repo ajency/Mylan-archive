@@ -34,20 +34,20 @@
           </div>
 					@endif
                 <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/login') }}" data-parsley-validate>
-                <div class="has-feedback b-b">  
+                <div class="has-feedback ">  
                 <?php
                 $referenceCode = Session::get('referenceCode');
                 ?>
-                <input type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                <input type="text" class="form-control input-lg b-b" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                 <!-- @if($referenceCode=='')
                   <input type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                 @else 
                   <h4 class="text-left"><span class="text-muted">Reference Code :</span> <span class="text-info">{{ $referenceCode }}</span></h4> 
                   <input type="hidden" value="{{ $referenceCode }}" name="reference_code" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                 @endif --> 
-                 <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>
+                 <!-- <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span> -->
                 </div>
-                <input type="password" name="password" class="form-control input-lg" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
+                <input type="password" name="password" class="form-control input-lg " id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
                 <br class="hidden-xs">
                 <div class="checkbox text-left hidden-xs" >
                   <p>
