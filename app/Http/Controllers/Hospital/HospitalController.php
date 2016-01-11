@@ -72,11 +72,13 @@ class HospitalController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
+        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
+
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
         $submissionFlags =  $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
         $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = $this->patientSummary($projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $this->patientSummary($patient ,$projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -470,10 +472,8 @@ class HospitalController extends Controller
        
     }
 
-    public function patientSummary($projectId,$startDate,$endDate)
+    public function patientSummary($patients ,$projectId,$startDate,$endDate)
     {
-        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
-
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
         $schedules = $scheduleQry->find();
@@ -595,7 +595,10 @@ class HospitalController extends Controller
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",["completed","missed"]);
         $responseQry->containedIn("patient",$patients);
-        $responseQry->equalTo("project",$projectId);
+
+        if($projectId)
+             $responseQry->equalTo("project",$projectId);
+
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->ascending("occurrenceDate");
