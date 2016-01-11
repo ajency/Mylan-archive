@@ -117,11 +117,7 @@
               notificationObj.set('patient', scheduleObj.get('patient'));
               notificationObj.set('type', notificationType);
               notificationObj.set('processed', false);
-              return notificationObj.save().then(function(notificationObj) {
-                return promise.resolve();
-              }, function(error) {
-                return promise.reject(error);
-              });
+              return notificationObj.save();
             } else {
               return promise1;
             }

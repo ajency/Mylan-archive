@@ -32,10 +32,6 @@ getNotifications = () ->
 						notificationObj.set 'type',	notificationType
 						notificationObj.set 'processed', false
 						notificationObj.save()
-						.then (notificationObj) ->
-							promise.resolve()
-						, (error) ->
-							promise.reject error
 					else
 						promise1
 				, (error) ->
@@ -184,7 +180,6 @@ checkMissedResponses = () ->
 	promise
 
 createMissedResponse = () ->
-
 	promise = new Parse.Promise()
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.exists("patient")
