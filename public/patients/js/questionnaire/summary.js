@@ -2,6 +2,7 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
   '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', function($scope, QuestionAPI, $routeParams, CToast, $location) {
     return $scope.view = {
       data: [],
+      display: 'loader',
       init: function() {
         var param;
         param = {
@@ -39,6 +40,10 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
       },
       back: function() {
         return $location.path('questionnaire/lastQuestion/' + $routeParams.responseId);
+      },
+      onTapToRetry: function() {
+        this.display = 'loader';
+        return this.init();
       }
     };
   }

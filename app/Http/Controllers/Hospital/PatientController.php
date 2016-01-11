@@ -115,8 +115,7 @@ class PatientController extends Controller
         $apiKey->save();
 
  
-        //return redirect(url($hospitalSlug . '/patients/' . $userId)); 
-        return redirect(url($hospitalSlug . '/patients/' . $userId . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug . '/patients/' . $userId)); 
     }
 
     /**
@@ -341,11 +340,6 @@ class PatientController extends Controller
             {
                 foreach ($answers as  $options) {
                     $answerData = explode('-',$options);
-                    
-                    if(count($answerData)<=1)
-                        continue;
-
-                    
                     $optionId = $answerData[0];
                     $score = intval ($answerData[1]);
 

@@ -89,10 +89,7 @@ angular.module 'angularApp.questionnaire'
 				# .then (patientData)=>
 
 				@respStatus = $routeParams.respStatus
-				hh = $routeParams.responseId
-				console.log '***************'
-				console.log hh
-				console.log '***************'
+				
 
 				if @respStatus == 'lastQuestion'
 					param =
@@ -130,7 +127,7 @@ angular.module 'angularApp.questionnaire'
 
 					options =
 						"responseId": responseId
-						"questionnaireId": questionnaireIdd
+						"questionnaireId": 'questionnaireIdd'
 						"patientId": RefCode
 
 					QuestionAPI.getQuestion options
@@ -371,6 +368,10 @@ angular.module 'angularApp.questionnaire'
 						"value": value.toString()
 
 					@loadPrevQuestion(options)
+
+			onTapToRetry : ->
+				@display = 'loader'
+				@getQuestion()
 
 
 

@@ -1,6 +1,19 @@
 
-<div class="container" ng-init="view.init()">
+<div class="container" ng-init="view.init()"
+  ng-switch="view.display">
   <!-- Wrapper for slides -->
+     <div ng-switch-when="loader"> <!-- loader-->
+                    <div class=""> </div>
+      </div>
+
+  <div ng-switch-when="error">
+        <aj-error class="errors"
+              error-type="view.errorType"
+              tap-to-retry="view.onTapToRetry();">
+        </aj-error>
+  </div>
+
+  <div ng-switch-when="noError"> 
   <br>
     <div class="row">
     <div class="col-sm-17 col-xs-24">
@@ -10,283 +23,77 @@
      <div class="panel panel-default">
         <div class="panel-body">
         <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="q1">
-            <div class="pull-right text-muted">
-              <small>1 of 10</small>
-            </div>
-            <h4 class="question">
-              <span class="f-w-200">
-                <span class="badge-round">Q</span> 
-                    {{view.data.question}}
-                </span>
-            </h4>
-            <br class="hidden-xs">
-              <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
-            <br class="hidden-xs">
-            
-              <!-- single choice -->
-          <div 
-              ng-if = 'view.data.questionType == "single-choice"' 
-              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
-             <label class="item item-radio">
-                <div class="item-content">
-                  <input type="radio" name="group" ng-model="view.singleChoiceValue"
-                    ng-value="answerValue.id" ng-disabled="!view.readonly" >
-                  <i class="radio-icon fa fa-check"></i>
-                    {{answerValue.option}}
+            <div role="tabpanel" class="tab-pane active" id="q1">
+                <div class="pull-right text-muted">
+                  <small>1 of 10</small>
                 </div>
-            </label>
-            <br class="hidden-xs">
-         </div>
-        
-           <!-- multi choice -->
-         <div 
-              ng-if = 'view.data.questionType == "multi-choice"' 
-              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
-             <label class="item item-radio">
-                <div class="item-content">
-                  <input type="checkbox" ng-model="answerValue.checked"
-                    ng-checked="answerValue.checked" ng-disabled="!view.readonly" >
-                  <i class="radio-icon fa fa-check"></i>
-                    {{answerValue.option}}
-                </div>
-            </label>
-            <br class="hidden-xs">
-         </div>
-        
-            <!-- input -->
-        <form class="row" ng-if='view.data.questionType == "input"'>
-            <div 
-              class="col-xs-8"
-              ng-repeat ="answerValue in view.data.options">
-                <div class="form-group b-b">
-                <input 
-                    type="text" 
-                    class="form-control input-lg" 
-                    ng-model="view.val_answerValue[answerValue.option]"
-                    id="Kgs" placeholder="{{answerValue.option}}"
-                    ng-readonly = "!view.readonly">
-                </div>
-            </div>
-        </form>
-
-
-            <!-- descriptive -->
-        <form class="row" ng-if='view.data.questionType == "descriptive"'>
-            <input type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
-              ng-readonly = "!view.readonly">
-        </form>
-
-
-       </div>
-      <div role="tabpanel" class="tab-pane" id="q2">
-          
-             <div class="pull-right text-muted">
-            <small>2 of 10</small>
-          </div>
-                 
-                  <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> How have your bowels been in the past month?</span></h4>
-                             <br class="hidden-xs">
-              <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
-            <br class="hidden-xs">
-                             <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Normal
-                            </div>
-                          </label><br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Loose
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content bg-yellow">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Diarrhoea up to 5 times daily
-                          </div>
-                          </label>
-                            <br class="hidden-xs">
-                            <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Diarrhoea more than 5 times daily
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Constipated
-                            </div>
-                          </label>
-              
-              
-              </div>
-          
-      
-      <div role="tabpanel" class="tab-pane" id="q3">
-        <div class="pull-right text-muted">
-            <small>3 of 10</small>
-        </div>
-        
-        <h4 class="question">
-          <span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span>
-        </h4>
-        
-                              <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
-                          <br class="hidden-xs">
-                              <form class="row">
-                                <div class="col-xs-8">
-                                  <div class="form-group b-b">
-                                  <input type="text" class="form-control input-lg" id="Kgs" placeholder="Kgs">
-                                  </div>
-                                  </div>
-                                  <div class="col-xs-8">
-                                    <div class="form-group b-b">
-                                    <input type="text" class="form-control input-lg" id="St" placeholder="St">
-                                  </div>
-                                  </div>
-                                  <div class="col-xs-8">
-                                  <div class="form-group b-b">
-                                   <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
-                                  </div>
-                                  </div>
-                              </form>
-                          
-          </div>
-          <div role="tabpanel" class="tab-pane" id="q4">
-          <div class="pull-right text-muted">
-            <small>4 of 10</small>
-          </div>
-                                     <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span></h4>
-
-                              <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
-                          <br class="hidden-xs">
-                              <form class="row">
-                                <div class="col-xs-8">
-                                  <div class="form-group b-b">
-                                  <input type="text" class="form-control input-lg" id="Kgs" placeholder="Kgs">
-                                  </div>
-                                  </div>
-                                  <div class="col-xs-8">
-                                    <div class="form-group b-b">
-                                    <input type="text" class="form-control input-lg" id="St" placeholder="St">
-                                  </div>
-                                  </div>
-                                  <div class="col-xs-8">
-                                  <div class="form-group b-b">
-                                   <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
-                                  </div>
-                                  </div>
-                              </form>
-                          
-           </div>
-          <div role="tabpanel" class="tab-pane" id="q5">
-              <div class="pull-right text-muted">
-            <small>5 of 10</small>
-          </div>
-              <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> Has your appetite changed in the past month?</span></h4>
-              <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
-                            <br class="hidden-xs">
-                             <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Normal
-                            </div>
-                          </label><br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Unable to finish a full meal but eating regularly
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content bg-yellow">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Not eating regularly but managing something every day
-                          </div>
-                          </label>
-                            <br class="hidden-xs">
-                            <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Not managing to eat on a daily basis
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            Not eating at all
-                            </div>
-                          </label>
+                <h4 class="question">
+                  <span class="f-w-200">
+                    <span class="badge-round">Q</span> 
+                        {{view.data.question}}
+                    </span>
+                </h4>
+                <br class="hidden-xs">
+                  <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
+                <br class="hidden-xs">
+                
+                  <!-- single choice -->
+              <div 
+                  ng-if = 'view.data.questionType == "single-choice"' 
+                  ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
+                 <label class="item item-radio">
+                    <div class="item-content">
+                      <input type="radio" name="group" ng-model="view.singleChoiceValue"
+                        ng-value="answerValue.id" ng-disabled="!view.readonly" >
+                      <i class="radio-icon fa fa-check"></i>
+                        {{answerValue.option}}
+                    </div>
+                </label>
+                <br class="hidden-xs">
              </div>
-          <div role="tabpanel" class="tab-pane" id="q6">
-               <div class="pull-right text-muted">
-            <small>6 of 10</small>
-          </div>
-               <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> How does your illness affect you at present?</span></h4>
-               <br class="hidden-xs">
-                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
-                            <br class="hidden-xs">
-                        <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            It has no effect on my day to day living
-                            </div>
-                          </label><br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I have had to take some time off work
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am on sick leave or unable to work
-                          </div>
-                          </label>
-                            <br class="hidden-xs">
-                            <label class="item item-radio">
-                          <div class="item-content">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am unable to leave the house
-                            </div>
-                          </label>
-                          <br class="hidden-xs">
-                          <label class="item item-radio">
-                          <div class="item-content bg-yellow">
-                            <input type="radio" name="group" value="go" checked="checked">
-                            <i class="radio-icon fa fa-check"></i>
-                            I am unable to do simple tasks at home
-                            </div>
-                          </label>
-                          
-                  </div>
-              </div>
+            
+               <!-- multi choice -->
+             <div 
+                  ng-if = 'view.data.questionType == "multi-choice"' 
+                  ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
+                 <label class="item item-radio">
+                    <div class="item-content">
+                      <input type="checkbox" ng-model="answerValue.checked"
+                        ng-checked="answerValue.checked" ng-disabled="!view.readonly" >
+                      <i class="radio-icon fa fa-check"></i>
+                        {{answerValue.option}}
+                    </div>
+                </label>
+                <br class="hidden-xs">
+             </div>
+            
+                <!-- input -->
+            <form class="row" ng-if='view.data.questionType == "input"'>
+                <div 
+                  class="col-xs-8"
+                  ng-repeat ="answerValue in view.data.options">
+                    <div class="form-group b-b">
+                    <input 
+                        type="text" 
+                        class="form-control input-lg" 
+                        ng-model="view.val_answerValue[answerValue.option]"
+                        id="Kgs" placeholder="{{answerValue.option}}"
+                        ng-readonly = "!view.readonly">
+                    </div>
+                </div>
+            </form>
+
+
+                <!-- descriptive -->
+            <form class="row" ng-if='view.data.questionType == "descriptive"'>
+                <input type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
+                  ng-readonly = "!view.readonly">
+            </form>
+
+
+           </div>
+     
+        </div> <!-- tab content -->
      
     </div>
 
@@ -358,7 +165,7 @@
       </div>
       </div>
     </div>
-
+  </div>
 </div> <!-- container -->
 
 <!-- Modal -->
