@@ -27,7 +27,7 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 			templateUrl: 'patients/views/start-questionnaire.html'
 			controller: 'StartQuestionnaireCtrl'
 
-		.when '/questionnaire/:respStatus',
+		.when '/questionnaire/:respStatus/:responseId',
 			url: '/questionnaire'
 			templateUrl: 'patients/views/question.html'
 			controller: 'questionnaireCtr'

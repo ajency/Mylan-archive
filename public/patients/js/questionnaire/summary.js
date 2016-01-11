@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire', []).controller('summaryController', [
-  '$scope', 'QuestionAPI', '$routeParams', 'CToast', function($scope, QuestionAPI, $routeParams, CToast) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', function($scope, QuestionAPI, $routeParams, CToast, $location) {
     return $scope.view = {
       data: [],
       init: function() {
@@ -36,6 +36,9 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
             return CToast.show('Error in submitting questionnarie');
           };
         })(this))["finally"](function() {});
+      },
+      back: function() {
+        return $location.path('questionnaire/lastQuestion/' + $routeParams.responseId);
       }
     };
   }

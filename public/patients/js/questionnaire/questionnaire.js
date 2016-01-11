@@ -79,15 +79,45 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       getQuestion: function() {
-        var options, param, responseId;
+        var hh, options, param, responseId;
         this.display = 'loader';
         this.respStatus = $routeParams.respStatus;
+        hh = $routeParams.responseId;
+        console.log('***************');
+        console.log(hh);
+        console.log('***************');
         if (this.respStatus === 'lastQuestion') {
-          return param = {
+          param = {
             "questionId": '',
             "options": [],
-            "value": ""
+            "value": "",
+            "responseId": $routeParams.responseId
           };
+          return QuestionAPI.getPrevQuest(param).then((function(_this) {
+            return function(data) {
+              console.log('previous data');
+              console.log(_this.data);
+              _this.variables();
+              _this.data = [];
+              _this.data = data;
+              _this.readonly = _this.data.editable;
+              _this.pastAnswer();
+              if (!_.isEmpty(_this.data.hasAnswer)) {
+                _this.hasAnswerShow();
+              }
+              return _this.display = 'noError';
+            };
+          })(this), (function(_this) {
+            return function(error) {
+              _this.display = 'error';
+              console.log(error);
+              if (error === 'offline') {
+                return CToast.show('Check net connection,answer not saved');
+              } else {
+                return CToast.show('Error ,try again');
+              }
+            };
+          })(this));
         } else if (this.respStatus === 'noValue') {
           responseId = '';
           options = {

@@ -5,7 +5,7 @@ angular.module 'angularApp.dashboard'
 
 		$scope.view =
 			startQuiz :(quizID) ->
-				$location.path 'questionnaire/noValue'
+				$location.path 'questionnaire/noValue/000'
 				# App.navigate 'questionnaire', respStatus:'noValue'
 
 ]
