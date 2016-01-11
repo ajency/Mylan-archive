@@ -127,7 +127,7 @@ angular.module 'angularApp.questionnaire'
 
 					options =
 						"responseId": responseId
-						"questionnaireId": 'questionnaireIdd'
+						"questionnaireId": questionnaireIdd
 						"patientId": RefCode
 
 					QuestionAPI.getQuestion options

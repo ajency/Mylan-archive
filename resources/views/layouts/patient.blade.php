@@ -36,6 +36,7 @@
     <script src="{{ asset('bower_components/angular-route/angular-route.min.js') }}"></script>
     <script src="{{ asset('bower_components/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('bower_components/underscore/underscore-min.js') }}"></script>
+    <script src="{{ asset('bower_components/notifyjs/dist/notify.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('patients/js/app.js') }}"></script>
 

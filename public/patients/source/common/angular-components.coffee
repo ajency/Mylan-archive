@@ -5,7 +5,7 @@ angular.module 'angularApp.common'
 	CToast = {}
 
 	CToast.show = (content)->
-		console.log content
+		$.notify("BOOM!", "error");
 
 	CToast
 
