@@ -3,20 +3,25 @@ angular.module 'angularApp.common', []
 .factory 'App', ['$q', '$http', '$location', ($q, $http, $location)->
 
 	App =
+
+		errorCode : (error) ->
+			error = ''
+			if error.code == '100'
+				error = 'server_connection'
+			else
+				error = 'server_error'
+			error	
+
 		SendParseRequest :(cloudFun, param)->
 
-
 			defer = $q.defer()
-
 			Parse.Cloud.run cloudFun, param,	
 				success: (result) ->
-					console.log 'common function resulttt'
-					console.log result
 					defer.resolve result
-				error: (error) ->
-					console.log 'inside error'
+				error: (error) =>
+					console.log 'inside error common function'
 					console.log error
-					defer.reject error
+					defer.reject @errorCode error
 
 			defer.promise
 		

@@ -5,14 +5,15 @@ angular.module 'angularApp.questionnaire',[]
 
 		$scope.view =
 			data : []
+			display : 'loader'
 
 			init :() -> 
 
 				param = 
 					responseId : $routeParams.responseId
+					
 				QuestionAPI.getSummary(param)
 				.then (data)=>
-
 					@data = data
 					@data.submissionDate = moment(@data.submissionDate).format('MMMM Do YYYY')
 					@display = 'noError'
@@ -41,6 +42,11 @@ angular.module 'angularApp.questionnaire',[]
 				# 	App.navigate 'dashboard'
 
 				$location.path 'questionnaire/lastQuestion/'+$routeParams.responseId
+
+
+			onTapToRetry : ->
+				@display = 'loader'
+				@init()
 				
 				
 

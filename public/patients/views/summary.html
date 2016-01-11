@@ -1,47 +1,64 @@
 
-<div class="container" ng-init="view.init()">
-    <br>
-    <h2>Sequence Number 4</h2>
-    <br>
-    <div class="alert alert-success" role="alert">
-       Submitted on : {{view.data.submissionDate}}
-    </div>
- 
-    <br><br>
-  <div class="timeline">
+<div class="container" ng-init="view.init()"
+   ng-switch="view.display">
+    
+   
+    <div ng-switch-when="error">
+          <aj-error class="errors"
+                  error-type="view.errorType"
+                  tap-to-retry="view.onTapToRetry();">
+          </aj-error>
 
-    <br>
-    <div ng-repeat ="summary in view.data track by $index">
-    <div class="list-item">
-        <div class="no">
-            <span>{{$index + 1}}</span>
+    </div>
+
+    <div ng-switch-when="loader"> <!-- loader-->
+                        <div class=""> </div>
+    </div>
+
+
+    <div ng-switch-when="noError">
+          <br>
+          <h2>Sequence Number 4 </h2>
+          <br>
+        <div class="alert alert-success" role="alert">
+           Submitted on : {{view.data.submissionDate}}
         </div>
-        <div class="list-infotext">
-          <h3> {{summary.question}}</h3>
+     
+          <br><br>
+        <div class="timeline">
 
-          <h4 class="text-success">
-            <span 
-              ng-if="summary.input ===''"
-              ng-repeat = "answer in summary.optionSelected track by $index">
-              {{answer}} <br> 
-            </span>
-          </h4>
+          <br>
+          <div ng-repeat ="summary in view.data track by $index">
+          <div class="list-item">
+              <div class="no">
+                  <span>{{$index + 1}}</span>
+              </div>
+              <div class="list-infotext">
+                <h3> {{summary.question}}</h3>
 
-          <h4 class="text-success"
-             ng-if="summary.input !==''">
-            <span>{{summary.input}} &nbsp; {{summary.optionSelected[0]}}</span>
-          </h4>
+                <h4 class="text-success">
+                  <span 
+                    ng-if="summary.input ===''"
+                    ng-repeat = "answer in summary.optionSelected track by $index">
+                    {{answer}} <br> 
+                  </span>
+                </h4>
 
-      </div>
+                <h4 class="text-success"
+                   ng-if="summary.input !==''">
+                  <span>{{summary.input}} &nbsp; {{summary.optionSelected[0]}}</span>
+                </h4>
+
+            </div>
+          </div>
+          <br>
+          </div>
+        </div>
+
+      <br><br><br>
+        <a type="button" ng-click="view.submitSummary()" class="btn btn-success btn-lg">Submit</a>
+       <a type="button" ng-click="view.back()" class="btn btn-success btn-lg">Go Back</a>
     </div>
-    <br>
-    </div>
-  </div>
-
-  <br><br><br>
-    <a type="button" ng-click="view.submitSummary()" class="btn btn-success btn-lg">Submit</a>
-   <a type="button" ng-click="view.back()" class="btn btn-success btn-lg">Go Back</a>
-
 </div> <!--container -->
 
    

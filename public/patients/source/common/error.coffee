@@ -15,8 +15,8 @@ angular.module 'angularApp.common'
 	link: (scope, el, attr)->
 
 		switch scope.errorType
-			when 'offline'
-				errorMsg = 'No internet availability'
+			when 'server_connection'
+				errorMsg = 'Could not connect to server'
 			when 'server_error'
 				errorMsg = 'Server error'
 			else
