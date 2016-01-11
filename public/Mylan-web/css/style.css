@@ -156,7 +156,9 @@ p {
   font-size: 17px;
   display: inline-block;
   position: relative;
-  top: -4px;
+  float: left;
+  top: -6px;
+  margin-right: 7px;
 }
 .badge-round.green {
   width: 23px;
@@ -428,7 +430,8 @@ h3.line-title span {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 19px;
-  margin: 20px 0 0 8px;
+  float: left;
+  margin: 20px 7px 0 0;
 }
 .btn.btn-circle:hover,
 .btn.btn-circle:active,
