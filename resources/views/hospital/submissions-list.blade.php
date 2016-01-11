@@ -25,18 +25,25 @@
        <br>
        <div class="row">
            <!-- <div class="col-sm-6"> <h3 class="bold margin-none">Submissions</h3></div> -->
-           <div class="col-sm-2">
+           <div class="col-sm-7">
            </div>
-           <div class="col-sm-4 pull-right">
+           <div class="col-sm-5">
+           <div class="row">
+           <div class="col-sm-9">
                <div class="input-group input-daterange">
                    <input type="text" class="form-control" value="{{ $startDate }}">
                    <span class="input-group-addon">to</span>
                    <input type="text" class="form-control" value="{{ $endDate }}">
                </div>
+               </div>
+               <div class="col-sm-3">
+               <button class="btn btn-default">Submit</button>
+               </div>
+               </div>
            </div>
        </div>
        <hr>
-      <!--  <div class="row ">
+         <div class="row ">
            <div class="col-md-4 ">
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
@@ -73,7 +80,7 @@
                        </div>
                    </div>
                </div>
-           </div> -->
+           </div>  
            <br>
            <!-- Chart - Added -->
            <br>

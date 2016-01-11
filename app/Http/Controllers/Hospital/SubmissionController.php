@@ -39,7 +39,8 @@ class SubmissionController extends Controller
                      );
 
         $responses = $this->getResponses($projectId,0,[] ,$startDateObj,$endDateObj);
-         
+        $submissionCount = count($responses);
+
         $hospitalController = new HospitalController();
         $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
 
