@@ -19,7 +19,6 @@ getNotifications = () ->
 	scheduleQuery.include('questionnaire')
 	scheduleQuery.find()
 	.then (scheduleObjs) ->
-
 		getAllNotifications = ->
 			promise1 = Parse.Promise.as()
 			_.each scheduleObjs, (scheduleObj) ->
@@ -42,7 +41,6 @@ getNotifications = () ->
 				, (error) ->
 					promise.reject error
 			promise1
-
 		getAllNotifications()
 		.then () ->
 			promise.resolve()
@@ -188,38 +186,37 @@ checkMissedResponses = () ->
 createMissedResponse = () ->
 
 	promise = new Parse.Promise()
-	checkMissedResponses()
-	.then (result) ->
-		console.log "-----------------------"
-		console.log result 
-		console.log "-------------------------"
-		scheduleQuery = new Parse.Query('Schedule')
-		scheduleQuery.exists("patient")
-		scheduleQuery.include("questionnaire")
-		scheduleQuery.find()
-		.then (scheduleObjects) ->
-			result ={}
-			responseSaveArr =[]
-			scheduleSaveArr =[]
-			_.each scheduleObjects, (scheduleObject) ->
-				questionnaire = scheduleObject.get("questionnaire")
-				patient = scheduleObject.get("patient")
-				gracePeriod = questionnaire.get("gracePeriod")
-				nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
-				newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
-				currentDateTime = moment()
-				diffrence = moment(newDateTime).diff(currentDateTime)
-				diffrence2 = moment(currentDateTime).diff(newDateTime)
-				console.log newDateTime
-				console.log currentDateTime
-				console.log diffrence
-				console.log diffrence2
-				if(parseInt(diffrence2) > 1)
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.exists("patient")
+	scheduleQuery.include("questionnaire")
+	scheduleQuery.find()
+	.then (scheduleObjects) ->
+		result ={}
+		responseSaveArr =[]
+		scheduleSaveArr =[]
+		_.each scheduleObjects, (scheduleObject) ->
+			questionnaire = scheduleObject.get("questionnaire")
+			patient = scheduleObject.get("patient")
+			gracePeriod = questionnaire.get("gracePeriod")
+			nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+			newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
+			currentDateTime = moment()
+			diffrence = moment(newDateTime).diff(currentDateTime)
+			diffrence2 = moment(currentDateTime).diff(newDateTime)
+			if(parseInt(diffrence2) > 1)
+				responseQuery = new Parse.Query('Response')
+				responseQuery.equalTo('questionnaire', scheduleObject.get('questionnaire'))
+				responseQuery.equalTo('patient', scheduleObject.get('patient'))
+				responseQuery.descending('occurrenceDate')
+				responseQuery.notEqualTo('status', 'base_line')
+				responseQuery.find()
+				.then (responseObjs) ->
 					responseData=
 						patient: patient
 						questionnaire: questionnaire
 						status : 'missed'
 						schedule : scheduleObject
+						sequenceNumber : responseObjs.length + 1
 					Response = Parse.Object.extend("Response") 
 					responseObj = new Response responseData
 					responseSaveArr.push(responseObj)
@@ -232,21 +229,22 @@ createMissedResponse = () ->
 						scheduleSaveArr.push(scheduleObject)
 					, (error) ->
 						promise.reject error
-			# save all responses
-			Parse.Object.saveAll responseSaveArr
-				.then (resObjs) ->
-					# update all schedule nextoccurrence
-					Parse.Object.saveAll scheduleSaveArr
-						.then (scheduleObjs) ->
-							promise.resolve scheduleObjs
-						, (error) ->
-							promise.reject (error)   
 				, (error) ->
-					promise.reject (error)
-		, (error) ->
-			promise.reject error
+					promise.reject error
+		# save all responses
+		Parse.Object.saveAll responseSaveArr
+			.then (resObjs) ->
+				# update all schedule nextoccurrence
+				Parse.Object.saveAll scheduleSaveArr
+					.then (scheduleObjs) ->
+						promise.resolve scheduleObjs
+					, (error) ->
+						promise.reject (error)   
+			, (error) ->
+				promise.reject (error)
 	, (error) ->
 		promise.reject error
+
 	promise
 
 
@@ -258,11 +256,15 @@ Parse.Cloud.job 'commonJob', (request, response) ->
 	.then (notifications) ->
 		sendNotifications() 
 		.then (notifications) ->
-			createMissedResponse()
-			.then (responses) ->
-				response.success "job_run"
+			checkMissedResponses()
+			.then (result) ->
+				createMissedResponse()
+				.then (responses) ->
+					response.success "job_run"
+				, (error) ->
+					response.error error
 			, (error) ->
-				response.error error				
+				promise.reject error				
 		, (error) ->
 			response.error error
 	, (error) ->

@@ -299,41 +299,40 @@
   };
 
   createMissedResponse = function() {
-    var promise;
+    var promise, scheduleQuery;
     promise = new Parse.Promise();
-    checkMissedResponses().then(function(result) {
-      var scheduleQuery;
-      console.log("-----------------------");
-      console.log(result);
-      console.log("-------------------------");
-      scheduleQuery = new Parse.Query('Schedule');
-      scheduleQuery.exists("patient");
-      scheduleQuery.include("questionnaire");
-      return scheduleQuery.find().then(function(scheduleObjects) {
-        var responseSaveArr, scheduleSaveArr;
-        result = {};
-        responseSaveArr = [];
-        scheduleSaveArr = [];
-        _.each(scheduleObjects, function(scheduleObject) {
-          var Response, currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseData, responseObj;
-          questionnaire = scheduleObject.get("questionnaire");
-          patient = scheduleObject.get("patient");
-          gracePeriod = questionnaire.get("gracePeriod");
-          nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
-          newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
-          currentDateTime = moment();
-          diffrence = moment(newDateTime).diff(currentDateTime);
-          diffrence2 = moment(currentDateTime).diff(newDateTime);
-          console.log(newDateTime);
-          console.log(currentDateTime);
-          console.log(diffrence);
-          console.log(diffrence2);
-          if (parseInt(diffrence2) > 1) {
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.exists("patient");
+    scheduleQuery.include("questionnaire");
+    scheduleQuery.find().then(function(scheduleObjects) {
+      var responseSaveArr, result, scheduleSaveArr;
+      result = {};
+      responseSaveArr = [];
+      scheduleSaveArr = [];
+      _.each(scheduleObjects, function(scheduleObject) {
+        var currentDateTime, diffrence, diffrence2, gracePeriod, newDateTime, nextOccurrence, patient, questionnaire, responseQuery;
+        questionnaire = scheduleObject.get("questionnaire");
+        patient = scheduleObject.get("patient");
+        gracePeriod = questionnaire.get("gracePeriod");
+        nextOccurrence = moment(scheduleObject.get("nextOccurrence"));
+        newDateTime = moment(nextOccurrence).add(gracePeriod, 's');
+        currentDateTime = moment();
+        diffrence = moment(newDateTime).diff(currentDateTime);
+        diffrence2 = moment(currentDateTime).diff(newDateTime);
+        if (parseInt(diffrence2) > 1) {
+          responseQuery = new Parse.Query('Response');
+          responseQuery.equalTo('questionnaire', scheduleObject.get('questionnaire'));
+          responseQuery.equalTo('patient', scheduleObject.get('patient'));
+          responseQuery.descending('occurrenceDate');
+          responseQuery.notEqualTo('status', 'base_line');
+          return responseQuery.find().then(function(responseObjs) {
+            var Response, responseData, responseObj;
             responseData = {
               patient: patient,
               questionnaire: questionnaire,
               status: 'missed',
-              schedule: scheduleObject
+              schedule: scheduleObject,
+              sequenceNumber: responseObjs.length + 1
             };
             Response = Parse.Object.extend("Response");
             responseObj = new Response(responseData);
@@ -348,14 +347,14 @@
             }, function(error) {
               return promise.reject(error);
             });
-          }
-        });
-        return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
-          return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
-            return promise.resolve(scheduleObjs);
           }, function(error) {
             return promise.reject(error);
           });
+        }
+      });
+      return Parse.Object.saveAll(responseSaveArr).then(function(resObjs) {
+        return Parse.Object.saveAll(scheduleSaveArr).then(function(scheduleObjs) {
+          return promise.resolve(scheduleObjs);
         }, function(error) {
           return promise.reject(error);
         });
@@ -371,10 +370,14 @@
   Parse.Cloud.job('commonJob', function(request, response) {
     return getNotifications().then(function(notifications) {
       return sendNotifications().then(function(notifications) {
-        return createMissedResponse().then(function(responses) {
-          return response.success("job_run");
+        return checkMissedResponses().then(function(result) {
+          return createMissedResponse().then(function(responses) {
+            return response.success("job_run");
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
-          return response.error(error);
+          return promise.reject(error);
         });
       }, function(error) {
         return response.error(error);
