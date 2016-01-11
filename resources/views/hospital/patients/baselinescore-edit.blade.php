@@ -80,7 +80,7 @@
                       </select>
                        
                     @elseif($questions['type']=='multi-choice')
-                      <select name="question[{{ $questionId }}][]" id="role" class="select2 form-control" multiple="" data-parsley-required>
+                      <select name="question[{{ $questionId }}][]" id="role" class="multiselect select2 form-control" multiple="multiple"   data-parsley-required>
                        <option value="">Select option for Baseline</option>
                        @foreach($optionsList[$questionId] as $option)
                        <?php 
@@ -120,6 +120,10 @@
    </div>
    </div>
 
-
+<script type="text/javascript">
+$(function(){
+  $(".multiselect").multiselect();
+});
+</script>
  
 @endsection
