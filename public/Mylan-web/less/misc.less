@@ -146,7 +146,7 @@ p{
 
 
 .badge-round{
-          width: 35px;
+    width: 35px;
     height: 35px;
     border-radius: 50%;
     background: @color-danger;
@@ -156,8 +156,9 @@ p{
     font-size: 17px;
     display: inline-block;
     position: relative;
-    top: -4px;
-
+    float:left;
+    top: -6px;
+    margin-right: 7px;
       &.green{
         width: 23px;
         height: 23px;
@@ -450,8 +451,9 @@ h4.line-title,h3.line-title {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 19px;
+  float: left;
    // box-shadow: 0px 3px 0px 0px #D8D8D8!important;
-  margin:20px 0 0 8px;
+  margin:20px 7px 0 0;
   &:hover,&:active,&:focus{
     outline: none;
   }
@@ -689,6 +691,7 @@ form{
         width: 38px;
         height: 38px;
         top:-1px;
+
       }
   }
   .item.item-radio{

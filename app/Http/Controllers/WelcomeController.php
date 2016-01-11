@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use \Session;
+use Illuminate\Support\Facades\Hash;
+
 class WelcomeController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -29,7 +35,71 @@ class WelcomeController extends Controller {
      * @return Response
      */
     public function index() {
-        return view( 'welcome' );
+        return view( 'setup' );
+    }
+
+    public function verifyReferenceCode(Request $request)
+    {
+         $referenceCode = $request->input('reference_code'); 
+         $user = User::where('reference_Code',$referenceCode)->first(); 
+
+         if($user==null)
+          {
+              return redirect('/setup')->withErrors([
+                    'reference_Code' => 'Invalid Reference Code',
+                ]); 
+          }
+          else
+          {
+
+              if($user['account_status'] =='created')
+              {
+                  Session::put('referenceCode',$referenceCode); 
+                  return redirect('/set-password');
+              }
+              elseif($user['account_status'] =='active')
+              {
+                return redirect('/login');
+              }
+              else
+              {
+                return redirect('/setup')->withErrors([
+                    'account_susspended' => 'Patient account suspended',
+                ]);
+
+              }
+          }
+    }
+
+    public function setPassword()
+    {
+        $referenceCode = Session::get('referenceCode');
+        $user = User::where('reference_Code',$referenceCode)->first();  
+
+        if($user['account_status'] !='created')
+        {
+          return redirect('/setup')->withErrors([
+                    'reference_Code' => 'Invalid Reference Code',
+                ]);
+        }
+
+        return view( 'auth.setpassword');
+    }
+
+    public function doSetup(Request $request)
+    {
+        $referenceCode = $request->input('reference_code'); 
+        $password = $request->input('password'); 
+        $newpassword = getPassword($referenceCode , $password);
+
+        $user = User::where('reference_Code',$referenceCode)->first(); 
+
+        $user->password = Hash::make($newpassword);
+        $user->account_status = 'active';
+        $user->save();
+
+        return redirect('/login');
+
     }
 
 }

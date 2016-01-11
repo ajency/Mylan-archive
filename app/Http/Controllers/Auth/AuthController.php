@@ -72,6 +72,12 @@ class AuthController extends Controller
         ]);
     }
 
+    public function setup()
+    {
+
+        return view('auth.user-login');
+    }
+
     public function postLogin(Request $request)
     { 
         $referenceCode = $request->input('reference_code');
@@ -227,12 +233,13 @@ class AuthController extends Controller
     public function getLogout()
     {  
         Auth::logout();
+        Session::put('referenceCode',''); 
         $routePrefix = \Request::route()->getPrefix();
         if(str_contains($routePrefix, 'admin'))
             return redirect('admin/login');
         elseif(str_contains($routePrefix, ''))
         {
-            return redirect('login');
+            return redirect('/');
         }
         else 
         {
