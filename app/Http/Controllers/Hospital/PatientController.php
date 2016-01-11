@@ -323,6 +323,11 @@ class PatientController extends Controller
             {
                 foreach ($answers as  $options) {
                     $answerData = explode('-',$options);
+                    
+                    if(count($answerData)<=1)
+                        continue;
+
+                    
                     $optionId = $answerData[0];
                     $score = intval ($answerData[1]);
 
