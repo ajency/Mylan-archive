@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\Hospital;
+use App\User;
+use App\Http\Controllers\Hospital\HospitalController;
 
 class SubmissionController extends Controller
 {
@@ -22,27 +24,55 @@ class SubmissionController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+        $projectId ='';
+        
+        $startDate =  date('d-m-Y', strtotime('-1 months'));
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","completed");
-        $responseQry->descending("updatedAt");
-        $responses = $responseQry->find(); 
-        $responseList =[];
+        $endDate = date('d-m-Y', strtotime('+1 day'));
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+        $responses = $this->getResponses($projectId,0,[] ,$startDateObj,$endDateObj);
          
-        foreach($responses as $response)
-        {  
- 
-           $responseList[]= [ 'id' => $response->getObjectId(),
-                              'patient' => $response->get("patient"),  
-                              'status' => $response->get("status"),  
-                              'updatedAt' => $response->getUpdatedAt()->format('d-m-Y'),    
-                          ];
-        }
+        $hospitalController = new HospitalController();
+        $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
 
          return view('hospital.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
                                                  ->with('logoUrl', $logoUrl)
-                                                 ->with('responseList', $responseList);
+                                                 ->with('endDate', $endDate)
+                                                 ->with('startDate', $startDate)
+                                                 ->with('submissionFlags', $submissionFlags);
+    }
+
+    public function getResponses($projectId,$page=0,$responseData,$startDate,$endDate)
+    {
+        $displayLimit = 20; 
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $responseQry->descending("occurrenceDate");
+        $responseQry->limit($displayLimit);
+        $responseQry->skip($page * $displayLimit);
+        $responses = $responseQry->find();  
+        $responseData = array_merge($responses,$responseData); 
+
+        if(!empty($responses))
+        {
+            $page++;
+            $responseData = $this->getResponses($projectId,$page,$responseData ,$startDate,$endDate);
+        }  
+        
+        return $responseData;
+     
     }
 
     /**
@@ -84,6 +114,9 @@ class SubmissionController extends Controller
         $response = $data['response'];
 
         $referenceCode = $response->get("patient");
+        $sequenceNumber = $response->get("sequenceNumber");
+
+        $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
 
         $oldResponseQry = new ParseQuery("Response");
         $oldResponseQry->notEqualTo("objectId", $responseId);
@@ -113,15 +146,19 @@ class SubmissionController extends Controller
             $baseLineAnswersList = $baseLineData['answers'];
         }
 
-        return view('hospital.submissions-view')->with('active_menu', 'submission')
-                                            ->with('referenceCode', $referenceCode)
-                                            ->with('hospital', $hospital)
-                                            ->with('logoUrl', $logoUrl)
-                                            ->with('questionnaire', $questionnaire)
-                                            ->with('date', $date)
-                                            ->with('answersList', $answersList)
-                                            ->with('previousAnswersList', $previousAnswersList)
-                                            ->with('baseLineAnswersList', $baseLineAnswersList);
+        return view('hospital.submissions-view')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'submissions')
+                                                ->with('tab', '02')
+                                                ->with('patient', $patient)
+                                                ->with('referenceCode', $referenceCode)
+                                                ->with('sequenceNumber', $sequenceNumber)
+                                                ->with('hospital', $hospital)
+                                                ->with('logoUrl', $logoUrl)
+                                                ->with('questionnaire', $questionnaire)
+                                                ->with('date', $date)
+                                                ->with('answersList', $answersList)
+                                                ->with('previousAnswersList', $previousAnswersList)
+                                                ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 
     public function getSubmissionData($responseId)
@@ -178,6 +215,8 @@ class SubmissionController extends Controller
                                         'questionType' => $questionType, 
                                         'option' => $option,  
                                         'value' => $answers->get("value"),  
+                                        'baseLineFlag' => $answers->get("baseLineFlag"),  
+                                        'previousFlag' => $answers->get("previousFlag"),  
                                         'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
                           ];
            }

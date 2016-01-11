@@ -1,0 +1,47 @@
+
+<div class="container" ng-init="view.init()">
+    <br>
+    <h2>Sequence Number 4</h2>
+    <br>
+    <div class="alert alert-success" role="alert">
+       Submitted on : {{view.data.submissionDate}}
+    </div>
+ 
+    <br><br>
+  <div class="timeline">
+
+    <br>
+    <div ng-repeat ="summary in view.data track by $index">
+    <div class="list-item">
+        <div class="no">
+            <span>{{$index + 1}}</span>
+        </div>
+        <div class="list-infotext">
+          <h3> {{summary.question}}</h3>
+
+          <h4 class="text-success">
+            <span 
+              ng-if="summary.input ===''"
+              ng-repeat = "answer in summary.optionSelected track by $index">
+              {{answer}} <br> 
+            </span>
+          </h4>
+
+          <h4 class="text-success"
+             ng-if="summary.input !==''">
+            <span>{{summary.input}} &nbsp; {{summary.optionSelected[0]}}</span>
+          </h4>
+
+      </div>
+    </div>
+    <br>
+    </div>
+  </div>
+
+  <br><br><br>
+    <a type="button" ng-click="view.submitSummary()" class="btn btn-success btn-lg">Submit</a>
+   <a type="button" href="dashboard.html" class="btn btn-success btn-lg">Go Back</a>
+
+</div> <!--container -->
+
+   

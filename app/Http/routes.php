@@ -11,7 +11,7 @@
 |
 */
 
-Route::get( '/', 'WelcomeController@index' );
+//Route::get( '/', 'WelcomeController@index' );
 
 /********API********/
 Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
@@ -23,8 +23,11 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 /**
  * Auth and forgot password route
  */
-Route::get('patient/login', 'Auth\AuthController@getLogin');
-Route::post('patient/login', 'Auth\AuthController@postLogin');
+
+Route::get( '/', 'Auth\AuthController@getLogin' );
+Route::get('login', 'Auth\AuthController@getLogin');
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('login', 'Auth\AuthController@postLogin');
 Route::get('auth/logout', 'Auth\AuthController@getLogout');
 
 Route::get('admin/login', 'Auth\AuthController@getAdminLogin');
@@ -36,6 +39,12 @@ Route::post('{hospitalslug}/login', 'Auth\AuthController@postHospitalLogin');
 Route::get('{hospitalslug}/logout', 'Auth\AuthController@getLogout');
 
 
+/*****PATIENT***/
+Route::group( ['middleware' => ['auth']], function() {
+Route::get( '/', 'Patient\PatientController@index' );
+Route::get( '/dashbord', 'Patient\PatientController@index' );
+
+});
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth','permission']], function() {
@@ -51,13 +60,8 @@ Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteL
 
 });
 
-/*****PATIENT***/
-Route::group( ['prefix' => 'patient', 'middleware' => ['auth']], function() {
-Route::get( '/', 'Patient\PatientController@index' );
-Route::get( '/dashbord', 'Patient\PatientController@index' );
 
-});
-
+/*****Hospital***/
 Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
 Route::get( '/', 'Hospital\HospitalController@show' );
 Route::get( '/dashbord', 'Hospital\HospitalController@show' );
@@ -66,6 +70,10 @@ Route::resource( 'submissions', 'Hospital\SubmissionController' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
 
+Route::get( 'patients/{id}/base-line-score', 'Hospital\PatientController@showpatientBaseLineScore' );
+Route::get( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@getpatientBaseLineScore' );
+Route::post( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@setPatientBaseLineScore' );
+Route::get( 'patients/{id}/submissions', 'Hospital\PatientController@getPatientSubmission' );
 Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
 });

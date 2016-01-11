@@ -33,7 +33,7 @@
           </div>
           </div>
 					@endif
-                <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/patient/login') }}">
+                <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/login') }}">
                 <div class="has-feedback b-b">
                   <input type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" name="reference_code" placeholder="Enter 8 Digit Reference Code">
                   <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>

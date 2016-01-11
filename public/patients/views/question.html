@@ -1,0 +1,422 @@
+
+<div class="container" ng-init="view.init()">
+  <!-- Wrapper for slides -->
+  <br>
+    <div class="row">
+    <div class="col-sm-17 col-xs-24">
+      <h3><a class="btn btn-default btn-circle  m-t-0" href="dashboard.html"><i class="fa fa-hand-o-left text-muted"></i></a> Please Answer the following Question </h3>
+      <br>
+  
+     <div class="panel panel-default">
+        <div class="panel-body">
+        <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="q1">
+            <div class="pull-right text-muted">
+              <small>1 of 10</small>
+            </div>
+            <h4 class="question">
+              <span class="f-w-200">
+                <span class="badge-round">Q</span> 
+                    {{view.data.question}}
+                </span>
+            </h4>
+            <br class="hidden-xs">
+              <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
+            <br class="hidden-xs">
+            
+              <!-- single choice -->
+          <div 
+              ng-if = 'view.data.questionType == "single-choice"' 
+              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
+             <label class="item item-radio">
+                <div class="item-content">
+                  <input type="radio" name="group" ng-model="view.singleChoiceValue"
+                    ng-value="answerValue.id" ng-disabled="!view.readonly" >
+                  <i class="radio-icon fa fa-check"></i>
+                    {{answerValue.option}}
+                </div>
+            </label>
+            <br class="hidden-xs">
+         </div>
+        
+           <!-- multi choice -->
+         <div 
+              ng-if = 'view.data.questionType == "multi-choice"' 
+              ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
+             <label class="item item-radio">
+                <div class="item-content">
+                  <input type="checkbox" ng-model="answerValue.checked"
+                    ng-checked="answerValue.checked" ng-disabled="!view.readonly" >
+                  <i class="radio-icon fa fa-check"></i>
+                    {{answerValue.option}}
+                </div>
+            </label>
+            <br class="hidden-xs">
+         </div>
+        
+            <!-- input -->
+        <form class="row" ng-if='view.data.questionType == "input"'>
+            <div 
+              class="col-xs-8"
+              ng-repeat ="answerValue in view.data.options">
+                <div class="form-group b-b">
+                <input 
+                    type="text" 
+                    class="form-control input-lg" 
+                    ng-model="view.val_answerValue[answerValue.option]"
+                    id="Kgs" placeholder="{{answerValue.option}}"
+                    ng-readonly = "!view.readonly">
+                </div>
+            </div>
+        </form>
+
+
+            <!-- descriptive -->
+        <form class="row" ng-if='view.data.questionType == "descriptive"'>
+            <input type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
+              ng-readonly = "!view.readonly">
+        </form>
+
+
+       </div>
+      <div role="tabpanel" class="tab-pane" id="q2">
+          
+             <div class="pull-right text-muted">
+            <small>2 of 10</small>
+          </div>
+                 
+                  <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> How have your bowels been in the past month?</span></h4>
+                             <br class="hidden-xs">
+              <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
+            <br class="hidden-xs">
+                             <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Normal
+                            </div>
+                          </label><br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Loose
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content bg-yellow">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Diarrhoea up to 5 times daily
+                          </div>
+                          </label>
+                            <br class="hidden-xs">
+                            <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Diarrhoea more than 5 times daily
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Constipated
+                            </div>
+                          </label>
+              
+              
+              </div>
+          
+      
+      <div role="tabpanel" class="tab-pane" id="q3">
+        <div class="pull-right text-muted">
+            <small>3 of 10</small>
+        </div>
+        
+        <h4 class="question">
+          <span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span>
+        </h4>
+        
+                              <br class="hidden-xs">
+                              <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
+                          <br class="hidden-xs">
+                              <form class="row">
+                                <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                  <input type="text" class="form-control input-lg" id="Kgs" placeholder="Kgs">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                    <div class="form-group b-b">
+                                    <input type="text" class="form-control input-lg" id="St" placeholder="St">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                   <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
+                                  </div>
+                                  </div>
+                              </form>
+                          
+          </div>
+          <div role="tabpanel" class="tab-pane" id="q4">
+          <div class="pull-right text-muted">
+            <small>4 of 10</small>
+          </div>
+                                     <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> What is your current weight?</span></h4>
+
+                              <br class="hidden-xs">
+                              <p class="text-danger"><strong>Note : </strong>Please complete EITHER kg OR stones and lbs box</p>
+                          <br class="hidden-xs">
+                              <form class="row">
+                                <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                  <input type="text" class="form-control input-lg" id="Kgs" placeholder="Kgs">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                    <div class="form-group b-b">
+                                    <input type="text" class="form-control input-lg" id="St" placeholder="St">
+                                  </div>
+                                  </div>
+                                  <div class="col-xs-8">
+                                  <div class="form-group b-b">
+                                   <input type="text" class="form-control input-lg" id="Lbs" placeholder="Lbs">
+                                  </div>
+                                  </div>
+                              </form>
+                          
+           </div>
+          <div role="tabpanel" class="tab-pane" id="q5">
+              <div class="pull-right text-muted">
+            <small>5 of 10</small>
+          </div>
+              <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> Has your appetite changed in the past month?</span></h4>
+              <br class="hidden-xs">
+                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
+                            <br class="hidden-xs">
+                             <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Normal
+                            </div>
+                          </label><br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Unable to finish a full meal but eating regularly
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content bg-yellow">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Not eating regularly but managing something every day
+                          </div>
+                          </label>
+                            <br class="hidden-xs">
+                            <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Not managing to eat on a daily basis
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            Not eating at all
+                            </div>
+                          </label>
+             </div>
+          <div role="tabpanel" class="tab-pane" id="q6">
+               <div class="pull-right text-muted">
+            <small>6 of 10</small>
+          </div>
+               <h4 class="question"><span class="f-w-200"><span class="badge-round">Q</span> How does your illness affect you at present?</span></h4>
+               <br class="hidden-xs">
+                              <p class="text-danger"><strong>Note : </strong>Choose the answer you want to select</p>
+                            <br class="hidden-xs">
+                        <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            It has no effect on my day to day living
+                            </div>
+                          </label><br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            I have had to take some time off work
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            I am on sick leave or unable to work
+                          </div>
+                          </label>
+                            <br class="hidden-xs">
+                            <label class="item item-radio">
+                          <div class="item-content">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            I am unable to leave the house
+                            </div>
+                          </label>
+                          <br class="hidden-xs">
+                          <label class="item item-radio">
+                          <div class="item-content bg-yellow">
+                            <input type="radio" name="group" value="go" checked="checked">
+                            <i class="radio-icon fa fa-check"></i>
+                            I am unable to do simple tasks at home
+                            </div>
+                          </label>
+                          
+                  </div>
+              </div>
+     
+    </div>
+
+  </div>
+  
+  <div class="row m-t-25">
+      <div class="col-md-12 text-left">
+        <button type="button" 
+          ng-click="view.prevQuestion()"
+          class="btn btn-success">
+          <i class="fa fa-chevron-circle-left"></i> 
+          Previous
+        </button>
+      </div>
+      <div class="col-md-12 text-right">
+        <button type="button" 
+          class="btn btn-success"
+          ng-click="view.nextQuestion()">
+          Next 
+          <i class="fa fa-chevron-circle-right"></i>
+        </button>
+      </div>
+  </div>
+   
+    </div>
+    <div class="col-sm-7 col-xs-24">
+
+      <div class="text-right"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause & Exit Questionnaire</button></div>
+      <br><br>
+      <div class="q-tabs" role="tablist" class="disabled">
+    <div role="presentation" class="disabled"><a href="#q1" aria-controls="q1" role="tab" data-toggle="tab">1</a></div>
+    <div role="presentation" class="disabled"><a href="#q2" aria-controls="q2" role="tab" data-toggle="tab">2</a></div>
+    <div role="presentation" class="disabled"><a href="#q3" aria-controls="q3" role="tab" data-toggle="tab">3</a></div>
+    <div role="presentation" class="disabled"><a href="#q4" aria-controls="q4" role="tab" data-toggle="tab">4</a></div>
+    <div role="presentation" class="disabled"><a href="#q5" aria-controls="q5" role="tab" data-toggle="tab">5</a></div>
+    <div role="presentation" class="active disabled"><a href="#q6" aria-controls="q6" role="tab" data-toggle="tab">6</a></div>
+    <div role="presentation"><a href="#q7" aria-controls="q7" role="tab" data-toggle="tab">7</a></div>
+    <div role="presentation"><a href="#q8" aria-controls="q8" role="tab" data-toggle="tab">8</a></div>
+    <div role="presentation"><a href="#q9" aria-controls="q9" role="tab" data-toggle="tab">9</a></div>
+    <div role="presentation"><a href="#q10" aria-controls="q10" role="tab" data-toggle="tab">10</a></div>
+    <div role="presentation"><a href="#q11" aria-controls="q11" role="tab" data-toggle="tab">11</a></div>
+    <div role="presentation"><a href="#q12" aria-controls="q12" role="tab" data-toggle="tab">12</a></div>
+    <div role="presentation"><a href="#q13" aria-controls="q13" role="tab" data-toggle="tab">13</a></div>
+    <div role="presentation"><a href="#q14" aria-controls="q14" role="tab" data-toggle="tab">14</a></div>
+    <div role="presentation"><a href="#q15" aria-controls="q15" role="tab" data-toggle="tab">15</a></div>
+    <div role="presentation"><a href="#q16" aria-controls="q16" role="tab" data-toggle="tab">16</a></div>
+    <div role="presentation"><a href="#q17" aria-controls="q17" role="tab" data-toggle="tab">17</a></div>
+    <div role="presentation"><a href="#q18" aria-controls="q18" role="tab" data-toggle="tab">18</a></div>
+    <div role="presentation"><a href="#q19" aria-controls="q19" role="tab" data-toggle="tab">19</a></div>
+    <div role="presentation"><a href="#q20" aria-controls="q20" role="tab" data-toggle="tab">20</a></div>
+    <div role="presentation"><a href="#q21" aria-controls="q21" role="tab" data-toggle="tab">21</a></div>
+  </div>
+      <br><br>
+      <div class="sidebar">
+          <h5 class="prev-ans text-left">PREVIOUS ANSWER</h5>
+          <p class="text-muted text-left">
+            <!-- <span class="text-success">A.</span>  -->
+             <div ng-repeat = "label in  view.data.previousQuestionnaireAnswer.labelDisplay">
+              {{label}} <br>
+             </div>
+          </p>
+          <div class="text-success text-left">
+            <p>
+              <i class="fa fa-calendar text-muted"></i>
+               Submitted on 
+                <b>{{ view.data.previousQuestionnaireAnswer.date }}</b>
+            </p>
+          </div>
+      </div>
+      </div>
+    </div>
+
+</div> <!-- container -->
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-md" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+       <div class="text-center">
+      <div class="padding">
+      <br>
+      <i class="fa fa-times-circle text-danger"></i>
+      <br><br>
+      <p>Are you sure your want to cancel all the Answers you answered ? </p>
+      <br>
+     
+    </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+        <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
+        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" id="pauseModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+       <div class="text-center">
+      <div class="padding">
+      <br>
+      <div class="ic">
+      <i class="fa fa-pause"></i>
+      </div>
+      <br><br>
+      <p>Are you sure you want to pause and answer your Questionnaire later ? The answers answered till now will be saved.</p>
+      <br>
+     
+    </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+        <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
+        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+<!--   <script src="../js/bootstrap.min.js"></script> -->
+

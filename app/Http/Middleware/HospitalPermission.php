@@ -46,6 +46,9 @@ class HospitalPermission
         $uri        =[  '{hospitalslug}'=>['view'],
                         '{hospitalslug}/dashbord'=>['view'],
                         '{hospitalslug}/patients/{id}/submission-reports'=>['view'],
+                        '{hospitalslug}/patients/{id}/submissions'=>['view'],
+                        '{hospitalslug}/patients/{id}/base-line-score'=>['view','edit'],
+                        '{hospitalslug}/patients/{id}/base-line-score-edit'=>['edit'],
                         '{hospitalslug}/patients/{id}/validatereferncecode'=>['edit'],
                         ]; 
 

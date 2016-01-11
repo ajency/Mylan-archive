@@ -72,7 +72,7 @@
                                                   $class='bg-gray';
                                                 }
                                                 ?>
-                                                <td class="{{ $class }}"> {{ $difference }} {{ $myscore }}</td>
+                                                <td class="{{ $class }}"> <span class="small">{{ $difference }}</span> {{ $myscore }}</td>
                                                  <?php 
                                                   if($myscore!='')
                                                      $lastSubmittedScore = $myscore;
@@ -126,7 +126,7 @@
                                                 else
                                                   $class='bg-gray';
                                                 ?>
-                                                <td class="{{ $class }}"> {{ $difference }} {{ $myscore }}</td>
+                                                <td class="{{ $class }}"> <span class="small">{{ $difference }}</span> {{ $myscore }}</td>
                                                 @endforeach
                                                 <td>{{ $baseLineScore }}</td>
                                              </tr>
@@ -161,7 +161,7 @@
     "dataProvider": [
     <?php
         
-        foreach($responseArr as $responseId => $response)
+        foreach($completedResponseArr as $responseId => $response)
         {
           
           ?>

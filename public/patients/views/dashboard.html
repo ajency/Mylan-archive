@@ -1,0 +1,140 @@
+<div class="container dashboard" ng-init = "view.init()">
+         <!-- <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            You do not have any Questionnaries to be submitted now.
+         </div> -->
+         <br class="hidden-xs">
+         <h3>Questionnaire Summary</h3>
+         <hr>
+         <div class="row">
+              <div class="col-md-8">
+                  <div class="panel panel-default">
+                     <div class="panel-body">
+                      <div class="panel-heading">
+                        <p>Cardiac Group Project Questionnaire - 1</p>
+                     </div>
+                       <div id="chartdiv" style="width: 100%; height: 351px;"></div>
+                     </div>
+                  </div>
+              </div>
+              <div class="col-md-16 bg-white">
+                <div class="panel panel-default">
+                     <div class="panel-body b-b-g">
+                        <div class="row">
+                          <div class="col-sm-12 col-xs-7">
+                              <h5 class="f-w-200"><b>Date</b></h5>
+                           </div>
+                           <div class="col-sm-8 col-xs-9">
+                              <h5 class="f-w-200"><b>Status</b></h5>
+                           </div>
+                           </h5>
+                           <div class="col-sm-4 col-xs-8 text-right xs-text-left">
+                           </div>
+                        </div>
+                     </div>
+                      <div ng-repeat ="submissions in view.data"
+                          ng-controller="EachRequestTimeCtrl">
+
+                         <div class="panel-body b-b-g" ng-if="submissions.status == 'upcoming'">
+                            <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                <div class="date text-center">
+                                    <div class="month">{{ submissions.month }}</div>
+                                    <div class="day"><b>{{ submissions.date }}</b></div>
+                                    <div class="year text-muted">{{ submissions.yr }}</div>
+                                </div>
+                               </div>
+                               <div class="col-sm-8 col-xs-9 p-11">
+                                  <h5 class="f-w-400 text-success">UPCOMING</h5>
+                               </div>
+                               </h5>
+                               <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                               </div>
+                            </div>
+                         </div>
+                      
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'due'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                  <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-danger">DUE</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" class="btn btn-success btn-hover" 
+                                      ng-click = "view.startQuiz();">
+                                      <span>Start</span>
+                                    </a>
+                                </div>
+                             </div>
+                          </div>
+
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'started'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                  <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-danger">DUE</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" 
+                                      class="btn btn-danger btn-hover"
+                                      ng-click = "view.resumeQuiz(submissions.occurrenceId);">
+                                      <span>Resume</span>
+                                    </a>
+                                </div>
+                             </div>
+                          </div>
+
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'completed' ">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                   <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-warning">SUBMITTED</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                   <a type="button" 
+                                      ng-click = "view.summary(submissions.occurrenceId);" 
+                                      class="btn btn-warning btn-hover"><span>View</span></a>
+                                </div>
+                             </div>
+                          </div>
+
+                          <div class="panel-body b-b-g" ng-if="submissions.status == 'missed'">
+                             <div class="row">
+                              <div class="col-sm-12 col-xs-7">
+                                   <div class="date text-center">
+                                        <div class="month">{{ submissions.month }}</div>
+                                        <div class="day"><b>{{ submissions.date }}</b></div>
+                                        <div class="year text-muted">{{ submissions.yr }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8 col-xs-9 p-11">
+                                   <h5 class="text-muted">MISSED</h5>
+                                </div>
+                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
+                                </div>
+                             </div>
+                          </div>
+
+                      </div>
+                  </div> <!-- panel-default -->
+                </div> <!-- col-md-16 bg-white -->
+         </div> <! -- row -->
+</div> <!-- dashboard -->
