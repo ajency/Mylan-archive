@@ -9,7 +9,7 @@
            <div class="text-right btn-contact" style="margin-top:-85px;"><button type="submit" class="btn btn-default">Contact Us</button></div>
            <br class="hidden-xs">
            <br>
-        <div class="bg-white shadow-full">
+        <div class="bg-white shadow-full" style="border:1px solid #ddd;">
           <div class="row" style="position:relative;">
             <div class="img-bg hidden-xs">
             </div>
