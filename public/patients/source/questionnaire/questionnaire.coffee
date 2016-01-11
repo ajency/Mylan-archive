@@ -370,6 +370,7 @@ angular.module 'angularApp.questionnaire'
 					@loadPrevQuestion(options)
 
 			onTapToRetry : ->
+				
 				@display = 'loader'
 				@getQuestion()
 

@@ -5,7 +5,7 @@ angular.module 'angularApp.common'
 	CToast = {}
 
 	CToast.show = (content)->
-		$.notify("BOOM!", "error");
+		$("#notify-css").notify(content, {position:"right"});
 
 	CToast
 
