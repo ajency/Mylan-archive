@@ -3,7 +3,9 @@ angular.module('angularApp.common').factory('CToast', [
     var CToast;
     CToast = {};
     CToast.show = function(content) {
-      return $.notify("BOOM!", "error");
+      return $("#notify-css").notify(content, {
+        position: "right"
+      });
     };
     return CToast;
   }
