@@ -79,13 +79,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       getQuestion: function() {
-        var hh, options, param, responseId;
+        var options, param, responseId;
         this.display = 'loader';
         this.respStatus = $routeParams.respStatus;
-        hh = $routeParams.responseId;
-        console.log('***************');
-        console.log(hh);
-        console.log('***************');
         if (this.respStatus === 'lastQuestion') {
           param = {
             "questionId": '',
@@ -122,7 +118,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           responseId = '';
           options = {
             "responseId": responseId,
-            "questionnaireId": questionnaireIdd,
+            "questionnaireId": 'questionnaireIdd',
             "patientId": RefCode
           };
           return QuestionAPI.getQuestion(options).then((function(_this) {
@@ -373,6 +369,10 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           };
           return this.loadPrevQuestion(options);
         }
+      },
+      onTapToRetry: function() {
+        this.display = 'loader';
+        return this.getQuestion();
       },
       init: function() {
         console.log('insie questionnaire');
