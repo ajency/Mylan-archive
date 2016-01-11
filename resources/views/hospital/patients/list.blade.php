@@ -95,11 +95,12 @@
                                   $patientId = $patient['id'];
                                   $patientStatus = $patient['account_status'];
                                   $referenceCode = $patient['reference_code'];
-                                  $patientSummary = $patientsSummary[$referenceCode];
+                                  
 
                                   if(!isset($patientsSummary[$referenceCode]))
                                     continue;
-
+                                  
+                                  $patientSummary = $patientsSummary[$referenceCode];
                                 ?>
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/patients/{{ $patientId }}';">
                                     <td>{{ $referenceCode }}</td> 
