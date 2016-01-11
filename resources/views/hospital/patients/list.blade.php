@@ -90,9 +90,15 @@
                                  </tr>
                               </thead>
                               <tbody>
-                              @foreach($patientsSummary as $patientId => $patientSummary)
+                              @foreach($patients as $patient)
+                                <?php
+                                  $patientId = $patient['id'];
+                                  $patientStatus = $patient['account_status'];
+                                  $referenceCode = $patient['reference_code'];
+                                  $patientSummary = $patientsSummary[$referenceCode];
+                                ?>
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/patients/{{ $patientId }}';">
-                                    <td>{{ $patientId }}</td> 
+                                    <td>{{ $referenceCode }}</td> 
                                     <td>
                                        <div class="lst-sub">
                                           <h2 class="bold pull-left">{{ count($patientSummary['count']) }}</h2>
@@ -107,7 +113,7 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-success">
                                            @if(isset($patientSummary['baseLineFlag']['green']))
                                             {{ count($patientSummary['baseLineFlag']['green']) }}
                                             @else
@@ -119,7 +125,7 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-success">
                                             @if(isset($patientSummary['previousFlag']['green']))
                                             {{ count($patientSummary['previousFlag']['green']) }}
                                             @else
@@ -131,7 +137,7 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-error">
                                            @if(isset($patientSummary['baseLineFlag']['red']))
                                             {{ count($patientSummary['baseLineFlag']['red']) }}
                                             @else
@@ -143,7 +149,7 @@
                                     </td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-error">
                                             @if(isset($patientSummary['previousFlag']['red']))
                                             {{ count($patientSummary['previousFlag']['red']) }}
                                             @else
@@ -155,7 +161,7 @@
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-warning">
                                             @if(isset($patientSummary['baseLineFlag']['amber']))
                                             {{ count($patientSummary['baseLineFlag']['amber']) }}
                                             @else
@@ -167,7 +173,7 @@
                                     </td>
                                     <td>
                                         <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">
+                                           <h3 class="text-muted no-margin bold text-warning">
                                             @if(isset($patientSummary['previousFlag']['amber']))
                                             {{ count($patientSummary['previousFlag']['amber']) }}
                                             @else

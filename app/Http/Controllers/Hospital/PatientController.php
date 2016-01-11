@@ -27,7 +27,16 @@ class PatientController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $patients = User::where('type','patient')->orderBy('created_at')->lists('reference_code')->toArray();
+        $patients = User::where('type','patient')->orderBy('created_at')->get()->toArray();
+        $newPatients = [];
+        $patientReferenceCode = [];
+        foreach ($patients as  $patient) {
+            
+            if($patient['account_status']=='created')
+                $newPatients[]= $patient['reference_code'];
+            
+            $patientReferenceCode[] = $patient['reference_code'];
+        }
 
         $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
@@ -42,12 +51,14 @@ class PatientController extends Controller
                      );
 
         $hospitalController = new HospitalController();
-        $patientsSummary = $hospitalController->patientSummary($patients ,0,$startDateObj,$endDateObj);
-       
+        $patientsSummary = $hospitalController->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+      
 
         return view('hospital.patients.list')->with('hospital', $hospital)
                                           ->with('logoUrl', $logoUrl)
                                           ->with('active_menu', 'patients')
+                                          ->with('newPatients', count($newPatients))
+                                          ->with('patients', $patients)
                                           ->with('patientsSummary', $patientsSummary);
     }
 
