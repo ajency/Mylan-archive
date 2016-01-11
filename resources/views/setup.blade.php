@@ -34,21 +34,16 @@
           </div>
 					@endif
           <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/setup') }}"  data-parsley-validate>
-                <div class="has-feedback b-b">
-                  <input  name="reference_code"  type="text" class="form-control input-lg" id="inputSuccess2" aria-describedby="inputSuccess2Status" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
-                  <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>
+                <div class="has-feedback ">
+                  <input  name="reference_code"  type="text" class="form-control input-lg b-b"   aria-describedby="inputSuccess2Status" placeholder="Enter 8 Digit Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                   
                 </div>
                 <br class="hidden-xs">
-                <div class="checkbox text-left hidden-xs" >
-                  
-                </div>
-                
-                <br>
+ 
                 <div class="row">
-
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <div class="col-sm-12"><button type="submit" class="btn btn-info">Verify Reference Code Now</button></div>
-                  <div class="col-sm-12"><a type="submit" class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-sm">Forgot Reference Code ?</a></div>
+                  <div class="col-sm-12"><a  href="#" class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-sm">Forgot Reference Code ?</a></div>
                 </div>
                 </form>
                 <br>
