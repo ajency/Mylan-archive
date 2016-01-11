@@ -98,7 +98,7 @@ class PatientController extends Controller
 
  
         //return redirect(url($hospitalSlug . '/patients/' . $userId)); 
-        return redirect(url($hospitalSlug . '/patients/' . $userId9 . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug . '/patients/' . $userId . '/base-line-score-edit')); 
     }
 
     /**
