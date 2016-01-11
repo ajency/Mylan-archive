@@ -78,7 +78,7 @@ class HospitalController extends Controller
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
         $submissionFlags =  $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
         $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = $this->patientSummary($patient ,$projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $this->patientSummary($patients ,$projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
