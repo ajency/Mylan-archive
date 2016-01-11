@@ -97,7 +97,8 @@ class PatientController extends Controller
         $apiKey->save();
 
  
-        return redirect(url($hospitalSlug . '/patients/' . $userId)); 
+        //return redirect(url($hospitalSlug . '/patients/' . $userId)); 
+        return redirect(url($hospitalSlug . '/patients/' . $userId9 . '/base-line-score-edit')); 
     }
 
     /**
