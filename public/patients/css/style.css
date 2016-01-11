@@ -252,12 +252,7 @@ h3.line-title span {
   }
 }
 .site-wrapper .site-wrapper-inner .cover-container .img-bg {
-  background-image: url("../images/doctor.jpg");
-  background-size: cover;
-  height: 100%;
-  position: absolute;
-  width: 40.33%;
-  left: 10px;
+  padding-right: 0;
 }
 @media (max-width: 767px) {
   .dashboard button {
