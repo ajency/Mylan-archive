@@ -30,7 +30,7 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       resumeQuiz: function(id) {
         console.log('resumeQuiz');
         console.log(id);
-        return $location.path('questionnaire/' + id);
+        return $location.path('questionnaire/' + id + '/000');
       }
     };
   }

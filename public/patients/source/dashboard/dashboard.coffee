@@ -28,7 +28,7 @@ angular.module 'angularApp.dashboard',[]
 
 			console.log 'resumeQuiz'
 			console.log id
-			$location.path 'questionnaire/'+id
+			$location.path 'questionnaire/'+id+'/000'
 
 				
 ]

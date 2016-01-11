@@ -1,5 +1,5 @@
 angular.module('angularApp.common', []).factory('App', [
-  '$q', '$http', function($q, $http) {
+  '$q', '$http', '$location', function($q, $http, $location) {
     var App;
     return App = {
       SendParseRequest: function(cloudFun, param) {
@@ -18,6 +18,16 @@ angular.module('angularApp.common', []).factory('App', [
           }
         });
         return defer.promise;
+      },
+      navigate: function(path, param) {
+        var location;
+        location = path;
+        if (!_.isEmpty(param)) {
+          location += '/' + param;
+        }
+        console.log('***********');
+        console.log(location);
+        return $location.path(location);
       }
     };
   }

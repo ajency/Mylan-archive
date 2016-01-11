@@ -1,9 +1,10 @@
 angular.module 'angularApp.common', []
 
-.factory 'App', ['$q', '$http', ($q, $http)->
+.factory 'App', ['$q', '$http', '$location', ($q, $http, $location)->
 
 	App =
 		SendParseRequest :(cloudFun, param)->
+
 
 			defer = $q.defer()
 
@@ -18,5 +19,17 @@ angular.module 'angularApp.common', []
 					defer.reject error
 
 			defer.promise
+		
+
+		navigate : (path , param )->
+			# $location.path 'questionnaire/noValue'
+
+			location = path
+			if !_.isEmpty(param)
+				location += '/'+param
+
+			console.log '***********'
+			console.log location 	
+			$location.path location
 
 ]

@@ -89,33 +89,40 @@ angular.module 'angularApp.questionnaire'
 				# .then (patientData)=>
 
 				@respStatus = $routeParams.respStatus
+				hh = $routeParams.responseId
+				console.log '***************'
+				console.log hh
+				console.log '***************'
+
 				if @respStatus == 'lastQuestion'
 					param =
 						"questionId" : ''
 						"options": []
 						"value": ""
+						"responseId" : $routeParams.responseId 
+
 					# Storage.setData 'responseId','get'
 					# .then (responseId)=>	
 					# 	param.responseId = responseId
-					# 	QuestionAPI.getPrevQuest param
-					# 	.then (data)=>
-					# 		console.log 'previous data'
-					# 		console.log @data	
-					# 		@variables()
-					# 		@data = []
-					# 		@data = data.result
-					# 		@readonly = @data.editable
-					# 		@pastAnswer()
-					# 		if !_.isEmpty(@data.hasAnswer)
-					# 			@hasAnswerShow()	
-					# 		@display = 'noError'
-					# 	,(error)=>
-					# 		@display = 'error'
-					# 		console.log error
-					# 		if error == 'offline'
-					# 			CToast.showLongBottom 'Check net connection,answer not saved'
-					# 		else
-					# 			CToast.show 'Error ,try again'
+					QuestionAPI.getPrevQuest param
+					.then (data)=>
+						console.log 'previous data'
+						console.log @data	
+						@variables()
+						@data = []
+						@data = data
+						@readonly = @data.editable
+						@pastAnswer()
+						if !_.isEmpty(@data.hasAnswer)
+							@hasAnswerShow()	
+						@display = 'noError'
+					,(error)=>
+						@display = 'error'
+						console.log error
+						if error == 'offline'
+							CToast.show 'Check net connection,answer not saved'
+						else
+							CToast.show 'Error ,try again'
 						
 
 				else if @respStatus == 'noValue'
