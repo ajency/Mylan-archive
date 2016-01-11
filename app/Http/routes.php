@@ -11,7 +11,11 @@
 |
 */
 
-//Route::get( '/', 'WelcomeController@index' );
+Route::get( '/', 'WelcomeController@index' );
+Route::get( '/setup', 'WelcomeController@index' );
+Route::post( '/setup', 'WelcomeController@verifyReferenceCode' );
+Route::get( '/set-password', 'WelcomeController@setPassword' );
+Route::post( '/dosetup', 'WelcomeController@doSetup' );
 
 /********API********/
 Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
@@ -24,7 +28,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
  * Auth and forgot password route
  */
 
-Route::get( '/', 'Auth\AuthController@getLogin' );
+ 
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
@@ -41,7 +45,7 @@ Route::get('{hospitalslug}/logout', 'Auth\AuthController@getLogout');
 
 /*****PATIENT***/
 Route::group( ['middleware' => ['auth']], function() {
-Route::get( '/', 'Patient\PatientController@index' );
+//Route::get( '/', 'Patient\PatientController@index' );
 Route::get( '/dashbord', 'Patient\PatientController@index' );
 
 });
