@@ -1,28 +1,15 @@
 angular.module('angularApp.dashboard').factory('DashboardAPI', [
-  '$q', '$http', function($q, $http) {
+  '$q', '$http', 'App', function($q, $http, App) {
     var DashboardAPI;
     DashboardAPI = {};
-    DashboardAPI.get = function(id) {
-      var PARSE_HEADERS, PARSE_URL, defer, param, url;
+    DashboardAPI.get = function(param) {
+      var defer;
       defer = $q.defer();
-      PARSE_URL = 'https://api.parse.com/1/functions';
-      url = PARSE_URL + '/dashboard';
-      PARSE_HEADERS = {
-        headers: {
-          "X-Parse-Application-Id": 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA',
-          "X-Parse-REST-API-KeY": 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
-        }
-      };
-      param = {
-        "patientId": id
-      };
-      $http.post(url, param, PARSE_HEADERS).then(function(data) {
-        console.log('dashboard data ');
-        console.log(data);
-        return defer.resolve(data.data);
+      App.SendParseRequest('dashboard', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
-          return defer.reject(_this.errorCode(error));
+          return defer.reject(error);
         };
       })(this));
       return defer.promise;

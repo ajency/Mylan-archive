@@ -6,7 +6,7 @@
          <br class="hidden-xs">
          <h3>Questionnaire Summary</h3>
          <hr>
-         <div class="row">
+         <div class="row" ng-switch="view.display">
               <div class="col-md-8">
                   <div class="panel panel-default">
                      <div class="panel-body">
@@ -17,7 +17,12 @@
                      </div>
                   </div>
               </div>
-              <div class="col-md-16 bg-white">
+  
+              <div class="col-md-16 bg-white" ng-switch-when="loader"> <!-- loader-->
+                  <div class=""> </div>
+              </div>
+
+              <div class="col-md-16 bg-white" ng-switch-when="noError">
                 <div class="panel panel-default">
                      <div class="panel-body b-b-g">
                         <div class="row">
@@ -136,5 +141,14 @@
                       </div>
                   </div> <!-- panel-default -->
                 </div> <!-- col-md-16 bg-white -->
+                <div class="col-md-16 bg-white" ng-switch-when="error">
+
+                   <aj-error class="errors"
+                      error-type="view.errorType"
+                      ng-switch-when="error"
+                      tap-to-retry="view.onTapToRetry();">
+                  </aj-error>
+
+                </div>
          </div> <! -- row -->
 </div> <!-- dashboard -->
