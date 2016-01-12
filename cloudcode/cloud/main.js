@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, createMissedResponse, createNewUser, createResponse, firstQuestion, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationType, getNotifications, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, createMissedResponse, createMissedResponse1, createNewUser, createResponse, firstQuestion, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationType, getNotifications, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -109,7 +109,7 @@
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
           return promise1 = promise1.then(function() {
-            var notificationObj, notificationType;
+            var dummy, notificationObj, notificationType;
             notificationType = getNotificationType(scheduleObj);
             if (notificationType !== "") {
               notificationObj = new Parse.Object('Notification');
@@ -117,12 +117,15 @@
               notificationObj.set('patient', scheduleObj.get('patient'));
               notificationObj.set('type', notificationType);
               notificationObj.set('processed', false);
+              notificationObj.set('schedule', scheduleObj);
               return notificationObj.save();
             } else {
-              return promise1;
+              dummy = new Parse.Promise();
+              dummy.resolve();
+              return dummy;
             }
           }, function(error) {
-            return promise.reject(error);
+            return promise1.reject(error);
           });
         });
         return promise1;
@@ -214,22 +217,27 @@
                           }
                         });
                       }, function(error) {
-                        return promise.reject(error);
+                        console.log("send1");
+                        return promise2.reject(error);
                       });
                     });
                     return promise2;
                   };
                   return sendToInstallations();
                 }, function(error) {
+                  console.log("send2");
                   return promise1.reject(error);
                 });
               }, function(error) {
+                console.log("send3");
                 return promise1.reject(error);
               });
             }, function(error) {
+              console.log("send4");
               return promise1.reject(error);
             });
           }, function(error) {
+            console.log("send5");
             return promise1.reject(error);
           });
         });
@@ -254,6 +262,32 @@
     });
   });
 
+  Parse.Cloud.define('deleteResponse', function(request, response) {
+    var responseQuery;
+    responseQuery = new Parse.Query('Response');
+    responseQuery.equalTo('sequenceNumber', 101);
+    responseQuery.equalTo('status', 'missed');
+    return responseQuery.find().then(function(responses) {
+      var getResponse;
+      getResponse = function() {
+        var promise;
+        promise = Parse.Promise.as();
+        _.each(responses, function(responseObj) {
+          return promise = promise.then(function() {
+            console.log("111");
+            return responseObj.destroy();
+          });
+        });
+        return promise;
+      };
+      return getResponse().then(function() {
+        return response.success("done");
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   checkMissedResponses = function() {
     var promise, responseQuery;
     promise = new Parse.Promise();
@@ -268,12 +302,20 @@
         promise1 = Parse.Promise.as();
         _.each(responseObjs, function(responseObj) {
           return promise1 = promise1.then(function() {
-            var currentDate, timeObj;
+            var currentDate, notificationObj, timeObj;
             timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'));
             currentDate = new Date();
             if (currentDate.getTime() > timeObj['upperLimit']) {
-              responseObj.set('status', 'missed');
-              return responseObj.save();
+              notificationObj = new Parse.Object('Notification');
+              notificationObj.set('hasSeen', false);
+              notificationObj.set('patient', responseObj.get('patient'));
+              notificationObj.set('type', 'missedOccurrence');
+              notificationObj.set('processed', false);
+              notificationObj.set('schedule', responseObj.get('schedule'));
+              return notificationObj.save().then(function(notificationObj) {
+                responseObj.set('status', 'missed');
+                return responseObj.save();
+              });
             } else {
               return responseObj.save();
             }
@@ -294,7 +336,178 @@
     return promise;
   };
 
+  Parse.Cloud.define("createMissedResponse1", function(request, response) {
+    return getNotifications().then(function(notifications) {
+      console.log("done1");
+      return sendNotifications().then(function(notifications) {
+        console.log("done2");
+        return checkMissedResponses().then(function(result) {
+          console.log("done3");
+          return createMissedResponse().then(function(responses) {
+            console.log(new Date());
+            return response.success("job_run");
+          }, function(error) {
+            return response.error(error);
+          });
+        }, function(error) {
+          return promise.reject(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+
+  /*	#responseQuery = new Parse.Query('Response')
+  	#res
+  	createMissedResponse()
+  	.then (result) ->
+  		response.success result
+  	, (error) ->
+  		response.error error
+   */
+
   createMissedResponse = function() {
+    var promise, scheduleQuery;
+    promise = new Parse.Promise();
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.exists('patient');
+    scheduleQuery.include('questionnaire');
+    scheduleQuery.find().then(function(scheduleObjs) {
+      var updateMissedResponse;
+      updateMissedResponse = function() {
+        var promise1;
+        promise1 = Parse.Promise.as();
+        _.each(scheduleObjs, function(scheduleObj) {
+          return promise1 = promise1.then(function() {
+            var currentDate, timeObj;
+            timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
+            currentDate = new Date();
+            if (currentDate.getTime() > timeObj['upperLimit'].getTime()) {
+              return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+                responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+                responseObj.set('status', 'missed');
+                return responseObj.save().then(function(responseObj) {
+                  var notificationObj;
+                  notificationObj = new Parse.Object('Notification');
+                  notificationObj.set('hasSeen', false);
+                  notificationObj.set('patient', scheduleObj.get('patient'));
+                  notificationObj.set('type', 'missedOccurrence');
+                  notificationObj.set('processed', false);
+                  notificationObj.set('schedule', scheduleObj);
+                  return notificationObj.save().then(function(notificationObj) {
+                    scheduleQuery = new Parse.Query('Schedule');
+                    scheduleQuery.doesNotExist('patient');
+                    scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+                    return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                      var newNextOccurrence;
+                      newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+                      newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+                      scheduleObj.set('nextOccurrence', newNextOccurrence);
+                      return scheduleObj.save();
+                    }, function(error) {
+                      console.log("missed1");
+                      return promise1.reject(error);
+                    });
+                  }, function(error) {
+                    return promise1.reject(error);
+                  });
+                }, function(error) {
+                  console.log("missed2");
+                  return promise1.reject(error);
+                });
+              }, function(error) {
+                console.log("missed3");
+                return promise1.reject(error);
+              });
+            } else {
+              return scheduleObj.save();
+            }
+          }, function(error) {
+            console.log("missed4");
+            return promise1.reject(error);
+          });
+        });
+        return promise1;
+      };
+      return updateMissedResponse().then(function() {
+        return promise.resolve("done");
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+
+  /*
+  
+  
+  createMissedResponse = () ->
+  	promise = new Parse.Promise()
+  	scheduleQuery = new Parse.Query('Schedule')
+  	scheduleQuery.exists('patient')
+  	scheduleQuery.include('questionnaire')
+  	scheduleQuery.find()
+  	.then (scheduleObjs) ->
+  		updateMissedResponse = ->
+  			promise1 = []
+  			_.each scheduleObjs, (scheduleObj) ->
+  				timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+  				currentDate = new Date()
+  				if currentDate.getTime() > timeObj['upperLimit'].getTime()
+  					createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
+  					#.then (responseObj) ->
+  					responseObj = new Parse.Object "Response"
+  					responseObj.set 'patient', scheduleObj.get('patient')
+  					responseObj.set 'hospital', scheduleObj.get('questionnaire').get('hospital')
+  					responseObj.set 'project', scheduleObj.get('questionnaire').get('project')
+  					responseObj.set 'questionnaire', scheduleObj.get('questionnaire')
+  					responseObj.set 'schedule', scheduleObj
+  					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+  					responseObj.set 'status', 'missed'
+  					responseObj.save()
+  					.then (responseObj) ->
+  						console.log "-------------------------------"
+  						console.log  responseObj.id
+  						console.log scheduleObj.id
+  						console.log "-----------------------------"
+  						scheduleQuery = new Parse.Query('Schedule')
+  						scheduleQuery.doesNotExist('patient')
+  						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+  						scheduleQuery.first()
+  						.then (scheduleQuestionnaireObj) ->
+  							newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+  							newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+  							console.log "-------------"
+  							console.log "------#{scheduleObj.get('nextOccurrence')}"
+  							console.log "======#{newNextOccurrence}"
+  							console.log "-------------"
+  							scheduleObj.set 'nextOccurrence', newNextOccurrence
+  							promise1.push(scheduleObj.save())
+  						#, (error) ->
+  							 *	promise1.reject error
+  						#, (error) ->
+  						 *	promise1.reject (error)
+  					#, (error) ->
+  					 *	promise1.reject error
+  			Parse.Promise.when(promise1)
+  		updateMissedResponse()
+  		.then () ->
+  			promise.resolve("done")
+  		, (error) ->
+  			promise.reject error
+  	, (error) ->
+  		promise.reject error
+  	promise
+   */
+
+  createMissedResponse1 = function() {
     var promise, scheduleQuery;
     promise = new Parse.Promise();
     scheduleQuery = new Parse.Query('Schedule');
@@ -364,13 +577,14 @@
   };
 
   Parse.Cloud.job('commonJob', function(request, response) {
-    return getNotifications().then(function(notifications) {
-      return sendNotifications().then(function(notifications) {
-        return checkMissedResponses().then(function(result) {
-          return createMissedResponse().then(function(responses) {
+    return checkMissedResponses().then(function(result) {
+      return createMissedResponse().then(function(responses) {
+        return getNotifications().then(function(notifications) {
+          return sendNotifications().then(function(notifications) {
+            console.log(new Date());
             return response.success("job_run");
           }, function(error) {
-            return response.error(error);
+            return response.error("not_run");
           });
         }, function(error) {
           return promise.reject(error);
@@ -672,13 +886,13 @@
       questionData['questionId'] = questionObj.id;
       questionData['questionType'] = questionObj.get('type');
       questionData['question'] = questionObj.get('question');
-      questionData['next'] = !_.isUndefined(questionObj.get('nextQuestion')) ? true : false;
       questionData['previous'] = !_.isUndefined(questionObj.get('previousQuestion')) ? true : false;
       questionData['options'] = [];
       questionData['hasAnswer'] = {};
       questionData['previousQuestionnaireAnswer'] = {};
       questionData['questionTitle'] = questionObj.get('title');
       questionData['editable'] = {};
+      questionData['isChild'] = questionObj.get('isChild');
       editable = questionObj.get('questionnaire');
       return editable.fetch().then(function() {
         questionData['editable'] = editable.get('editable');
@@ -702,7 +916,16 @@
                   options.push(optionObj);
                 }
                 questionData['options'] = options;
-                return promise.resolve(questionData);
+                return getNextQuestion(questionObj, []).then(function(questionObj) {
+                  if (!_.isEmpty(questionObj)) {
+                    questionData['next'] = true;
+                  } else {
+                    questionData['next'] = false;
+                  }
+                  return promise.resolve(questionData);
+                }, function(error) {
+                  return promise.reject(error);
+                });
               }, function(error) {
                 return promise.reject(error);
               });
@@ -798,7 +1021,7 @@
         });
       }
     };
-    if (questionObj.get('type') === 'single-choice' && (!_.isUndefined(questionObj.get('condition')))) {
+    if (questionObj.get('type') === 'single-choice' && (!_.isUndefined(questionObj.get('condition'))) && !_.isEmpty(option)) {
       optionsQuery = new Parse.Query("Options");
       optionsQuery.get(option[0]).then(function(optionObj) {
         var condition, conditionalQuestion, conditions, questionQuery;
@@ -814,7 +1037,13 @@
           }
           return results1;
         })();
+        console.log("--------------------");
+        console.log(conditionalQuestion);
+        console.log("--------------------");
         if (conditionalQuestion.length !== 0) {
+          console.log("--------------------");
+          console.log("if");
+          console.log("--------------------");
           questionQuery = new Parse.Query("Questions");
           questionQuery.include('questionnaire');
           return questionQuery.get(conditionalQuestion[0]).then(function(optionQuestionObj) {
@@ -823,6 +1052,9 @@
             return promise.error(error);
           });
         } else {
+          console.log("--------------------");
+          console.log("else");
+          console.log("--------------------");
           return getRequiredQuestion();
         }
       }, function(error) {
@@ -878,7 +1110,7 @@
           return questionQuery.get(questionId).then(function(questionObj) {
             if (!_.isEmpty(options) || value !== "") {
               return saveAnswer(responseObj, questionObj, options, value).then(function(answersArray) {
-                if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+                if (_.isUndefined(questionObj.get('previousQuestion'))) {
                   return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                     return response.success(questionData);
                   }, function(error) {
@@ -896,7 +1128,7 @@
               });
             } else {
               console.log(last);
-              if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+              if (_.isUndefined(questionObj.get('previousQuestion'))) {
                 return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                   return response.success(questionData);
                 }, function(error) {
@@ -1542,15 +1774,8 @@
       var answerQuery, isEditable;
       isEditable = questionObj.get('questionnaire').get('editable');
       if (!isEditable && !_.isEmpty(hasAnswer)) {
-        console.log("----------------------------------");
-        console.log(isEditable);
-        console.log(hasAnswer);
-        console.log("----------------------------------");
         return promise.resolve("already_answered");
       } else if (isEditable && !_.isEmpty(hasAnswer)) {
-        console.log("==================================");
-        console.log(isEditable);
-        console.log(hasAnswer);
         answerQuery = new Parse.Query('Answer');
         answerQuery.equalTo('response', responseObj);
         answerQuery.equalTo('question', questionObj);
@@ -2033,9 +2258,6 @@
     promise = new Parse.Promise();
     getPreviousQuestionnaireAnswer(questionsObj, responseObj, responseObj.get('patient')).then(function(previousQuestion) {
       var answerQuery;
-      console.log("=========================================================");
-      console.log(previousQuestion);
-      console.log("---------------------------------------------------------");
       if (!_.isEmpty(previousQuestion)) {
         answerQuery = new Parse.Query('Answer');
         return answerQuery.get(previousQuestion['answerId']).then(function(answerObj) {

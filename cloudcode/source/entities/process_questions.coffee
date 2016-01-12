@@ -29,7 +29,6 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 							if !_.isEmpty(nextQuestionObj)
 								getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
 								.then (questionData) ->
-
 									response.success questionData
 								,(error) ->
 									response.error error
@@ -198,14 +197,13 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		questionData['questionId'] = questionObj.id
 		questionData['questionType'] = questionObj.get('type')
 		questionData['question'] = questionObj.get('question')
-		questionData['next'] =  if (!_.isUndefined(questionObj.get('nextQuestion'))) then true else false
 		questionData['previous'] =  if (!_.isUndefined(questionObj.get('previousQuestion'))) then true else false
 		questionData['options'] = []
 		questionData['hasAnswer'] = {}
 		questionData['previousQuestionnaireAnswer'] = {}
 		questionData['questionTitle'] = questionObj.get('title')
 		questionData['editable'] = {}
-
+		questionData['isChild'] = questionObj.get('isChild')
 		editable = questionObj.get('questionnaire')
 #		console.log editable
 		editable.fetch()
@@ -231,8 +229,15 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 								optionObj['score'] = option.get('score')
 								options.push(optionObj)
 							questionData['options'] = options
-							promise.resolve(questionData)	
-
+							getNextQuestion(questionObj, [])
+							.then (questionObj) ->
+								if !_.isEmpty(questionObj)
+									questionData['next'] = true
+								else
+									questionData['next'] = false
+								promise.resolve(questionData)
+							,(error) ->
+								promise.reject error
 						, (error) ->
 							promise.reject error
 					else
@@ -335,35 +340,35 @@ getNextQuestion = (questionObj, option) ->
 			, (error) ->
 				promise.error error
 
-
-
-	if questionObj.get('type') == 'single-choice' and (!_.isUndefined(questionObj.get('condition')))
+	if questionObj.get('type') == 'single-choice' and (!_.isUndefined(questionObj.get('condition'))) and !_.isEmpty(option)
 		optionsQuery = new Parse.Query "Options"
 		optionsQuery.get(option[0])
 		.then (optionObj) ->
-
 			conditions = questionObj.get('condition')
 			conditionalQuestion = ( condition['questionId'] for condition in conditions when condition['optionId'] == optionObj.id)
+			console.log "--------------------"
+			console.log conditionalQuestion
+			console.log "--------------------"
 			if conditionalQuestion.length != 0
+				console.log "--------------------"
+				console.log "if"
+				console.log "--------------------"
 				questionQuery = new Parse.Query("Questions")
 				questionQuery.include('questionnaire')
 				questionQuery.get(conditionalQuestion[0])
 				.then (optionQuestionObj) ->
 					promise.resolve(optionQuestionObj)
-
 				,(error) ->
 					promise.error error
 			else
-
+				console.log "--------------------"
+				console.log "else"
+				console.log "--------------------"
 				getRequiredQuestion()
-
-
 		,(error) ->
 			promise.error error
-
 	else
 		getRequiredQuestion()
-
 	promise
 
 
@@ -418,7 +423,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 					if !_.isEmpty(options) or value != ""
 						saveAnswer responseObj, questionObj, options, value
 							.then (answersArray) ->
-								if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+								if _.isUndefined(questionObj.get('previousQuestion'))
 									getQuestionData questionObj, responseObj, responseObj.get('patient')
 									.then (questionData) ->
 										response.success questionData
@@ -435,7 +440,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 								response.error error										
 					else
 						console.log last
-						if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+						if _.isUndefined(questionObj.get('previousQuestion'))# and  not questionObj.get 'isChild'
 							getQuestionData questionObj, responseObj, responseObj.get('patient')
 							.then (questionData) ->
 								response.success questionData
@@ -1132,16 +1137,9 @@ saveAnswer1 = (responseObj, questionObj, options, value) ->
 		isEditable = questionObj.get('questionnaire').get('editable')
 		
 		if !isEditable and !_.isEmpty(hasAnswer)
-			console.log "----------------------------------"
-			console.log isEditable
-			console.log hasAnswer
-			console.log "----------------------------------"
 			promise.resolve("already_answered")
 
 		else if isEditable and !_.isEmpty(hasAnswer)
-			console.log "=================================="
-			console.log isEditable
-			console.log hasAnswer
 
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.equalTo('response', responseObj)
@@ -1575,10 +1573,6 @@ getPreviousValues = (responseObj, questionsObj, optionsObj) ->
 	promise = new Parse.Promise()
 	getPreviousQuestionnaireAnswer(questionsObj, responseObj, responseObj.get('patient'))
 	.then (previousQuestion) ->
-		console.log "========================================================="
-		console.log previousQuestion
-		console.log "---------------------------------------------------------"
-	
 		if !_.isEmpty(previousQuestion)
 			answerQuery = new Parse.Query('Answer')
 			answerQuery.get(previousQuestion['answerId'])
