@@ -229,9 +229,14 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 								optionObj['score'] = option.get('score')
 								options.push(optionObj)
 							questionData['options'] = options
+
 							getNextQuestion(questionObj, [])
-							.then (questionObj) ->
-								if !_.isEmpty(questionObj)
+							.then (value) ->
+								console.log "-------------"
+								console.log "if questionData"
+								console.log value
+								console.log "--------------"
+								if !_.isEmpty(value)
 									questionData['next'] = true
 								else
 									questionData['next'] = false
@@ -241,7 +246,20 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 						, (error) ->
 							promise.reject error
 					else
-						promise.resolve questionData
+						getNextQuestion(questionObj, [])
+						.then (value) ->
+							console.log "-------------"
+							console.log "else questionData"
+							console.log value
+							console.log "--------------"
+
+							if !_.isEmpty(value)
+								questionData['next'] = true
+							else
+								questionData['next'] = false
+							promise.resolve questionData
+						, (error) ->
+							promise.reject error
 				, (error) ->
 					promise.reject error
 			, (error) ->
@@ -321,24 +339,32 @@ getNextQuestion = (questionObj, option) ->
 			promise.resolve({})
 
 		else
-
-			while questionObj.get('isChild')
-				questionObj = questionObj.get('previousQuestion')
-
-			questionObj.fetch()
-			.then ->
-#				console.log ".........................................."
-#				console.log questionObj
-				if !_.isUndefined questionObj.get('nextQuestion')
-#					console.log "*****************************************"
-#					console.log questionObj.get('nextQuestion').id
-					promise.resolve(questionObj.get('nextQuestion'))
-				else
-#					console.log questionObj.id
-#					console.log "xxxxxxxxxxxxxxxxxxxxxxx"
-					promise.resolve({})
+			questionQuery = new Parse.Query('Questions')
+			questionQuery.include('previousQuestion')
+			questionQuery.get(questionObj.id)
+			.then (questionObj) ->
+				while questionObj.get('isChild')
+					console.log "========================="
+					console.log questionObj
+					console.log "========================="
+					questionObj = questionObj.get('previousQuestion')
+					
+				questionObj.fetch()
+				.then ->
+#					console.log ".........................................."
+#					console.log questionObj
+					if !_.isUndefined questionObj.get('nextQuestion')
+						console.log "*****************************************"
+						console.log questionObj.get('nextQuestion').id
+						promise.resolve(questionObj.get('nextQuestion'))
+					else
+						console.log questionObj.id
+						console.log "xxxxxxxxxxxxxxxxxxxxxxx"
+						promise.resolve({})
+				, (error) ->
+					promise.reject error
 			, (error) ->
-				promise.error error
+				promise.reject error
 
 	if questionObj.get('type') == 'single-choice' and (!_.isUndefined(questionObj.get('condition'))) and !_.isEmpty(option)
 		optionsQuery = new Parse.Query "Options"
@@ -346,13 +372,7 @@ getNextQuestion = (questionObj, option) ->
 		.then (optionObj) ->
 			conditions = questionObj.get('condition')
 			conditionalQuestion = ( condition['questionId'] for condition in conditions when condition['optionId'] == optionObj.id)
-			console.log "--------------------"
-			console.log conditionalQuestion
-			console.log "--------------------"
 			if conditionalQuestion.length != 0
-				console.log "--------------------"
-				console.log "if"
-				console.log "--------------------"
 				questionQuery = new Parse.Query("Questions")
 				questionQuery.include('questionnaire')
 				questionQuery.get(conditionalQuestion[0])
@@ -361,9 +381,6 @@ getNextQuestion = (questionObj, option) ->
 				,(error) ->
 					promise.error error
 			else
-				console.log "--------------------"
-				console.log "else"
-				console.log "--------------------"
 				getRequiredQuestion()
 		,(error) ->
 			promise.error error
@@ -393,6 +410,60 @@ getLastQuestion = (questionnaireObj) ->
 	promise
 
 
+
+Parse.Cloud.define "getPreviousQuestion", (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#
+#	else
+	responseId = request.params.responseId
+	last = questionId = request.params.questionId
+	options = request.params.options
+	value = request.params.value
+
+	responseQuery = new Parse.Query('Response')
+	responseQuery.include('questionnaire')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		if responseObj.get('status') == 'Completed'
+			response.error "questionnaire_submitted."
+
+		else
+			questionQuery = new Parse.Query('Questions')
+			questionQuery.include('previousQuestion')
+			questionQuery.include('questionnaire')
+			questionQuery.get(questionId)
+			.then (questionObj) ->
+				if !_.isEmpty(options) or (value != "")
+					saveAnswer responseObj, questionObj, options, value
+					.then (answersArray) ->
+						getPreviousQuestion(questionObj, responseObj)
+						.then (questionObj) ->
+							getQuestionData questionObj, responseObj, responseObj.get('patient')
+							.then (questionData) ->
+								response.success questionData
+							,(error) ->
+								response.error error
+						,(error) ->
+							response.error error
+					,(error) ->
+						response.error error										
+				else
+					getPreviousQuestion(questionObj, responseObj)
+					.then (questionObj) ->
+						getQuestionData questionObj, responseObj, responseObj.get('patient')
+						.then (questionData) ->
+							response.success questionData
+						,(error) ->
+							response.error error
+					,(error) ->
+						response.error error
+			,(error) ->
+				response.error error
+	,(error) ->
+		response.error error
+
+###
 Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 #	if !request.user
 #		response.error('Must be logged in.')
@@ -466,8 +537,59 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 				response.error error
 	,(error) ->
 		response.error error
+###
+
+Parse.Cloud.define "previousQuestion", (request, response) ->
+	responseId = request.params.responseId
+	questionId = request.params.questionId
+
+	responseQuery = new Parse.Query('Response')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		questionQuery = new Parse.Query('Questions')
+		questionQuery.include('previousQuestion')
+		questionQuery.get(questionId)
+		.then (questionObj) ->
+			getPreviousQuestion(questionObj, responseObj)
+			.then (previousQuestionObj) ->
+				response.success previousQuestionObj
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+	,(error) ->
+		response.error (error)
 
 
+getPreviousQuestion = (questionObj,responseObj) ->
+	promise = new Parse.Promise()
+	answeredQuestions = responseObj.get('answeredQuestions')
+	result1 = ""
+	result = ""
+
+	for answer, i in answeredQuestions
+		if (questionObj.id == answer) and (i == 0) #check if first question
+			result = "previousNotDefined"
+		else if (questionObj.id == answer)
+			result = result1
+		result1 = answer
+
+	if result == ""
+		promise.reject("invalidRequest")
+
+	else if result == 'previousNotDefined'
+		promise.reject ("previousNotDefined")
+
+	else
+		questionsQuery = new Parse.Query('Questions')
+		questionsQuery.include('questionnaire')
+		questionsQuery.include('previousQuestion')
+		questionsQuery.get(result)
+		.then (previousQuestion) ->
+			promise.resolve(previousQuestion)
+		, (error) ->
+			promise.reject error
+	promise
 
 
 
@@ -500,7 +622,7 @@ getSummary = (responseObj) ->
 	answerQuery = new Parse.Query('Answer')
 	answerQuery.include("question")
 	answerQuery.include("option")
-	answerQuery.ascending('createdAt')
+	answerQuery.descending('createdAt')
 	answerQuery.equalTo("response", responseObj)
 	answerQuery.find()
 	.then (answerObjects) ->

@@ -24,19 +24,23 @@ getNotifications = () ->
 			_.each scheduleObjs, (scheduleObj) ->
 				promise1 = promise1
 				.then () ->
-					notificationType = getNotificationType(scheduleObj)
-					if notificationType != ""
-						notificationObj = new Parse.Object('Notification')
-						notificationObj.set 'hasSeen', false
-						notificationObj.set 'patient', scheduleObj.get('patient')
-						notificationObj.set 'type',	notificationType
-						notificationObj.set 'processed', false
-						notificationObj.set 'schedule', scheduleObj
-						notificationObj.save()
-					else
-						dummy = new Parse.Promise()
-						dummy.resolve()
-						dummy
+					scheduleObj.fetch()
+					.then () ->
+						notificationType = getNotificationType(scheduleObj)
+						if notificationType != ""
+							notificationObj = new Parse.Object('Notification')
+							notificationObj.set 'hasSeen', false
+							notificationObj.set 'patient', scheduleObj.get('patient')
+							notificationObj.set 'type',	notificationType
+							notificationObj.set 'processed', false
+							notificationObj.set 'schedule', scheduleObj
+							notificationObj.save()
+						else
+							dummy = new Parse.Promise()
+							dummy.resolve()
+							dummy
+					, (error) ->
+						promise1.reject error
 				, (error) ->
 					promise1.reject error
 			promise1
@@ -60,10 +64,10 @@ getNotificationType = (scheduleObj) ->
 	afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
 	
 	#if (currentDate.getTime() == (nextOccurrence.getTime() - (reminderTime * 1000)))
-	if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (60 * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (60 * 1000)))
+	if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (40 * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (40 * 1000)))
 		"beforOccurrence"
 	#else if (currentDate.getTime() == (graceDate.getTime() - (reminderTime * 1000)))
-	else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (60 * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (60 * 1000)))
+	else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (40 * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (40 * 1000)))
 			"beforeGracePeriod"
 	#else if currentDate.getTime() >= graceDate.getTime()
 	else if currentDate.getTime() >= graceDate.getTime()
@@ -73,7 +77,14 @@ getNotificationType = (scheduleObj) ->
 
 getNotificationMessage = (scheduleObj, notificationType) ->
 	nextOccurrence = scheduleObj.get('nextOccurrence')
+	questionnaireObj = scheduleObj.get('questionnaire') 
+
 	graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (scheduleObj.get('questionnaire').get('gracePeriod') * 1000))
+	console.log "-=-=-=-=-=-=-"
+	console.log "scheduleObj"
+	console.log scheduleObj
+	#console.log scheduleObj.get('questionnaire').get('gracePeriod')
+	console.log "-=-=-=-=-=-=-"
 
 	if notificationType == "beforOccurrence"
 		"Questionnaire is due on #{nextOccurrence}"
@@ -147,6 +158,7 @@ sendNotifications = () ->
 	, (error) ->
 		promise.reject error
 	promise
+
 
 Parse.Cloud.define "createMissedResponse", (request, response) ->
 	createMissedResponse()
