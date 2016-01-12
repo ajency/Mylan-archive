@@ -11,6 +11,8 @@ use Parse\ParseQuery;
 use App\Hospital;
 use App\User;
 use App\Http\Controllers\Hospital\HospitalController;
+use App\UserAccess;
+use \Input;
 
 class SubmissionController extends Controller
 {
@@ -21,18 +23,22 @@ class SubmissionController extends Controller
      */
     public function index($hospitalSlug)
     {
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+
+
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $projectId ='';
         
-        $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                  );
 
-        $endDate = date('d-m-Y', strtotime('+1 day'));
         $endDateObj = array(
                       "__type" => "Date",
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))

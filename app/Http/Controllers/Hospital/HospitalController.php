@@ -582,6 +582,7 @@ class HospitalController extends Controller
         }
 
         $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $responseRate =  round($responseRate,2);
          
 
         // foreach ($responses as   $response) {
