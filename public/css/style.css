@@ -8326,3 +8326,11 @@ input {
   -webkit-transform: translate3d(25px, 0, 0) !important;
   transform: translate3d(25px, 0, 0) !important;
 }
+
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
+ul.parsley-errors-list{
+  list-style-type: none;
+  padding-left: 0;
+}

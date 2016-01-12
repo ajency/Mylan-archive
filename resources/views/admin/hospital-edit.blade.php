@@ -10,7 +10,7 @@
             <a href="#"> Hospitals</a>
          </li>
          <li>
-            <a href="#"> Add Hospital</a>
+            <a href="#"> Edit Hospital</a>
          </li>
       </ul>
       </p>
@@ -20,25 +20,31 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Edit Hospital</span></h3>
-   <p>(Create a Hospital under Mylan)</p>
+   <p>(Update the Hospital details)</p>
 </div>
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="/admin/hospitals/{{$hospital['id']}}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">
        <div class="row">
            <div class="col-md-4 text-center">
-               <div class="row-fluid">
-                  
-                  <div id="hospital_logo_block">
-                   @if($hospital['logo']!='')
-                  <img src="{{ $imagePath }}">
-                  @else
-                  <a id="pickfiles" href="javascript:;">[Select files]</a>
-                  <span id="loader"></span>
-                   @endif
-                  </div>
-                  <input type="hidden" name="hospital_logo" id="hospital_logo">     
-               </div>
+                <div class="upload">
+                        <div class="img-div" id="hospital_logo_block">
+                        @if($hospital['logo']!='')
+                        <img src="{{ $imagePath }}" class="img-responsive">
+                        <a class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
+                        @endif
+                                               
+                        </div>
+                        <span id="loader"></span>
+                        <a id="pickfiles" class="{{ ($hospital['logo']!='')?'hidden':'' }}" href="javascript:;">
+                        <i class=" fa fa-image fa-3x"></i><br>
+                        <h5 class="text-muted">Click to upload Hospital Logo</h5>
+                        </a>
+                        
+
+                        <input type="hidden" name="hospital_logo" id="hospital_logo">    
+                    </div>
+                
            </div>
            <div class="col-md-8">
                
@@ -57,8 +63,44 @@
                        </div>
                    </div>
                    <div class="form-row">
-                       <label>Address</label>
-                       <textarea id="address" name="address" rows="3" style="width:100%;" data-parsley-required>{{ $hospital['address'] }}</textarea>
+                   
+                           <div class="form-row">
+                               <label>Address Line 1</label>
+                               <input name="address_line_1" id="address_line_1" value="{{ $hospital['address_line_1'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       
+                        
+                   </div>
+                   <div class="form-row">
+                        
+                           <div class="form-row">
+                               <label>Address Line 2</label>
+                               <input name="address_line_2" id="address_line_2" value="{{ $hospital['address_line_2'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                      
+                   </div>
+                   <div class="row form-row">
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Town/City</label>
+                               <input name="city" id="city" type="text" value="{{ $hospital['city'] }}" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Country</label>
+                               <input name="country" id="country" value="{{ $hospital['country'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+                   </div>
+                   <div class="row form-row">
+                       <div class="col-md-6">
+                           <div class="form-row">
+                               <label>Postal Code</label>
+                               <input name="postal_code" id="postal_code" value="{{ $hospital['postal_code'] }}" type="text" class="form-control" data-parsley-required>
+                           </div>
+                       </div>
+            
                    </div>
                    <div class="row form-row">
                        <div class="col-md-6">

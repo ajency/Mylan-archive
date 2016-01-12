@@ -118,9 +118,19 @@
                            <span><i class="fa fa-wheelchair"></i> Patients</span>
                            </a>
                         </li>
-                      <li>
+                         <li>
+                           <a href="submissions.html">
+                           <span><i class="fa fa-list-alt"></i> Submissions</span>
+                           </a>
+                        </li>
+                     <!--  <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
+                           </a>
+                        </li> -->
+                        <li>
+                           <a href="flags.html">
+                           <span><i class="fa fa-flag"></i> Flags </span>
                            </a>
                         </li>
                         <li class="active-item">
@@ -151,79 +161,1507 @@
                      <li><a href="#" class="active">Reports</a> </li>
                   </ul>
                   </p>
-                  <div class="pull-right">
+                  <div class="pull-right hidden">
                       <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
                        <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
                   </div>
                   <div class="page-title">
-                     <h3><span class="semi-bold">Reports</span> </h3>
+                     <div class="row">
+                          <div class="col-md-7">
+                            <div class="row">
+                              <div class="col-md-7">
+                                <h3><span class="semi-bold">Patient</span>  Report Highlights</h3>
+                              </div>
+                              <div class="col-md-3 m-t-10 hidden">
+                                <select name="role" id="role" class="select2 form-control"  >
+                                <option value="1">Patient ID</option>
+                                <option value="2">1001</option>
+                                <option value="2">1002</option>
+                                <option value="2" >1003</option>
+                                <option value="2">1004</option>
+                                <option value="2">1005</option>
+                                </select>
+                              </div>
+                              <div class="col-md-2"></div>
+                            </div>
+                         </div>
+                          <div class="col-md-5 m-t-15 text-right hidden">
+                              <button class="btn btn-default btn-small">Day</button>
+                              <button class="btn btn-default btn-small">Week</button>
+                              <button class="btn btn-default btn-small active-label">Month</button>
+                          </div>
+                        </div>
                      <!-- <p>(Showing Real-Time Hospital data at a Glance)</p> -->
                   </div>
                   <div class="grid simple">
-                     <div class="grid-body no-border">
-                        <br>
-                        <div class="pull-right">
-                           <button class="btn btn-default btn-small">Day</button>
-                           <button class="btn btn-default btn-small">Week</button>
-                           <button class="btn btn-default btn-small">Month</button>
-                        </div>
-                        <h4><span class="semi-bold">Patient</span>  Report Highlights</h4>
-                        <br>
-                        <div class="row">
-                           <div class="col-md-2">
-                               
-                              <div class="user-description-box">
-                             
-                              <label>Patient ID</label>
-                              <span class="text-info"><a href="single-report.html">12345667</a></span>
-                              <br>
-                              <br>
-                              <br>
-                              <label>Current Weight</label>
-                              <span class="text-info">120 lb</span>
-                              <br>
-                              <br>
-                              <br>
-                              <label>Current BP</label>
-                              <span class="text-info">100</span>
-                              </div>
-                           </div>
-                           <div class="col-md-5">
-                            <h4 class="semi-bold">Submissions</h4>
-                              <br>
-                              <div id="stacked-ordered-chart" style="height:350px"></div>
-                           </div>
-                           <div class="col-md-5">
-                              <h4><span class="semi-bold">Weight</span> Tracker</h4>
-                              
-                              <div id="line-example" style="width:100%;height:250px;"> </div>
-                              
-                              <h4><span class="semi-bold">Response </span>Rate</h4>
-                              <br>
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <div class="chart" data-percent="85" style="position:relative;"><span class="easy-pie-percent" style="position:absolute;left:46px;">85</span></div>
-                                 </div>
-
-                                 <div class="col-md-4">
-                                    <br>
-                                    <h4 class="semi-bold text-success">85%</h4>
-                                    <p>85 Questionnaires Submitted</p>
-                                 </div>
-                                 <div class="col-md-4">
-                                    <br>
-                                    <h4 class="semi-bold text-success">15%</h4>
-                                    <p>85 Questionnaires Missed</p>
+                      <div class="grid-body no-border">
+                        <div class="tabbable tabs-left">
+                          
+                     <ul class="nav nav-tabs inner-tabs" id="tab-01">
+                        <li class="text-center m-t-20"><h5 class="semi-bold">Patient Id</h5></li>
+                        <li class="active"><a href="#pid1001">10000001</a></li>
+                        <li class=""><a href="#pid1002">10000002</a></li>
+                        <li class="hidden"><a href="#pid1003">10000003</a></li>
+                        <li class="hidden"><a href="#pid1004">10000004</a></li>
+                     </ul>
+                     
+                     <div class="tab-content">
+                        <div class="tab-pane table-data active" id="pid1001">
+                          <h3 class="m-b-25">Patient Id<span class="semi-bold"> 10000001</span></h3>
+                          <h4>Health Score Results compared with Previous Scores</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score</p>
+                             <br><br>
+                             <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
                                  </div>
                               </div>
-                              
-                           </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
                            
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-warning">1</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">3</td>
+                                                <td >0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">3</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-warning">1</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-danger">3</td>
+                                                <td class="bg-warning">1</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-danger">11</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="bg-danger">11</td>
+                                                <td class="bg-danger">8</td>
+                                                <td>0</td>
+                                                <td></td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">9</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                                    <hr>
+                                    <br>
+                                 <h4>Health Score Results compared with Baseline Value</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with the Baseline Value for each particular Question</p>
+                              <br><br>
+                              <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-success">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td>0</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td>0</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-success">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td>0</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-danger">5</td>
+                                                <td class="bg-success">-11</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-11</td>
+                                                <td class="bg-success">-8</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-9</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                              <hr>
+                              <br>
+                              <h4>Report on Weight of the Patient</h4>
+                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                                    Questionnaire "MRI Pancreatitis".</p>
+                              <br><br>
+                              <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           
+                           <div id="line-example" style="width:100%;height:250px;"> </div>
                         </div>
-                        <br>
-                        <br> 
+                        
+                        <div class="tab-pane table-data" id="pid1002">
+                          <h3 class="m-b-25">Patient Id<span class="semi-bold"> 10000002</span></h3>
+                           <h4>Health Score Results compared with Previous Scores</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score</p>
+                             <br><br>
+                             <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
+                           
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-1</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td class="bg-warning">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-success">-2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-1</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td class="">0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>                                                
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>                                                
+                                                <td class="">0</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="">0</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td >0</td>
+                                                <td class="">0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                                    <hr>
+                                    <br>
 
+
+
+
+                                 <h4>Health Score Results compared with Baseline Value</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with the Baseline Value for each particular Question</p>
+                              <br><br>
+                              <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-2</td>                                               
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="">0</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-2</td>
+                                                <td class="bg-success">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-success">-1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-gray" data-toggle="modal" data-target="#myModal"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-warning">1</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td class="bg-danger">2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                                <td class="">0</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                                <td class="bg-gray"></td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                              <hr>
+                              <br>
+                              <h4>Report on Weight of the Patient</h4>
+                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                                    Questionnaire "MRI Pancreatitis".</p>
+                              <br><br>
+                              <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                          
+                           <div id="line-example" style="width:100%;height:250px;"> </div>
+                        </div>
+                        <div class="tab-pane table-data" id="pid1003">
+                          <h3 class="m-b-25">Patient Id<span class="semi-bold"> 10000003</span></h3>
+                          <h4>Health Score Results compared with Previous Scores</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score</p>
+                             <br><br>
+                             <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td>0</td>
+                                                <td >0</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-danger">-12</td>
+                                                <td class="bg-danger">-10</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-gray">0</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                                    <hr>
+                                    <br>
+                                 <h4>Health Score Results compared with Baseline Value</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with the Baseline Value for each particular Question</p>
+                              <br><br>
+                              <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-success">1</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-success">1</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-warning">-1</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-warning" data-toggle="modal" data-target="#myModal">-1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-success">5</td>
+                                                <td class="bg-danger">-11</td>
+                                                <td class="bg-danger">-7</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-success">12</td>
+                                                <td class="bg-success">10</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                              <hr>
+                              <br>
+                              <h4>Report on Weight of the Patient</h4>
+                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                                    Questionnaire "MRI Pancreatitis".</p>
+                              <br><br>
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
+                           <br>
+                           <div id="line-example" style="width:100%;height:250px;"> </div>
+                        </div>
+                        <div class="tab-pane table-data" id="pid1004">
+                          <h3 class="m-b-25">Patient Id<span class="semi-bold"> 10000004</span></h3>
+                          <h4>Health Score Results compared with Previous Scores</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score</p>
+                             <br><br>
+                             <div class="row">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
+                           <br>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td class="bg-success">1</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td >0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                                <td >0</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-success">11</td>
+                                                <td class="bg-success">7</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">-12</td>
+                                                <td class="bg-danger">-10</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                                    <hr>
+                                    <br>
+                                 <h4>Health Score Results compared with Baseline Value</h4>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with the Baseline Value for each particular Question</p>
+                              <br><br>
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
+                           <br>
+                           <table class="table table-flip-scroll cf">
+                                          <thead class="cf">
+                                             <tr>
+                                                <th>Week</th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>March</th>
+                                                <th>April</th>
+                                                <th>May</th>
+                                                <th>June</th>
+                                                <th>July</th>
+                                                <th>Aug</th>
+                                                <th>Sept</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>Pain</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-danger">-3</td>
+                                                <td class="bg-danger">-3</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                                <td class="bg-success">1</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Bowel Habits</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Weight</td>
+                                                <td data-toggle="modal" data-target="#myModal">0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-4</td>
+                                                <td class="bg-danger">-4</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                             </tr>
+                                            <tr>
+                                                <td>Appetite</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">2</td>
+                                                <td>0</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Well Being</td>
+                                                <td class="bg-success" data-toggle="modal" data-target="#myModal">1</td>
+                                                <td class="bg-warning">-1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td>Diabetes</td>
+                                                <td class="bg-warning" data-toggle="modal" data-target="#myModal">-1</td>
+                                                <td class="bg-danger">-2</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                                <td class="bg-success">2</td>
+                                             </tr>
+                                             <tr>
+                                                <td><b>Total</b></td>
+                                                <td class="bg-success">5</td>
+                                                <td class="bg-danger">-11</td>
+                                                <td class="bg-danger">-7</td>
+                                                <td class="bg-gray">0</td>
+                                                <td class="bg-success">12</td>
+                                                <td class="bg-success">10</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                                <td class="bg-gray">2</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                       <br>
+                              <hr>
+                              <br>
+                              <h4>Report on Weight of the Patient</h4>
+                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                                    Questionnaire "MRI Pancreatitis".</p>
+                              <br><br>
+                              <div class="row">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           <br>
+                           <br>
+                           <div id="line-example" style="width:100%;height:250px;"> </div>
+                        </div>
                      </div>
+                   </div>
+                  </div>
+                        
+                      </div>
                   </div>
                   
                </div>
@@ -267,132 +1705,35 @@
       <!-- END PAGE LEVEL PLUGINS -->
       
       <!-- BEGIN CORE TEMPLATE JS -->
+      <script src="assets/js/tabs_accordian.js" type="text/javascript"></script>
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/chat.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
       <script type="text/javascript">
-$(function() {
-    $('.chart').easyPieChart({
-        //your configuration goes here
-    });
 
-    var d1_1 = [
-        [1325376000000, 120],
-        [1328054400000, 70],
-        [1330560000000, 100],
-        [1333238400000, 60],
-        [1335830400000, 35]
-    ];
- 
-    var d1_2 = [
-        [1325376000000, 80],
-        [1328054400000, 60],
-        [1330560000000, 30],
-        [1333238400000, 35],
-        [1335830400000, 30]
-    ];
- 
-    var d1_3 = [
-        [1325376000000, 80],
-        [1328054400000, 40],
-        [1330560000000, 30],
-        [1333238400000, 20],
-        [1335830400000, 10]
-    ];
- 
-    var d1_4 = [
-        [1325376000000, 15],
-        [1328054400000, 10],
-        [1330560000000, 15],
-        [1333238400000, 20],
-        [1335830400000, 15]
-    ];
- 
-    var data2 = [
-        {
-            label: "Product 1",
-            data: d1_1,
-            bars: {
-                show: true,
-                barWidth: 12*24*60*60*300*2,
-                fill: true,
-                lineWidth:0,
-                order: 0,
-                fillColor:  "rgba(243, 89, 88, 0.7)"
-            },
-            color: "rgba(243, 89, 88, 0.7)"
-        },
-        {
-            label: "Product 2",
-            data: d1_2,
-            bars: {
-                show: true,
-                barWidth: 12*24*60*60*300*2,
-                fill: true,
-                lineWidth: 0,
-                order: 0,
-                fillColor:  "rgba(251, 176, 94, 0.7)"
-            },
-            color: "rgba(251, 176, 94, 0.7)"
-        },
-        {
-            label: "Product 3",
-            data: d1_3,
-            bars: {
-                show: true,
-                barWidth: 12*24*60*60*300*2,
-                fill: true,
-                lineWidth: 0,
-                order: 0,
-                fillColor:  "rgba(10, 166, 153, 0.7)"
-            },
-            color: "rgba(10, 166, 153, 0.7)"
-        },
-        {
-            label: "Product 4",
-            data: d1_4,
-            bars: {
-                    show: true,
-                barWidth: 12*24*60*60*300*2,
-                fill: true,
-                lineWidth: 0,
-                order: 0,
-                fillColor:  "rgba(0, 144, 217, 0.7)"
-            },
-            color: "rgba(0, 144, 217, 0.7)"
-        },
-
-    ];
-   
-    $.plot($('#stacked-ordered-chart'), data2, {      
-       grid: {
-            hoverable: true,
-            clickable: false,
-            borderWidth: 1,
-         borderColor:'#f0f0f0',
-         labelMargin:8
-
-        },
-              xaxis: {
-            min: (new Date(2011, 11, 15)).getTime(),
-            max: (new Date(2012, 04, 18)).getTime(),
-            mode: "time",
-            timeformat: "%b",
-            tickSize: [1, "month"],
-            monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            tickLength: 0, // hide gridlines
-            axisLabel: 'Month',
-            axisLabelUseCanvas: true,
-            axisLabelFontSizePixels: 12,
-            axisLabelFontFamily: 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
-            axisLabelPadding: 5
-        },
-            stack: true
-   });
-});
-
-</script>
+      </script>
       <script src="assets/js/charts.js" type="text/javascript"></script>
+
+      <script type="text/javascript">
+      $(document).ready(function() {            
+         Morris.Line({
+           element: 'line-example',
+           data: [
+            { y: '2006', a: 50, b: 40 },
+            { y: '2007', a: 65,  b: 55 },
+            { y: '2008', a: 50,  b: 40 },
+            { y: '2009', a: 75,  b: 65 },
+            { y: '2010', a: 50,  b: 40 },
+            { y: '2011', a: 75,  b: 65 },
+            { y: '2012', a: 100, b: 90 }
+           ],
+           xkey: 'y',
+           ykeys: ['a', 'b'],
+           labels: ['Series A', 'Series B'],
+           lineColors:['#0aa699','#d1dade'],
+         });
+      });
+   </script>
       <!-- END CORE TEMPLATE JS --> 
    </body>
 </html>

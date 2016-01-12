@@ -1,105 +1,60 @@
 @extends('layouts.single-patient')
 
 @section('content')
-<div class="container dashboard">
-    <div class="alert alert-success" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-     You do not have any Questionnaries to be submitted now.
-  </div>
-      <div class="panel panel-default">
-         <div class="panel-heading"><h3>Cardiac Group Project Questionnaire - 1</h3></div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-8 col-xs-24">
-                <img src="{{ url('patients/images/cardiac-care.png') }}" class="img-responsive">
-              </div>
-              <div class="col-sm-8 col-xs-12">
-                <br class="hidden-xs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
-                <div class="b-b">
-                <h1>40%</h1>
-                <h4 class="text-muted"><span><i class="fa fa-circle text-muted"></i> 40 Questions Missed</span></h4>
-                </div>
-              </div>
-              <div class="col-sm-8 col-xs-12">
-                <br class="hidden-xs"><br class="hidden-sm hidden-xs"><br class="hidden-sm hidden-xs">
-                <div class="b-b">
-                <h1>60%</h1>
-                <h4 class="text-muted"><span><i class="fa fa-circle text-warning"></i> 60 Questions Missed</span></h4>
-              </div>
-              </div>
-            </div>
-          </div>
-      </div>
-      <br>
-      <br class="hidden-xs">
-      <h3>Questionnaire Summary</h3>
-      <br>
-       <div class="panel panel-default">
-      <div class="bg-white">
-         
-         <div class="panel-body b-b-g">
-         <div class="row">
-              <div class="col-sm-12">
-                <h4><i class="fa fa-arrow-circle-up text-success"></i>&nbsp;&nbsp;Upcoming</h4>
-              </div>
-              <div class="col-md-9 col-sm-8">
-                <h4 class="text-muted"><span><i class="fa fa-calendar"></i> 25 October 2015</span></div>
-              </h4>
-              <div class="col-md-3 col-sm-4 text-right">
-                
-              </div>
-            </div>
-            </div>
-          </div>
-            
-           
-         <div class="panel-body b-b-g">
-             <div class="row">
-              <div class="col-sm-12">
-                <h4><i class="fa fa-times-circle text-danger"></i>&nbsp;&nbsp;Due</h4>
-              </div>
-              <div class="col-md-9 col-sm-8">
-                <h4 class="text-muted"><span><i class="fa fa-calendar"></i> 25 October 2015</span></h4>
-              </div>
-              <div class="col-md-3 col-sm-4 text-right">
-                <button type="button" class="btn btn-success btn-block">Start Now</button>
-              </div>
-            </div>
-            </div>
-            
-            
-           
-         <div class="panel-body b-b-g">
-             <div class="row">
-              <div class="col-sm-12 col-xs-24">
-                <h4><i class="fa fa-minus-circle text-muted"></i>&nbsp;&nbsp;Missed</h4>
-              </div>
-              <div class="col-md-9 col-sm-8 col-xs-24">
-                <h4 class="text-muted"><span><i class="fa fa-calendar"></i> 25 October 2015</span></h4>
-              </div>
-              <div class="col-md-3 col-sm-4 col-xs-24 text-right">
-                </div>
-            </div>
-              </div>
-            
-            
-            
-           <div class="panel-body">
-               <div class="row">
-                <div class="col-sm-12 col-xs-24">
-                  <h4><i class="fa fa-check-circle text-warning"></i>&nbsp;&nbsp;Submitted</h4>
-                </div>
-                <div class="col-md-9 col-sm-8 col-xs-24">
-                  <h4 class="text-muted"><span><i class="fa fa-calendar"></i> 25 October 2015</span></h4>
-                </div>
-                <div class="col-md-3 col-sm-4 col-xs-24 text-right">
-                  <button type="button" class="btn btn-warning btn-block">View</button>
-                </div>
-              </div>
-              </div>
-            </div>
-            </div>
+<script>
+    Parse.initialize(APP_ID, JS_KEY);
+    var questionnaireIdd = '{{ $questionnaire["id"] }}';
+    var patientRefCode = '{{ $referenceCode }}';
+    var RefCode = patientRefCode;
+    var userToken = '{{ $parseToken }}';
+    console.log(patientRefCode);
 
-          
+     Parse.User.become(userToken).then(function(user) {
+                  console.log('became user');
+                  console.log(userToken);
+                 });
+
+
+</script>
+
+
+
+<div ng-app="angularApp">
+
+  <nav class="navbar navbar-default hospital-nav">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="../images/nhs-logo.png" width="70"></a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+       <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
+         <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div ng-view></div>
+
+  <div class="footer">
+    <div class="container">
+      <div class="footer-content text-center">
+        <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
+      </div>
+    </div>
   </div>
+
+
+</div>
+  
 @endsection

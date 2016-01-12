@@ -18,7 +18,7 @@ class SubmissionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    { 
         $responseQry = new ParseQuery("Response");
         $responseQry->descending("updatedAt");
         $responses = $responseQry->find(); 
@@ -34,7 +34,7 @@ class SubmissionController extends Controller
                           ];
         }
 
-         return view('admin.submissions-list')->with('active_menu', 'submission')
+         return view('hospital.submissions-list')->with('active_menu', 'submission')
                                               ->with('responseList', $responseList);
     }
 
@@ -84,7 +84,7 @@ class SubmissionController extends Controller
             $previousAnswersList = $previousData['answers'];
         }
 
-        return view('admin.submissions-view')->with('active_menu', 'submission')
+        return view('hospital.submissions-view')->with('active_menu', 'submission')
                                             ->with('questionnaire', $questionnaire)
                                             ->with('date', $date)
                                             ->with('answersList', $answersList)

@@ -9,6 +9,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
+use App\Hospital;
+use Parse\ParseObject;
+use Parse\ParseQuery;
+use Parse\ParseUser;
+use \Session;
+
+use App\Http\Controllers\Rest\UserController;
 
 class AuthController extends Controller
 {
@@ -65,6 +72,12 @@ class AuthController extends Controller
         ]);
     }
 
+    public function setup()
+    {
+
+        return view('auth.user-login');
+    }
+
     public function postLogin(Request $request)
     { 
         $referenceCode = $request->input('reference_code');
@@ -79,24 +92,72 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {
-                return redirect()->intended('patient/dashbord');
+                $apiKey = Auth::user()->apiKey()->first()->key;
+                $installationId = 'web-'.str_random(15);
+
+                //set parse user
+                $userController = new UserController();
+                $parseUser = $userController->getParseUser($referenceCode,$installationId,$apiKey);
+                if($parseUser!='error')
+                {
+                    $projectId = Auth::user()->project_id;
+                    $hospitalId = Auth::user()->hospital_id;
+                    $data = $userController -> postLoginData($hospitalId,$projectId);
+                    $hospitalData = $data['hospital']; 
+                    $questionnaireData = $data['questionnaire']; 
+                    $parseUser =json_decode($parseUser,true); 
+
+                    $sessionToken = $parseUser['result']['sessionToken'];
+                    Session::put('parseToken',$sessionToken); 
+
+                    //if schedule not set for patient
+                    /******************************/
+                    if($parseUser['result']['scheduleFlag']==false)
+                    {
+                        $questionnaireObj = new ParseQuery("Questionnaire");
+                        $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
+
+                        $date = new \DateTime();
+
+
+                        $schedule = new ParseObject("Schedule");
+                        $schedule->set("questionnaire", $questionnaire);
+                        $schedule->set("patient", $referenceCode);
+                        $schedule->set("startDate", $date);
+                        $schedule->set("nextOccurrence", $date);
+                        $schedule->save();
+                    }
+                    
+                    return redirect()->intended('dashbord');
+                }
+                else
+                {
+                    Auth::logout();
+                    return redirect('/login')->withErrors([
+                        'email' => 'Account inactive, contact administrator',
+                    ]);
+                }
+                
             }
             else
             {
                 Auth::logout();
-                return redirect('/patient/login')->withErrors([
+                return redirect('/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
         }
         
-        return redirect('/patient/login')->withErrors([
+        return redirect('login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
     }
 
+ 
+
     public function getAdminLogin()
     {
+
         return view('auth.admin-login');
     }
 
@@ -128,6 +189,63 @@ class AuthController extends Controller
         return redirect('/admin/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
+    }
+
+    public function getHospitalLogin($hospitalSlug)
+    {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+        return view('auth.user-login')->with('hospital', $hospital)
+                                      ->with('logoUrl', $logoUrl);
+    }
+
+    public function postHospitalLogin(Request $request,$hospitalSlug)
+    { 
+
+        $email = $request->input('email');
+        $password = trim($request->input('password'));
+        if($request->has('remember'))
+            $remember = $request->input('remember');
+        else
+           $remember = 0;
+            
+        
+        if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
+        {   
+            if(Auth::user()->account_status=='active')
+            {
+                return redirect()->intended($hospitalSlug.'/dashbord');
+            }
+            else
+            {
+                Auth::logout();
+                return redirect($hospitalSlug.'/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
+            }
+        }
+        
+        return redirect($hospitalSlug.'/login')->withErrors([
+            'email' => 'The credentials you entered did not match our records. Try again?',
+        ]);
+    }
+
+    public function getLogout()
+    {  
+        Auth::logout();
+        Session::put('referenceCode',''); 
+        $routePrefix = \Request::route()->getPrefix();
+        if(str_contains($routePrefix, 'admin'))
+            return redirect('admin/login');
+        elseif(str_contains($routePrefix, ''))
+        {
+            return redirect('/');
+        }
+        else 
+        {
+            $hospitalslug = \Request::segment(1);  
+            return redirect($hospitalslug.'/login');
+        }
     }
 
  

@@ -89,42 +89,6 @@ class MediaController extends Controller
         //
     }
 
-    public function uploadLogo(Request $request,$hospitalId)
-    {
-        $targetDir = public_path() . "/mylan/hospitals/";
-        $imageUrl = url() . "/mylan/hospitals/";
-
-        File::makeDirectory( $targetDir, $mode = 0755, true, true );
-
-        if ($request->hasFile( 'file' )) {
-            
-            $file = $request->file( 'file' );
-     
-            $fileName = $file->getClientOriginalName();
-            $fileData = explode('.', $fileName);
-
-            //$newFilename = rand() . '_' . $projectId . '.' . $fileExt;
-            $newFilename = $fileName;
-
-            $request->file( 'file' )->move( $targetDir, $newFilename );
-
-            if($hospitalId)
-            {
-                $hospital = Hospital::find($hospitalId)
-                $hospital->logo = $newFilename;
-                $hospital->save();
-            }
-        
-         }    
-
-        return response()->json( [
-                    'code' => 'logo_uploaded',
-                    'message' => 'Image Uploaded' ,
-                    'data' => [
-                        'image_path' => $imageUrl . $newFilename,
-                        'filename' => $newFilename
-                    ]
-            ], 201 );
-    }
+    
 
 }

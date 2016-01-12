@@ -14,6 +14,8 @@
 					@endif
 
 					@if (count($errors) > 0)
+					<div class="row">
+                  	<div class="col-sm-10">
 						<div class="alert alert-danger">
 							<strong>Whoops!</strong> There were some problems with your input.<br><br>
 							<ul>
@@ -22,6 +24,8 @@
 								@endforeach
 							</ul>
 						</div>
+					</div>
+				</div>
 					@endif
 
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/email') }}">
@@ -47,4 +51,5 @@
 		</div>
 	</div>
 </div>
+
 @endsection

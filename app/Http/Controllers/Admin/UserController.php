@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Parse\ParseObject;
-use Parse\ParseQuery;
 use App\User;
-use Chrisbjr\ApiGuard\Models\ApiKey;
+use App\UserAccess;
+use App\Hospital;
+use \Mail;
  
 
 class UserController extends Controller
@@ -21,9 +21,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $patients = User::where('type','patient')->orderBy('created_at')->get()->toArray();
-        return view('admin.patients.list')->with('active_menu', 'patients')
-                        ->with('patients', $patients);
+       $users = User::where('type','mylan_admin')->orderBy('created_at')->get()->toArray();
+       
+
+        return view('admin.users-list')->with('active_menu', 'users')
+                                          ->with('users', $users); 
     }
 
     public function dashbord()
@@ -37,28 +39,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $hospitalQry = new ParseQuery("Hospital");
-        $hospitalData = $hospitalQry->find(); 
-        $hospitals = [];
-        foreach ($hospitalData as $key => $hospital) {
-             $hospitals[$key] = ['id'=>$hospital->getObjectId(),'name'=>$hospital->get('name')];
-
-         }
-
-        $projectQry = new ParseQuery("Project");
-        $projectData = $projectQry->find();
-        $projects = [];
-        foreach ($projectData as $key => $project) {
-             $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
-              
-         }
-
-
-        
-        return view('admin.patients.add')->with('active_menu', 'patients')
-                                        ->with('hospitals', $hospitals)
-                                        ->with('projects', $projects);
+    {  
+        $roles = getRoles();
+        $hospitals = Hospital:: all()->toArray(); 
+        return view('admin.user-add')->with('active_menu', 'users')
+                                    ->with('hospitals',$hospitals)
+                                    ->with('roles',$roles);
     }
 
     /**
@@ -69,29 +55,64 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $password = randomPassword();
 
-        $referanceCode = $request->input('referance_code');
-        $hospital = $request->input('hospital');
-        $project = $request->input('project');
-        
-        $user = new User();
-        $user->reference_code = $referanceCode;
-        $user->password = '';
-        $user->email = $referanceCode;
-        $user->account_status = 'created';
-        $user->hospital_id = $hospital;
-        $user->project_id = $project;
-        $user->type = 'patient';
-        $user->save();
+        $user = new User;
+        $name =  ucfirst($request->input('name'));
+        $user->name = $name;
+        $user->email = $request->input('email');
+        $user->password = Hash::make($password);
+        $user->phone = $request->input('phone');     
+        $user->type = 'mylan_admin'; 
+        $user->account_status = 'active'; 
+        $user->project_access = ($request->has('has_access'))?'yes':'no';
+        $user->mylan_access = ($request->has('had_mylan_access'))?'yes':'no';
+        $user->save(); 
         $userId = $user->id;
 
-        $apiKey                = new ApiKey;
-        $apiKey->user_id       = $user->id;
-        $apiKey->key           = $apiKey->generateKey();
-        $apiKey->save();
+        if(!$request->has('had_mylan_access'))
+        {
+            $access = $request->input('mylan_access');
+            $userAccess = new UserAccess;
+            $userAccess->object_type = 'mylan' ; 
+            $userAccess->object_id = 0; 
+            $userAccess->user_id = $userId; 
+            $userAccess->access_type = $access; 
+            $userAccess->save();
+        }
 
-        return redirect("/admin/patients"); 
+        $hospitals = $request->input('hospital');
+        if(!empty($hospitals))
+        {
+            foreach ($hospitals as $key => $hospital) {
+                 if($hospital=='')
+                    continue;
+
+                $access = $request->input('access_'.$key);
+
+                $userAccess = new UserAccess;
+                $userAccess->object_type = 'hospital' ; 
+                $userAccess->object_id = $hospital; 
+                $userAccess->user_id = $userId; 
+                $userAccess->access_type = $access; 
+                $userAccess->save();
+            }
+            
+        }
+        
+        $data =[];
+        $data['name'] = $name;
+        $data['email'] = $user->email;
+        $data['password'] = $password;
  
+        Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
+        {  
+            $message->to($data['email'], $data['name'])->subject('Welcome to Mylan!');
+        });
+        
+         
+        return redirect(url('/admin/users/' . $userId . '/edit'));
+        
     }
 
     /**
@@ -113,7 +134,22 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $hospitals = Hospital:: all()->toArray();
+        $user = User::find($id)->toArray();
+        $userAccess = UserAccess::where(['user_id'=>$id,'object_type'=>'hospital'])->get()->toArray();  
+        
+        $mylanUserAccess['access_type'] = 'view';
+        $mylanUserAccess['id'] = '';
+        if($user['mylan_access']=='no')
+            $mylanUserAccess = UserAccess::where(['user_id'=>$id,'object_type'=>'mylan'])->first()->toArray();  
+ 
+         
+         
+        return view('admin.user-edit')->with('active_menu', 'users')
+                                          ->with('hospitals', $hospitals)
+                                          ->with('userAccess', $userAccess)
+                                          ->with('mylanUserAccess', $mylanUserAccess)
+                                          ->with('user', $user);
     }
 
     /**
@@ -123,9 +159,74 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $userId)
     {
-        //
+        $user = User::find($userId);
+        $name =  ucfirst($request->input('name'));
+        $user->name = $name;
+        $user->email = $request->input('email');
+        $user->phone = $request->input('phone');     
+        $user->project_access = ($request->has('has_access'))?'yes':'no';
+        $user->mylan_access = ($request->has('had_mylan_access'))?'yes':'no';
+        $user->save(); 
+
+        $mylanAccessId = $request->input('mylan_access_id');
+        if(!$request->has('had_mylan_access'))
+        {   
+            $access = $request->input('mylan_access');
+            if($mylanAccessId)
+            {
+                $userAccess = UserAccess::find($mylanAccessId);
+                $userAccess->access_type = $access; 
+                $userAccess->save();
+            }
+            else
+            {
+                
+                $userAccess = new UserAccess;
+                $userAccess->object_type = 'mylan' ; 
+                $userAccess->object_id = 0; 
+                $userAccess->user_id = $userId; 
+                $userAccess->access_type = $access; 
+                $userAccess->save();  
+            }
+            
+        }
+        
+
+        $hospitals = $request->input('hospital');
+        if(!empty($hospitals))
+        {
+            foreach ($hospitals as $key => $hospital) {
+
+                if($hospital=='')
+                    continue;
+
+                $access = $request->input('access_'.$key);
+                $user_access = $request->input('user_access')[$key];
+
+                if($user_access!='')
+                {
+                    $userAccess = UserAccess::find($user_access);
+                    $userAccess->access_type = $access; 
+                    $userAccess->save();
+                }
+                else
+                {
+                    $userAccess = new UserAccess;
+                    $userAccess->object_type = 'hospital' ; 
+                    $userAccess->object_id = $hospital; 
+                    $userAccess->user_id = $userId; 
+                    $userAccess->access_type = $access; 
+                    $userAccess->save();
+                }
+                
+            }
+            
+        }
+        
+        
+        return redirect(url('/admin/users/' . $userId . '/edit'));
     }
 
     /**

@@ -1,0 +1,52 @@
+.line {
+  border: 1px solid #000;
+  display: block;
+}
+.m-t-5 {
+  margin-top: 5px;
+}
+.sm {
+  font-size: 11px;
+  font-weight: 600;
+}
+.num-data span {
+  font-size: 14px;
+  font-weight: 100;
+  vertical-align: middle;
+}
+.num-data i {
+  font-size: 20px;
+}
+.margin-none {
+  margin: 0px;
+}
+.alert-black {
+  background: #ABABAB;
+  border: 0px;
+  font-size: 16px;
+  color: #fff;
+}
+.sm-font {
+  font-size: 11px;
+  font-weight: 100;
+  display: block;
+}
+.lst-sub h2 {
+  font-size: 40px;
+  margin-right: 10px;
+}
+.lst-sub h3 {
+  margin-right: 10px;
+}
+table td {
+  vertical-align: middle !important;
+}
+.dashboard-tbl td {
+  padding: 6px 5px !important;
+}
+.tbl-summary td {
+  padding: 0px 12px !important;
+}
+.light-gray {
+  background: #f2f2f2 !important;
+}

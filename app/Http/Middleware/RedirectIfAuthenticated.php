@@ -35,8 +35,22 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('/home');
+            return redirect('/dashbord');
         }
+
+        // if ($this->auth->check()) {
+
+        //     $routePrefix = $request->route()->getPrefix();
+        //     if(str_contains($routePrefix, 'admin'))
+        //             return redirect('/admin'); 
+        //     elseif(str_contains($routePrefix, 'hospital'))
+        //     {
+        //         $id= $request->id;
+        //         return redirect('/hospital/'.$id); 
+                 
+        //     }
+            
+        // }
 
         return $next($request);
     }

@@ -45,8 +45,7 @@
   border-left-color: #000;
   border-radius: 10px;
   -webkit-animation: pace-spinner 400ms linear infinite;
-  -moz-animation: pace-spinner 400ms linear infinite;
   -ms-animation: pace-spinner 400ms linear infinite;
-  -o-animation: pace-spinner 400ms linear infinite;
   animation: pace-spinner 400ms linear infinite;
 }
+/*# sourceMappingURL=vector_maps.css.map */

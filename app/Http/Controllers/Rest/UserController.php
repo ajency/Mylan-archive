@@ -11,6 +11,8 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\User;
 use App\UserDevice;
+use App\Hospital;
+use App\Projects;
 
 
 
@@ -187,26 +189,24 @@ class UserController extends Controller
     public function postLoginData($hospitalId , $projectId)
     {
 
-        $hospitalQry = new ParseQuery("Hospital");
-        $hospitalQry->equalTo("objectId", $hospitalId);
-        $hospital = $hospitalQry->first();  
-
-        $projectQry = new ParseQuery("Project");
-        $projectQry->equalTo("objectId", $projectId);
-        $project = $projectQry->first();
         
+        $projectId = intval ($projectId);
         $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project", $project);
+        $questionnaireQry->equalTo("project", $projectId);
         $questionnaire = $questionnaireQry->first(); 
         
+        $hospital = Hospital::find($hospitalId)->toArray();  
+        $project = Projects::find($projectId)->toArray(); 
         
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
         $data = $hospitalData = $questionnareData = [];
-        $hospitalData['id'] = $hospital->getObjectId();
-        $hospitalData['name'] = $hospital->get('name');
-        $hospitalData['logo'] = $hospital->get('logo');
-        $hospitalData['contact_number'] = $hospital->get('contact_number');
-        $hospitalData['project_id'] = $project->getObjectId();
-        $hospitalData['project'] = $project->get('name');
+        $hospitalData['id'] = $hospital['id'];
+        $hospitalData['name'] = $hospital['name'];
+        $hospitalData['logo'] = $logoUrl;
+        $hospitalData['phone'] = $hospital['phone'];
+        $hospitalData['project_id'] = $project['id'];
+        $hospitalData['project'] = $project['name'];
 
         $questionnareData=[];
         if(!empty($questionnaire))
