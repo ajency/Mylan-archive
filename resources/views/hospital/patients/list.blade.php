@@ -48,11 +48,11 @@
                                     <div class="tiles white added-margin light-gray" style="zoom: 1;">
                                         <div class="tiles-body">
                                             <div class="tiles-title"> Response Rate </div>
-                                            <div class="heading"> <span class="animate-number" data-value="26.8" data-animation-duration="1200">26.8</span>% </div>
+                                            <div class="heading"> <span class="animate-number" data-value="{{ $responseRate }}" data-animation-duration="1200">{{ $responseRate }}</span>% </div>
                                             <div class="progress transparent progress-small no-radius">
-                                                <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 26.8%;"></div>
+                                                <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ $responseRate }}%" style="width: {{ $responseRate }}%;"></div>
                                             </div>
-                                            <h5 class="text-black"><b>10</b> Total Submitted / <b>07</b> Total Missed</span></h5>
+                                            <h5 class="text-black"><b>{{ $completedResponses }}</b> Total Submitted / <b>{{ $missedResponses }}</b> Total Missed</span></h5>
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                             <div class="tiles-title"> Total Patients </div>
                                             <div class="heading"> <span class="animate-number" data-value="{{ count($patients) }}" data-animation-duration="1200">{{ count($patients) }}</div>
                               <div class="progress transparent progress-small no-radius">
-                              <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 26.8%;"></div>
+                              <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ count($patients) }}%" style="width: {{ count($patients) }}%;"></div>
                               </div>
                               <h5 class="text-black"><b><i class="fa fa-group"></i> &nbsp;{{ $newPatients }}</b> New Patients Added </h5>
                             

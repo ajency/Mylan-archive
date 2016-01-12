@@ -23,6 +23,7 @@
 <div class="grid simple">
    <div class="grid-body no-border table-data">
        <br>
+       <form method="GET"> 
        <div class="row">
            <!-- <div class="col-sm-6"> <h3 class="bold margin-none">Submissions</h3></div> -->
            <div class="col-sm-7">
@@ -31,9 +32,9 @@
            <div class="row">
            <div class="col-sm-9">
                <div class="input-group input-daterange">
-                   <input type="text" class="form-control" value="{{ $startDate }}">
+                   <input type="text" class="form-control" name="startDate" value="{{ $startDate }}">
                    <span class="input-group-addon">to</span>
-                   <input type="text" class="form-control" value="{{ $endDate }}">
+                   <input type="text" class="form-control" name="endDate" value="{{ $endDate }}">
                </div>
                </div>
                <div class="col-sm-3">
@@ -42,6 +43,7 @@
                </div>
            </div>
        </div>
+       </form>
        <hr>
          <div class="row ">
            <div class="col-md-4 ">
@@ -143,7 +145,13 @@
    </div>
 </div>
                   
-      
+         <script type="text/javascript">
+      $(document).ready(function() {
+         $('.input-daterange input').datepicker({
+             format: 'dd-mm-yyyy'
+         }); 
+         }); 
+         </script>   
  
 
 @endsection

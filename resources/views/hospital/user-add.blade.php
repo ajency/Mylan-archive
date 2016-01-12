@@ -63,7 +63,7 @@
                </div>
             </div>
             <br>
-            <div class="row hospital_users">
+            <div class="row project_users">
                <div class="col-md-3">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
                      <option value="">Select Project</option>
@@ -86,7 +86,7 @@
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="0">
-                  <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-user-access"><i class="fa fa-plus"></i> Add Project</button>
+                  <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                </div>
                <div class="col-md-3">
                  

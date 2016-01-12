@@ -11,6 +11,8 @@ use Parse\ParseQuery;
 use App\Hospital;
 use App\Projects;
 use App\User;
+use App\UserAccess;
+use \Input;
 
 class HospitalController extends Controller
 {
@@ -53,32 +55,53 @@ class HospitalController extends Controller
      */
     public function show($hospitalSlug)
     {
+        $inputs = Input::get(); 
+        $projectId = (isset($inputs['projectId']))?$inputs['projectId']:0;
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = Projects::where('hospital_id',$hospital['id'])->where('id',2)->first();
+
+        if(\Auth::user()->type=='hospital_user')
+        {
+            $userId = \Auth::user()->id;
+            $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->whereIn('id',$projectIds)->get()->toArray();  
+        }
+        else
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
+
+
+        if($projectId)
+            $project = Projects::where('hospital_id',$hospital['id'])->where('id',$projectId)->first();
+        else
+           $project = Projects::where('hospital_id',$hospital['id'])->first(); 
         
         $projectId = intval($project['id']);   
         
-        $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                  );
 
-        $endDate = date('d-m-Y', strtotime('+1 day'));
         $endDateObj = array(
                       "__type" => "Date",
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
+        
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
         $submissionFlags =  $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
         $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
         $patientsSummary = $this->patientSummary($patients ,$projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $patientsSummary['patientResponses'];
+        
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -87,6 +110,7 @@ class HospitalController extends Controller
                                         ->with('patientFlagSummary', $patientFlagSummary)
                                         ->with('patientsSummary', $patientsSummary)
                                         ->with('project', $project->toArray())
+                                        ->with('allProjects', $allProjects)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
@@ -495,7 +519,7 @@ class HospitalController extends Controller
 
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
         $completedResponses = [];
-        
+        $missedResponses = [];
         
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
@@ -512,6 +536,7 @@ class HospitalController extends Controller
             if($status=='missed')
             {
                 $patientResponses[$patient]['missed'][]=$responseId;
+                $missedResponses[]=$responseId;
                 continue;
             }
 
@@ -555,6 +580,9 @@ class HospitalController extends Controller
             }
 
         }
+
+        $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $responseRate =  round($responseRate,2);
          
 
         // foreach ($responses as   $response) {
@@ -586,8 +614,12 @@ class HospitalController extends Controller
         //     $patientResponses[$patient]['count'][]=$responseId;
             
         // }
- 
-        return $patientResponses;
+        $data['patientResponses']=$patientResponses;
+        $data['responseRate']=$responseRate; 
+        $data['completedResponses']=count($completedResponses);
+        $data['missedResponses']=count($missedResponses);
+
+        return $data;
         
     }
 

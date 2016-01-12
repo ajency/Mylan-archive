@@ -14,8 +14,8 @@
 
 
       <div class="pull-right m-t-25">
-                      <a href="patients.html" class="btn btn-white"><span class="text-success"><i class="fa fa-plus"></i> View/Edit Patient</span></a>
-                     <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+                      <a href="{{ url($hospital['url_slug'].'/patients' ) }}" class="btn btn-white"><span class="text-success"><i class="fa fa-plus"></i> View/Edit Patient</span></a>
+                     <a href="{{ url($hospital['url_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
                     
                   </div>
                   <div class="page-title">
@@ -26,24 +26,39 @@
                      <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                        <div class="row">
-                           <div class="col-sm-6"><h3 class="margin-none"><span class="bold">{{ $project['name'] }}</span></h3></div>
-                         
-                        </div>
-                     <hr>
-                     <div></div>
-                      <div class="row">
-                           <div class="col-sm-6"></div>
-                           <div class="col-sm-2">
-                           </div>
-                           <div class="col-sm-4">
-                                  <div class="input-group input-daterange">
-                                  <input type="text" class="form-control" value="{{ $startDate }}">
-                                  <span class="input-group-addon">to</span>
-                                  <input type="text" class="form-control" value="{{ $endDate }}">
-                              </div>
-                           </div>
-                        </div><br>
+    
+                    
+                     <form method="GET"> 
+                     <div class="row">
+ 
+                     <div class="col-sm-4">
+                     <h3 class="margin-none"><span class="bold">{{ $project['name'] }}</span></h3>
+                     </div>
+                     <div class="col-sm-3"> <select name="projectId" >
+                        <option>-Select Project-</option>
+                        @foreach($allProjects as $allproject)
+                        <option {{ ($project['id']==$allproject['id'])?'selected' : '' }}  value="{{ $allproject['id'] }}">{{ $allproject['name'] }}</option>
+                        @endforeach
+                     </select></div>
+                     <div class="col-sm-5">
+                    
+                     <div class="row">
+                     <div class="col-sm-9">
+                         <div class="input-group input-daterange">
+                             <input type="text" class="form-control" name="startDate" value="{{ $startDate }}">
+                             <span class="input-group-addon">to</span>
+                             <input type="text" class="form-control" name="endDate" value="{{ $endDate }}">
+                         </div>
+                         </div>
+                         <div class="col-sm-3">
+                         <button class="btn btn-default">Submit</button>
+                         </div>
+                         </div>
+                     </div>
+                 </div>
+                 </form>
+                  <hr>
+                  <br>
                         <div class="row ">
                            <div class="col-md-2 ">
                               <h1 class="bold num-data">{{ $projectResponseCount['baseLineOpenFlagsCount'] }}  
