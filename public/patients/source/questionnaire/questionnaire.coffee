@@ -18,6 +18,17 @@ angular.module 'angularApp.questionnaire'
 			flag : true
 			readonly : true
 
+			overlay : false
+
+			CSpinnerShow : ()->
+				@overlay = true;
+
+
+
+			CSpinnerHide :()->
+				@overlay = false;
+
+
 			variables :()->
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
@@ -165,11 +176,11 @@ angular.module 'angularApp.questionnaire'
 				# Storage.setData 'responseId','get'
 				# .then (responseId)=>	
 				# 	CSpinner.show '', 'Please wait..'
-				# param.responseId = 'v85D3Hn1Ht'
+				@CSpinnerShow()
 				QuestionAPI.saveAnswer param
 				.then (data)=>
 					# App.resize()
-					if @readonly == true then CToast.show 'Your answer is saved'
+					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
 					console.log data
 					@variables()
@@ -189,8 +200,8 @@ angular.module 'angularApp.questionnaire'
 						CToast.show 'Check net connection,answer not saved'
 					else
 						CToast.show 'Error in saving answer,try again'
-				.finally ->
-					# CSpinner.hide()
+				.finally ()=>
+					@CSpinnerHide()
 						
 
 			nextQuestion : ->
@@ -276,7 +287,7 @@ angular.module 'angularApp.questionnaire'
 
 			loadPrevQuestion :(param)->
 					
-				# CSpinner.show '', 'Please wait..'
+				@CSpinnerShow()
 				QuestionAPI.getPrevQuest param
 				.then (data)=>
 					console.log 'previous data'
@@ -295,8 +306,8 @@ angular.module 'angularApp.questionnaire'
 						CToast.show 'Check net connection,answer not saved'
 					else
 						CToast.show 'Error ,try again'
-				.finally ->
-						# CSpinner.hide()
+				.finally ()=>
+					@CSpinnerHide()
 
 
 			prevQuestion : ->
@@ -373,6 +384,14 @@ angular.module 'angularApp.questionnaire'
 				
 				@display = 'loader'
 				@getQuestion()
+
+
+			
+
+
+
+
+
 
 
 
