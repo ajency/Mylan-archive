@@ -28,12 +28,41 @@ class PatientController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $patients = User::where('type','patient')->orderBy('created_at')->get()->toArray();
+        $newPatients = [];
+        $patientReferenceCode = [];
+        foreach ($patients as  $patient) {
+            
+            if($patient['account_status']=='created')
+                $newPatients[]= $patient['reference_code'];
+            
+            $patientReferenceCode[] = $patient['reference_code'];
+        }
+
+        $startDate =  date('d-m-Y', strtotime('-1 months'));
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDate = date('d-m-Y', strtotime('+1 day'));
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+        $hospitalController = new HospitalController();
+        $patientsSummary = $hospitalController->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+      
 
         return view('hospital.patients.list')->with('hospital', $hospital)
                                           ->with('logoUrl', $logoUrl)
                                           ->with('active_menu', 'patients')
-                                          ->with('patients', $patients);
+                                          ->with('newPatients', count($newPatients))
+                                          ->with('patients', $patients)
+                                          ->with('patientsSummary', $patientsSummary);
     }
+
+ 
 
     /**
      * Show the form for creating a new resource.

@@ -22,10 +22,10 @@
    @include('hospital.patients.side-menu')
    <div class="tab-content">
       <div class="tab-pane table-data active" id="Patients">
-         <div class="text-right">
+         <!-- <div class="text-right">
             <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
             <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
-         </div>
+         </div> -->
          <br>
          <div>
           

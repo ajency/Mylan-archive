@@ -118,7 +118,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           responseId = '';
           options = {
             "responseId": responseId,
-            "questionnaireId": 'questionnaireIdd',
+            "questionnaireId": questionnaireIdd,
             "patientId": RefCode
           };
           return QuestionAPI.getQuestion(options).then((function(_this) {
