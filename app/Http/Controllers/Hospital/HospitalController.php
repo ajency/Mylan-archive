@@ -11,6 +11,7 @@ use Parse\ParseQuery;
 use App\Hospital;
 use App\Projects;
 use App\User;
+use App\UserAccess;
 use \Input;
 
 class HospitalController extends Controller
@@ -63,6 +64,17 @@ class HospitalController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+
+        if(\Auth::user()->type=='hospital_user')
+        {
+            $userId = \Auth::user()->id;
+            $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->whereIn('id',$projectIds)->get()->toArray();  
+        }
+        else
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
+
+
         if($projectId)
             $project = Projects::where('hospital_id',$hospital['id'])->where('id',$projectId)->first();
         else
@@ -81,7 +93,7 @@ class HospitalController extends Controller
                      );
 
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
-        $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
+        
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
