@@ -923,3 +923,21 @@ div.q-tabs .active:hover {
     -o-transform: rotateZ(0deg);
   }
 }
+.q-panel {
+  position: relative;
+}
+.q-panel .overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.37);
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
+.q-panel .overlay .text {
+  text-align: center;
+  padding-top: 31%;
+  color: #fff;
+  font-size: 25px;
+}

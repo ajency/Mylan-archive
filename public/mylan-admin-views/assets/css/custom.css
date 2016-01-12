@@ -1,3 +1,48 @@
+.page-content {
+  background: #f9f9f9;
+}
+.page-content .bar {
+  background: #05A8A5;
+}
+.page-content .bar ul li a {
+  opacity: 0.9;
+  color: #fff;
+}
+.page-content .bar ul li.active-item {
+  background: #fff;
+}
+.page-content .bar ul li.active-item a {
+  color: #63696d;
+}
+.page-content .grid.simple .grid-body {
+  border: 1px solid #f4f4f4;
+}
+.page-content .btn.btn-danger,
+.page-content .label-danger {
+  background: rgba(253, 127, 104, 0.99);
+}
+.page-content .btn.btn-red {
+  background: #FF7979;
+  color: #fff;
+}
+.page-content .label-warning {
+  background-color: #DEB65D;
+}
+.page-content .text-danger {
+  color: rgba(253, 127, 104, 0.99);
+}
+.page-content .text-warning {
+  color: #DEB65D;
+}
+.page-content .bg-danger {
+  background-color: #F3AFAF;
+}
+.page-content .bg-warning {
+  background-color: #F7D3AB;
+}
+.page-content .bg-success {
+  background-color: #88CAC4;
+}
 label {
   font-size: 15px;
 }
@@ -10,8 +55,14 @@ label {
 .b-r {
   border-color: #C1C1C1;
 }
-.page-title {
-  margin: 0 0 30px;
+.page-title h3 {
+  width: auto;
+}
+.page-title a i {
+  font-size: 20px;
+  margin-left: 12px;
+  top: -5px;
+  float: none;
 }
 .table-data div.DTTT .btn:first-child {
   display: none;
@@ -104,7 +155,7 @@ input {
   margin-right: 15px;
 }
 .footer {
-  background-color: #3C3C41;
+  background-color: #D2D2D2;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -116,13 +167,15 @@ input {
   padding-right: 26px;
 }
 .footer span {
-  color: #E1EAF1;
+  color: #757575;
 }
 .breadcrumb li {
   padding-left: 0;
 }
 .inner-tabs {
-  background: #E5E9EC;
+  background: transparent;
+  border-bottom: none;
+  border-right: none!important;
 }
 .inner-tabs li a {
   color: #505558;
@@ -138,4 +191,48 @@ input {
 .inner-tabs li:focus a i,
 .inner-tabs li:visited a i {
   color: #999;
+}
+.ios-switch {
+  height: 30px!important;
+  width: 55px!important;
+}
+.ios-switch .handle {
+  width: 26px!important;
+  height: 26px!important;
+}
+.ios-switch.on .handle {
+  -o-transform: translate3d(25px, 0, 0) !important;
+  -ms-transform: translate3d(25px, 0, 0) !important;
+  -moz-transform: translate3d(25px, 0, 0) !important;
+  -webkit-transform: translate3d(25px, 0, 0) !important;
+  transform: translate3d(25px, 0, 0) !important;
+}
+div.upload {
+  width: auto;
+  height: 200px;
+  background: #eee;
+  overflow: hidden;
+  position: relative;
+}
+div.upload input {
+  display: block !important;
+  width: 100% !important;
+  height: 200px !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  cursor: pointer;
+}
+div.upload .img-div {
+  text-align: center;
+  top: 27%;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 9%;
 }
