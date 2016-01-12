@@ -51,7 +51,12 @@ class PatientController extends Controller
                      );
 
         $hospitalController = new HospitalController();
-        $patientsSummary = $hospitalController->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+        $patientResponses = $hospitalController->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+        $patientsSummary = $patientResponses['patientResponses'];
+        $responseRate = $patientResponses['responseRate'];
+        $completedResponses = $patientResponses['completedResponses'];
+        $missedResponses = $patientResponses['missedResponses'];
+ 
       
 
         return view('hospital.patients.list')->with('hospital', $hospital)
@@ -59,6 +64,9 @@ class PatientController extends Controller
                                           ->with('active_menu', 'patients')
                                           ->with('newPatients', count($newPatients))
                                           ->with('patients', $patients)
+                                          ->with('responseRate', $responseRate)
+                                          ->with('completedResponses', $completedResponses)
+                                          ->with('missedResponses', $missedResponses)
                                           ->with('patientsSummary', $patientsSummary);
     }
 
