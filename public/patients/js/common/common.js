@@ -2,6 +2,8 @@ angular.module('angularApp.common', []).factory('App', [
   '$q', '$http', '$location', function($q, $http, $location) {
     var App;
     return App = {
+      previousState: '',
+      currentState: '',
       errorCode: function(error) {
         error = '';
         if (error.code === '100') {

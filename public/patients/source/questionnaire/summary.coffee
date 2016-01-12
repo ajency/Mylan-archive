@@ -1,7 +1,7 @@
 angular.module 'angularApp.questionnaire',[]
 
-.controller 'summaryController', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location'
-	, ($scope, QuestionAPI, $routeParams, CToast, $location)->
+.controller 'summaryController', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', 'App'
+	, ($scope, QuestionAPI, $routeParams, CToast, $location, App)->
 
 		$scope.view =
 			data : []
@@ -37,11 +37,10 @@ angular.module 'angularApp.questionnaire',[]
 					# CSpinner.hide()
 
 			back :->
-				# deregister()
-				# if App.previousState == 'dashboard'
-				# 	App.navigate 'dashboard'
-
-				$location.path 'questionnaire/lastQuestion/'+$routeParams.responseId
+				if App.previousState == 'dashboardController'
+					$location.path 'dashboard'
+				else	
+					$location.path 'questionnaire/lastQuestion/'+$routeParams.responseId
 
 
 			onTapToRetry : ->
