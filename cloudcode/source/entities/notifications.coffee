@@ -125,7 +125,7 @@ sendNotifications = () ->
 										.then () ->
 											installationQuery = new Parse.Query('Installation')
 											installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
-											#installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
+											installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
 											installationQuery.limit(1)
 											installationQuery.find()
 											Parse.Push.send({
