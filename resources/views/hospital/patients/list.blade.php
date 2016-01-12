@@ -60,11 +60,11 @@
                                     <div class="tiles white added-margin light-gray" style="zoom: 1;">
                                         <div class="tiles-body">
                                             <div class="tiles-title"> Total Patients </div>
-                                            <div class="heading"> <span class="animate-number" data-value="30" data-animation-duration="1200">30</div>
+                                            <div class="heading"> <span class="animate-number" data-value="{{ count($patients) }}" data-animation-duration="1200">{{ count($patients) }}</div>
                               <div class="progress transparent progress-small no-radius">
                               <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 26.8%;"></div>
                               </div>
-                              <h5 class="text-black"><b><i class="fa fa-group"></i> &nbsp;10</b> New Patients Added </h5>
+                              <h5 class="text-black"><b><i class="fa fa-group"></i> &nbsp;{{ $newPatients }}</b> New Patients Added </h5>
                             
                               </div>
                               </div>
@@ -95,6 +95,11 @@
                                   $patientId = $patient['id'];
                                   $patientStatus = $patient['account_status'];
                                   $referenceCode = $patient['reference_code'];
+                                  
+
+                                  if(!isset($patientsSummary[$referenceCode]))
+                                    continue;
+                                  
                                   $patientSummary = $patientsSummary[$referenceCode];
                                 ?>
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/patients/{{ $patientId }}';">

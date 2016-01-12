@@ -16,7 +16,7 @@
 @section('content')
 
 <div class="pull-right m-t-25">
-                     <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                     <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                      <a href="{{ url( 'admin/users/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add User</a>
                   </div>
 <div class="page-title">

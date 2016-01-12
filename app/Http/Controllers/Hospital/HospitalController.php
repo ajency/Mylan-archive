@@ -78,7 +78,7 @@ class HospitalController extends Controller
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
         $submissionFlags =  $this->patientSubmissionSummary($projectId,$startDateObj,$endDateObj);
         $patientFlagSummary = $this->patientFlagSummary($projectId,$startDateObj,$endDateObj);
-        $patientsSummary = $this->patientSummary($patient ,$projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $this->patientSummary($patients ,$projectId,$startDateObj,$endDateObj);
          
         return view('hospital.dashbord')->with('active_menu', 'dashbord')
                                         ->with('projectResponseCount', $projectResponseCount)
@@ -479,17 +479,23 @@ class HospitalController extends Controller
         $schedules = $scheduleQry->find();
 
         $patientNextOccurrence = [];
+        $patientResponses = [];
         foreach($schedules as $schedule)
         {
             $patientId = $schedule->get("patient");
             $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
-            $patientNextOccurrence[$patientId]=$nextOccurrence;
+            // $patientNextOccurrence[$patientId]=$nextOccurrence;
+            $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
+            $patientResponses[$patientId]['totalFlags']=[];
+            $patientResponses[$patientId]['missed'] =[];
+            $patientResponses[$patientId]['count'] =[];
+            $patientResponses[$patientId]['lastSubmission'] = '-' ;
 
         }
 
         $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
         $completedResponses = [];
-        $patientResponses = [];
+        
         
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
@@ -500,9 +506,6 @@ class HospitalController extends Controller
             if(!isset($patientResponses[$patient]))
             {
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
-                $patientResponses[$patient]['nextSubmission'] = $patientNextOccurrence[$patient];
-                $patientResponses[$patient]['totalFlags']=[];
-                $patientResponses[$patient]['missed'] =[];
             }
 
             $patientResponses[$patient]['count'][]=$responseId;
