@@ -130,12 +130,12 @@
                             $visitDate = date('d-m-Y H:i:s' , strtotime($visit['date_visited']));
                            ?>
                               <div class="row patient-visit">
-                                 <div class="col-sm-5 m-t-25 ">
-                                 <div class="input-append date form_datetime">
-                                    <input name="visit_date[]" id="visit_date" type="text"   placeholder="Enter Date" class="form-control" readonly>
-                                    <span class="add-on"><i class="fa fa-calender"></i></span>
-                                    </div>
+                   
+                                 <div class="col-sm-3 m-t-25 input-daterange">
+                                    <input name="visit_date[]" id="visit_date" type="text" value="{{ $visitDate }}"  placeholder="Enter Date" class="form-control" >
                                  </div>
+                           
+                        
                                   <div class="col-sm-6 m-t-25 ">
                                     <textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control">{{ $visit['note'] }}</textarea> 
                                  </div>
