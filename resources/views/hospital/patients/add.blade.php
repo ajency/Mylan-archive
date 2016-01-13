@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-sm-6">
                       <label>If yes, how many per week</label>
-                        <input name="smoke_per_week" id="smoke_per_week" type="text"  placeholder="How many per week" data-parsley-required >
+                        <input name="smoke_per_week" id="smoke_per_week" type="text"  placeholder="How many per week" >
                     </div>
                     </div>
 
@@ -82,7 +82,7 @@
                     </div>
                     <div class="col-sm-6">
                       <label>If yes, units per week</label>
-                        <input name="units_per_week" id="units_per_week" type="text"  placeholder="Units per week" data-parsley-required >
+                        <input name="units_per_week" id="units_per_week" type="text"  placeholder="Units per week" >
                     </div>
                     </div>
                      
