@@ -32,14 +32,14 @@
                      <div class="row">
  
                      <div class="col-sm-4">
-                     <h3 class="margin-none"><span class="bold">{{ $project['name'] }}</span></h3>
+                     <h3 class="margin-none"><span class="bold">{{ (isset($project['name']))?$project['name']:'' }}</span></h3>
                      </div>
-                     <div class="col-sm-3"> <select name="projectId" >
+                     <div class="col-sm-3"> <!-- <select name="projectId" >
                         <option>-Select Project-</option>
                         @foreach($allProjects as $allproject)
                         <option {{ ($project['id']==$allproject['id'])?'selected' : '' }}  value="{{ $allproject['id'] }}">{{ $allproject['name'] }}</option>
                         @endforeach
-                     </select></div>
+                     </select> --></div>
                      <div class="col-sm-5">
                     
                      <div class="row">
