@@ -65,7 +65,7 @@ class HospitalController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
 
-        if(\Auth::user()->type=='hospital_user')
+        if(\Auth::user()->type=='hospital_user' && \Auth::user()->project_access=='no')
         {
             $userId = \Auth::user()->id;
             $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
@@ -504,6 +504,7 @@ class HospitalController extends Controller
 
         $patientNextOccurrence = [];
         $patientResponses = [];
+        $patientData = [];
         foreach($schedules as $schedule)
         {
             $patientId = $schedule->get("patient");
@@ -517,7 +518,7 @@ class HospitalController extends Controller
 
         }
 
-        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate);  
         $completedResponses = [];
         $missedResponses = [];
         
@@ -527,9 +528,10 @@ class HospitalController extends Controller
             $responseId = $response->getObjectId();
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
  
-            if(!isset($patientResponses[$patient]))
+            if(!isset($patientData[$patient]))
             {
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientData[$patient] = $occurrenceDate;
             }
 
             $patientResponses[$patient]['count'][]=$responseId;

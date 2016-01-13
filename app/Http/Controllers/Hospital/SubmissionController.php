@@ -32,7 +32,13 @@ class SubmissionController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $projectId ='';
+        $projectIds =[];
+        if(\Auth::user()->type=='hospital_user' && \Auth::user()->project_access=='no')
+        {
+            $userId = \Auth::user()->id;
+            $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
+            //$allProjects = Projects::where('hospital_id',$hospital['id'])->whereIn('id',$projectIds)->get()->toArray();  
+        }
         
         $startDateObj = array(
                   "__type" => "Date",
@@ -44,26 +50,73 @@ class SubmissionController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $responses = $this->getResponses($projectId,0,[] ,$startDateObj,$endDateObj);
-        $submissionCount = count($responses);
+        //get missed response count
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","missed");
+        if(!empty($projectIds))
+            $responseQry->containedIn("project",$projectIds);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        $missedResponses = $responseQry->count();  
+
+        $responses = $this->getResponses($projectIds,0,[] ,$startDateObj,$endDateObj); 
+        $completedSubmissionCount = count($responses);
+        $openStatus = [];
+        $closedStatus = [];
+        $timeDifference = [];
+        
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            $previousFlagStatus = $response->get("previousFlagStatus");
+            $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
+            $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
+            $responseId = $response->getObjectId();
+
+            if ($previousFlagStatus=='closed') {
+                $diff = strtotime($updatedAt) - strtotime($createdAt);
+                $timeDifference[] = $diff/3600;
+                $closedStatus[] = $responseId;
+            }
+            elseif ($previousFlagStatus=='open') {
+                $openStatus[] = $responseId;
+            }
+        }
+
+        $totalSubmissions = $completedSubmissionCount + $missedResponses;
+
+        $responseRate = ($completedSubmissionCount) ? ($completedSubmissionCount/$totalSubmissions) * 100 :0;
+        $responseRate =  round($responseRate,2);
+
+        $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
         $hospitalController = new HospitalController();
         $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
 
-         return view('hospital.submissions-list')->with('active_menu', 'submission')
+        return view('hospital.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
+                                                 ->with('avgReviewTime', $avgReviewTime)
+                                                 ->with('responseRate', $responseRate)
+                                                 ->with('completedSubmissionCount', $completedSubmissionCount)
+                                                 ->with('missedResponses', $missedResponses)
+                                                 ->with('openStatus', count($openStatus))
+                                                 ->with('closedStatus', count($closedStatus))
+                                                 ->with('totalSubmissions', $totalSubmissions)
                                                  ->with('submissionFlags', $submissionFlags);
     }
 
-    public function getResponses($projectId,$page=0,$responseData,$startDate,$endDate)
+    public function getResponses($projectIds,$page=0,$responseData,$startDate,$endDate)
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","completed");
+        $responseQry->containedIn("status",["completed"]);
+        
+        if(!empty($projectIds))
+            $responseQry->containedIn("project",$projectIds);
+        
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->descending("occurrenceDate");
@@ -71,11 +124,11 @@ class SubmissionController extends Controller
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
-
+         
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getResponses($projectId,$page,$responseData ,$startDate,$endDate);
+            $responseData = $this->getResponses($projectIds,$page,$responseData ,$startDate,$endDate);
         }  
         
         return $responseData;

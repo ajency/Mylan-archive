@@ -50,11 +50,11 @@
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
                        <div class="tiles-title"> Submissions </div>
-                       <div class="heading"> <span class="animate-number" data-value="30" data-animation-duration="1200">30</span> </div>
+                       <div class="heading"> <span class="animate-number" data-value="{{ $completedSubmissionCount }}" data-animation-duration="1200">{{ $completedSubmissionCount }}</span> </div>
                        <div class="progress transparent progress-small no-radius">
-                           <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 30%;"></div>
+                           <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ $completedSubmissionCount }}%" style="width: {{ $completedSubmissionCount }}%;"></div>
                        </div>
-                       <h5 class="text-black"><b>10</b> Reviewed Pending / <b>13</b> Reviewed</span></h5>
+                       <h5 class="text-black"><b>{{ $openStatus }}</b> Open / <b>{{ $closedStatus }}</b> Closed</span></h5>
                    </div>
                </div>
            </div>
@@ -62,11 +62,11 @@
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
                        <div class="tiles-title"> Response Rate </div>
-                       <div class="heading"> <span class="animate-number" data-value="60%" data-animation-duration="1200">60 %</div>
+                       <div class="heading"> <span class="animate-number" data-value="{{ $responseRate }}%" data-animation-duration="1200">{{ $responseRate }} %</div>
          <div class="progress transparent progress-small no-radius">
-         <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="60%" style="width: 60%;"></div>
+         <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ $responseRate }}%" style="width: {{ $responseRate }}%;"></div>
          </div>
-         <h5 class="text-black"><b>10</b> Submitted / <b>20</b> Missed</span></h5>
+         <h5 class="text-black"><b>{{ $completedSubmissionCount }}</b> Submitted / <b>{{ $missedResponses }}</b> Missed</span></h5>
                        </div>
                    </div>
                </div>
@@ -75,7 +75,7 @@
                        <div class="tiles-body">
                            <div class="tiles-title"> Avg Review Time </div>
                            <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
-                               <h1 class="text-error bold inline no-margin"> 3 hrs</h1>
+                               <h1 class="text-error bold inline no-margin"> {{ $avgReviewTime }} hrs</h1>
                            </div>
                            <p class="text-black">Lorem ipsum dolor sit amet</p>
                            <br>
@@ -155,3 +155,4 @@
  
 
 @endsection
+

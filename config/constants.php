@@ -12,8 +12,8 @@ return [
 
     /****parse*******/
     'parse_sdk' => [
-        'app_id' => 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA',
-        'rest_api_key' => 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
+        'app_id' => env( 'APP_ID'),
+        'rest_api_key' => env( 'REST_API_KEY')
     ],
 
 
