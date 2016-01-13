@@ -138,7 +138,7 @@
                            @if(!empty($patientvisits))
                            @foreach($patientvisits as $visit)
                            <?php
-                            $visitDate = date('d-m-Y H:i:s' , strtotime($visit['date_visited']));
+                            $visitDate = date('d-m-Y H:i' , strtotime($visit['date_visited']));
                            ?>
                               <div class="row patient-visit">
                    
@@ -172,7 +172,6 @@
                         </div>
                      </div>
                   
-                  
                   <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
         
                </div>
@@ -193,11 +192,18 @@
             </div>
           </div>
 
+
+
 <script type="text/javascript">
   $(document).ready(function() {
-     $('.input-daterange input').datepicker({
-         format: 'dd-mm-yyyy'
-     }); 
+     $('.input-daterange input').datetimepicker({
+        format: "dd-mm-yyyy hh:ii",
+        autoclose: true,
+        todayBtn: true,
+         
+    });
+
+ 
   }); 
 </script>
 <!-- END PLACE PAGE CONTENT HERE -->

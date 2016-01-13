@@ -156,15 +156,19 @@
       </form>
             </div>
           </div>
-
 <script type="text/javascript">
   $(document).ready(function() {
-     $('.input-daterange input').datepicker({
-         format: 'dd-mm-yyyy H:i:s'
-     }); 
-  }); 
+     $('.input-daterange input').datetimepicker({
+        format: "dd-mm-yyyy hh:ii",
+        autoclose: true,
+        todayBtn: true,
+         
+    });
 
-  var PATIENT_ID = 0;
+ 
+  }); 
+    var PATIENT_ID = 0;
 </script>
+ 
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
