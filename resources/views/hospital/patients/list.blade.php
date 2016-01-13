@@ -203,7 +203,13 @@
                   </div>
  
                   
-      
+      <script type="text/javascript">
+      $(document).ready(function() {
+         $('.input-daterange input').datepicker({
+             format: 'dd-mm-yyyy'
+         }); 
+      }); 
+      </script>      
  
 
 @endsection

@@ -150,6 +150,8 @@ class PatientController extends Controller
         if(!empty($medications))
         {
             foreach ($medications as   $medication) {
+                if($medication == '')
+                    continue;
                 $patientMedication[]= new PatientMedication(['medication' => $medication]);
             }
         }
@@ -163,6 +165,10 @@ class PatientController extends Controller
         if(!empty($visitDate))
         {
             foreach ($visitDate as $key=>  $visitDate) {
+                if($visitDate == '')
+                    continue;
+
+                $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
                 $note = $notes[$key];
                 $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
             }
@@ -280,6 +286,9 @@ class PatientController extends Controller
         {
             $user->medications()->delete();
             foreach ($medications as   $medication) {
+                if($medication == '')
+                    continue;
+
                 $patientMedication[]= new PatientMedication(['medication' => $medication]);
             }
         }
@@ -294,6 +303,9 @@ class PatientController extends Controller
         {
             $user->clinicVisit()->delete();
             foreach ($visitDate as $key=>  $visitDate) {
+                if($visitDate == '')
+                    continue;
+                
                 $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
                 $note = $notes[$key];
                 $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);

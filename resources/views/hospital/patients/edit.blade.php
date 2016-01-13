@@ -110,7 +110,7 @@
                               </div>
                             @endforeach
                           @endif
-                          div class="row patient-mediaction">
+                          <div class="row patient-mediaction">
                                  <div class="col-sm-6 m-t-25 ">
                                     <input name="medications[]" id="medications" type="text"   placeholder="Enter Medication" class="form-control" >
                                  </div>
@@ -196,7 +196,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
      $('.input-daterange input').datepicker({
-         format: 'dd-mm-yyyy H:i:s'
+         format: 'dd-mm-yyyy'
      }); 
   }); 
 </script>
