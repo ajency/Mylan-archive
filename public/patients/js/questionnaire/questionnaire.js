@@ -394,6 +394,11 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       init: function() {
         console.log('insie questionnaire');
         return this.getQuestion();
+      },
+      closeModal: function() {
+        $('#pauseModal').modal('hide');
+        $('.modal-backdrop').addClass('hidden');
+        return $location.path('dashboard');
       }
     };
   }

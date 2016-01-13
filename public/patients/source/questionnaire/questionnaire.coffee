@@ -387,17 +387,15 @@ angular.module 'angularApp.questionnaire'
 				@getQuestion()
 
 
-			
-
-
-
-
-
-
-
-
 			init : ->
 				console.log 'insie questionnaire'
 				@getQuestion()	
+
+			closeModal : ->
+				$('#pauseModal').modal('hide')
+				$('.modal-backdrop').addClass('hidden')
+				$location.path('dashboard')
+				
+
 
 ]

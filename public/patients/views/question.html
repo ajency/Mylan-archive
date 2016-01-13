@@ -109,10 +109,8 @@
           Previous
         </button>
       </div>
-      <div class="col-xs-12" id="notify-css">
-       &nbsp;
-      </div>
-      <div class="col-md-12 text-right">
+      
+      <div class="col-md-12 text-right" id="notify-css">
         <button type="button" 
           class="btn btn-success"
            ng-if = "view.data.next == true"
@@ -209,7 +207,11 @@
         <div class="row">
         <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
         
-        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
+        <div class="col-xs-12">
+            <button class="btn btn-danger btn-block">
+              Yes, I am Sure 
+            </button>
+        </div>
       </div>
       </div>
     </div>
@@ -237,7 +239,11 @@
       <div class="modal-footer">
         <div class="row">
         <div class="col-xs-12"><button class="btn btn-success btn-block"  data-dismiss="modal">No, Go Back</button></div>
-        <div class="col-xs-12"><button class="btn btn-danger btn-block">Yes, I am Sure</button></div>
+        <div class="col-xs-12">
+          <button class="btn btn-danger btn-block" ng-click="view.closeModal()">
+            Yes, I am Sure
+          </button>
+        </div>
       </div>
       </div>
     </div>
