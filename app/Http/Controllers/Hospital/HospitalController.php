@@ -56,7 +56,7 @@ class HospitalController extends Controller
     public function show($hospitalSlug)
     {
         $inputs = Input::get(); 
-        $projectId = (isset($inputs['projectId']))?$inputs['projectId']:0;
+        // $projectId = (isset($inputs['projectId']))?$inputs['projectId']:0;
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
@@ -75,12 +75,23 @@ class HospitalController extends Controller
             $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
 
 
-        if($projectId)
-            $project = Projects::where('hospital_id',$hospital['id'])->where('id',$projectId)->first();
+        // if($projectId)
+        //     $project = Projects::where('hospital_id',$hospital['id'])->where('id',$projectId)->first()->toArray();
+        // else
+        $project = Projects::where('hospital_id',$hospital['id'])->first(); 
+        if($project==null)
+        {
+            $project=[];
+            $projectId = 0;
+        }
         else
-           $project = Projects::where('hospital_id',$hospital['id'])->first(); 
+        {
+            $project = $project->toArray();
+            $projectId = intval($project['id']);
+        }
         
-        $projectId = intval($project['id']);   
+
+           
         
         $startDateObj = array(
                   "__type" => "Date",
@@ -109,7 +120,7 @@ class HospitalController extends Controller
                                         ->with('submissionFlags', $submissionFlags)
                                         ->with('patientFlagSummary', $patientFlagSummary)
                                         ->with('patientsSummary', $patientsSummary)
-                                        ->with('project', $project->toArray())
+                                        ->with('project', $project)
                                         ->with('allProjects', $allProjects)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
