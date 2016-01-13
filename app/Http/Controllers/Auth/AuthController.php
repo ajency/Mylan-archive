@@ -210,7 +210,7 @@ class AuthController extends Controller
            $remember = 0;
             
         
-        if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
             if(Auth::user()->account_status=='active')
             {

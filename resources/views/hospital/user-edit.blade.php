@@ -67,7 +67,7 @@
                $i=0;
             ?>
             @foreach($userAccess as $value)
-            <div class="row hospital_users">
+            <div class="row project_users">
                <div class="col-md-3">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
                   <select name="project[]" id="project" class="select2 form-control"  >
@@ -95,7 +95,7 @@
                $i++;
             ?>
             @endforeach
-            <div class="row hospital_users">
+            <div class="row project_users">
                <div class="col-md-3">
                   <input type="hidden" name="user_access[]" value="">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
@@ -122,7 +122,7 @@
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="{{ $i }}">
-                  <button type="button"  object-type="Project" object-id="{{ $project['id']}}" class="btn btn-link text-success pullleft  add-user-access"><i class="fa fa-plus"></i> Add Project</button>
+                  <button type="button"  object-type="Project" object-id="{{ $project['id']}}" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                </div>
                <div class="col-md-3">
                  

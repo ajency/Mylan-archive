@@ -11,6 +11,7 @@ use Parse\ParseQuery;
 use App\Hospital;
 use App\Projects;
 use App\User;
+use App\UserAccess;
 use \Input;
 
 class HospitalController extends Controller
@@ -63,6 +64,17 @@ class HospitalController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+
+        if(\Auth::user()->type=='hospital_user' && \Auth::user()->project_access=='no')
+        {
+            $userId = \Auth::user()->id;
+            $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->whereIn('id',$projectIds)->get()->toArray();  
+        }
+        else
+            $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
+
+
         if($projectId)
             $project = Projects::where('hospital_id',$hospital['id'])->where('id',$projectId)->first();
         else
@@ -81,7 +93,7 @@ class HospitalController extends Controller
                      );
 
         $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(3)->toArray();
-        $allProjects = Projects::where('hospital_id',$hospital['id'])->get()->toArray(); 
+        
 
         $projectResponseCount = $this->getProjectResponseCount($projectId,$startDateObj,$endDateObj);
         $projectOpenFlags =  $this->projectOpenFlags($projectId,$startDateObj,$endDateObj);
@@ -492,6 +504,7 @@ class HospitalController extends Controller
 
         $patientNextOccurrence = [];
         $patientResponses = [];
+        $patientData = [];
         foreach($schedules as $schedule)
         {
             $patientId = $schedule->get("patient");
@@ -505,7 +518,7 @@ class HospitalController extends Controller
 
         }
 
-        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate); 
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate);  
         $completedResponses = [];
         $missedResponses = [];
         
@@ -515,9 +528,10 @@ class HospitalController extends Controller
             $responseId = $response->getObjectId();
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
  
-            if(!isset($patientResponses[$patient]))
+            if(!isset($patientData[$patient]))
             {
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientData[$patient] = $occurrenceDate;
             }
 
             $patientResponses[$patient]['count'][]=$responseId;
@@ -570,6 +584,7 @@ class HospitalController extends Controller
         }
 
         $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $responseRate =  round($responseRate,2);
          
 
         // foreach ($responses as   $response) {

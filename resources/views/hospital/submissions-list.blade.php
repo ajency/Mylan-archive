@@ -23,6 +23,7 @@
 <div class="grid simple">
    <div class="grid-body no-border table-data">
        <br>
+       <form method="GET"> 
        <div class="row">
            <!-- <div class="col-sm-6"> <h3 class="bold margin-none">Submissions</h3></div> -->
            <div class="col-sm-7">
@@ -31,9 +32,9 @@
            <div class="row">
            <div class="col-sm-9">
                <div class="input-group input-daterange">
-                   <input type="text" class="form-control" value="{{ $startDate }}">
+                   <input type="text" class="form-control" name="startDate" value="{{ $startDate }}">
                    <span class="input-group-addon">to</span>
-                   <input type="text" class="form-control" value="{{ $endDate }}">
+                   <input type="text" class="form-control" name="endDate" value="{{ $endDate }}">
                </div>
                </div>
                <div class="col-sm-3">
@@ -42,17 +43,18 @@
                </div>
            </div>
        </div>
+       </form>
        <hr>
          <div class="row ">
            <div class="col-md-4 ">
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
                        <div class="tiles-title"> Submissions </div>
-                       <div class="heading"> <span class="animate-number" data-value="30" data-animation-duration="1200">30</span> </div>
+                       <div class="heading"> <span class="animate-number" data-value="{{ $completedSubmissionCount }}" data-animation-duration="1200">{{ $completedSubmissionCount }}</span> </div>
                        <div class="progress transparent progress-small no-radius">
-                           <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 30%;"></div>
+                           <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ $completedSubmissionCount }}%" style="width: {{ $completedSubmissionCount }}%;"></div>
                        </div>
-                       <h5 class="text-black"><b>10</b> Reviewed Pending / <b>13</b> Reviewed</span></h5>
+                       <h5 class="text-black"><b>{{ $openStatus }}</b> Open / <b>{{ $closedStatus }}</b> Closed</span></h5>
                    </div>
                </div>
            </div>
@@ -60,11 +62,11 @@
                <div class="tiles white added-margin light-gray" style="zoom: 1;">
                    <div class="tiles-body">
                        <div class="tiles-title"> Response Rate </div>
-                       <div class="heading"> <span class="animate-number" data-value="60%" data-animation-duration="1200">60 %</div>
+                       <div class="heading"> <span class="animate-number" data-value="{{ $responseRate }}%" data-animation-duration="1200">{{ $responseRate }} %</div>
          <div class="progress transparent progress-small no-radius">
-         <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="60%" style="width: 60%;"></div>
+         <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="{{ $responseRate }}%" style="width: {{ $responseRate }}%;"></div>
          </div>
-         <h5 class="text-black"><b>10</b> Submitted / <b>20</b> Missed</span></h5>
+         <h5 class="text-black"><b>{{ $completedSubmissionCount }}</b> Submitted / <b>{{ $missedResponses }}</b> Missed</span></h5>
                        </div>
                    </div>
                </div>
@@ -73,7 +75,7 @@
                        <div class="tiles-body">
                            <div class="tiles-title"> Avg Review Time </div>
                            <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
-                               <h1 class="text-error bold inline no-margin"> 3 hrs</h1>
+                               <h1 class="text-error bold inline no-margin"> {{ $avgReviewTime }} hrs</h1>
                            </div>
                            <p class="text-black">Lorem ipsum dolor sit amet</p>
                            <br>
@@ -143,7 +145,14 @@
    </div>
 </div>
                   
-      
+         <script type="text/javascript">
+      $(document).ready(function() {
+         $('.input-daterange input').datepicker({
+             format: 'dd-mm-yyyy'
+         }); 
+         }); 
+         </script>   
  
 
 @endsection
+

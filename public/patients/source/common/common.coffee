@@ -4,6 +4,9 @@ angular.module 'angularApp.common', []
 
 	App =
 
+		previousState: ''
+		currentState: ''
+
 		errorCode : (error) ->
 			error = ''
 			if error.code == '100'

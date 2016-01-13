@@ -846,13 +846,14 @@ div.q-tabs .active:hover {
   -webkit-justify-content: center;
   -moz-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: px;center;
+  padding-top: 25%;
 }
-.cf-loader:after {
+.loader:after {
   display: block;
   position: relative;
-  width: 15px;
-  height: 15px;
+  width: 40px;
+  height: 40px;
   -webkit-animation: rotate 0.6s linear infinite;
   -moz-animation: rotate 0.6s linear infinite;
   -ms-animation: rotate 0.6s linear infinite;

@@ -13,6 +13,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       descriptiveAnswer: '',
       flag: true,
       readonly: true,
+      overlay: false,
+      CSpinnerShow: function() {
+        return this.overlay = true;
+      },
+      isEmpty: function(pastAnswerObject) {
+        return _.isEmpty(pastAnswerObject);
+      },
+      CSpinnerHide: function() {
+        return this.overlay = false;
+      },
       variables: function() {
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
@@ -159,11 +169,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       loadNextQuestion: function(param) {
+        this.CSpinnerShow();
         return QuestionAPI.saveAnswer(param).then((function(_this) {
           return function(data) {
-            if (_this.readonly === true) {
-              CToast.show('Your answer is saved');
-            }
             console.log('******next question******');
             console.log(data);
             _this.variables();
@@ -188,7 +196,11 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               return CToast.show('Error in saving answer,try again');
             }
           };
-        })(this))["finally"](function() {});
+        })(this))["finally"]((function(_this) {
+          return function() {
+            return _this.CSpinnerHide();
+          };
+        })(this));
       },
       nextQuestion: function() {
         var error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
@@ -276,6 +288,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       loadPrevQuestion: function(param) {
+        this.CSpinnerShow();
         return QuestionAPI.getPrevQuest(param).then((function(_this) {
           return function(data) {
             console.log('previous data');
@@ -299,7 +312,11 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               return CToast.show('Error ,try again');
             }
           };
-        })(this))["finally"](function() {});
+        })(this))["finally"]((function(_this) {
+          return function() {
+            return _this.CSpinnerHide();
+          };
+        })(this));
       },
       prevQuestion: function() {
         var optionId, options, selectedvalue, value, valueInput;
