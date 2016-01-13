@@ -941,3 +941,12 @@ div.q-tabs .active:hover {
   color: #fff;
   font-size: 25px;
 }
+.error-panel {
+  height: 456px;
+  display: table;
+  width: 100%;
+}
+.error-panel .panel-body {
+  display: table-cell;
+  vertical-align: middle;
+}
