@@ -97,6 +97,7 @@
                      <div class="grid simple bg-gray">
                         <div class="grid-body">
                            <div class="form-row medication-data">
+                          @if(!empty($patientMedications))
                            @foreach($patientMedications as $medication)
                               <div class="row patient-mediaction">
                                  <div class="col-sm-6 m-t-25 ">
@@ -108,7 +109,16 @@
                                  </div>
                               </div>
                             @endforeach
-
+                          @endif
+                          div class="row patient-mediaction">
+                                 <div class="col-sm-6 m-t-25 ">
+                                    <input name="medications[]" id="medications" type="text"   placeholder="Enter Medication" class="form-control" >
+                                 </div>
+                                  
+                                 <div class="col-sm-1 text-right m-t-25">
+                                    <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      </div>
@@ -125,6 +135,7 @@
                      <div class="grid simple bg-gray">
                         <div class="grid-body">
                            <div class="form-row visit-data">
+                           @if(!empty($patientvisits))
                            @foreach($patientvisits as $visit)
                            <?php
                             $visitDate = date('d-m-Y H:i:s' , strtotime($visit['date_visited']));
@@ -144,6 +155,18 @@
                                  </div>
                               </div>
                           @endforeach
+                          @endif
+                          <div class="row patient-visit">
+                                 <div class="col-sm-3 m-t-25 input-daterange">
+                                    <input name="visit_date[]" id="visit_date" type="text"   placeholder="Enter Date" class="form-control" >
+                                 </div>
+                                  <div class="col-sm-6 m-t-25 ">
+                                    <textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control"></textarea> 
+                                 </div>
+                                 <div class="col-sm-1 text-right m-t-25">
+                                    <button type="button" class="btn btn-white delete-visit hidden"><i class="fa fa-trash"></i></button>
+                                 </div>
+                              </div>
 
                            </div>
                         </div>

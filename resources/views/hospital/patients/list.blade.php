@@ -97,8 +97,14 @@
                                   $referenceCode = $patient['reference_code'];
                                   
 
-                                  if(!isset($patientsSummary[$referenceCode]))
-                                    continue;
+                                  if(!isset($patientsSummary[$referenceCode])) //inactive patient data
+                                  {
+                                      $patientsSummary[$referenceCode]['lastSubmission'] = '-';
+                                      $patientsSummary[$referenceCode]['nextSubmission'] = '-';
+                                      $patientsSummary[$referenceCode]['missed'] = [];
+                                      $patientsSummary[$referenceCode]['count'] = [];
+                                      $patientsSummary[$referenceCode]['totalFlags'] = [];
+                                  }
                                   
                                   $patientSummary = $patientsSummary[$referenceCode];
                                 ?>
