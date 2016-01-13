@@ -146,7 +146,7 @@ p{
 
 
 .badge-round{
-          width: 35px;
+    width: 35px;
     height: 35px;
     border-radius: 50%;
     background: @color-danger;
@@ -156,8 +156,9 @@ p{
     font-size: 17px;
     display: inline-block;
     position: relative;
-    top: -4px;
-
+    float:left;
+    top: -6px;
+    margin-right: 7px;
       &.green{
         width: 23px;
         height: 23px;
@@ -241,12 +242,7 @@ h4.line-title,h3.line-title {
                }
             }
             .img-bg{
-              background-image: url("../images/doctor.jpg");
-              background-size: cover;
-              height: 100%;
-              position: absolute;
-              width: 40.33%;
-              left: 10px;
+              padding-right:0;
             }
       }
   }
@@ -450,8 +446,9 @@ h4.line-title,h3.line-title {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 19px;
+  float: left;
    // box-shadow: 0px 3px 0px 0px #D8D8D8!important;
-  margin:20px 0 0 8px;
+  margin:20px 7px 0 0;
   &:hover,&:active,&:focus{
     outline: none;
   }
@@ -689,6 +686,7 @@ form{
         width: 38px;
         height: 38px;
         top:-1px;
+
       }
   }
   .item.item-radio{
@@ -862,5 +860,116 @@ div.q-tabs{
    width: 650px;
    padding: 10px 15px;
    text-align:left;
+  }
+}
+/***loader styles***/
+.cf-loader {
+  display: inline-block;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-top: 25%;
+}
+.cf-loader:after {
+  display: block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  -webkit-animation: rotate 0.6s linear infinite;
+  -moz-animation: rotate 0.6s linear infinite;
+  -ms-animation: rotate 0.6s linear infinite;
+  -o-animation: rotate 0.6s linear infinite;
+  animation: rotate 0.6s linear infinite;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+  border-top: 2px solid @color-primary;
+  border-bottom: 2px solid @color-white;
+  border-left: 2px solid @color-primary;
+  border-right: 2px solid @color-white;
+  content: '';
+}
+
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg);
+    -webkit-transform: rotateZ(-360deg);
+    -moz-transform: rotateZ(-360deg);
+    -o-transform: rotateZ(-360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+  }
+}
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg);
+    -webkit-transform: rotateZ(-360deg);
+    -moz-transform: rotateZ(-360deg);
+    -o-transform: rotateZ(-360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+  }
+}
+@-moz-keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg);
+    -webkit-transform: rotateZ(-360deg);
+    -moz-transform: rotateZ(-360deg);
+    -o-transform: rotateZ(-360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+  }
+}
+@-o-keyframes rotate {
+  0% {
+    transform: rotateZ(-360deg);
+    -webkit-transform: rotateZ(-360deg);
+    -moz-transform: rotateZ(-360deg);
+    -o-transform: rotateZ(-360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+    -webkit-transform: rotateZ(0deg);
+    -moz-transform: rotateZ(0deg);
+    -o-transform: rotateZ(0deg);
+  }
+}
+
+.q-panel{
+  position: relative;
+  .overlay{
+    position: absolute;
+    background: rgba(0, 0, 0, 0.37);
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    .text{
+          text-align: center;
+    padding-top: 31%;
+    color: #fff;
+    font-size: 25px;
+    }
   }
 }

@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire', []).controller('summaryController', [
-  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', function($scope, QuestionAPI, $routeParams, CToast, $location) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', 'App', function($scope, QuestionAPI, $routeParams, CToast, $location, App) {
     return $scope.view = {
       data: [],
       display: 'loader',
@@ -39,7 +39,11 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
         })(this))["finally"](function() {});
       },
       back: function() {
-        return $location.path('questionnaire/lastQuestion/' + $routeParams.responseId);
+        if (App.previousState === 'dashboardController') {
+          return $location.path('dashboard');
+        } else {
+          return $location.path('questionnaire/lastQuestion/' + $routeParams.responseId);
+        }
       },
       onTapToRetry: function() {
         this.display = 'loader';

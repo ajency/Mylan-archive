@@ -3,7 +3,7 @@
   ng-switch="view.display">
   <!-- Wrapper for slides -->
      <div ng-switch-when="loader"> <!-- loader-->
-                    <div class=""> </div>
+                    <div class="text-center"><span class="cf-loader"> </span></div>
       </div>
 
   <div ng-switch-when="error">
@@ -19,7 +19,7 @@
     <div class="col-sm-17 col-xs-24">
       <h3><a class="btn btn-default btn-circle  m-t-0" href="dashboard.html"><i class="fa fa-hand-o-left text-muted"></i></a> Please Answer the following Question </h3>
       <br>
-  
+ <div class="q-panel">
      <div class="panel panel-default">
         <div class="panel-body">
         <div class="tab-content">
@@ -98,7 +98,7 @@
     </div>
 
   </div>
-  
+
   <div class="row m-t-25">
       <div class="col-md-12 text-left">
         <button type="button" 
@@ -109,8 +109,8 @@
         </button>
       </div>
       <div class="col-xs-12" id="notify-css">
-       
-        </div>
+       &nbsp;
+      </div>
       <div class="col-md-12 text-right">
         <button type="button" 
           class="btn btn-success"
@@ -120,6 +120,12 @@
         </button>
       </div>
   </div>
+
+  <div class="overlay" ng-if="view.overlay === true" >
+    <div class="text">Please Wait...</div>
+  </div>
+
+</div> <!-- q-panel-->  
    
     </div>
     <div class="col-sm-7 col-xs-24">
