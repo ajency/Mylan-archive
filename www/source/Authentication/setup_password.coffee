@@ -15,9 +15,6 @@ angular.module 'PatientApp.Auth',[]
 				@New_password = ''
 				@Re_password = ''
 				@passwordmissmatch = ''
-				App.ContactUsEnabled = false
-				App.UpdatesEnabled = false
-				App.resetPassword = false
 
 			completesetup : ->
 					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)))
@@ -54,10 +51,5 @@ angular.module 'PatientApp.Auth',[]
 					
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reset();
-
-		$scope.$on '$ionicView.afterLeave', (event, viewData)->
-			App.ContactUsEnabled = true
-			App.UpdatesEnabled = true
-			App.resetPassword = true
 
 ]

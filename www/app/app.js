@@ -7,8 +7,12 @@ angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
       back: false
     });
     return $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+      var bool, hideForStates;
       App.previousState = from.name;
-      return App.currentState = to.name;
+      App.currentState = to.name;
+      hideForStates = ['reset_password'];
+      bool = !_.contains(hideForStates, App.currentState);
+      return App.menuButtonEnabled = bool;
     });
   }
 ]).config(['$stateProvider', function($stateProvider) {}]);

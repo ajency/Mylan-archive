@@ -2,7 +2,7 @@
 
  	<ion-nav-buttons side="left">
 		<button 
-			ng-if ="App.resetPassword"
+			ng-if ="App.menuButtonEnabled"
 			class="button icon ion-gear-a" 
 			ng-click="view.resetPassword()">
 		</button>
@@ -14,13 +14,13 @@
 
 	<ion-nav-buttons side="right" class="buttons">
 		<button
-			ng-if="App.ContactUsEnabled"
+			ng-if="App.menuButtonEnabled"
 			ng-click="view.contact()"
 			class="button contact">Contact Us
 		</button>
 		  
 		<button
-			ng-if="App.UpdatesEnabled"
+			ng-if="App.menuButtonEnabled"
 			ng-click="view.update()" 
 			class="button update">
 			<div class="badge badge-assertive">2</div> 

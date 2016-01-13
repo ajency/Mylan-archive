@@ -10,9 +10,9 @@ angular.module 'PatientApp.Global', []
 			validateEmail: /^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/
 			onlyNumbers: /^\d+$/
 			menuEnabled : left: false, right: false
-			ContactUsEnabled : true
-			UpdatesEnabled: true
-			resetPassword : true
+			# ContactUsEnabled : true
+			# UpdatesEnabled: true
+			# resetPassword : true
 			previousState: ''
 			currentState: ''
 

@@ -19,6 +19,10 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 		App.previousState = from.name
 		App.currentState  = to.name
 
+		hideForStates = ['reset_password', 'setup_password']
+		bool = !_.contains(hideForStates, App.currentState)
+		App.menuButtonEnabled = bool
+
 ]
 
 .config ['$stateProvider', ($stateProvider)->
