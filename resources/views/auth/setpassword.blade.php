@@ -9,11 +9,12 @@
            <div class="text-right btn-contact" style="margin-top:-85px;"><button type="submit" class="btn btn-default">Contact Us</button></div>
            <br class="hidden-xs">
            <br>
-        <div class="bg-white shadow-full">
+        <div class="bg-white shadow-full" style="border:1px solid #ddd;">
           <div class="row" style="position:relative;">
-            <div class="img-bg hidden-xs">
+            <div class="img-bg hidden-xs col-sm-10">
+              <img src="../images/doctor.jpg" class="img-responsive">
             </div>
-<div class="col-sm-14 col-xs-24 col-sm-push-10  text-center login-info">
+              <div class="col-sm-14 col-xs-24 text-center login-info">
               <br>
               <br>
               <h3><span>Welcome to <br>your Healthcare Portal</span></h3>
