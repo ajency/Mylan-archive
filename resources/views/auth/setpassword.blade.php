@@ -12,7 +12,7 @@
         <div class="bg-white shadow-full" style="border:1px solid #ddd;">
           <div class="row" style="position:relative;">
             <div class="img-bg hidden-xs col-sm-10">
-              <img src="../images/doctor.jpg" class="img-responsive">
+              <img src="{{ url('Mylan-web/images/doctor.jpg') }}" class="img-responsive">
             </div>
               <div class="col-sm-14 col-xs-24 text-center login-info">
               <br>
