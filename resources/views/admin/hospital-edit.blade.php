@@ -151,7 +151,7 @@
                    <input type="hidden" name="_method" value="PUT">
                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                    <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
-                   <button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button>
+                   <a href="{{'/admin/hospitals'}}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
                </div>
            </div>
        </div>

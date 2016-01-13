@@ -57,6 +57,14 @@ class User extends Model implements AuthenticatableContract,
         return $this->belongsTo( 'App\Hospital' );
     }
 
+    public function medications() {
+        return $this->hasMany( 'App\PatientMedication' );
+    }
+
+    public function clinicVisit() {
+        return $this->hasMany( 'App\PatientClinicVisit' );
+    }
+
     public function toArray()
     {
         $data = parent::toArray();

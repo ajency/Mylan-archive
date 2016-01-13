@@ -12,6 +12,8 @@ use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use App\Hospital;
 use App\Projects;
+use App\PatientMedication;
+use App\PatientClinicVisit;
 use \Session;
 use App\Http\Controllers\Hospital\HospitalController;
 
@@ -27,7 +29,7 @@ class PatientController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $patients = User::where('type','patient')->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->orderBy('created_at')->get()->toArray();
         $newPatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
@@ -110,6 +112,13 @@ class PatientController extends Controller
         $referenceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
         $project = $request->input('project');
+        $weight = $request->input('weight');
+        $height = $request->input('height');
+        $age = $request->input('age');
+        $is_smoker = $request->input('is_smoker');
+        $smoke_per_week = $request->input('smoke_per_week');
+        $is_alcoholic = $request->input('is_alcoholic');
+        $units_per_week = $request->input('units_per_week');
 
         $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
         if(!empty($validateRefernceCode))
@@ -125,8 +134,40 @@ class PatientController extends Controller
         $user->hospital_id = $hospital;
         $user->project_id = $project;
         $user->type = 'patient';
+        $user->patient_weight = $weight;
+        $user->age = $age;
+        $user->patient_height = $height;
+        $user->patient_is_smoker = $is_smoker;
+        $user->patient_smoker_per_week = $smoke_per_week;
+        $user->patient_is_alcoholic = $is_alcoholic;
+        $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
         $userId = $user->id;
+
+        $medications = $request->input('medications');
+        $patientMedication=[];
+
+        if(!empty($medications))
+        {
+            foreach ($medications as   $medication) {
+                $patientMedication[]= new PatientMedication(['medication' => $medication]);
+            }
+        }
+
+        $user->medications()->saveMany($patientMedication);
+
+        $visitDate = $request->input('visit_date');
+        $notes = $request->input('note');
+        $patientVisits=[];
+
+        if(!empty($visitDate))
+        {
+            foreach ($visitDate as $key=>  $visitDate) {
+                $note = $notes[$key];
+                $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+            }
+        }
+        $user->clinicVisit()->saveMany($patientVisits);
 
         $apiKey                = new ApiKey;
         $apiKey->user_id       = $user->id;
@@ -134,8 +175,8 @@ class PatientController extends Controller
         $apiKey->save();
 
  
-        //return redirect(url($hospitalSlug . '/patients/' . $userId)); 
-        return redirect(url($hospitalSlug . '/patients/' . $userId . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug . '/patients/' . $userId.'/edit')); 
+        //return redirect(url($hospitalSlug . '/patients/' . $userId . '/base-line-score-edit')); 
     }
 
     /**
@@ -175,19 +216,23 @@ class PatientController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
-        // $projectQry = new ParseQuery("Project");
-        // $projectData = $projectQry->find();
-        // $projects = [];
-        // foreach ($projectData as $key => $project) {
-        //      $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
-              
-        //  }
-        $patient = User::find($patientId)->toArray();
+        $patient = User::find($patientId);
+        $patientStatus = $patient->account_status;
+
+        $disabled = '';
+        if($patientStatus=='active')
+            $disabled = 'disabled';
+
+        $patientMedications = $patient->medications()->get()->toArray();
+        $patientvisits = $patient->clinicVisit()->get()->toArray();
         
         return view('hospital.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
-                                        ->with('patient', $patient)
+                                        ->with('patient', $patient->toArray())
+                                        ->with('disabled', $disabled)
+                                        ->with('patientvisits', $patientvisits)
+                                        ->with('patientMedications', $patientMedications)
                                         ->with('projects', $projects);
     }
 
@@ -200,17 +245,61 @@ class PatientController extends Controller
      */
     public function update(Request $request, $hospitalSlug , $id)
     {
-        // $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
-        // $referenceCode = $request->input('reference_code');
-        // $hospital = $hospital['id'];//$request->input('hospital');
-        // $project = $request->input('project');
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
+        $referenceCode = $request->input('reference_code');
+        $hospital = $hospital['id'];//$request->input('hospital');
+        $project = $request->input('project');
+        $weight = $request->input('weight');
+        $height = $request->input('height');
+        $age = $request->input('age');
+        $is_smoker = $request->input('is_smoker');
+        $smoke_per_week = $request->input('smoke_per_week');
+        $is_alcoholic = $request->input('is_alcoholic');
+        $units_per_week = $request->input('units_per_week');
         
-        // $user = User::find($id);
-        // $user->reference_code = $referenceCode;
-        // $user->hospital_id = $hospital;
-        // $user->project_id = $project;
-        // $user->type = 'patient';
-        // $user->save();
+        $user = User::find($id);
+        if($user->account_status=='created')
+        {
+           $user->reference_code = $referenceCode;
+           $user->project_id = $project; 
+        }
+        
+        $user->patient_weight = $weight;
+        $user->age = $age;
+        $user->patient_height = $height;
+        $user->patient_is_smoker = $is_smoker;
+        $user->patient_smoker_per_week = $smoke_per_week;
+        $user->patient_is_alcoholic = $is_alcoholic;
+        $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->save();
+
+        $medications = $request->input('medications');
+        $patientMedication=[];
+
+        if(!empty($medications))
+        {
+            $user->medications()->delete();
+            foreach ($medications as   $medication) {
+                $patientMedication[]= new PatientMedication(['medication' => $medication]);
+            }
+        }
+
+        $user->medications()->saveMany($patientMedication);
+
+        $visitDate = $request->input('visit_date');
+        $notes = $request->input('note');
+        $patientVisits=[];
+
+        if(!empty($visitDate))
+        {
+            $user->clinicVisit()->delete();
+            foreach ($visitDate as $key=>  $visitDate) {
+                $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
+                $note = $notes[$key];
+                $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+            }
+        }
+        $user->clinicVisit()->saveMany($patientVisits);
 
 
         return redirect(url($hospitalSlug . '/patients/' . $id . '/edit')); 

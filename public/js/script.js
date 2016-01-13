@@ -174,6 +174,77 @@ $('.add-hospital-user').click(function (event) {
 
 });
 
+$('.add-mediaction').click(function (event) { 
+
+    if($(".patient-mediaction:last").find('input').val()=='')
+    {
+        alert('Please Enter Medication ');
+        return;
+    }
+
+    html ='<div class="row patient-mediaction">';
+    html +='<div class="col-sm-6 m-t-25 ">';
+    html +='<input name="medications[]" id="medications" type="text"  class="form-control" placeholder="Enter Medication" >';
+    html +='</div>';
+    html += '<div class="col-sm-1 text-right m-t-25 delete-medication">';
+    html +='<button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>';
+    html +='</div>';
+    html +='</div>';
+
+    $(".patient-mediaction:last").find('.delete-madication').removeClass('hidden');
+
+    $(".patient-mediaction:last").after(html);
+
+});
+
+
+$('.medication-data').on('click', '.delete-madication', function(event) {
+    if (confirm('Are you sure you want to delete this record?') === false) {
+        return;
+    }
+
+    $(this).closest('.patient-mediaction').remove();
+});
+
+
+$('.add-visit').click(function (event) { 
+
+    if($(".patient-visit:last").find('input').val()=='')
+    {
+        alert('Please Enter Visit ');
+        return;
+    }
+
+    html ='<div class="row patient-visit">';
+    html +='<div class="col-sm-3 m-t-25 input-daterange">';
+    html +='<input name="visitDate[]" id="visitDate" type="text"  class="form-control" placeholder="Enter Date" >';
+    html +='</div>';
+    html +='<div class="col-sm-6 m-t-25 ">';
+    html +='<textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control"></textarea> ';
+    html +='</div>';
+    html += '<div class="col-sm-1 text-right m-t-25 delete-medication">';
+    html +='<button type="button" class="btn btn-white delete-visit hidden"><i class="fa fa-trash"></i></button>';
+    html +='</div>';
+    html +='</div>';
+
+    $(".patient-visit:last").find('.delete-visit').removeClass('hidden');
+
+    $(".patient-visit:last").after(html);
+
+    $(".patient-visit:last").find('input').datepicker({
+         format: 'dd-mm-yyyy'
+     });
+
+});
+
+
+$('.visit-data').on('click', '.delete-visit', function(event) {
+    if (confirm('Are you sure you want to delete this record?') === false) {
+        return;
+    }
+
+    $(this).closest('.patient-visit').remove();
+});
 
 $('.add-project-user').click(function (event) { 
 
