@@ -846,10 +846,10 @@ div.q-tabs .active:hover {
   -webkit-justify-content: center;
   -moz-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: px;center;
+  justify-content: center;
   padding-top: 25%;
 }
-.loader:after {
+.cf-loader:after {
   display: block;
   position: relative;
   width: 40px;
