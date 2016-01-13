@@ -23,7 +23,8 @@ angular.module 'angularApp.questionnaire'
 			CSpinnerShow : ()->
 				@overlay = true;
 
-
+			isEmpty :(pastAnswerObject)->
+				_.isEmpty(pastAnswerObject)	
 
 			CSpinnerHide :()->
 				@overlay = false;

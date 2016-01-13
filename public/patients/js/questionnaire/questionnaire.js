@@ -17,6 +17,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       CSpinnerShow: function() {
         return this.overlay = true;
       },
+      isEmpty: function(pastAnswerObject) {
+        return _.isEmpty(pastAnswerObject);
+      },
       CSpinnerHide: function() {
         return this.overlay = false;
       },
