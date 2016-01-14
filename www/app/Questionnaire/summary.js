@@ -24,7 +24,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
             console.log('--getSummaryApi---');
-            _this.data = data.result;
+            _this.data = data;
             console.log(_this.data);
             return _this.display = 'noError';
           };

@@ -43,7 +43,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   console.log(_this.data);
                   _this.variables();
                   _this.data = [];
-                  _this.data = data.result;
+                  _this.data = data;
                   _this.readonly = _this.data.editable;
                   _this.pastAnswer();
                   if (!_.isEmpty(_this.data.hasAnswer)) {
@@ -70,9 +70,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
-                _this.data = data.result;
+                _this.data = data;
                 _this.pastAnswer();
-                Storage.setData('responseId', 'set', data.result.responseId);
+                Storage.setData('responseId', 'set', data.responseId);
                 return _this.display = 'noError';
               }, function(error) {
                 _this.display = 'error';
@@ -88,9 +88,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
-                _this.data = data.result;
+                _this.data = data;
                 _this.pastAnswer();
-                Storage.setData('responseId', 'set', data.result.responseId);
+                Storage.setData('responseId', 'set', data.responseId);
                 return _this.display = 'noError';
               }, function(error) {
                 _this.display = 'error';
@@ -117,7 +117,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log(data);
               _this.variables();
               _this.data = [];
-              _this.data = data.result;
+              _this.data = data;
               _this.readonly = true;
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
@@ -233,7 +233,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log(_this.data);
               _this.variables();
               _this.data = [];
-              _this.data = data.result;
+              _this.data = data;
               _this.readonly = _this.data.editable;
               _this.pastAnswer();
               if (!_.isEmpty(_this.data.hasAnswer)) {

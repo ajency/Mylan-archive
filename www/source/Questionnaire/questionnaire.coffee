@@ -52,7 +52,7 @@ angular.module 'PatientApp.Quest',[]
 								console.log @data	
 								@variables()
 								@data = []
-								@data = data.result
+								@data = data
 								@readonly = @data.editable
 								@pastAnswer()
 								if !_.isEmpty(@data.hasAnswer)
@@ -79,9 +79,9 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
-							@data = data.result
+							@data = data
 							@pastAnswer()
-							Storage.setData 'responseId', 'set', data.result.responseId
+							Storage.setData 'responseId', 'set', data.responseId
 							@display = 'noError'
 						,(error)=>
 							@display = 'error'
@@ -99,9 +99,9 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
-							@data = data.result
+							@data = data
 							@pastAnswer()
-							Storage.setData 'responseId', 'set', data.result.responseId
+							Storage.setData 'responseId', 'set', data.responseId
 							@display = 'noError'
 						,(error)=>
 							@display = 'error'
@@ -123,7 +123,7 @@ angular.module 'PatientApp.Quest',[]
 						console.log data
 						@variables()
 						@data = []
-						@data = data.result
+						@data = data
 						@readonly = true
 
 						if !_.isEmpty(@data.hasAnswer)
@@ -230,7 +230,7 @@ angular.module 'PatientApp.Quest',[]
 						console.log @data	
 						@variables()
 						@data = []
-						@data = data.result
+						@data = data
 						@readonly = @data.editable
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)

@@ -7,63 +7,49 @@ angular.module 'PatientApp.Quest'
 	actionMode ={}
 
 
-	QuestionAPI.getQuestion = (options)->
+	QuestionAPI.getQuestion = (param)->
 
-		defer = $q.defer()
-		# getQuestionnaire
-		
-		url = PARSE_URL+'/startQuestionnaire'
-		param = options
-				
-		App.sendRequest(url, param,PARSE_HEADERS)
+		defer = $q.defer()		
+		App.SendParseRequest('startQuestionnaire', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
 		defer.promise
 
 
-	QuestionAPI.saveAnswer = (options)->
+	QuestionAPI.saveAnswer = (param)->
 		
-		defer = $q.defer()
-
-		url = PARSE_URL+'/getNextQuestion'
-		param = options
-				
-		App.sendRequest(url, param,PARSE_HEADERS)
+		defer = $q.defer()		
+		App.SendParseRequest('getNextQuestion', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
 		defer.promise
 
 
-	QuestionAPI.getSummary = (opts)->
-		
-		defer = $q.defer()
+	QuestionAPI.getSummary = (param)->
 
-		url = PARSE_URL+'/getSummary'
-		param = opts
-				
-		App.sendRequest(url, param, PARSE_HEADERS)
+		defer = $q.defer()		
+		App.SendParseRequest('getSummary', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
 		defer.promise
 
-	QuestionAPI.submitSummary = (opts)->
-		defer = $q.defer()
 
-		url = PARSE_URL+'/submitQuestionnaire'
-		param = opts
-				
-		App.sendRequest(url, param, PARSE_HEADERS)
+
+	QuestionAPI.submitSummary = (param)->
+	
+		defer = $q.defer()		
+		App.SendParseRequest('submitQuestionnaire', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
@@ -93,39 +79,27 @@ angular.module 'PatientApp.Quest'
 		defer.promise
 
 
-	QuestionAPI.getNextQuest = (options)->
+	QuestionAPI.getNextQuest = (param)->
 
-		defer = $q.defer()
-
-		url = PARSE_URL+'/getNextQuestion'
-		param = options
-				
-		App.sendRequest(url, param, PARSE_HEADERS)
+		defer = $q.defer()		
+		App.SendParseRequest('getNextQuestion', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
 		defer.promise
 
-	QuestionAPI.getPrevQuest = (options)->
+	QuestionAPI.getPrevQuest = (param)->
 
-		defer = $q.defer()
-
-		url = PARSE_URL+'/getPreviousQuestion '
-		param = options
-				
-		App.sendRequest(url, param, PARSE_HEADERS)
+		defer = $q.defer()		
+		App.SendParseRequest('getPreviousQuestion', param)
 		.then (data)->
-			defer.resolve data.data
+			defer.resolve data
 		, (error)=>
 			defer.reject error
 			
 		defer.promise
-
-
-
-
 
 	QuestionAPI	
 ]

@@ -26,7 +26,7 @@ angular.module 'PatientApp.Quest'
 				QuestionAPI.getSummary param
 				.then (data)=>
 					console.log '--getSummaryApi---'
-					@data = data.result
+					@data = data
 					console.log @data
 					@display = 'noError'
 				,(error)=>

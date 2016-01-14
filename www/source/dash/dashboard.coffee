@@ -30,7 +30,7 @@ angular.module 'PatientApp.dashboard',[]
 					.then (data)=>
 						console.log 'inside then'
 						console.log data
-						@data = data.result
+						@data = data
 						@display = 'noError'
 					,(error)=>
 						@display = 'error'

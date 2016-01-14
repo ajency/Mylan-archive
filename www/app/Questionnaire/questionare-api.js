@@ -3,13 +3,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
     var QuestionAPI, actionMode;
     QuestionAPI = {};
     actionMode = {};
-    QuestionAPI.getQuestion = function(options) {
-      var defer, param, url;
+    QuestionAPI.getQuestion = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/startQuestionnaire';
-      param = options;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('startQuestionnaire', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);
@@ -17,13 +15,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
-    QuestionAPI.saveAnswer = function(options) {
-      var defer, param, url;
+    QuestionAPI.saveAnswer = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/getNextQuestion';
-      param = options;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('getNextQuestion', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);
@@ -31,13 +27,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
-    QuestionAPI.getSummary = function(opts) {
-      var defer, param, url;
+    QuestionAPI.getSummary = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/getSummary';
-      param = opts;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('getSummary', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);
@@ -45,13 +39,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
-    QuestionAPI.submitSummary = function(opts) {
-      var defer, param, url;
+    QuestionAPI.submitSummary = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/submitQuestionnaire';
-      param = opts;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('submitQuestionnaire', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);
@@ -83,13 +75,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       defer.resolve(data);
       return defer.promise;
     };
-    QuestionAPI.getNextQuest = function(options) {
-      var defer, param, url;
+    QuestionAPI.getNextQuest = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/getNextQuestion';
-      param = options;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('getNextQuestion', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);
@@ -97,13 +87,11 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
-    QuestionAPI.getPrevQuest = function(options) {
-      var defer, param, url;
+    QuestionAPI.getPrevQuest = function(param) {
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/getPreviousQuestion ';
-      param = options;
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('getPreviousQuestion', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);

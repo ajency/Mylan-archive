@@ -122,6 +122,20 @@ angular.module 'PatientApp.Global', []
 				$ionicScrollDelegate.scrollBottom true
 
 
+			SendParseRequest :(cloudFun, param)->
+
+				defer = $q.defer()
+				Parse.Cloud.run cloudFun, param,	
+					success: (result) ->
+						defer.resolve result
+					error: (error) =>
+						console.log 'inside error common function'
+						console.log error
+						defer.reject @errorCode error
+
+				defer.promise
+
+
 
 
 

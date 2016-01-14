@@ -3,11 +3,10 @@ angular.module('PatientApp.dashboard').factory('DashboardAPI', [
     var DashboardAPI;
     DashboardAPI = {};
     DashboardAPI.get = function(param) {
-      var defer, url;
+      var defer;
       defer = $q.defer();
-      url = PARSE_URL + '/dashboard';
-      App.sendRequest(url, param, PARSE_HEADERS).then(function(data) {
-        return defer.resolve(data.data);
+      App.SendParseRequest('dashboard', param).then(function(data) {
+        return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
           return defer.reject(error);

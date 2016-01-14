@@ -23,7 +23,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
             return DashboardAPI.get(param).then(function(data) {
               console.log('inside then');
               console.log(data);
-              _this.data = data.result;
+              _this.data = data;
               return _this.display = 'noError';
             }, function(error) {
               _this.display = 'error';

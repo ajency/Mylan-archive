@@ -134,6 +134,23 @@ angular.module('PatientApp.Global', []).factory('App', [
       },
       scrollBottom: function() {
         return $ionicScrollDelegate.scrollBottom(true);
+      },
+      SendParseRequest: function(cloudFun, param) {
+        var defer;
+        defer = $q.defer();
+        Parse.Cloud.run(cloudFun, param, {
+          success: function(result) {
+            return defer.resolve(result);
+          },
+          error: (function(_this) {
+            return function(error) {
+              console.log('inside error common function');
+              console.log(error);
+              return defer.reject(_this.errorCode(error));
+            };
+          })(this)
+        });
+        return defer.promise;
       }
     };
   }
