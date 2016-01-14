@@ -20,7 +20,7 @@
                 <div class="col-lg-8 col-md-7">
                   <div class="page-title">
                      <h3 class="m-b-0"><span class="semi-bold">Patients</span></h3>
-                     <p>(Showing all Patients under Mylan)</p>
+                     <p>(Showing all Patients under {{ $hospital['name'] }})</p>
                   </div>
                   </div>
                     <div class="col-lg-4 col-md-5 m-t-25 text-right">
@@ -29,9 +29,9 @@
                 </div>
                 <div class="grid simple">
                                  <div class="grid-body no-border table-data">
-                            <br>
-                            <div class="row">
-                                <!-- <div class="col-sm-6"> <h3 class="bold margin-none">Response Rate</h3></div> -->
+                          <br>
+                       <!--        <div class="row">
+                                <div class="col-sm-6"> <h3 class="bold margin-none">Response Rate</h3></div>  
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-4 pull-right">
@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr>
+                            <hr> -->
                             <div class="row ">
                                 <div class="col-md-6 ">
                                     <div class="tiles white added-margin light-gray" style="zoom: 1;">

@@ -28,13 +28,13 @@
                               <div class="col-md-6">
                                  <a href="{{ url( 'admin/hospitals/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Hospital</a>
                               </div>
-                              <div class="col-md-6">
+                              <!-- <div class="col-md-6">
                                  <select name="role" id="role" class="select2 form-control"  >
                                     <option value="1">Sort By</option>
                                     <option value="2">Name</option>
                                     <option value="2">Popularity</option>
                                  </select>
-                              </div>
+                              </div> -->
                            </div>
                         </div>
 
@@ -58,13 +58,13 @@
                         <br>
                         <div class="row feature-list fivefetures">
                            <div class="col-md-3 b-r">
-                              <h3 class="pull-right text-info">10</h3>
+                              <h3 class="pull-right text-info">{{ $hospital->projects()->count() }}</h3>
                               <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> PROJECTS</h5>
                               <div>
                                  <p>
                                     Displays total number of flagged patients
                                  </p>
-                                 <a href="project-flags.html" class="text-info">View Projects</a>  
+                                 <a href="/{{ $hospital['url_slug'] }}/projects/" class="text-info" target="_blank">View Projects</a>  
                               </div>
                            </div>
                            <div class="col-md-3 b-r">
@@ -88,23 +88,23 @@
                               </div>
                            </div>
                            <div class="col-md-3 b-r">
-                              <h3 class="pull-right text-info">35</h3>
+                              <h3 class="pull-right text-info">{{ $hospital->users()->where('type','hospital_user')->count() }}</h3>
                               <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
                               <div>
                                  <p>
                                     2 Read<br>3 Edit
                                  </p>
-                                 <a href="project-users.html" class="text-info">View Users</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/users/" class="text-info">View Users</a>
                               </div>
                            </div>
                            <div class="col-md-3">
-                              <h3 class="pull-right text-info m-0">60</h3>
+                              <h3 class="pull-right text-info m-0">{{ $hospital->users()->where('type','patient')->count() }}</h3>
                               <h5 class="semi-bold black m-b-20"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
                               <div>
                                  <p>
-                                    3 newly registered patients since last week
+                                    {{ $hospital->users()->where('type','patient')->where('account_status','created')->count() }} newly registered patients since last week
                                  </p>
-                                 <a href="project-patients.html" class="text-info">View Patients</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/patients/" class="text-info">View Patients</a>
                               </div>
                            </div>
                         </div>

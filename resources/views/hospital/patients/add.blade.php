@@ -21,7 +21,7 @@
      <div class="grid simple">
      @include('hospital.flashmessage')
            <div class="grid-body">
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients') }}" data-parsley-validate>
+      <form class="form-no-horizontal-spacing" id="form-condensed" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/patients') }}" data-parsley-validate>
               <div class="row column-seperation">
                 <div class="col-md-6">
                   <div class="form-row">
@@ -64,7 +64,7 @@
                           <option value="no">No</option> 
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 smoke-input">
                       <label>If yes, how many per week</label>
                         <input name="smoke_per_week" id="smoke_per_week" type="text"  placeholder="How many per week" >
                     </div>
@@ -80,7 +80,7 @@
                           <option value="no">No</option> 
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 ">
                       <label>If yes, units per week</label>
                         <input name="units_per_week" id="units_per_week" type="text"  placeholder="Units per week" >
                     </div>
@@ -165,9 +165,18 @@
          
     });
 
+     $('select[name="is_smoker"]').change(function (event) { 
+      if($(this).val()=='yes')
+      {
+        $('input[name="smoke_per_week"]').attr('smoke_per_week');
+      }
  
-  }); 
+    });
+
+ 
     var PATIENT_ID = 0;
+
+
 </script>
  
 <!-- END PLACE PAGE CONTENT HERE -->

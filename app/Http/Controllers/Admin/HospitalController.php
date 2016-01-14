@@ -19,7 +19,7 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        $hospitals = Hospital::orderBy('created_at')->get()->toArray();
+        $hospitals = Hospital::orderBy('created_at')->get();
          
         return view('admin.hospital-list')->with('active_menu', 'hospital')
                                           ->with('hospitals', $hospitals);
