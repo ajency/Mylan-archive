@@ -517,21 +517,30 @@ class PatientController extends Controller
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
         $questionnaire = $questionnaireQry->first();  
-        $questionnaireName = $questionnaire->get('name');
-        $questionnaireId = $questionnaire->getObjectId();
 
-        $questionQry = new ParseQuery("Questions");
-        $questionQry->equalTo("questionnaire", $questionnaire);
-        $questions = $questionQry->find(); 
+        $questions =[];
+        $options =[];
+        $questionnaireName = '';
+        $questionnaireId = '';
 
-        $optionsQry = new ParseQuery("Options");
-        $optionsQry->containedIn("question", $questions);
-        $options = $optionsQry->find(); 
+        if(!empty($questionnaire))
+        {
+            $questionnaireName = $questionnaire->get('name');
+            $questionnaireId = $questionnaire->getObjectId();
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("patient", $referenceCode); 
-        $responseQry->equalTo("status", 'base_line'); 
-        $response = $responseQry->first();
+            $questionQry = new ParseQuery("Questions");
+            $questionQry->equalTo("questionnaire", $questionnaire);
+            $questions = $questionQry->find(); 
+
+            $optionsQry = new ParseQuery("Options");
+            $optionsQry->containedIn("question", $questions);
+            $options = $optionsQry->find(); 
+
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("patient", $referenceCode); 
+            $responseQry->equalTo("status", 'base_line'); 
+            $response = $responseQry->first();
+        }
          
         $questionsList=[];
         $optionsList=[];
