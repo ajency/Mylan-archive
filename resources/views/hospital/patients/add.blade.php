@@ -23,12 +23,13 @@
            <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/patients') }}" data-parsley-validate>
               <div class="row column-seperation">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-row">
                      <label>Reference Code</label>
                         <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                     </div>
-                    <div class="form-row">
+                    <div class="row form-row">
+                    <div class="col-sm-4">
                        <label>Project</label>
                       <select name="project" id="project" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -36,7 +37,7 @@
                           <option value="{{ $project['id'] }}">{{ $project['name'] }}</option>
                           @endforeach
                         </select>
-                      
+                     </div> 
                     </div>
                     <div class="row form-row">
                
@@ -56,7 +57,7 @@
 
                     <div class="row form-row">
                
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                       <label>Is Smoker</label>
                       <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -72,7 +73,7 @@
 
                     <div class="row form-row">
                
-                    <div class="col-sm-6">
+                    <div class="col-sm-3">
                       <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -167,12 +168,28 @@
 
      $('select[name="is_smoker"]').change(function (event) { 
       if($(this).val()=='yes')
-      {
-        $('input[name="smoke_per_week"]').attr('smoke_per_week');
+      { 
+        $('input[name="smoke_per_week"]').attr('data-parsley-required','');
       }
- 
+      else
+      {
+        $('input[name="smoke_per_week"]').removeAttr('data-parsley-required');
+      }
     });
 
+     $('select[name="is_alcoholic"]').change(function (event) { 
+      if($(this).val()=='yes')
+      { 
+        $('input[name="units_per_week"]').attr('data-parsley-required','');
+      }
+      else
+      {
+        $('input[name="units_per_week"]').removeAttr('data-parsley-required');
+      }
+    });
+
+
+  });
  
     var PATIENT_ID = 0;
 

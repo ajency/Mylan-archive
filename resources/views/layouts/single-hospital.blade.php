@@ -54,11 +54,11 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="index.html"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" data-src-retina="{{ $logoUrl }}" width="106" height="21"/></a>
+               <a href="{{ url() }}/{{ $hospital['url_slug'] }}"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" data-src-retina="{{ $logoUrl }}" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
-                     <a href="index.html" class="dropdown-toggle active" data-toggle="">
+                     <a href="{{ url($hospital['url_slug'].'/' ) }}" class="dropdown-toggle active" data-toggle="">
                         <div class="iconset top-home"></div>
                      </a>
                   </li>
@@ -78,7 +78,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
+               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">

@@ -43,11 +43,11 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="index.html"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" data-src-retina="{{ asset('img/mylan-logo.png') }}" width="106" height="21"/></a>
+               <a href="{{ url('admin/' ) }}"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" data-src-retina="{{ asset('img/mylan-logo.png') }}" width="106" height="21"/></a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
-                     <a href="index.html" class="dropdown-toggle active" data-toggle="">
+                     <a href="{{ url('admin/' ) }}" class="dropdown-toggle active" data-toggle="">
                         <div class="iconset top-home"></div>
                      </a>
                   </li>
@@ -67,7 +67,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" width="auto" height="40"/></a>
+               <a href="{{ url('admin/' ) }}" class="pull-left"><img src="{{ asset('img/mylan-logo.png') }}" class="logo" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" width="auto" height="40"/></a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
