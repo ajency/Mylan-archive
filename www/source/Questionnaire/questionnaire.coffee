@@ -99,6 +99,8 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
+							if !_.isUndefined(data.status) and data.status = 'saved_successfully'
+								App.navigate 'summary', summary:responseId
 							@data = data
 							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.responseId

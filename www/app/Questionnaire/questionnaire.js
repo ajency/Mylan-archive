@@ -88,6 +88,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
+                if (!_.isUndefined(data.status) && (data.status = 'saved_successfully')) {
+                  App.navigate('summary', {
+                    summary: responseId
+                  });
+                }
                 _this.data = data;
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
