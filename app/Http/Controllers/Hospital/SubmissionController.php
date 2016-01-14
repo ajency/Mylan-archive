@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\Hospital;
+use App\Projects;
 use App\User;
 use App\Http\Controllers\Hospital\HospitalController;
 use App\UserAccess;
@@ -39,6 +40,10 @@ class SubmissionController extends Controller
             $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray(); 
             //$allProjects = Projects::where('hospital_id',$hospital['id'])->whereIn('id',$projectIds)->get()->toArray();  
         }
+        else
+        {
+            $projectIds = Projects::where('hospital_id',$hospital['id'])->lists('id')->toArray();  
+        }   
         
         $startDateObj = array(
                   "__type" => "Date",
@@ -53,8 +58,8 @@ class SubmissionController extends Controller
         //get missed response count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","missed");
-        if(!empty($projectIds))
-            $responseQry->containedIn("project",$projectIds);
+        $responseQry->containedIn("project",$projectIds);
+
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $missedResponses = $responseQry->count();  
