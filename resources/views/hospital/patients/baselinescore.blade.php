@@ -32,7 +32,9 @@
                         </div>
                         <div class="tab-pane active" id="baseline">
                            <div class="pull-right">
+                           @if(!empty($questionsList))
                               <a class="btn btn-white" href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}"><span class="text-success"><i class="fa fa-pencil-square-o"></i> Edit</span></a>
+                           @endif
                            </div>
                            <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
                            <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
@@ -41,6 +43,7 @@
                           <?php
                           $x = 1;
                           ?>
+                          @if(!empty($questionsList))
                           @foreach($questionsList as $questionId => $questions)
                               <div class="grid simple">
                                  <div class="grid-body">
@@ -76,6 +79,9 @@
                           $x ++;
                           ?>    
                           @endforeach
+                          @else 
+                            <h4><span class="semi-bold">Questionnaire is not set for the project {{ $projectName }}</span></h4>
+                          @endif
                        
                            </div>
                         </div>

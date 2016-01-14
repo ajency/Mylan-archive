@@ -327,6 +327,7 @@ class PatientController extends Controller
         $referenceCode = $patient['reference_code'];
         $projectId = $patient['project_id'];
         $projectId = intval ($projectId);
+        $projectName = Projects::find($projectId)->name; 
 
         $baseLineData = $this->getBaseLineData($projectId,$referenceCode);
         $questionnaireName = $baseLineData['questionnaireName']; 
@@ -341,6 +342,7 @@ class PatientController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
+                                        ->with('projectName', $projectName)
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)
                                         ->with('optionsList', $optionsList)
