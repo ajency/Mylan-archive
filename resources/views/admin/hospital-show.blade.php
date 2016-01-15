@@ -4,13 +4,13 @@
    <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#" class="active" > HOME</a>
+            <a href="{{ url( 'admin/' ) }}"> HOME</a>
          </li>
          <li>
-            <a href="#"> Hospitals</a>
+            <a href="{{ url( 'admin/hospitals/' ) }}"> Hospitals</a>
          </li>
          <li>
-            <a href="#"> Edit Hospital</a>
+            <a href="#" class="active" > Edit Hospital</a>
          </li>
       </ul>
       </p>
