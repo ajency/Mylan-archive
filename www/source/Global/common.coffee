@@ -111,7 +111,7 @@ angular.module 'PatientApp.Global', []
 					, (error) ->
 						defer.reject error
 				else
-					defer.resolve 'DUMMY_INSTALLATION_ID'
+					defer.resolve 'DUMMY_INSTALLATION_ID1'
 
 				defer.promise
 
