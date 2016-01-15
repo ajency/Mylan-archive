@@ -1,9 +1,10 @@
 Parse.Cloud.define "testNotifications", (request, response) ->
 	getNotifications()
-	.then (notifications) ->
+	.then () ->
 		sendNotifications() 
-		.then (notifications) ->
-			response.success notifications
+		.then () ->
+			currentDate = moment()
+			response.success ("moment = #{currentDate.format('DD/MM/YY')} date = #{new Date()}")
 		, (error) ->
 			response.error error
 	, (error) ->
@@ -15,7 +16,7 @@ getNotifications = () ->
 
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.exists('patient')
-	#scheduleQuery.equalTo('patient', '00011121')
+	#scheduleQuery.equalTo('patient', '99887766')
 	scheduleQuery.include('questionnaire')
 	scheduleQuery.find()
 	.then (scheduleObjs) ->
@@ -26,19 +27,22 @@ getNotifications = () ->
 				.then () ->
 					scheduleObj.fetch()
 					.then () ->
-						notificationType = getNotificationType(scheduleObj)
-						if notificationType != ""
-							notificationObj = new Parse.Object('Notification')
-							notificationObj.set 'hasSeen', false
-							notificationObj.set 'patient', scheduleObj.get('patient')
-							notificationObj.set 'type',	notificationType
-							notificationObj.set 'processed', false
-							notificationObj.set 'schedule', scheduleObj
-							notificationObj.save()
-						else
-							dummy = new Parse.Promise()
-							dummy.resolve()
-							dummy
+						getNotificationType(scheduleObj)
+						.then (notificationType) ->
+							if notificationType != ""
+								notificationObj = new Parse.Object('Notification')
+								notificationObj.set 'hasSeen', false
+								notificationObj.set 'patient', scheduleObj.get('patient')
+								notificationObj.set 'type',	notificationType
+								notificationObj.set 'processed', false
+								notificationObj.set 'schedule', scheduleObj
+								notificationObj.save()
+							else
+								dummy = new Parse.Promise()
+								dummy.resolve()
+								dummy
+						, (error) ->
+							promise.reject error
 					, (error) ->
 						promise1.reject error
 				, (error) ->
@@ -55,45 +59,70 @@ getNotifications = () ->
 
 
 getNotificationType = (scheduleObj) ->
+	promise = new Parse.Promise()
 
-	nextOccurrence = scheduleObj.get('nextOccurrence')
-	currentDate = new Date()
-	graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (scheduleObj.get('questionnaire').get('gracePeriod') * 1000))
-	reminderTime = scheduleObj.get('questionnaire').get('reminderTime')
-	beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000)
-	afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
+	questionnaireQuery = new Parse.Query('Questionnaire')
+	questionnaireQuery.get(scheduleObj.get('questionnaire').id)
+	questionnaireQuery.first()
+	.then (questionnaireObj) ->
+		nextOccurrence = scheduleObj.get('nextOccurrence')
+		currentDate = new Date()
+		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+		reminderTime = questionnaireObj.get('reminderTime')
+		beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000)
+		afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
 	
-	#if (currentDate.getTime() == (nextOccurrence.getTime() - (reminderTime * 1000)))
-	if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (40 * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (40 * 1000)))
-		"beforOccurrence"
-	#else if (currentDate.getTime() == (graceDate.getTime() - (reminderTime * 1000)))
-	else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (40 * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (40 * 1000)))
-			"beforeGracePeriod"
-	#else if currentDate.getTime() >= graceDate.getTime()
-	else if currentDate.getTime() >= graceDate.getTime()
-			"missedOccurrence"
-	else
-		""
+
+		#if (currentDate.getTime() == (nextOccurrence.getTime() - (reminderTime * 1000)))
+		if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (30 * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (29 * 1000)))
+			promise.resolve("beforOccurrence")
+		#else if (currentDate.getTime() == (graceDate.getTime() - (reminderTime * 1000)))
+		else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (30 * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (29 * 1000)))
+			promise.resolve("beforeGracePeriod")
+		#else if currentDate.getTime() >= graceDate.getTime()
+		#else if currentDate.getTime() >= graceDate.getTime()
+		#	promise.resolve("missedOccurrence")
+		else
+			promise.resolve("")
+	, (error) ->
+		promise.reject error
+	promise
+
+
+
 
 getNotificationMessage = (scheduleObj, notificationType) ->
-	nextOccurrence = scheduleObj.get('nextOccurrence')
-	questionnaireObj = scheduleObj.get('questionnaire') 
+	promise = new Parse.Promise()
 
-	graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (scheduleObj.get('questionnaire').get('gracePeriod') * 1000))
-	console.log "-=-=-=-=-=-=-"
-	console.log "scheduleObj"
-	console.log scheduleObj
-	#console.log scheduleObj.get('questionnaire').get('gracePeriod')
-	console.log "-=-=-=-=-=-=-"
+	questionnaireQuery = new Parse.Query('Questionnaire')
+	questionnaireQuery.get(scheduleObj.get('questionnaire').id)
+	questionnaireQuery.first()
+	.then (questionnaireObj) ->
+		nextOccurrence = scheduleObj.get('nextOccurrence')
+		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+		#console.log "-=-=-=-=-=-=-"
+		#console.log "nextOccurrence #{nextOccurrence}"
+		#console.log "currentDate #{currentDate}"
+		#console.log "graceDate #{graceDate}"
+		#console.log "reminderTime #{reminderTime}"
+		#console.log "beforeReminder #{beforeReminder}"
+		#console.log "afterReminder #{afterReminder}"
+		#console.log "-=-=-=-=-=-=-"	
+		
+		if notificationType == "beforOccurrence"
+			promise.resolve("Questionnaire is due on #{nextOccurrence}")
+		else if notificationType == "beforeGracePeriod"
+			promise.resolve("Questionnairre was due on #{nextOccurrence}. Please submit it by #{graceDate}")
+		else if notificationType == "missedOccurrence"
+			promise.resolve("You have missed the questionnaire due on #{nextOccurrence}")
+		else
+			promise.resolve("")
+	, (error) ->
+		promise.reject error
+	promise
 
-	if notificationType == "beforOccurrence"
-		"Questionnaire is due on #{nextOccurrence}"
-	else if notificationType == "beforeGracePeriod"
-		"Questionnairre was due on #{nextOccurrence}. Please submit it by #{graceDate}"
-	else if notificationType == "missedOccurrence"
-		"You have missed the questionnaire due on #{nextOccurrence}"
-	else
-		""
+
+
 
 sendNotifications = () ->
 	Arr = []
@@ -103,6 +132,9 @@ sendNotifications = () ->
 	notificationQuery.find()
 	.then (notifications) ->
 		getNotifications = ->
+			#console.log "---------------------"
+			#console.log "notifications.length #{notifications.length}"
+			#console.log "---------------------"
 			promise1 = Parse.Promise.as()
 			_.each notifications, (notification) ->
 				promise1 = promise1
@@ -110,33 +142,45 @@ sendNotifications = () ->
 					notification.set 'processed', true
 					notification.save()
 					.then (notification) ->
+						#console.log "notification_1 #{notification.id}"
+						#console.log "---------------------"
 						scheduleQuery = new Parse.Query('Schedule')
 						scheduleQuery.equalTo('patient', notification.get('patient'))
 						scheduleQuery.first()
 						.then (scheduleObj) ->
+							#console.log "scheduleObj #{scheduleObj.id}"
+							#console.log "---------------------"
 							tokenStorageQuery = new Parse.Query('TokenStorage')
 							tokenStorageQuery.equalTo('referenceCode', notification.get('patient'))
 							tokenStorageQuery.find(useMasterKey: true)
 							.then (tokenStorageObjs) ->
-								sendToInstallations = ->
-									promise2 = Parse.Promise.as()
-									_.each tokenStorageObjs, (tokenStorageObj) ->
-										promise2 = promise2
-										.then () ->
-											installationQuery = new Parse.Query('Installation')
-											installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
-											installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
-											installationQuery.limit(1)
-											installationQuery.find()
-											Parse.Push.send({
-												where: installationQuery
-												data: {alert: getNotificationMessage(scheduleObj, notification.get('type'))}
-											})
-										,(error) ->
-											console.log "send1"
-											promise2.reject error
-									promise2
-								sendToInstallations()
+								#console.log "tokenStorageObjs #{tokenStorageObjs.length}"
+								#console.log "---------------------"
+								getNotificationMessage(scheduleObj, notification.get('type'))
+								.then (message) ->	
+									#console.log "message #{message}"
+									#console.log "---------------------"							
+									sendToInstallations = ->
+										promise2 = Parse.Promise.as()
+										_.each tokenStorageObjs, (tokenStorageObj) ->
+											promise2 = promise2
+											.then () ->
+												installationQuery = new Parse.Query('Installation')
+												installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
+												#installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
+												installationQuery.limit(1)
+												installationQuery.find()
+												Parse.Push.send({
+													where: installationQuery
+													data: {alert: message}
+												})
+											,(error) ->
+												console.log "send1"
+												promise2.reject error
+										promise2
+									sendToInstallations()
+								, (error) ->
+									promise1.reject error
 							, (error) ->
 								console.log "send2"
 								promise1.reject error
@@ -160,12 +204,18 @@ sendNotifications = () ->
 	promise
 
 
+
+
+
 Parse.Cloud.define "createMissedResponse", (request, response) ->
 	createMissedResponse()
 	.then (responses) ->
 		response.success responses
 	, (error) ->
 		response.error error
+
+
+
 
 Parse.Cloud.define 'deleteResponse', (request, response) ->
 	responseQuery = new Parse.Query('Response')
@@ -231,37 +281,8 @@ checkMissedResponses = () ->
 	promise
 
 
-Parse.Cloud.define "createMissedResponse1", (request, response) ->
-	getNotifications()
-	.then (notifications) ->
-		console.log  "done1"
-		sendNotifications() 
-		.then (notifications) ->
-			console.log  "done2"
-			checkMissedResponses()
-			.then (result) ->
-				console.log  "done3"
-				createMissedResponse()
-				.then (responses) ->
-					console.log  (new Date())
-					response.success "job_run"
-				, (error) ->
-					response.error error
-			, (error) ->
-				promise.reject error				
-		, (error) ->
-			response.error error
-	, (error) ->
-		response.error error
 
-###	#responseQuery = new Parse.Query('Response')
-	#res
-	createMissedResponse()
-	.then (result) ->
-		response.success result
-	, (error) ->
-		response.error error
-###
+
 createMissedResponse = () ->
 	promise = new Parse.Promise()
 	scheduleQuery = new Parse.Query('Schedule')
@@ -325,9 +346,138 @@ createMissedResponse = () ->
 	, (error) ->
 		promise.reject error
 	promise
+
+
+
+
+Parse.Cloud.job 'commonJob', (request, response) ->
+	console.log "=================="
+	checkMissedResponses()
+	.then (result) ->
+		console.log "result = #{result}"
+		createMissedResponse()
+		.then (responses) ->
+			console.log "responses = #{responses.length}"
+			getNotifications()
+			.then (notifications) ->
+				console.log "notifications = #{notifications}"
+				sendNotifications() 
+				.then (notifications) ->
+					console.log "notifications_sent = #{notifications}"
+					console.log  (new Date())
+					response.success "job_run"
+				, (error) ->
+					response.error "not_run"
+			, (error) ->
+				promise.reject error				
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+
+
+
+
+getQuestionnaireFrequency =  ( questionnaireObj ) ->
+    promise = new Parse.Promise()
+
+    questionnaireScheduleQuery = new Parse.Query('Schedule')
+    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
+    questionnaireScheduleQuery.first()
+    .then (questionnaireScheduleObj) ->
+        promise.resolve questionnaireScheduleObj.get("frequency")
+    , (error) ->
+        promise.resolve error
+
+    promise
+
+
+Parse.Cloud.define "getAllNotifications", (request, response) ->
+	patientId = request.params.patientId
+	getAllNotifications(patientId)
+	.then (notifications) ->
+		response.success  notifications
+	, (error) ->
+		response.error error
+
+
+
+getAllNotifications = (patientId) ->
+	promise = new Parse.Promise()
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.equalTo('patient', patientId)
+	notificationQuery.include('schedule')
+	notificationQuery.find()
+	.then (notifications) ->
+		notificationMessages = []
+
+		getAll = () ->
+			promise1 = Parse.Promise.as()
+			_.each notifications, (notification) ->
+				promise1 = promise1
+				.then () ->
+					getNotificationSendObject(notification.get('schedule'), notification.get('type'))
+					.then (notificationSendObject) ->
+						notificationMessages.push(notificationSendObject)
+						dummy = new Parse.Promise()
+						dummy.resolve()
+						dummy
+					, (error) ->
+						promise1.reject error
+				, (error) ->
+					promise1.reject error
+			promise1
+		getAll()
+		.then () ->
+			promise.resolve(notificationMessages)
+		, (error) ->
+			promise.reject(error)
+	, (error) ->
+		promise.reject error
+	promise
+
+getNotificationSendObject = (scheduleObj, notificationType) ->
+	promise = new Parse.Promise()
+
+	questionnaireQuery = new Parse.Query('Questionnaire')
+	questionnaireQuery.get(scheduleObj.get('questionnaire').id)
+	questionnaireQuery.first()
+	.then (questionnaireObj) ->
+		nextOccurrence = scheduleObj.get('nextOccurrence')
+		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+		#console.log "-=-=-=-=-=-=-"
+		#console.log "nextOccurrence #{nextOccurrence}"
+		#console.log "currentDate #{currentDate}"
+		#console.log "graceDate #{graceDate}"
+		#console.log "reminderTime #{reminderTime}"
+		#console.log "beforeReminder #{beforeReminder}"
+		#console.log "afterReminder #{afterReminder}"
+		#console.log "-=-=-=-=-=-=-"	
+		notificationSendObject = {}
+
+		if notificationType == "beforOccurrence"
+			notificationSendObject['type'] = "beforOccurrence"
+			notificationSendObject['occurrenceDate'] = nextOccurrence
+			notificationSendObject['graceDate'] = graceDate
+			promise.resolve(notificationSendObject)
+		else if notificationType == "beforeGracePeriod"
+			notificationSendObject['type'] = "beforeGracePeriod"
+			notificationSendObject['occurrenceDate'] = nextOccurrence
+			notificationSendObject['graceDate'] = graceDate
+			promise.resolve(notificationSendObject)
+		else if notificationType == "missedOccurrence"
+			notificationSendObject['type'] = "missedOccurrence"
+			notificationSendObject['occurrenceDate'] = nextOccurrence
+			notificationSendObject['graceDate'] = graceDate
+			promise.resolve(notificationSendObject)
+		else
+			promise.resolve(notificationSendObject)
+	, (error) ->
+		promise.reject error
+	promise
+
 ###
-
-
 createMissedResponse = () ->
 	promise = new Parse.Promise()
 	scheduleQuery = new Parse.Query('Schedule')
@@ -385,7 +535,40 @@ createMissedResponse = () ->
 	, (error) ->
 		promise.reject error
 	promise
-###
+
+
+
+
+
+
+
+Parse.Cloud.define "createMissedResponse1", (request, response) ->
+	getNotifications()
+	.then (notifications) ->
+		console.log  "done1"
+		sendNotifications() 
+		.then (notifications) ->
+			console.log  "done2"
+			checkMissedResponses()
+			.then (result) ->
+				console.log  "done3"
+				createMissedResponse()
+				.then (responses) ->
+					console.log  (new Date())
+					response.success "job_run"
+				, (error) ->
+					response.error error
+			, (error) ->
+				promise.reject error				
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+
+
+
+
 
 
 createMissedResponse1 = () ->
@@ -452,45 +635,9 @@ createMissedResponse1 = () ->
 	promise
 
 
+###
 
 
-
-Parse.Cloud.job 'commonJob', (request, response) ->
-	checkMissedResponses()
-	.then (result) ->
-		createMissedResponse()
-		.then (responses) ->
-			getNotifications()
-			.then (notifications) ->
-				sendNotifications() 
-				.then (notifications) ->
-					console.log  (new Date())
-					response.success "job_run"
-				, (error) ->
-					response.error "not_run"
-			, (error) ->
-				promise.reject error				
-		, (error) ->
-			response.error error
-	, (error) ->
-		response.error error
-
-
-
-
-
-getQuestionnaireFrequency =  ( questionnaireObj ) ->
-    promise = new Parse.Promise()
-
-    questionnaireScheduleQuery = new Parse.Query('Schedule')
-    questionnaireScheduleQuery.equalTo("questionnaire", questionnaireObj)
-    questionnaireScheduleQuery.first()
-    .then (questionnaireScheduleObj) ->
-        promise.resolve questionnaireScheduleObj.get("frequency")
-    , (error) ->
-        promise.resolve error
-
-    promise
 
 
 
