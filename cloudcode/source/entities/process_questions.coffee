@@ -397,8 +397,7 @@ getNextQuestion = (questionObj, option) ->
 
 
 
-
-
+###
 getLastQuestion = (questionnaireObj) ->
 	promise = new Parse.Promise()
 	questionQuery = new Parse.Query('Questions')
@@ -413,7 +412,7 @@ getLastQuestion = (questionnaireObj) ->
 	, (error) ->
 		promise.error error
 	promise
-
+###
 
 
 Parse.Cloud.define "getPreviousQuestion", (request, response) ->
@@ -435,7 +434,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 
 		else if questionId == ""
 			console.log "================="
-			getLastQuestion(responseObj.get('questionnaire'))
+			getLastQuestion(responseObj)
 			.then (questionObj) ->
 				console.log "questionObj #{questionObj}"
 				getQuestionData questionObj, responseObj, responseObj.get('patient')
@@ -562,7 +561,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 		response.error error
 ###
 
-Parse.Cloud.define "previousQuestion", (request, response) ->
+Parse.Cloud.define "deleteDependentQuestions", (request, response) ->
 	responseId = request.params.responseId
 	questionId = request.params.questionId
 
@@ -572,16 +571,24 @@ Parse.Cloud.define "previousQuestion", (request, response) ->
 		questionQuery = new Parse.Query('Questions')
 		questionQuery.include('previousQuestion')
 		questionQuery.get(questionId)
-		.then (questionObj) ->
-			getPreviousQuestion(questionObj, responseObj)
-			.then (previousQuestionObj) ->
-				response.success previousQuestionObj
+		.then (questionsObj) ->
+			deleteDependentQuestions(responseObj, questionsObj)
+			.then (questionsObj) ->
+				response.success questionsObj
 			, (error) ->
 				response.error error
 		, (error) ->
 			response.error error
 	,(error) ->
 		response.error (error)
+
+
+
+deleteDependentQuestions = (responseObj, questionsObj) ->
+	promise = new Parse.Promise()
+	promise.resolve(questionsObj)
+	promise
+
 
 
 getPreviousQuestion = (questionObj,responseObj) ->
@@ -618,6 +625,22 @@ getPreviousQuestion = (questionObj,responseObj) ->
 			promise.reject error
 	promise
 
+
+
+getLastQuestion = (responseObj) ->
+	promise = new Parse.Promise()
+	answeredQuestions = responseObj.get('answeredQuestions')
+
+	if answeredQuestions.length == 0
+		promise.resolve({})
+	else
+		questionsQuery = new Parse.Query('Questions')
+		questionsQuery.get(answeredQuestions[answeredQuestions.length - 1])
+		.then (lastQuestion) ->
+			promise.resolve(lastQuestion)
+		, (error) ->
+			promise.reject error
+	promise
 
 
 Parse.Cloud.define 'getSummary', (request, response) ->

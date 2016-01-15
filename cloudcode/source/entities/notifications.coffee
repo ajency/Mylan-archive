@@ -1,3 +1,5 @@
+cronjobRunTime = 60 #secs
+
 Parse.Cloud.define "testNotifications", (request, response) ->
 	getNotifications()
 	.then () ->
@@ -71,13 +73,13 @@ getNotificationType = (scheduleObj) ->
 		reminderTime = questionnaireObj.get('reminderTime')
 		beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000)
 		afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
-	
+		bufferTime = cronjobRunTime/2
 
 		#if (currentDate.getTime() == (nextOccurrence.getTime() - (reminderTime * 1000)))
-		if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (30 * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (29 * 1000)))
+		if (currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (bufferTime * 1000))) and (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (bufferTime * 1000)))
 			promise.resolve("beforOccurrence")
 		#else if (currentDate.getTime() == (graceDate.getTime() - (reminderTime * 1000)))
-		else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (30 * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (29 * 1000)))
+		else if (currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (bufferTime * 1000))) and (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (bufferTime * 1000)))
 			promise.resolve("beforeGracePeriod")
 		#else if currentDate.getTime() >= graceDate.getTime()
 		#else if currentDate.getTime() >= graceDate.getTime()
@@ -165,7 +167,7 @@ sendNotifications = () ->
 										_.each tokenStorageObjs, (tokenStorageObj) ->
 											promise2 = promise2
 											.then () ->
-												installationQuery = new Parse.Query('Installation')
+												installationQuery = new Parse.Query(Parse.Installation)
 												installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
 												#installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
 												installationQuery.limit(1)
@@ -417,7 +419,7 @@ getAllNotifications = (patientId) ->
 			_.each notifications, (notification) ->
 				promise1 = promise1
 				.then () ->
-					getNotificationSendObject(notification.get('schedule'), notification.get('type'))
+					getNotificationSendObject(notification.get('schedule'), notification)
 					.then (notificationSendObject) ->
 						notificationMessages.push(notificationSendObject)
 						dummy = new Parse.Promise()
@@ -437,7 +439,8 @@ getAllNotifications = (patientId) ->
 		promise.reject error
 	promise
 
-getNotificationSendObject = (scheduleObj, notificationType) ->
+
+getNotificationSendObject = (scheduleObj, notification) ->
 	promise = new Parse.Promise()
 
 	questionnaireQuery = new Parse.Query('Questionnaire')
@@ -446,6 +449,7 @@ getNotificationSendObject = (scheduleObj, notificationType) ->
 	.then (questionnaireObj) ->
 		nextOccurrence = scheduleObj.get('nextOccurrence')
 		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+		notificationType = notification.get('type')
 		#console.log "-=-=-=-=-=-=-"
 		#console.log "nextOccurrence #{nextOccurrence}"
 		#console.log "currentDate #{currentDate}"
@@ -455,27 +459,86 @@ getNotificationSendObject = (scheduleObj, notificationType) ->
 		#console.log "afterReminder #{afterReminder}"
 		#console.log "-=-=-=-=-=-=-"	
 		notificationSendObject = {}
+		notificationSendObject['occurrenceDate'] = nextOccurrence
+		notificationSendObject['graceDate'] = graceDate
+		notificationSendObject['id'] = notification.id
+		notificationSendObject['hasSeen'] = notification.get('hasSeen')
 
 		if notificationType == "beforOccurrence"
 			notificationSendObject['type'] = "beforOccurrence"
-			notificationSendObject['occurrenceDate'] = nextOccurrence
-			notificationSendObject['graceDate'] = graceDate
 			promise.resolve(notificationSendObject)
 		else if notificationType == "beforeGracePeriod"
 			notificationSendObject['type'] = "beforeGracePeriod"
-			notificationSendObject['occurrenceDate'] = nextOccurrence
-			notificationSendObject['graceDate'] = graceDate
 			promise.resolve(notificationSendObject)
 		else if notificationType == "missedOccurrence"
 			notificationSendObject['type'] = "missedOccurrence"
-			notificationSendObject['occurrenceDate'] = nextOccurrence
-			notificationSendObject['graceDate'] = graceDate
 			promise.resolve(notificationSendObject)
 		else
 			promise.resolve(notificationSendObject)
 	, (error) ->
 		promise.reject error
 	promise
+
+
+
+Parse.Cloud.define "hasSeenNotification", (request, response) ->
+	notificationId = request.params.notificationId
+	hasSeenNotification(notificationId)
+	.then (notification) ->
+		response.success "hasSeen"
+	, (error) ->
+		response.error error
+
+hasSeenNotification = (notificationId) ->
+	promise = new Parse.Promise()
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.get(notificationId)
+	.then (notification) ->
+		notification.set 'hasSeen', true
+		notification.save()
+		.then (notification) ->
+			promise.resolve(notification)
+		, (error) ->
+			promise.reject error
+	, (error) ->
+		promise.reject error
+	promise
+
+
+
+
+Parse.Cloud.define 'timeZoneConverter', (request, response) ->
+	timeZoneConverter()
+	.then (time) ->
+		response.success time
+	, (error) ->
+		response.error error
+
+
+timeZoneConverter = () ->
+	promise = new Parse.Promise()
+	installationQuery = new Parse.Query(Parse.Installation)
+	installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
+	installationQuery.first()
+	.then (installationObj) ->
+		console.log "====================="
+		console.log "installationObj #{installationObj}"
+		console.log "====================="
+		convertedTime = convertToZone( new Date(),installationObj['timeZone'])
+		promise.resolve (convertedTime)
+		#promise.resolve (convertToZone( new Date(),installationObj['timeZone']).format())
+	, (error) ->
+		promise.reject error
+	promise
+
+
+convertToZone = (timeObj, timezone) ->
+
+	convertedTime = moment.tz(timeObj, timezone)
+	convertedTime
+
+
+
 
 ###
 createMissedResponse = () ->

@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, createMissedResponse, createNewUser, createResponse, deleteAllAnswers, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isValidMissedTime, isValidTime, isValidUpcomingTime, moment, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -84,6 +84,8 @@
     });
   });
 
+  cronjobRunTime = 60;
+
   Parse.Cloud.define("testNotifications", function(request, response) {
     return getNotifications().then(function() {
       return sendNotifications().then(function() {
@@ -156,16 +158,17 @@
     questionnaireQuery = new Parse.Query('Questionnaire');
     questionnaireQuery.get(scheduleObj.get('questionnaire').id);
     questionnaireQuery.first().then(function(questionnaireObj) {
-      var afterReminder, beforeReminder, currentDate, graceDate, nextOccurrence, reminderTime;
+      var afterReminder, beforeReminder, bufferTime, currentDate, graceDate, nextOccurrence, reminderTime;
       nextOccurrence = scheduleObj.get('nextOccurrence');
       currentDate = new Date();
       graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
       reminderTime = questionnaireObj.get('reminderTime');
       beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000);
       afterReminder = new Date(nextOccurrence.getTime() + reminderTime * 1000);
-      if ((currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (30 * 1000))) && (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (29 * 1000)))) {
+      bufferTime = cronjobRunTime / 2;
+      if ((currentDate.getTime() >= (nextOccurrence.getTime() - (reminderTime * 1000) - (bufferTime * 1000))) && (currentDate.getTime() <= (nextOccurrence.getTime() - (reminderTime * 1000) + (bufferTime * 1000)))) {
         return promise.resolve("beforOccurrence");
-      } else if ((currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (30 * 1000))) && (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (29 * 1000)))) {
+      } else if ((currentDate.getTime() >= (graceDate.getTime() - (reminderTime * 1000) - (bufferTime * 1000))) && (currentDate.getTime() <= (graceDate.getTime() - (reminderTime * 1000) + (bufferTime * 1000)))) {
         return promise.resolve("beforeGracePeriod");
       } else {
         return promise.resolve("");
@@ -232,7 +235,7 @@
                       _.each(tokenStorageObjs, function(tokenStorageObj) {
                         return promise2 = promise2.then(function() {
                           var installationQuery;
-                          installationQuery = new Parse.Query('Installation');
+                          installationQuery = new Parse.Query(Parse.Installation);
                           installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
                           installationQuery.limit(1);
                           installationQuery.find();
@@ -502,7 +505,7 @@
         promise1 = Parse.Promise.as();
         _.each(notifications, function(notification) {
           return promise1 = promise1.then(function() {
-            return getNotificationSendObject(notification.get('schedule'), notification.get('type')).then(function(notificationSendObject) {
+            return getNotificationSendObject(notification.get('schedule'), notification).then(function(notificationSendObject) {
               var dummy;
               notificationMessages.push(notificationSendObject);
               dummy = new Parse.Promise();
@@ -528,30 +531,29 @@
     return promise;
   };
 
-  getNotificationSendObject = function(scheduleObj, notificationType) {
+  getNotificationSendObject = function(scheduleObj, notification) {
     var promise, questionnaireQuery;
     promise = new Parse.Promise();
     questionnaireQuery = new Parse.Query('Questionnaire');
     questionnaireQuery.get(scheduleObj.get('questionnaire').id);
     questionnaireQuery.first().then(function(questionnaireObj) {
-      var graceDate, nextOccurrence, notificationSendObject;
+      var graceDate, nextOccurrence, notificationSendObject, notificationType;
       nextOccurrence = scheduleObj.get('nextOccurrence');
       graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
+      notificationType = notification.get('type');
       notificationSendObject = {};
+      notificationSendObject['occurrenceDate'] = nextOccurrence;
+      notificationSendObject['graceDate'] = graceDate;
+      notificationSendObject['id'] = notification.id;
+      notificationSendObject['hasSeen'] = notification.get('hasSeen');
       if (notificationType === "beforOccurrence") {
         notificationSendObject['type'] = "beforOccurrence";
-        notificationSendObject['occurrenceDate'] = nextOccurrence;
-        notificationSendObject['graceDate'] = graceDate;
         return promise.resolve(notificationSendObject);
       } else if (notificationType === "beforeGracePeriod") {
         notificationSendObject['type'] = "beforeGracePeriod";
-        notificationSendObject['occurrenceDate'] = nextOccurrence;
-        notificationSendObject['graceDate'] = graceDate;
         return promise.resolve(notificationSendObject);
       } else if (notificationType === "missedOccurrence") {
         notificationSendObject['type'] = "missedOccurrence";
-        notificationSendObject['occurrenceDate'] = nextOccurrence;
-        notificationSendObject['graceDate'] = graceDate;
         return promise.resolve(notificationSendObject);
       } else {
         return promise.resolve(notificationSendObject);
@@ -560,6 +562,65 @@
       return promise.reject(error);
     });
     return promise;
+  };
+
+  Parse.Cloud.define("hasSeenNotification", function(request, response) {
+    var notificationId;
+    notificationId = request.params.notificationId;
+    return hasSeenNotification(notificationId).then(function(notification) {
+      return response.success("hasSeen");
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  hasSeenNotification = function(notificationId) {
+    var notificationQuery, promise;
+    promise = new Parse.Promise();
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.get(notificationId).then(function(notification) {
+      notification.set('hasSeen', true);
+      return notification.save().then(function(notification) {
+        return promise.resolve(notification);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  Parse.Cloud.define('timeZoneConverter', function(request, response) {
+    return timeZoneConverter().then(function(time) {
+      return response.success(time);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  timeZoneConverter = function() {
+    var installationQuery, promise;
+    promise = new Parse.Promise();
+    installationQuery = new Parse.Query(Parse.Installation);
+    installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7');
+    installationQuery.first().then(function(installationObj) {
+      var convertedTime;
+      console.log("=====================");
+      console.log("installationObj " + installationObj);
+      console.log("=====================");
+      convertedTime = convertToZone(new Date(), installationObj['timeZone']);
+      return promise.resolve(convertedTime);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  convertToZone = function(timeObj, timezone) {
+    var convertedTime;
+    convertedTime = moment.tz(timeObj, timezone);
+    return convertedTime;
   };
 
 
@@ -1202,26 +1263,23 @@
     return promise;
   };
 
-  getLastQuestion = function(questionnaireObj) {
-    var promise, questionQuery;
-    promise = new Parse.Promise();
-    questionQuery = new Parse.Query('Questions');
-    questionQuery.equalTo('questionnaire', questionnaireObj);
-    questionQuery.find().then(function(questionObjects) {
-      var j, lastQuestion, len, questionObj;
-      lastQuestion = "";
-      for (j = 0, len = questionObjects.length; j < len; j++) {
-        questionObj = questionObjects[j];
-        if (!questionObj.get('isChild') && _.isUndefined(questionObj.get('nextQuestion'))) {
-          lastQuestion = questionObj;
-        }
-      }
-      return promise.resolve(lastQuestion);
-    }, function(error) {
-      return promise.error(error);
-    });
-    return promise;
-  };
+
+  /*
+  getLastQuestion = (questionnaireObj) ->
+  	promise = new Parse.Promise()
+  	questionQuery = new Parse.Query('Questions')
+  	questionQuery.equalTo('questionnaire', questionnaireObj)
+  	questionQuery.find()
+  	.then (questionObjects) ->
+  		lastQuestion = ""
+  		for questionObj in questionObjects
+  			if !questionObj.get('isChild') and _.isUndefined(questionObj.get('nextQuestion'))
+  				lastQuestion = questionObj
+  		promise.resolve lastQuestion
+  	, (error) ->
+  		promise.error error
+  	promise
+   */
 
   Parse.Cloud.define("getPreviousQuestion", function(request, response) {
     var last, options, questionId, responseId, responseQuery, value;
@@ -1237,7 +1295,7 @@
         return response.error("invalidQuestionnaire.");
       } else if (questionId === "") {
         console.log("=================");
-        return getLastQuestion(responseObj.get('questionnaire')).then(function(questionObj) {
+        return getLastQuestion(responseObj).then(function(questionObj) {
           console.log("questionObj " + questionObj);
           return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
             console.log("questionData " + questionData);
@@ -1369,7 +1427,7 @@
   		response.error error
    */
 
-  Parse.Cloud.define("previousQuestion", function(request, response) {
+  Parse.Cloud.define("deleteDependentQuestions", function(request, response) {
     var questionId, responseId, responseQuery;
     responseId = request.params.responseId;
     questionId = request.params.questionId;
@@ -1378,9 +1436,9 @@
       var questionQuery;
       questionQuery = new Parse.Query('Questions');
       questionQuery.include('previousQuestion');
-      return questionQuery.get(questionId).then(function(questionObj) {
-        return getPreviousQuestion(questionObj, responseObj).then(function(previousQuestionObj) {
-          return response.success(previousQuestionObj);
+      return questionQuery.get(questionId).then(function(questionsObj) {
+        return deleteDependentQuestions(responseObj, questionsObj).then(function(questionsObj) {
+          return response.success(questionsObj);
         }, function(error) {
           return response.error(error);
         });
@@ -1391,6 +1449,13 @@
       return response.error(error);
     });
   });
+
+  deleteDependentQuestions = function(responseObj, questionsObj) {
+    var promise;
+    promise = new Parse.Promise();
+    promise.resolve(questionsObj);
+    return promise;
+  };
 
   getPreviousQuestion = function(questionObj, responseObj) {
     var answer, answeredQuestions, i, j, len, promise, questionsQuery, result, result1;
@@ -1420,6 +1485,23 @@
       questionsQuery.include('previousQuestion');
       questionsQuery.get(result).then(function(previousQuestion) {
         return promise.resolve(previousQuestion);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }
+    return promise;
+  };
+
+  getLastQuestion = function(responseObj) {
+    var answeredQuestions, promise, questionsQuery;
+    promise = new Parse.Promise();
+    answeredQuestions = responseObj.get('answeredQuestions');
+    if (answeredQuestions.length === 0) {
+      promise.resolve({});
+    } else {
+      questionsQuery = new Parse.Query('Questions');
+      questionsQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(lastQuestion) {
+        return promise.resolve(lastQuestion);
       }, function(error) {
         return promise.reject(error);
       });
