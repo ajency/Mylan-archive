@@ -174,7 +174,10 @@ sendNotifications = () ->
 												installationQuery.find()
 												Parse.Push.send({
 													where: installationQuery
-													data: {alert: message}
+													data: {
+														id: notification.id
+														header: "Mylan"
+														message: message}
 												})
 											,(error) ->
 												console.log "send1"
