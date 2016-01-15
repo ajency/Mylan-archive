@@ -8337,3 +8337,20 @@ div.upload .img-div {
   left: 0;
   right: 0;
 }
+.f-w-500 {
+  font-weight: 500;
+}
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 11%;
+  border: 1px solid #ddd;
+}
+.adminlogin h3 {
+  font-weight: 400;
+}
+.adminlogin .logo-img {
+  margin-right: 105px;
+}
