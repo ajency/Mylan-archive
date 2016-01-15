@@ -65,9 +65,6 @@
             </div>
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
-               <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt=""  data-src="assets/img/nhs.gif" width="auto" height="40"/></a>
-               <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
                   <div class="chat-toggler">
@@ -96,6 +93,11 @@
                   </ul>
                </div>
                <!-- END CHAT TOGGLER -->
+               <!-- BEGIN TOP NAVIGATION MENU -->
+               <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt=""  data-src="assets/img/nhs.gif" width="auto" height="40"/></a>
+               <h4 class="text-left m-t-15 semi-bold">MRI PANCREATITIS</h4>
+               <!-- END TOP NAVIGATION MENU -->
+               
             </div>
             <!-- END TOP NAVIGATION MENU --> 
          </div>
@@ -140,6 +142,24 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
+                        <li class="classic">
+                        <a href="javascript:;">
+                          <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="classic">
+                        <li>
+                          <a href="questionnaire.html">Questionnaire</a>
+                        </li>
+                        <!--  <li>
+                            <a href="index.html">Message & Notifications
+                              <span class="description">
+                                Alerts help to gain user attention and 
+                                give...
+                              </spam>
+                            </a>
+                          </li> -->
+                        </ul>
+                      </li>
                      </ul>
                   </div>
                </div>
@@ -358,11 +378,10 @@
                                  <tr>
                                     <th class="hidden">Patient</th>
                                     <th class="hidden">Doctor</th>
-                                    <th>Sequence No.</th>
+                                    <th>Submission #</th>
                                     <th>Reason for Flag</th>
                                     <th>Type</th>
                                     <th>Date</th>
-                                    <th>Action</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -373,7 +392,6 @@
                                     <td>Difference of more than 5 units in previous answer</td>
                                     <td><i class="fa fa-flag text-success"></i></td>
                                     <td>6/12/2015</td>                                    
-                                    <td> <span class="label label-success">Open Flag</span></td>
                                  </tr>
                                  <tr class="even gradeC" onclick="window.document.location='p2-submission3.html';">
                                     <td class="hidden">234</td>
@@ -382,7 +400,6 @@
                                     <td>5 missed submission</td>
                                     <td ><i class="fa fa-flag text-success"></i></td>
                                     <td>8/11/2015</td>                                    
-                                    <td> <span class="label label-success">Open Flag</span></td>
                                  </tr>
                                  <tr class="odd gradeA" onclick="window.document.location='p2-submission2.html';">
                                     <td class="hidden">456</td>
@@ -391,7 +408,6 @@
                                     <td>5 missed submission</td>
                                     <td><i class="fa fa-flag text-warning"></i></td>
                                     <td>6/9/2015</td>
-                                    <td> <span class="label label-warning">Closed Flag</span></td>
                                  </tr>
                                  <tr class="even gradeA"  onclick="window.document.location='p2-submission1.html';">
                                     <td class="hidden">123</td>
@@ -400,7 +416,6 @@
                                     <td>5 missed submission</td>
                                    <td><i class="fa fa-flag text-success"></i></td>
                                     <td>7/8/2015</td>
-                                    <td> <span class="label label-success">Open Flag</span></td>
                                  </tr>                                
                               </tbody>
                            </table>
