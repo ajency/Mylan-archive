@@ -1937,9 +1937,13 @@
         responseObj.set('questionnaire', questionnaireObj);
         responseObj.set('answeredQuestions', []);
         responseObj.set('schedule', scheduleObj);
-        responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
         responseObj.set('baseLineFlagStatus', 'open');
         responseObj.set('previousFlagStatus', 'open');
+        if (_.isUndefined(responseObj_prev)) {
+          responseObj.set('sequenceNumber', 1.);
+        } else {
+          responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
+        }
         return responseObj.save().then(function(responseObj) {
           return promise.resolve(responseObj);
         }, function(error) {
@@ -2890,7 +2894,35 @@
     promise = new Parse.Promise();
     responseQuery = new Parse.Query('Response');
     responseQuery.get(responseId).then(function(responseObj) {
-      return promise.resolve(responseObj);
+      var answerQuery;
+      answerQuery = new Parse.Query('Answer');
+      answerQuery.equalTo('response', responseObj);
+      return answerQuery.find().then(function(answerObjs) {
+        var deleteAnswers;
+        deleteAnswers = function() {
+          var promise1;
+          promise1 = Parse.Promise.as();
+          _.each(answerObjs, function(answerObj) {
+            return promise1 = promise1.then(function() {
+              return answerObj.destroy({});
+            }, function(error) {
+              return promise1.reject(error);
+            });
+          });
+          return promise1;
+        };
+        return deleteAnswers().then(function() {
+          return responseObj.destroy({}).then(function() {
+            return promise.resolve("deleted");
+          }, function(error) {
+            return promise.reject(error);
+          });
+        }, function(error) {
+          return promise.reject(error);
+        });
+      }, function(error) {
+        return promise.reject(error);
+      });
     }, function(error) {
       return promise.reject(error);
     });

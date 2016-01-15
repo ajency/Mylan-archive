@@ -1176,10 +1176,14 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 			responseObj.set 'questionnaire', questionnaireObj
 			responseObj.set 'answeredQuestions', []
 			responseObj.set 'schedule', scheduleObj
-			responseObj.set 'sequenceNumber', (responseObj_prev.get('sequenceNumber') + 1)
 			responseObj.set 'baseLineFlagStatus', 'open'
 			responseObj.set 'previousFlagStatus', 'open'
 			#responseObj.set 'flagStatus', 'open'
+
+			if _.isUndefined(responseObj_prev)
+				responseObj.set 'sequenceNumber', (1)
+			else
+				responseObj.set 'sequenceNumber', (responseObj_prev.get('sequenceNumber') + 1)
 			responseObj.save()
 			.then (responseObj) ->
 				promise.resolve responseObj
@@ -2071,7 +2075,30 @@ deleteAllAnswers = (responseId) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		promise.resolve responseObj
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('response', responseObj)
+		answerQuery.find()
+		.then (answerObjs)->
+			deleteAnswers = () ->
+				promise1 = Parse.Promise.as()
+				_.each (answerObjs), (answerObj) ->
+					promise1=promise1
+					.then () ->
+						answerObj.destroy({})
+					, (error) ->
+						promise1.reject error
+				promise1
+			deleteAnswers()
+			.then () ->
+				responseObj.destroy({})
+				.then () ->
+					promise.resolve "deleted"
+				, (error) ->
+					promise.reject error
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
 	, (error) ->
 		promise.reject error
 	promise
