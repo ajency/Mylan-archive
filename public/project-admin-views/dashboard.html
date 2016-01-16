@@ -26,6 +26,7 @@
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+         <link href="assets/css/dashboard-ver2.css" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
    </head>
    <!-- END HEAD -->
@@ -219,36 +220,42 @@
                                     </div>
                             </div>
                         </div>
-                     <hr>
-                     
-                      
-                        <div class="row ">
-                           <div class="col-md-3 ">
-                              <h1 class="bold num-data">25 
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (10 %)</span>
+                     <hr class="margin-none">
+                     <br>
+                            <div class="row top-data">
+                           <div class="col-md-2  ">
+                              <h1 class="bold num-data">25<span>/12</span>
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="comparison with Previous /comparison with Base line "></i>
                                </h1>
-                              <h5>Open Flags </h5>
+                              <h5>Total Red <i class="fa fa-flag text-error" ></i> </h5>
                               <em class="line"></em>
                            </div>
-                           <div class="col-md-3 ">
-                                <h1 class="bold num-data">33 
-                                  <i class="icon-custom-down text-error"></i><span class="text-error"> (5.5 %)</span>
+                           <div class="col-md-2 ">
+                                <h1 class="bold num-data">33<span>/28</span>
+                                <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="top" title="comparison with Previous /comparison with Base line " ></i>
                                </h1>
-                              <h5>Total Flags </h5>
+                              <h5>Total Amber  <i class="fa fa-flag text-warning"></i> </h5>
                               <em class="line"></em>
                            </div>
-                           <div class="col-md-3 ">
+                           <div class="col-md-2 ">
                                 <h1 class="bold num-data">10 
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (20.4 %)</span>
+                                 
                                </h1>
-                              <h5>Total Submissions</h5>
+                              <h5>No of Reviews</h5>
                               <em class="line"></em>
                            </div>
-                           <div class="col-md-3">
-                               <h1 class="bold num-data">2
-                                  <i class="icon-custom-up text-success"></i><span class="text-success"> (6.7 %)</span>
+                           <div class="col-md-2">
+                               <h1 class="bold num-data">20
+                                
                                </h1>
-                              <h5>Total Patients </h5>
+                              <h5>No of Total Submissions </h5>
+                              <em class="line"></em>
+                           </div>
+                            <div class="col-md-2">
+                               <h1 class="bold num-data">23
+                                  
+                               </h1>
+                              <h5>No of Missed Submissions</h5>
                               <em class="line"></em>
                            </div>
                         </div>
@@ -260,11 +267,12 @@
                            <div class="col-sm-3">
                            </div>
                            <div class="col-sm-3">
-                                   <select>
-                                      <option value="volvo">No of open flags</option>
-                                      <option value="saab">No of total flags</option>
-                                      <option value="mercedes">No of submissions</option>
-                                      <option value="audi">No of new setups</option>
+                                       <select>
+                                      <option value="volvo">Total Red Flags</option>
+                                      <option value="saab">Total Amber Flags</option>
+                                      <option value="mercedes">No of Reviews</option>
+                                      <option value="audi">No of Total Submissions</option>
+                                      <option value="audi">No of Missed Submissions</option>
                                   </select>
                            </div>
                         </div>
@@ -272,175 +280,148 @@
                         <!-- Chart - Added -->
                         <br>
                         <div class="row">
-                           <div class="col-sm-6">
+                           <div class="col-sm-5">
                                <div class="alert alert-info alert-black">
                                  Flags Summary
                               </div>
                      <table class="table table-flip-scroll dashboard-tbl">
                               <thead class="cf">
                                  <tr>
-                                    <th width="25%">Patient ID</th>
-                                    <th><span class="p-l-10 p-r-10">When</span></th>
-                                    <th>Reasons</th>
-                                    <th>Action</th>
+                                    <th width="25%" class="sorting">Patient ID<br>&nbsp;</th>
+                                    <th class="sorting">Red <i class="fa fa-flag text-error"></i>
+                                     <br> <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                      <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                    </th class="sorting">
+                                    <th class="sorting">Amber <i class="fa fa-flag text-warning"></i>
+                                    <br> <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                      <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting">Green <i class="fa fa-flag text-success"></i>
+                                     <br> <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                      <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr>
-                                    <td><i class="fa fa-flag text-error"></i> &nbsp;10000001</td>
+                                    <td class="  text-center">10000001</td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 12<span class="sm text-muted"> On 6th Dec </span></h4>
+                                       <div class="  text-center">
+                                          <h4 class="semi-bold margin-none flagcount">01<sm> / 03</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         Current score more than previous by +1
+                                       <div class="  text-center ">
+                                             <h4 class="semi-bold margin-none flagcount">02<sm> / 02</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
-                                </tr>
-                                    <tr>
-                                    <td><i class="fa fa-flag text-success"></i> &nbsp;10000002</td>
-                                    <td>
-                                    <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                       <h4 class="text-muted no-margin bold"> 05<span class="sm text-muted"> On 6th Dec </span></h4>
-                                    </div>
-                                    </td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         Current score more than previous by +1
+                                    <td> <div class=" text-center ">
+                                             <h4 class="semi-bold margin-none flagcount">05<sm> / 03</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
                                 </tr>
-                                    <tr class="hidden">
-                                    <td><i class="fa fa-flag text-warning"></i> &nbsp;1003</td>
+                                <tr>
+                                    <td class="  text-center">10000002</td>
                                     <td>
-                                        <h4 class="text-muted no-margin bold"> 2<span class="sm text-muted"> On 20th Dec </span></h4>
-                                    </td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         More than baseline
-                                       </div>
-                                    </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
-                                </tr>
-                                  <tr class="hidden">
-                                    <td><i class="fa fa-flag text-error"></i> &nbsp;1004</td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 4<span class="sm text-muted"> On 29th Nov </span></h4>
+                                       <div class="  text-center">
+                                          <h4 class="semi-bold margin-none flagcount">10<sm> / 13</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                        Missed
+                                       <div class=" text-center ">
+                                             <h4 class="semi-bold margin-none flagcount">12<sm> / 12</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
+                                    <td> <div class="text-center ">
+                                             <h4 class="semi-bold margin-none flagcount">10<sm> / 09</sm></h4>
+                                        
+                                       </div>
+                                    </td>
                                 </tr>
-                                  <tr class="hidden">
-                                    <td><i class="fa fa-flag text-error"></i> &nbsp;1005</td>
+                                     <tr>
+                                    <td class="  text-center">10000003</td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 6<span class="sm text-muted"> On 29th Nov </span></h4>
+                                       <div class="  text-center">
+                                          <h4 class="semi-bold margin-none flagcount">11<sm> / 15</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         More than baseline
+                                       <div class=" text-center">
+                                             <h4 class="semi-bold margin-none flagcount">05<sm> / 05</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
+                                    <td> <div class=" text-center">
+                                             <h4 class="semi-bold margin-none flagcount">12<sm> / 08</sm></h4>
+                                        
+                                       </div>
+                                    </td>
                                 </tr>
-                                 <tr class="hidden">
-                                    <td><i class="fa fa-flag text-success"></i> &nbsp;1006</td>
+                                 <tr>
+                                    <td class="  text-center">10000004</td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 2<span class="sm text-muted"> On 12th Dec </span></h4>
+                                       <div class=" text-center">
+                                          <h4 class="semi-bold margin-none flagcount">11<sm> / 15</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         More than Previous
+                                       <div class="  text-center">
+                                             <h4 class="semi-bold margin-none flagcount">05<sm> / 05</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
+                                    <td> <div class="   text-center">
+                                             <h4 class="semi-bold margin-none flagcount">12<sm> / 08</sm></h4>
+                                        
+                                       </div>
+                                    </td>
                                 </tr>
-                                  <tr class="hidden">
-                                    <td><i class="fa fa-flag text-success"></i> &nbsp;1007</td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 2<span class="sm text-muted"> On 14th Dec </span></h4>
+                                 <tr>
+                                    <td class="  text-center">10000005</td>
+                                      <td>
+                                       <div class="  text-center">
+                                          <h4 class="semi-bold margin-none flagcount">12<sm> / 15</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                         More than Previous
+                                       <div class="   text-center">
+                                             <h4 class="semi-bold margin-none flagcount">15<sm> / 15</sm></h4>
+                                        
                                        </div>
                                     </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
+                                    <td> <div class="  text-center">
+                                             <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
+                                        
+                                       </div>
+                                    </td>
                                 </tr>
-                                  <tr class="hidden">
-                                    <td><i class="fa fa-flag text-success"></i> &nbsp;1008</td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 2<span class="sm text-muted"> On 22th Dec </span></h4>
+                                      <tr>
+                                    <td class="  text-center">10000006</td>
+                                      <td>
+                                       <div class="  text-center">
+                                          <h4 class="semi-bold margin-none flagcount">12<sm> / 15</sm></h4>
                                         
                                        </div>
                                     </td>
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                          More than baseline
-                                       </div>
-                                    </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
-                                </tr>
-                                 <tr class="hidden">
-                                    <td><i class="fa fa-flag text-success"></i> &nbsp;1009</td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 4<span class="sm text-muted"> On 23th Dec </span></h4>
+                                       <div class="   text-center">
+                                             <h4 class="semi-bold margin-none flagcount">15<sm> / 15</sm></h4>
                                         
                                        </div>
                                     </td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                          More than baseline
-                                       </div>
-                                    </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
-                                </tr>
-                                 <tr class="hidden">
-                                    <td><i class="fa fa-flag text-warning"></i> &nbsp;1010</td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h4 class="text-muted no-margin bold"> 6 <span class="sm text-muted"> On 24th Dec </span></h4>
+                                    <td> <div class="  text-center">
+                                             <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
                                         
                                        </div>
                                     </td>
-                                    <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           
-                                          More than baseline
-                                       </div>
-                                    </td>
-                                    <td><span class="label label-warning">De-Flag</span></td>
                                 </tr>
                               </tbody>
                      </table>
@@ -449,206 +430,143 @@
                               <a href="flags.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
                            </div>
                            </div>
-                           <div class="col-sm-6">
+                           <div class="col-sm-7">
                                 <div class="alert alert-info alert-black">
                                  Submission Summary
                               </div>
                                 <table class="table table-flip-scroll dashboard-tbl">
                               <thead class="cf">
                                  <tr> 
-                                    <th>Patient ID</th>
-                                    <th><span class="p-l-10 p-r-10">When</span></th>
-                                    <th>Compared To Previous</th>
-                                    <th>Compared To Baseline</th>
-                                    <th>Status</th>
+                                    <th class="sorting" width="16%">Patient ID</th>
+                                    <th class="sorting">Submission#</th>
+                                    <th class="sorting" width="22%">Total Score</th>
+                                    <th class="sorting">Variants</th>
+                                    <th class="sorting">Compared To Previous
+                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting">Compared To Baseline
+                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    
                                  </tr>
                               </thead>
                               <tbody>
                                  <tr>
-                                    <td>10000001</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 12 <span class="sm text-muted"> On 6th Dec </span></h4>
-                                       </div>
+                                    <td class="text-center">10000001</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
                                     </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">06</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">  0 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">02 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">04 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
 
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">05</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  05 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">0 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">0 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="badge badge-important">24</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">14</span>
+                                    </td>  
 
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-warning">Pending Review</span></td>
                                 </tr>
-                                        <tr>
-                                    <td>10000002</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 05 <span class="sm text-muted"> On 6th Dec </span></h4>
-                                       </div>
+                                 <tr>
+                                    <td class="text-center">10000002</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">10 on</h4>
+                                        <sm>2th Dec</sm>
+                                    
                                     </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">05</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">01 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">03&nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">01 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">07</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
 
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">06</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  01 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">02 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-warning">Pending Review</span></td>
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="badge badge-important">14</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">14</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">14</span>
+                                    </td>                                
                                 </tr>
-                                  <tr class="hidden">
-                                    <td>1003</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 3 <span class="sm text-muted"> On 26th Dec </span></h4>
-                                       </div>
+                                 <tr>
+                                    <td class="text-center">10000003</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
                                     </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">20</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">  09 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">06 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">05 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
 
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">22</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  11 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">08 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-success">Reviewd</span></td>
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="badge badge-important">24</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">14</span>
+                                    </td>                                
                                 </tr>
-                                      <tr class="hidden">
-                                    <td>1004</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 5 <span class="sm text-muted"> On 27th Dec </span></h4>
-                                       </div>
+                                 <tr>
+                                    <td class="text-center">10000004</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
                                     </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">16</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">04 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">02 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
 
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">16</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-success">Reviewd</span></td>
-                                </tr>
-                                      <tr class="hidden">
-                                    <td>1005</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 3 <span class="sm text-muted"> On 30th Dec </span></h4>
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">12</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">04 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">06 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">16</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-success">Reviewd</span></td>
-                                </tr>
-                                      <tr class="hidden">
-                                    <td>1006</td>
-                                    <td width="110px">
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                            <h4 class="text-muted no-margin bold"> 8 <span class="sm text-muted"> On 25th Dec </span></h4>
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">12</h3>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">04 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">06 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td>
-                                      <div class="lst-sub">
-                                          <h3 class="bold pull-left">16</h3>
-                                          <div class="pull-left m-t-5">
-                                            <span class="sm-font">  10 &nbsp;<i class="fa fa-flag text-success"></i> </span>
-                                              <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-error"></i>  </span>
-                                               <span class="sm-font">03 &nbsp;<i class="fa fa-flag text-warning"></i></span>
-                                          </div>
-
-                                       </div>
-                                    </td>
-                                    <td><span class=" text-success">Reviewd</span></td>
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="badge badge-important">24</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">14</span>
+                                    </td>                                
                                 </tr>
                               </tbody>
                      </table>
@@ -658,7 +576,12 @@
                            </div>
                            </div>
                         </div>
-                        <br>
+                        <br><br>
+                        <div class="row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                        <div class="dataTables_filter" id="example_filter"><label>Search <input type="text" aria-controls="example" class="input-medium"></label></div>
+                        </div>
+                        </div>
                           <div class="alert alert-info alert-black">
                               Patients Summary
                           </div>
@@ -666,9 +589,18 @@
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
-                                    <th>Total Submissions</th>
-                                    <th>Number of red flags</th>
-                                    <th>Number of amber flags</th>
+                                    <th width="35%">Total Submissions</th>
+                                     <th class="sorting">Compared To Previous
+                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting">Compared To Baseline
+                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting">Graph <br> <br></th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -676,108 +608,140 @@
                                     <td>10000001</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">12</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span>
+                                          <h2 class="bold pull-left">12<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">12<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
                                               <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                               <span class="sm-font">Total Missed  <b>6</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">4 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 9
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">5 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 9
-                                       </div>
+<div class="chart-block" style="padding:28px">
+  120 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
                                     <tr onclick="window.document.location='patient-summaryP2.html';">
-                                    <td>10000002</td>
+                                      <td>10000002</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">05</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span>
+                                          <h2 class="bold pull-left">10<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">05<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
                                               <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                               <span class="sm-font">Total Missed  <b>1</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">14</span>
+                                      <span class="badge badge-warning">05</span>
+                                     <span class="badge badge-success">11</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">02</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">07 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 12
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">05 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 12
-                                       </div>
+                                               <div class="chart-block" style="padding:28px">
+  120 <div id="line2" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
-                                    <tr class="hidden">
-                                    <td>1003</td>
+                                    <tr onclick="window.document.location='patient-summary.html';">
+                                    <td>10000003</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">23</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>11th Nov</b></span>
-                                              <span class="sm-font">Next Submission  <b>20th Nov</b></span>
-                                               <span class="sm-font">Total Missed  <b>7</b></span>
+                                          <h2 class="bold pull-left">05<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">11<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
+                                              <span class="sm-font">Next Submission  <b>8th Jan</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">11</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">09</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">16 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">15 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
+                                    <div class="chart-block" style="padding:28px">
+  120 <div id="line3" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>  
                                     </td>
                                  </tr>
-                                    <tr class="hidden">
-                                    <td>1004</td>
+                                    <tr onclick="window.document.location='patient-summaryP2.html';">
+                                      <td>10000004</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">11</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>22th Dec</b></span>
-                                              <span class="sm-font">Next Submission  <b>24th Dec</b></span>
-                                               <span class="sm-font">Total Missed  <b>3</b></span>
+                                          <h2 class="bold pull-left">10<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">05<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
+                                              <span class="sm-font">Next Submission  <b>8th Jan</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">14</span>
+                                      <span class="badge badge-warning">05</span>
+                                     <span class="badge badge-success">11</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">02</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">10 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">15 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
+                                      <div class="chart-block" style="padding:28px">
+  120 <div id="line4" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
                               </tbody>
@@ -845,6 +809,9 @@
       </style>
 
       <script type="text/javascript">
+      $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
       $(document).ready(function() {
          
 var chart = AmCharts.makeChart("chartdiv", {
@@ -980,6 +947,286 @@ function zoomChart(){
     chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
 }
       });
+
+
+
+
+AmCharts.ready(function() {
+
+    // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line1");
+
+
+    
+
+
+    // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line2");
+
+
+     // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line3");
+
+  // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line4");
+  
+
+
+
+
+   
+
+
+
+
+
+   
+
+});
       </script>
    </body>
 </html>

@@ -25,6 +25,7 @@
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+       <link href="assets/css/dashboard-ver2.css" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
    </head>
    <!-- END HEAD -->
@@ -247,6 +248,11 @@
                         <!-- Chart - Added -->
        
                         <br>
+                          <div class="row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                        <div class="dataTables_filter" id="example_filter"><label>Search <input type="text" aria-controls="example" class="input-medium"></label></div>
+                        </div>
+                        </div>
                           <div class="alert alert-info alert-black">
                               Patients Summary
                           </div>
@@ -254,9 +260,18 @@
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
-                                    <th>Total Submissions</th>
-                                    <th>Number of red flags</th>
-                                    <th>Number of amber flags</th>
+                                    <th width="35%">Total Submissions</th>
+                                     <th class="sorting">Compared To Previous
+                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting">Compared To Baseline
+                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th>Graph</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -264,112 +279,139 @@
                                     <td>10000001</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">12</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span>
+                                          <h2 class="bold pull-left">12<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">12<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
                                               <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                               <span class="sm-font">Total Missed  <b>6</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">4 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 9
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">5 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 9
-                                       </div>
+                                      
                                     </td>
                                  </tr>
                                     <tr onclick="window.document.location='patient-summaryP2.html';">
-                                    <td>10000002</td>
+                                      <td>10000002</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">05</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span>
+                                          <h2 class="bold pull-left">10<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">05<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
                                               <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                               <span class="sm-font">Total Missed  <b>1</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">14</span>
+                                      <span class="badge badge-warning">05</span>
+                                     <span class="badge badge-success">11</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">02</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">07 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 12
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">05 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 12
-                                       </div>
+                                      
                                     </td>
                                  </tr>
-                                    <tr class="hidden">
-                                    <td>1003</td>
+                                    <tr onclick="window.document.location='patient-summary.html';">
+                                    <td>10000003</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">23</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>11th Nov</b></span>
-                                              <span class="sm-font">Next Submission  <b>20th Nov</b></span>
-                                               <span class="sm-font">Total Missed  <b>7</b></span>
+                                          <h2 class="bold pull-left">05<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">11<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
+                                              <span class="sm-font">Next Submission  <b>8th Jan</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">11</span>
+                                      <span class="badge badge-warning">13</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">09</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">04</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">16 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">15 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
+                                      
                                     </td>
                                  </tr>
-                                    <tr class="hidden">
-                                    <td>1004</td>
+                                    <tr onclick="window.document.location='patient-summaryP2.html';">
+                                      <td>10000004</td>
                                     <td>
                                        <div class="lst-sub">
-                                          <h2 class="bold pull-left">11</h2>
-                                          <div class="pull-left m-t-5">
-                                             <span class="sm-font">Last Submission  <b>22th Dec</b></span>
-                                              <span class="sm-font">Next Submission  <b>24th Dec</b></span>
-                                               <span class="sm-font">Total Missed  <b>3</b></span>
+                                          <h2 class="bold pull-left">10<br>
+                                          <sm class="text-success">Total Done</sm>
+                                          </h2>
+                                           <h2 class="bold pull-left">05<br>
+                                          <sm class="text-danger">Total Missed</sm>
+                                          </h2>
+                                          <div class="pull-left p-t-20">
+                                             <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
+                                              <span class="sm-font">Next Submission  <b>8th Jan</b></span>
+                                              
                                           </div>
 
                                        </div>
 
                                     </td>
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">14</span>
+                                      <span class="badge badge-warning">05</span>
+                                     <span class="badge badge-success">11</span>
+                                    </td> 
+                                    <td class="text-center sorting">
+                                     <span class="badge badge-important">04</span>
+                                      <span class="badge badge-warning">03</span>
+                                     <span class="badge badge-success">02</span>
+                                    </td> 
                                     <td>
-                                       <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">10 <span class="semi-bold"><i class="icon-custom-up text-success"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
-                                    </td>
-                                    <td>
-                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                           <h3 class="text-muted no-margin bold">15 <span class="semi-bold"><i class="icon-custom-down text-error"></i></span></h3>
-                                          Total Flags 17
-                                       </div>
+                                      
                                     </td>
                                  </tr>
                               </tbody>
-                           </table>                          
+                           </table>
+                           <div class="text-right">
+                              <a href="patients.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i></a>
+                           </div>         
                      </div>
                   </div>
                </div>
