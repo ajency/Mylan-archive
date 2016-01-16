@@ -256,7 +256,7 @@
                           <div class="alert alert-info alert-black">
                               Patients Summary
                           </div>
-                         <table class="table table-flip-scroll table-hover">
+                                  <table class="table table-flip-scroll table-hover">
                               <thead class="cf">
                                  <tr>
                                     <th>Patient ID</th>
@@ -271,7 +271,7 @@
                                       <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                       <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                     </th>
-                                    <th>Graph</th>
+                                    <th class="sorting">Graph <br> <br></th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -305,7 +305,9 @@
                                      <span class="badge badge-success">04</span>
                                     </td> 
                                     <td>
-                                      
+<div class="chart-block" style="padding:28px">
+  120 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
                                     <tr onclick="window.document.location='patient-summaryP2.html';">
@@ -338,7 +340,9 @@
                                      <span class="badge badge-success">02</span>
                                     </td> 
                                     <td>
-                                      
+                                               <div class="chart-block" style="padding:28px">
+  120 <div id="line2" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
                                     <tr onclick="window.document.location='patient-summary.html';">
@@ -371,7 +375,9 @@
                                      <span class="badge badge-success">04</span>
                                     </td> 
                                     <td>
-                                      
+                                    <div class="chart-block" style="padding:28px">
+  120 <div id="line3" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>  
                                     </td>
                                  </tr>
                                     <tr onclick="window.document.location='patient-summaryP2.html';">
@@ -404,7 +410,9 @@
                                      <span class="badge badge-success">02</span>
                                     </td> 
                                     <td>
-                                      
+                                      <div class="chart-block" style="padding:28px">
+  120 <div id="line4" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
+</div>
                                     </td>
                                  </tr>
                               </tbody>
@@ -456,6 +464,9 @@
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script> 
+         <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+      <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+      <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
       <!-- END CORE TEMPLATE JS --> 
               <script type="text/javascript">
 $(document).ready(function() {   
@@ -484,6 +495,271 @@ $(document).ready(function() {
      labels: ['Series A', 'Series B'],
      lineColors:['#0aa699','#d1dade'],
    });
+});
+
+AmCharts.ready(function() {
+
+    // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line1");
+
+
+    
+
+
+    // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line2");
+
+
+     // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line3");
+
+  // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = [{
+        day: 1,
+        value: 120
+    }, {
+        day: 2,
+        value: 54
+    }, {
+        day: 3,
+        value: -18
+    }, {
+        day: 4,
+        value: -12
+    }, {
+        day: 5,
+        value: -51
+    }, {
+        day: 6,
+        value: 12
+    }, {
+        day: 7,
+        value: 56
+    }, {
+        day: 8,
+        value: 113
+    }, {
+        day: 9,
+        value: 142
+    }, {
+        day: 10,
+        value: 125
+    }];
+    chart.categoryField = "day";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "value";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    var guide = new AmCharts.Guide();
+    guide.value = 0;
+    guide.lineAlpha = 0.1;
+    valueAxis.addGuide(guide);
+    chart.write("line4");
+
 });
    </script>
    </body>
