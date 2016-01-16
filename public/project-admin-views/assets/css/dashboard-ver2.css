@@ -2,7 +2,17 @@
   width: 20% !important;
 }
 .top-data .col-md-2 span {
+  font-size: 19px;
+}
+.top-data .col-md-6 {
+  width: 39% !important;
+}
+.top-data .col-md-6 span {
   font-size: 26px;
+}
+.top-data .tiles {
+  height: 120px;
+  border-bottom: 2px solid #e6e6e6;
 }
 .flagcount sm {
   font-size: 12px;
@@ -60,7 +70,67 @@
   height: 500px;
   font-size: 11px;
 }
+#piechart {
+  width: 100%;
+  height: 90px;
+  font-size: 11px;
+  margin-left: -40px;
+}
 .amcharts-chart-div a {
   display: none !important;
+}
+.grid-data-table {
+  padding-bottom: 5px !important;
+  background: #D1DADE !important;
+}
+.grid.simple .grid-title {
+  padding: 14px 15px 0px 15px;
+  background: #D1DADE;
+}
+.grid-table .grid-body {
+  padding: 10px 0px!important;
+}
+.grid-table thead {
+  color: #000;
+  border-bottom: 2px solid #ccc;
+}
+select,
+input {
+  border: 1px solid #A7A3A3!important;
+}
+.input-append .add-on .arrow {
+  background-color: transparent !important;
+  position: absolute;
+  left: -6px;
+  color: #0AA699;
+  z-index: 100;
+  font-size: 26px;
+}
+.input-append .add-on,
+.input-prepend .add-on {
+  position: absolute;
+  background-color: #0AA699;
+  color: #FFFFFF;
+  text-shadow: none;
+  border: #0AA699;
+  border-radius: 0 2px 2px 0;
+  height: 37px;
+  min-width: 34px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 6px;
+}
+.tiles .tiles-title {
+  font-size: 15.5px;
+}
+.progress-bar-error {
+  background: #f35958 !important;
+}
+.grid-table-sort .sorting sm {
+  padding: 0px 11px;
+}
+.grid-table-sort .sorting span {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 /*# sourceMappingURL=dashboard-ver2.css.map */
