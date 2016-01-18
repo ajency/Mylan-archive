@@ -214,7 +214,7 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {
-                return redirect()->intended($hospitalSlug.'/dashbord');
+                return redirect()->intended($hospitalSlug.'/projects');
             }
             else
             {
