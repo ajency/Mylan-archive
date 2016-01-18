@@ -201,7 +201,7 @@
                         <li><a href="patient-submissions.html"><i class="fa fa-list-alt"></i> Submissions</a></li>
                         <li><a href="patient-flag.html"><i class="fa fa-flag"></i> Flags</a></li>
                         <li class=""><a href="baseline-score.html"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
-                        <li class=""><a href="patient-reports.html"><i class="fa fa-bar-chart"></i> Reports</a></li>
+                        <li class=""><a href="patient-reportsP2.html"><i class="fa fa-bar-chart"></i> Reports</a></li>
                         <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li>
                      </ul>
                      <div class="tab-content">
@@ -584,149 +584,100 @@
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
       <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+      <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+      <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
       <!-- END CORE TEMPLATE JS --> 
       <script type="text/javascript">
-$(function() {
-    // $('.chart').easyPieChart({
-    //     //your configuration goes here
-    // });
-
-    $("#sparkline-pie").sparkline([8,5], {
-      type: 'pie',
-      width: '100%',
-      height: '100%',
-      sliceColors: ['#53C1B7','#F7D3AB',],
-      offset: 10,
-      borderWidth: 0,
-      borderColor: '#000000 '
-   });
-});
-   $(document).ready(function() {
- var chart = AmCharts.makeChart("chartdiv", {
-    "type": "serial",
-    "theme": "light",
-    "legend": {
-        "useGraphSettings": true
-    },
-    "dataProvider": [{
-        "year": 1,
-        "Red": 1,
-        "Amber": 5,
-        "Green": 3
-    }, {
-        "year": 2,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 6
-    }, {
-        "year": 3,
-        "Red": 2,
-        "Amber": 3,
-        "Green": 1
-    }, {
-        "year": 4,
-        "Red": 3,
-        "Amber": 4,
-        "Green": 1
-    }, {
-        "year": 5,
-        "Red": 5,
-        "Amber": 1,
-        "Green": 2
-    }, {
-        "year": 6,
-        "Red": 3,
-        "Amber": 2,
-        "Green": 1
-    }, {
-        "year": 7,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 3
-    }, {
-        "year": 8,
-        "Red": 2,
-        "Amber": 1,
-        "Green": 5
-    }, {
-        "year": 9,
-        "Red": 3,
-        "Amber": 5,
-        "Green": 2
-    }, {
-        "year": 10,
-        "Red": 4,
-        "Amber": 3,
-        "Green": 6
-    }, {
-        "year": 11,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 4
-    }],
-    "valueAxes": [{
-        "integersOnly": true,
-        "maximum": 6,
-        "minimum": 1,
-        "reversed": true,
-        "axisAlpha": 0,
-        "dashLength": 5,
-        "gridCount": 10,
-        "position": "left",
-        "title": "Total Score"
-    }],
-     "valueAxes": [{
-        "logarithmic": true,
-        "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": 3
-        }],
+      $(document).ready(function() {
+         var chart = AmCharts.makeChart("chartdiv", {
+          "type": "serial",
+          "theme": "light",
+          "legend": {
+              "useGraphSettings": true
+          },
+          "dataProvider": [{
+              "year": 2006,
+              "Weight": 40
+          }, {
+              "year": 2007,
+              "Weight": 46
+          }, {
+              "year": 2008,
+              "Weight": 44
+          }, {
+              "year": 2009,
+              "Weight": 55
+          }, {
+              "year": 2010,
+              "Weight": 58
+          }, {
+              "year": 2011,
+              "Weight":53
+          }, {
+              "year": 2012,
+              "Weight": 60
+          }, {
+              "year": 2013,
+              "Weight": 63
+          }, {
+              "year": 2014,
+              "Weight": 55
+          }, {
+              "year": 2015,
+              "Weight": 67
+          }, {
+              "year": 2016,
+              "Weight": 68
+          }],
+               "valueAxes": [{
+             "integersOnly": true,
+             "maximum": 6,
+             "minimum": 1,
+             "reversed": true,
+             "axisAlpha": 0,
+             "dashLength": 5,
+             "gridCount": 10,
+             "position": "left",
+             "title": "Total Score"
          }],
-    "startDuration": 0.5,
-    "graphs": [{
-        "balloonText": "Red Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Red",
-        "valueField": "Red",
-      "fillAlphas": 0
-    }, {
-        "balloonText": " Amber Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Amber",
-        "valueField": "Amber",
-      "fillAlphas": 0
-    }, {
-        "balloonText": "Green Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Green",
-        "valueField": "Green",
-      "fillAlphas": 0
-    }],
-    "chartCursor": {
-        "cursorAlpha": 0,
-        "zoomable": false
-    },
-    "categoryField": "year",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0,
-        "fillAlpha": 0.05,
-        "fillColor": "#000000",
-        "gridAlpha": 0,
-        "position": "top"
-    },
-    "export": {
-      "enabled": true,
-        "position": "bottom-right"
-     }
-});
-
+        "valueAxes": [{
+           "logarithmic": true,
+           "dashLength": 1,
+           "guides": [{
+               "dashLength": 6,
+               "inside": true,
+               "label": "Baseline",
+               "lineAlpha": 1,
+               "value": 50
+           }],
+              }],
+       "startDuration": 0.5,
+       "graphs": [{
+           "balloonText": "Weight in [[category]]: [[value]]",
+           "bullet": "round",
+           "title": "Weight",
+           "valueField": "Weight",
+         "fillAlphas": 0
+       
+       }],
+       "chartCursor": {
+           "cursorAlpha": 0,
+           "zoomable": false
+       },
+       "categoryField": "year",
+       "categoryAxis": {
+           "gridPosition": "start",
+           "axisAlpha": 0,
+           "fillAlpha": 0.05,
+           "fillColor": "#000000",
+           "gridAlpha": 0,
+           "position": "bottom"
+       },
+       "export": {
+         "enabled": true,
+           "position": "bottom-right"
+        }
+   });
 });
     
 </script>
