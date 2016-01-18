@@ -137,7 +137,12 @@ input {
   padding-left: 15px;
   padding-right: 15px;
 }
-#sparkline-pie canvas {
+#submissionschart {
+  width: 100%;
+  height: 220px;
+  font-size: 11px;
+}
+#submissionschart canvas {
   margin-left: 80px;
   margin-top: 20px;
 }
