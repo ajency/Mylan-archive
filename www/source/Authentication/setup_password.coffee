@@ -10,6 +10,7 @@ angular.module 'PatientApp.Auth',[]
 			passwordmissmatch:''
 			hospitalName : HospitalData.name
 			projectName : HospitalData.project
+			hospitalLogo : HospitalData.logo
 
 			reset :()->
 				@New_password = ''
