@@ -347,7 +347,7 @@
                         </div>
                    </div>
                    <div class="row">
-                     <div class="col-sm-7">
+                     <div class="col-sm-8">
                            <table class="table table-flip-scroll cf table-hover">
                                           <thead class="cf">
                                              <tr>
@@ -385,13 +385,14 @@
                                           </tbody>
                                        </table>
                      </div>
-                      <div class="col-sm-5">
+                      <div class="col-sm-4">
                        <div class="tiles white added-margin " style="zoom: 1;">
                                             <div class="tiles-body">
                                                 <div class="tiles-title"> Recently Generated Flags </div>
                                                 <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
                                                     <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
                                                 </div>
+                                                <br>
                                                 <p class="text-black bold">Lorem ipsum dolor sit amet</p>
                                                 <hr>
                                                 <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
@@ -657,60 +658,45 @@ $(function() {
         "useGraphSettings": true
     },
     "dataProvider": [{
-        "year": 1,
+        "Date":'1 Jan',
         "Red": 1,
         "Amber": 5,
         "Green": 3
     }, {
-        "year": 20,
+        "Date": '2 Jan',
         "Red": 1,
         "Amber": 2,
         "Green": 6
     }, {
-        "year": 13,
+        "Date": '11 Jan',
         "Red": 2,
         "Amber": 3,
         "Green": 1
     }, {
-        "year": 4,
+        "Date": '12 Jan',
         "Red": 3,
         "Amber": 4,
         "Green": 1
     }, {
-        "year": 5,
+        "Date": '14 Jan',
         "Red": 5,
         "Amber": 1,
         "Green": 2
     }, {
-        "year": 6,
+        "Date": '18 Jan',
         "Red": 3,
         "Amber": 2,
         "Green": 1
     }, {
-        "year": 7,
+        "Date": '19 Jan',
         "Red": 1,
         "Amber": 2,
         "Green": 3
     }, {
-        "year": 8,
+        "Date": '22 Jan',
         "Red": 2,
         "Amber": 1,
         "Green": 5
-    }, {
-        "year": 9,
-        "Red": 3,
-        "Amber": 5,
-        "Green": 2
-    }, {
-        "year": 10,
-        "Red": 4,
-        "Amber": 3,
-        "Green": 6
-    }, {
-        "year": 11,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 4
     }],
     "valueAxes": [{
         "integersOnly": true,
@@ -719,7 +705,7 @@ $(function() {
         "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "position": "left",
+        "position": "top",
         "title": "Total Score"
     }],
      "valueAxes": [{
@@ -730,7 +716,8 @@ $(function() {
             "inside": true,
             "label": "Baseline",
             "lineAlpha": 1,
-            "value": 3
+            "value": 3,
+
         }],
          }],
 
@@ -773,13 +760,14 @@ $(function() {
         "cursorAlpha": 0,
         "zoomable": false
     },
-    "categoryField": "year",
+    "categoryField": "Date",
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
          "fillColor": "#000000",
         "gridAlpha": 0,
-        "position": "bottom"
+          "position": "bottom",
+        "title": "Submission"
     },
     "export": {
       "enabled": true,
