@@ -1,4 +1,4 @@
-angular.module('PatientApp.notification', []).controller('contactCtrl', [
+angular.module('PatientApp.notification', []).controller('notifyCtrl', [
   '$scope', 'App', 'Storage', 'notifyAPI', function($scope, App, Storage, notifyAPI) {
     return $scope.view = {
       data: [],
@@ -63,7 +63,7 @@ angular.module('PatientApp.notification', []).controller('contactCtrl', [
       views: {
         "appContent": {
           templateUrl: 'views/notification/notification.html',
-          controller: 'contactCtrl'
+          controller: 'notifyCtrl'
         }
       }
     });

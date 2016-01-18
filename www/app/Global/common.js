@@ -151,6 +151,11 @@ angular.module('PatientApp.Global', []).factory('App', [
           })(this)
         });
         return defer.promise;
+      },
+      callUs: function(tel) {
+        console.log('call us');
+        console.log(tel);
+        return document.location.href = "tel:" + tel;
       }
     };
   }

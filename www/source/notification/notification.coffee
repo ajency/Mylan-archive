@@ -1,6 +1,6 @@
 angular.module 'PatientApp.notification',[]
 
-.controller 'contactCtrl',['$scope', 'App', 'Storage', 'notifyAPI'
+.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI'
 	, ($scope, App, Storage, notifyAPI)->
 
 		$scope.view =
@@ -59,7 +59,7 @@ angular.module 'PatientApp.notification',[]
 			views: 
 				"appContent":
 					templateUrl: 'views/notification/notification.html'
-					controller: 'contactCtrl'
+					controller: 'notifyCtrl'
 					
 
 ]

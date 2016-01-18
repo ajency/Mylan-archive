@@ -1,11 +1,21 @@
 angular.module 'PatientApp.contact',[]
 
-.controller 'contactCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI)->
+.controller 'contactCtrl',['$scope', 'App', 'Storage'
+	, ($scope, App, Storage)->
 
 		$scope.view =
-			startQuiz :(quizID) ->
-				App.navigate 'questionnaire'
+			pastAnswerDiv : 0
+
+			
+
+			call:()->
+				Storage.setData 'hospital_details','get'
+				.then (data)=>
+					App.callUs(data.phone)
+
+
+
+
 ]
 
 .config ['$stateProvider', ($stateProvider)->

@@ -4,8 +4,20 @@ angular.module 'PatientApp.Quest'
 	, ($scope, App, Storage, QuestionAPI, DashboardAPI)->
 
 		$scope.view =
+			hospitalData : ''
+			phone : ''
+
 			exit :()->
 				ionic.Platform.exitApp()
+
+			init:()->
+				Storage.setData 'hospital_details','get'
+				.then (data)=>
+					@phone = phone 
+					App.callUs(data.phone)
+
+			call:()->
+				App.callUs(@phone)
 ]
 
 .config ['$stateProvider', ($stateProvider)->
