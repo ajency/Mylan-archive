@@ -9,24 +9,24 @@
       <meta content="" name="author" />
       <meta name="csrf-token" content="{{ csrf_token() }}" />
       <!-- BEGIN PLUGIN CSS -->
-      <link href="{{ asset('hospital/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link href="{{ asset('hospital/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link rel="stylesheet" href="{{ asset('hospital/plugins/jquery-ricksaw-chart/css/rickshaw.css') }}" type="text/css" media="screen">
-      <link rel="stylesheet" href="{{ asset('hospital/plugins/jquery-morris-chart/css/morris.css') }}" type="text/css" media="screen">
+      <link href="{{ asset('project-admin-views/assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      <link rel="stylesheet" href="{{ asset('project-admin-views/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css') }}" type="text/css" media="screen">
+      <link rel="stylesheet" href="{{ asset('project-admin-views/assets/plugins/jquery-morris-chart/css/morris.css') }}" type="text/css" media="screen">
       <!-- END PLUGIN CSS -->
       <!-- BEGIN CORE CSS FRAMEWORK -->
-      <link href="{{ asset('hospital/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('hospital/plugins/boostrapv3/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('hospital/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('hospital/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
-      <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link href="{{ asset('plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link href="{{ asset('plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
-      <link href="{{ asset('hospital/css/style.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('hospital/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('hospital/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/dashboard-ver2.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
       <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/amcharts.js') }}"></script>
@@ -75,12 +75,9 @@
                   </li>
                </ul>
             </div>
-            <!-- END RESPONSIVE MENU TOGGLER --> 
+            <!-- END RESPONSIVE MENU TOGGLER -->
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
-               <!-- END TOP NAVIGATION MENU -->
-               <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
                   <div class="chat-toggler">
                      <a href="#">
@@ -98,7 +95,7 @@
                            <div class="iconset top-settings-dark "></div>
                         </a>
                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                           <li><a href="user-profile.html"> My Account</a>
+                           <li><a href="#"> My Account</a>
                            </li>
                            <li class="divider"></li>
                            <li><a href="{{ url($hospital['url_slug'].'/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
@@ -106,9 +103,14 @@
                      </li>
                   </ul>
                </div>
+               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
+               <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
+               <!-- END TOP NAVIGATION MENU -->
+               <!-- BEGIN CHAT TOGGLER -->
+               
                <!-- END CHAT TOGGLER -->
             </div>
-            <!-- END TOP NAVIGATION MENU --> 
+
          </div>
          <!-- END TOP NAVIGATION BAR --> 
       </div>
@@ -121,33 +123,24 @@
                <div class="container">
                   <div class="bar-inner">
                      <ul>
-                       <!--  <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/dashbord/' ) }}">
+                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/dashbord/' ) }}">
                            <span><i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
-                        </li> -->
-                        <li class="{{ ( $active_menu == 'project')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/projects/' ) }}">
-                           <span><i class="fa fa-hospital-o"></i> Projects </span>
-                           </a>
                         </li>
-                        <!-- <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/patients/' ) }}">
+   
+                        <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/patients/' ) }}">
                            <span><i class="fa fa-wheelchair"></i> Patients </span>
                            </a>
-                        </li> -->
-                        <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/users/' ) }}">
-                           <span><i class="fa fa-users"></i> Users </span>
-                           </a>
                         </li>
-         
-                       <!--  <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/submissions/' ) }}">
+        
+                        <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submissions/' ) }}">
                            <span><i class="fa fa-list-alt"></i> Submissions </span>
                            </a>
                         </li>
-                        <li>
+                       <!--  <li>
                            <a href="javascript:;">
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
@@ -187,6 +180,7 @@
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/notifyjs/dist/notify.min.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('bower_components/underscore/underscore-min.js') }}" type="text/javascript"></script>
 
 
       <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
@@ -197,8 +191,8 @@
       <script src="{{ asset('plugins/jquery-block-ui/jqueryblockui.js') }}" type="text/javascript"></script>
       <!-- END CORE JS FRAMEWORK -->
       <!-- BEGIN PAGE LEVEL JS -->
-       <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script> 
+      
+ 
       <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
@@ -219,6 +213,8 @@
       <script type="text/javascript" src="{{ asset('plugins/jquery-multiselect/jquery.multiselect.js') }}"></script>
       <!-- END PAGE LEVEL PLUGINS -->
 
+       <script src="{{ asset('plugins/bootstrap-datetime-picker/moment.js') }}"></script>
+      <script src="{{ asset('plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>

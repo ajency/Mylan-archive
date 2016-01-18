@@ -60,7 +60,7 @@ class ProjectController extends Controller
         $project->name = $name;
         $project->hospital_id = $hospital['id'];
         $project->description = $request->input('description');
-     
+        $project->project_slug = str_slug($name);
         $project->save();
         $projectId = $project->id;
          
@@ -110,7 +110,7 @@ class ProjectController extends Controller
         $name =  ucfirst($request->input('name'));
         $project->name = $name;
         $project->description = $request->input('description');
-     
+        $project->project_slug = str_slug($name);
         $project->save();
          
         return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));

@@ -55,6 +55,8 @@ class HospitalController extends Controller
      */
     public function show($hospitalSlug)
     {
+        return redirect()->intended($hospitalSlug.'/projects');
+        
         $inputs = Input::get(); 
         // $projectId = (isset($inputs['projectId']))?$inputs['projectId']:0;
 
@@ -383,21 +385,21 @@ class HospitalController extends Controller
         $patientIds = [];
         
         
-        foreach ($anwsers as  $anwser) {
+        foreach ($anwsers as  $answer) {
 
-            $comparedToBaslineScore = $anwser->get("response")->get("comparedToBaseLine");
-            $comparedToPrevious = $anwser->get("response")->get("comparedToPrevious");
-            $responseId = $anwser->get("response")->getObjectId();
-            $baseLineFlagStatus = $anwser->get("response")->get("baseLineFlagStatus");
-            $previousFlagStatus = $anwser->get("response")->get("previousFlagStatus");
-            $patient = $anwser->get("response")->get("patient");
-            $sequenceNumber = $anwser->get("response")->get("sequenceNumber");
-            $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
-            $questionType = $anwser->get("question")->get("type");
+            $comparedToBaslineScore = $answer->get("response")->get("comparedToBaseLine");
+            $comparedToPrevious = $answer->get("response")->get("comparedToPrevious");
+            $responseId = $answer->get("response")->getObjectId();
+            $baseLineFlagStatus = $answer->get("response")->get("baseLineFlagStatus");
+            $previousFlagStatus = $answer->get("response")->get("previousFlagStatus");
+            $patient = $answer->get("response")->get("patient");
+            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+            $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('dS M');
+            $questionType = $answer->get("question")->get("type");
 
 
-            $baseLineFlag = $anwser->get("baseLineFlag");
-            $previosFlag = $anwser->get("previousFlag");
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previosFlag = $answer->get("previousFlag");
   
             // $patientIds[$responseId] = $patient;
             if(!isset($submissionFlags[$responseId]))

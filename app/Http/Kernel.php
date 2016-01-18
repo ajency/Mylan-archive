@@ -32,5 +32,6 @@ class Kernel extends HttpKernel
         'api_auth' => \App\Http\Middleware\APIAuthentication::class,
         'permission' => \App\Http\Middleware\Permission::class,
         'hospital.permission' => \App\Http\Middleware\HospitalPermission::class,
+        'project.permission' => \App\Http\Middleware\ProjectPermission::class,
     ];
 }
