@@ -64,6 +64,9 @@ angular.module 'PatientApp.Auth'
 				@password = ''
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			if !viewData.enableBack
+				viewData.enableBack = true
+				
 			$scope.view.reset();
 			Storage.setData 'refcode', 'get'
 			.then (refcode)=>

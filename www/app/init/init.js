@@ -42,8 +42,13 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       }
     }).state('main_login', {
       url: '/main_login',
-      templateUrl: 'views/authentication-view/Main-Screen-login.html',
-      controller: 'main_loginCtr'
+      parent: 'main',
+      views: {
+        "appContent": {
+          templateUrl: 'views/authentication-view/Main-Screen-login.html',
+          controller: 'main_loginCtr'
+        }
+      }
     }).state('setup', {
       url: '/setup',
       parent: 'main',

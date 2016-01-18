@@ -71,6 +71,9 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       }
     };
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      if (!viewData.enableBack) {
+        viewData.enableBack = true;
+      }
       $scope.view.reset();
       return Storage.setData('refcode', 'get').then((function(_this) {
         return function(refcode) {
