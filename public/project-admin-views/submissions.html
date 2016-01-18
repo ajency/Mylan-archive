@@ -28,6 +28,7 @@
     <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css" />
+      <link href="assets/css/dashboard-ver2.css" rel="stylesheet" type="text/css"/>
     <!-- END CSS TEMPLATE -->
 </head>
 <!-- END HEAD -->
@@ -250,352 +251,179 @@
                                 <br>
                                 <!-- Chart - Added -->
                                 <br>
+                                  
+                        <div class="row">
+                        <div class="col-sm-offset-9 col-sm-3">
+                        <div class="dataTables_filter" id="example_filter"><label>Search <input type="text" aria-controls="example" class="input-medium"></label></div>
+                        </div>
+                        </div>
                                 <div class="alert alert-info alert-black">
                                     Patients Summary
                                 </div>
-                                <table class="table table-flip-scroll tbl-summary table-hover">
-                                    <thead class="cf">
-                                        <tr>
-                                            <th>Patient ID</th>
-                                            <th><span class="p-l-10 p-r-10">When</span></th>
-                                            <th>Compared To Previous</th>
-                                            <th>Compared To Baseline</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr onclick="window.document.location='p1-submission6.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 12 <span class="sm text-muted"> On 6th Dec </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           04 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          05 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-warning">Pending Review</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p1-submission5.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 07 <span class="sm text-muted"> On 6th Jul </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          00 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         04 
-                                          <span class="sm">  
-                                          02 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            01 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p1-submission4.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 06 <span class="sm text-muted"> On 6th Jun </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           05 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            01 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         04 
-                                          <span class="sm">  
-                                          02 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            01 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p1-submission3.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 05 <span class="sm text-muted"> On 6th May </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           02 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            04 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          05 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p1-submission2.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 02 <span class="sm text-muted"> On 6th Feb </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            05 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         04 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           02 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p1-submission1.html';">
-                                            <td>10000001</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 01 <span class="sm text-muted"> On 6th Jan </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          00 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          04 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p2-submission4.html';">
-                                            <td>10000002</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 05 <span class="sm text-muted"> On 6th Dec </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          01 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           03 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          01 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            03 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-warning">Pending Review</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p2-submission3.html';">
-                                            <td>10000002</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 04 <span class="sm text-muted"> On 8th Nov </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          04 
-                                          <span class="sm">  
-                                          02 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         04 
-                                          <span class="sm">  
-                                          02 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p2-submission2.html';">
-                                            <td>10000002</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 02 <span class="sm text-muted"> On 6th Sep </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          06 
-                                          <span class="sm">  
-                                          06 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          04 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           01 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                        <tr onclick="window.document.location='p2-submission1.html';">
-                                            <td>10000002</td>
-                                            <td width="110px">
-                                                <div class="p-t-20 p-l-20 p-r-20 p-b-20">
-                                                    <h4 class="text-muted no-margin bold"> 01 <span class="sm text-muted"> On 7th Aug </span></h4>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                          00 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           00 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            00 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="lst-sub">
-                                                    <h3 class="bold ">
-                                         05 
-                                          <span class="sm">  
-                                          00 &nbsp;<i class="fa fa-flag text-success"></i> &nbsp;/&nbsp;
-                                           03 &nbsp;<i class="fa fa-flag text-warning"></i> &nbsp;/&nbsp;
-                                            02 &nbsp;<i class="fa fa-flag text-error"></i> 
-                                          </span>
-                                          </h3>
-                                                </div>
-                                            </td>
-                                            <td><span class=" text-success">Reviewed</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                              <thead class="cf">
+                                 <tr> 
+                                    <th class="sorting" width="16%">Patient ID <br><br></th>
+                                    <th class="sorting"># Submission <br><br></th>
+                                    <th class="sorting" width="22%"> Score <br><br></th>
+                                    <th class="sorting">Variants <br><br></th>
+                                    <th class="sorting"> Previous
+                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting"> Baseline
+                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr>
+                                    <td class="text-center">10000001</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-40">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
+
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class=" text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class=" text-success">14</span>
+                                    </td>  
+
+                                </tr>
+                                 <tr>
+                                    <td class="text-center">10000002</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">10 on</h4>
+                                        <sm>2th Dec</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-40">07</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
+
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="text-error">14</span>
+                                      <span class=" text-warning">13</span>
+                                     <span class=" text-success">14</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                                 <tr>
+                                    <td class="text-center">10000003</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-40">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
+
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                                 <tr>
+                                    <td class="text-center">10000004</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-40">10</h3>
+                                     <sm class="text-muted sm-font">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">01<sm> / 02</sm></h4>
+
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                                 <tr>
+                                    <td class="text-center">10000005</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12 on</h4>
+                                        <sm>6th Dec</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-40">12</h3>
+                                     <sm class="text-muted sm-font">Prev - 11 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
+                                    </td>  
+                                     <td class="text-center">
+                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
+
+                                    </td>   
+                                     <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                              </tbody>
+                     </table>
                                 <hr style="    margin: 0px 0px 10px 0px;">
                             </div>
                         </div>

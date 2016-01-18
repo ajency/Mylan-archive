@@ -206,15 +206,9 @@
                      </ul>
                      <div class="tab-content">
                         <div class="tab-pane table-data active" id="Patients">
-                           <div class="text-right">
-                              <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                              <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
-                           </div>
-                           <br>
-                           <div>
-                            
-                                
-                                 <dl class="dl-horizontal">
+                        <div class="row">
+                              <div class="col-sm-8">
+                                  <dl class="dl-horizontal">
                                        <!-- <dt>Patient Hospital No.</dt>
                                        <dd>A54-435</dd>
                                        <dt>Enrollment Date</dt>
@@ -226,51 +220,63 @@
                                        <dt>Project</dt>
                                        <dd>MRI Pancreatitis</dd>
                                     </dl>
+                              </div>
+                              <div class="col-sm-4">
+                                    <div class="text-right">
+                                       <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                                       <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
+                                    </div>
+                              </div>
+                        </div>
+                        <br>
+                         <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                              <a href="patient-submissions.html"> <h4>Response <span class="semi-bold">Rate</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
+                           <div class="row">
+                              <div class="col-sm-5">
+                              <div class="alert alert-info">
+                                  <div id="sparkline-pie"></div>
+                                      <div class="row p-t-20">                                     
+                                          
+                                             <div class="col-md-6 text-center">
+                                                
+                                                <h1 class="no-margin">60%</h1>
+                                                <p class=" text-underline">6 Submissions Done</p> 
+                                                                              
+                                             </div>
+                                             <div class="col-md-6 text-center">
+                                                
+                                                                                        
+                                                <h1 class="no-margin">40%</h1>
+                                                <p class="">4 Submissions Missed</p>                                                          
+                                             </div>
+                                          </div> 
+                              </div>
+                              </div>
+                              <div class="col-sm-7">
+                                  <select class="pull-right">
+                                      <option value="volvo">Red Flags</option>
+                                      <option value="saab">Amber Flags</option>
+                                       <option value="saab">Green Flags</option>
+                                          </select> 
+                                           <div id="chartdiv"></div>
+                              </div>
+                           </div>
+                           <div>
+                            
+                                
+                                
                                  
                                  
                             
                                 
                                     
                                 
-                              <br>
-                              <br>
-
-                                       <h4 class="semi-bold no-margin no-padding inline col-md-12">Response Rate</h4>
-                                       <br>
-                                          <div class="row">
-                                          <div class="col-md-5">
-                                          <br>
-                                          <div class="row">                                     
-                                             <div class="col-md-12">
-                                                <div id="sparkline-pie"></div>
-                                             </div>
-                                          </div> 
-                                              <div class="row p-t-20">                                     
-                                          
-                                             <div class="col-md-5">
-                                                
-                                                <h1 class="no-margin">60%</h1>
-                                                <p class=" text-underline">6 Submissions Done</p> 
-                                                                              
-                                             </div>
-                                             <div class="col-md-5">
-                                                
-                                                                                        
-                                                <h1 class="no-margin">40%</h1>
-                                                <p class="">4 Submissions Missed</p>                                                          
-                                             </div>
-                                          </div>                                       
-                                                             
-                                          </div>
-                                          <div class="col-md-7">  
-                                          <select class="pull-right">
-                                      <option value="volvo">Red Flags</option>
-                                      <option value="saab">Amber Flags</option>
-                                       <option value="saab">Green Flags</option>
-                                          </select> 
-                                           <div id="chartdiv"></div>                                           
-                                          </div>
-                                        </div>
+                   
                              <!--  <div class="row">
                                  <div class="col-md-7">
                                     <h4>Weight<span class="semi-bold"> (Kg)</span></h4>
@@ -332,12 +338,17 @@
                               </div>
                               <br>
                                        <br><br> --><br><br> 
-                                <h4 class="semi-bold no-margin inline"><a href="patient-flag.html">Open Red Flags</a></h4>
-                                       <span>( 5 recently generated red flags )</span>
-                                       
-                                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                                       <br><br>
-                                       <table class="table table-flip-scroll cf">
+                                       <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                               <a href="patient-flag.html">
+                               <h4>Open <span class="semi-bold">Red Flags</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-sm-7">
+                           <table class="table table-flip-scroll cf table-hover">
                                           <thead class="cf">
                                              <tr>
                                                 <th>Date</th>
@@ -373,14 +384,49 @@
                                              </tr>
                                           </tbody>
                                        </table>
+                     </div>
+                      <div class="col-sm-5">
+                       <div class="tiles white added-margin " style="zoom: 1;">
+                                            <div class="tiles-body">
+                                                <div class="tiles-title"> Recently Generated Flags </div>
+                                                <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
+                                                    <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
+                                                </div>
+                                                <p class="text-black bold">Lorem ipsum dolor sit amet</p>
+                                                <hr>
+                                                <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
+                                                   <div class="pull-left">
+                                                   <p class="text-success">Open</p>
+                                                   <p class="text-black">16/12/2015</p>
+                                                   </div>
+                                                   <div class="pull-right">
+                                                   <p class="text-success">Day Range</p>
+                                                   <p class="text-black">15,568.11 - 16,203.25</p>
+                                                   </div>
+                                                   <div class="clearfix"></div>
+                                                   </div>
+                                            </div>
+                                        </div>
+                     </div>
+                   </div>
+               <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
+                                       <span>( 5 recently generated red flags )</span> -->
+                               
+                                      
+                                    
                                        <br><br>
-
+                    <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
                                        <!-- submission -->
-                                       <h4 class="semi-bold no-margin inline"><a href="patient-submissions.html">Submissions</a></h4>
-                                       <span>( 5 recent submissions )</span>
+                              
                                        
                                        <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                                       <br><br>
+                 
                                        <table class="table table-hover table-flip-scroll cf">
                                           <thead class="cf">
                                              <tr>
@@ -616,12 +662,12 @@ $(function() {
         "Amber": 5,
         "Green": 3
     }, {
-        "year": 2,
+        "year": 20,
         "Red": 1,
         "Amber": 2,
         "Green": 6
     }, {
-        "year": 3,
+        "year": 13,
         "Red": 2,
         "Amber": 3,
         "Green": 1
@@ -673,7 +719,6 @@ $(function() {
         "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "gridCount": 10,
         "position": "left",
         "title": "Total Score"
     }],
@@ -688,25 +733,41 @@ $(function() {
             "value": 3
         }],
          }],
-    "startDuration": 0.5,
+
     "graphs": [{
         "balloonText": "Red Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Red",
+       "lineColor": "#CC0000",
         "valueField": "Red",
-      "fillAlphas": 0
+        "fillColor": "#CC0000",
+        "fillAlphas": 0.2,
+    "dashLength": 2,
+    "inside": true
+    
     }, {
         "balloonText": " Amber Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Amber",
+        "lineColor": "#ecb42f",
         "valueField": "Amber",
-      "fillAlphas": 0
+       "dashLength": 2,
+       "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+       "hidden":true,
+       "inside": true
     }, {
         "balloonText": "Green Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Green",
+        "lineColor": "#05A8A5",
         "valueField": "Green",
-      "fillAlphas": 0
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":true,
+          "inside": true
+
     }],
     "chartCursor": {
         "cursorAlpha": 0,
@@ -716,10 +777,9 @@ $(function() {
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
-        "fillAlpha": 0.05,
-        "fillColor": "#000000",
+         "fillColor": "#000000",
         "gridAlpha": 0,
-        "position": "top"
+        "position": "bottom"
     },
     "export": {
       "enabled": true,
@@ -728,6 +788,8 @@ $(function() {
 });
 
 });
+ 
+
     
 </script>
    </body>
