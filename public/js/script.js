@@ -215,9 +215,18 @@ $('.add-visit').click(function (event) {
         return;
     }
 
+
+
     html ='<div class="row patient-visit">';
-    html +='<div class="col-sm-3 m-t-25 input-daterange">';
-    html +='<input name="visitDate[]" id="visitDate" type="text"  class="form-control" placeholder="Enter Date" >';
+    html +='<div class="datetime">'; 
+    html +='<div class="col-sm-3 m-t-25 form-group">';
+    html +='<div class="input-group date datetimepicker">';
+    html +='<input name="visit_date[]" id="visit_date" type="text"   placeholder="Enter Date" class="form-control"/>';
+    html +='<span class="input-group-addon" >';
+    html +='<span class="glyphicon glyphicon-calendar"></span>';
+    html +='</span>';
+    html +='</div>';
+    html +='</div>';
     html +='</div>';
     html +='<div class="col-sm-6 m-t-25 ">';
     html +='<textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control"></textarea> ';
@@ -231,9 +240,10 @@ $('.add-visit').click(function (event) {
 
     $(".patient-visit:last").after(html);
 
-    $(".patient-visit:last").find('input').datepicker({
-         format: 'dd-mm-yyyy'
-     });
+    $(".patient-visit:last").find('input').datetimepicker({
+        format: 'DD-MM-YYYY HH:mm'
+
+      });
 
 });
 
@@ -332,4 +342,80 @@ $('.deleteUserHospitalAccess').click(function (event) {
     
  
 });
+
+function projectDashbordChart(chartData,flagArr)
+{
+    graphs = _.map(flagArr, function(value, key){ 
+        var graphObj = {
+          "balloonText": "[[category]]<br><b><span style='font-size:14px;'>"+value+":[["+key+"]]</span></b>",
+          "bullet": "round",
+          "dashLength": 3,
+          "colorField":"color",
+          "valueField": key
+        };
+
+        return graphObj;
+    })
+    console.log(graphs);
+    var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "marginRight":80,
+    "autoMarginOffset":20,
+    "dataDateFormat": "YYYY-MM-DD HH:NN",
+    "dataProvider": chartData,
+    "valueAxes": [{
+      "axisAlpha": 0,
+      "guides": [{
+      "fillAlpha": 0.1,
+      "fillColor": "#888888",
+      "lineAlpha": 0,
+      "toValue": 16,
+      "value": 10
+    }],
+    "position": "left",
+    "tickLength": 0
+    }],
+    "graphs": graphs,
+    // "trendLines": [{
+    //     "finalDate": "2012-01-11 12",
+    //     "finalValue": 19,
+    //     "initialDate": "2012-01-02 12",
+    //     "initialValue": 10,
+    //     "lineColor": "#CC0000"
+    // }, {
+    //     "finalDate": "2012-01-22 12",
+    //     "finalValue": 10,
+    //     "initialDate": "2012-01-17 12",
+    //     "initialValue": 16,
+    //     "lineColor": "#CC0000"
+    // }],
+    "chartScrollbar": {
+    "scrollbarHeight":2,
+    "offset":-1,
+    "backgroundAlpha":0.1,
+    "backgroundColor":"#888888",
+    "selectedBackgroundColor":"#67b7dc",
+    "selectedBackgroundAlpha":1
+    },
+    "chartCursor": {
+    "fullWidth":true,
+    "valueLineEabled":true,
+    "valueLineBalloonEnabled":true,
+    "valueLineAlpha":0.5,
+    "cursorAlpha":0
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+    "parseDates": true,
+    "axisAlpha": 0,
+    "gridAlpha": 0.1,
+    "minorGridAlpha": 0.1,
+    "minorGridEnabled": true
+    },
+    "export": {
+    "enabled": true
+    }
+    });
+}
 

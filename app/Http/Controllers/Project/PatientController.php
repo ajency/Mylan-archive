@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Hospital;
+namespace App\Http\Controllers\Project;
 
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ use App\Projects;
 use App\PatientMedication;
 use App\PatientClinicVisit;
 use \Session;
-use App\Http\Controllers\Hospital\HospitalController;
+use App\Http\Controllers\Project\ProjectController;
 
 class PatientController extends Controller
 {
@@ -24,12 +24,18 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($hospitalSlug)
+    public function index($hospitalSlug,$projectSlug)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->orderBy('created_at')->get()->toArray();
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at')->get()->toArray();
         $newPatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
@@ -52,8 +58,7 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $hospitalController = new HospitalController();
-        $patientResponses = $hospitalController->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+        $patientResponses = $this->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
         $patientsSummary = $patientResponses['patientResponses'];
         $responseRate = $patientResponses['responseRate'];
         $completedResponses = $patientResponses['completedResponses'];
@@ -61,8 +66,9 @@ class PatientController extends Controller
  
       
 
-        return view('hospital.patients.list')->with('hospital', $hospital)
+        return view('project.patients.list')->with('hospital', $hospital)
                                           ->with('logoUrl', $logoUrl)
+                                          ->with('project', $project)
                                           ->with('active_menu', 'patients')
                                           ->with('newPatients', count($newPatients))
                                           ->with('patients', $patients)
@@ -72,32 +78,26 @@ class PatientController extends Controller
                                           ->with('patientsSummary', $patientsSummary);
     }
 
- 
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($hospitalSlug)
+    public function create($hospitalSlug,$projectSlug)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
- 
 
-        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();  
-        // $projectQry = new ParseQuery("Project");
-        // $projectData = $projectQry->find();
-        // $projects = [];
-        // foreach ($projectData as $key => $project) {
-        //      $projects[$key] = ['id'=>$project->getObjectId(),'name'=>$project->get('name')];
-              
-        //  }
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
 
-        return view('hospital.patients.add')->with('active_menu', 'patients')
+        return view('project.patients.add')->with('active_menu', 'patients')
                                             ->with('hospital', $hospital)
-                                            ->with('logoUrl', $logoUrl)
-                                            ->with('projects', $projects);
+                                            ->with('project', $project)
+                                            ->with('logoUrl', $logoUrl);
     }
 
     /**
@@ -106,12 +106,16 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$hospitalSlug)
+    public function store(Request $request,$hospitalSlug,$projectSlug)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        $hospital = $hospitalProjectData['hospital'];
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
         $referenceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
-        $project = $request->input('project');
+        $project = $projectId;
         $weight = $request->input('weight');
         $height = $request->input('height');
         $age = $request->input('age');
@@ -181,8 +185,7 @@ class PatientController extends Controller
         $apiKey->save();
 
  
-        return redirect(url($hospitalSlug . '/patients/' . $userId.'/edit')); 
-        //return redirect(url($hospitalSlug . '/patients/' . $userId . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
     }
 
     /**
@@ -191,22 +194,27 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($hospitalSlug , $patientId)
+    public function show($hospitalSlug,$projectSlug , $patientId)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+        $project = $hospitalProjectData['project'];
+ 
+
         $patient = User::find($patientId);
-        $projectName = Projects::find($patient['project_id'])->name;
+         
         
         
-        return view('hospital.patients.show')->with('active_menu', 'patients')
+        return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
-                                        ->with('projectName', $projectName);
+                                        ->with('project', $project);
     }
 
     /**
@@ -215,13 +223,15 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($hospitalSlug ,$patientId)
+    public function edit($hospitalSlug,$projectSlug,$patientId)
     {
- 
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $projects = Projects::where('hospital_id',$hospital['id'])->get()->toArray();
+        $project = $hospitalProjectData['project'];
+
         $patient = User::find($patientId);
         $patientStatus = $patient->account_status;
 
@@ -232,14 +242,14 @@ class PatientController extends Controller
         $patientMedications = $patient->medications()->get()->toArray();
         $patientvisits = $patient->clinicVisit()->get()->toArray();
         
-        return view('hospital.patients.edit')->with('active_menu', 'patients')
+        return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient->toArray())
                                         ->with('disabled', $disabled)
                                         ->with('patientvisits', $patientvisits)
                                         ->with('patientMedications', $patientMedications)
-                                        ->with('projects', $projects);
+                                        ->with('project', $project);
     }
 
     /**
@@ -249,12 +259,19 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $hospitalSlug , $id)
+    public function update(Request $request,$hospitalSlug,$projectSlug, $id)
     {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
         $referenceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
-        $project = $request->input('project');
+        $project = $projectId;
         $weight = $request->input('weight');
         $height = $request->input('height');
         $age = $request->input('age');
@@ -314,14 +331,47 @@ class PatientController extends Controller
         $user->clinicVisit()->saveMany($patientVisits);
 
 
-        return redirect(url($hospitalSlug . '/patients/' . $id . '/edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
     }
 
-    public function showpatientBaseLineScore($hospitalSlug ,$patientId)
+    public function getPatientSubmission($hospitalSlug,$projectSlug ,$patientId)
+    { 
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patient = User::find($patientId)->toArray();
+
+        $responseStatus = ["completed"];
+        $patientAnwers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+
+        $projectController = new ProjectController();
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnwers); 
+
+        return view('project.patients.submissions')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'submissions')
+                                                ->with('tab', '02')
+                                                ->with('patient', $patient)
+                                                ->with('hospital', $hospital)
+                                                 ->with('project', $project)
+                                                 ->with('logoUrl', $logoUrl)
+                                                 ->with('submissionsSummary', $submissionsSummary);
+    }
+
+    
+    public function showpatientBaseLineScore($hospitalSlug ,$projectSlug,$patientId)
     {
  
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
 
         $patient = User::find($patientId)->toArray();
         $referenceCode = $patient['reference_code'];
@@ -336,10 +386,11 @@ class PatientController extends Controller
         $answersList = $baseLineData['answersList']; 
          
         
-        return view('hospital.patients.baselinescore')->with('active_menu', 'patients')
+        return view('project.patients.baselinescore')->with('active_menu', 'patients')
                                         ->with('active_tab', 'base_line')
                                         ->with('tab', '03')
                                         ->with('hospital', $hospital)
+                                        ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('projectName', $projectName)
@@ -349,16 +400,276 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function getpatientBaseLineScore($hospitalSlug ,$patientId)
+    public function patientSummary($patients ,$projectId,$startDate,$endDate)
+    {
+        $scheduleQry = new ParseQuery("Schedule");
+        $scheduleQry->containedIn("patient",$patients);
+        $schedules = $scheduleQry->find();
+
+        $patientNextOccurrence = [];
+        $patientResponses = [];
+        $patientData = [];
+        foreach($schedules as $schedule)
+        {
+            $patientId = $schedule->get("patient");
+            $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
+            // $patientNextOccurrence[$patientId]=$nextOccurrence;
+            $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
+            $patientResponses[$patientId]['totalFlags']=[];
+            $patientResponses[$patientId]['missed'] =[];
+            $patientResponses[$patientId]['count'] =[];
+            $patientResponses[$patientId]['completed'] =[];
+            $patientResponses[$patientId]['lastSubmission'] = '-' ;
+
+        }
+
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate);  
+        $completedResponses = [];
+        $missedResponses = [];
+        
+        foreach ($responses as $key => $response) {
+            $status = $response->get("status");
+            $patient = $response->get("patient");
+            $responseId = $response->getObjectId();
+            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+ 
+            if(!isset($patientData[$patient]))
+            {
+                $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
+                $patientData[$patient] = $occurrenceDate;
+            }
+
+            $patientResponses[$patient]['count'][]=$responseId;
+            if($status=='missed')
+            {
+                $patientResponses[$patient]['missed'][]=$responseId;
+                $missedResponses[]=$responseId;
+                continue;
+            }
+            $patientResponses[$patientId]['completed'][] =$responseId;
+
+            $completedResponses[]=$response;
+        }
+         
+
+        $answersQry = new ParseQuery("Answer");
+        $answersQry->containedIn("response", $completedResponses);
+        $answersQry->includeKey("response");
+        $anwsers = $answersQry->find();
+        
+         
+        // $submissionFlags = [];  
+         
+        foreach ($anwsers as  $anwser) {
+
+            $baseLineFlag = $anwser->get("baseLineFlag");
+            $previousFlag = $anwser->get("previousFlag");
+            $patient = $anwser->get("patient");
+            $responseId = $anwser->get("response")->getObjectId();
+            $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
+
+            if(!isset($patientResponses[$patient]))
+            {
+                $patientResponses[$patient]['baseLineFlag']['red']=[];
+                $patientResponses[$patient]['previousFlag']['red']=[];
+                $patientResponses[$patient]['baseLineFlag']['green']=[];
+                $patientResponses[$patient]['previousFlag']['green']=[];
+                $patientResponses[$patient]['baseLineFlag']['amber']=[];
+                $patientResponses[$patient]['previousFlag']['amber']=[];
+
+            }
+
+            if($baseLineFlag !=null )
+            {   
+                $patientResponses[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
+                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
+                $patientResponses[$patient]['totalFlags'][]= $previousFlag;
+                
+            }
+
+        }
+
+        $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $responseRate =  round($responseRate,2);
+         
+ 
+        $data['patientResponses']=$patientResponses;
+        $data['responseRate']=$responseRate; 
+        $data['completedResponses']=count($completedResponses);
+        $data['missedResponses']=count($missedResponses);
+
+        return $data;
+        
+    }
+
+    public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$startDate,$endDate)
+    {
+        $displayLimit = 20; 
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->containedIn("status",["completed","missed"]);
+        $responseQry->containedIn("patient",$patients);
+
+        if($projectId)
+             $responseQry->equalTo("project",$projectId);
+
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $responseQry->ascending("occurrenceDate");
+        $responseQry->limit($displayLimit);
+        $responseQry->skip($page * $displayLimit);
+        $responses = $responseQry->find();  
+        $responseData = array_merge($responses,$responseData); 
+
+        if(!empty($responses))
+        {
+            $page++;
+            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData ,$startDate,$endDate);
+        }  
+        
+        return $responseData;
+     
+    }
+
+    public function getPatientAnwers($patient,$projectId,$page=0,$anwsersData)
+    {
+        $displayLimit = 20; 
+
+        $answersQry = new ParseQuery("Answer");
+        //$answersQry->equalTo("project",$projectId);
+        $answersQry->equalTo("patient",$patient);
+        $answersQry->includeKey("question");
+        $answersQry->includeKey("response");
+        $answersQry->limit($displayLimit);
+        $answersQry->skip($page * $displayLimit);
+        $answersQry->ascending("createdAt");
+ 
+        $anwsers = $answersQry->find();
+        $anwsersData = array_merge($anwsers,$anwsersData); 
+
+        if(!empty($anwsers))
+        {
+            $page++;
+            $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData);
+        }  
+        
+        return $anwsersData;
+     
+    }
+
+    public function getBaseLineData($projectId,$referenceCode)
+    {
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project", $projectId);
+        $questionnaire = $questionnaireQry->first();  
+
+        $questions =[];
+        $options =[];
+        $questionnaireName = '';
+        $questionnaireId = '';
+
+        if(!empty($questionnaire))
+        {
+            $questionnaireName = $questionnaire->get('name');
+            $questionnaireId = $questionnaire->getObjectId();
+
+            $questionQry = new ParseQuery("Questions");
+            $questionQry->equalTo("questionnaire", $questionnaire);
+            $questions = $questionQry->find(); 
+
+            $optionsQry = new ParseQuery("Options");
+            $optionsQry->containedIn("question", $questions);
+            $options = $optionsQry->find(); 
+
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("patient", $referenceCode); 
+            $responseQry->equalTo("status", 'base_line'); 
+            $response = $responseQry->first();
+        }
+         
+        $questionsList=[];
+        $optionsList=[];
+        $answersList=[];
+        $baseLineResponseId = '';
+
+        foreach ($questions as   $question) {
+            $questionId = $question->getObjectId();
+            $questionType = $question->get('type');
+            $name = $question->get('question');
+            $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
+        }
+
+        foreach ($options as   $option) {
+            $questionId = $option->get('question')->getObjectId();
+            $optionId = $option->getObjectId();
+            $label = $option->get('label');
+            $score = $option->get('score');
+            $optionsList[$questionId][] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
+        }
+
+        if(!empty($response))
+        {
+            $baseLineResponseId = $response->getObjectId();
+            $answersQry = new ParseQuery("Answer");
+            $answersQry->includeKey("option");
+            $answersQry->includeKey("question");
+            $answersQry->equalTo("response", $response); 
+            $answers = $answersQry->find(); 
+
+            foreach ($answers as   $answer) {
+                $answersId = $answer->getObjectId();
+                $questionId = $answer->get('question')->getObjectId();
+                $questionType = $answer->get('question')->get('type');
+                $optionId = '';
+                $label = '';
+                if($questionType!='descriptive')
+                {
+                    $optionId = $answer->get('option')->getObjectId();
+                    $label = $answer->get('option')->get('label');
+                }
+
+                
+                $value = $answer->get('value');
+                $score = $answer->get('score');
+
+                if($questionType=='multi-choice')
+                {
+                    $answersList[$questionId][$optionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
+                }
+                else
+                {
+                    $answersList[$questionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
+                }
+                
+            }
+        } 
+
+        $data['questionnaireId'] = $questionnaireId; 
+        $data['questionnaireName'] = $questionnaireName; 
+        $data['questionsList'] = $questionsList; 
+        $data['optionsList'] = $optionsList; 
+        $data['answersList'] = $answersList; 
+        $data['baseLineResponseId'] = $baseLineResponseId; 
+
+        return $data;
+    }
+
+     public function getpatientBaseLineScore($hospitalSlug ,$projectSlug ,$patientId)
     {
  
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
 
         $patient = User::find($patientId)->toArray();
         $referenceCode = $patient['reference_code'];
-        $projectId = $patient['project_id'];
-        $projectId = intval ($projectId);
+
+
 
         $baseLineData = $this->getBaseLineData($projectId,$referenceCode);
         $questionnaireName = $baseLineData['questionnaireName']; 
@@ -368,10 +679,11 @@ class PatientController extends Controller
         $answersList = $baseLineData['answersList']; 
         $baseLineResponseId = $baseLineData['baseLineResponseId'];  
         
-        return view('hospital.patients.baselinescore-edit')->with('active_menu', 'patients')
+        return view('project.patients.baselinescore-edit')->with('active_menu', 'patients')
                                         ->with('active_tab', 'base_line')
                                         ->with('tab', '03')
                                         ->with('hospital', $hospital)
+                                        ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('baseLineResponseId', $baseLineResponseId)
@@ -382,8 +694,15 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function setPatientBaseLineScore(Request $request, $hospitalSlug , $id)
+    public function setPatientBaseLineScore(Request $request, $hospitalSlug ,$projectSlug ,$id)
     {
+ 
+        // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        // $hospital = $hospitalProjectData['hospital'];
+        // $project = $hospitalProjectData['project'];
+        // $projectId = intval($project['id']);
+
         $baseLineAnswers = $request->all(); //dd($baseLineAnswers);
         $questions = $baseLineAnswers['question'];
         $questionType = $baseLineAnswers['questionType'];
@@ -510,283 +829,10 @@ class PatientController extends Controller
         ParseObject::saveAll($bulkAnswerInstances);
         
 
-        return redirect(url($hospitalSlug . '/patients/' . $id . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score-edit')); 
          
     }
 
-    public function getBaseLineData($projectId,$referenceCode)
-    {
-        $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project", $projectId);
-        $questionnaire = $questionnaireQry->first();  
-
-        $questions =[];
-        $options =[];
-        $questionnaireName = '';
-        $questionnaireId = '';
-
-        if(!empty($questionnaire))
-        {
-            $questionnaireName = $questionnaire->get('name');
-            $questionnaireId = $questionnaire->getObjectId();
-
-            $questionQry = new ParseQuery("Questions");
-            $questionQry->equalTo("questionnaire", $questionnaire);
-            $questions = $questionQry->find(); 
-
-            $optionsQry = new ParseQuery("Options");
-            $optionsQry->containedIn("question", $questions);
-            $options = $optionsQry->find(); 
-
-            $responseQry = new ParseQuery("Response");
-            $responseQry->equalTo("patient", $referenceCode); 
-            $responseQry->equalTo("status", 'base_line'); 
-            $response = $responseQry->first();
-        }
-         
-        $questionsList=[];
-        $optionsList=[];
-        $answersList=[];
-        $baseLineResponseId = '';
-
-        foreach ($questions as   $question) {
-            $questionId = $question->getObjectId();
-            $questionType = $question->get('type');
-            $name = $question->get('question');
-            $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
-        }
-
-        foreach ($options as   $option) {
-            $questionId = $option->get('question')->getObjectId();
-            $optionId = $option->getObjectId();
-            $label = $option->get('label');
-            $score = $option->get('score');
-            $optionsList[$questionId][] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
-        }
-
-        if(!empty($response))
-        {
-            $baseLineResponseId = $response->getObjectId();
-            $answersQry = new ParseQuery("Answer");
-            $answersQry->includeKey("option");
-            $answersQry->includeKey("question");
-            $answersQry->equalTo("response", $response); 
-            $answers = $answersQry->find(); 
-
-            foreach ($answers as   $answer) {
-                $answersId = $answer->getObjectId();
-                $questionId = $answer->get('question')->getObjectId();
-                $questionType = $answer->get('question')->get('type');
-                $optionId = '';
-                $label = '';
-                if($questionType!='descriptive')
-                {
-                    $optionId = $answer->get('option')->getObjectId();
-                    $label = $answer->get('option')->get('label');
-                }
-
-                
-                $value = $answer->get('value');
-                $score = $answer->get('score');
-
-                if($questionType=='multi-choice')
-                {
-                    $answersList[$questionId][$optionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
-                }
-                else
-                {
-                    $answersList[$questionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
-                }
-                
-            }
-        } 
-
-        $data['questionnaireId'] = $questionnaireId; 
-        $data['questionnaireName'] = $questionnaireName; 
-        $data['questionsList'] = $questionsList; 
-        $data['optionsList'] = $optionsList; 
-        $data['answersList'] = $answersList; 
-        $data['baseLineResponseId'] = $baseLineResponseId; 
-
-        return $data;
-    }
-
-    public function getSubmissionReports($hospitalSlug ,$patientId)
-    {
-
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $patient = User::find($patientId)->toArray();
-
-        $responseArr=[];
-        $responseStatus = ["completed",'missed'];
-        $responses = $this->getResponses($patient['reference_code'],$responseStatus,0,[]);
-        foreach ($responses as  $response) {
-            $responseId = $response->getObjectId();
-            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
-        }
-
-        $anwsers = $this->getAnswers($patient['reference_code'],0,[]);
-
-        $baseLineArr = [];
-        $submissionArr = [];
-        $questionArr = [];
-        $inputScores = [];
-        $completedResponseArr=[];
-        
-        $inputBaseQuestionId = '';
-        $inputLable = '';
-        $inputBaseLineScore ='';
-
-        foreach ($anwsers as   $anwser) {
-            $responseStatus = $anwser->get("response")->get("status");
-            $questionId = $anwser->get("question")->getObjectId();
-            $questionType = $anwser->get("question")->get("type");
-            $questionTitle = $anwser->get("question")->get("title");
-            $responseId = $anwser->get("response")->getObjectId();
-            $optionScore = $anwser->get("option")->get("score");
-            $optionValue = $anwser->get("value");
-
-           
-            if($questionType=='input')
-            {
-                $optionScore = $optionValue;
-                $inputBaseQuestionId = $questionId;
-                $inputLable =  ucfirst(strtolower($questionTitle));
-
-
-                if($responseStatus=="base_line")
-                    $inputBaseLineScore = $optionScore;
-                else
-                    $inputScores[$responseId] = $optionScore;
-
-                continue;
-            }
-            elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
-               if($responseStatus=="base_line")
-                {
-                    if(isset($baseLineArr[$questionId]))
-                        $baseLineArr[$questionId] += $optionScore;
-                    else
-                        $baseLineArr[$questionId] = $optionScore;
-                }
-                else
-                {
-                    if(isset($submissionArr[$responseId][$questionId]))
-                        $submissionArr[$responseId][$questionId] += $optionScore;
-                    else
-                        $submissionArr[$responseId][$questionId] = $optionScore;
-                   
-                }
-            } 
-            else  
-            {
-                if($responseStatus=="base_line")
-                   $baseLineArr[$questionId] =$optionScore;
-                else
-                   $submissionArr[$responseId][$questionId] = $optionScore;
-
-             } 
-            
-            $questionArr[$questionId]= $questionTitle;
-            if($responseStatus!="base_line")
-                $completedResponseArr[$responseId]= $anwser->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
-
-        }
-
-
-        return view('hospital.patients.reports')->with('active_menu', 'patients')
-                                        ->with('active_tab', 'reports')
-                                        ->with('tab', '04')
-                                        ->with('hospital', $hospital)
-                                        ->with('logoUrl', $logoUrl)
-                                        ->with('patient', $patient)
-                                        ->with('responseArr', $responseArr)
-                                        ->with('completedResponseArr', $completedResponseArr)
-                                        ->with('questionArr', $questionArr)
-                                        ->with('baseLineArr', $baseLineArr)
-                                        ->with('submissionArr', $submissionArr)
-                                        ->with('inputBaseLineScore', $inputBaseLineScore)
-                                        ->with('inputLable', $inputLable)
-                                        ->with('inputScores', $inputScores); 
-
-    }
-
-   
-
-    public function getResponses($patient,$responseStatus,$page=0,$responseData)
-    {
-        $displayLimit = 20; 
-
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("patient", $patient);
-        $responseQry->containedIn("status",$responseStatus);
-        $responseQry->notEqualTo("occurrenceDate", null);
-        $responseQry->ascending("createdAt");
-        $responseQry->limit($displayLimit);
-        $responseQry->skip($page * $displayLimit);
-        $responses = $responseQry->find();  
-        $responseData = array_merge($responses,$responseData); 
-
-        if(!empty($responses))
-        {
-            $page++;
-            $responseData = $this->getResponses($patient,$responseStatus,$page,$responseData);
-        }  
-        
-        return $responseData;
-     
-    }
-
-    public function getAnswers($patient,$page=0,$answersData)
-    {
-        $displayLimit = 20; 
-
-        $anwserQry = new ParseQuery("Answer");
-        $anwserQry->equalTo("patient", $patient);
-        $anwserQry->notEqualTo("option", null);
-        $anwserQry->includeKey("response");
-        $anwserQry->includeKey("option");
-        $anwserQry->includeKey("question");
-        $anwserQry->descending("createdAt");
-        $anwserQry->limit($displayLimit);
-        $anwserQry->skip($page * $displayLimit);
-        $anwsers = $anwserQry->find(); 
-        $answersData = array_merge($anwsers,$answersData); 
-
-        if(!empty($anwsers))
-        {
-            $page++;
-            $answersData = $this->getAnswers($patient,$page,$answersData);
-        }  
-        
-        return $answersData;
-     
-    }
-
-    public function getPatientSubmission($hospitalSlug ,$patientId)
-    {
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $patient = User::find($patientId)->toArray();
-
-        $responseArr=[];
-        $responseStatus = ["completed"];
-        $responses = $this->getResponses($patient['reference_code'],$responseStatus,0,[]);
-
-        $hospitalController = new HospitalController();
-        $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
-
-        return view('hospital.patients.submissions')->with('active_menu', 'patients')
-                                                ->with('active_tab', 'submissions')
-                                                ->with('tab', '02')
-                                                ->with('patient', $patient)
-                                                 ->with('hospital', $hospital)
-                                                 ->with('logoUrl', $logoUrl)
-                                                 ->with('submissionFlags', $submissionFlags);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -797,34 +843,5 @@ class PatientController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function validateRefernceCode(Request $request,$patientId) {
-        $reference_code = $request->input('reference_code');
-        
-        $msg = '';
-        $flag = true;
-
-
-        if ($patientId)
-            $patientData = User::where('reference_code', $reference_code)->where('id', '!=', $patientId)->get()->toArray();
-        else
-            $patientData = User::where('reference_code', $reference_code)->get()->toArray();
-
-
-        
-        $status = 201;
-        if (!empty($patientData)) {
-            $msg = 'Reference Code Already Taken';
-            $flag = false;
-            $status = 200;
-        }
-
-
-        return response()->json([
-                    'code' => 'reference_validation',
-                    'message' => $msg,
-                    'data' => $flag,
-                        ], $status);
     }
 }

@@ -103,3 +103,19 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 }
 
 
+function verifyProjectSlug($hospitalSlug ,$projectSlug)
+{
+    $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
+    if(empty($hospital))
+        abort(404); 
+
+    $project = App\Projects::where('project_slug',$projectSlug)->where('hospital_id',$hospital['id'])->first()->toArray(); 
+    if(empty($project))
+        abort(404);
+
+    $data['hospital']=$hospital;
+    $data['project']=$project;
+
+    return $data;
+}
+

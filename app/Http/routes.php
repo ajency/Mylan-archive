@@ -67,18 +67,36 @@ Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteL
 
 /*****Hospital***/
 Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
-Route::get( '/', 'Hospital\HospitalController@show' );
-Route::get( '/dashbord', 'Hospital\HospitalController@show' );
-Route::resource( 'patients', 'Hospital\PatientController' );
-Route::resource( 'submissions', 'Hospital\SubmissionController' );
+ Route::get( '/', 'Hospital\HospitalController@show' );
+// Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
+// Route::resource( 'patients', 'Hospital\PatientController' );
+// Route::resource( 'submissions', 'Hospital\SubmissionController' );
 
-Route::get( 'patients/{id}/base-line-score', 'Hospital\PatientController@showpatientBaseLineScore' );
-Route::get( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@getpatientBaseLineScore' );
-Route::post( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@setPatientBaseLineScore' );
-Route::get( 'patients/{id}/submissions', 'Hospital\PatientController@getPatientSubmission' );
-Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
-Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
+
+
+// Route::get( 'patients/{id}/base-line-score', 'Hospital\PatientController@showpatientBaseLineScore' );
+// Route::get( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@getpatientBaseLineScore' );
+// Route::post( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@setPatientBaseLineScore' );
+// Route::get( 'patients/{id}/submissions', 'Hospital\PatientController@getPatientSubmission' );
+// Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
+// Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
+});
+
+/*****project***/
+Route::group( ['prefix' => '{hospitalslug}/{projectslug}'  , 'middleware' => ['auth','project.permission']], function() {
+Route::get( '/', 'Project\ProjectController@show' );
+Route::get( '/dashbord', 'Project\ProjectController@show' );
+Route::resource( 'patients', 'Project\PatientController' );
+Route::resource( 'submissions', 'Project\SubmissionController' );
+Route::resource( 'projects', 'Project\ProjectController' );
+
+Route::get( 'patients/{id}/base-line-score', 'Project\PatientController@showpatientBaseLineScore' );
+Route::get( 'patients/{id}/base-line-score-edit', 'Project\PatientController@getpatientBaseLineScore' );
+Route::post( 'patients/{id}/base-line-score-edit', 'Project\PatientController@setPatientBaseLineScore' );
+Route::get( 'patients/{id}/submissions', 'Project\PatientController@getPatientSubmission' );
+Route::get( 'patients/{id}/submission-reports', 'Project\PatientController@getSubmissionReports' );
+Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@validateRefernceCode' );
 });
 
