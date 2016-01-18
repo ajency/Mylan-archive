@@ -229,11 +229,16 @@
                               </div>
                         </div>
                         <br>
-                         <h4 class="semi-bold no-margin no-padding inline col-md-12">Response Rate</h4>
-                         <hr>
+                         <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                              <a href="patient-submissions.html"> <h4>Response <span class="semi-bold">Rate</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
                            <div class="row">
                               <div class="col-sm-5">
-                              <div class="alert ">
+                              <div class="alert alert-info">
                                   <div id="sparkline-pie"></div>
                                       <div class="row p-t-20">                                     
                                           
@@ -333,12 +338,17 @@
                               </div>
                               <br>
                                        <br><br> --><br><br> 
-                                <h4 class="semi-bold no-margin inline"><a href="patient-flag.html">Open Red Flags</a></h4>
-                                       <span>( 5 recently generated red flags )</span>
-                                       
-                                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                                       <br><br>
-                                       <table class="table table-flip-scroll cf">
+                                       <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                               <a href="patient-flag.html">
+                               <h4>Open <span class="semi-bold">Red Flags</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
+                   <div class="row">
+                     <div class="col-sm-7">
+                           <table class="table table-flip-scroll cf table-hover">
                                           <thead class="cf">
                                              <tr>
                                                 <th>Date</th>
@@ -374,14 +384,49 @@
                                              </tr>
                                           </tbody>
                                        </table>
+                     </div>
+                      <div class="col-sm-5">
+                       <div class="tiles white added-margin " style="zoom: 1;">
+                                            <div class="tiles-body">
+                                                <div class="tiles-title"> Recently Generated Flags </div>
+                                                <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
+                                                    <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
+                                                </div>
+                                                <p class="text-black bold">Lorem ipsum dolor sit amet</p>
+                                                <hr>
+                                                <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
+                                                   <div class="pull-left">
+                                                   <p class="text-success">Open</p>
+                                                   <p class="text-black">16/12/2015</p>
+                                                   </div>
+                                                   <div class="pull-right">
+                                                   <p class="text-success">Day Range</p>
+                                                   <p class="text-black">15,568.11 - 16,203.25</p>
+                                                   </div>
+                                                   <div class="clearfix"></div>
+                                                   </div>
+                                            </div>
+                                        </div>
+                     </div>
+                   </div>
+               <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
+                                       <span>( 5 recently generated red flags )</span> -->
+                               
+                                      
+                                    
                                        <br><br>
-
+                    <div class="grid simple ">
+                        <div class="grid simple grid-table">
+                            <div class="grid-title no-border">
+                              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
+                            </div>
+                        </div>
+                   </div>
                                        <!-- submission -->
-                                       <h4 class="semi-bold no-margin inline"><a href="patient-submissions.html">Submissions</a></h4>
-                                       <span>( 5 recent submissions )</span>
+                              
                                        
                                        <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                                       <br><br>
+                 
                                        <table class="table table-hover table-flip-scroll cf">
                                           <thead class="cf">
                                              <tr>
@@ -696,7 +741,7 @@ $(function() {
        "lineColor": "#CC0000",
         "valueField": "Red",
         "fillColor": "#CC0000",
-        "fillAlphas": 0.5,
+        "fillAlphas": 0.2,
     "dashLength": 2,
     "inside": true
     
@@ -706,20 +751,23 @@ $(function() {
         "title": "Amber",
         "lineColor": "#ecb42f",
         "valueField": "Amber",
-        "fillColor": "#ecb42f",
-        "fillAlphas": 0.5,
-    "dashLength": 2,
-    "inside": true
+       "dashLength": 2,
+       "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+       "hidden":true,
+       "inside": true
     }, {
         "balloonText": "Green Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Green",
-        "lineColor": "#a0cc38",
+        "lineColor": "#05A8A5",
         "valueField": "Green",
-        "fillColor": "#a0cc38",
-        "fillAlphas": 0.5,
-    "dashLength": 2,
-    "inside": true
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":true,
+          "inside": true
+
     }],
     "chartCursor": {
         "cursorAlpha": 0,
@@ -729,8 +777,7 @@ $(function() {
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
-   
-        "fillColor": "#000000",
+         "fillColor": "#000000",
         "gridAlpha": 0,
         "position": "bottom"
     },
@@ -742,6 +789,7 @@ $(function() {
 
 });
  
+
     
 </script>
    </body>

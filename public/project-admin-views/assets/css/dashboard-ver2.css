@@ -70,6 +70,10 @@
   height: 500px;
   font-size: 11px;
 }
+#trendline {
+  width: 120%;
+  height: 300px;
+}
 #piechart {
   width: 100%;
   height: 90px;
