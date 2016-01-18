@@ -125,7 +125,7 @@ angular.module('PatientApp.Global', []).factory('App', [
             return defer.reject(error);
           });
         } else {
-          defer.resolve('DUMMY_INSTALLATION_ID1');
+          defer.resolve('DUMMY_INSTALLATION_ID');
         }
         return defer.promise;
       },
