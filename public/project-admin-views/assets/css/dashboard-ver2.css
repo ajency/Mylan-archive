@@ -133,4 +133,8 @@ input {
   padding-left: 15px;
   padding-right: 15px;
 }
+#sparkline-pie canvas {
+  margin-left: 80px;
+  margin-top: 20px;
+}
 /*# sourceMappingURL=dashboard-ver2.css.map */

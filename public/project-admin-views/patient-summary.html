@@ -206,15 +206,9 @@
                      </ul>
                      <div class="tab-content">
                         <div class="tab-pane table-data active" id="Patients">
-                           <div class="text-right">
-                              <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                              <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
-                           </div>
-                           <br>
-                           <div>
-                            
-                                
-                                 <dl class="dl-horizontal">
+                        <div class="row">
+                              <div class="col-sm-8">
+                                  <dl class="dl-horizontal">
                                        <!-- <dt>Patient Hospital No.</dt>
                                        <dd>A54-435</dd>
                                        <dt>Enrollment Date</dt>
@@ -226,51 +220,58 @@
                                        <dt>Project</dt>
                                        <dd>MRI Pancreatitis</dd>
                                     </dl>
+                              </div>
+                              <div class="col-sm-4">
+                                    <div class="text-right">
+                                       <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                                       <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
+                                    </div>
+                              </div>
+                        </div>
+                        <br>
+                         <h4 class="semi-bold no-margin no-padding inline col-md-12">Response Rate</h4>
+                         <hr>
+                           <div class="row">
+                              <div class="col-sm-5">
+                              <div class="alert ">
+                                  <div id="sparkline-pie"></div>
+                                      <div class="row p-t-20">                                     
+                                          
+                                             <div class="col-md-6 text-center">
+                                                
+                                                <h1 class="no-margin">60%</h1>
+                                                <p class=" text-underline">6 Submissions Done</p> 
+                                                                              
+                                             </div>
+                                             <div class="col-md-6 text-center">
+                                                
+                                                                                        
+                                                <h1 class="no-margin">40%</h1>
+                                                <p class="">4 Submissions Missed</p>                                                          
+                                             </div>
+                                          </div> 
+                              </div>
+                              </div>
+                              <div class="col-sm-7">
+                                  <select class="pull-right">
+                                      <option value="volvo">Red Flags</option>
+                                      <option value="saab">Amber Flags</option>
+                                       <option value="saab">Green Flags</option>
+                                          </select> 
+                                           <div id="chartdiv"></div>
+                              </div>
+                           </div>
+                           <div>
+                            
+                                
+                                
                                  
                                  
                             
                                 
                                     
                                 
-                              <br>
-                              <br>
-
-                                       <h4 class="semi-bold no-margin no-padding inline col-md-12">Response Rate</h4>
-                                       <br>
-                                          <div class="row">
-                                          <div class="col-md-5">
-                                          <br>
-                                          <div class="row">                                     
-                                             <div class="col-md-12">
-                                                <div id="sparkline-pie"></div>
-                                             </div>
-                                          </div> 
-                                              <div class="row p-t-20">                                     
-                                          
-                                             <div class="col-md-5">
-                                                
-                                                <h1 class="no-margin">60%</h1>
-                                                <p class=" text-underline">6 Submissions Done</p> 
-                                                                              
-                                             </div>
-                                             <div class="col-md-5">
-                                                
-                                                                                        
-                                                <h1 class="no-margin">40%</h1>
-                                                <p class="">4 Submissions Missed</p>                                                          
-                                             </div>
-                                          </div>                                       
-                                                             
-                                          </div>
-                                          <div class="col-md-7">  
-                                          <select class="pull-right">
-                                      <option value="volvo">Red Flags</option>
-                                      <option value="saab">Amber Flags</option>
-                                       <option value="saab">Green Flags</option>
-                                          </select> 
-                                           <div id="chartdiv"></div>                                           
-                                          </div>
-                                        </div>
+                   
                              <!--  <div class="row">
                                  <div class="col-md-7">
                                     <h4>Weight<span class="semi-bold"> (Kg)</span></h4>
@@ -616,12 +617,12 @@ $(function() {
         "Amber": 5,
         "Green": 3
     }, {
-        "year": 2,
+        "year": 20,
         "Red": 1,
         "Amber": 2,
         "Green": 6
     }, {
-        "year": 3,
+        "year": 13,
         "Red": 2,
         "Amber": 3,
         "Green": 1
@@ -673,7 +674,6 @@ $(function() {
         "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "gridCount": 10,
         "position": "left",
         "title": "Total Score"
     }],
@@ -688,25 +688,38 @@ $(function() {
             "value": 3
         }],
          }],
-    "startDuration": 0.5,
+
     "graphs": [{
         "balloonText": "Red Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Red",
+       "lineColor": "#CC0000",
         "valueField": "Red",
-      "fillAlphas": 0
+        "fillColor": "#CC0000",
+        "fillAlphas": 0.5,
+    "dashLength": 2,
+    "inside": true
+    
     }, {
         "balloonText": " Amber Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Amber",
+        "lineColor": "#ecb42f",
         "valueField": "Amber",
-      "fillAlphas": 0
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.5,
+    "dashLength": 2,
+    "inside": true
     }, {
         "balloonText": "Green Flag in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Green",
+        "lineColor": "#a0cc38",
         "valueField": "Green",
-      "fillAlphas": 0
+        "fillColor": "#a0cc38",
+        "fillAlphas": 0.5,
+    "dashLength": 2,
+    "inside": true
     }],
     "chartCursor": {
         "cursorAlpha": 0,
@@ -716,10 +729,10 @@ $(function() {
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
-        "fillAlpha": 0.05,
+   
         "fillColor": "#000000",
         "gridAlpha": 0,
-        "position": "top"
+        "position": "bottom"
     },
     "export": {
       "enabled": true,
