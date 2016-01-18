@@ -27,6 +27,14 @@ angular.module 'PatientApp.Quest'
 				.then (data)=>
 					console.log '--getSummaryApi---'
 					@data = data
+					_.each @data, (value)->
+						console.log 'valueee'
+						a = value.input
+						if !_.isUndefined a
+							value['type'] = 'input'
+						else
+							value['type'] = 'option'
+					console.log '*************************'		
 					console.log @data
 					@display = 'noError'
 				,(error)=>
@@ -48,8 +56,6 @@ angular.module 'PatientApp.Quest'
 					responseId : $stateParams.summary
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					console.log 'data'
-					console.log 'succ submiteed'
 					CToast.show 'submiteed successfully '
 					App.navigate 'exit-questionnaire'
 					deregister()

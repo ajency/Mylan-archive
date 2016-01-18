@@ -26,13 +26,13 @@
 
             <span 
               class="text-green f-w-400" 
-              ng-if="summary.input ===''"
+              ng-if="summary.type ==='option'"
               ng-repeat = "answer in summary.optionSelected track by $index">
-                {{answer}} <br> 
+                {{answer}} <br>   
             </span>
             <span 
               class="text-green f-w-400" 
-              ng-if="summary.input !==''">
+              ng-if="summary.type !=='option'">
                 {{summary.input}} &nbsp; {{summary.optionSelected[0]}}
             <span>
 

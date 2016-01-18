@@ -25,6 +25,17 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
           return function(data) {
             console.log('--getSummaryApi---');
             _this.data = data;
+            _.each(_this.data, function(value) {
+              var a;
+              console.log('valueee');
+              a = value.input;
+              if (!_.isUndefined(a)) {
+                return value['type'] = 'input';
+              } else {
+                return value['type'] = 'option';
+              }
+            });
+            console.log('*************************');
             console.log(_this.data);
             return _this.display = 'noError';
           };
@@ -51,8 +62,6 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            console.log('data');
-            console.log('succ submiteed');
             CToast.show('submiteed successfully ');
             App.navigate('exit-questionnaire');
             return deregister();
