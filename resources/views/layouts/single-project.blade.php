@@ -21,7 +21,7 @@
       <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
       <link href="{{ asset('project-admin-views/assets/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link href="{{ asset('project-admin-views/assets/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/responsive.css') }}" rel="stylesheet" type="text/css"/>

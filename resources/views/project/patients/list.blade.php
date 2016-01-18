@@ -107,6 +107,7 @@
                                       $patientsSummary[$referenceCode]['lastSubmission'] = '-';
                                       $patientsSummary[$referenceCode]['nextSubmission'] = '-';
                                       $patientsSummary[$referenceCode]['missed'] = [];
+                                      $patientsSummary[$referenceCode]['completed'] = [];
                                       $patientsSummary[$referenceCode]['count'] = [];
                                       $patientsSummary[$referenceCode]['totalFlags'] = [];
                                   }
