@@ -118,7 +118,7 @@
                                   if($i==6)
                                     break;
                                 ?>
-                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}.'/'.$project['project_slug'].'/submissions/{{$responseId}}';">
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
                                     <td class="text-center">{{ $responseData['patient'] }}</td>
                                     <td class="text-center">
                                       
