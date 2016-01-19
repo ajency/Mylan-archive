@@ -324,7 +324,7 @@
                     
 
                      <div class="row">
-                      <div class="col-sm-6"> 
+                      <div class="col-sm-5"> 
                         <div class="grid simple grid-table">
                       <div class="grid-title no-border">
 
@@ -483,7 +483,7 @@
                       </div>
                       </div>
                       </div>
-                      <div class="col-sm-6"> 
+                      <div class="col-sm-7"> 
                        <div class="grid simple grid-table">
                       <div class="grid-title no-border">
                                       <h4>Submissions <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i></h4>
@@ -497,6 +497,7 @@
                                  <tr> 
                                     <th class="sorting" width="16%">Patient ID <br><br></th>
                                     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                     <th class="sorting">Total Score <br><br></th>
                                    
                                     <th class="sorting"> Previous
                                      <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -520,7 +521,11 @@
                                         <sm>Seq - 12</sm>
                                     
                                     </td>
-                                   
+                                   <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">10</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class=" text-error">04</span>
                                       <span class="text-warning">03</span>
@@ -540,6 +545,11 @@
                                         <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                     
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">12</h3>
+                                     <sm class="text-muted sm-font m-t-10" >Prev - 11 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
                                     </td>
                                 
                                      <td class="text-center sorting">
@@ -561,7 +571,11 @@
                                         <sm>Seq - 10</sm>
                                     
                                     </td>
-                               
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">07</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 07 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 15 <i class="fa fa-flag "></i> </sm>
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class="text-error">04</span>
                                       <span class="text-warning">03</span>
@@ -581,7 +595,11 @@
                                         <sm>Seq - 13</sm>
                                     
                                     </td>
-                               
+                                <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">14</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class="text-error">04</span>
                                       <span class="text-warning">03</span>
@@ -1382,5 +1400,10 @@ var chart = AmCharts.makeChart( "piechart", {
   }
 } );
       </script>
+      <style type="text/css">
+            .grid-title h4 {
+              width: 57% !important;
+            }
+      </style>
    </body>
 </html>

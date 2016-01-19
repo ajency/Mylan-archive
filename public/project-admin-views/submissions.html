@@ -252,11 +252,21 @@
                                 <!-- Chart - Added -->
                                 <br>
                                   
-                        <div class="row">
-                        <div class="col-sm-offset-9 col-sm-3">
-                        <div class="dataTables_filter" id="example_filter"><label>Search <input type="text" aria-controls="example" class="input-medium"></label></div>
+                     <div class="row">
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                <option value="2">Review</option>
+                                 <option value="2">Open</option>
+                                 <option value="2">Missed</option>
+                     </select>
                         </div>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
                         </div>
+                   
+                              </div>
                                 <div class="alert alert-info alert-black">
                                     Submission Summary
                                 </div>
@@ -265,6 +275,7 @@
                                  <tr> 
                                     <th class="sorting" width="16%">Patient ID <br><br></th>
                                     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                     <th class="sorting">Review <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
                                    
                                     <th class="sorting"> Previous
                                      <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -288,7 +299,10 @@
                                         <sm>Seq - 3</sm>
                                     
                                     </td>
-                                   
+                                    <td class="text-center">
+                                      
+                                       Missed by +1
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class=" text-error">04</span>
                                       <span class="text-warning">03</span>
@@ -309,7 +323,10 @@
                                         <sm>Seq - 10</sm>
                                     
                                     </td>
-                                
+                                  <td class="text-center">
+                                      
+                                       Missed by +2
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class="text-error">14</span>
                                       <span class=" text-warning">13</span>
@@ -329,7 +346,10 @@
                                         <sm>Seq - 11</sm>
                                     
                                     </td>
-                               
+                                 <td class="text-center">
+                                      
+                                       Missed by +1
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class="text-error">04</span>
                                       <span class="text-warning">03</span>
@@ -349,7 +369,10 @@
                                         <sm>Seq - 12</sm>
                                     
                                     </td>
-                               
+                                 <td class="text-center">
+                                      
+                                       Missed by +1
+                                    </td>
                                      <td class="text-center sorting">
                                      <span class="text-error">04</span>
                                       <span class="text-warning">03</span>

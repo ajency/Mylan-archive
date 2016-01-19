@@ -207,36 +207,37 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"  ><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All Flags  <i class="fa fa-flag text-muted"></i></a>
+
+    </li>
     <li role="presentation" ><a href="#red" aria-controls="red" role="tab" data-toggle="tab">Red <i class="fa fa-flag text-error"></i></a>
 
     </li>
     <li role="presentation" class="active"><a href="#amber" aria-controls="amber" role="tab" data-toggle="tab">Amber <i class="fa fa-flag text-warning"></i></a></li>
-    <li role="presentation"><a href="#green" aria-controls="green" role="tab" data-toggle="tab">Green <i class="fa fa-flag text-success"></i></a></li>
-    <select name="role" id="role" class="select2 form-control inline filterby">
-     <option value="2">Filter By</option>
-                                 <option value="2">Previous</option>
-                                 <option value="2">Baseline</option>
-</select>
+    <li role="presentation" ><a href="#green" aria-controls="green" role="tab" data-toggle="tab">Green <i class="fa fa-flag text-success"></i></a></li>
+  
 
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="red">
+      <div role="tabpanel" class="tab-pane active" id="all">
  
                         <div class="row">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4 text-right">
-                        <select name="role" id="role" class="select2 form-control inline"  >
-                                 <option value="1">Select User from the list</option>
-                                 <option value="2">Ryan Mainwaring</option>
-                                 <option value="2">Nancy Walsh</option>
-                                 <option value="2">Estelle Dumas</option>
-                                 <option value="2">Peter Geert</option>
-                              </select>
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                 <option value="2">Previous</option>
+                                 <option value="2">Baseline</option>
+                     </select>
+                        </div>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                        </div>
+                   
                               </div>
-                              </div>
-                              <hr>
+                              <hr class="m-0">
                            <table class="table table-hover dashboard-tbl">
                               <thead>
                                  <tr>
@@ -253,141 +254,323 @@
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
 
                                     </td>                                 
                                     <td>4 points higher than Baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-amber"></i></td>
                                    
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission5.html';">
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">6th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
 
                                     <td>3 points higher than Baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
                                     
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission4.html';">
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">10th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
 
                                     </td>
                                     <td>2 points higher than Baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
                                    
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission3.html';">
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">14th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
                                         <sm>Seq - 12</sm>
                                        </div>
 
                                     </td>
                                     <td>1 point higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
                                     
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission2.html';">
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                            <h4 class="semi-bold margin-none flagcount">16th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                            <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
 
                                     </td>
                                     <td>Missed a Questionnaire</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
                                    
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
                                     <td>10000001</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">15th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
 
 
                                     </td>
                                     <td>10 points higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
                                   
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission4.html';">
                                     <td>10000002</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">17th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
                                         <sm>Seq - 07</sm>
                                        </div>
 
                                     </td>
                                     <td>2 points higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
                                    
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission3.html';">
                                     <td>10000002</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">18th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
 
                                     </td>
                                     <td>2 points higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-amber"></i></td>
                                    
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission2.html';">
                                     <td>10000002</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">19th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
                                         <sm>Seq - 17</sm>
                                        </div>
 
                                     </td>
                                     <td>1 point higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
                                     
                                  </tr>
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission1.html';">
                                     <td>10000002</td>
 
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                              <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                              <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
 
                                     </td>
                                     <td>1 point higher than the baseline</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    
+                                 </tr>
+                                 <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                    <td>10000003</td>
+                                    <td>29th Oct</td>
+                                    <td>4,2</td>
+                                    <td>2 points higher than the previous answer</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    <td> <span class="label label-warning">De-Flag</span></td>
+                                 </tr> -->
+                              </tbody>
+                           </table>
+                       
+    </div>
+    <div role="tabpanel" class="tab-pane active" id="red">
+ 
+                        <div class="row">
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                 <option value="2">Previous</option>
+                                 <option value="2">Baseline</option>
+                     </select>
+                        </div>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                        </div>
+                   
+                              </div>
+                              <hr class="m-0">
+                           <table class="table table-hover dashboard-tbl">
+                              <thead>
+                                 <tr>
+                                    <th>Patient Id</th>
+                                    <th width="20%"># Submission</th>                                    
+
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                   
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                       </div>
+
+                                    </td>                                 
+                                    <td>4 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                   
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission5.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                       </div>
+                                    </td>
+
+                                    <td>3 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                    
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission4.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                        <sm>Seq - 11</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>2 points higher than Baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                   
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission3.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
+                                        <sm>Seq - 12</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission2.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                            <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
+                                        <sm>Seq - 11</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>Missed a Questionnaire</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                   
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                    <td>10000001</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
+                                        <sm>Seq - 11</sm>
+                                       </div>
+
+
+                                    </td>
+                                    <td>10 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                  
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission4.html';">
+                                    <td>10000002</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
+                                        <sm>Seq - 07</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                   
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission3.html';">
+                                    <td>10000002</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>2 points higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-error"></i></td>
+                                   
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission2.html';">
+                                    <td>10000002</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
+                                        <sm>Seq - 17</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
+                                    
+                                 </tr>
+                                 <tr class="odd gradeX" onclick="window.document.location='p2-submission1.html';">
+                                    <td>10000002</td>
+
+                                    <td width="110px">
+                                       <div class="p-l-10 p-r-20">
+                                              <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                       </div>
+
+                                    </td>
+                                    <td>1 point higher than the baseline</td>
+                                    <td><i class="fa fa-flag text-danger"></i></td>
                                     
                                  </tr>
                                  <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
@@ -403,19 +586,21 @@
                        
     </div>
     <div role="tabpanel" class="tab-pane" id="amber">
-              <div class="row">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4 text-right">
-                        <select name="role" id="role" class="select2 form-control inline"  >
-                                 <option value="1">Select User from the list</option>
-                                 <option value="2">Ryan Mainwaring</option>
-                                 <option value="2">Nancy Walsh</option>
-                                 <option value="2">Estelle Dumas</option>
-                                 <option value="2">Peter Geert</option>
-                              </select>
+             <div class="row">
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                 <option value="2">Previous</option>
+                                 <option value="2">Baseline</option>
+                     </select>
+                        </div>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                        </div>
+                   
                               </div>
-                              </div>
-                              <hr>
+                              <hr class="m-0">
                            <table class="table table-hover">
                               <thead>
                                  <tr>
@@ -430,8 +615,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>                                 
@@ -442,8 +627,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission5.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">6th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
@@ -454,8 +639,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission4.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">10th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -466,8 +651,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission3.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">14th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
                                         <sm>Seq - 12</sm>
                                        </div>
                                     </td>
@@ -478,8 +663,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission2.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                            <h4 class="semi-bold margin-none flagcount">16th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                            <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -490,8 +675,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">15th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -502,8 +687,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission4.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">17th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
                                         <sm>Seq - 07</sm>
                                        </div>
                                     </td>
@@ -514,8 +699,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission3.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">18th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
@@ -526,8 +711,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission2.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">19th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
                                         <sm>Seq - 17</sm>
                                        </div>
                                     </td>
@@ -538,8 +723,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission1.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                              <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                              <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
@@ -561,19 +746,21 @@
 
     </div>
     <div role="tabpanel" class="tab-pane" id="green">
-             <div class="row">
-                        <div class="col-md-8"></div>
-                        <div class="col-md-4 text-right">
-                        <select name="role" id="role" class="select2 form-control inline"  >
-                                 <option value="1">Select User from the list</option>
-                                 <option value="2">Ryan Mainwaring</option>
-                                 <option value="2">Nancy Walsh</option>
-                                 <option value="2">Estelle Dumas</option>
-                                 <option value="2">Peter Geert</option>
-                              </select>
+              <div class="row">
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                 <option value="2">Previous</option>
+                                 <option value="2">Baseline</option>
+                     </select>
+                        </div>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                        </div>
+                   
                               </div>
-                              </div>
-                              <hr>
+                              <hr class="m-0">
                            <table class="table table-hover">
                               <thead>
                                  <tr>
@@ -588,8 +775,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>                                 
@@ -600,8 +787,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission5.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">6th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
@@ -612,8 +799,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission4.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">10th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -624,8 +811,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission3.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">14th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
                                         <sm>Seq - 12</sm>
                                        </div>
                                     </td>
@@ -636,8 +823,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission2.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                            <h4 class="semi-bold margin-none flagcount">16th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                            <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -648,8 +835,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
                                     <td>10000001</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">15th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
                                         <sm>Seq - 11</sm>
                                        </div>
                                     </td>
@@ -660,8 +847,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission4.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">17th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
                                         <sm>Seq - 07</sm>
                                        </div>
                                     </td>
@@ -672,8 +859,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission3.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">18th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
@@ -684,8 +871,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission2.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                             <h4 class="semi-bold margin-none flagcount">19th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                             <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
                                         <sm>Seq - 17</sm>
                                        </div>
                                     </td>
@@ -696,8 +883,8 @@
                                  <tr class="odd gradeX" onclick="window.document.location='p2-submission1.html';">
                                     <td>10000002</td>
                                     <td width="110px">
-                                       <div class="p-t-20 p-l-10 p-r-20 p-b-20">
-                                              <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                       <div class="p-l-10 p-r-20">
+                                              <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
                                         <sm>Seq - 13</sm>
                                        </div>
                                     </td>
