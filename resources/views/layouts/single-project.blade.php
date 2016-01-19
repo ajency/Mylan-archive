@@ -31,6 +31,7 @@
       <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/amcharts.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/serial.js') }}"></script>
+      <script src="{{ asset('bower_components/amcharts/dist/amcharts/pie.js') }}"></script> 
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/themes/light.js') }}"></script>
       <script>
          var HOSPITAL_ID = 0;

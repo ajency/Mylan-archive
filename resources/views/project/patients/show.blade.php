@@ -21,10 +21,10 @@
 <div class="tabbable tabs-left">
                         @include('project.patients.side-menu')
                      <div class="tab-content">
-                        <div class="tab-pane table-data active" id="Patients">
+                     <div class="tab-pane table-data active" id="Patients">
                         <div class="row">
                               <div class="col-sm-8">
-                              <dl class="dl-horizontal">
+                                  <dl class="dl-horizontal">
                                  <dt>Reference Code</dt>
                                  <dd>{{ $patient['reference_code']}}</dd>
                                  <dt>Age</dt>
@@ -49,7 +49,7 @@
                               </div>
                               <div class="col-sm-4">
                                     <div class="text-right">
-                                       <a href="#" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                                       <a href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
                                        <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                                     </div>
                               </div>
@@ -65,36 +65,36 @@
                            <div class="row">
                               <div class="col-sm-5">
                               <div class="alert alert-info">
-                                  <div id="sparkline-pie"></div>
+                                 <div id="submissionschart"></div>  
                                       <div class="row p-t-20">                                     
                                           
                                              <div class="col-md-6 text-center">
                                                 
-                                                <h1 class="no-margin">60%</h1>
-                                                <p class=" text-underline">6 Submissions Done</p> 
+                                                <h1 class="no-margin">{{  $responseRate['completedRatio'] }}%</h1>
+                                                <p class=" text-underline">{{  $responseRate['completed'] }} Submissions Done</p> 
                                                                               
                                              </div>
                                              <div class="col-md-6 text-center">
                                                 
                                                                                         
-                                                <h1 class="no-margin">40%</h1>
-                                                <p class="">4 Submissions Missed</p>                                                          
+                                                <h1 class="no-margin">{{  $responseRate['missedRatio'] }} %</h1>
+                                                <p class="">{{  $responseRate['missed'] }} Submissions Missed</p>                                                          
                                              </div>
                                           </div> 
                               </div>
                               </div>
                               <div class="col-sm-7">
-                                  <select class="pull-right">
-                                      <option value="volvo">Red Flags</option>
-                                      <option value="saab">Amber Flags</option>
-                                       <option value="saab">Green Flags</option>
-                                          </select> 
+                               <select name="generateChart">
+                                      <option value="baseline">Base line flags</option>
+                                      <option value="previous">Previous flags</option>
+                                       
+                                  </select>
+                    
                                            <div id="chartdiv"></div>
                               </div>
                            </div>
                            <div>
-                            
-                          <br><br> 
+                             <br><br> 
                                        <div class="grid simple ">
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
@@ -104,7 +104,7 @@
                         </div>
                    </div>
                    <div class="row">
-                     <div class="col-sm-7">
+                     <div class="col-sm-8">
                            <table class="table table-flip-scroll cf table-hover">
                                           <thead class="cf">
                                              <tr>
@@ -142,13 +142,14 @@
                                           </tbody>
                                        </table>
                      </div>
-                      <div class="col-sm-5">
+                      <div class="col-sm-4">
                        <div class="tiles white added-margin " style="zoom: 1;">
                                             <div class="tiles-body">
                                                 <div class="tiles-title"> Recently Generated Flags </div>
                                                 <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
                                                     <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
                                                 </div>
+                                                <br>
                                                 <p class="text-black bold">Lorem ipsum dolor sit amet</p>
                                                 <hr>
                                                 <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
@@ -241,7 +242,7 @@
                                    
                            </div>
                            <br><br>
-                        </div>
+                           </div>
                         <div class="tab-pane" id="Submissions">
              
                         </div>
@@ -250,159 +251,48 @@
                      </div>
                   </div>
  
-      <script type="text/javascript">
-$(function() {
-    // $('.chart').easyPieChart({
-    //     //your configuration goes here
-    // });
+    <script type="text/javascript">
+     
 
-    $("#sparkline-pie").sparkline([5,8], {
-      type: 'pie',
-      width: '100%',
-      height: '100%',
-      sliceColors: ['#53C1B7','#F7D3AB',],
-      offset: 10,
-      borderWidth: 0,
-      borderColor: '#000000 '
-   });
-});
    $(document).ready(function() {
- var chart = AmCharts.makeChart("chartdiv", {
-    "type": "serial",
-    "theme": "light",
-    "legend": {
-        "useGraphSettings": true
-    },
-    "dataProvider": [{
-        "year": 1,
-        "Red": 1,
-        "Amber": 5,
-        "Green": 3
-    }, {
-        "year": 20,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 6
-    }, {
-        "year": 13,
-        "Red": 2,
-        "Amber": 3,
-        "Green": 1
-    }, {
-        "year": 4,
-        "Red": 3,
-        "Amber": 4,
-        "Green": 1
-    }, {
-        "year": 5,
-        "Red": 5,
-        "Amber": 1,
-        "Green": 2
-    }, {
-        "year": 6,
-        "Red": 3,
-        "Amber": 2,
-        "Green": 1
-    }, {
-        "year": 7,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 3
-    }, {
-        "year": 8,
-        "Red": 2,
-        "Amber": 1,
-        "Green": 5
-    }, {
-        "year": 9,
-        "Red": 3,
-        "Amber": 5,
-        "Green": 2
-    }, {
-        "year": 10,
-        "Red": 4,
-        "Amber": 3,
-        "Green": 6
-    }, {
-        "year": 11,
-        "Red": 1,
-        "Amber": 2,
-        "Green": 4
-    }],
-    "valueAxes": [{
-        "integersOnly": true,
-        "maximum": 6,
-        "minimum": 1,
-        "reversed": true,
-        "axisAlpha": 0,
-        "dashLength": 5,
-        "position": "left",
-        "title": "Total Score"
-    }],
-     "valueAxes": [{
-        "logarithmic": true,
-        "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": 3
-        }],
-         }],
 
-    "graphs": [{
-        "balloonText": "Red Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Red",
-       "lineColor": "#CC0000",
-        "valueField": "Red",
-        "fillColor": "#CC0000",
-        "fillAlphas": 0.2,
-    "dashLength": 2,
-    "inside": true
-    
-    }, {
-        "balloonText": " Amber Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Amber",
-        "lineColor": "#ecb42f",
-        "valueField": "Amber",
-       "dashLength": 2,
-       "fillColor": "#ecb42f",
-        "fillAlphas": 0.2,
-       "hidden":true,
-       "inside": true
-    }, {
-        "balloonText": "Green Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Green",
-        "lineColor": "#05A8A5",
-        "valueField": "Green",
-        "fillColor": "#ecb42f",
-        "fillAlphas": 0.2,
-         "dashLength": 2,
-         "hidden":true,
-          "inside": true
+    patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
 
-    }],
-    "chartCursor": {
-        "cursorAlpha": 0,
-        "zoomable": false
-    },
-    "categoryField": "year",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0,
-         "fillColor": "#000000",
-        "gridAlpha": 0,
-        "position": "bottom"
-    },
-    "export": {
-      "enabled": true,
-        "position": "bottom-right"
-     }
-});
+    var chart = AmCharts.makeChart( "submissionschart", {
+           "type": "pie",
+           "theme": "light",
+           "dataProvider": [ {
+             "title": "# Missed",
+             "value": {{ $responseRate['missed'] }}
+           }, {
+             "title": "# Done",
+             "value": {{ $responseRate['completed'] }}
+           } ],
+           "titleField": "title",
+           "valueField": "value",
+           "labelRadius": 5,
+
+           "radius": "42%",
+           "innerRadius": "60%",
+           "labelText": "[[title]]",
+           "export": {
+             "enabled": true
+           }
+         } );// Pie Chart
+
+    $('select[name="generateChart"]').change(function (event) { 
+      if($(this).val()=='previous')
+      { 
+        patientFlagsChart(<?php echo $flagsCount['previousFlags'];?>);
+      }
+      else if($(this).val()=='baseline')
+      {
+        patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+
+      }
+       
+
+    });
 
 });
  

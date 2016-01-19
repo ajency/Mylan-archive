@@ -212,22 +212,32 @@ class PatientController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseRate['completed'] = $responseQry->count();
 
+
+
          // get completed count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","missed");
         $responseQry->equalTo("project",$projectId);
         $responseRate['missed'] = $responseQry->count();
 
-        // $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        $totalResponses = ($responseRate['completed'] + $responseRate['missed']);
+
+        $completedRatio = ($totalResponses) ? ($responseRate['completed']/$totalResponses) * 100 :0;
+        $responseRate['completedRatio'] =  round($completedRatio,2);
+
+        $missedRatio = ($totalResponses) ? ($responseRate['missed']/$totalResponses) * 100 :0;
+        $responseRate['missedRatio'] =  round($missedRatio,2);
+
+        $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
          
-        // $flagsCount = $this->projectFlagsCount($patientAnswers);
+        $flagsCount = $this->patientFlagsCount($patientAnswers);
         
         
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
                                         ->with('responseRate', $responseRate)
-
+                                        ->with('flagsCount', $flagsCount)
                                         ->with('hospital', $hospital)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
@@ -236,7 +246,7 @@ class PatientController extends Controller
     }
 
  
-    public function projectFlagsCount($projectAnwers)
+    public function patientFlagsCount($projectAnwers)
     {
 
         $redFlagsByDate = [];
@@ -250,7 +260,7 @@ class PatientController extends Controller
             $responseId = $answer->get("response")->getObjectId();
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
-            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
+            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
             $answerDate = strtotime($answerDate);
 
             if($questionType!='single-choice')
@@ -302,17 +312,22 @@ class PatientController extends Controller
             
         }
 
-        $redFlagData = [];
-        $amberFlagData = [];
-        $greenFlagData = [];
+        // $redFlagData = [];
+        // $amberFlagData = [];
+        // $greenFlagData = [];
+
+        $baslineFlagData = [];
+        $previousFlagData = [];
 
         ksort($redFlagsByDate);
         $i=0;
         foreach($redFlagsByDate as $date => $value)
         { 
-            $redFlagData[$i]["date"] = date('Y-m-d',$date);
-            $redFlagData[$i]["base_line"] = count($value['baseLine']);
-            $redFlagData[$i]["previous"] = count($value['previous']) ;
+            $baslineFlagData[$i]["Date"] = date('d M',$date);
+            $previousFlagData[$i]["Date"] = date('d M',$date);
+    
+            $baslineFlagData[$i]["Red"] = count($value['baseLine']);
+            $previousFlagData[$i]["Red"] = count($value['previous']) ;
  
             $i++;
         }
@@ -321,9 +336,9 @@ class PatientController extends Controller
         $i=0;
         foreach($amberFlagsByDate as $date => $value)
         { 
-            $amberFlagData[$i]["date"] = date('Y-m-d',$date);
-            $amberFlagData[$i]["base_line"] = count($value['baseLine']);
-            $amberFlagData[$i]["previous"] = count($value['previous']) ;
+            //$amberFlagData[$i]["date"] = date('Y-m-d',$date);
+            $baslineFlagData[$i]["Amber"] = count($value['baseLine']);
+            $previousFlagData[$i]["Amber"] = count($value['previous']) ;
  
             $i++;
         }
@@ -332,16 +347,16 @@ class PatientController extends Controller
         $i=0;
         foreach($greenFlagsByDate as $date => $value)
         { 
-            $greenFlagData[$i]["date"] = date('Y-m-d',$date);
-            $greenFlagData[$i]["base_line"] = count($value['baseLine']);
-            $greenFlagData[$i]["previous"] = count($value['previous']) ;
+            //$greenFlagData[$i]["date"] = date('Y-m-d',$date);
+            $baslineFlagData[$i]["Green"] = count($value['baseLine']);
+            $previousFlagData[$i]["Green"] = count($value['previous']) ;
  
             $i++;
         }
        
-
-        $data['redFlags'] = json_encode($redFlagData);
-        $data['amberFlags'] = json_encode($amberFlagData);
+ 
+        $data['baslineFlags'] = json_encode($baslineFlagData);
+        $data['previousFlags'] = json_encode($previousFlagData);
 
         return $data;
     }
