@@ -198,10 +198,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'multi-choice') {
+          selectedvalue = [];
           if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
             CToast.show('Please select your answer');
           } else {
-            selectedvalue = [];
             _.each(this.data.options, function(opt) {
               if (opt.checked === true) {
                 return selectedvalue.push(opt.id);
