@@ -28,9 +28,9 @@ angular.module 'PatientApp.dashboard',[]
 						"patientId":refcode
 					DashboardAPI.get param
 					.then (data)=>
-						console.log 'inside then'
-						console.log data
 						@data = data
+						_.each @data, (value)->
+							value.occurrenceDate = moment(value.occurrenceDate).format('MMMM Do YYYY')
 						@display = 'noError'
 					,(error)=>
 						@display = 'error'
@@ -43,25 +43,15 @@ angular.module 'PatientApp.dashboard',[]
 				
 
 			summary : (id)->
-				console.log '---summary---id'
-				console.log id
 				App.navigate 'summary', summary:id
 
 			resumeQuiz : (id)->
-				console.log 'resumeQuiz'
-				console.log id
 				App.navigate 'questionnaire', respStatus:id
 
 			onTapToRetry : ->
 				@display = 'loader'
-				console.log 'onTapToRetry'
 				@getSubmission()
 
-			pastDate: (date) ->
-				moment(date).format('MMMM Do YYYY')
-
-
-	
 ]
 
 .config ['$stateProvider', ($stateProvider)->

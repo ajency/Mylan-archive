@@ -353,7 +353,7 @@ angular.module 'PatientApp.Quest',[]
 								optionSelectedArray.push(a)
 						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
-					@data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY')
+					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
 			hasAnswerShow:()->
 				if @data.questionType == 'descriptive'

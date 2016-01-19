@@ -371,7 +371,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             })(this));
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
-          return this.data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY');
+          return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');
         }
       },
       hasAnswerShow: function() {

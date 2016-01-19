@@ -21,9 +21,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               "patientId": refcode
             };
             return DashboardAPI.get(param).then(function(data) {
-              console.log('inside then');
-              console.log(data);
               _this.data = data;
+              _.each(_this.data, function(value) {
+                return value.occurrenceDate = moment(value.occurrenceDate).format('MMMM Do YYYY');
+              });
               return _this.display = 'noError';
             }, function(error) {
               _this.display = 'error';
@@ -36,26 +37,18 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return this.getSubmission();
       },
       summary: function(id) {
-        console.log('---summary---id');
-        console.log(id);
         return App.navigate('summary', {
           summary: id
         });
       },
       resumeQuiz: function(id) {
-        console.log('resumeQuiz');
-        console.log(id);
         return App.navigate('questionnaire', {
           respStatus: id
         });
       },
       onTapToRetry: function() {
         this.display = 'loader';
-        console.log('onTapToRetry');
         return this.getSubmission();
-      },
-      pastDate: function(date) {
-        return moment(date).format('MMMM Do YYYY');
       }
     };
   }
