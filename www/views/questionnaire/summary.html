@@ -6,7 +6,8 @@
   </ion-nav-bar>
   <ion-nav-title>
     Summary
-  </ion-nav-title>   
+  </ion-nav-title>
+
   <ion-content 
     ng-init="view.init();" 
     class="has-footer"
@@ -16,6 +17,7 @@
         <ion-spinner>
         </ion-spinner>
     </div>
+
     <div ng-switch-when="noError">
     <div ng-repeat ="summary in view.data">
         <div class="padding">
@@ -48,7 +50,8 @@
 
     <br>
   </ion-content>
-  <div class="bar bar-footer submission">
+
+  <div class="bar bar-footer submission" ng-if="view.display === 'noError'" >
       <div class="button-bar">
          <button 
             class="button button-balanced"
@@ -58,10 +61,11 @@
          </button>
          <button 
             class="button button-assertive"
-            ng-if = "App.previousState !== 'dashboard'"
+            ng-if = "view.hideButton === true"
             ng-click="view.submitSummary()">
          Submit
          </button>
       </div>
    </div>
+
 </ion-view>

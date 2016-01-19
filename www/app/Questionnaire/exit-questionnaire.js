@@ -9,8 +9,7 @@ angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
       init: function() {
         return Storage.setData('hospital_details', 'get').then((function(_this) {
           return function(data) {
-            _this.phone = phone;
-            return App.callUs(data.phone);
+            return _this.phone = data.phone;
           };
         })(this));
       },

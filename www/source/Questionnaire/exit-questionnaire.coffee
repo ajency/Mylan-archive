@@ -13,8 +13,8 @@ angular.module 'PatientApp.Quest'
 			init:()->
 				Storage.setData 'hospital_details','get'
 				.then (data)=>
-					@phone = phone 
-					App.callUs(data.phone)
+					@phone = data.phone
+					
 
 			call:()->
 				App.callUs(@phone)

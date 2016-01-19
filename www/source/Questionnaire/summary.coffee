@@ -10,6 +10,7 @@ angular.module 'PatientApp.Quest'
 			go : ''
 			response : ''
 			display : 'loader'
+			hideButton : ''
 
 			getSummary : ->
 				@display = 'noError'
@@ -20,6 +21,8 @@ angular.module 'PatientApp.Quest'
 				@responseId = @summary.responseId
 
 			getSummaryApi :()->
+				hideButton = if App.previousState == 'dashboard' then true else false
+
 				param =
 						'responseId' : $stateParams.summary
 				@display = 'loader'

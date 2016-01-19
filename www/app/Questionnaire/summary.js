@@ -7,6 +7,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       go: '',
       response: '',
       display: 'loader',
+      hideButton: '',
       getSummary: function() {
         this.display = 'noError';
         this.summary = Storage.summary('get');
@@ -16,7 +17,8 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.responseId = this.summary.responseId;
       },
       getSummaryApi: function() {
-        var param;
+        var hideButton, param;
+        hideButton = App.previousState === 'dashboard' ? true : false;
         param = {
           'responseId': $stateParams.summary
         };
