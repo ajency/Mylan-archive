@@ -79,7 +79,7 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
         $projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
 
         $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
@@ -145,14 +145,14 @@ class ProjectController extends Controller
         $responseQry->containedIn("status",["completed","missed"]);
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $responseQry->lessThan("occurrenceDate",$endDate);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responseQry->ascending("occurrenceDate");
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
         
-        if(!empty($response))
+        if(!empty($responses))
         {
             $page++;
             $responseData = $this->getProjectResponses($projectId,$page,$responseData ,$startDate,$endDate);
@@ -170,16 +170,69 @@ class ProjectController extends Controller
         $amberFlags['previousFlag'] = [];
         $missed = [];
         $openSubmissions=[];
+
+        $missedByDate = [];
+        $openSubmissionsByDate=[];
+        $completedByDate = [];
+
+        $missedSubmissionData = [];
+        $openSubmissionData=[];
+        $completedSubmissionData = [];
+ 
+
         foreach ($projectResponses as $response) {
             $responseId = $response->getObjectId();
             $status = $response->get("status");
             $reviewed = $response->get("reviewed");
+            $responseDate = $response->get("occurrenceDate")->format('d-m-Y');
+            $responseDate = strtotime($responseDate);
 
             if($status=='missed')
+            {
                 $missed[]=$responseId;
+                $missedByDate[$responseDate][] =$responseId;
+            }
+
+            if($status=='completed')
+            {
+                $missed[]=$responseId;
+                $completedByDate[$responseDate][] =$responseId;
+            }
 
             if($reviewed=='open')
+            {
                 $openSubmissions[]=$responseId;
+                $openSubmissionsByDate[$responseDate][] =$responseId;
+            }
+
+
+        }
+         
+        ksort($missedByDate);
+        $i=0;
+        foreach($missedByDate as $date => $value)
+        { 
+            $missedSubmissionData[$i]["date"] = date('Y-m-d',$date);
+            $missedSubmissionData[$i]["missed"] = count($value);
+            $i++;
+        }
+
+        ksort($completedByDate);
+        $i=0;
+        foreach($completedByDate as $date => $value)
+        { 
+            $completedSubmissionData[$i]["date"] = date('Y-m-d',$date);
+            $completedSubmissionData[$i]["completed"] = count($value);
+            $i++;
+        }
+
+        ksort($openSubmissionsByDate);
+        $i=0;
+        foreach($openSubmissionsByDate as $date => $value)
+        { 
+            $openSubmissionData[$i]["date"] = date('Y-m-d',$date);
+            $openSubmissionData[$i]["open_review"] = count($value);
+            $i++;
         }
 
         foreach ($projectAnwers as $answer) {
@@ -206,6 +259,10 @@ class ProjectController extends Controller
         $data['totalSubmissions'] = count($projectResponses);
         $data['openSubmissions'] = count($openSubmissions);
 
+        $data['missedSubmissionData'] = json_encode($missedSubmissionData);
+        $data['completedSubmissionData'] = json_encode($completedSubmissionData);
+        $data['openSubmissionData'] = json_encode($openSubmissionData);
+         
         return $data;
     }
 
