@@ -88,8 +88,8 @@ class SubmissionController extends Controller
 
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
-        $hospitalController = new HospitalController();
-        $submissionFlags = $hospitalController->responseAnswerFlags($responses); 
+        $projectAnwers = $projectController->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $submissionsSummary = $projectController->getSubmissionsSummary($projectAnwers);
 
         return view('project.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
@@ -104,7 +104,7 @@ class SubmissionController extends Controller
                                                  ->with('openStatus', count($openStatus))
                                                  ->with('closedStatus', count($closedStatus))
                                                  ->with('totalSubmissions', $totalSubmissions)
-                                                 ->with('submissionFlags', $submissionFlags);
+                                                 ->with('submissionsSummary', $submissionsSummary);
     }
 
     /**
