@@ -231,12 +231,16 @@ class PatientController extends Controller
         $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
          
         $flagsCount = $this->patientFlagsCount($patientAnswers);
+
+        $projectController = new ProjectController();
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnswers); 
         
         
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
                                         ->with('responseRate', $responseRate)
+                                        ->with('submissionsSummary', $submissionsSummary)
                                         ->with('flagsCount', $flagsCount)
                                         ->with('hospital', $hospital)
                                         ->with('hospital', $hospital)

@@ -91,7 +91,7 @@
                                       <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                       <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                     </th>
-                                    <th class="sorting">Graph <br> <br></th>
+                                   <!--  <th class="sorting">Graph <br> <br></th> -->
                                  </tr>
                               </thead>
                               <tbody>
@@ -179,11 +179,11 @@
                                      @endif
                                      </span>
                                     </td> 
-                                    <td>
-<!-- <div class="chart-block" style="padding:28px">
+                                 <!--    <td>
+<div class="chart-block" style="padding:28px">
   120 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
-</div> -->
-                                    </td>
+</div> 
+                                    </td>-->
                                  </tr>
                                   @endforeach  
                               </tbody>
