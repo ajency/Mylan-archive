@@ -19,7 +19,7 @@
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
-                      @include('hospital.patients.side-menu')
+                      @include('project.patients.side-menu')
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
                         </div>
