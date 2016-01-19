@@ -430,18 +430,18 @@
       }
       else if($(this).val()=='total_submissions')
       {
-        var flagArr = { submission: "Submission"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['submission']; ?>,flagArr);
+        var flagArr = { completed: "Completed"} ; 
+        projectDashbordChart(<?php echo $responseCount['completedSubmissionData']; ?>,flagArr);
       }
       else if($(this).val()=='total_missed')
       {
         var flagArr = { missed: "Missed"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['missed']; ?>,flagArr);
+        projectDashbordChart(<?php echo $responseCount['missedSubmissionData']; ?>,flagArr);
       }
       else if($(this).val()=='total_open_flags')
       {
         var flagArr =  { open_review: "Open Review"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['openReview']; ?>,flagArr);
+        projectDashbordChart(<?php echo $responseCount['openSubmissionData']; ?>,flagArr);
       }
 
     });
