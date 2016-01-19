@@ -202,20 +202,166 @@ class PatientController extends Controller
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         $project = $hospitalProjectData['project'];
- 
+        $projectId = intval($project['id']);
 
         $patient = User::find($patientId);
+
+        // get completed count
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
+        $responseQry->equalTo("patient",$patient['reference_code']);
+        $responseRate['completed'] = $responseQry->count();
+
+
+
+         // get completed count
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","missed");
+        $responseQry->equalTo("patient",$patient['reference_code']);
+        $responseRate['missed'] = $responseQry->count();
+
+        $totalResponses = ($responseRate['completed'] + $responseRate['missed']);
+
+        $completedRatio = ($totalResponses) ? ($responseRate['completed']/$totalResponses) * 100 :0;
+        $responseRate['completedRatio'] =  round($completedRatio,2);
+
+        $missedRatio = ($totalResponses) ? ($responseRate['missed']/$totalResponses) * 100 :0;
+        $responseRate['missedRatio'] =  round($missedRatio,2);
+
+        $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
          
+        $flagsCount = $this->patientFlagsCount($patientAnswers);
         
         
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
+                                        ->with('responseRate', $responseRate)
+                                        ->with('flagsCount', $flagsCount)
+                                        ->with('hospital', $hospital)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('project', $project);
     }
+
+ 
+    public function patientFlagsCount($projectAnwers)
+    {
+
+        $redFlagsByDate = [];
+        $amberFlagsByDate = [];
+        $greenFlagsByDate = [];
+       
+        foreach ($projectAnwers as $answer)
+        {
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previousFlag = $answer->get("previousFlag");
+            $responseId = $answer->get("response")->getObjectId();
+            $questionId = $answer->get("question")->getObjectId();
+            $questionType = $answer->get("question")->get("type");
+            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $answerDate = strtotime($answerDate);
+
+            if($questionType!='single-choice')
+                continue;
+
+            if(!isset($redFlagsByDate[$answerDate]))
+            {
+                $redFlagsByDate[$answerDate]['baseLine']=[];
+                $amberFlagsByDate[$answerDate]['baseLine']=[];
+                $greenFlagsByDate[$answerDate]['baseLine']=[];
+                $redFlagsByDate[$answerDate]['previous']=[];
+                $amberFlagsByDate[$answerDate]['previous']=[];
+                $greenFlagsByDate[$answerDate]['previous']=[];
+
+            }
+
+            if($baseLineFlag=='red')
+            {
+              $redFlagsByDate[$answerDate]['baseLine'][] = $responseId;
+            }
+
+            if($baseLineFlag=='amber')
+            {
+                $amberFlagsByDate[$answerDate]['baseLine'][] = $responseId;
+
+            }
+
+            if($baseLineFlag=='green')
+            {
+                $amberFlagsByDate[$answerDate]['baseLine'][] = $responseId;
+
+            }
+
+            if($previousFlag =='red') 
+            {
+                $redFlagsByDate[$answerDate]['previous'][] = $responseId;
+            }
+
+            if($previousFlag =='amber') 
+            {
+                $amberFlagsByDate[$answerDate]['previous'][] = $responseId;
+            }
+
+            if($previousFlag =='green') 
+            {
+                $greenFlagsByDate[$answerDate]['previous'][] = $responseId;
+            }
+
+            
+        }
+
+        // $redFlagData = [];
+        // $amberFlagData = [];
+        // $greenFlagData = [];
+
+        $baslineFlagData = [];
+        $previousFlagData = [];
+
+        ksort($redFlagsByDate);
+        $i=0;
+        foreach($redFlagsByDate as $date => $value)
+        { 
+            $baslineFlagData[$i]["Date"] = date('d M',$date);
+            $previousFlagData[$i]["Date"] = date('d M',$date);
+    
+            $baslineFlagData[$i]["Red"] = count($value['baseLine']);
+            $previousFlagData[$i]["Red"] = count($value['previous']) ;
+ 
+            $i++;
+        }
+
+        ksort($amberFlagsByDate);
+        $i=0;
+        foreach($amberFlagsByDate as $date => $value)
+        { 
+            //$amberFlagData[$i]["date"] = date('Y-m-d',$date);
+            $baslineFlagData[$i]["Amber"] = count($value['baseLine']);
+            $previousFlagData[$i]["Amber"] = count($value['previous']) ;
+ 
+            $i++;
+        }
+
+        ksort($greenFlagsByDate);
+        $i=0;
+        foreach($greenFlagsByDate as $date => $value)
+        { 
+            //$greenFlagData[$i]["date"] = date('Y-m-d',$date);
+            $baslineFlagData[$i]["Green"] = count($value['baseLine']);
+            $previousFlagData[$i]["Green"] = count($value['previous']) ;
+ 
+            $i++;
+        }
+       
+ 
+        $data['baslineFlags'] = json_encode($baslineFlagData);
+        $data['previousFlags'] = json_encode($previousFlagData);
+
+        return $data;
+    }
+
+    
 
     /**
      * Show the form for editing the specified resource.
@@ -502,19 +648,14 @@ class PatientController extends Controller
         
     }
 
-    public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$startDate,$endDate)
+    public function getPatientsResponses($patients,$projectId,$page=0,$responseData)
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",["completed","missed"]);
         $responseQry->containedIn("patient",$patients);
-
-        if($projectId)
-             $responseQry->equalTo("project",$projectId);
-
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        //$responseQry->equalTo("project",$projectId);
         $responseQry->ascending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
@@ -524,7 +665,7 @@ class PatientController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData ,$startDate,$endDate);
+            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData );
         }  
         
         return $responseData;
@@ -540,6 +681,7 @@ class PatientController extends Controller
         $answersQry->equalTo("patient",$patient);
         $answersQry->includeKey("question");
         $answersQry->includeKey("response");
+        $answersQry->includeKey("option");
         $answersQry->limit($displayLimit);
         $answersQry->skip($page * $displayLimit);
         $answersQry->ascending("createdAt");
@@ -831,6 +973,148 @@ class PatientController extends Controller
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score-edit')); 
          
+    }
+
+
+    public function getPatientReports($hospitalSlug ,$projectSlug ,$patientId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patient = User::find($patientId)->toArray();
+
+        $patients[] = $patient['reference_code'];
+        $responseArr=[];
+         
+        $responses = $this->getPatientsResponses($patients,$projectId,0,[]);
+        foreach ($responses as  $response) {
+            $responseId = $response->getObjectId();
+            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+        }
+
+        $answers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+
+        $baseLineArr = [];
+        $submissionArr = [];
+        $questionArr = [];
+        $inputScores = [];
+        $inputChartData = [];
+        $inputLabels = [];
+        $allScore = [];
+        $completedResponseArr=[];
+        
+        $inputBaseQuestionId = '';
+        $inputLable = '';
+        $inputBaseLineScore ='';
+
+       
+        foreach ($answers as   $answer) {
+            $responseStatus = $answer->get("response")->get("status");
+            $questionId = $answer->get("question")->getObjectId();
+            $questionType = $answer->get("question")->get("type");
+            $questionTitle = $answer->get("question")->get("title");
+            $responseId = $answer->get("response")->getObjectId();
+            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
+            $optionValue = $answer->get("value");
+
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previousFlag = $answer->get("previousFlag");
+            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $answerDate = strtotime($answerDate);
+
+            
+            if($responseStatus=='missed' || $responseStatus=='started')
+                continue;
+
+            if($questionType=='descriptive')
+                continue;
+           
+            if($questionType=='input')
+            { 
+                $inputBaseQuestionId = $questionId;
+                $inputLable =  ucfirst(strtolower($questionTitle));
+
+                $inputLabels[$questionId] = $inputLable;
+                $allScore[$questionId][] = $optionValue;
+
+                if($responseStatus=="base_line")
+                    $baseLineArr[$questionId] =$optionValue;
+                else
+                    $inputScores[$questionId][$answerDate] = $optionValue ;
+
+                continue;
+            }
+            elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
+
+                continue;
+               // if($responseStatus=="base_line")
+               //  {
+               //      if(isset($baseLineArr[$questionId]))
+               //          $baseLineArr[$questionId] += $optionScore;
+               //      else
+               //          $baseLineArr[$questionId] = $optionScore;
+               //  }
+               //  else
+               //  {
+               //      if(isset($submissionArr[$responseId][$questionId]))
+               //          $submissionArr[$responseId][$questionId] += $optionScore;
+               //      else
+               //          $submissionArr[$responseId][$questionId] = $optionScore;
+                   
+               //  }
+            } 
+            else  
+            {
+                if($responseStatus=="base_line")
+                   $baseLineArr[$questionId] =$optionScore;
+                else
+                {
+                   $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
+                   $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
+                }
+
+             } 
+            
+            $questionArr[$questionId]= $questionTitle;
+            if($responseStatus!="base_line")
+                $completedResponseArr[$responseId]= $answer->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
+
+        }
+        
+        foreach ($inputScores as $questionId => $data) {
+            ksort($data);
+            $i=0;
+            foreach($data as $date => $value)
+            { 
+                $inputChartData[$questionId][$i]['date'] = date('d M',$date);
+                $inputChartData[$questionId][$i]['value'] = $value;
+               // $inputChartData[$questionId][$i]['base_line'] = $baseLineArr[$questionId];
+                $i++;
+            }
+            $inputChartData[$questionId] = $inputChartData[$questionId];
+            
+        }
+     
+        return view('project.patients.reports')->with('active_menu', 'patients')
+                                        ->with('active_tab', 'reports')
+                                        ->with('tab', '04')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('logoUrl', $logoUrl)
+                                        ->with('patient', $patient)
+                                        ->with('responseArr', $responseArr)
+                                        ->with('completedResponseArr', $completedResponseArr)
+                                        ->with('questionArr', $questionArr)
+                                        ->with('baseLineArr', $baseLineArr)
+                                        ->with('submissionArr', $submissionArr)
+                                        ->with('inputBaseLineScore', $inputBaseLineScore)
+                                        ->with('inputLabels', $inputLabels)
+                                        ->with('allScore', $allScore)
+                                        ->with('inputChartData', $inputChartData); 
     }
 
 

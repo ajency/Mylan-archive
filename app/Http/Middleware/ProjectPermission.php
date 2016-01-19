@@ -45,7 +45,7 @@ class ProjectPermission
                     ]; 
         $uri        =[  '{hospitalslug}/{projectslug}'=>['view'],
                         '{hospitalslug}/{projectslug}/dashbord'=>['view'],
-                        '{hospitalslug}/{projectslug}/patients/{id}/submission-reports'=>['view'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view'],
                         '{hospitalslug}/{projectslug}/patients/{id}/submissions'=>['view'],
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score-edit'=>['edit'],

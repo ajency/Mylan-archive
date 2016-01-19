@@ -1,4 +1,4 @@
-@extends('layouts.single-hospital')
+@extends('layouts.single-project')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
 <p>
@@ -22,7 +22,7 @@
      <h3>Report of Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
-                      @include('hospital.patients.side-menu')
+                      @include('project.patients.side-menu')
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
                         </div>
@@ -31,67 +31,40 @@
                         </div>
                         <div class="tab-pane active" id="Reports">
                             <h4>Health Score Results compared with Previous Scores</h4>
-                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score</p>
+                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score & Baseline</p>
                              <br><br>
-                 
-                            <table class="table table-flip-scroll cf">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th>Week</th>
-                                                @foreach($responseArr as $response)
-                                                <th>{{ $response }}</th>
-                                                @endforeach
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                          @foreach($questionArr as $questionId => $question)
-                                             <tr>
-                                                <td>{{ $question }}</td>
-                                                <?php 
-
-                                                $lastSubmittedScore =$baseLineArr[$questionId];
-                                                ?>
-                                                @foreach($responseArr as $responseId => $response)
-                                                <?php
-                                                $myscore ='';
-                                                $difference ='';
-
-                                                if(isset($submissionArr[$responseId][$questionId]))
-                                                {
-                                                  $myscore = $submissionArr[$responseId][$questionId];
-                                                  $difference = ($lastSubmittedScore - $myscore);
-                                                  if($lastSubmittedScore < $myscore)
-                                                    $class='bg-danger';
-                                                  elseif($lastSubmittedScore > $myscore)
-                                                    $class='bg-success';
-                                                  else
-                                                    $class='bg-warning';
-                                                }
-                                                else
-                                                {
-                                                  $class='bg-gray';
-                                                }
-                                                ?>
-                                                <td class="{{ $class }}"> <span class="small">{{ $difference }}</span> {{ $myscore }}</td>
-                                                 <?php 
-                                                  if($myscore!='')
-                                                     $lastSubmittedScore = $myscore;
-                                                 ?>
-                                                @endforeach
-                                                
-                                             </tr>
-                                          @endforeach
-                                             
-                                             
-                                          </tbody>
-                                       </table>
-                                       <br>
-                                    <hr>
-                                    <br>
-                                 <h4>Health Score Results compared with Baseline Value</h4>
-                                 <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with the Baseline Value for each particular Question</p>
-                              <br><br>
-                              
+                             <div class="row hidden">
+                                 <div class="col-sm-6">
+                                 <div class="row"> 
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>Start Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-4">
+                                 <div class="form-row">
+                                    <label>End Date</label>
+                                    <div class="input-append default date" style="width:100%;">
+                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
+                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
+                                    </div>
+                                 </div>
+                                 </div>
+                                 <div class="col-sm-4 m-t-25">
+                                    <a href="" class="btn btn-default">Apply</a>
+                                 </div>
+                              </div>
+                              </div>
+                              <div class="col-sm-6 m-t-25 text-right">
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
+                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
+                              </div>
+                              </div>
+                           
                            <table class="table table-flip-scroll cf">
                                           <thead class="cf">
                                              <tr>
@@ -99,7 +72,6 @@
                                                 @foreach($responseArr as $response)
                                                 <th>{{ $response }}</th>
                                                 @endforeach
-                                                <th>Baseline Value</th>
                                              </tr>
                                           </thead>
                                           <tbody>
@@ -108,120 +80,81 @@
                                                 <td>{{ $question }}</td>
                                                 @foreach($responseArr as $responseId => $response)
                                                 <?php
-                                                $myscore ='';
-                                                $difference ='';
                                                 if(isset($submissionArr[$responseId][$questionId]))
                                                 {
-                                                  $myscore = $submissionArr[$responseId][$questionId];
-                                                  $baseLineScore = $baseLineArr[$questionId];
-                                                  $difference = ($baseLineScore - $myscore);
-                                                  
-                                                  if($baseLineScore < $myscore)
-                                                    $class='bg-danger';
-                                                  elseif($baseLineScore > $myscore)
-                                                    $class='bg-success';
-                                                  else
-                                                    $class='bg-warning';
+                                                  $class='bg-'.$submissionArr[$responseId][$questionId]['baslineFlag'];
+                                                  $flag= ($submissionArr[$responseId][$questionId]['previousFlag']=='no_colour')?'hidden':'text-'.$submissionArr[$responseId][$questionId]['previousFlag'];
                                                 }
                                                 else
+                                                {
                                                   $class='bg-gray';
+                                                  $flag = 'hidden';
+                                                }
                                                 ?>
-                                                <td class="{{ $class }}"> <span class="small">{{ $difference }}</span> {{ $myscore }}</td>
+                                                <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                                     
                                                 @endforeach
-                                                <td>{{ $baseLineScore }}</td>
+                                                
                                              </tr>
                                           @endforeach
-                                             
                                              
                                           </tbody>
                                        </table>
                                        <br>
-                              <hr>
-                              <br>
-                              <h4>Report on {{$inputLable}} of the Patient</h4>
-                                 <p>The Table below shows the {{$inputLable}} of the Patient over the period. This information has been extracted 
-                                    from answer to the Question "What is your current {{$inputLable}}" submitted by the Patient as part of
-                                    Questionnaire "Cardiac Care Project 1".</p>
+                                    <hr>
+                   
+                                       <br>
+                             
+                              <h4>Report on Weight of the Patient</h4>
+                                 <p>The Table below shows the Weight of the Patient over the period. This information has been extracted 
+                                    from answer to the Question "What is your current Weight" submitted by the Patient as part of
+                                    Questionnaire "MRI Pancreatitis".</p>
                               <br><br>
-                              
-                           <div id="line-example" style="width:100%;height:400px;"> </div>
+                       
+                        <select class="pull-right" name="generateChart">
+                         
+                          @foreach($inputLabels as $questionId => $label)
+                            <option value="{{ $questionId }}">{{ $label }}</option>
+                          @endforeach
+                        </select> 
 
-                        </div> 
+                           <div id="chartdiv" class="p-t-20"></div>
+                        </div>
                      </div>
                      </div>
 
+<?php 
 
+$questionId = current(array_keys($inputLabels));
+$inputJson = json_encode($inputChartData[$questionId]);
+$inputLabel = $inputLabels[$questionId];
+$maxScore =  (max($allScore[$questionId]) + 10);
+$baseLine = $baseLineArr[$questionId];
+?>
 <script type="text/javascript">
-  var chart = AmCharts.makeChart("line-example", {
-    "type": "serial",
-    "theme": "light",
-    "legend": {
-        "useGraphSettings": true
-    },
-    "dataProvider": [
-    <?php
-        
-        foreach($completedResponseArr as $responseId => $response)
-        {
-          
-          ?>
-          {
-              "occurrence": "<?php echo $response?>",
-              "<?php echo str_slug($inputLable);?>": <?php echo $inputScores[$responseId]?>,
-              "base_line":<?php echo $inputBaseLineScore?>,
-     
-          },
-           
-          <?php 
-            
+ $(document).ready(function() {
+ patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
+
+ $('select[name="generateChart"]').change(function (event) { 
+      <?php 
+      foreach($inputLabels as $questionId => $label)
+      {
+        $inputJson = json_encode($inputChartData[$questionId]);
+        $inputLabel = $inputLabels[$questionId];
+        $maxScore =  (max($allScore[$questionId]) + 10);
+        $baseLine = $baseLineArr[$questionId];
+        ?>
+        if($(this).val()=='{{$questionId}}')
+        { 
+          patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
         }
- 
-    ?>
 
-    ],
-    "valueAxes": [{
-        "integersOnly": true,
-        "maximum": <?php echo (max($inputScores) + 10)?>,
-        "minimum": 0,
-        "reversed": false,
-        "axisAlpha": 0,
-        "dashLength": 5,
-        "gridCount": 10,
-        "position": "left",
-        "title": "<?php echo $inputLable;?>"
-    }],
-    "startDuration": 0.5,
-    "graphs": [{
-        "balloonText": "<?php echo $inputLable;?> on [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "<?php echo $inputLable;?>",
-        "valueField": "<?php echo str_slug($inputLable);?>",
-    "fillAlphas": 0
-    }, {
-        "balloonText": "Base Line [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Base Line",
-        "valueField": "base_line",
-    "fillAlphas": 0
-    }],
-    "chartCursor": {
-        "cursorAlpha": 0,
-        "zoomable": false
-    },
-    "categoryField": "occurrence",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0,
-        "fillAlpha": 0.05,
-        "fillColor": "#000000",
-        "gridAlpha": 0,
-        "position": "top"
-    },
-    "export": {
-      "enabled": true,
-        "position": "bottom-right"
-     }
-});
+        <?php
+      }
+      ?>
 
+    });
+
+  });
 </script>
 @endsection

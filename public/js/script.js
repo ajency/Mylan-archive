@@ -419,3 +419,141 @@ function projectDashbordChart(chartData,flagArr)
     });
 }
 
+function patientInputGraph(chartData,label,maxScore,baseLine)
+{
+    var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": chartData,
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 50,
+        "minimum": 1,
+        "reversed": false,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "gridCount": 10,
+        "position": "left",
+        "title": label
+    }],
+
+     "valueAxes": [{
+        "logarithmic": true,
+        "dashLength": 1,
+        "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": baseLine
+        }],
+           }],
+    "startDuration": 0.5,
+    "graphs": [{
+        "balloonText": label+" in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": label,
+        "valueField": "value",
+      "fillAlphas": 0
+    
+    }
+
+    ],
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "fillAlpha": 0.05,
+        "fillColor": "#000000",
+        "gridAlpha": 0,
+        "position": "bottom"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-right"
+     }
+});
+}
+
+function patientFlagsChart(chartData)
+{
+         var chart = AmCharts.makeChart("chartdiv", {
+        "type": "serial",
+        "theme": "light",
+        "legend": {
+            "useGraphSettings": true
+        },
+        "dataProvider": chartData,
+        "valueAxes": [{
+            "integersOnly": true,
+            "maximum": 6,
+            "minimum": 1,
+            "reversed": false,
+            "axisAlpha": 0,
+            "dashLength": 5,
+            "position": "top",
+            "title": "Total Score"
+        }],
+        
+        "graphs": [{
+            "balloonText": "Red Flag in [[category]]: [[value]]",
+            "bullet": "round",
+            "title": "Red",
+           "lineColor": "#CC0000",
+            "valueField": "Red",
+            "fillColor": "#CC0000",
+            "fillAlphas": 0.2,
+        "dashLength": 2,
+        "inside": true
+        
+        }, {
+            "balloonText": " Amber Flag in [[category]]: [[value]]",
+            "bullet": "round",
+            "title": "Amber",
+            "lineColor": "#ecb42f",
+            "valueField": "Amber",
+           "dashLength": 2,
+           "fillColor": "#ecb42f",
+            "fillAlphas": 0.2,
+           "hidden":false,
+           "inside": true
+        }, {
+            "balloonText": "Green Flag in [[category]]: [[value]]",
+            "bullet": "round",
+            "title": "Green",
+            "lineColor": "#05A8A5",
+            "valueField": "Green",
+            "fillColor": "#ecb42f",
+            "fillAlphas": 0.2,
+             "dashLength": 2,
+             "hidden":false,
+              "inside": true
+
+        }],
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "Date",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+             "fillColor": "#000000",
+            "gridAlpha": 0,
+              "position": "bottom",
+            "title": "Submission"
+        },
+        "export": {
+          "enabled": true,
+            "position": "bottom-right"
+         }
+    });
+}
+

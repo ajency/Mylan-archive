@@ -20,17 +20,18 @@
       <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
-      <link href="{{ asset('project-admin-views/assets/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      <link href="{{ asset('plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('project-admin-views/assets/css/dashboard-ver2.css') }}" rel="stylesheet" type="text/css"/>
+  
       <!-- END CSS TEMPLATE -->
       <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/amcharts.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/serial.js') }}"></script>
+      <script src="{{ asset('bower_components/amcharts/dist/amcharts/pie.js') }}"></script> 
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/themes/light.js') }}"></script>
       <script>
          var HOSPITAL_ID = 0;
