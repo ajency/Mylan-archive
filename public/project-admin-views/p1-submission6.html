@@ -94,7 +94,9 @@
                </div>
                <!-- END CHAT TOGGLER -->
                <!-- BEGIN TOP NAVIGATION MENU -->
+               <a href="patient-flag.html">Back to list of submissions</a>
                <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt=""  data-src="assets/img/nhs.gif" width="auto" height="40"/></a>
+
                <h4 class="text-left m-t-15 semi-bold">MRI PANCREATITIS</h4>
                <!-- END TOP NAVIGATION MENU -->
                
@@ -371,8 +373,9 @@
                            </table>
                         </div>
                         <div class="tab-pane active" id="submissions">
+                                 <a href="patient-flag.html"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
                            <h4><span class="semi-bold">MRI Pancreatitis</span></h4>
-                           <p>(Showing Submission details)</p>
+                           <!-- <p>(Showing Submission details)</p> -->
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div> <br>
                   <br>    
@@ -608,20 +611,20 @@
     }],
  
     "graphs": [{
-        "balloonText": "place taken by Current Submission in [[category]]: [[value]]",
+        "balloonText": "Current Submission in [[category]]: [[value]]",
         "bullet": "round",
         "hidden": true,
         "title": "Current Submission",
         "valueField": "Current Submission",
       "fillAlphas": 0
     }, {
-        "balloonText": "place taken by Previous Submission in [[category]]: [[value]]",
+        "balloonText": "Previous Submission in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Previous Submission",
         "valueField": "Previous Submission",
       "fillAlphas": 0
     }, {
-        "balloonText": "place taken by Baseline in [[category]]: [[value]]",
+        "balloonText": "Baseline in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Baseline",
         "valueField": "Baseline",
