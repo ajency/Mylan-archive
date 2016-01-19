@@ -709,6 +709,7 @@ $(function() {
     });
     
 });   $(document).ready(function() {
+   $(document).ready(function() {
  var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
@@ -716,38 +717,29 @@ $(function() {
         "useGraphSettings": true
     },
     "dataProvider": [{
-        "year": 2006,
-        "Weight": 40
+        "Date":'2008',
+        "Green": 40
     }, {
-        "year": 2007,
-        "Weight": 46
+        "Date": '2009',
+        "Green": 42
     }, {
-        "year": 2008,
-        "Weight": 44
+        "Date": '2010',
+        "Green": 45
     }, {
-        "year": 2009,
-        "Weight": 55
+        "Date": '2011',
+        "Green": 51
     }, {
-        "year": 2010,
-        "Weight": 58
+        "Date": '2012',
+        "Green": 53
     }, {
-        "year": 2011,
-        "Weight":53
+        "Date": '2013',
+        "Green":45
     }, {
-        "year": 2012,
-        "Weight": 60
+        "Date": '2014',
+        "Green": 54
     }, {
-        "year": 2013,
-        "Weight": 63
-    }, {
-        "year": 2014,
-        "Weight": 55
-    }, {
-        "year": 2015,
-        "Weight": 67
-    }, {
-        "year": 2016,
-        "Weight": 68
+        "Date": '2016',
+        "Green": 55
     }],
     "valueAxes": [{
         "integersOnly": true,
@@ -756,8 +748,7 @@ $(function() {
         "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "gridCount": 10,
-        "position": "left",
+        "position": "top",
         "title": "Total Score"
     }],
      "valueAxes": [{
@@ -768,36 +759,66 @@ $(function() {
             "inside": true,
             "label": "Baseline",
             "lineAlpha": 1,
-            "value": 50
+            "value": 53,
+
         }],
-           }],
-    "startDuration": 0.5,
-    "graphs": [{
+         }],
+
+    "graphs": [ {
         "balloonText": "Weight in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Weight",
-        "valueField": "value",
-      "fillAlphas": 0
-    
+        "lineColor": "#05A8A5",
+        "valueField": "Green",
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":false,
+          "inside": true
+
     }],
     "chartCursor": {
         "cursorAlpha": 0,
         "zoomable": false
     },
-    "categoryField": "year",
+    "categoryField": "Date",
     "categoryAxis": {
         "gridPosition": "start",
         "axisAlpha": 0,
-        "fillAlpha": 0.05,
-        "fillColor": "#000000",
+         "fillColor": "#000000",
         "gridAlpha": 0,
-        "position": "bottom"
+          "position": "bottom",
+        "title": "Submission"
     },
     "export": {
       "enabled": true,
         "position": "bottom-right"
      }
 });
+    var chart = AmCharts.makeChart( "submissionschart", {
+           "type": "pie",
+           "theme": "light",
+           "dataProvider": [ {
+             "title": "# Missed",
+             "value": 4852
+           }, {
+             "title": "# Done",
+             "value": 9899
+           } ],
+           "titleField": "title",
+           "valueField": "value",
+           "labelRadius": 5,
+
+           "radius": "42%",
+           "innerRadius": "60%",
+           "labelText": "[[title]]",
+           "export": {
+             "enabled": true
+           }
+         } );// Pie Chart
+
+});
+ 
 
 });
     
