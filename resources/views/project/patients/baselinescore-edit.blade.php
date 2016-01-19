@@ -67,7 +67,7 @@
                      
                       
                     @elseif($questions['type']=='single-choice')
-                      <select name="question[{{ $questionId }}]" class="select2 form-control" data-parsley-required>
+                      <select name="question[{{ $questionId }}]" id="question_{{ $questionId }}" class="select2 form-control" data-parsley-required>
                        <option value="">Select option for Baseline</option>
                        @foreach($optionsList[$questionId] as $option)
                           <?php 
@@ -80,7 +80,7 @@
                       </select>
                        
                     @elseif($questions['type']=='multi-choice')
-                      <select name="question[{{ $questionId }}][]" id="role" class="multiselect select2 form-control" multiple="multiple"   data-parsley-required>
+                      <select name="question[{{ $questionId }}][]" id="question_{{ $questionId }}" class="multiselect select2 form-control" multiple="multiple"   data-parsley-required>
                        <option value="">Select option for Baseline</option>
                        @foreach($optionsList[$questionId] as $option)
                        <?php 

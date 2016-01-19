@@ -102,7 +102,7 @@
                </thead>
                <tbody>
                 @foreach($submissionFlags as $responseId => $submissionFlag)
-                   <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/submissions/{{$responseId}}';">
+                   <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}.'/'.$project['project_slug'].'/submissions/{{$responseId}}';">
                        <td>{{ $submissionFlag['patient'] }}</td>
                        <td width="110px">
                            <div class="p-t-20 p-l-20 p-r-20 p-b-20">

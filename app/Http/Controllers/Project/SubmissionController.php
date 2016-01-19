@@ -11,7 +11,6 @@ use Parse\ParseQuery;
 use App\Hospital;
 use App\Projects;
 use App\User;
-use App\Http\Controllers\Hospital\HospitalController;
 use App\Http\Controllers\Project\ProjectController;
 use App\UserAccess;
 use \Input;
