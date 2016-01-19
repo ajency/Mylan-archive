@@ -96,7 +96,7 @@ Route::get( 'patients/{id}/base-line-score', 'Project\PatientController@showpati
 Route::get( 'patients/{id}/base-line-score-edit', 'Project\PatientController@getpatientBaseLineScore' );
 Route::post( 'patients/{id}/base-line-score-edit', 'Project\PatientController@setPatientBaseLineScore' );
 Route::get( 'patients/{id}/submissions', 'Project\PatientController@getPatientSubmission' );
-Route::get( 'patients/{id}/submission-reports', 'Project\PatientController@getSubmissionReports' );
+Route::get( 'patients/{id}/patient-reports', 'Project\PatientController@getPatientReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@validateRefernceCode' );
 });
 

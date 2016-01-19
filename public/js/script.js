@@ -419,3 +419,66 @@ function projectDashbordChart(chartData,flagArr)
     });
 }
 
+function patientInputGraph(chartData,label,maxScore,baseLine)
+{
+    var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": chartData,
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 50,
+        "minimum": 1,
+        "reversed": false,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "gridCount": 10,
+        "position": "left",
+        "title": label
+    }],
+
+     "valueAxes": [{
+        "logarithmic": true,
+        "dashLength": 1,
+        "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": baseLine
+        }],
+           }],
+    "startDuration": 0.5,
+    "graphs": [{
+        "balloonText": label+" in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": label,
+        "valueField": "value",
+      "fillAlphas": 0
+    
+    }
+    
+    ],
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "fillAlpha": 0.05,
+        "fillColor": "#000000",
+        "gridAlpha": 0,
+        "position": "bottom"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-right"
+     }
+});
+}
+
