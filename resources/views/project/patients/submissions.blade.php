@@ -34,7 +34,7 @@
                                     <th class="sorting" width="16%">Patient ID</th>
                                     <th class="sorting">Submission#</th>
                                     <th class="sorting" width="22%">Total Score</th>
-                                    <th class="sorting">Variants</th>
+                         
                                     <th class="sorting">Compared To Previous
                                      <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
                                       <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -65,10 +65,7 @@
                                      <sm class="text-muted sm-font">Prev - {{ $responseData['previousScore'] }} <i class="fa fa-flag "></i> </sm><br>
                                       <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
                                     </td>  
-                                     <td class="text-center">
-                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
-
-                                    </td>   
+                                
                                      <td class="text-center sorting">
                                      <span class="badge badge-important">{{ count($responseData['previousFlag']['red']) }}</span>
                                       <span class="badge badge-warning">{{ count($responseData['previousFlag']['amber']) }}</span>

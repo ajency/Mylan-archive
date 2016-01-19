@@ -200,7 +200,6 @@
                                     <th class="sorting" width="16%">Patient ID</th>
                                     <th class="sorting">Submission#</th>
                                     <th class="sorting" width="22%">Total Score</th>
-                                    <th class="sorting">Variants</th>
                                     <th class="sorting">Compared To Previous
                                      <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
                                       <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -236,10 +235,7 @@
                                      <sm class="text-muted sm-font">Prev - {{ $responseData['previousScore'] }} <i class="fa fa-flag "></i> </sm><br>
                                       <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
                                     </td>  
-                                     <td class="text-center">
-                                       <h4 class="semi-bold margin-none flagcount">04<sm> / 06</sm></h4>
-
-                                    </td>   
+                                     
                                      <td class="text-center sorting">
                                      <span class="badge badge-important">{{ count($responseData['previousFlag']['red']) }}</span>
                                       <span class="badge badge-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
@@ -289,7 +285,7 @@
                                       <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                       <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                     </th>
-                                    <th class="sorting">Graph <br> <br></th>
+                                    <!-- <th class="sorting">Graph <br> <br></th> -->
                                  </tr>
                               </thead>
                               <tbody>
@@ -377,11 +373,11 @@
                                      @endif
                                      </span>
                                     </td> 
-                                    <td>
-<!-- <div class="chart-block" style="padding:28px">
+                                 <!--    <td>
+<div class="chart-block" style="padding:28px">
   120 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div> 6% 
-</div> -->
-                                    </td>
+</div> 
+                                    </td>-->
                                  </tr>
                                   @endforeach  
                               </tbody>
@@ -430,18 +426,18 @@
       }
       else if($(this).val()=='total_submissions')
       {
-        var flagArr = { submission: "Submission"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['submission']; ?>,flagArr);
+        var flagArr = { completed: "Completed"} ; 
+        projectDashbordChart(<?php echo $responseCount['completedSubmissionData']; ?>,flagArr);
       }
       else if($(this).val()=='total_missed')
       {
         var flagArr = { missed: "Missed"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['missed']; ?>,flagArr);
+        projectDashbordChart(<?php echo $responseCount['missedSubmissionData']; ?>,flagArr);
       }
       else if($(this).val()=='total_open_flags')
       {
         var flagArr =  { open_review: "Open Review"} ; 
-        projectDashbordChart(<?php echo $projectSubmissionCount['openReview']; ?>,flagArr);
+        projectDashbordChart(<?php echo $responseCount['openSubmissionData']; ?>,flagArr);
       }
 
     });

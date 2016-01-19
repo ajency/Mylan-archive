@@ -144,11 +144,7 @@
                                     <span><i class="fa fa-flag"></i> Flags </span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="reports.html">
-                                    <span><i class="fa fa-bar-chart"></i> Reports </span>
-                                </a>
-                            </li>
+                            
                             <li class="classic">
                         <a href="javascript:;">
                           <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
@@ -211,38 +207,34 @@
                             </div>
                             <hr>
                             <div class="row ">
-                                <div class="col-md-4 ">
-                                    <div class="tiles white added-margin light-gray" style="zoom: 1;">
-                                        <div class="tiles-body">
-                                            <div class="tiles-title"> Submissions </div>
-                                            <div class="heading"> <span class="animate-number" data-value="30" data-animation-duration="1200">30</span> </div>
-                                            <div class="progress transparent progress-small no-radius">
-                                                <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="26.8%" style="width: 30%;"></div>
-                                            </div>
-                                            <h5 class="text-black"><b>10</b> Reviewed Pending / <b>13</b> Reviewed</span></h5>
-                                        </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="tiles white added-margin">
+                                  <div class="tiles-body">
+                                  <div class="row">
+                                      <div class="col-sm-8">
+                                         <div id="piechart"></div>   
+                                      </div>
+                                      <div class="col-sm-4">
+                                        <h4 class="bold margin-none">40</h4>
+                                        <p> # Completed</p>
+                                        <h4 class="bold margin-none">20</h4>
+                                        <p> # Missed</p>
+                                        
+                                      </div>
+                                  </div>
+                                   
                                     </div>
-                                </div>
-                                <div class="col-md-4 ">
-                                    <div class="tiles white added-margin light-gray" style="zoom: 1;">
-                                        <div class="tiles-body">
-                                            <div class="tiles-title"> Response Rate </div>
-                                            <div class="heading"> <span class="animate-number" data-value="60%" data-animation-duration="1200">60 %</div>
-                              <div class="progress transparent progress-small no-radius">
-                              <div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="60%" style="width: 60%;"></div>
                               </div>
-                              <h5 class="text-black"><b>10</b> Submitted / <b>20</b> Missed</span></h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 ">
+                                </div>
+                                    <div class="col-md-6">
                                         <div class="tiles white added-margin " style="zoom: 1;">
                                             <div class="tiles-body">
                                                 <div class="tiles-title"> Avg Review Time </div>
-                                                <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
+                                                <div class="__web-inspector-hide-shortcut__"> 
                                                     <h1 class="text-error bold inline no-margin"> 3 hrs</h1>
                                                 </div>
-                                                <p class="text-black">Lorem ipsum dolor sit amet</p>
+                                                <p class="text-black">Average time taken for a submission  to be<br> reviewed after it has been submitted.</p>
                                                 <br>
                                             </div>
                                         </div>
@@ -429,9 +421,10 @@
         <script src="assets/js/tabs_accordian.js" type="text/javascript"></script>
         <!-- END CORE TEMPLATE JS -->
         <!-- Chart -->
-        <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-        <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-        <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+           <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+      <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+      <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
         <!-- End Chart -->
         <style type="text/css">
         #chartdiv {
@@ -590,6 +583,29 @@
                 chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
             }
         });
+var chart = AmCharts.makeChart( "piechart", {
+  "type": "pie",
+  "theme": "light",
+  "dataProvider": [ {
+    "title": "Completed",
+    "value": 40
+  }, {
+    "title": "Missed",
+    "value": 20,
+     "fillColor": "#CC0000",
+    "fillAlphas": 0.5,
+  } ],
+  "titleField": "title",
+  "valueField": "value",
+  "labelRadius": 5,
+
+  "radius": "42%",
+  "innerRadius": "60%",
+  "labelText": "[[title]]",
+  "export": {
+    "enabled": true
+  }
+} );
         </script>
 </body>
 
