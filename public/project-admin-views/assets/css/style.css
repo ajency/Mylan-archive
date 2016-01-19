@@ -2,6 +2,9 @@
 /*!
 * direction.less v0.1.0
 */
+.bar-inner ul li:nth-child(5) {
+display: none !important; 
+}
 :-moz-placeholder {
   color: '#333843';
 }

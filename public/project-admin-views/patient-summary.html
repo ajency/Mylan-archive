@@ -259,9 +259,10 @@
                               </div>
                               <div class="col-sm-7">
                                   <select class="pull-right">
-                                      <option value="volvo">Red Flags</option>
-                                      <option value="saab">Amber Flags</option>
-                                       <option value="saab">Green Flags</option>
+                                      <option value="volvo">Total Score</option>
+                                      <option value="volvo">Total Red Flags</option>
+                                      <option value="saab"> Total Amber Flags</option>
+                                       <option value="saab">Total Green Flags</option>
                                           </select> 
                                            <div id="chartdiv"></div>
                               </div>
@@ -337,7 +338,26 @@
                                  </div>
                               </div>
                               <br>
-                                       <br><br> --><br><br> 
+                                       <br><br> -->
+
+                              <br><br>
+                       
+                        <select class="pull-right">
+                                      <option value="volvo">Pain</option>
+                                      <option value="saab">Bowel Habits</option>
+                                       <option value="saab">Weight</option>
+                                       <option value="saab">Appetite</option>
+                                       <option value="saab">Well Being</option>
+                                       <option value="saab">Diabetes</option>
+                                          </select> 
+
+                                           <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
+
+
+
+
+
+                                       <br><br> 
                                        <div class="grid simple ">
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
@@ -584,7 +604,7 @@
                            </div>
                            <br><br>
                         </div>
-                        <div class="tab-pane" id="Submissions">
+                        <div class="tab-pane hidden-lg hidden-sm hidden-md" id="Submissions">
                            <ul class="nav nav-tabs" id="tab-01">
                               <li class="active"><a href="#submissions">Submissions</a></li>
                               <li><a href="#missedSubmissions">Missed Submissions</a></li>
@@ -887,5 +907,92 @@
 
     
 </script>
+
+<script type="text/javascript">
+    var chart = AmCharts.makeChart("totalbaseline", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": [{
+        "Date":'Pain',
+        "Green": 40
+    }, {
+        "Date": 'Bowel Habits',
+        "Green": 42
+    }, {
+        "Date": 'Weight',
+        "Green": 45
+    }, {
+        "Date": 'Appetite',
+        "Green": 51
+    }, {
+        "Date": 'Well Being',
+        "Green": 53
+    }, {
+        "Date": 'Diabetes',
+        "Green":45
+    }],
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 6,
+        "minimum": 1,
+        "reversed": true,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "position": "top",
+        "title": "Total Score"
+    }],
+     "valueAxes": [{
+        "logarithmic": true,
+        "dashLength": 1,
+        "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": 43,
+
+        }],
+         }],
+
+    "graphs": [ {
+        "balloonText": "[[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Weight",
+        "lineColor": "#05A8A5",
+        "valueField": "Green",
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":false,
+          "inside": true
+
+    }],
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "Date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+         "fillColor": "#000000",
+        "gridAlpha": 0,
+          "position": "bottom",
+        "title": "Projects"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-right"
+     }
+});
+</script>
+<style type="text/css">
+   .amChartsLegend {
+      visibility: hidden !important;
+   }
+</style>
    </body>
 </html>
