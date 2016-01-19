@@ -347,68 +347,78 @@
                         </div>
                    </div>
                    <div class="row">
-                     <div class="col-sm-8">
-                           <table class="table table-flip-scroll cf table-hover">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th>Date</th>
-                                                <th>Type of Question</th>
-                                                <th>Reason</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <tr>
-                                                <td>8/12/2015</td>
-                                                <td>Weight</td>
-                                                <td>Current score is worse than previous by +1</td>
-                                             </tr>
-                                             <tr>
-                                                <td>8/12/2015</td>
-                                                <td>Diabetes</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                             <tr>
-                                                <td>5/11/2015</td>
-                                                <td>Pain</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                             <tr>
-                                                <td>8/10/2015</td>
-                                                <td>Diabetes</td>
-                                                <td>Current score is worse than baseline by +1</td>
-                                             </tr>
-                                             <tr>
-                                                <td>10/9/2015</td>
-                                                <td>Pain</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
+                     <div class="col-sm-12">
+                          <table class="table table-hover" id="example">
+                              <thead>
+                                 <tr>
+                                    <th class="hidden">Patient</th>
+                                    <th class="hidden">Doctor</th>
+                                    <th>Submission #</th>
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
+                                    <td class="hidden">123</td>
+                                    <td class="hidden">Dr. Mark</td>
+                                    <td>12</td>
+                                    <td>Difference of more than 5 units in previous answer</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/12/2015</td>
+                                 </tr>
+                                 <tr class="even gradeC" onclick="window.document.location='p1-submission5.html';">
+                                    <td class="hidden">234</td>
+                                    <td class="hidden">Dr. Stanley</td>
+                                    <td>7</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/7/2015</td>
+                                 </tr>
+                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission4.html';">
+                                    <td class="hidden">456</td>
+                                    <td class="hidden">Dr. Stanley</td>
+                                    <td>6</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/6/2015</td>
+                                 </tr>
+                                 <tr class="even gradeA" onclick="window.document.location='p1-submission3.html';">
+                                    <td class="hidden">123</td>
+                                    <td class="hidden">Dr. Keean</td>
+                                    <td>5</td>
+                                    <td>5 missed submission</td>
+                                   <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/5/2015</td>
+                                 </tr>
+                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission2.html';">
+                                    <td class="hidden">56</td>
+                                    <td class="hidden">Dr. Nell</td>
+                                    <td>2</td>
+                                    <td>7 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/2/2015</td>
+                                 </tr>
+                                 <tr class="gradeA" onclick="window.document.location='p1-submission1.html';">
+                                    <td class="hidden">90</td>
+                                    <td class="hidden">Keean</td>
+                                    <td>1</td>
+                                    <td>12 missed submission</td>
+                                     <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/1/2015</td>
+                                 </tr>                                 
+                              </tbody>
+                           </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                       <div class="text-right">
+                              <a href="patient-flag.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                           </div>
+                      </div>
+                          
                      </div>
-                      <div class="col-sm-4">
-                       <div class="tiles white added-margin " style="zoom: 1;">
-                                            <div class="tiles-body">
-                                                <div class="tiles-title"> Recently Generated Flags </div>
-                                                <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
-                                                    <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
-                                                </div>
-                                                <br>
-                                                <p class="text-black bold">Lorem ipsum dolor sit amet</p>
-                                                <hr>
-                                                <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
-                                                   <div class="pull-left">
-                                                   <p class="text-success">Open</p>
-                                                   <p class="text-black">16/12/2015</p>
-                                                   </div>
-                                                   <div class="pull-right">
-                                                   <p class="text-success">Day Range</p>
-                                                   <p class="text-black">15,568.11 - 16,203.25</p>
-                                                   </div>
-                                                   <div class="clearfix"></div>
-                                                   </div>
-                                            </div>
-                                        </div>
-                     </div>
+                 
                    </div>
                <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
                                        <span>( 5 recently generated red flags )</span> -->
@@ -416,67 +426,155 @@
                                       
                                     
                                        <br><br>
-                    <div class="grid simple ">
+                 <!--    <div class="grid simple ">
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
                               <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
                             </div>
                         </div>
-                   </div>
+                   </div> -->
                                        <!-- submission -->
                               
                                        
                                        <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
                  
-                                       <table class="table table-hover table-flip-scroll cf">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th>Submission Date</th>
-                                                <th>Sequence Number</th>
-                                                <th>Number of Flags</th>
-                                                <th>Open Flags</th>
-                                                <th>Status</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                       <tr onclick="window.document.location='p1-submission6.html';">
-                                          <td>6/12/2015</td>
-                                          <td>12</td>
-                                          <td>0</td>
-                                          <td>0</td>
-                                          <td><span class="label label-warning">Pending Review</span></td>
-                                       </tr>                                       
-                                       <tr onclick="window.document.location='p1-submission5.html';">
-                                          <td>6/7/2015</td>
-                                          <td>7</td>
-                                          <td>0</td>
-                                          <td>0</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
+                             <div class="col-sm-12"> 
+                       <div class="grid simple grid-table">
+                      <div class="grid-title no-border">
+                                      <h4>Submissions <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="List of individual submissions. Default sorting by time."></i></h4>
 
-                                       <tr onclick="window.document.location='p1-submission4.html';">
-                                          <td>6/6/2015</td>
-                                          <td>6</td>
-                                          <td>6</td>
-                                          <td>5</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                       <tr onclick="window.document.location='p1-submission3.html';">
-                                          <td>6/5/2015</td>
-                                          <td>5</td>
-                                          <td>4</td>
-                                          <td>3</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>                                       
-                                       <tr onclick="window.document.location='p1-submission2.html';">
-                                          <td>6/2/2015</td>
-                                          <td>2</td>
-                                          <td>3</td>
-                                          <td>2</td>
-                                          <td><span class="label label-success">Reviewed</span></td>
-                                       </tr>
-                                    </tbody>
-                                       </table>
+                     
+                      </div>
+
+                      <div class="grid-body no-border" style="display: block;">
+                            <table class="table table-flip-scroll table-hover dashboard-tbl">
+                              <thead class="cf">
+                                 <tr> 
+                                    <th class="sorting" width="16%">Patient ID <br><br></th>
+                                    <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                     <th class="sorting">Total Score <br><br></th>
+                                   
+                                    <th class="sorting"> Previous
+                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    <th class="sorting"> Baseline
+                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                    </th>
+                                    
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr onclick="window.document.location='p1-submission1.html';">
+                                    <td class="text-center">10000001</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">6th Dec</h4>
+                                        <sm>Seq - 12</sm>
+                                    
+                                    </td>
+                                   <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">10</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm><br><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>
+                                     <td class="text-center sorting">
+                                     <span class=" text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class=" text-success">14</span>
+                                    </td>  
+
+                                </tr>
+                                 <tr onclick="window.document.location='p1-submission1.html';">
+                                    <td class="text-center">10000002</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">13th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">12</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 11 <i class="fa fa-flag "></i> </sm><br><br>
+                                      <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
+                                    </td>
+                                
+                                     <td class="text-center sorting">
+                                     <span class="text-error">14</span>
+                                      <span class=" text-warning">13</span>
+                                     <span class=" text-success">14</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                                 <tr onclick="window.document.location='p1-submission1.html';">
+                                    <td class="text-center">10000003</td>
+                                    <td class="text-center">
+                                      
+                                      <h4 class="semi-bold margin-none flagcount">10th Dec</h4>
+                                        <sm>Seq - 10</sm>
+                                    
+                                    </td>
+                                     <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">07</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 07 <i class="fa fa-flag "></i> </sm><br><br>
+                                      <sm class="text-muted sm-font">Base - 15 <i class="fa fa-flag "></i> </sm>
+                                    </td>
+                                     <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                                 <tr onclick="window.document.location='p1-submission1.html';">
+                                    <td class="text-center">10000004</td>
+                                    <td class="text-center">
+                                      
+                                        <h4 class="semi-bold margin-none flagcount">12th Dec</h4>
+                                        <sm>Seq - 13</sm>
+                                    
+                                    </td>
+                                <td class="text-center">
+                                     <h3 class="bold margin-none pull-left p-l-10">14</h3>
+                                     <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm><br><br>
+                                      <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                    </td>
+                                     <td class="text-center sorting">
+                                     <span class="text-error">04</span>
+                                      <span class="text-warning">03</span>
+                                     <span class="text-success">04</span>
+                                    </td>   
+                                         <td class="text-center sorting">
+                                     <span class="text-error">24</span>
+                                      <span class="text-warning">13</span>
+                                     <span class="text-success">14</span>
+                                    </td>                                
+                                </tr>
+                              </tbody>
+                     </table>
+                     <hr style="margin: 0px 0px 10px 0px;">
+                       <div class="text-right">
+                              <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                           </div>
+                      </div>
+                      </div>
+                      </div>
 
                                        
                                        
