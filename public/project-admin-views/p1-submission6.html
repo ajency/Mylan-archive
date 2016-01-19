@@ -374,6 +374,11 @@
                            <h4><span class="semi-bold">MRI Pancreatitis</span></h4>
                            <p>(Showing Submission details)</p>
                            <br>
+                  <div id="chartdiv" style="width:100%; Height:500px;"></div> <br>
+                  <br>    
+                           <div>
+                           </div>
+
                            <div class="user-description-box">
                            <div class="row">
                               <div class="col-md-6">
@@ -405,7 +410,7 @@
                               <div class="col-md-3 m-t-25">
                                  <div class="row">
                                     <div class="col-md-2">
-                                       <h4><i class="fa fa-circle text-warning"></i></h4>
+                                      
                                     </div>
                                     <div class="col-md-8"> 
                                        <select name="role" id="role" class="select2 form-control"  >
@@ -421,7 +426,8 @@
                                 
                               </div>
                               <div class="col-md-3 m-t-25 text-right ">
-                                 <span class="text-danger"><i class="fa fa-flag"></i> 4</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                              Previous | Baseline<br>
+                                 <span class="text-danger"><i class="fa fa-flag"></i> 4</span><span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 4</span>
                               </div>
                            </div>
@@ -547,6 +553,99 @@
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
+      <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
       <!-- END CORE TEMPLATE JS --> 
+      <script type="text/javascript">
+         var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": [{
+        "year": "Pain",
+         "Current Submission": 4,
+        "Previous Submission": 3,
+        "Baseline": 2
+    }, {
+        "year": "Bowel Habits",
+         "Current Submission": 1,
+        "Previous Submission": 6,
+        "Baseline": 3
+    }, {
+        "year": "Weight",
+         "Current Submission": 2,
+        "Previous Submission": 3,
+        "Baseline": 1
+    }, {
+        "year": "Appetite",
+        "Current Submission": 3,
+        "Previous Submission": 4,
+        "Baseline": 1
+    }, {
+        "year": "Well Being",
+        "Current Submission": 5,
+        "Previous Submission": 1,
+        "Baseline": 2
+    }, {
+        "year": "Diabetes",
+        "Current Submission": 3,
+        "Previous Submission": 2,
+        "Baseline": 1
+    }],
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 6,
+        "minimum": 1,
+        "reversed": true,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "gridCount": 10,
+        "position": "left",
+        "title": "Score"
+    }],
+ 
+    "graphs": [{
+        "balloonText": "place taken by Current Submission in [[category]]: [[value]]",
+        "bullet": "round",
+        "hidden": true,
+        "title": "Current Submission",
+        "valueField": "Current Submission",
+      "fillAlphas": 0
+    }, {
+        "balloonText": "place taken by Previous Submission in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Previous Submission",
+        "valueField": "Previous Submission",
+      "fillAlphas": 0
+    }, {
+        "balloonText": "place taken by Baseline in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Baseline",
+        "valueField": "Baseline",
+      "fillAlphas": 0
+    }],
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "year",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+        "fillAlpha": 0.05,
+        "fillColor": "#000000",
+        "gridAlpha": 0,
+        "position": "bottom"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-left"
+     }
+});
+
+      </script>
    </body>
 </html>
