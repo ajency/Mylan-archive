@@ -209,7 +209,7 @@ class PatientController extends Controller
         // get completed count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","completed");
-        $responseQry->equalTo("project",$projectId);
+        $responseQry->equalTo("patient",$patient['reference_code']);
         $responseRate['completed'] = $responseQry->count();
 
 
@@ -217,7 +217,7 @@ class PatientController extends Controller
          // get completed count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","missed");
-        $responseQry->equalTo("project",$projectId);
+        $responseQry->equalTo("patient",$patient['reference_code']);
         $responseRate['missed'] = $responseQry->count();
 
         $totalResponses = ($responseRate['completed'] + $responseRate['missed']);
@@ -1090,7 +1090,7 @@ class PatientController extends Controller
             $i=0;
             foreach($data as $date => $value)
             { 
-                $inputChartData[$questionId][$i]['date'] = date('Y-m-d',$date);
+                $inputChartData[$questionId][$i]['date'] = date('d M',$date);
                 $inputChartData[$questionId][$i]['value'] = $value;
                // $inputChartData[$questionId][$i]['base_line'] = $baseLineArr[$questionId];
                 $i++;
