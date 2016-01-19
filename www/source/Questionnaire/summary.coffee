@@ -12,44 +12,28 @@ angular.module 'PatientApp.Quest'
 			display : 'loader'
 			hideButton : ''
 
-			getSummary : ->
-				@display = 'noError'
-				@summary = Storage.summary('get')
-				console.log '---summary---'
-				console.log @summary
-				@data = @summary.summary
-				@responseId = @summary.responseId
-
 			getSummaryApi :()->
-				hideButton = if App.previousState == 'dashboard' then true else false
-
+				@hideButton = if App.previousState == 'dashboard' then true else false
 				param =
 						'responseId' : $stateParams.summary
 				@display = 'loader'
 				QuestionAPI.getSummary param
 				.then (data)=>
-					console.log '--getSummaryApi---'
 					@data = data
 					_.each @data, (value)->
-						console.log 'valueee'
 						a = value.input
 						if !_.isUndefined a
 							value['type'] = 'input'
 						else
 							value['type'] = 'option'
-					console.log '*************************'		
-					console.log @data
+
 					@display = 'noError'
 				,(error)=>
 					@display = 'error'
 					@errorType = error
 					
 			init : ->
-				@summarytype = $stateParams.summary
-				if @summarytype == 'set'
-					@getSummary()
-				else 
-					@getSummaryApi()
+				@getSummaryApi()
 
 			submitSummary : ->
 
@@ -59,7 +43,7 @@ angular.module 'PatientApp.Quest'
 					responseId : $stateParams.summary
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					CToast.show 'submiteed successfully '
+					CToast.show 'Submitted Successfully'
 					App.navigate 'exit-questionnaire'
 					deregister()
 				,(error)=>

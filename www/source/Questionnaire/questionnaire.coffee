@@ -193,21 +193,23 @@ angular.module 'PatientApp.Quest',[]
 			
 				if @data.questionType == 'multi-choice'
 
-					selectedvalue = []
+					
 					
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select your answer'
 					else
+						selectedvalue = []
+						
 						_.each @data.options, (opt)->
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
-					options =
-						"questionId" : @data.questionId
-						"options": selectedvalue
-						"value": ""
+						options =
+							"questionId" : @data.questionId
+							"options": selectedvalue
+							"value": ""
 
-					@loadNextQuestion(options)
+						@loadNextQuestion(options)
 
 				if @data.questionType == 'descriptive'
 

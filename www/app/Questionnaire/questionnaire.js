@@ -198,22 +198,22 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'multi-choice') {
-          selectedvalue = [];
           if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
             CToast.show('Please select your answer');
           } else {
+            selectedvalue = [];
             _.each(this.data.options, function(opt) {
               if (opt.checked === true) {
                 return selectedvalue.push(opt.id);
               }
             });
+            options = {
+              "questionId": this.data.questionId,
+              "options": selectedvalue,
+              "value": ""
+            };
+            this.loadNextQuestion(options);
           }
-          options = {
-            "questionId": this.data.questionId,
-            "options": selectedvalue,
-            "value": ""
-          };
-          this.loadNextQuestion(options);
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {

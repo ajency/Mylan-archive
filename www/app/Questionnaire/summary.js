@@ -8,28 +8,18 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       response: '',
       display: 'loader',
       hideButton: '',
-      getSummary: function() {
-        this.display = 'noError';
-        this.summary = Storage.summary('get');
-        console.log('---summary---');
-        console.log(this.summary);
-        this.data = this.summary.summary;
-        return this.responseId = this.summary.responseId;
-      },
       getSummaryApi: function() {
-        var hideButton, param;
-        hideButton = App.previousState === 'dashboard' ? true : false;
+        var param;
+        this.hideButton = App.previousState === 'dashboard' ? true : false;
         param = {
           'responseId': $stateParams.summary
         };
         this.display = 'loader';
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
-            console.log('--getSummaryApi---');
             _this.data = data;
             _.each(_this.data, function(value) {
               var a;
-              console.log('valueee');
               a = value.input;
               if (!_.isUndefined(a)) {
                 return value['type'] = 'input';
@@ -37,8 +27,6 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
                 return value['type'] = 'option';
               }
             });
-            console.log('*************************');
-            console.log(_this.data);
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
@@ -49,12 +37,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
-        this.summarytype = $stateParams.summary;
-        if (this.summarytype === 'set') {
-          return this.getSummary();
-        } else {
-          return this.getSummaryApi();
-        }
+        return this.getSummaryApi();
       },
       submitSummary: function() {
         var param;
@@ -64,7 +47,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            CToast.show('submiteed successfully ');
+            CToast.show('Submitted Successfully');
             App.navigate('exit-questionnaire');
             return deregister();
           };
