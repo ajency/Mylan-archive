@@ -111,8 +111,8 @@
                                     Questionnaire "MRI Pancreatitis".</p>
                               <br><br>
                        
-                        <select class="pull-right">
-                        <??>
+                        <select class="pull-right" name="generateChart">
+                         
                           @foreach($inputLabels as $questionId => $label)
                             <option value="{{ $questionId }}">{{ $label }}</option>
                           @endforeach
@@ -134,6 +134,27 @@ $baseLine = $baseLineArr[$questionId];
 <script type="text/javascript">
  $(document).ready(function() {
  patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
+
+ $('select[name="generateChart"]').change(function (event) { 
+      <?php 
+      foreach($inputLabels as $questionId => $label)
+      {
+        $inputJson = json_encode($inputChartData[$questionId]);
+        $inputLabel = $inputLabels[$questionId];
+        $maxScore =  (max($allScore[$questionId]) + 10);
+        $baseLine = $baseLineArr[$questionId];
+        ?>
+        if($(this).val()=='{{$questionId}}')
+        { 
+          patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
+        }
+
+        <?php
+      }
+      ?>
+
+    });
+
   });
 </script>
 @endsection
