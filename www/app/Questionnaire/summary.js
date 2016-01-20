@@ -82,8 +82,10 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         if (App.previousState === 'dashboard') {
           return App.navigate('dashboard');
         } else {
-          return App.navigate('questionnaire', {
-            respStatus: 'lastQuestion'
+          return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
+            return App.navigate('questionnaire', {
+              respStatus: 'lastQuestion'
+            });
           });
         }
       }

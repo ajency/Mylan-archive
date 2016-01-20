@@ -70,7 +70,9 @@ angular.module 'PatientApp.Quest'
 				if App.previousState == 'dashboard'
 					App.navigate 'dashboard'
 				else
-					App.navigate 'questionnaire', respStatus:'lastQuestion'
+					Storage.setData 'responseId', 'set', $stateParams.summary 
+					.then ()->
+						App.navigate 'questionnaire', respStatus:'lastQuestion'
 
 		onDeviceBack = ->
 			$scope.view.back()
