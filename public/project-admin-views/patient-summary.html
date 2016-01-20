@@ -917,22 +917,28 @@
     },
     "dataProvider": [{
         "Date":'Pain',
-        "Green": 40
+        "Green": 40,
+        "Baseline": 35
     }, {
         "Date": 'Bowel Habits',
-        "Green": 42
+        "Green": 42,
+        "Baseline": 41
     }, {
         "Date": 'Weight',
-        "Green": 45
+        "Green": 45,
+        "Baseline": 30
     }, {
         "Date": 'Appetite',
-        "Green": 51
+        "Green": 51,
+        "Baseline": 40
     }, {
         "Date": 'Well Being',
-        "Green": 53
+        "Green": 53,
+        "Baseline": 40
     }, {
         "Date": 'Diabetes',
-        "Green":45
+        "Green":45,
+        "Baseline": 40
     }],
     "valueAxes": [{
         "integersOnly": true,
@@ -947,20 +953,13 @@
      "valueAxes": [{
         "logarithmic": true,
         "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": 43,
-
-        }],
+    
          }],
 
     "graphs": [ {
         "balloonText": "[[category]]: [[value]]",
         "bullet": "round",
-        "title": "Weight",
+        "title": "Score",
         "lineColor": "#05A8A5",
         "valueField": "Green",
         "fillColor": "#ecb42f",
@@ -969,7 +968,18 @@
          "hidden":false,
           "inside": true
 
+    }, {
+        "balloonText": " [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Baseline",
+        "lineColor": "#000000",
+        "valueField": "Baseline",
+       "dashLength": 2,
+       "fillColor": "#000000",
+        "fillAlphas": 0.2,
+       "inside": true
     }],
+
     "chartCursor": {
         "cursorAlpha": 0,
         "zoomable": false
@@ -990,9 +1000,9 @@
 });
 </script>
 <style type="text/css">
-   .amChartsLegend {
+/*   .amChartsLegend {
       visibility: hidden !important;
-   }
+   }*/
 </style>
    </body>
 </html>
