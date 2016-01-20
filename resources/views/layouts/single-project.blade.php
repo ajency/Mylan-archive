@@ -104,7 +104,7 @@
                      </li>
                   </ul>
                </div>
-               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" width="auto" height="40"/></a>
+               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left">{{ hospitalImageExist($hospital) }}</a>
                <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->

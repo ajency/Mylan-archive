@@ -104,16 +104,15 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 
 
 function hospitalImageExist($hospital)
-{
+{ 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
     if($hospital['logo']!='' && file_exists($logoUrl))
-
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="106" height="21"/>';
     else
-        $logo = $hospital['name'];
+        $logo = '<h1>'.$hospital['name'].'</h1>';
 
-    return $logo;
+    echo $logo;  
 }
 
 function verifyProjectSlug($hospitalSlug ,$projectSlug)
