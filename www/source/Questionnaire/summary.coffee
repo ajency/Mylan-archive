@@ -45,7 +45,7 @@ angular.module 'PatientApp.Quest'
 				.then (data)=>
 					CToast.show 'Submitted Successfully'
 					App.navigate 'exit-questionnaire'
-					deregister()
+					# deregister()
 				,(error)=>
 					console.log 'error'
 					console.log error
@@ -66,7 +66,7 @@ angular.module 'PatientApp.Quest'
 				@getSummaryApi()
 
 			back :->
-				deregister()
+				# deregister()
 				if App.previousState == 'dashboard'
 					App.navigate 'dashboard'
 				else
@@ -74,16 +74,20 @@ angular.module 'PatientApp.Quest'
 					.then ()->
 						App.navigate 'questionnaire', respStatus:'lastQuestion'
 
-		onDeviceBack = ->
+		onDeviceBackSummary = ->
 			$scope.view.back()
 
 		deregister = null	
-		$scope.$on '$ionicView.afterEnter', ->
+		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter.summary'
 			#Device hardware back button for android
-			deregister = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
+			deregister = $ionicPlatform.registerBackButtonAction onDeviceBackSummary, 1000
+			# $ionicPlatform.onHardwareBackButton onDeviceBackSummary
 		
 		$scope.$on '$ionicView.leave', ->
-			$ionicPlatform.offHardwareBackButton onDeviceBack
+			console.log '$ionicView.enter.leave summary'
+			if deregister then deregister()
+			# $ionicPlatform.offHardwareBackButton onDeviceBackSummary
 
 ]
 
@@ -93,9 +97,9 @@ angular.module 'PatientApp.Quest'
 
 	.state 'summary',
 			url: '/summary:summary'
-			parent: 'parent-questionnaire'
+			parent: 'main'
 			views: 
-				"QuestionContent":
+				"appContent":
 					templateUrl: 'views/questionnaire/summary.html'
 					controller: 'SummaryCtr'
 ]

@@ -377,7 +377,7 @@ angular.module 'PatientApp.Quest',[]
 
 			navigateOnDevice:()->
 				if @data.previous == false 
-					onHardwareBackButton1()
+					# onHardwareBackButton1()
 					App.navigate 'dashboard', {}, {animate: false, back: false}
 				else
 					$scope.view.prevQuestion()
@@ -392,11 +392,11 @@ angular.module 'PatientApp.Quest',[]
 			
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
-			if !viewData.enableBack
-				viewData.enableBack = true
+			
 
 
 		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter questionarie'
 			#Device hardware back button for android
 			# $ionicPlatform.onHardwareBackButton onDeviceBack
 			onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
@@ -404,9 +404,9 @@ angular.module 'PatientApp.Quest',[]
 
 		$scope.$on '$ionicView.leave', ->
 			console.log '$ionicView.leave'
-			onHardwareBackButton1()
+			# onHardwareBackButton1()
 			# console.log onHardwareBackButton1
-			# if onHardwareBackButton1 then onHardwareBackButton1()
+			if onHardwareBackButton1 then onHardwareBackButton1()
 			# $ionicPlatform.offHardwareBackButton onDeviceBack
 
 ]
@@ -419,10 +419,10 @@ angular.module 'PatientApp.Quest',[]
 
 	.state 'questionnaire',
 			url: '/questionnaire:respStatus'
-			parent: 'parent-questionnaire'
+			parent: 'main'
 			cache: false
 			views: 
-				"QuestionContent":
+				"appContent":
 					templateUrl: 'views/questionnaire/question.html'
 					controller: 'questionnaireCtr'
 ]

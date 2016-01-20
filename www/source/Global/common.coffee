@@ -15,6 +15,7 @@ angular.module 'PatientApp.Global', []
 			# resetPassword : true
 			previousState: ''
 			currentState: ''
+			questinnarieButton : ''
 
 			navigate : (state, params={}, opts={})->
 				if !_.isEmpty(opts)

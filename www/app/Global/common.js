@@ -11,6 +11,7 @@ angular.module('PatientApp.Global', []).factory('App', [
       },
       previousState: '',
       currentState: '',
+      questinnarieButton: '',
       navigate: function(state, params, opts) {
         var animate, back;
         if (params == null) {

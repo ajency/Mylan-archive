@@ -400,7 +400,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       navigateOnDevice: function() {
         if (this.data.previous === false) {
-          onHardwareBackButton1();
           return App.navigate('dashboard', {}, {
             animate: false,
             back: false
@@ -415,27 +414,27 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     };
     onHardwareBackButton1 = null;
     $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      $scope.view.reInit();
-      if (!viewData.enableBack) {
-        return viewData.enableBack = true;
-      }
+      return $scope.view.reInit();
     });
     $scope.$on('$ionicView.enter', function() {
+      console.log('$ionicView.enter questionarie');
       return onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
       console.log('$ionicView.leave');
-      return onHardwareBackButton1();
+      if (onHardwareBackButton1) {
+        return onHardwareBackButton1();
+      }
     });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('questionnaire', {
       url: '/questionnaire:respStatus',
-      parent: 'parent-questionnaire',
+      parent: 'main',
       cache: false,
       views: {
-        "QuestionContent": {
+        "appContent": {
           templateUrl: 'views/questionnaire/question.html',
           controller: 'questionnaireCtr'
         }

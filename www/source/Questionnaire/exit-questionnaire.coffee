@@ -1,7 +1,7 @@
 angular.module 'PatientApp.Quest'
 
-.controller 'ExitQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI)->
+.controller 'ExitQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI', '$ionicPlatform'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, $ionicPlatform)->
 
 		$scope.view =
 			hospitalData : ''
@@ -18,6 +18,25 @@ angular.module 'PatientApp.Quest'
 
 			call:()->
 				App.callUs(@phone)
+
+		onDeviceBackExit = ->
+
+			switch App.currentState
+				when 'exit-questionnaire'
+					App.navigate "dashboard", {}, {animate: false, back: false}
+				else
+					count = -1
+					App.goBack count
+
+		deregisterExit = null
+		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter questionarie'
+			deregisterExit = $ionicPlatform.registerBackButtonAction onDeviceBackExit, 1000
+			# $ionicPlatform.onHardwareBackButton onDeviceBackExit
+		
+		$scope.$on '$ionicView.leave', ->
+			console.log '$ionicView.leave exit ....'
+			if deregisterExit then deregisterExit()
 ]
 
 .config ['$stateProvider', ($stateProvider)->

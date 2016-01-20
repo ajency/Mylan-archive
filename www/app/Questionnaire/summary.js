@@ -1,6 +1,6 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
   '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform) {
-    var deregister, onDeviceBack;
+    var deregister, onDeviceBackSummary;
     $scope.view = {
       title: 'C-weight',
       data: [],
@@ -48,8 +48,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
             CToast.show('Submitted Successfully');
-            App.navigate('exit-questionnaire');
-            return deregister();
+            return App.navigate('exit-questionnaire');
           };
         })(this), (function(_this) {
           return function(error) {
@@ -78,7 +77,6 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       back: function() {
-        deregister();
         if (App.previousState === 'dashboard') {
           return App.navigate('dashboard');
         } else {
@@ -90,24 +88,28 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         }
       }
     };
-    onDeviceBack = function() {
+    onDeviceBackSummary = function() {
       return $scope.view.back();
     };
     deregister = null;
-    $scope.$on('$ionicView.afterEnter', function() {
-      return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
+    $scope.$on('$ionicView.enter', function() {
+      console.log('$ionicView.enter.summary');
+      return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBackSummary, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      return $ionicPlatform.offHardwareBackButton(onDeviceBack);
+      console.log('$ionicView.enter.leave summary');
+      if (deregister) {
+        return deregister();
+      }
     });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('summary', {
       url: '/summary:summary',
-      parent: 'parent-questionnaire',
+      parent: 'main',
       views: {
-        "QuestionContent": {
+        "appContent": {
           templateUrl: 'views/questionnaire/summary.html',
           controller: 'SummaryCtr'
         }
