@@ -294,7 +294,7 @@ class PatientController extends Controller
 
             if($baseLineFlag=='green')
             {
-                $amberFlagsByDate[$answerDate]['baseLine'][] = $responseId;
+                $greenFlagsByDate[$answerDate]['baseLine'][] = $responseId;
 
             }
 
