@@ -2,9 +2,6 @@
 /*!
 * direction.less v0.1.0
 */
-.bar-inner ul li:nth-child(5) {
-display: none !important; 
-}
 :-moz-placeholder {
   color: '#333843';
 }
@@ -8533,6 +8530,16 @@ input {
 }
 .table > tbody > tr > td {
   vertical-align: middle;
+}
+.demo {
+  position: relative;
+}
+.demo i {
+  position: absolute;
+  bottom: 10px;
+  right: 24px;
+  top: auto;
+  cursor: pointer;
 }
 /***loader styles***/
 .cf-loader {
