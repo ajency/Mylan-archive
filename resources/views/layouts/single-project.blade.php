@@ -55,7 +55,7 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="{{ url() }}/{{ $hospital['url_slug'] }}"><img src="{{ $logoUrl }}" class="logo" alt=""  data-src="{{ $logoUrl }}" data-src-retina="{{ $logoUrl }}" width="106" height="21"/></a>
+               <a href="{{ url() }}/{{ $hospital['url_slug'] }}">{{ hospitalImageExist($hospital) }}</a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">

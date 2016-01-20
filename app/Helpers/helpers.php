@@ -103,6 +103,19 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 }
 
 
+function hospitalImageExist($hospital)
+{
+    $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+    if($hospital['logo']!='' && file_exists($logoUrl))
+
+        $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="106" height="21"/>';
+    else
+        $logo = $hospital['name'];
+
+    return $logo;
+}
+
 function verifyProjectSlug($hospitalSlug ,$projectSlug)
 {
     $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
