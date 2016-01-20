@@ -188,11 +188,16 @@
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $('input[name="startDate"]').val(start.format('DD-MM-YYYY'));
             $('input[name="endDate"]').val(end.format('DD-MM-YYYY'));
+            
+            if($('input[name="flag"]').val()==1)
+            {
+               $('#reportrange span').closest('form').submit();
+            }
+            $('input[name="flag"]').val(1)
          }
  
          cb(moment(STARTDATE), moment(ENDDATE));
-          console.log(moment(STARTDATE));
-          console.log(moment('Wed Jan 20 2016'));
+
 
          $('#reportrange').daterangepicker({
             ranges: {
@@ -204,9 +209,7 @@
             'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             }
          }, cb);
-
  
-
       });
 
        

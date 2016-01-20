@@ -25,7 +25,7 @@
             <h3 class="">Analytics</h3>
          </div>
          <div class="col-sm-6 m-t-10">
-         <form method="GET"> 
+         <form name="searchData" method="GET"> 
          <div class="row">
           <div class="col-sm-10">
             <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
@@ -39,7 +39,9 @@
         </div>
          <input type="hidden" class="form-control" name="startDate"  >
          <input type="hidden" class="form-control" name="endDate"  >
+
          </form>
+         <input type="hidden" name="flag" value="0">
           </div>
       </div>
    </div>
