@@ -1,7 +1,3 @@
-Parse.Cloud.define "startQuestionnaire1", (request, response) ->
-
-
-
 Parse.Cloud.define "startQuestionnaire", (request, response) ->
 #	if !request.user
 #		response.error('Must be logged in.')
@@ -1501,7 +1497,7 @@ saveMultiChoice = (responseObj, questionsObj, options) ->
 					#answer.set "flagStatus", "open"
 					answer.set "score", optionsObj.get('score')
 					answer.set 'project', responseObj.get('project')
-
+					answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
 					answer.save()
 				, (error) ->
 					promise.reject error
@@ -1664,6 +1660,7 @@ getBaseLineScores = (responseObj) ->
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
 	responseQuery.equalTo('status', 'base_line')
+	responseQuery.descending('createdAt')
 	responseQuery.first()
 	.then (responseBaseLine) ->
 		answerQuery = new Parse.Query('Answer')
@@ -1709,6 +1706,7 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
 	responseQuery.equalTo('status', 'base_line')
+	responseQuery.descending('createdAt')
 	responseQuery.first()
 	.then (responseBaseLine) ->
 		answerQuery = new Parse.Query('Answer')
@@ -1848,6 +1846,7 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 									answer.set "comparedToPrevious", previous['comparedToPrevious']
 									answer.set "baseLineFlag", BaseLine['baseLineFlag']
 									answer.set "previousFlag", previous['previousFlag']
+									answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
 									answer.save()
 									.then (answer) ->
 										console.log "answer #{answer}"
@@ -1871,6 +1870,7 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 				answer.set "question",questionsObj
 				#answer.set "flagStatus", "open"
 				answer.set 'project', responseObj.get('project')
+				answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
 				answer.save()
 				.then (answer) ->
 					if !_.isEmpty(options)
@@ -1968,6 +1968,7 @@ saveInput = (responseObj, questionsObj, options, value) ->
 				answer.set "value",value
 				#answer.set "flagStatus", "open"
 				answer.set 'project', responseObj.get('project')
+				answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
 				answer.save()
 				.then (answer) ->
 					if !_.isEmpty(options)
@@ -2029,6 +2030,7 @@ saveDescriptive = (responseObj, questionsObj, value) ->
 				answer.set "question",questionsObj
 				answer.set "value",value
 				answer.set 'project', responseObj.get('project')
+				answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
 				#answer.set "flagStatus", "closed"
 				answer.save()
 				.then (answer) ->
@@ -2065,6 +2067,7 @@ Parse.Cloud.define "baseLine", (request, response) ->
 			answer.set "response", responseObj
 			answer.set "score", value
 			answer.set 'project', responseObj.get('project')
+
 			answer.save()
 			.then (answerObj) ->
 				getNextQuestion questionsObj, []
@@ -2124,4 +2127,203 @@ deleteAllAnswers = (responseId) ->
 			promise.reject error
 	, (error) ->
 		promise.reject error
+	promise
+
+Parse.Cloud.define "listAllResponsesForProject", (request, response) ->
+	projectId = request.params.projectId
+	startDate = new Date(request.params.startDate)
+	endDate = new Date(request.params.endDate)
+	listAllResponsesForProject(projectId, startDate, endDate)
+	.then (results) ->
+		console.log "___________"
+		console.log "results.length #{results.length}"
+		console.log "___________"
+		response.success results
+	, (error) ->
+		response.error error
+
+listAllResponsesForProject = (projectId, startDate, endDate) ->
+	promise = new Parse.Promise()
+	responseObjects = []
+	page = 0
+	limit = 100
+
+	getAllProjectResponses = () ->
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('project', projectId)
+		responseQuery.descending('occurrenceDate')
+		responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
+		responseQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		responseQuery.limit(limit)
+		responseQuery.skip(page*limit)
+		responseQuery.include('questionnaire')
+		responseQuery.include('schedule')
+		responseQuery.find()
+		.then (responseObjs) ->
+			console.log "___________"
+			console.log "responseObjs.length #{responseObjs.length}"
+			console.log "___________"
+			if _.isEmpty(responseObjs)
+				promise.resolve(responseObjects)
+			else
+				responseObjects.push(responseObj) for responseObj in responseObjs
+				page++
+				getAllProjectResponses()
+		, (error) ->
+			promise.reject error
+		promise
+
+	getAllProjectResponses()
+
+	promise
+
+
+
+Parse.Cloud.define "listAllAnswersForProject", (request, response) ->
+	projectId = request.params.projectId
+	startDate = new Date(request.params.startDate)
+	endDate = new Date(request.params.endDate)
+	listAllAnswersForProject(projectId, startDate, endDate)
+	.then (results) ->
+		console.log "___________"
+		console.log "results.length #{results.length}"
+		console.log "___________"
+		response.success results
+	, (error) ->
+		response.error error
+
+
+listAllAnswersForProject = (projectId, startDate, endDate) ->
+	promise = new Parse.Promise()
+	answerObjects = []
+	page = 0
+	limit = 100
+
+	getAllProjectAnswers = () ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('project', projectId)
+		answerQuery.descending('updatedAt')
+		answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
+		answerQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		answerQuery.limit(limit)
+		answerQuery.skip(page*limit)
+		answerQuery.include('question')
+		answerQuery.include('response')
+		answerQuery.include('option')
+		answerQuery.find()
+		.then (answerObjs) ->
+			console.log "___________"
+			console.log "answerObjs.length #{answerObjs.length}"
+			console.log "___________"
+			if _.isEmpty(answerObjs)
+				promise.resolve(answerObjects)
+			else
+				answerObjects.push(answerObj) for answerObj in answerObjs
+				page++
+				getAllProjectAnswers()
+		, (error) ->
+			promise.reject error
+		promise
+
+	getAllProjectAnswers()
+
+	promise
+
+
+Parse.Cloud.define "listAllResponsesForPatient", (request, response) ->
+	patientId = request.params.patientId
+	startDate = new Date(request.params.startDate)
+	endDate = new Date(request.params.endDate)
+	listAllResponsesForPatient(patientId, startDate, endDate)
+	.then (results) ->
+		console.log "___________"
+		console.log "results.length #{results.length}"
+		console.log "___________"
+		response.success results
+	, (error) ->
+		response.error error
+
+listAllResponsesForPatient = (patientId, startDate, endDate) ->
+	promise = new Parse.Promise()
+	responseObjects = []
+	page = 0
+	limit = 100
+
+	getAllPatientResponses = () ->
+		responseQuery = new Parse.Query('Response')
+		responseQuery.equalTo('patient', patientId)
+		responseQuery.descending('occurrenceDate')
+		responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
+		responseQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		responseQuery.limit(limit)
+		responseQuery.skip(page*limit)
+		responseQuery.include('questionnaire')
+		responseQuery.include('schedule')
+		responseQuery.find()
+		.then (responseObjs) ->
+			console.log "___________"
+			console.log "responseObjs.length #{responseObjs.length}"
+			console.log "___________"
+			if _.isEmpty(responseObjs)
+				promise.resolve(responseObjects)
+			else
+				responseObjects.push(responseObj) for responseObj in responseObjs
+				page++
+				getAllPatientResponses()
+		, (error) ->
+			promise.reject error
+		promise
+
+	getAllPatientResponses()
+
+	promise
+
+
+Parse.Cloud.define "listAllAnswersForPatient", (request, response) ->
+	patientId = request.params.patientId
+	startDate = new Date(request.params.startDate)
+	endDate = new Date(request.params.endDate)
+	listAllAnswersForPatient(patientId, startDate, endDate)
+	.then (results) ->
+		console.log "___________"
+		console.log "results.length #{results.length}"
+		console.log "___________"
+		response.success results
+	, (error) ->
+		response.error error
+
+listAllAnswersForPatient = (patientId, startDate, endDate) ->
+	promise = new Parse.Promise()
+	answerObjects = []
+	page = 0
+	limit = 100
+
+	getAllPatientAnswers = () ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('patient', patientId)
+		answerQuery.descending('updatedAt')
+		answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
+		answerQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		answerQuery.limit(limit)
+		answerQuery.skip(page*limit)
+		answerQuery.include('question')
+		answerQuery.include('response')
+		answerQuery.include('option')
+		answerQuery.find()
+		.then (answerObjs) ->
+			console.log "___________"
+			console.log "answerObjs.length #{answerObjs.length}"
+			console.log "___________"
+			if _.isEmpty(answerObjs)
+				promise.resolve(answerObjects)
+			else
+				answerObjects.push(answerObj) for answerObj in answerObjs
+				page++
+				getAllPatientAnswers()
+		, (error) ->
+			promise.reject error
+		promise
+
+	getAllPatientAnswers()
+
 	promise
