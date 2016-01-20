@@ -143,7 +143,7 @@
      
                </div>
             </div>
-            <div id="chartdiv"></div>
+            <div id="chartdiv" style="width : 112%; height   : 250px;"></div>
          </div>
       </div>
    </div>
