@@ -63,7 +63,7 @@ class PatientController extends Controller
         $responseRate = $patientResponses['responseRate'];
         $completedResponses = $patientResponses['completedResponses'];
         $missedResponses = $patientResponses['missedResponses'];
- 
+         
       
 
         return view('project.patients.list')->with('hospital', $hospital)
@@ -596,7 +596,7 @@ class PatientController extends Controller
                 $missedResponses[]=$responseId;
                 continue;
             }
-            $patientResponses[$patientId]['completed'][] =$responseId;
+            $patientResponses[$patient]['completed'][] =$responseId;
 
             $completedResponses[]=$response;
         }
