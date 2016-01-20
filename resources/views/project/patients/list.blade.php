@@ -24,7 +24,7 @@
                   </div>
                   </div>
                     <div class="col-lg-4 col-md-5 m-t-25 text-right">
-                       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Patient</a>
+                       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Patient</a>
                     </div>
                 </div>
                 <div class="grid simple">

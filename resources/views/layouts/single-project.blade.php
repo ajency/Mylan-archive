@@ -11,8 +11,6 @@
       <!-- BEGIN PLUGIN CSS -->
       <link href="{{ asset('project-admin-views/assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       <link href="{{ asset('project-admin-views/assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link rel="stylesheet" href="{{ asset('project-admin-views/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css') }}" type="text/css" media="screen">
-      <link rel="stylesheet" href="{{ asset('project-admin-views/assets/plugins/jquery-morris-chart/css/morris.css') }}" type="text/css" media="screen">
       <!-- END PLUGIN CSS -->
       <!-- BEGIN CORE CSS FRAMEWORK -->
       <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
@@ -20,7 +18,7 @@
       <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
-      <link href="{{ asset('plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.css') }}" />
       <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
@@ -36,7 +34,9 @@
       <script>
          var HOSPITAL_ID = 0;
          var PATIENT_ID = 0;
-         var BASEURL = '{{ url() }}/{{ $hospital["url_slug"] }}';
+         var BASEURL = '{{ url() }}/{{ $hospital["url_slug"] }}/{{ $project["project_slug"] }}';
+         var STARTDATE = '';
+         var ENDDATE = '';
       </script>
    </head>
    <!-- END HEAD -->
@@ -177,7 +177,42 @@
       </div>
       <!-- END CONTAINER -->
       <!-- BEGIN CORE JS FRAMEWORK--> 
-      
+      <script type="text/javascript">
+      $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+      })
+
+      $(function() {
+
+         function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('input[name="startDate"]').val(start.format('DD-MM-YYYY'));
+            $('input[name="endDate"]').val(end.format('DD-MM-YYYY'));
+         }
+ 
+         cb(moment(STARTDATE), moment(ENDDATE));
+          console.log(moment(STARTDATE));
+          console.log(moment('Wed Jan 20 2016'));
+
+         $('#reportrange').daterangepicker({
+            ranges: {
+            'Today': [moment(), moment()],
+            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'This Month': [moment().startOf('month'), moment().endOf('month')],
+            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+         }, cb);
+
+ 
+
+      });
+
+       
+
+
+      </script
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/notifyjs/dist/notify.min.js') }}" type="text/javascript"></script>
@@ -197,25 +232,15 @@
       <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
-      <script src="{{ asset('plugins/jquery-ricksaw-chart/js/d3.v2.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-ricksaw-chart/js/rickshaw.min.js') }}"></script>
+
       <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-      <script src="{{ asset('plugins/jquery-morris-chart/js/morris.min.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-flot/jquery.flot.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-flot/jquery.flot.time.min.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-flot/jquery.flot.selection.min.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-flot/jquery.flot.animator.min.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-flot/jquery.flot.orderBars.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-sparkline/jquery-sparkline.js') }}"></script>
-      <script src="{{ asset('plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js') }}"></script>
-      <script src="{{ asset('plugins/dropzone/dropzone.js') }}" type="text/javascript"></script>
+
       <script src="{{ asset('plugins/bootstrap-select2/select2.min.js') }}" type="text/javascript"></script>
       <script type="text/javascript" src="{{ asset('plugins/jquery-multiselect/jquery.multiselect.js') }}"></script>
       <!-- END PAGE LEVEL PLUGINS -->
 
-       <script src="{{ asset('plugins/bootstrap-datetime-picker/moment.js') }}"></script>
-      <script src="{{ asset('plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
+       <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/moment.js') }}"></script>
+      <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.js') }}" type="text/javascript"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
