@@ -21,24 +21,17 @@
 <div class="grid simple ">
    <div class="grid-body no-border table-data grid-data-table">
       <div class="row">
-         <div class="col-sm-6">
-            <h3 class="">Analytics</h3>
-         </div>
-         <div class="col-sm-6 m-t-10">
+         <div class="col-sm-8">
+          <h3 class="">Analytics</h3>
+       </div>
+       <div class="col-sm-4 m-t-10">
          <form name="searchData" method="GET"> 
-         <div class="row">
-          <div class="col-sm-10">
+         <input type="hidden" class="form-control" name="startDate"  >
+         <input type="hidden" class="form-control" name="endDate"  >
             <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                <span></span> <b class="caret"></b>
             </div>
-</div>
-<div class="col-sm-2">
-            <button class="btn btn-primary">Search</button>
-        </div>
-        </div>
-         <input type="hidden" class="form-control" name="startDate"  >
-         <input type="hidden" class="form-control" name="endDate"  >
 
          </form>
          <input type="hidden" name="flag" value="0">
