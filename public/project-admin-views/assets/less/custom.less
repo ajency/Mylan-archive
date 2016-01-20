@@ -454,7 +454,31 @@ select, input{
     cursor: pointer;
     }
 }
-
+.daterangepicker{
+	.ranges li{
+		color: #6f7b8a;
+		&.active,&:hover{
+		background: #0AA699;
+		border-color: #0AA699;
+		color: #fff;
+		}
+	}
+	td.active{
+		background: #0AA699;
+		&:hover{
+			background: #0AA699;
+		}
+	}
+	.daterangepicker_input{
+		.input-mini{
+				    padding-left: 25px!important;
+			}
+			i{
+				top:11px;
+			}
+	}
+	
+}
 /***loader styles***/
 .cf-loader {
   display: inline-block;

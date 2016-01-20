@@ -8541,6 +8541,27 @@ input {
   top: auto;
   cursor: pointer;
 }
+.daterangepicker .ranges li {
+  color: #6f7b8a;
+}
+.daterangepicker .ranges li.active,
+.daterangepicker .ranges li:hover {
+  background: #0AA699;
+  border-color: #0AA699;
+  color: #fff;
+}
+.daterangepicker td.active {
+  background: #0AA699;
+}
+.daterangepicker td.active:hover {
+  background: #0AA699;
+}
+.daterangepicker .daterangepicker_input .input-mini {
+  padding-left: 25px!important;
+}
+.daterangepicker .daterangepicker_input i {
+  top: 11px;
+}
 /***loader styles***/
 .cf-loader {
   display: inline-block;
