@@ -16,6 +16,7 @@ use App\PatientMedication;
 use App\PatientClinicVisit;
 use \Session;
 use App\Http\Controllers\Project\ProjectController;
+use \Input;
 
 class PatientController extends Controller
 {
@@ -34,8 +35,14 @@ class PatientController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $inputs = Input::get();
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at')->get()->toArray();
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
+
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
         $newPatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
@@ -45,14 +52,13 @@ class PatientController extends Controller
             
             $patientReferenceCode[] = $patient['reference_code'];
         }
+        
 
-        $startDate =  date('d-m-Y', strtotime('-1 months'));
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                  );
 
-        $endDate = date('d-m-Y', strtotime('+1 day'));
         $endDateObj = array(
                       "__type" => "Date",
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
@@ -75,6 +81,8 @@ class PatientController extends Controller
                                           ->with('responseRate', $responseRate)
                                           ->with('completedResponses', $completedResponses)
                                           ->with('missedResponses', $missedResponses)
+                                          ->with('endDate', $endDate)
+                                          ->with('startDate', $startDate)
                                           ->with('patientsSummary', $patientsSummary);
     }
 
@@ -576,7 +584,7 @@ class PatientController extends Controller
         $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[] ,$startDate,$endDate);  
         $completedResponses = [];
         $missedResponses = [];
-        
+         
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
             $patient = $response->get("patient");
@@ -601,7 +609,7 @@ class PatientController extends Controller
             $completedResponses[]=$response;
         }
          
-
+       
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
         $answersQry->includeKey("response");

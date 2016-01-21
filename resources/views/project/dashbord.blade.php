@@ -355,7 +355,7 @@
                   
                   $patientSummary = $patientsSummary[$referenceCode];
                 ?>
-                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}.'/'.$project['project_slug'].'/patients/{{ $patientId }}';">
+                  <tr onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                      <td>{{ $referenceCode }}</td>
                      <td>
                         <div class="lst-sub">
