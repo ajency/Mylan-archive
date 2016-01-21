@@ -481,17 +481,17 @@
       }
 
     });
-
+ 
     //pie chart 
     var chart = AmCharts.makeChart( "piechart", {
          "type": "pie",
          "theme": "light",
          "dataProvider": [ {
          "title": "Completed",
-         "value": 40
+         "value": {{ $responseCount['completed'] }}
          }, {
          "title": "Missed",
-         "value": 20,
+         "value": {{ $responseCount['missed'] }},
          "fillColor": "#CC0000",
          "fillAlphas": 0.5,
          } ],

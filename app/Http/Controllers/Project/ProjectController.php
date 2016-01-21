@@ -79,8 +79,8 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $projectResponses = [];//$this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
-        $projectAnwers = [];//$this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
+        $projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
 
         $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
         $projectFlagsCount = $this->projectFlagsCount($projectAnwers); 
@@ -105,8 +105,8 @@ class ProjectController extends Controller
 
         $allPatients = User::where('type','patient')->where(['project_id'=>$projectId])->get()->take(5)->toArray();
         $patientController = new PatientController();
-        $patientSummaryData  = [];//$patientController->patientSummary($patientReferenceCode ,$projectId,$startDateObj,$endDateObj);
-        $patientsSummary = [];//$patientSummaryData['patientResponses'];
+        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$projectId,$startDateObj,$endDateObj);
+        $patientsSummary = $patientSummaryData['patientResponses'];
         
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -166,7 +166,7 @@ class ProjectController extends Controller
         $responseQry->ascending("occurrenceDate");
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
-        
+         
         if(!empty($responses))
         {
             $page++;
