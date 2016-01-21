@@ -26,11 +26,6 @@ angular.module 'PatientApp.Quest',[]
 				@val_answerValue = {}
 
 			getQuestion :() ->
-
-				# "responseId": responseId
-				# "questionnaireId": patientData.id
-				# "patientId": refcode
-
 				@display = 'loader'
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
@@ -60,12 +55,7 @@ angular.module 'PatientApp.Quest',[]
 								@display = 'noError'
 							,(error)=>
 								@display = 'error'
-								console.log error
-								if error == 'offline'
-									CToast.showLongBottom 'Check net connection,answer not saved'
-								else
-									CToast.show 'Error ,try again'
-							
+								@errorType = error
 
 					else if @respStatus == 'noValue'
 						responseId = ''
@@ -138,6 +128,8 @@ angular.module 'PatientApp.Quest',[]
 					,(error)=>
 						if error == 'offline'
 							CToast.showLongBottom 'Check net connection,answer not saved'
+						else if error == 'server_error'
+							CToast.show 'Error in saving answer,Server error'
 						else
 							CToast.show 'Error in saving answer,try again'
 					.finally ->
@@ -232,7 +224,7 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
 						console.log 'previous data'
-						console.log @data	
+						console.log data	
 						@variables()
 						@data = []
 						@data = data
@@ -240,13 +232,13 @@ angular.module 'PatientApp.Quest',[]
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()	
-						console.log @data	
 					,(error)=>
-						console.log error
 						if error == 'offline'
-							CToast.showLongBottom 'Check net connection,answer not saved'
+							CToast.show 'Check net connection'
+						else if error == 'server_error'
+							CToast.showLongBottom 'Error in dispalying previous,Server error'
 						else
-							CToast.show 'Error ,try again'
+							CToast.showLongBottom 'Error in dispalying previous,try again'
 					.finally ->
 						CSpinner.hide()
 

@@ -12,12 +12,8 @@ angular.module 'PatientApp.dashboard',[]
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
-				# value = Storage.setHospitalData 'get'
-				# @hospitalName = value['name']
-				# @projectName = value['project']
 
 			startQuiz :() ->
-				# App.navigate 'questionnaire', quizID: quizID
 				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
@@ -25,7 +21,7 @@ angular.module 'PatientApp.dashboard',[]
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					param = 
-						"patientId":refcode
+						"patientId": refcode
 					DashboardAPI.get param
 					.then (data)=>
 						@data = data
@@ -35,8 +31,6 @@ angular.module 'PatientApp.dashboard',[]
 					,(error)=>
 						@display = 'error'
 						@errorType = error
-
-
 
 			displaydata : ->
 				@getSubmission()	

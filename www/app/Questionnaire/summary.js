@@ -52,9 +52,13 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
           };
         })(this), (function(_this) {
           return function(error) {
-            console.log('error');
-            console.log(error);
-            return CToast.show('Error in submitting questionnarie');
+            if (error === 'offline') {
+              return CToast.showLongBottom('Check net connection,questionnaire not submitted');
+            } else if (error === 'server_error') {
+              return CToast.showLongBottom('Error in submitting questionnaire,Server error');
+            } else {
+              return CToast.showLongBottom('Error in submitting questionnaire,try again');
+            }
           };
         })(this))["finally"](function() {
           return CSpinner.hide();

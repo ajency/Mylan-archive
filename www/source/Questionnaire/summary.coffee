@@ -47,9 +47,12 @@ angular.module 'PatientApp.Quest'
 					App.navigate 'exit-questionnaire'
 					# deregister()
 				,(error)=>
-					console.log 'error'
-					console.log error
-					CToast.show 'Error in submitting questionnarie'
+					if error == 'offline'
+						CToast.showLongBottom 'Check net connection,questionnaire not submitted'
+					else if error == 'server_error'
+						CToast.showLongBottom 'Error in submitting questionnaire,Server error'
+					else
+						CToast.showLongBottom 'Error in submitting questionnaire,try again'
 				.finally ->
 					CSpinner.hide()
 

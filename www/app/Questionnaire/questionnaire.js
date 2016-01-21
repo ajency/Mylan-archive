@@ -52,12 +52,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   return _this.display = 'noError';
                 }, function(error) {
                   _this.display = 'error';
-                  console.log(error);
-                  if (error === 'offline') {
-                    return CToast.showLongBottom('Check net connection,answer not saved');
-                  } else {
-                    return CToast.show('Error ,try again');
-                  }
+                  return _this.errorType = error;
                 });
               });
             } else if (_this.respStatus === 'noValue') {
@@ -138,6 +133,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }, function(error) {
               if (error === 'offline') {
                 return CToast.showLongBottom('Check net connection,answer not saved');
+              } else if (error === 'server_error') {
+                return CToast.show('Error in saving answer,Server error');
               } else {
                 return CToast.show('Error in saving answer,try again');
               }
@@ -235,22 +232,22 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             param.responseId = responseId;
             return QuestionAPI.getPrevQuest(param).then(function(data) {
               console.log('previous data');
-              console.log(_this.data);
+              console.log(data);
               _this.variables();
               _this.data = [];
               _this.data = data;
               _this.readonly = _this.data.editable;
               _this.pastAnswer();
               if (!_.isEmpty(_this.data.hasAnswer)) {
-                _this.hasAnswerShow();
+                return _this.hasAnswerShow();
               }
-              return console.log(_this.data);
             }, function(error) {
-              console.log(error);
               if (error === 'offline') {
-                return CToast.showLongBottom('Check net connection,answer not saved');
+                return CToast.show('Check net connection');
+              } else if (error === 'server_error') {
+                return CToast.showLongBottom('Error in dispalying previous,Server error');
               } else {
-                return CToast.show('Error ,try again');
+                return CToast.showLongBottom('Error in dispalying previous,try again');
               }
             })["finally"](function() {
               return CSpinner.hide();

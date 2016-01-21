@@ -122,9 +122,20 @@ angular.module 'PatientApp.Global', []
 			scrollBottom : ->
 				$ionicScrollDelegate.scrollBottom true
 
+			parseErrorCode :(error)->
+				errType = ''
+				errMsg = error.message
+				if error.code == 100
+					errType = 'offline'
+				else if error.code == 141
+					errType = 'server_error'
+				else if errMsg.code == 101
+					errType = 'server_error'
+				else if errMsg.code == 124
+					errType = 'offline'
+				errType
 
 			SendParseRequest :(cloudFun, param)->
-
 				defer = $q.defer()
 				Parse.Cloud.run cloudFun, param,	
 					success: (result) ->
@@ -132,10 +143,8 @@ angular.module 'PatientApp.Global', []
 					error: (error) =>
 						console.log 'inside error common function'
 						console.log error
-						defer.reject @errorCode error
-
+						defer.reject @parseErrorCode error
 				defer.promise
-
 
 			callUs :(tel) ->
 				console.log 'call us'
