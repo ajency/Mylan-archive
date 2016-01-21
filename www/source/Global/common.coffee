@@ -52,6 +52,8 @@ angular.module 'PatientApp.Global', []
 					$cordovaKeyboard.hideAccessoryBar true
 
 			errorCode : (error) ->
+				console.log error
+				
 				error = ''
 				if error.status == '0'
 					error = 'timeout'

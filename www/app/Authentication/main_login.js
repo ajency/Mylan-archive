@@ -42,7 +42,11 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
               };
             })(this), (function(_this) {
               return function(error) {
-                return CToast.show('Please try again');
+                if (error === 'offline') {
+                  return _this.loginerror = 'Please check net connection';
+                } else if (error === 'server_error') {
+                  return _this.loginerror = 'Please try again';
+                }
               };
             })(this))["finally"](function() {
               return CSpinner.hide();

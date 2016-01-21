@@ -40,7 +40,11 @@ angular.module('PatientApp.init').controller('setupCtr', [
             };
           })(this), (function(_this) {
             return function(error) {
-              return _this.emptyfield = 'Please try again';
+              if (error === 'offline') {
+                return _this.emptyfield = 'Please check net connection';
+              } else if (error === 'server_error') {
+                return _this.emptyfield = 'Please try again';
+              }
             };
           })(this))["finally"](function() {
             return CSpinner.hide();

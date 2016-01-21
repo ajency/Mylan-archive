@@ -32,7 +32,12 @@ angular.module 'PatientApp.Auth',[]
 		                        	console.log data
 		                        	if App.previousState == 'setup' then  App.navigate "main_login" else CToast.show 'Your password is updated '
 		                        , (error)=>
-		                        	CToast.show 'Please try again'
+		                        	if error == 'offline'
+		                        		@passwordmissmatch ='Check net connection'
+		                        	else if error == 'server_error'
+		                        		@passwordmissmatch = 'Error in setting password,server error'
+		                        	else
+		                        		@passwordmissmatch = 'Error in setting password,try again'
 		                        .finally ()->
 		                        	CSpinner.hide()
 						else	

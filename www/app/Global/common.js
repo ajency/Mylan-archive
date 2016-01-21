@@ -62,6 +62,7 @@ angular.module('PatientApp.Global', []).factory('App', [
         }
       },
       errorCode: function(error) {
+        console.log(error);
         error = '';
         if (error.status === '0') {
           error = 'timeout';

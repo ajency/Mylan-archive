@@ -30,7 +30,13 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
                     return CToast.show('Your password is updated ');
                   }
                 }, function(error) {
-                  return CToast.show('Please try again');
+                  if (error === 'offline') {
+                    return _this.passwordmissmatch = 'Check net connection';
+                  } else if (error === 'server_error') {
+                    return _this.passwordmissmatch = 'Error in setting password,server error';
+                  } else {
+                    return _this.passwordmissmatch = 'Error in setting password,try again';
+                  }
                 })["finally"](function() {
                   return CSpinner.hide();
                 });

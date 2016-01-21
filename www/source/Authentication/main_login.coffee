@@ -42,7 +42,10 @@ angular.module 'PatientApp.Auth'
 								CToast.show 'Please check credentials'
 								@loginerror = "Password entered is incorrect, Please try again"
 						, (error)=>
-							CToast.show 'Please try again'
+							if error == 'offline'
+								@loginerror = 'Please check net connection'
+							else if error == 'server_error'
+								@loginerror = 'Please try again'
 						.finally ()->
 							CSpinner.hide()
 
