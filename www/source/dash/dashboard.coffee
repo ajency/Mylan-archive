@@ -9,6 +9,7 @@ angular.module 'PatientApp.dashboard',[]
 			SubmissionData : []
 			data : []
 			display : 'loader'
+			infoMsg : null
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
@@ -24,7 +25,21 @@ angular.module 'PatientApp.dashboard',[]
 						"patientId": refcode
 					DashboardAPI.get param
 					.then (data)=>
+						console.log 'dashoard data'
+						console.log data
 						@data = data
+						arr = []
+						if !_.isEmpty(_.where(@data, {status: "due"})) 
+							 arr.push _.where(@data, {status: "due"})
+						
+						if !_.isEmpty(_.where(@data, {status: "started"})) 
+							 arr.push _.where(@data, {status: "started"})
+						if arr.length == 0 
+							@infoMsg = true
+						else
+							@infoMsg = false
+
+
 						_.each @data, (value)->
 							value.occurrenceDate = moment(value.occurrenceDate).format('MMMM Do YYYY')
 						@display = 'noError'
