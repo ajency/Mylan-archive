@@ -18,6 +18,7 @@
       <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
+      <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" />
       <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.css') }}" />
       <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
@@ -244,6 +245,7 @@
 
        <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/moment.js') }}"></script>
       <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('project-admin-views/assets/plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
