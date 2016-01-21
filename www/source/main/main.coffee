@@ -7,6 +7,12 @@ angular.module 'PatientApp.main', []
 
 			onBackClick : ->
 				switch App.currentState
+					when 'main_login'
+						if App.previousState == 'setup_password'
+							App.navigate "setup", {}, {animate: false, back: false}
+						else
+							count = -1
+							App.goBack count
 					when 'exit-questionnaire'
 						App.navigate "dashboard", {}, {animate: false, back: false}
 					else

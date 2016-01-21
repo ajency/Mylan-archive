@@ -1,9 +1,9 @@
 angular.module 'PatientApp.Auth'
 
 .controller 'main_loginCtr',['$scope', 'App', 'Storage'
-	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner'
+	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform'
 	 , ($scope, App, Storage,
-	 	 $ionicLoading, AuthAPI, CToast, CSpinner)->
+	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform)->
 
 		$scope.view =
 			temprefrencecode :''
@@ -63,6 +63,13 @@ angular.module 'PatientApp.Auth'
 				@loginerror = ''
 				@password = ''
 
+		onDeviceBack = ->
+			if App.previousState == 'setup_password'
+				App.navigate "setup", {}, {animate: false, back: false}
+			else
+				count = -1
+				App.goBack count
+
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			if !viewData.enableBack
 				viewData.enableBack = true
@@ -75,5 +82,16 @@ angular.module 'PatientApp.Auth'
 					$scope.view.readonly = false
 				else
 					$scope.view.readonly = true
+
+		onHardwareBackLogin = null 
+
+		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter questionarie'
+			onHardwareBackLogin = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
+		
+
+		$scope.$on '$ionicView.leave', ->
+			console.log '$ionicView.leave'
+			if onHardwareBackLogin then onHardwareBackLogin()
 		
 ]

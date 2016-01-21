@@ -1,5 +1,6 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform) {
+    var onDeviceBack, onHardwareBackLogin;
     $scope.view = {
       temprefrencecode: '',
       loginerror: '',
@@ -70,7 +71,19 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
         return this.password = '';
       }
     };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    onDeviceBack = function() {
+      var count;
+      if (App.previousState === 'setup_password') {
+        return App.navigate("setup", {}, {
+          animate: false,
+          back: false
+        });
+      } else {
+        count = -1;
+        return App.goBack(count);
+      }
+    };
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       if (!viewData.enableBack) {
         viewData.enableBack = true;
       }
@@ -85,6 +98,17 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
           }
         };
       })(this));
+    });
+    onHardwareBackLogin = null;
+    $scope.$on('$ionicView.enter', function() {
+      console.log('$ionicView.enter questionarie');
+      return onHardwareBackLogin = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
+    });
+    return $scope.$on('$ionicView.leave', function() {
+      console.log('$ionicView.leave');
+      if (onHardwareBackLogin) {
+        return onHardwareBackLogin();
+      }
     });
   }
 ]);

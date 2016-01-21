@@ -4,6 +4,17 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
       onBackClick: function() {
         var count;
         switch (App.currentState) {
+          case 'main_login':
+            if (App.previousState === 'setup_password') {
+              return App.navigate("setup", {}, {
+                animate: false,
+                back: false
+              });
+            } else {
+              count = -1;
+              return App.goBack(count);
+            }
+            break;
           case 'exit-questionnaire':
             return App.navigate("dashboard", {}, {
               animate: false,
