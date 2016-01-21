@@ -32,9 +32,9 @@
                         </div>
                         <div class="tab-pane active" id="baseline">
                            <div class="pull-right">
-                           @if(!empty($questionsList))
-                              <a class="btn btn-white" href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}"><span class="text-success"><i class="fa fa-pencil-square-o"></i> Edit</span></a>
-                           @endif
+                     
+                              <a class="btn btn-white" href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}"><span class="text-success"><i class="fa fa-pencil-square-o"></i> Add</span></a>
+                   
                            </div>
                            <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
                            <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>

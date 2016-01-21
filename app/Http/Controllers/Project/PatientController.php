@@ -520,8 +520,49 @@ class PatientController extends Controller
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 
+    public function getpatientBaseLines($hospitalSlug ,$projectSlug ,$patientId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patient = User::find($patientId)->toArray();
+        $referenceCode = $patient['reference_code'];
+        
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("patient", $referenceCode); 
+        $responseQry->equalTo("status", 'base_line'); 
+        $responseQry->ascending("createdAt");
+        $responses = $responseQry->find();
+
+        $baseLines = [];
+
+        foreach ($responses as  $response) {
+            $responseId = $response->getObjectId();
+            $sequenceNumber = $response->get('sequenceNumber');
+            $date = $response->getCreatedAt()->format('d-m-Y');
+            $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+        }
+
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project", $projectId);
+        $isQuestionnaireSet = $questionnaireQry->count();  
+      
+
+        return view('project.patients.baseline-list')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'base_line')
+                                                ->with('tab', '03')                            
+                                                ->with('hospital', $hospital)
+                                                ->with('project', $project) 
+                                                ->with('patient', $patient) 
+                                                ->with('isQuestionnaireSet', $isQuestionnaireSet) 
+                                                ->with('baseLines', $baseLines); 
+    }
+
     
-    public function showpatientBaseLineScore($hospitalSlug ,$projectSlug,$patientId)
+    public function showpatientBaseLineScore($hospitalSlug ,$projectSlug,$patientId,$responseId)
     {
  
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
@@ -537,7 +578,7 @@ class PatientController extends Controller
         $projectId = intval ($projectId);
         $projectName = Projects::find($projectId)->name; 
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode);
+        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,$responseId);
         $questionnaireName = $baseLineData['questionnaireName']; 
         $questionsList = $baseLineData['questionsList']; 
         $optionsList = $baseLineData['optionsList']; 
@@ -737,7 +778,7 @@ class PatientController extends Controller
      
     }
 
-    public function getBaseLineData($projectId,$referenceCode)
+    public function getBaseLineData($projectId,$referenceCode,$responseId)
     {
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
@@ -762,6 +803,7 @@ class PatientController extends Controller
             $options = $optionsQry->find(); 
 
             $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("objectId", $responseId); 
             $responseQry->equalTo("patient", $referenceCode); 
             $responseQry->equalTo("status", 'base_line'); 
             $response = $responseQry->first();
@@ -851,13 +893,13 @@ class PatientController extends Controller
 
 
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode);
+        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,'');
         $questionnaireName = $baseLineData['questionnaireName']; 
         $questionnaireId = $baseLineData['questionnaireId']; 
-        $questionsList = $baseLineData['questionsList']; 
+        $questionsList = $baseLineData['questionsList'];  
         $optionsList = $baseLineData['optionsList']; 
-        $answersList = $baseLineData['answersList']; 
-        $baseLineResponseId = $baseLineData['baseLineResponseId'];  
+        $answersList = [];//$baseLineData['answersList']; 
+        //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         
         return view('project.patients.baselinescore-edit')->with('active_menu', 'patients')
                                         ->with('active_tab', 'base_line')
@@ -866,7 +908,7 @@ class PatientController extends Controller
                                         ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
-                                        ->with('baseLineResponseId', $baseLineResponseId)
+                                        
                                         ->with('questionnaireId', $questionnaireId)
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)
@@ -886,7 +928,7 @@ class PatientController extends Controller
         $baseLineAnswers = $request->all(); //dd($baseLineAnswers);
         $questions = $baseLineAnswers['question'];
         $questionType = $baseLineAnswers['questionType'];
-        $baseLineResponseId = $baseLineAnswers['baseLineResponseId'];
+        // $baseLineResponseId = $baseLineAnswers['baseLineResponseId'];
         $questionnaireId = $baseLineAnswers['questionnaireId'];
         $patientId = $baseLineAnswers['patientId'];
 
@@ -895,34 +937,48 @@ class PatientController extends Controller
         $projectId = $patient['project_id'];
         $projectId = intval ($projectId);
 
-        if($baseLineResponseId =='')
-        {
-            $questionnaireObj = new ParseQuery("Questionnaire");
-            $questionnaire = $questionnaireObj->get($questionnaireId);
+        // if($baseLineResponseId =='')
+        // {
+                // }
+        // else
+        // {
+        //     $responseObj = new ParseQuery("Response");
+        //     $response = $responseObj->get($baseLineResponseId);
 
-            $date = new \DateTime();
-            //add
-            $response = new ParseObject("Response");
-            $response->set("questionnaire", $questionnaire);
-            $response->set("patient", $referenceCode);
-            $response->set("project", $projectId);
-            $response->set("occurrenceDate", $date);
-            $response->set("status", 'base_line');
-            $response->save();
-        }
-        else
-        {
-            $responseObj = new ParseQuery("Response");
-            $response = $responseObj->get($baseLineResponseId);
+        //     $answers = new ParseQuery("Answer");
+        //     $answers->equalTo("response", $response);
+        //     $answersObjs = $answers->find();
+        //     // ParseObject::destroyAll($answersObjs);
+        //     foreach ($answersObjs as $answer) {
+        //         $answer->destroy();
+        //     }
+        // }
 
-            $answers = new ParseQuery("Answer");
-            $answers->equalTo("response", $response);
-            $answersObjs = $answers->find();
-            // ParseObject::destroyAll($answersObjs);
-            foreach ($answersObjs as $answer) {
-                $answer->destroy();
-            }
-        }
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("patient", $referenceCode); 
+        $responseQry->equalTo("status", 'base_line'); 
+        $responseQry->descending("createdAt");
+        $responses = $responseQry->first();
+
+        $sequenceNumber = ($responses->get('sequenceNumber') + 1);
+
+
+        $questionnaireObj = new ParseQuery("Questionnaire");
+        $questionnaire = $questionnaireObj->get($questionnaireId);
+
+        $date = new \DateTime();
+        //add
+        $response = new ParseObject("Response");
+        $response->set("questionnaire", $questionnaire);
+        $response->set("patient", $referenceCode);
+        $response->set("sequenceNumber", $sequenceNumber);
+        $response->set("project", $projectId);
+        $response->set("occurrenceDate", $date);
+        $response->set("status", 'base_line');
+        $response->save();
+        $responseId = $response->getObjectId();
+
+
 
         $bulkAnswerInstances = [];
         foreach ($questions as $questionId=> $answers) {
@@ -1009,7 +1065,7 @@ class PatientController extends Controller
         ParseObject::saveAll($bulkAnswerInstances);
         
 
-        return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score-edit')); 
+        return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 
          
     }
 
@@ -1154,6 +1210,7 @@ class PatientController extends Controller
                                         ->with('allScore', $allScore)
                                         ->with('inputChartData', $inputChartData); 
     }
+
 
 
     /**
