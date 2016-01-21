@@ -573,7 +573,7 @@ class PatientController extends Controller
 
         }
 
-        $responses = $this->getPatientsResponses($patients,$projectId,0,[] ,$startDate,$endDate);  
+        $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[] ,$startDate,$endDate);  
         $completedResponses = [];
         $missedResponses = [];
         
@@ -652,6 +652,32 @@ class PatientController extends Controller
         
     }
 
+    public function getPatientsResponseByDate($patients,$projectId,$page=0,$responseData,$startDate,$endDate)  
+    {
+        $displayLimit = 20; 
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->containedIn("status",["completed","missed"]);
+        $responseQry->containedIn("patient",$patients);
+        //$responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $responseQry->ascending("occurrenceDate");
+        $responseQry->limit($displayLimit);
+        $responseQry->skip($page * $displayLimit);
+        $responses = $responseQry->find();  
+        $responseData = array_merge($responses,$responseData); 
+
+        if(!empty($responses))
+        {
+            $page++;
+            $responseData = $this->getPatientsResponseByDate($patients,$projectId,$page,$responseData,$startDate,$endDate);  
+        }  
+        
+        return $responseData;
+     
+    }
+
     public function getPatientsResponses($patients,$projectId,$page=0,$responseData)
     {
         $displayLimit = 20; 
@@ -669,7 +695,7 @@ class PatientController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData );
+            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData);
         }  
         
         return $responseData;
@@ -688,7 +714,7 @@ class PatientController extends Controller
         $answersQry->includeKey("option");
         $answersQry->limit($displayLimit);
         $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("createdAt");
+        $answersQry->ascending("occurrenceDate");
  
         $anwsers = $answersQry->find();
         $anwsersData = array_merge($anwsers,$anwsersData); 
