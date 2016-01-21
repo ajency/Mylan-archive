@@ -242,8 +242,13 @@ class PatientController extends Controller
 
         $projectController = new ProjectController();
         $submissionsSummary = $projectController->getSubmissionsSummary($patientAnswers); 
-        
-        
+
+        $questionsChartData = $this->getQuestionChartData($patientAnswers);
+
+        $questionLabels = $questionsChartData['questionLabels'];
+        $questionChartData = $questionsChartData['chartData'];
+        $questionBaseLine = $questionsChartData['questionBaseLine'];
+ 
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
@@ -254,6 +259,9 @@ class PatientController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
+                                        ->with('questionChartData', $questionChartData)
+                                        ->with('questionLabels', $questionLabels)
+                                        ->with('questionBaseLine', $questionBaseLine)
                                         ->with('project', $project);
     }
 
@@ -1135,7 +1143,7 @@ class PatientController extends Controller
                 $inputLabels[$questionId] = $inputLable;
                 $allScore[$questionId][] = $optionValue;
 
-                if($responseStatus=="base_line")
+                if($responseStatus=="base_line" && !isset($baseLineArr[$questionId]))
                     $baseLineArr[$questionId] =$optionValue;
                 else
                     $inputScores[$questionId][$answerDate] = $optionValue ;
@@ -1163,7 +1171,7 @@ class PatientController extends Controller
             } 
             else  
             {
-                if($responseStatus=="base_line")
+                if($responseStatus=="base_line" && !isset($baseLineArr[$questionId]))
                    $baseLineArr[$questionId] =$optionScore;
                 else
                 {
@@ -1209,6 +1217,92 @@ class PatientController extends Controller
                                         ->with('inputLabels', $inputLabels)
                                         ->with('allScore', $allScore)
                                         ->with('inputChartData', $inputChartData); 
+    }
+
+
+    public function getQuestionChartData($patientAnswers)
+    {
+        $questionLabels = [];
+        $baseLineArr= []; 
+        $chartData = [];
+        foreach ($patientAnswers as   $answer) {
+            $responseStatus = $answer->get("response")->get("status");
+            $questionId = $answer->get("question")->getObjectId();
+            $questionType = $answer->get("question")->get("type");
+            $questionTitle = $answer->get("question")->get("title");
+            $responseId = $answer->get("response")->getObjectId();
+            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
+            $optionValue = $answer->get("value");
+
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previousFlag = $answer->get("previousFlag");
+            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $answerDate = strtotime($answerDate);
+            $questionLabel =  ucfirst(strtolower($questionTitle));
+
+            
+            if($responseStatus=='missed' || $responseStatus=='started')
+                continue;
+
+            if($questionType=='descriptive')
+                continue;
+           
+            if($questionType=='input')
+            { 
+                $inputBaseQuestionId = $questionId;
+                
+
+                $questionLabels[$questionId] = $questionLabel;
+                $allScore[$questionId][] = $optionValue;
+
+                if($responseStatus=="base_line")
+                    $baseLineArr[$questionId] =$optionValue;
+                else
+                    $inputScores[$questionId][$answerDate] = $optionValue ;
+
+                continue;
+            }
+            elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
+
+                continue;
+ 
+            } 
+            else  
+            {
+                $questionLabels[$questionId] = $questionLabel;
+
+                if($responseStatus=="base_line")
+                   $baseLineArr[$questionId] =$optionScore;
+                else
+                {
+                   $inputScores[$questionId][$answerDate] = $optionScore ;
+                }
+
+             } 
+            
+        }
+        
+        
+        foreach ($inputScores as $questionId => $data) {
+            ksort($data);
+            $i=0;
+            foreach($data as $date => $value)
+            { 
+                $chartData[$questionId][$i]['date'] = date('d M',$date);
+                $chartData[$questionId][$i]['value'] = $value;
+               
+                $i++;
+            }
+            
+            
+        }
+        
+        $questiondata['questionBaseLine']=$baseLineArr;
+        $questiondata['chartData']=$chartData;
+        $questiondata['questionLabels']=$questionLabels;
+        
+       
+        return $questiondata;
     }
 
 

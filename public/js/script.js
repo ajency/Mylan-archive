@@ -419,9 +419,9 @@ function projectDashbordChart(chartData,flagArr)
     });
 }
 
-function patientInputGraph(chartData,label,maxScore,baseLine)
+function patientInputGraph(chartData,label,maxScore,baseLine,container)
 {
-    var chart = AmCharts.makeChart("chartdiv", {
+    var chart = AmCharts.makeChart(container, {
     "type": "serial",
     "theme": "light",
     "legend": {

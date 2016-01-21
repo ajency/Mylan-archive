@@ -94,7 +94,17 @@
                               </div>
                            </div>
                            <div>
-                             <br><br> 
+                             <br><br>  
+
+                        <select class="pull-right" name="generateQuestionChart">
+                          @foreach($questionLabels as $questionId => $label)
+                            <option value="{{ $questionId }}">{{ $label }}</option>
+                          @endforeach
+                         </select> 
+
+                                           <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
+
+                                       <br><br> 
                                        <div class="grid simple ">
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
@@ -259,12 +269,21 @@
                      </div>
                   </div>
  
+ <?php 
+
+$questionId = current(array_keys($questionLabels));
+$inputJson = json_encode($questionChartData[$questionId]);
+$questionLabel = $questionLabels[$questionId];
+$baseLine = $questionBaseLine[$questionId];
+?>
     <script type="text/javascript">
      
 
    $(document).ready(function() {
 
     patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+
+    patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
 
     var chart = AmCharts.makeChart( "submissionschart", {
            "type": "pie",
@@ -299,6 +318,24 @@
 
       }
        
+
+    });
+
+     $('select[name="generateQuestionChart"]').change(function (event) { 
+      <?php 
+      foreach($questionLabels as $questionId => $questionLabel)
+      {
+        $inputJson = json_encode($questionChartData[$questionId]);
+        $baseLine = $questionBaseLine[$questionId];
+        ?>
+        if($(this).val()=='{{$questionId}}')
+        { 
+          patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
+        }
+
+        <?php
+      }
+      ?>
 
     });
 
