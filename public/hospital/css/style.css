@@ -8478,3 +8478,30 @@ table td {
 .light-gray {
   background: #f2f2f2 !important;
 }
+
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 11%;
+  border: 1px solid #ddd;
+}
+.adminlogin h3 {
+  font-weight: 400;
+}
+.adminlogin .logo-img {
+  margin-right: 117px;
+}
+
+/***Error Style***/
+ul.parsley-errors-list
+{
+  list-style-type: none;
+    text-align: left;
+    padding-left: 15px;
+}
+    
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
