@@ -14,30 +14,27 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-
-
-    <div class="row">
-                        <div class="col-lg-8 col-md-7">
-                  <div class="page-title">
-                     <h3 class="m-b-0"><span class="semi-bold">Hospitals</span></h3>
-                     <p>(Showing all Hospital under Mylan)</p>
+               <div class="row">
+                  <div class="col-lg-8 col-md-7">
+                     <div class="page-title">
+                        <h3 class="m-b-0"><span class="semi-bold">Hospitals</span></h3>
+                        <p>(Showing all Hospital under Mylan)</p>
+                     </div>
                   </div>
-                  </div>
-                        <div class="col-lg-4 col-md-5 m-t-25 text-right">
-                           <div class="row">
-                              <div class="col-md-12">
-                                 <a href="{{ url( 'admin/hospitals/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Hospital</a>
-                              </div>
-                              <!-- <div class="col-md-6">
-                                 <select name="role" id="role" class="select2 form-control"  >
-                                    <option value="1">Sort By</option>
-                                    <option value="2">Name</option>
-                                    <option value="2">Popularity</option>
-                                 </select>
-                              </div> -->
-                           </div>
+                  <div class="col-lg-4 col-md-5 m-t-25 text-right">
+                     <div class="row">
+                        <div class="col-md-12">
+                           <a href="{{ url( 'admin/hospitals/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Hospital</a>
                         </div>
-
+                        <!-- <div class="col-md-6">
+                           <select name="role" id="role" class="select2 form-control"  >
+                              <option value="1">Sort By</option>
+                              <option value="2">Name</option>
+                              <option value="2">Popularity</option>
+                           </select>
+                        </div> -->
+                     </div>
+                  </div>
                   </div>
 
                   <div class="grid simple">
