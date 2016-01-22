@@ -1,8 +1,13 @@
 angular.module('PatientApp.contact', []).controller('contactCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', function($scope, App, Storage, QuestionAPI, DashboardAPI) {
+  '$scope', 'App', 'Storage', function($scope, App, Storage) {
     return $scope.view = {
-      startQuiz: function(quizID) {
-        return App.navigate('questionnaire');
+      pastAnswerDiv: 0,
+      call: function() {
+        return Storage.setData('hospital_details', 'get').then((function(_this) {
+          return function(data) {
+            return App.callUs(data.phone);
+          };
+        })(this));
       }
     };
   }

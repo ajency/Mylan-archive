@@ -1,11 +1,11 @@
 var APP_ID, AUTH_HEADERS, AUTH_URL, JS_KEY, PARSE_HEADERS, PARSE_URL, REST_API_KEY;
 
-AUTH_URL = 'http://54.213.248.21/api/v1';
+AUTH_URL = 'http://54.152.179.114/api/v1';
 
 AUTH_HEADERS = {
   headers: {
     "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-    "X-Authorization": '2e4e960cd99d63036ee78b4cd5bed368e0dc191e',
+    "X-Authorization": 'e7968bf3f5228312f344339f3f9eb19701fb7a3c',
     "Content-Type": 'application/json'
   }
 };

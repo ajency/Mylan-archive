@@ -1,10 +1,29 @@
 angular.module('PatientApp.main', []).controller('MainCtr', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', function($scope, App, Storage, QuestionAPI) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', function($scope, App, Storage, QuestionAPI, $ionicLoading) {
     return $scope.view = {
       onBackClick: function() {
         var count;
-        count = -1;
-        return App.goBack(count);
+        switch (App.currentState) {
+          case 'main_login':
+            if (App.previousState === 'setup_password') {
+              return App.navigate("setup", {}, {
+                animate: false,
+                back: false
+              });
+            } else {
+              count = -1;
+              return App.goBack(count);
+            }
+            break;
+          case 'exit-questionnaire':
+            return App.navigate("dashboard", {}, {
+              animate: false,
+              back: false
+            });
+          default:
+            count = -1;
+            return App.goBack(count);
+        }
       },
       resetPassword: function() {
         return App.navigate('reset_password');
@@ -14,6 +33,19 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
       },
       update: function() {
         return App.navigate('notification');
+      },
+      pause: function() {
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/main/pause.html',
+          hideOnStateChange: true
+        });
+      },
+      exitApp: function() {
+        return ionic.Platform.exitApp();
+      },
+      closePopup: function() {
+        return $ionicLoading.hide();
       }
     };
   }

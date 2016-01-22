@@ -6,7 +6,8 @@
   </ion-nav-bar>
   <ion-nav-title>
     Summary
-  </ion-nav-title>   
+  </ion-nav-title>
+
   <ion-content 
     ng-init="view.init();" 
     class="has-footer"
@@ -16,6 +17,7 @@
         <ion-spinner>
         </ion-spinner>
     </div>
+
     <div ng-switch-when="noError">
     <div ng-repeat ="summary in view.data">
         <div class="padding">
@@ -26,13 +28,13 @@
 
             <span 
               class="text-green f-w-400" 
-              ng-if="summary.input ===''"
+              ng-if="summary.type ==='option'"
               ng-repeat = "answer in summary.optionSelected track by $index">
-                {{answer}} <br> 
+                {{answer}} <br>   
             </span>
             <span 
               class="text-green f-w-400" 
-              ng-if="summary.input !==''">
+              ng-if="summary.type !=='option'">
                 {{summary.input}} &nbsp; {{summary.optionSelected[0]}}
             <span>
 
@@ -48,20 +50,22 @@
 
     <br>
   </ion-content>
-  <div class="bar bar-footer submission">
+
+  <div class="bar bar-footer submission" ng-if="view.display === 'noError'" >
       <div class="button-bar">
          <button 
             class="button button-balanced"
             ng-click="view.back()"
             >
-         Back
+         Back 
          </button>
          <button 
             class="button button-assertive"
-            ng-if = "App.previousState !== 'dashboard'"
+            ng-if = "view.hideButton === false"
             ng-click="view.submitSummary()">
          Submit
          </button>
       </div>
    </div>
+
 </ion-view>

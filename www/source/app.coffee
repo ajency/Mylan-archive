@@ -19,9 +19,11 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 		App.previousState = from.name
 		App.currentState  = to.name
 
-		hideForStates = ['reset_password', 'setup_password']
+		hideForStates = ['reset_password', 'setup_password', 'main_login','questionnaire', 'summary']
 		bool = !_.contains(hideForStates, App.currentState)
 		App.menuButtonEnabled = bool
+
+		App.questinnarieButton =  if App.currentState is 'questionnaire'  then true else false
 
 ]
 

@@ -52,12 +52,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   return _this.display = 'noError';
                 }, function(error) {
                   _this.display = 'error';
-                  console.log(error);
-                  if (error === 'offline') {
-                    return CToast.showLongBottom('Check net connection,answer not saved');
-                  } else {
-                    return CToast.show('Error ,try again');
-                  }
+                  return _this.errorType = error;
                 });
               });
             } else if (_this.respStatus === 'noValue') {
@@ -138,6 +133,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }, function(error) {
               if (error === 'offline') {
                 return CToast.showLongBottom('Check net connection,answer not saved');
+              } else if (error === 'server_error') {
+                return CToast.show('Error in saving answer,Server error');
               } else {
                 return CToast.show('Error in saving answer,try again');
               }
@@ -207,13 +204,13 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 return selectedvalue.push(opt.id);
               }
             });
+            options = {
+              "questionId": this.data.questionId,
+              "options": selectedvalue,
+              "value": ""
+            };
+            this.loadNextQuestion(options);
           }
-          options = {
-            "questionId": this.data.questionId,
-            "options": selectedvalue,
-            "value": ""
-          };
-          this.loadNextQuestion(options);
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {
@@ -235,22 +232,22 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             param.responseId = responseId;
             return QuestionAPI.getPrevQuest(param).then(function(data) {
               console.log('previous data');
-              console.log(_this.data);
+              console.log(data);
               _this.variables();
               _this.data = [];
               _this.data = data;
               _this.readonly = _this.data.editable;
               _this.pastAnswer();
               if (!_.isEmpty(_this.data.hasAnswer)) {
-                _this.hasAnswerShow();
+                return _this.hasAnswerShow();
               }
-              return console.log(_this.data);
             }, function(error) {
-              console.log(error);
               if (error === 'offline') {
-                return CToast.showLongBottom('Check net connection,answer not saved');
+                return CToast.show('Check net connection');
+              } else if (error === 'server_error') {
+                return CToast.showLongBottom('Error in dispalying previous,Server error');
               } else {
-                return CToast.show('Error ,try again');
+                return CToast.showLongBottom('Error in dispalying previous,try again');
               }
             })["finally"](function() {
               return CSpinner.hide();
@@ -371,7 +368,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             })(this));
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
-          return this.data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY');
+          return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');
         }
       },
       hasAnswerShow: function() {
@@ -400,7 +397,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       navigateOnDevice: function() {
         if (this.data.previous === false) {
-          onHardwareBackButton1();
           return App.navigate('dashboard', {}, {
             animate: false,
             back: false
@@ -415,27 +411,27 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
     };
     onHardwareBackButton1 = null;
     $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      $scope.view.reInit();
-      if (!viewData.enableBack) {
-        return viewData.enableBack = true;
-      }
+      return $scope.view.reInit();
     });
     $scope.$on('$ionicView.enter', function() {
+      console.log('$ionicView.enter questionarie');
       return onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
       console.log('$ionicView.leave');
-      return onHardwareBackButton1();
+      if (onHardwareBackButton1) {
+        return onHardwareBackButton1();
+      }
     });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('questionnaire', {
       url: '/questionnaire:respStatus',
-      parent: 'parent-questionnaire',
+      parent: 'main',
       cache: false,
       views: {
-        "QuestionContent": {
+        "appContent": {
           templateUrl: 'views/questionnaire/question.html',
           controller: 'questionnaireCtr'
         }

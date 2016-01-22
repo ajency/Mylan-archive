@@ -25,7 +25,14 @@
 			class="button update">
 			<div class="badge badge-assertive">2</div> 
 			Messages
-		</button>	
+		</button>
+
+		<button 
+			ng-if="App.questinnarieButton"
+			class="button button-outline button-balanced"
+			ng-click="view.pause()"><i class="icon ion-pause"></i> Pause
+		</button>
+
 	</ion-nav-buttons>
 
  </ion-nav-bar>

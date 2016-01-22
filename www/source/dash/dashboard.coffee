@@ -9,15 +9,12 @@ angular.module 'PatientApp.dashboard',[]
 			SubmissionData : []
 			data : []
 			display : 'loader'
+			infoMsg : null
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
-				# value = Storage.setHospitalData 'get'
-				# @hospitalName = value['name']
-				# @projectName = value['project']
 
 			startQuiz :() ->
-				# App.navigate 'questionnaire', quizID: quizID
 				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
@@ -25,43 +22,45 @@ angular.module 'PatientApp.dashboard',[]
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					param = 
-						"patientId":refcode
+						"patientId": refcode
 					DashboardAPI.get param
 					.then (data)=>
-						console.log 'inside then'
+						console.log 'dashoard data'
 						console.log data
 						@data = data
+						arr = []
+						if !_.isEmpty(_.where(@data, {status: "due"})) 
+							 arr.push _.where(@data, {status: "due"})
+						
+						if !_.isEmpty(_.where(@data, {status: "started"})) 
+							 arr.push _.where(@data, {status: "started"})
+						if arr.length == 0 
+							@infoMsg = true
+						else
+							@infoMsg = false
+
+
+						_.each @data, (value)->
+							value.occurrenceDate = moment(value.occurrenceDate).format('MMMM Do YYYY')
 						@display = 'noError'
 					,(error)=>
 						@display = 'error'
 						@errorType = error
-
-
 
 			displaydata : ->
 				@getSubmission()	
 				
 
 			summary : (id)->
-				console.log '---summary---id'
-				console.log id
 				App.navigate 'summary', summary:id
 
 			resumeQuiz : (id)->
-				console.log 'resumeQuiz'
-				console.log id
 				App.navigate 'questionnaire', respStatus:id
 
 			onTapToRetry : ->
 				@display = 'loader'
-				console.log 'onTapToRetry'
 				@getSubmission()
 
-			pastDate: (date) ->
-				moment(date).format('MMMM Do YYYY')
-
-
-	
 ]
 
 .config ['$stateProvider', ($stateProvider)->

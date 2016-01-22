@@ -1,31 +1,32 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
   '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform) {
-    var deregister, onDeviceBack;
+    var deregister, onDeviceBackSummary;
     $scope.view = {
       title: 'C-weight',
       data: [],
       go: '',
       response: '',
       display: 'loader',
-      getSummary: function() {
-        this.display = 'noError';
-        this.summary = Storage.summary('get');
-        console.log('---summary---');
-        console.log(this.summary);
-        this.data = this.summary.summary;
-        return this.responseId = this.summary.responseId;
-      },
+      hideButton: '',
       getSummaryApi: function() {
         var param;
+        this.hideButton = App.previousState === 'dashboard' ? true : false;
         param = {
           'responseId': $stateParams.summary
         };
         this.display = 'loader';
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
-            console.log('--getSummaryApi---');
             _this.data = data;
-            console.log(_this.data);
+            _.each(_this.data, function(value) {
+              var a;
+              a = value.input;
+              if (!_.isUndefined(a)) {
+                return value['type'] = 'input';
+              } else {
+                return value['type'] = 'option';
+              }
+            });
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
@@ -36,12 +37,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
-        this.summarytype = $stateParams.summary;
-        if (this.summarytype === 'set') {
-          return this.getSummary();
-        } else {
-          return this.getSummaryApi();
-        }
+        return this.getSummaryApi();
       },
       submitSummary: function() {
         var param;
@@ -51,17 +47,18 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            console.log('data');
-            console.log('succ submiteed');
-            CToast.show('submiteed successfully ');
-            App.navigate('exit-questionnaire');
-            return deregister();
+            CToast.show('Submitted Successfully');
+            return App.navigate('exit-questionnaire');
           };
         })(this), (function(_this) {
           return function(error) {
-            console.log('error');
-            console.log(error);
-            return CToast.show('Error in submitting questionnarie');
+            if (error === 'offline') {
+              return CToast.showLongBottom('Check net connection,questionnaire not submitted');
+            } else if (error === 'server_error') {
+              return CToast.showLongBottom('Error in submitting questionnaire,Server error');
+            } else {
+              return CToast.showLongBottom('Error in submitting questionnaire,try again');
+            }
           };
         })(this))["finally"](function() {
           return CSpinner.hide();
@@ -84,34 +81,39 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       back: function() {
-        deregister();
         if (App.previousState === 'dashboard') {
           return App.navigate('dashboard');
         } else {
-          return App.navigate('questionnaire', {
-            respStatus: 'lastQuestion'
+          return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
+            return App.navigate('questionnaire', {
+              respStatus: 'lastQuestion'
+            });
           });
         }
       }
     };
-    onDeviceBack = function() {
+    onDeviceBackSummary = function() {
       return $scope.view.back();
     };
     deregister = null;
-    $scope.$on('$ionicView.afterEnter', function() {
-      return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
+    $scope.$on('$ionicView.enter', function() {
+      console.log('$ionicView.enter.summary');
+      return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBackSummary, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      return $ionicPlatform.offHardwareBackButton(onDeviceBack);
+      console.log('$ionicView.enter.leave summary');
+      if (deregister) {
+        return deregister();
+      }
     });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('summary', {
       url: '/summary:summary',
-      parent: 'parent-questionnaire',
+      parent: 'main',
       views: {
-        "QuestionContent": {
+        "appContent": {
           templateUrl: 'views/questionnaire/summary.html',
           controller: 'SummaryCtr'
         }

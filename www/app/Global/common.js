@@ -11,6 +11,7 @@ angular.module('PatientApp.Global', []).factory('App', [
       },
       previousState: '',
       currentState: '',
+      questinnarieButton: '',
       navigate: function(state, params, opts) {
         var animate, back;
         if (params == null) {
@@ -61,6 +62,7 @@ angular.module('PatientApp.Global', []).factory('App', [
         }
       },
       errorCode: function(error) {
+        console.log(error);
         error = '';
         if (error.status === '0') {
           error = 'timeout';
@@ -135,6 +137,21 @@ angular.module('PatientApp.Global', []).factory('App', [
       scrollBottom: function() {
         return $ionicScrollDelegate.scrollBottom(true);
       },
+      parseErrorCode: function(error) {
+        var errMsg, errType;
+        errType = '';
+        errMsg = error.message;
+        if (error.code === 100) {
+          errType = 'offline';
+        } else if (error.code === 141) {
+          errType = 'server_error';
+        } else if (errMsg.code === 101) {
+          errType = 'server_error';
+        } else if (errMsg.code === 124) {
+          errType = 'offline';
+        }
+        return errType;
+      },
       SendParseRequest: function(cloudFun, param) {
         var defer;
         defer = $q.defer();
@@ -146,11 +163,16 @@ angular.module('PatientApp.Global', []).factory('App', [
             return function(error) {
               console.log('inside error common function');
               console.log(error);
-              return defer.reject(_this.errorCode(error));
+              return defer.reject(_this.parseErrorCode(error));
             };
           })(this)
         });
         return defer.promise;
+      },
+      callUs: function(tel) {
+        console.log('call us');
+        console.log(tel);
+        return document.location.href = "tel:" + tel;
       }
     };
   }

@@ -1,47 +1,83 @@
 
-<ion-view>
+<ion-view ng-init="view.init();">
    <ion-nav-title>
    <!--  <h1 class="title">{{view.hospitalName}}</h1> -->
    </ion-nav-title>
-   <ion-content>
- <div class="row">
-          <div class="col col-80">
-            <div><p class="f-w-400">You haven't submitted more than 50 Questions recently. Kindly submit your next Questionnaire. If you have problems, please contact your Hospital Admin.</p>
-            <p class="text-green">Sent On : 24 Oct 2015</p></div>
+   <ion-content ng-switch="view.display">
+
+    <div class="loader" ng-switch-when="loader">
+        <ion-spinner>
+        </ion-spinner>
+    </div>
+
+    <div ng-switch-when="noError">
+       <div ng-repeat ="notify in view.data">
+
+          <div class="row" 
+            ng-if = "notify.type === 'beforOccurrence'"
+            ng-click ="view.seenNotify(notify.id)">
+                <div class="col col-80">
+                    <div>
+                      
+                        <p class="f-w-400">Questionnaire is due on </p>
+                        <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                    </div>
+                </div>
+                <div class="col text-right"> 
+                    <a class="button button-icon icon ion-navicon"></a>
+                </div>
           </div>
-            <div class="col text-right"> 
-              <a class="button button-icon icon ion-navicon"></a>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col col-80">
-            <div><p class="f-w-400">You haven't submitted more than 50 Questions recently. Kindly submit your next Questionnaire. If you have problems, please contact your Hospital Admin.</p>
-            <p class="text-green">Sent On : 24 Oct 2015</p></div>
+
+          <div class="row" 
+              ng-if = "notify.type === 'missedOccurrence'"
+              ng-click ="view.seenNotify(notify.id)">
+              <div class="col col-80">
+                  <div>
+                    
+                      <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                        Please submit it by {{notify.graceDateDisplay}} </p>
+                      <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                  </div>
+              </div>
+              <div class="col text-right"> 
+                  <a class="button button-icon icon ion-navicon"></a>
+              </div>
           </div>
-            <div class="col text-right"> 
-              <a class="button button-icon icon ion-navicon"></a>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col col-80">
-            <div><p class="f-w-400">You haven't submitted more than 50 Questions recently. Kindly submit your next Questionnaire. If you have problems, please contact your Hospital Admin.</p>
-            <p class="text-green">Sent On : 24 Oct 2015</p></div>
+
+          <div class="row" 
+              ng-if = "notify.type === 'missedOccurrence'"
+              ng-click ="view.seenNotify(notify.id)">
+              <div class="col col-80">
+                  <div>
+                    
+                      <p class="f-w-400">You have missed the questionnaire due on </p>
+                      <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                  </div>
+              </div>
+              <div class="col text-right"> 
+                  <a class="button button-icon icon ion-navicon"></a>
+              </div>
           </div>
-            <div class="col text-right"> 
-              <a class="button button-icon icon ion-navicon"></a>
-            </div>
-        </div>
-        <hr>
-        <!-- <div class="row">
+
+          
+      </div>
+          
+      <div class="row">
+        <div class="col"></div>
+          <div class="col col-80"> 
+            <button class="button button-block button-balanced">Clear all Notifications
+            </button>
+          </div>
           <div class="col"></div>
-            <div class="col col-80"> 
-              <button class="button button-block button-balanced">Clear all Notifications
-              </button>
-            </div>
-            <div class="col"></div>
-        </div> -->
- 
+      </div>
+
+    </div>
+
+    <aj-error class="errors"
+            error-type="view.errorType"
+            ng-switch-when="error"
+            tap-to-retry="view.onTapToRetry();">
+    </aj-error>
+
    </ion-content>
 </ion-view>

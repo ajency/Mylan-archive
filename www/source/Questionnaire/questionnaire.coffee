@@ -26,11 +26,6 @@ angular.module 'PatientApp.Quest',[]
 				@val_answerValue = {}
 
 			getQuestion :() ->
-
-				# "responseId": responseId
-				# "questionnaireId": patientData.id
-				# "patientId": refcode
-
 				@display = 'loader'
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
@@ -60,12 +55,7 @@ angular.module 'PatientApp.Quest',[]
 								@display = 'noError'
 							,(error)=>
 								@display = 'error'
-								console.log error
-								if error == 'offline'
-									CToast.showLongBottom 'Check net connection,answer not saved'
-								else
-									CToast.show 'Error ,try again'
-							
+								@errorType = error
 
 					else if @respStatus == 'noValue'
 						responseId = ''
@@ -138,6 +128,8 @@ angular.module 'PatientApp.Quest',[]
 					,(error)=>
 						if error == 'offline'
 							CToast.showLongBottom 'Check net connection,answer not saved'
+						else if error == 'server_error'
+							CToast.show 'Error in saving answer,Server error'
 						else
 							CToast.show 'Error in saving answer,try again'
 					.finally ->
@@ -192,21 +184,24 @@ angular.module 'PatientApp.Quest',[]
 
 			
 				if @data.questionType == 'multi-choice'
+
+					
+					
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select your answer'
 					else
 						selectedvalue = []
-
+						
 						_.each @data.options, (opt)->
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
-					options =
-						"questionId" : @data.questionId
-						"options": selectedvalue
-						"value": ""
+						options =
+							"questionId" : @data.questionId
+							"options": selectedvalue
+							"value": ""
 
-					@loadNextQuestion(options)
+						@loadNextQuestion(options)
 
 				if @data.questionType == 'descriptive'
 
@@ -229,7 +224,7 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
 						console.log 'previous data'
-						console.log @data	
+						console.log data	
 						@variables()
 						@data = []
 						@data = data
@@ -237,13 +232,13 @@ angular.module 'PatientApp.Quest',[]
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()	
-						console.log @data	
 					,(error)=>
-						console.log error
 						if error == 'offline'
-							CToast.showLongBottom 'Check net connection,answer not saved'
+							CToast.show 'Check net connection'
+						else if error == 'server_error'
+							CToast.showLongBottom 'Error in dispalying previous,Server error'
 						else
-							CToast.show 'Error ,try again'
+							CToast.showLongBottom 'Error in dispalying previous,try again'
 					.finally ->
 						CSpinner.hide()
 
@@ -353,7 +348,7 @@ angular.module 'PatientApp.Quest',[]
 								optionSelectedArray.push(a)
 						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
-					@data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY')
+					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
 			hasAnswerShow:()->
 				if @data.questionType == 'descriptive'
@@ -374,7 +369,7 @@ angular.module 'PatientApp.Quest',[]
 
 			navigateOnDevice:()->
 				if @data.previous == false 
-					onHardwareBackButton1()
+					# onHardwareBackButton1()
 					App.navigate 'dashboard', {}, {animate: false, back: false}
 				else
 					$scope.view.prevQuestion()
@@ -389,11 +384,11 @@ angular.module 'PatientApp.Quest',[]
 			
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
-			if !viewData.enableBack
-				viewData.enableBack = true
+			
 
 
 		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter questionarie'
 			#Device hardware back button for android
 			# $ionicPlatform.onHardwareBackButton onDeviceBack
 			onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
@@ -401,9 +396,9 @@ angular.module 'PatientApp.Quest',[]
 
 		$scope.$on '$ionicView.leave', ->
 			console.log '$ionicView.leave'
-			onHardwareBackButton1()
+			# onHardwareBackButton1()
 			# console.log onHardwareBackButton1
-			# if onHardwareBackButton1 then onHardwareBackButton1()
+			if onHardwareBackButton1 then onHardwareBackButton1()
 			# $ionicPlatform.offHardwareBackButton onDeviceBack
 
 ]
@@ -416,10 +411,10 @@ angular.module 'PatientApp.Quest',[]
 
 	.state 'questionnaire',
 			url: '/questionnaire:respStatus'
-			parent: 'parent-questionnaire'
+			parent: 'main'
 			cache: false
 			views: 
-				"QuestionContent":
+				"appContent":
 					templateUrl: 'views/questionnaire/question.html'
 					controller: 'questionnaireCtr'
 ]

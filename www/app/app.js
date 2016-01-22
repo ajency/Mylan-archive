@@ -10,9 +10,10 @@ angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
       var bool, hideForStates;
       App.previousState = from.name;
       App.currentState = to.name;
-      hideForStates = ['reset_password', 'setup_password'];
+      hideForStates = ['reset_password', 'setup_password', 'main_login', 'questionnaire', 'summary'];
       bool = !_.contains(hideForStates, App.currentState);
-      return App.menuButtonEnabled = bool;
+      App.menuButtonEnabled = bool;
+      return App.questinnarieButton = App.currentState === 'questionnaire' ? true : false;
     });
   }
 ]).config(['$stateProvider', function($stateProvider) {}]);

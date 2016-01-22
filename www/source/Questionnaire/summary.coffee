@@ -10,35 +10,30 @@ angular.module 'PatientApp.Quest'
 			go : ''
 			response : ''
 			display : 'loader'
-
-			getSummary : ->
-				@display = 'noError'
-				@summary = Storage.summary('get')
-				console.log '---summary---'
-				console.log @summary
-				@data = @summary.summary
-				@responseId = @summary.responseId
+			hideButton : ''
 
 			getSummaryApi :()->
+				@hideButton = if App.previousState == 'dashboard' then true else false
 				param =
 						'responseId' : $stateParams.summary
 				@display = 'loader'
 				QuestionAPI.getSummary param
 				.then (data)=>
-					console.log '--getSummaryApi---'
 					@data = data
-					console.log @data
+					_.each @data, (value)->
+						a = value.input
+						if !_.isUndefined a
+							value['type'] = 'input'
+						else
+							value['type'] = 'option'
+
 					@display = 'noError'
 				,(error)=>
 					@display = 'error'
 					@errorType = error
 					
 			init : ->
-				@summarytype = $stateParams.summary
-				if @summarytype == 'set'
-					@getSummary()
-				else 
-					@getSummaryApi()
+				@getSummaryApi()
 
 			submitSummary : ->
 
@@ -48,15 +43,16 @@ angular.module 'PatientApp.Quest'
 					responseId : $stateParams.summary
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					console.log 'data'
-					console.log 'succ submiteed'
-					CToast.show 'submiteed successfully '
+					CToast.show 'Submitted Successfully'
 					App.navigate 'exit-questionnaire'
-					deregister()
+					# deregister()
 				,(error)=>
-					console.log 'error'
-					console.log error
-					CToast.show 'Error in submitting questionnarie'
+					if error == 'offline'
+						CToast.showLongBottom 'Check net connection,questionnaire not submitted'
+					else if error == 'server_error'
+						CToast.showLongBottom 'Error in submitting questionnaire,Server error'
+					else
+						CToast.showLongBottom 'Error in submitting questionnaire,try again'
 				.finally ->
 					CSpinner.hide()
 
@@ -73,22 +69,28 @@ angular.module 'PatientApp.Quest'
 				@getSummaryApi()
 
 			back :->
-				deregister()
+				# deregister()
 				if App.previousState == 'dashboard'
 					App.navigate 'dashboard'
 				else
-					App.navigate 'questionnaire', respStatus:'lastQuestion'
+					Storage.setData 'responseId', 'set', $stateParams.summary 
+					.then ()->
+						App.navigate 'questionnaire', respStatus:'lastQuestion'
 
-		onDeviceBack = ->
+		onDeviceBackSummary = ->
 			$scope.view.back()
 
 		deregister = null	
-		$scope.$on '$ionicView.afterEnter', ->
+		$scope.$on '$ionicView.enter', ->
+			console.log '$ionicView.enter.summary'
 			#Device hardware back button for android
-			deregister = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
+			deregister = $ionicPlatform.registerBackButtonAction onDeviceBackSummary, 1000
+			# $ionicPlatform.onHardwareBackButton onDeviceBackSummary
 		
 		$scope.$on '$ionicView.leave', ->
-			$ionicPlatform.offHardwareBackButton onDeviceBack
+			console.log '$ionicView.enter.leave summary'
+			if deregister then deregister()
+			# $ionicPlatform.offHardwareBackButton onDeviceBackSummary
 
 ]
 
@@ -98,9 +100,9 @@ angular.module 'PatientApp.Quest'
 
 	.state 'summary',
 			url: '/summary:summary'
-			parent: 'parent-questionnaire'
+			parent: 'main'
 			views: 
-				"QuestionContent":
+				"appContent":
 					templateUrl: 'views/questionnaire/summary.html'
 					controller: 'SummaryCtr'
 ]

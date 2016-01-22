@@ -36,7 +36,10 @@ angular.module 'PatientApp.init'
 						else 
 							@emptyfield = 'Please check reference code'
 					, (error)=>
-						@emptyfield = 'Please try again'
+						if error == 'offline'
+							@emptyfield = 'Please check net connection'
+						else if error == 'server_error'
+							@emptyfield = 'Please try again'
 					.finally ()->
 						CSpinner.hide()
 
