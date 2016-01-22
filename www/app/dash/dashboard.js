@@ -1,6 +1,6 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
   '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData) {
-    return $scope.view = {
+    $scope.view = {
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
       SubmissionData: [],
@@ -22,6 +22,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return App.navigate('start-questionnaire');
       },
       getSubmission: function() {
+        this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             var param;
@@ -68,6 +69,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         })(this));
       },
       displaydata: function() {
+        this.data = [];
         return this.getSubmission();
       },
       summary: function(id) {
@@ -92,6 +94,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         }
       }
     };
+    return $scope.$on('$ionicView.enter', function(event, viewData) {
+      console.log('view enter');
+      return $scope.view.displaydata();
+    });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {
