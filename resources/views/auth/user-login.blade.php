@@ -4,8 +4,7 @@
 <div class="container">
   <div class=" login-container adminlogin">
     <div class="logo-img inline">
-       <img src="{{ $logoUrl }}" alt=""  data-src="{{ $logoUrl }}" width="180px
-          " height="auto"/>
+       <img src="{{ $logoUrl }}" alt=""  data-src="{{ $logoUrl }}"  height="40px"/>
           </div>
         <h3 class="inline">Sign in</h3>
          <div>
