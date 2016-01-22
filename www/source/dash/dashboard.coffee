@@ -27,7 +27,7 @@ angular.module 'PatientApp.dashboard',[]
 				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
-				# @display = 'loader'
+				@display = 'loader'
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					param = 
@@ -60,6 +60,7 @@ angular.module 'PatientApp.dashboard',[]
 						App.resize()
 
 			displaydata : ->
+				@data = []
 				@getSubmission()	
 				
 
@@ -78,6 +79,10 @@ angular.module 'PatientApp.dashboard',[]
 				App.resize()
 				if @data.length < @limitTo 
 					@showMoreButton = false
+
+		$scope.$on '$ionicView.enter', (event, viewData)->
+			console.log 'view enter'
+			$scope.view.displaydata()	
 
 
 

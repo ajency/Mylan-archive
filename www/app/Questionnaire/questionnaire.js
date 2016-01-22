@@ -200,6 +200,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else {
             selectedvalue = [];
             _.each(this.data.options, function(opt) {
+              console.log('************');
+              console.log(opt);
               if (opt.checked === true) {
                 return selectedvalue.push(opt.id);
               }
