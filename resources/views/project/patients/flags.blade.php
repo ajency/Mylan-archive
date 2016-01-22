@@ -48,7 +48,7 @@
          
                @foreach($patientFlags as $patientFlag)
                 <?php 
-                  if($patientFlag['flag']=='no_colour')
+                  if($patientFlag['flag']=='no_colour' || $patientFlag['flag']=='')
                        continue;
                   ?>
                  <tr class="odd gradeX">
