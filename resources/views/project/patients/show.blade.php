@@ -114,69 +114,77 @@
                         </div>
                    </div>
                    <div class="row">
-                     <div class="col-sm-8">
-                           <table class="table table-flip-scroll cf table-hover">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th>Date</th>
-                                                <th>Type of Question</th>
-                                                <th>Reason</th>
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             <tr>
-                                                <td>8/12/2015</td>
-                                                <td>Weight</td>
-                                                <td>Current score is worse than previous by +1</td>
-                                             </tr>
-                                             <tr>
-                                                <td>8/12/2015</td>
-                                                <td>Diabetes</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                             <tr>
-                                                <td>5/11/2015</td>
-                                                <td>Pain</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                             <tr>
-                                                <td>8/10/2015</td>
-                                                <td>Diabetes</td>
-                                                <td>Current score is worse than baseline by +1</td>
-                                             </tr>
-                                             <tr>
-                                                <td>10/9/2015</td>
-                                                <td>Pain</td>
-                                                <td>Current score is worse than baseline by +2</td>
-                                             </tr>
-                                          </tbody>
-                                       </table>
+                     <div class="col-sm-12">
+                          <table class="table table-hover" id="example">
+                              <thead>
+                                 <tr>
+                                    <th class="hidden">Patient</th>
+                                    <th class="hidden">Doctor</th>
+                                    <th>Submission #</th>
+                                    <th>Reason for Flag</th>
+                                    <th>Type</th>
+                                    <th>Date</th>
+                                    
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
+                                    <td class="hidden">123</td>
+                                    <td class="hidden">Dr. Mark</td>
+                                    <td>12</td>
+                                    <td>Difference of more than 5 units in previous answer</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/12/2015</td>
+                                 </tr>
+                                 <tr class="even gradeC" onclick="window.document.location='p1-submission5.html';">
+                                    <td class="hidden">234</td>
+                                    <td class="hidden">Dr. Stanley</td>
+                                    <td>7</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/7/2015</td>
+                                 </tr>
+                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission4.html';">
+                                    <td class="hidden">456</td>
+                                    <td class="hidden">Dr. Stanley</td>
+                                    <td>6</td>
+                                    <td>5 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/6/2015</td>
+                                 </tr>
+                                 <tr class="even gradeA" onclick="window.document.location='p1-submission3.html';">
+                                    <td class="hidden">123</td>
+                                    <td class="hidden">Dr. Keean</td>
+                                    <td>5</td>
+                                    <td>5 missed submission</td>
+                                   <td><i class="fa fa-flag text-success"></i></td>
+                                    <td>6/5/2015</td>
+                                 </tr>
+                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission2.html';">
+                                    <td class="hidden">56</td>
+                                    <td class="hidden">Dr. Nell</td>
+                                    <td>2</td>
+                                    <td>7 missed submission</td>
+                                    <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/2/2015</td>
+                                 </tr>
+                                 <tr class="gradeA" onclick="window.document.location='p1-submission1.html';">
+                                    <td class="hidden">90</td>
+                                    <td class="hidden">Keean</td>
+                                    <td>1</td>
+                                    <td>12 missed submission</td>
+                                     <td><i class="fa fa-flag text-warning"></i></td>
+                                    <td>6/1/2015</td>
+                                 </tr>                                 
+                              </tbody>
+                           </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                       <div class="text-right">
+                              <a href="patient-flag.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                           </div>
+                      </div>
+                          
                      </div>
-                      <div class="col-sm-4">
-                       <div class="tiles white added-margin " style="zoom: 1;">
-                                            <div class="tiles-body">
-                                                <div class="tiles-title"> Recently Generated Flags </div>
-                                                <div class="__web-inspector-hide-shortcut__"> <i class="fa fa-sort-asc fa-2x text-error inline p-b-10" style="vertical-align: super;"></i> &nbsp;
-                                                    <h1 class="text-error bold inline no-margin"> 5 <i class="fa fa-flag text-error" ></i></h1>
-                                                </div>
-                                                <br>
-                                                <p class="text-black bold">Lorem ipsum dolor sit amet</p>
-                                                <hr>
-                                                <div class=" p-r-20 p-b-10 p-t-10 b-b b-grey">
-                                                   <div class="pull-left">
-                                                   <p class="text-success">Open</p>
-                                                   <p class="text-black">16/12/2015</p>
-                                                   </div>
-                                                   <div class="pull-right">
-                                                   <p class="text-success">Day Range</p>
-                                                   <p class="text-black">15,568.11 - 16,203.25</p>
-                                                   </div>
-                                                   <div class="clearfix"></div>
-                                                   </div>
-                                            </div>
-                                        </div>
-                     </div>
-                   </div>
                <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
                                        <span>( 5 recently generated red flags )</span> -->
                                

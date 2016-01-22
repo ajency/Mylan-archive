@@ -1225,6 +1225,8 @@ class PatientController extends Controller
         $questionLabels = [];
         $baseLineArr= []; 
         $chartData = [];
+        $inputScores = [];
+        $allScore =[];
         foreach ($patientAnswers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
             $questionId = $answer->get("question")->getObjectId();
