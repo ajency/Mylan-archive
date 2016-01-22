@@ -20,262 +20,230 @@
 </div>
 <div class="tabbable tabs-left">
                         @include('project.patients.side-menu')
-                     <div class="tab-content">
-                     <div class="tab-pane table-data active" id="Patients">
-                        <div class="row">
-                              <div class="col-sm-8">
-                                  <dl class="dl-horizontal">
-                                 <dt>Reference Code</dt>
-                                 <dd>{{ $patient['reference_code']}}</dd>
-                                 <dt>Age</dt>
-                                 <dd>{{ $patient['age'] }}</dd>
-                                 <dt>Weight</dt>
-                                 <dd>{{ $patient['patient_weight'] }}</dd>
-                                 <dt>Height</dt>
-                                 <dd>{{ $patient['patient_height'] }}</dd>
-                                 <dt>Smoker</dt>
-                                 <dd>{{ $patient['patient_is_smoker'] }}</dd>
-                                 @if($patient['patient_is_smoker']=='yes')
-                                 <dt>If yes, how many per week</dt>
-                                 <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
-                                 @endif
-                                 <dt>Alcoholic</dt>
-                                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd>
-                                 @if($patient['patient_is_alcoholic']=='yes')
-                                 <dt>Alcohol(units per week)</dt>
-                                 <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
-                                 @endif
-                              </dl>
-                              </div>
-                              <div class="col-sm-4">
-                                    <div class="text-right">
-                                       <a href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                                       <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
-                                    </div>
-                              </div>
-                        </div>
-                        <br>
-                         <div class="grid simple ">
-                        <div class="grid simple grid-table">
-                            <div class="grid-title no-border">
-                              <a href="patient-submissions.html"> <h4>Response <span class="semi-bold">Rate</span></h4></a>
-                            </div>
-                        </div>
-                   </div>
-                           <div class="row">
-                              <div class="col-sm-5">
-                              <div class="alert alert-info">
-                                 <div id="submissionschart"></div>  
-                                      <div class="row p-t-20">                                     
-                                          
-                                             <div class="col-md-6 text-center">
-                                                
-                                                <h1 class="no-margin">{{  $responseRate['completedRatio'] }}%</h1>
-                                                <p class=" text-underline">{{  $responseRate['completed'] }} Submissions Done</p> 
-                                                                              
-                                             </div>
-                                             <div class="col-md-6 text-center">
-                                                
-                                                                                        
-                                                <h1 class="no-margin">{{  $responseRate['missedRatio'] }} %</h1>
-                                                <p class="">{{  $responseRate['missed'] }} Submissions Missed</p>                                                          
-                                             </div>
-                                          </div> 
-                              </div>
-                              </div>
-                              <div class="col-sm-7">
-                               <select name="generateChart">
-                                      <option value="baseline">Base line flags</option>
-                                      <option value="previous">Previous flags</option>
-                                       
-                                  </select>
-                    
-                                           <div id="chartdiv"></div>
-                              </div>
-                           </div>
-                           <div>
-                             <br><br>  
-
-                        <select class="pull-right" name="generateQuestionChart">
-                          @foreach($questionLabels as $questionId => $label)
-                            <option value="{{ $questionId }}">{{ $label }}</option>
-                          @endforeach
-                         </select> 
-
-                                           <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
-
-                                       <br><br> 
-                                       <div class="grid simple ">
-                        <div class="grid simple grid-table">
-                            <div class="grid-title no-border">
-                               <a href="patient-flag.html">
-                               <h4>Open <span class="semi-bold">Red Flags</span></h4></a>
-                            </div>
-                        </div>
-                   </div>
-                   <div class="row">
-                     <div class="col-sm-12">
-                          <table class="table table-hover" id="example">
-                              <thead>
-                                 <tr>
-                                    <th class="hidden">Patient</th>
-                                    <th class="hidden">Doctor</th>
-                                    <th>Submission #</th>
-                                    <th>Reason for Flag</th>
-                                    <th>Type</th>
-                                    <th>Date</th>
-                                    
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
-                                    <td class="hidden">123</td>
-                                    <td class="hidden">Dr. Mark</td>
-                                    <td>12</td>
-                                    <td>Difference of more than 5 units in previous answer</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/12/2015</td>
-                                 </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='p1-submission5.html';">
-                                    <td class="hidden">234</td>
-                                    <td class="hidden">Dr. Stanley</td>
-                                    <td>7</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/7/2015</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission4.html';">
-                                    <td class="hidden">456</td>
-                                    <td class="hidden">Dr. Stanley</td>
-                                    <td>6</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/6/2015</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='p1-submission3.html';">
-                                    <td class="hidden">123</td>
-                                    <td class="hidden">Dr. Keean</td>
-                                    <td>5</td>
-                                    <td>5 missed submission</td>
-                                   <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/5/2015</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission2.html';">
-                                    <td class="hidden">56</td>
-                                    <td class="hidden">Dr. Nell</td>
-                                    <td>2</td>
-                                    <td>7 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/2/2015</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='p1-submission1.html';">
-                                    <td class="hidden">90</td>
-                                    <td class="hidden">Keean</td>
-                                    <td>1</td>
-                                    <td>12 missed submission</td>
-                                     <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/1/2015</td>
-                                 </tr>                                 
-                              </tbody>
-                           </table>
-                              <hr style="margin: 0px 0px 10px 0px;">
-                       <div class="text-right">
-                              <a href="patient-flag.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-                           </div>
-                      </div>
+     <div class="tab-content">
+     <div class="tab-pane table-data active" id="Patients">
+        <div class="row">
+              <div class="col-sm-8">
+                  <dl class="dl-horizontal">
+                 <dt>Reference Code</dt>
+                 <dd>{{ $patient['reference_code']}}</dd>
+                 <dt>Age</dt>
+                 <dd>{{ $patient['age'] }}</dd>
+                 <dt>Weight</dt>
+                 <dd>{{ $patient['patient_weight'] }}</dd>
+                 <dt>Height</dt>
+                 <dd>{{ $patient['patient_height'] }}</dd>
+                 <dt>Smoker</dt>
+                 <dd>{{ $patient['patient_is_smoker'] }}</dd>
+                 @if($patient['patient_is_smoker']=='yes')
+                 <dt>If yes, how many per week</dt>
+                 <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
+                 @endif
+                 <dt>Alcoholic</dt>
+                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd>
+                 @if($patient['patient_is_alcoholic']=='yes')
+                 <dt>Alcohol(units per week)</dt>
+                 <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
+                 @endif
+              </dl>
+              </div>
+              <div class="col-sm-4">
+                    <div class="text-right">
+                       <a href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                       <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
+                    </div>
+              </div>
+        </div>
+        <br>
+         <div class="grid simple ">
+        <div class="grid simple grid-table">
+            <div class="grid-title no-border">
+              <a href="patient-submissions.html"> <h4>Response <span class="semi-bold">Rate</span></h4></a>
+            </div>
+        </div>
+   </div>
+           <div class="row">
+              <div class="col-sm-5">
+              <div class="alert alert-info">
+                 <div id="submissionschart"></div>  
+                      <div class="row p-t-20">                                     
                           
-                     </div>
-               <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
-                                       <span>( 5 recently generated red flags )</span> -->
-                               
-                                      
-                                    
-                                       <br><br>
-                    <div class="grid simple ">
-                        <div class="grid simple grid-table">
-                            <div class="grid-title no-border">
-                              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
-                            </div>
-                        </div>
-                   </div>
-                                       <!-- submission -->
-                              
-                                       
-                                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                 
-                            <table class="table table-flip-scroll table-hover dashboard-tbl">
-               <thead class="cf">
-                  <tr>
-                     <th class="sorting" width="16%">Patient ID <br><br></th>
-                     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                     <th class="sorting">Total Score <br><br></th>
-                     <th class="sorting">
-                        Previous
-                        <br> 
-                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                     </th>
-                     <th class="sorting">
-                        Baseline
-                        <br> 
-                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-               <?php 
+                             <div class="col-md-6 text-center">
+                                
+                                <h1 class="no-margin">{{  $responseRate['completedRatio'] }}%</h1>
+                                <p class=" text-underline">{{  $responseRate['completed'] }} Submissions Done</p> 
+                                                              
+                             </div>
+                             <div class="col-md-6 text-center">
+                                
+                                                                        
+                                <h1 class="no-margin">{{  $responseRate['missedRatio'] }} %</h1>
+                                <p class="">{{  $responseRate['missed'] }} Submissions Missed</p>                                                          
+                             </div>
+                          </div> 
+              </div>
+              </div>
+              <div class="col-sm-7">
+               <select name="generateChart">
+                      <option value="baseline">Base line flags</option>
+                      <option value="previous">Previous flags</option>
+                       
+                  </select>
+    
+                           <div id="chartdiv"></div>
+              </div>
+           </div>
+           <div>
+             <br><br>  
+
+        <select class="pull-right" name="generateQuestionChart">
+          @foreach($questionLabels as $questionId => $label)
+            <option value="{{ $questionId }}">{{ $label }}</option>
+          @endforeach
+         </select> 
+
+                           <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
+
+                       <br><br> 
+                       <div class="grid simple ">
+        <div class="grid simple grid-table">
+            <div class="grid-title no-border">
+               <a href="patient-flag.html">
+               <h4>Open <span class="semi-bold">Red Flags</span></h4></a>
+            </div>
+        </div>
+   </div>
+   <div class="row">
+     <div class="col-sm-12">
+          <table class="table table-hover" id="example">
+              <thead>
+                 <tr>
+                    <th class="hidden">Patient</th>
+                    <th class="hidden">Doctor</th>
+                    <th>Submission #</th>
+                    <th>Reason for Flag</th>
+                    <th>Type</th>
+                    <th>Date</th>
+                    
+                 </tr>
+              </thead>
+              <tbody>
+              <?php 
                   $i=1;
-                ?>
-                @foreach($submissionsSummary as $responseId=>$responseData)
-                  <?php 
-                    if($i==6)
-                      break;
+               ?>
+               @foreach($openRedFlags as $openRedFlag)
+                <?php 
+                  if($i==6)
+                       break;
                   ?>
-                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                     <td class="text-center">{{ $responseData['patient'] }}</td>
-                     <td class="text-center">
-                        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
-                        <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
-                     </td>
-                     <td class="text-center">
-                        <h3 class="bold margin-none pull-left p-l-10">{{ $responseData['totalScore'] }}</h3>
-                        <sm class="text-muted sm-font m-t-10">Prev - {{ $responseData['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
-                        <br>
-                        <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
-                     </td>
-                     <td class="text-center sorting">
-                        <span class="text-error">{{ count($responseData['previousFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($responseData['previousFlag']['green']) }}</span>
-                     </td>
-                     <td class="text-center sorting">
-                        <span class="text-error">{{ count($responseData['baseLineFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($responseData['baseLineFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($responseData['baseLineFlag']['green']) }}</span>
-                     </td>
-                  </tr>
-                  <?php 
-                    $i++;
-                    ?>
-                @endforeach
-               </tbody>
-            </table>          
-                                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
-                                      
-                                   
-                           </div>
-                           <br><br>
-                           </div>
-                        <div class="tab-pane" id="Submissions">
-             
-                        </div>
-                        <div class="tab-pane" id="Reports">
-                        </div>
-                     </div>
-                  </div>
+                 <tr class="odd gradeX">
+                    <td>{{ $openRedFlag['sequenceNumber'] }}</td>
+                    <td>{{ $openRedFlag['reason'] }}</td>
+                    <td><i class="fa fa-flag text-{{ $openRedFlag['flag'] }}"></i></td>
+                    <td>{{ $openRedFlag['date'] }}</td>
+                 </tr>
+              @endforeach
+                                               
+              </tbody>
+           </table>
+              <hr style="margin: 0px 0px 10px 0px;">
+       <div class="text-right">
+              <a href="#" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+           </div>
+      </div>
+          
+     </div>
+<!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
+                       <span>( 5 recently generated red flags )</span> -->
+               
+                      
+                    
+                       <br><br>
+    <div class="grid simple ">
+        <div class="grid simple grid-table">
+            <div class="grid-title no-border">
+              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
+            </div>
+        </div>
+   </div>
+                       <!-- submission -->
+              
+                       
+                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
+ 
+            <table class="table table-flip-scroll table-hover dashboard-tbl">
+<thead class="cf">
+  <tr>
+     <th class="sorting" width="16%">Patient ID <br><br></th>
+     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+     <th class="sorting">Total Score <br><br></th>
+     <th class="sorting">
+        Previous
+        <br> 
+        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+     </th>
+     <th class="sorting">
+        Baseline
+        <br> 
+        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+     </th>
+  </tr>
+</thead>
+<tbody>
+<?php 
+  $i=1;
+?>
+@foreach($submissionsSummary as $responseId=>$responseData)
+  <?php 
+    if($i==6)
+      break;
+  ?>
+  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
+     <td class="text-center">{{ $responseData['patient'] }}</td>
+     <td class="text-center">
+        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
+        <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
+     </td>
+     <td class="text-center">
+        <h3 class="bold margin-none pull-left p-l-10">{{ $responseData['totalScore'] }}</h3>
+        <sm class="text-muted sm-font m-t-10">Prev - {{ $responseData['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
+        <br>
+        <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
+     </td>
+     <td class="text-center sorting">
+        <span class="text-error">{{ count($responseData['previousFlag']['red']) }}</span>
+        <span class="text-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
+        <span class=" text-success">{{ count($responseData['previousFlag']['green']) }}</span>
+     </td>
+     <td class="text-center sorting">
+        <span class="text-error">{{ count($responseData['baseLineFlag']['red']) }}</span>
+        <span class="text-warning">{{ count($responseData['baseLineFlag']['amber']) }}</span>
+        <span class=" text-success">{{ count($responseData['baseLineFlag']['green']) }}</span>
+     </td>
+  </tr>
+  <?php 
+    $i++;
+    ?>
+@endforeach
+</tbody>
+</table>          
+                       <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
+                      
+                   
+           </div>
+           <br><br>
+           </div>
+        <div class="tab-pane" id="Submissions">
+
+        </div>
+        <div class="tab-pane" id="Reports">
+        </div>
+     </div>
+  </div>
  
  <?php 
 
