@@ -12,8 +12,7 @@
     ng-switch-when="noError">
 
       <div 
-        class="info-msg padding bg-balanced" 
-        ng-if='view.data.questionType !== "descriptive"'>
+        class="info-msg padding bg-balanced">
           <span  
             ng-if = 'view.data.questionType == "single-choice"'>
             Touch the answer you would like to select
@@ -26,6 +25,10 @@
             ng-if = 'view.data.questionType == "input"'>
             Please complete EITHER Kg OR stones and lbs box
           </span>
+          <span
+            ng-if = 'view.data.questionType == "descriptive"'
+           >Enter a short description 
+        </span>
       </div> 
 
       <!--descrp-->

@@ -8,6 +8,13 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       display: 'loader',
       infoMsg: null,
       limitTo: 5,
+      showMoreButton: true,
+      onPullToRefresh: function() {
+        this.showMoreButton = true;
+        this.data = [];
+        this.getSubmission();
+        return this.limitTo = 5;
+      },
       init: function() {
         return Storage.getNextQuestion('set', 1);
       },
@@ -15,7 +22,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return App.navigate('start-questionnaire');
       },
       getSubmission: function() {
-        this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             var param;
@@ -54,6 +60,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
             }, function(error) {
               _this.display = 'error';
               return _this.errorType = error;
+            })["finally"](function() {
+              $scope.$broadcast('scroll.refreshComplete');
+              return App.resize();
             });
           };
         })(this));
@@ -77,7 +86,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       showMore: function() {
         this.limitTo = this.limitTo + 5;
-        return App.resize();
+        App.resize();
+        if (this.data.length < this.limitTo) {
+          return this.showMoreButton = false;
+        }
       }
     };
   }
@@ -90,6 +102,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         "appContent": {
           templateUrl: 'views/dashboard/dashboard.html',
           controller: 'DashboardCtrl',
+          cache: false,
           resolve: {
             HospitalData: function($q, Storage) {
               var defer;

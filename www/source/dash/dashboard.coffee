@@ -11,6 +11,14 @@ angular.module 'PatientApp.dashboard',[]
 			display : 'loader'
 			infoMsg : null
 			limitTo: 5
+			showMoreButton : true
+
+			onPullToRefresh :->
+				@showMoreButton = true
+				@data =[]
+				@getSubmission()
+				@limitTo = 5
+
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
@@ -19,7 +27,7 @@ angular.module 'PatientApp.dashboard',[]
 				App.navigate 'start-questionnaire'
 
 			getSubmission : ->
-				@display = 'loader'
+				# @display = 'loader'
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					param = 
@@ -47,6 +55,9 @@ angular.module 'PatientApp.dashboard',[]
 					,(error)=>
 						@display = 'error'
 						@errorType = error
+					.finally =>
+						$scope.$broadcast 'scroll.refreshComplete'
+						App.resize()
 
 			displaydata : ->
 				@getSubmission()	
@@ -65,6 +76,9 @@ angular.module 'PatientApp.dashboard',[]
 			showMore : ->
 				@limitTo = @limitTo + 5
 				App.resize()
+				if @data.length < @limitTo 
+					@showMoreButton = false
+
 
 
 
@@ -81,6 +95,7 @@ angular.module 'PatientApp.dashboard',[]
 				"appContent":
 					templateUrl: 'views/dashboard/dashboard.html'
 					controller: 'DashboardCtrl'
+					cache: false
 					resolve:
 						HospitalData :($q, Storage)->
 							defer = $q.defer()
