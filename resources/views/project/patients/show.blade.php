@@ -280,9 +280,9 @@
  <?php 
 
 $questionId = current(array_keys($questionLabels));
-$inputJson = json_encode($questionChartData[$questionId]);
-$questionLabel = $questionLabels[$questionId];
-$baseLine = $questionBaseLine[$questionId];
+$inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+$questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
+$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
 ?>
     <script type="text/javascript">
      
