@@ -317,6 +317,10 @@ a.button-clear.btn-link {
 .right-buttons i.icon::before {
   font-size: 17px;
 }
+.button.button-block.show-more {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 /***INPUT TAGS***/
 .item-input input {
   height: 38px;
