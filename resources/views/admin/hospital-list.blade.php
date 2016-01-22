@@ -23,9 +23,9 @@
                      <p>(Showing all Hospital under Mylan)</p>
                   </div>
                   </div>
-                        <div class="col-lg-4 col-md-5 m-t-25">
+                        <div class="col-lg-4 col-md-5 m-t-25 text-right">
                            <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-md-12">
                                  <a href="{{ url( 'admin/hospitals/create' ) }}" class="btn btn-success"><i class="fa fa-plus"></i> Add New Hospital</a>
                               </div>
                               <!-- <div class="col-md-6">
