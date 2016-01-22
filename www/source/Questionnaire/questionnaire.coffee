@@ -193,6 +193,8 @@ angular.module 'PatientApp.Quest',[]
 						selectedvalue = []
 						
 						_.each @data.options, (opt)->
+							console.log '************'
+							console.log opt
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
