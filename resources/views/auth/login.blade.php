@@ -17,7 +17,7 @@
             <div class="col-sm-14 col-xs-24 text-center login-info">
               <br>
               <br>
-              <h3><span>Welcome <br>your Healthcare Portal</span></h3>
+              <h3><span>Welcome to<br>your Healthcare Portal</span></h3>
                 <br>
                 <br>
                 @if (count($errors) > 0)
