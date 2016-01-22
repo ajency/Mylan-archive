@@ -133,7 +133,7 @@ $baseLine = $baseLineArr[$questionId];
 ?>
 <script type="text/javascript">
  $(document).ready(function() {
- patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
+ patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}},'chartdiv');
 
  $('select[name="generateChart"]').change(function (event) { 
       <?php 
@@ -146,7 +146,7 @@ $baseLine = $baseLineArr[$questionId];
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}});
+          patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}},'chartdiv');
         }
 
         <?php

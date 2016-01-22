@@ -94,7 +94,17 @@
                               </div>
                            </div>
                            <div>
-                             <br><br> 
+                             <br><br>  
+
+                        <select class="pull-right" name="generateQuestionChart">
+                          @foreach($questionLabels as $questionId => $label)
+                            <option value="{{ $questionId }}">{{ $label }}</option>
+                          @endforeach
+                         </select> 
+
+                                           <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
+
+                                       <br><br> 
                                        <div class="grid simple ">
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
@@ -185,70 +195,66 @@
                                        
                                        <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
                  
-                                       <table class="table table-flip-scroll dashboard-tbl">
-                              <thead class="cf">
-                                 <tr> 
-                                    <th class="sorting" width="16%">Patient ID</th>
-                                    <th class="sorting">Submission#</th>
-                                    <th class="sorting" width="22%">Total Score</th>
-                                    <th class="sorting">Compared To Previous
-                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    </th>
-                                    <th class="sorting">Compared To Baseline
-                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    </th>
-                                    
-                                 </tr>
-                              </thead>
-                              <tbody>
-                              <?php 
-                                $i=1;
-                              ?>
-                              @foreach($submissionsSummary as $responseId=>$responseData)
-                                <?php 
-                                  if($i==6)
-                                    break;
-                                ?>
-                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                                    <td class="text-center">{{ $responseData['patient'] }}</td>
-                                    <td class="text-center">
-                                      
-                                        <h4 class="semi-bold margin-none flagcount">{{ $responseData['sequenceNumber'] }} on</h4>
-                                        <sm>{{ $responseData['occurrenceDate'] }}</sm>
-                                    
-                                    </td>
-                                     <td class="text-center">
-                                     <h3 class="bold margin-none pull-left p-l-10">{{ $responseData['totalScore'] }}</h3>
-                                     <sm class="text-muted sm-font">Prev - {{ $responseData['previousScore'] }} <i class="fa fa-flag "></i> </sm><br>
-                                      <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
-                                    </td>  
-                                     
-                                     <td class="text-center sorting">
-                                     <span class="badge badge-important">{{ count($responseData['previousFlag']['red']) }}</span>
-                                      <span class="badge badge-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
-                                     <span class="badge badge-success">{{ count($responseData['previousFlag']['green']) }}</span>
-                                    </td>   
-                                         <td class="text-center sorting">
-                                     <span class="badge badge-important">{{ count($responseData['baseLineFlag']['red']) }}</span>
-                                      <span class="badge badge-warning">{{ count($responseData['baseLineFlag']['amber']) }}</span>
-                                     <span class="badge badge-success">{{ count($responseData['baseLineFlag']['green']) }}</span>
-                                    </td>  
-
-                                </tr>
-                                <?php 
-                                $i++;
-                                ?>
-                            @endforeach
-                                  
-                              </tbody>
-                     </table>
-
-                                       
-                                       
+                            <table class="table table-flip-scroll table-hover dashboard-tbl">
+               <thead class="cf">
+                  <tr>
+                     <th class="sorting" width="16%">Patient ID <br><br></th>
+                     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                     <th class="sorting">Total Score <br><br></th>
+                     <th class="sorting">
+                        Previous
+                        <br> 
+                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                     </th>
+                     <th class="sorting">
+                        Baseline
+                        <br> 
+                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                     </th>
+                  </tr>
+               </thead>
+               <tbody>
+               <?php 
+                  $i=1;
+                ?>
+                @foreach($submissionsSummary as $responseId=>$responseData)
+                  <?php 
+                    if($i==6)
+                      break;
+                  ?>
+                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
+                     <td class="text-center">{{ $responseData['patient'] }}</td>
+                     <td class="text-center">
+                        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
+                        <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
+                     </td>
+                     <td class="text-center">
+                        <h3 class="bold margin-none pull-left p-l-10">{{ $responseData['totalScore'] }}</h3>
+                        <sm class="text-muted sm-font m-t-10">Prev - {{ $responseData['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
+                        <br>
+                        <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
+                     </td>
+                     <td class="text-center sorting">
+                        <span class="text-error">{{ count($responseData['previousFlag']['red']) }}</span>
+                        <span class="text-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
+                        <span class=" text-success">{{ count($responseData['previousFlag']['green']) }}</span>
+                     </td>
+                     <td class="text-center sorting">
+                        <span class="text-error">{{ count($responseData['baseLineFlag']['red']) }}</span>
+                        <span class="text-warning">{{ count($responseData['baseLineFlag']['amber']) }}</span>
+                        <span class=" text-success">{{ count($responseData['baseLineFlag']['green']) }}</span>
+                     </td>
+                  </tr>
+                  <?php 
+                    $i++;
+                    ?>
+                @endforeach
+               </tbody>
+            </table>          
                                        <!-- <h6>This patient has missed 5 consecutive submissions</h6> -->
                                       
                                    
@@ -263,12 +269,21 @@
                      </div>
                   </div>
  
+ <?php 
+
+$questionId = current(array_keys($questionLabels));
+$inputJson = json_encode($questionChartData[$questionId]);
+$questionLabel = $questionLabels[$questionId];
+$baseLine = $questionBaseLine[$questionId];
+?>
     <script type="text/javascript">
      
 
    $(document).ready(function() {
 
     patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+
+    patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
 
     var chart = AmCharts.makeChart( "submissionschart", {
            "type": "pie",
@@ -303,6 +318,24 @@
 
       }
        
+
+    });
+
+     $('select[name="generateQuestionChart"]').change(function (event) { 
+      <?php 
+      foreach($questionLabels as $questionId => $questionLabel)
+      {
+        $inputJson = json_encode($questionChartData[$questionId]);
+        $baseLine = $questionBaseLine[$questionId];
+        ?>
+        if($(this).val()=='{{$questionId}}')
+        { 
+          patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
+        }
+
+        <?php
+      }
+      ?>
 
     });
 

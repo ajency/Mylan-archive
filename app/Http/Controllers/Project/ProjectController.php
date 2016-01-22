@@ -88,10 +88,24 @@ class ProjectController extends Controller
         $patientsFlagSummary = $this->patientsFlagSummary($projectAnwers);  
         $submissionsSummary = $this->getSubmissionsSummary($projectAnwers); 
 
-        $patients = User::where(['project_id'=>$projectId])->lists('reference_code')->take(5)->toArray();
-        $allPatients = User::where(['project_id'=>$projectId])->get()->take(5)->toArray();
+        
+        $patients = User::where('type','patient')->where('project_id',$project['id'])->orderBy('created_at')->get()->toArray();
+        $newPatients = [];
+        $patientReferenceCode = [];
+        foreach ($patients as  $patient) {
+            
+            if($patient['account_status']=='created')
+                $newPatients[]= $patient['reference_code'];
+            
+            $patientReferenceCode[] = $patient['reference_code'];
+        }
+        
+        $patients['patientsCount'] = count($patients);
+        $patients['newPatients'] = count($newPatients);
+
+        $allPatients = User::where('type','patient')->where(['project_id'=>$projectId])->get()->take(5)->toArray();
         $patientController = new PatientController();
-        $patientSummaryData  = $patientController->patientSummary($patients ,$projectId,$startDateObj,$endDateObj);
+        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$projectId,$startDateObj,$endDateObj);
         $patientsSummary = $patientSummaryData['patientResponses'];
         
 
@@ -104,6 +118,7 @@ class ProjectController extends Controller
                                         ->with('patientsSummary', $patientsSummary)
                                         ->with('allPatients', $allPatients)
                                         ->with('project', $project)
+                                        ->with('patients', $patients)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
@@ -121,9 +136,9 @@ class ProjectController extends Controller
         $answersQry->includeKey("response");
         $answersQry->limit($displayLimit);
         $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("createdAt");
-        $answersQry->greaterThanOrEqualTo("createdAt",$startDate);
-        $answersQry->lessThan("createdAt",$endDate);
+        $answersQry->ascending("occurrenceDate");
+        $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $answersQry->lessThan("occurrenceDate",$endDate);
         $anwsers = $answersQry->find();
         $anwsersData = array_merge($anwsers,$anwsersData); 
 
@@ -151,7 +166,7 @@ class ProjectController extends Controller
         $responseQry->ascending("occurrenceDate");
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
-        
+         
         if(!empty($responses))
         {
             $page++;
@@ -169,6 +184,7 @@ class ProjectController extends Controller
         $amberFlags['baseLineFlag'] = [];
         $amberFlags['previousFlag'] = [];
         $missed = [];
+        $completed = [];
         $openSubmissions=[];
 
         $missedByDate = [];
@@ -195,7 +211,7 @@ class ProjectController extends Controller
 
             if($status=='completed')
             {
-                $missed[]=$responseId;
+                $completed[]=$responseId;
                 $completedByDate[$responseDate][] =$responseId;
             }
 
@@ -241,22 +257,22 @@ class ProjectController extends Controller
             $previousFlag = $answer->get("previousFlag");
 
             if($baseLineFlag=='red')
-                $redFlags['baseLineFlag'][]=$responseId;
+                $redFlags['baseLineFlag'][]=$answerId;
 
             if($previousFlag=='red')
-                $redFlags['previousFlag'][]=$responseId;
+                $redFlags['previousFlag'][]=$answerId;
 
             if($baseLineFlag=='amber')
-                $amberFlags['baseLineFlag'][]=$responseId;
+                $amberFlags['baseLineFlag'][]=$answerId;
 
             if($previousFlag=='amber')
-                $amberFlags['previousFlag'][]=$responseId;
+                $amberFlags['previousFlag'][]=$answerId;
         }
 
         $data['redFlags'] = $redFlags;
         $data['amberFlags'] = $amberFlags;
         $data['missed'] = count($missed);
-        $data['totalSubmissions'] = count($projectResponses);
+        $data['completed'] = count($completed);
         $data['openSubmissions'] = count($openSubmissions);
 
         $data['missedSubmissionData'] = json_encode($missedSubmissionData);

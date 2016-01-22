@@ -21,32 +21,31 @@
      <div class="grid simple">
            <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate>
-              <div class="row column-seperation">
-                <div class="col-md-12">
+              <div class="row form-group">
+                <div class="col-md-3">
                   <div class="form-row">
                      <label>Reference Code</label>
-                        <input {{ $disabled }} name="reference_code" id="reference_code" type="text" value="{{ $patient['reference_code'] }}"   placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
-                    </div>
- 
-                    <div class="row form-row">
-               
-                    <div class="col-sm-4"> 
+                        <input {{ $disabled }} name="reference_code" id="reference_code" class="form-control" type="text" value="{{ $patient['reference_code'] }}"   placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                  </div>
+                </div>
+                <div class="col-sm-3"> 
                      <label>Age</label>
-                        <input name="age" id="age" type="text" placeholder="Age" data-parsley-required   value="{{ $patient['age'] }}">
+                        <input name="age" id="age" type="text" class="form-control" placeholder="Age" data-parsley-required   value="{{ $patient['age'] }}">
                     </div>
-                    <div class="col-sm-4">
-                      <label>Weight</label>
-                        <input name="weight" id="weight" type="text"  class="validateRefernceCode" placeholder="Weight" data-parsley-required  value="{{ $patient['patient_weight'] }}">
-                    </div>
-                    <div class="col-sm-4">
-                      <label>Height</label>
-                        <input name="height" id="height" type="text"  class="validateRefernceCode" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
-                    </div>
-                    </div>
-
-                    <div class="row form-row">
-               
                     <div class="col-sm-3">
+                      <label>Weight</label>
+                        <input name="weight" id="weight" type="text"  class="validateRefernceCode form-control" placeholder="Weight" data-parsley-required  value="{{ $patient['patient_weight'] }}">
+                    </div>
+                    <div class="col-sm-3">
+                      <label>Height</label>
+                        <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
+                    </div>
+              </div>
+              <div class="row">
+              <div class="col-sm-6">
+              <div class="row form-row">
+               
+                    <div class="col-sm-6">
                       <label>Is Smoker</label>
                       <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -56,13 +55,14 @@
                     </div>
                     <div class="col-sm-6">
                       <label>If yes, how many per week</label>
-                        <input name="smoke_per_week" id="smoke_per_week" type="text"  placeholder="How many per week" value="{{ $patient['patient_smoker_per_week'] }}">
+                        <input name="smoke_per_week" id="smoke_per_week" type="text"  class="form-control" placeholder="How many per week" value="{{ $patient['patient_smoker_per_week'] }}">
                     </div>
                     </div>
-
+                    </div>
+                    <div class="col-sm-6">
                     <div class="row form-row">
                
-                    <div class="col-sm-3">
+                    <div class="col-sm-6">
                       <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required >
                           <option value="">Select</option>
@@ -72,21 +72,18 @@
                     </div>
                     <div class="col-sm-6">
                       <label>If yes, units per week</label>
-                        <input name="units_per_week" id="units_per_week" type="text"  placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
+                        <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
                     </div>
                     </div>
-                     
-                </div>
+                    </div>
+                  </div>
+               
                 
-              </div>
-                <br>
+             
+                <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
-               <br>
-               <div class="user-description-box">
               
-                     <div class="grid simple bg-gray">
-                        <div class="grid-body">
-                           <div class="form-row medication-data">
+              <div class="form-row medication-data">
                           @if(!empty($patientMedications))
                            @foreach($patientMedications as $medication)
                               <div class="row patient-mediaction">
@@ -110,20 +107,12 @@
                                  </div>
                               </div>
                            </div>
-                        </div>
-                     </div>
-                   
-                  
-                  <button type="button" class="btn btn-link text-success add-mediaction"><i class="fa fa-plus"></i> Add Medication</button>
-        
-               </div>
-           <br>
+                    <button type="button" class="btn btn-link text-success add-mediaction"><i class="fa fa-plus"></i> Add Medication</button>
+         <hr>
                <h4 class="no-margin">Clinic <span class="semi-bold">Visits</span></h4>
                <br>
-               <div class="user-description-box">
+             
                  
-                     <div class="grid simple bg-gray">
-                        <div class="grid-body">
                            <div class="form-row visit-data">
                            @if(!empty($patientvisits))
                            @foreach($patientvisits as $visit)
@@ -171,14 +160,8 @@
                               </div>
 
                            </div>
-                        </div>
-                     </div>
-                  
                   <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
-        
-               </div>
-                     
-                </div>
+        </div>
                 
               </div>
         <div class="form-actions">

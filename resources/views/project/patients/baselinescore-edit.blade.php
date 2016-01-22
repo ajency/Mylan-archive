@@ -36,7 +36,7 @@
          <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
          <br>
          <form method="post" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" data-parsley-validate>
-         <input type="hidden" name="baseLineResponseId" value="{{ $baseLineResponseId }}">
+ 
          <input type="hidden" name="patientId" value="{{ $patient['id']}}">
          <input type="hidden" name="questionnaireId" value="{{ $questionnaireId }}">
         <div class="user-description-box">
@@ -81,7 +81,7 @@
                        
                     @elseif($questions['type']=='multi-choice')
                       <select name="question[{{ $questionId }}][]" id="question_{{ $questionId }}" class="multiselect select2 form-control" multiple="multiple"   data-parsley-required>
-                       <option value="">Select option for Baseline</option>
+                  
                        @foreach($optionsList[$questionId] as $option)
                        <?php 
                           $selected = '';
