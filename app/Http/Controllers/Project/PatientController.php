@@ -410,7 +410,10 @@ class PatientController extends Controller
              $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
 
 
-            if(!in_array($questionType, $questionsTypes))
+            // if(!in_array($questionType, $questionsTypes))
+            //     continue;
+
+             if($questionType!='single-choice')
                 continue;
 
             
@@ -471,12 +474,18 @@ class PatientController extends Controller
             $responseBaseLineFlagStatus = $answer->get("response")->get("baseLineFlagStatus");
             $responsePreviousFlagStatus = $answer->get("response")->get("previousFlagStatus");
 
+            $responseStatus = $answer->get("response")->get("status");
+
              $sequenceNumber = $answer->get("response")->get("sequenceNumber");
              $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
 
-
-            if(!in_array($questionType, $questionsTypes))
+             if($responseStatus=='base_line')
                 continue;
+
+             if($questionType!='single-choice')
+                continue;
+
+         
                 
             $patientsFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line answer score', 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
  
@@ -643,6 +652,33 @@ class PatientController extends Controller
                                                  ->with('project', $project)
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('submissionsSummary', $submissionsSummary);
+    }
+
+    public function getPatientFlags($hospitalSlug,$projectSlug ,$patientId)
+    { 
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patient = User::find($patientId)->toArray();
+
+        $responseStatus = ["completed"];
+        $patientAnwers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+
+        $patientFlags =  $this->getPatientsFlags($patientAnwers); 
+
+        return view('project.patients.flags')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'flags')
+                                                ->with('tab', '03')
+                                                ->with('patient', $patient)
+                                                ->with('hospital', $hospital)
+                                                 ->with('project', $project)
+                                                 ->with('logoUrl', $logoUrl)
+                                                  ->with('patientFlags', $patientFlags);
     }
 
     public function getpatientBaseLines($hospitalSlug ,$projectSlug ,$patientId)
