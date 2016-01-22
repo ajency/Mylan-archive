@@ -29,7 +29,7 @@ class UserController extends Controller
     }
 
     public function dashbord()
-    {
+    {  
         return view('admin.dashbord')->with('active_menu', 'dashbord');
     }
 

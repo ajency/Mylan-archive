@@ -306,6 +306,12 @@ h3.line-title span {
   position: relative;
   top: 4px;
 }
+.alert.alert-danger {
+  background: rgba(238, 82, 53, 0.09);
+  text-align: left;
+  color: #ee5235;
+  font-size: 14px;
+}
 @media (max-width: 767px) {
   .alert {
     font-size: 14px;
@@ -942,3 +948,26 @@ div.q-tabs .active:hover {
   color: #fff;
   font-size: 25px;
 }
+.error-panel {
+  height: 456px;
+  display: table;
+  width: 100%;
+}
+.error-panel .panel-body {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/***Error Style***/
+ul.parsley-errors-list
+{
+  list-style-type: none;
+    text-align: left;
+    padding-left: 15px;
+}
+    
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
+
+

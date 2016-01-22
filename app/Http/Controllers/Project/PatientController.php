@@ -968,7 +968,7 @@ class PatientController extends Controller
         $responseQry->descending("createdAt");
         $responses = $responseQry->first();
 
-        $sequenceNumber = ($responses->get('sequenceNumber') + 1);
+        $sequenceNumber = (empty($responses))? 1 :($responses->get('sequenceNumber') + 1);
 
 
         $questionnaireObj = new ParseQuery("Questionnaire");

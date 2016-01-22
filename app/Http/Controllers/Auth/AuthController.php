@@ -174,7 +174,7 @@ class AuthController extends Controller
         if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
         {   
             if(Auth::user()->account_status=='active')
-            {
+            {  
                 return redirect()->intended('admin/dashbord');
             }
             else

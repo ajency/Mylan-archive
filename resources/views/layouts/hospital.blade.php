@@ -28,9 +28,7 @@
 <!-- BEGIN CORE JS FRAMEWORK-->
 <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('plugins/jquery-validation/js/jquery.validate.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/login.js') }}" type="text/javascript"></script>
+<script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
 <!-- BEGIN CORE TEMPLATE JS -->
 <!-- END CORE TEMPLATE JS -->
 </body>
