@@ -7,6 +7,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       data: [],
       display: 'loader',
       infoMsg: null,
+      limitTo: 5,
       init: function() {
         return Storage.getNextQuestion('set', 1);
       },
@@ -73,6 +74,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       onTapToRetry: function() {
         this.display = 'loader';
         return this.getSubmission();
+      },
+      showMore: function() {
+        this.limitTo = this.limitTo + 5;
+        return App.resize();
       }
     };
   }

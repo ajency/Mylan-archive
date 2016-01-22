@@ -41,7 +41,7 @@
         ng-switch-when="noError">
 
       <label
-         ng-repeat ="submissions in view.data">
+         ng-repeat ="submissions in view.data | limitTo: view.limitTo ">
         <div ng-if="submissions.status == 'upcoming'">
 
          <div class="clm-list">
@@ -135,6 +135,11 @@
 
         <!--  <hr> -->
       </label>
+          <button 
+              class="button button-block button-positive"
+              ng-click="view.showMore()">
+              Show More
+          </button>
       </div>
       <aj-error class="errors"
             error-type="view.errorType"

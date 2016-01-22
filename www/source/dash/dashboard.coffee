@@ -10,6 +10,7 @@ angular.module 'PatientApp.dashboard',[]
 			data : []
 			display : 'loader'
 			infoMsg : null
+			limitTo: 5
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
@@ -60,6 +61,12 @@ angular.module 'PatientApp.dashboard',[]
 			onTapToRetry : ->
 				@display = 'loader'
 				@getSubmission()
+
+			showMore : ->
+				@limitTo = @limitTo + 5
+				App.resize()
+
+
 
 ]
 
