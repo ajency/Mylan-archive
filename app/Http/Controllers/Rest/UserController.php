@@ -120,17 +120,7 @@ class UserController extends Controller
                 $postLoginData = $this->postLoginData($hospitalId,$projectId);
                 $hospitalData = $postLoginData['hospital'];
 
-                $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
-                if($userDeviceCount >=SETUP_LIMIT)
-                {
-                    $json_resp = array(
-                        'code' => 'limit_exceeded' , 
-                        'message' => 'cannot do setup more then 5 times',
-                        'hospitalData' => $hospitalData
-                        );
-                        $status_code = 200;
-                }
-                elseif($user['account_status'] =='created')
+                if($user['account_status'] =='created')
                 {
                     //New setup
                     $this->addDevice($data,$userId,$hospitalData,'set_password');
@@ -253,9 +243,19 @@ class UserController extends Controller
             $password = trim($data['password']);
             $newpassword = getPassword($referenceCode , $password);
      
-            $user = User::where('reference_Code',$referenceCode)->first(); 
+            $user = User::where('reference_Code',$referenceCode)->first();
+            $userId = $user['id']; 
             
-            if($user==null)
+            $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
+            if($userDeviceCount >=SETUP_LIMIT)
+            {
+                $json_resp = array(
+                    'code' => 'limit_exceeded' , 
+                    'message' => 'cannot do setup more then 5 times'
+                    );
+                    $status_code = 200;
+            }
+            elseif($user==null)
             {
                 $json_resp = array(
                     'code' => 'invalid_user' , 

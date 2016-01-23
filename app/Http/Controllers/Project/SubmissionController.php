@@ -265,6 +265,107 @@ class SubmissionController extends Controller
         return $data;
     }
 
+    public function getSubmissionFlags($hospitalSlug ,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patientsllFlags = [];
+        $patientsFlags = [];
+        $responseOpenRedFlags = [];
+
+        $projectAnwers =  $this->getProjectAnwers($projectId,0,[]);
+ 
+        foreach ($projectAnwers as $answer)
+        {
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previousFlag = $answer->get("previousFlag");
+
+            $responseId = $answer->get("response")->getObjectId();
+            $questionId = $answer->get("question")->getObjectId();
+            $questionType = $answer->get("question")->get("type");
+            $questionLabel = $answer->get("question")->get("title");
+            $patient = $answer->get("patient");
+
+            $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
+            $responsePreviousFlag = $answer->get("response")->get("previousFlag");
+
+            $responseStatus = $answer->get("response")->get("status");
+
+             $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
+
+             if($responseStatus=='base_line')
+                continue;
+
+             if($questionType!='single-choice')
+                continue;
+
+         
+                
+            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+ 
+            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+
+            $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+ 
+            $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+            
+
+            if(!isset($responseOpenRedFlags[$responseId]))
+            {
+                $responseOpenRedFlags[$responseId]=$responseId;
+
+                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                 
+                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+
+                $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                 
+                $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+            }
+            
+        }
+        
+        $submissionFlags['all'] = $patientsllFlags;
+        $submissionFlags['flags'] =$patientsFlags;
+
+        return view('project.flags')->with('active_menu', 'flags')
+                                               ->with('hospital', $hospital)
+                                               ->with('project', $project)
+                                               ->with('submissionFlags', $submissionFlags);
+    }
+
+    public function getProjectAnwers($projectId,$page=0,$anwsersData)
+    {
+        $displayLimit = 20; 
+
+        $answersQry = new ParseQuery("Answer");
+        $answersQry->equalTo("project",$projectId);
+        $answersQry->includeKey("question");
+        $answersQry->includeKey("response");
+        $answersQry->limit($displayLimit);
+        $answersQry->skip($page * $displayLimit);
+        $answersQry->ascending("occurrenceDate");
+ 
+        $anwsers = $answersQry->find();
+        $anwsersData = array_merge($anwsers,$anwsersData); 
+
+        if(!empty($anwsers))
+        {
+            $page++;
+            $anwsersData = $this->getProjectAnwers($projectId,$page,$anwsersData);
+        }  
+        
+        return $anwsersData;
+     
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

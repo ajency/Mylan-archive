@@ -49,7 +49,7 @@
               </div>
               <div class="col-sm-4">
                     <div class="text-right">
-                       <a href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
                        <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                     </div>
               </div>
@@ -85,6 +85,7 @@
               </div>
               <div class="col-sm-7">
                <select name="generateChart">
+                    <option value="submissions">Submissions</option>
                       <option value="baseline">Base line flags</option>
                       <option value="previous">Previous flags</option>
                        
@@ -147,9 +148,9 @@
               </tbody>
            </table>
               <hr style="margin: 0px 0px 10px 0px;">
-       <div class="text-right">
-              <a href="#" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-           </div>
+      <!--  <div class="text-right">
+              <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/flags') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+           </div> -->
       </div>
           
      </div>
@@ -162,7 +163,7 @@
     <div class="grid simple ">
         <div class="grid simple grid-table">
             <div class="grid-title no-border">
-              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
+              <a href="#"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
             </div>
         </div>
    </div>
@@ -251,14 +252,21 @@ $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
 $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+
+//submission chart
+$submissionChartJson = (isset($submissionChart['chartData'])) ? json_encode($submissionChart['chartData']):'[]';
+$submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChart['baseLine']:'';
 ?>
     <script type="text/javascript">
      
 
    $(document).ready(function() {
 
-    patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+    //patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+    //submission chart
+    patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
 
+    //question chart
     patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
 
     var chart = AmCharts.makeChart( "submissionschart", {
@@ -284,7 +292,11 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
          } );// Pie Chart
 
     $('select[name="generateChart"]').change(function (event) { 
-      if($(this).val()=='previous')
+      if($(this).val()=='submissions')
+      { 
+        patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+      }
+      else if($(this).val()=='previous')
       { 
         patientFlagsChart(<?php echo $flagsCount['previousFlags'];?>);
       }
