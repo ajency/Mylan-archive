@@ -143,6 +143,9 @@
                     <td><i class="fa fa-flag text-{{ $openRedFlag['flag'] }}"></i></td>
                     <td>{{ $openRedFlag['date'] }}</td>
                  </tr>
+                 <?php 
+                  $i++;
+                  ?>
               @endforeach
                                                
               </tbody>
