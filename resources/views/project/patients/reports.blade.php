@@ -33,39 +33,9 @@
                             <h4>Health Score Results compared with Previous Scores</h4>
                                  <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score & Baseline</p>
                              <br><br>
-                             <div class="row hidden">
-                                 <div class="col-sm-6">
-                                 <div class="row"> 
-                              <div class="col-sm-4">
-                                 <div class="form-row">
-                                    <label>Start Date</label>
-                                    <div class="input-append default date" style="width:100%;">
-                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
-                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-sm-4">
-                                 <div class="form-row">
-                                    <label>End Date</label>
-                                    <div class="input-append default date" style="width:100%;">
-                                       <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
-                                       <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                                    </div>
-                                 </div>
-                                 </div>
-                                 <div class="col-sm-4 m-t-25">
-                                    <a href="" class="btn btn-default">Apply</a>
-                                 </div>
-                              </div>
-                              </div>
-                              <div class="col-sm-6 m-t-25 text-right">
-                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
-                              <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
-                              </div>
-                              </div>
-                           
-                           <table class="table table-flip-scroll cf">
+                         
+                           <div class="table-responsive"> 
+                           <table class="table">
                                           <thead class="cf">
                                              <tr>
                                                 <th>Week</th>
@@ -100,6 +70,7 @@
                                              
                                           </tbody>
                                        </table>
+                                       </div>
                                        <br>
                                     <hr>
                    

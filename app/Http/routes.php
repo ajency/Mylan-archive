@@ -93,6 +93,7 @@ Route::resource( 'submissions', 'Project\SubmissionController' );
 Route::resource( 'projects', 'Project\ProjectController' );
 
 Route::get( 'flags', 'Project\SubmissionController@getSubmissionFlags' );
+Route::get( 'reports', 'Project\ProjectController@reports' );
 
 Route::get( 'patients/{id}/base-line-score/list', 'Project\PatientController@getpatientBaseLines' );
 Route::get( 'patients/{id}/base-line-score/{responseId}', 'Project\PatientController@showpatientBaseLineScore' );

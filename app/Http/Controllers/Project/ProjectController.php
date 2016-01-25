@@ -568,6 +568,65 @@ class ProjectController extends Controller
         return $submissionsData;
     }
 
+    public function reports($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $inputs = Input::get();
+
+        $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
+        $allPatients = User::where('type','patient')->lists('reference_code')->toArray();
+
+        if(!$referenceCode)
+        {
+            $referenceCode = current($allPatients);
+        }
+
+        $patients[] = $referenceCode;
+        $responseArr=[];
+        
+        $patientController = new PatientController();
+        $responses  = $patientController->getPatientsResponses($patients,$projectId,0,[]);
+ 
+        foreach ($responses as  $response) {
+            $responseId = $response->getObjectId();
+            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+        }
+
+
+
+        $patientAnswers  = $patientController->getPatientAnwers($referenceCode,$projectId,0,[]);
+
+        $patientChartdata = $patientController->getQuestionChartData($patientAnswers);
+
+
+
+        $singleChoiceQuestion = $patientChartdata['singleChoiceQuestion']; 
+        $questionLabels = $patientChartdata['questionLabels'];
+        $questionChartData = $patientChartdata['chartData'];
+        $questionBaseLine = $patientChartdata['questionBaseLine'];
+        $submissions = $patientChartdata['submissions'];      
+
+        return view('project.reports')->with('active_menu', 'reports')
+                                        ->with('responseArr', $responseArr)
+                                        ->with('hospital', $hospital)
+                                        ->with('questionChartData', $questionChartData)
+                                        ->with('questionLabels', $questionLabels)
+                                        ->with('singleChoiceQuestion', $singleChoiceQuestion)
+                                        ->with('questionBaseLine', $questionBaseLine)
+                                        ->with('submissions', $submissions)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('project', $project);
+
+
+    }
+
     
 
 
