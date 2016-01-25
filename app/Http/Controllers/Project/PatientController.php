@@ -220,14 +220,16 @@ class PatientController extends Controller
         $responseQry->equalTo("patient",$patient['reference_code']);
         $responseRate['completed'] = $responseQry->count();
 
+        $missedResponses=[];
          // get missed count
-        // $responseQry = new ParseQuery("Response");
-        // $responseQry->equalTo("status","missed");
-        // $responseQry->equalTo("patient",$patient['reference_code']);
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","missed");
+        $responseQry->equalTo("patient",$patient['reference_code']);
+        $responseRate['missed'] = $responseQry->count();
         //get all missed responses
-        $missedResponses = $this->getPatientsResponses([$patient['reference_code']],$projectId,0,[],3);
-        $responseRate['missed'] = count($missedResponses);
-
+        // $missedResponses = $this->getPatientsResponses([$patient['reference_code']],$projectId,0,[],3);
+        // $responseRate['missed'] = count($missedResponses);
+     
         
         
 
@@ -241,6 +243,7 @@ class PatientController extends Controller
 
         //get patient answers
         $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        
        
         //flags chart (red,amber,green)  
         $flagsCount = $this->patientFlagsCount($patientAnswers);
@@ -284,6 +287,7 @@ class PatientController extends Controller
     {
         $baseLine = [];
         $patientResponses = [];
+        $responseByDate = [];
 
         foreach ($patientAnswers as $answer)
         {
@@ -292,55 +296,62 @@ class PatientController extends Controller
             $score = $answer->get("score");
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
-            $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
             $occurrenceDate = strtotime($occurrenceDate);
 
             if($questionType!='single-choice')
                 continue;
 
             if($responseStatus=="base_line")
-            {
-                if(!isset($baseLine[$occurrenceDate]))
-                {
-                    $baseLine[$occurrenceDate] = 0;
-                }
-
-                $baseLine[$occurrenceDate] += $score;
+            {  
+                $baseLine[$responseId][] = $score;
+                continue;
             }
 
+            if($responseStatus!='completed')
+                continue;
 
-            if(!isset($patientResponses[$occurrenceDate]))
-            {
-                $patientResponses[$occurrenceDate] = 0;
-            }
+            
 
-            $patientResponses[$occurrenceDate] += $score;
+ 
+            $patientResponses[$occurrenceDate][$responseId] = $responseId;
+            $responseByDate[$responseId][] = $score;
             
 
         }
         
-        foreach ($missedResponses as   $missedResponse) {
-            $occurrenceDate = $missedResponse->get("occurrenceDate")->format('d-m-Y h:i:s');
-            $occurrenceDate = strtotime($occurrenceDate);
-            $patientResponses[$occurrenceDate] = 0;
-        }
-
-
+        // foreach ($missedResponses as   $missedResponse) {
+        //     $responseId = $missedResponse->getObjectId();
+        //     $occurrenceDate = $missedResponse->get("occurrenceDate")->format('d-m-Y');
+        //     $occurrenceDate = strtotime($occurrenceDate);
+        //     $patientResponses[$occurrenceDate][$responseId] = $responseId;
+        //     $responseByDate[$responseId][] = 0;
+        // }
+         
+ 
         $chartData = [];
         ksort($patientResponses);
-        $i=0;
-        foreach($patientResponses as $date => $score)
-        { 
-            $chartData[$i]['date'] = date('d M',$date);
-            $chartData[$i]['value'] = $score;
-           
-            $i++;
-        }
-            
         
-        $data['baseLine']= current($baseLine);
-        $data['chartData']=$chartData;
+        $i=0;
+        foreach($patientResponses as $date => $responses)
+        { 
+            $date = date('d-m-Y',$date);
+            
 
+          foreach ($responses as $responseId) {
+            $patientResponseScore = array_sum($responseByDate[$responseId]);
+            $chartData[$i]['date'] = $date;
+            $chartData[$i]['value'] = $patientResponseScore;
+            $i++;
+          }
+                          
+            
+        }
+         
+            
+        $data['baseLine']= array_sum(current($baseLine));
+        $data['chartData']=$chartData;
+    
         return $data;
     }
 

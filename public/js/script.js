@@ -431,7 +431,7 @@ function patientInputGraph(chartData,label,maxScore,baseLine,container)
     "valueAxes": [{
         "integersOnly": true,
         "maximum": 50,
-        "minimum": 1,
+        "minimum": 0,
         "reversed": false,
         "axisAlpha": 0,
         "dashLength": 5,
@@ -555,6 +555,61 @@ function patientFlagsChart(chartData)
             "position": "bottom-right"
          }
     });
+}
+
+function submissionChart(chartData,baseLine)
+{
+    var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "marginRight": 70,
+    "autoMarginOffset": 20,
+    "dataProvider": chartData,
+    "balloon": {
+        "cornerRadius": 6
+    },
+    // "valueAxes": [{
+    //     "axisAlpha": 0
+    // }],
+    "valueAxes": [{
+    "logarithmic": true,
+    "dashLength": 1,
+    "guides": [{
+        "dashLength": 6,
+        "inside": true,
+        "label": "Baseline",
+        "lineAlpha": 1,
+        "value": baseLine
+    }],
+       }],
+    "graphs": [{
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]] C</span></b>",
+        "bullet": "round",
+        "bulletSize": 6,
+        "connect": false,
+        "lineColor": "#b6d278",
+        "lineThickness": 2,
+        "negativeLineColor": "#487dac",
+        "valueField": "value"
+    }],
+    "chartCursor": {
+        "categoryBalloonDateFormat": "DD-MM-YYYY",
+        "cursorAlpha": 0.1,
+        "cursorColor": "#000000",
+        "fullWidth": true,
+        "graphBulletSize": 2
+    },
+    "chartScrollbar": {},
+    "dataDateFormat": "DD-MM-YYYY",
+    "categoryField": "date",
+    "categoryAxis": {
+        "minPeriod": "DD",
+        "parseDates": true,
+        "minorGridEnabled": true
+    }
+});
+
+
 }
 
 

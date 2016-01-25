@@ -267,7 +267,8 @@ $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChar
 
     //patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
     //submission chart
-    patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+     // patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+    submissionChart(<?php echo $submissionChartJson;?>,{{$submissionChartbaseLine}});
 
     //question chart
     patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
@@ -297,7 +298,9 @@ $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChar
     $('select[name="generateChart"]').change(function (event) { 
       if($(this).val()=='submissions')
       { 
-        patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+        // patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+        submissionChart(<?php echo $submissionChartJson;?>,{{$submissionChartbaseLine}});
+
       }
       else if($(this).val()=='previous')
       { 
