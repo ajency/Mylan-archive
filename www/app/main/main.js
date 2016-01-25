@@ -1,6 +1,10 @@
 angular.module('PatientApp.main', []).controller('MainCtr', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', function($scope, App, Storage, QuestionAPI, $ionicLoading) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', 'Push', function($scope, App, Storage, QuestionAPI, $ionicLoading, Push) {
     return $scope.view = {
+      init: function() {
+        console.log('inittt...');
+        return Push.register();
+      },
       onBackClick: function() {
         var count;
         switch (App.currentState) {

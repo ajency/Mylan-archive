@@ -1,9 +1,13 @@
 angular.module 'PatientApp.main', []
 
-.controller 'MainCtr',['$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading'
-	, ($scope, App, Storage, QuestionAPI, $ionicLoading)->
+.controller 'MainCtr',['$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', 'Push'
+	, ($scope, App, Storage, QuestionAPI, $ionicLoading, Push)->
 
 		$scope.view =
+
+			init : ->
+				console.log 'inittt...'
+				Push.register()
 
 			onBackClick : ->
 				switch App.currentState

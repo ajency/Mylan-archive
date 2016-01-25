@@ -16,10 +16,11 @@ angular.module 'PatientApp.notification',[]
 
 					notifyAPI.getNotification param
 					.then (data)=>	
+						console.log 'notification data'
+						console.log data
 						@display = 'noError'
 						@data = []
 						@data = data
-						console.log @data
 						_.each @data, (value)->
 							value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
 							value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
