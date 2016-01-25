@@ -28,7 +28,7 @@ angular.module 'angularApp.questionnaire',[]
 				QuestionAPI.submitSummary param
 				.then (data)=>
 					CToast.show 'submiteed successfully '
-					# App.navigate 'exit-questionnaire'
+					$location.path 'dashboard'
 				,(error)=>
 					console.log 'error'
 					console.log error
