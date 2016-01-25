@@ -583,7 +583,7 @@ function submissionChart(chartData,baseLine)
     }],
        }],
     "graphs": [{
-        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]] C</span></b>",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]] Score</span></b>",
         "bullet": "round",
         "bulletSize": 6,
         "connect": false,
