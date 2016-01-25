@@ -3,10 +3,10 @@ var app;
 app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common']).run([
   '$rootScope', 'App', function($rootScope, App) {
     return $rootScope.$on('$routeChangeSuccess', function(event, current, previous, rejection) {
-      if (!_.isUndefined(current)) {
+      if (!_.isUndefined(current.$$route.controller)) {
         App.currentState = current.$$route.controller;
       }
-      if (!_.isUndefined(previous)) {
+      if (!_.isUndefined(previous.$$route.controller)) {
         return App.previousState = previous.$$route.controller;
       }
     });

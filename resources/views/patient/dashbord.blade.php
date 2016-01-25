@@ -4,6 +4,7 @@
 <script>
     Parse.initialize(APP_ID, JS_KEY);
     var questionnaireIdd = '{{ $questionnaire["id"] }}';
+    var questionnaireName = '{{ $questionnaire["name"] }}'
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
