@@ -28,7 +28,8 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            return CToast.show('submiteed successfully ');
+            CToast.show('submiteed successfully ');
+            return $location.path('dashboard');
           };
         })(this), (function(_this) {
           return function(error) {
