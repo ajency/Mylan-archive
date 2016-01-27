@@ -259,8 +259,8 @@
                               </div>
                               <div class="col-sm-7">
                                   <select class="pull-right">
-                                      <option value="volvo">Total Score</option>
-                                      <option value="volvo">Total Red Flags</option>
+                                      <option value="volvo">Submissions</option>
+                                      <option value="volvo" select>Total Red Flags</option>
                                       <option value="saab"> Total Amber Flags</option>
                                        <option value="saab">Total Green Flags</option>
                                           </select> 
@@ -362,7 +362,7 @@
                         <div class="grid simple grid-table">
                             <div class="grid-title no-border">
                                <a href="patient-flag.html">
-                               <h4>Open <span class="semi-bold">Red Flags</span></h4></a>
+                               <h4><span class="semi-bold"> Flags</span></h4></a>
                             </div>
                         </div>
                    </div>
@@ -765,44 +765,36 @@
     },
     "dataProvider": [{
         "Date":'1 Jan',
-        "Red": 1,
-        "Amber": 5,
-        "Green": 3
+        "Previous": 1,
+        "Baseline": 5
     }, {
         "Date": '2 Jan',
-        "Red": 1,
-        "Amber": 2,
-        "Green": 6
+        "Previous": 1,
+        "Baseline": 2
     }, {
         "Date": '11 Jan',
-        "Red": 2,
-        "Amber": 3,
-        "Green": 1
+        "Previous": 2,
+        "Baseline": 3
     }, {
         "Date": '12 Jan',
-        "Red": 3,
-        "Amber": 4,
-        "Green": 1
+        "Previous": 3,
+        "Baseline": 4
     }, {
         "Date": '14 Jan',
-        "Red": 5,
-        "Amber": 1,
-        "Green": 2
+        "Previous": 5,
+        "Baseline": 1
     }, {
         "Date": '18 Jan',
-        "Red": 3,
-        "Amber": 2,
-        "Green": 1
+        "Previous": 3,
+        "Baseline": 2
     }, {
         "Date": '19 Jan',
-        "Red": 1,
-        "Amber": 2,
-        "Green": 3
+        "Previous": 1,
+        "Baseline": 2
     }, {
         "Date": '22 Jan',
-        "Red": 2,
-        "Amber": 1,
-        "Green": 5
+        "Previous": 2,
+        "Baseline": 1
     }],
     "valueAxes": [{
         "integersOnly": true,
@@ -817,50 +809,26 @@
      "valueAxes": [{
         "logarithmic": true,
         "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": 3,
-
-        }],
+        
          }],
 
     "graphs": [{
-        "balloonText": "Red Flag in [[category]]: [[value]]",
+        "balloonText": "Baseline in [[category]]: [[value]]",
         "bullet": "round",
-        "title": "Red",
+        "title": "Baseline",
        "lineColor": "#CC0000",
-        "valueField": "Red",
-        "fillColor": "#CC0000",
-        "fillAlphas": 0.2,
+        "valueField": "Baseline",
     "dashLength": 2,
     "inside": true
     
     }, {
-        "balloonText": " Amber Flag in [[category]]: [[value]]",
+        "balloonText": " Previous in [[category]]: [[value]]",
         "bullet": "round",
-        "title": "Amber",
+        "title": "Previous",
         "lineColor": "#ecb42f",
-        "valueField": "Amber",
+        "valueField": "Previous",
        "dashLength": 2,
-       "fillColor": "#ecb42f",
-        "fillAlphas": 0.2,
-       "hidden":true,
        "inside": true
-    }, {
-        "balloonText": "Green Flag in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Green",
-        "lineColor": "#05A8A5",
-        "valueField": "Green",
-        "fillColor": "#ecb42f",
-        "fillAlphas": 0.2,
-         "dashLength": 2,
-         "hidden":true,
-          "inside": true
-
     }],
     "chartCursor": {
         "cursorAlpha": 0,
@@ -916,29 +884,31 @@
         "useGraphSettings": true
     },
     "dataProvider": [{
-        "Date":'Pain',
-        "Green": 40,
-        "Baseline": 35
+        "Date":'1 Jan',
+        "Green": 40
     }, {
-        "Date": 'Bowel Habits',
-        "Green": 42,
-        "Baseline": 41
+        "Date": ' 2 Jan',
+        "Green": 42
     }, {
-        "Date": 'Weight',
-        "Green": 45,
-        "Baseline": 30
+        "Date": '11 Jan',
+        "Green": 45
     }, {
-        "Date": 'Appetite',
-        "Green": 51,
-        "Baseline": 40
+        "Date": '12 Jan',
+        "Green": 51
     }, {
-        "Date": 'Well Being',
-        "Green": 53,
-        "Baseline": 40
+        "Date": '14 Jan',
+        "Green": 53
     }, {
-        "Date": 'Diabetes',
-        "Green":45,
-        "Baseline": 40
+        "Date": '18 Jan',
+        "Green":45
+    }
+    , {
+        "Date": '19 Jan',
+        "Green":45
+    }
+    , {
+        "Date": '20 Jan',
+        "Green":45
     }],
     "valueAxes": [{
         "integersOnly": true,
@@ -950,10 +920,18 @@
         "position": "top",
         "title": "Total Score"
     }],
+
      "valueAxes": [{
         "logarithmic": true,
         "dashLength": 1,
-    
+     "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": 46,
+
+        }],
          }],
 
     "graphs": [ {
@@ -968,16 +946,6 @@
          "hidden":false,
           "inside": true
 
-    }, {
-        "balloonText": " [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Baseline",
-        "lineColor": "#000000",
-        "valueField": "Baseline",
-       "dashLength": 2,
-       "fillColor": "#000000",
-        "fillAlphas": 0.2,
-       "inside": true
     }],
 
     "chartCursor": {
