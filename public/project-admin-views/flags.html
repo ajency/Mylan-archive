@@ -19,6 +19,8 @@
       <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
       <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
+                <link rel="stylesheet" type="text/css" href="assets/plugins/date-range-picker/daterangepicker.css" />
+
       <!-- END CORE CSS FRAMEWORK -->
       <!-- BEGIN CSS TEMPLATE -->
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
@@ -197,6 +199,12 @@
                      <div class="grid simple">
                         <div>
                            <!-- Nav tabs -->
+                           <div class="pull-right m-t-5">
+                                 <div id="reportrange" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                        <span></span> <b class="caret"></b>
+                                    </div>
+                           </div>
                            <ul class="nav nav-tabs" role="tablist">
                               <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All Flags  <i class="fa fa-flag text-muted"></i></a>
                               </li>
@@ -826,11 +834,36 @@
       <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript" ></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
       <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+      <script src="assets/plugins/date-range-picker/moment.js"></script>
+      <script type="text/javascript" src="assets/plugins/date-range-picker/daterangepicker.js"></script>
       <!-- END PAGE LEVEL PLUGINS -->
       <script src="assets/js/datatables.js" type="text/javascript"></script>
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="assets/js/core.js" type="text/javascript"></script>
       <script src="assets/js/demo.js" type="text/javascript"></script>
-      <!-- END CORE TEMPLATE JS -->      
+      <!-- END CORE TEMPLATE JS -->    
+      <script type="text/javascript">
+      $(document).ready(function() { 
+         /***DATETIME PICKER***/
+$(function() {
+         
+         function cb(start, end) {
+           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+         }
+         cb(moment().subtract(29, 'days'), moment());
+         
+         $('#reportrange').daterangepicker({
+           ranges: {
+            'This Month': [moment(), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              
+           }
+         }, cb);
+         
+         });
+} );
+      </script>  
    </body>
 </html>
