@@ -23,6 +23,9 @@ h3 span {
 .m-t-0 {
   margin-top: 0!important;
 }
+.b-r {
+  border-right: 1px solid #ddd;
+}
 .fancy-title {
   line-height: 40px;
   color: #666;
@@ -305,12 +308,6 @@ h3.line-title span {
 .alert.alert-success .alert-numbered-list div span {
   position: relative;
   top: 4px;
-}
-.alert.alert-danger {
-  background: rgba(238, 82, 53, 0.09);
-  text-align: left;
-  color: #ee5235;
-  font-size: 14px;
 }
 @media (max-width: 767px) {
   .alert {
@@ -662,6 +659,19 @@ form .fa.fa-question::before {
   position: relative;
   bottom: 9px;
 }
+.icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  border: 1px dashed #00AAAC;
+  border-radius: 50%;
+  display: table;
+}
+.icon i {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 22px;
+}
 @media (max-width: 767px) {
   h3 {
     font-size: 19px;
@@ -948,26 +958,3 @@ div.q-tabs .active:hover {
   color: #fff;
   font-size: 25px;
 }
-.error-panel {
-  height: 456px;
-  display: table;
-  width: 100%;
-}
-.error-panel .panel-body {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-/***Error Style***/
-ul.parsley-errors-list
-{
-  list-style-type: none;
-    text-align: left;
-    padding-left: 15px;
-}
-    
-ul.parsley-errors-list li {
-  color: #f35958!important;
-}
-
-
