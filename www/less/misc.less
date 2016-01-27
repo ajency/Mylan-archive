@@ -164,6 +164,7 @@ html,html * {
 	}
 	.q-title{
 		font-weight: 500;
+		display: table;
 		.badge{
 			width: 30px;
 			height: 30px;
@@ -173,6 +174,8 @@ html,html * {
     		top: -4px;
     		margin-right: 9px;
     		line-height: 23px;
+    		display: table-cell;
+    		vertical-align: middle;
 		}
 	}
 	/***ICONS***/
@@ -340,10 +343,14 @@ html,html * {
 		font-size: 17px;
 		}
 	}
+	.button.button-block.show-more{
+		margin-top:0;
+		margin-bottom:0;
+	}
 	/***INPUT TAGS***/
 	.item-input input{
 		height: 38px;
-		line-height: 17px;
+		line-height: 23px;
 
 		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
 			color:    #333;
@@ -805,6 +812,24 @@ ul{
 		}
 	}
 }
+/***MCQS***/
+ul{
+	.item.item-checkbox.mcq{
+		    white-space: initial;
+		div span{
+			width: 35px;
+    		height: 35px;
+    		top: 18px;
+    		line-height: 19px;
+    		}
+    }
+	
+}
+.item.item-radio .item-content span{
+	width: 35px;
+height: 35px;
+line-height: 38px;
+}
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation:portrait){
   	.centering{
   		padding-top: 10%;
@@ -948,6 +973,24 @@ ul{
 		margin:0;
 	}
 }
+/***MCQS***/
+ul{
+	.item.item-checkbox.mcq{
+		    white-space: initial;
+		div span{
+			width: 35px;
+    		height: 35px;
+    		top: 18px;
+    		line-height: 19px;
+    		}
+    }
+	
+}
+.item.item-radio .item-content span{
+	width: 35px;
+height: 35px;
+line-height: 38px;
+}
 /***NAVBAR***/
   	.bar{
 	&.bar-header{
@@ -1039,6 +1082,23 @@ ul{
     }
 }
 }
+@media (min-width:600px) and (max-aspect-ratio: 13/9){
+	/***NAVBAR***/
+  	.bar{
+	&.bar-header{
+		button{
+			margin:0 8px 0 10px;
+		}
+		.right-buttons{
+			top:8px;
+			right: 6px;
+			
+		}
+		
+	}
+}
+
+}
 
 .button.button-block.show-more{
 margin-top:0;
@@ -1048,5 +1108,6 @@ margin-bottom:0;
   	background: rgba(37, 150, 149, 0.61);
   }
 }
+
 
 	/***FOOTER***/

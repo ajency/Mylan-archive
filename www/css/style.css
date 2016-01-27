@@ -30,7 +30,7 @@ p {
   font-weight: 200;
   color: #444444;
 }
-.l-h-20{
+.l-h-20 {
   line-height: 20px;
 }
 .m-b-20 {
@@ -157,6 +157,7 @@ hr.broad {
 }
 .q-title {
   font-weight: 500;
+  display: table;
 }
 .q-title .badge {
   width: 30px;
@@ -167,6 +168,8 @@ hr.broad {
   top: -4px;
   margin-right: 9px;
   line-height: 23px;
+  display: table-cell;
+  vertical-align: middle;
 }
 /***ICONS***/
 .ic {
@@ -320,10 +323,14 @@ a.button-clear.btn-link {
 .right-buttons i.icon::before {
   font-size: 17px;
 }
+.button.button-block.show-more {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 /***INPUT TAGS***/
 .item-input input {
   height: 38px;
-  line-height: 17px;
+  line-height: 23px;
 }
 .item-input input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
@@ -750,6 +757,21 @@ ul .mcq_active div span {
     font-size: 25px;
   }
 }
+/***MCQS***/
+ul .item.item-checkbox.mcq {
+  white-space: initial;
+}
+ul .item.item-checkbox.mcq div span {
+  width: 35px;
+  height: 35px;
+  top: 18px;
+  line-height: 19px;
+}
+.item.item-radio .item-content span {
+  width: 35px;
+  height: 35px;
+  line-height: 38px;
+}
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
     padding-top: 10%;
@@ -888,6 +910,21 @@ ul .mcq_active div span {
   .bg-yellow .col {
     margin: 0;
   }
+  /***MCQS***/
+  ul .item.item-checkbox.mcq {
+    white-space: initial;
+  }
+  ul .item.item-checkbox.mcq div span {
+    width: 35px;
+    height: 35px;
+    top: 18px;
+    line-height: 19px;
+  }
+  .item.item-radio .item-content span {
+    width: 35px;
+    height: 35px;
+    line-height: 38px;
+  }
   /***NAVBAR***/
   .bar.bar-header {
     height: 55px;
@@ -973,13 +1010,22 @@ ul .mcq_active div span {
     font-size: 76px;
   }
 }
-
-.button.button-block.show-more{
-margin-top:0;
-margin-bottom:0;
-background: rgba(37, 150, 149, 0.61);
+@media (min-width: 600px) and (max-aspect-ratio: 13/9) {
+  /***NAVBAR***/
+  .bar.bar-header button {
+    margin: 0 8px 0 10px;
+  }
+  .bar.bar-header .right-buttons {
+    top: 8px;
+    right: 6px;
+  }
 }
-.button.button-block.show-more.activated{
+.button.button-block.show-more {
+  margin-top: 0;
+  margin-bottom: 0;
+  background: rgba(37, 150, 149, 0.61);
+}
+.button.button-block.show-more.activated {
   background: rgba(37, 150, 149, 0.61);
 }
 /***FOOTER***/
