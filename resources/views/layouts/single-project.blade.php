@@ -220,16 +220,15 @@
       });
 
        
+      <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
 
-
-      </script
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/notifyjs/dist/notify.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/underscore/underscore-min.js') }}" type="text/javascript"></script>
 
 
-      <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
+      
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/boostrapv3/js/bootstrap.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/breakpoints.js') }}" type="text/javascript"></script>
