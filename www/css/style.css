@@ -324,7 +324,7 @@ a.button-clear.btn-link {
 /***INPUT TAGS***/
 .item-input input {
   height: 38px;
-  line-height: 17px;
+  line-height: 23px;
 }
 .item-input input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
@@ -889,6 +889,16 @@ ul .mcq_active div span {
   .bg-yellow .col {
     margin: 0;
   }
+  /***MCQS***/
+  ul .item.item-checkbox.mcq {
+    white-space: initial;
+  }
+  ul .item.item-checkbox.mcq div span {
+    width: 35px;
+    height: 35px;
+    top: 12px;
+    line-height: 30px;
+  }
   /***NAVBAR***/
   .bar.bar-header {
     height: 55px;
@@ -972,6 +982,16 @@ ul .mcq_active div span {
   }
   .errors .ion-sad-outline {
     font-size: 76px;
+  }
+}
+@media (min-width: 600px) and (max-aspect-ratio: 13/9) {
+  /***NAVBAR***/
+  .bar.bar-header button {
+    margin: 0 8px 0 10px;
+  }
+  .bar.bar-header .right-buttons {
+    top: 8px;
+    right: 6px;
   }
 }
 /***FOOTER***/

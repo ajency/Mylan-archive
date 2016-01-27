@@ -344,7 +344,7 @@ html,html * {
 	/***INPUT TAGS***/
 	.item-input input{
 		height: 38px;
-		line-height: 17px;
+		line-height: 23px;
 
 		&:-ms-input-placeholder { /* Internet Explorer 10-11 */
 			color:    #333;
@@ -949,6 +949,19 @@ ul{
 		margin:0;
 	}
 }
+/***MCQS***/
+ul{
+	.item.item-checkbox.mcq{
+		    white-space: initial;
+		div span{
+			width: 35px;
+    		height: 35px;
+    		top: 12px;
+    		line-height: 30px;
+    		}
+    }
+	
+}
 /***NAVBAR***/
   	.bar{
 	&.bar-header{
@@ -1040,5 +1053,22 @@ ul{
     }
 }
 }
+@media (min-width:600px) and (max-aspect-ratio: 13/9){
+	/***NAVBAR***/
+  	.bar{
+	&.bar-header{
+		button{
+			margin:0 8px 0 10px;
+		}
+		.right-buttons{
+			top:8px;
+			right: 6px;
 
+			
+		}
+		
+	}
+}
+
+}
 	/***FOOTER***/
