@@ -55,6 +55,10 @@
                         {
                             "xml": "<feature name=\"AppPreferences\"><param name=\"ios-package\" value=\"AppPreferences\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PushPlugin\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -179,6 +183,9 @@
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         },
         "cordova-plugin-app-preferences": {
+            "PACKAGE_NAME": "com.ionicframework.mylan393718"
+        },
+        "com.phonegap.plugins.PushPlugin": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         }
     },

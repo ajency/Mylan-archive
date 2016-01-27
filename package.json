@@ -39,7 +39,11 @@
         "CLIENT_KEY": "eervmM5pvPmosM3Pj6A6veBXtZJCR1UEB0opeIRF"
       }
     },
-    "cordova-plugin-app-preferences"
+    "cordova-plugin-app-preferences",
+    {
+      "locator": "https://github.com/phonegap-build/PushPlugin.git",
+      "id": "com.phonegap.plugins.PushPlugin"
+    }
   ],
   "cordovaPlatforms": [
     "ios",

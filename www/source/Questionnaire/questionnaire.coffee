@@ -1,9 +1,9 @@
 angular.module 'PatientApp.Quest',[]
 
 .controller 'questionnaireCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout', '$ionicPlatform',
+	'$window', 'Storage', 'CToast', 'CSpinner', '$q', '$timeout', '$ionicPlatform','$ionicPopup',
 	($scope, App, QuestionAPI, $stateParams, $window, Storage,
-	 CToast, CSpinner, $q, $timeout, $ionicPlatform)->
+	 CToast, CSpinner, $q, $timeout, $ionicPlatform, $ionicPopup)->
 
 		$scope.view =
 			# noError / error / loader
@@ -19,6 +19,7 @@ angular.module 'PatientApp.Quest',[]
 			descriptiveAnswer : ''
 			flag : true
 			readonly : true
+			alertPopup : ''
 
 			variables :()->
 				@descriptiveAnswer = ''
@@ -89,9 +90,17 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
-							if !_.isUndefined(data.status) and data.status = 'saved_successfully'
-								App.navigate 'summary', summary:responseId
 							@data = data
+							if !_.isUndefined(@data.status)
+								if @data.status == 'saved_successfully'
+									CToast.show 'This questionnaire was already answer'
+									App.navigate 'summary', summary:responseId
+								else if @data.status == 'completed'
+									CToast.show 'This questionnaire is completed '
+								else if @data.status == 'missed'
+									CToast.show 'This questinarie was Missed'
+
+							
 							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.responseId
 							@display = 'noError'
@@ -113,6 +122,17 @@ angular.module 'PatientApp.Quest',[]
 						if @readonly == true then CToast.show 'Your answer is saved'
 						console.log '******next question******'
 						console.log data
+
+						if !_.isUndefined(data.status)
+							if data.status == 'saved_successfully'
+								App.navigate 'summary', summary:responseId
+							else if data.status == 'completed'
+								@title = 'This questinarie was Completed'
+								@showConfirm()
+							else if data.status == 'missed'
+								@title = 'This questinarie was Missed'
+								@showConfirm()
+
 						@variables()
 						@data = []
 						@data = data
@@ -122,8 +142,9 @@ angular.module 'PatientApp.Quest',[]
 							@hasAnswerShow()
 							@readonly = @data.editable
 						@pastAnswer()
-						if !_.isUndefined(@data.status)
-							App.navigate 'summary', summary:responseId
+
+		
+
 						@display = 'noError'					
 					,(error)=>
 						if error == 'offline'
@@ -226,10 +247,21 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
 						console.log 'previous data'
-						console.log data	
+						console.log data
+						if !_.isUndefined(data.status)
+
+							if data.status == 'completed'
+								@title = 'This questinarie was Completed'
+								@showConfirm()
+							else if data.status == 'missed'
+								@title = 'This questinarie was Missed'
+								@showConfirm()
+
 						@variables()
 						@data = []
 						@data = data
+						
+
 						@readonly = @data.editable
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)
@@ -370,11 +402,25 @@ angular.module 'PatientApp.Quest',[]
 					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
 
 			navigateOnDevice:()->
-				if @data.previous == false 
-					# onHardwareBackButton1()
+				if $('.popup-container').hasClass('active')
+					@alertPopup.close()
 					App.navigate 'dashboard', {}, {animate: false, back: false}
-				else
-					$scope.view.prevQuestion()
+				else	
+					if @data.previous == false 
+						# onHardwareBackButton1()
+						App.navigate 'dashboard', {}, {animate: false, back: false}
+					else
+						$scope.view.prevQuestion()
+
+			showConfirm : ->
+			  	@alertPopup = $ionicPopup.alert(
+			    	title: 'Alert'
+			    	template: @title)
+
+			  	@alertPopup.then (res) ->
+				    if res
+				      App.navigate 'dashboard', {}, {animate: false, back: false}
+				    
 
 
 		onDeviceBack = ->

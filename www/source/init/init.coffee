@@ -1,8 +1,13 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q'
-	, (Storage, App, $scope, QuestionAPI,$q) ->
+.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', '$rootScope', 'Push'
+	, (Storage, App, $scope, QuestionAPI, $q, $rootScope, Push) ->
+
+		$rootScope.$on '$cordovaPush:notificationReceived', (e, p)->
+			console.log 'notification received'
+			payload = Push.getPayload p
+			Push.handlePayload(payload) if !_.isEmpty(payload)
   
 		Storage.login('get')
 		.then (value) ->
