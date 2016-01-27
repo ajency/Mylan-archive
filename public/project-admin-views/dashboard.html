@@ -196,13 +196,18 @@
                   </div>
                   <div class="row">
             <div class="col-sm-6">
-                          <h2> Total Recruited Patients: <b class="bigger">20</b> </h2>
+                          <h3> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">20 </b> </h3>
+                          <hr>
                      </div>
                      <div class="col-sm-6">
-                            <h2> Total Active Patients:  <b class="bigger">10</b></h2>
+                            <h3> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">10 </b></h3>
+                            <hr>
                      </div>
                   </div>
-                  <div class="row top-data m-t-30">
+      <div class="row">
+         <div class="col-sm-8">
+
+                  <div class="row top-data m-t-10">
 
                      <div class="col-md-2  ">
                         <a href="red.html">
@@ -230,7 +235,7 @@
                         <a href="submissions.html">
                            <div class="tiles white added-margin">
                               <div class="tiles-body">
-                                 <h5 class="bold m-0 m-b-25"> Unreviewed Submission <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
+                                 <h5 class="bold m-0 m-b-25"> Unreviewed Submission <br><i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
                                  <h2 class="semi-bold num-data">
                                  25</h2>
@@ -238,31 +243,89 @@
                            </div>
                         </a>
                      </div>
-                     <div class="col-md-6">
+                 
+                  </div>
+
+                  <div class="row m-t-20">
+                      <div class="col-md-12">
                         <div class="tiles white">
                            <div class="tiles-body">
+                           <br>
                               <div class="row">
-                                 <div class="col-sm-7">
+                                 <div class="col-sm-6">
                                     <div id="piechart"></div>
                                  </div>
-                                 <div class="col-sm-5">
-                                   
+                                 <div class="col-sm-6">
+                                          <div class="row m-t-30">
+                                             <div class="col-sm-4">
+                                                <h4 class="bold m-0 inline">40</h4>
+                                                <p> # Completed</p>
+                                             </div>
+                                             <div class="col-sm-4">
+                                                <h4 class="bold m-0 inline">40</h4>
+                                                <p> # Missed</p>
+                                             </div>
+                                             <div class="col-sm-4">
+                                                <h4 class="bold m-0 inline">3 Days</h4>
+                                                <p> # Late</p>
+                                             </div>
+                                          </div>
                                        
-                                          <h4 class="bold m-0 inline">40</h4>
-                                          <p class="inline"> # Completed</p>
-                                          <br>
-                                      
-                                          <h4 class="bold m-0 inline">20</h4>
-                                          <p class="inline"> # Missed</p>
-                                          <br>
-                                          <h4 class="bold m-0 inline">3 Days</h4>
-                                          <p class="inline"> Late</p>
                                  </div>
                               </div>
+                              <br>
                            </div>
                         </div>
                      </div>
                   </div>
+
+         </div>
+         <div class="col-sm-4">
+            <div class=" simple grid-table m-t-20">
+                           <div class="grid-title no-border">
+                              <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activity"></i></h4>
+                        
+                           </div>
+                           <div class="grid-body no-border" style="display: block;">
+                            <div class="notification-messages info">
+
+      <div class="message-wrapper">
+         <div class="heading"> New Patient ID Generated </div>
+         <div class="description"> 1000001 </div>
+      </div>
+      <div class="date pull-right"> Just now </div>
+      <div class="clearfix"></div>
+   </div>
+   <div class="notification-messages danger">
+     
+      <div class="message-wrapper">
+         <div class="heading">Patient ID 1000001   </div>
+         <div class="description"> Missed 1 Question </div>
+      </div>
+      <div class="date pull-right"> Yesterday </div>
+      <div class="clearfix"></div>
+   </div>
+   <div class="notification-messages success">
+      <div class="message-wrapper">
+         <div class="heading"> You have've got 150 messages </div>
+         <div class="description"> 150 newly unread messages in your inbox </div>
+      </div>
+      <div class="date pull-right"> Yesterday </div>
+      <div class="clearfix"></div>
+   </div>
+
+                              
+                              <div class="text-right">
+                                 <a href="flags.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                              </div>
+                           </div>
+                        </div>
+         </div>
+      </div>
+
+
+
+
                   <br>
                   <div class="row">
                      <div class="col-sm-5">
@@ -1357,8 +1420,14 @@
          text-overflow: initial;
          }
          .bigger{
-            font-size: 44px;
+            font-size: 40px;
          }
+         .top-data .col-md-2 {
+             width: 33% !important;
+         }
+         .top-data .tiles {
+             height: 115px;
+          }
       </style>
    </body>
 </html>
