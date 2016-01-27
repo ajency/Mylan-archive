@@ -157,6 +157,7 @@ hr.broad {
 }
 .q-title {
   font-weight: 500;
+  display: table;
 }
 .q-title .badge {
   width: 30px;
@@ -167,6 +168,8 @@ hr.broad {
   top: -4px;
   margin-right: 9px;
   line-height: 23px;
+  display: table-cell;
+  vertical-align: middle;
 }
 /***ICONS***/
 .ic {
@@ -754,6 +757,21 @@ ul .mcq_active div span {
     font-size: 25px;
   }
 }
+/***MCQS***/
+ul .item.item-checkbox.mcq {
+  white-space: initial;
+}
+ul .item.item-checkbox.mcq div span {
+  width: 35px;
+  height: 35px;
+  top: 18px;
+  line-height: 19px;
+}
+.item.item-radio .item-content span {
+  width: 35px;
+  height: 35px;
+  line-height: 38px;
+}
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
     padding-top: 10%;
@@ -899,8 +917,13 @@ ul .mcq_active div span {
   ul .item.item-checkbox.mcq div span {
     width: 35px;
     height: 35px;
-    top: 12px;
-    line-height: 30px;
+    top: 18px;
+    line-height: 19px;
+  }
+  .item.item-radio .item-content span {
+    width: 35px;
+    height: 35px;
+    line-height: 38px;
   }
   /***NAVBAR***/
   .bar.bar-header {
