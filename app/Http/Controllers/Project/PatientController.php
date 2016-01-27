@@ -349,7 +349,7 @@ class PatientController extends Controller
         }
          
             
-        $data['baseLine']= array_sum(current($baseLine));
+        $data['baseLine']= (!empty($baseLine)) ? array_sum(current($baseLine)) :0;
         $data['chartData']=$chartData;
     
         return $data;
