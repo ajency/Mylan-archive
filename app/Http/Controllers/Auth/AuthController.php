@@ -72,11 +72,11 @@ class AuthController extends Controller
         ]);
     }
 
-    public function setup()
-    {
+    // public function setup()
+    // {
 
-        return view('auth.user-login');
-    }
+    //     return view('auth.user-login');
+    // }
 
     public function postLogin(Request $request)
     { 
@@ -195,7 +195,7 @@ class AuthController extends Controller
     {
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-        return view('auth.user-login')->with('hospital', $hospital)
+        return view('auth.hospital-login')->with('hospital', $hospital)
                                       ->with('logoUrl', $logoUrl);
     }
 
@@ -230,22 +230,90 @@ class AuthController extends Controller
         ]);
     }
 
+
+    //project 
+    public function getProjectLogin($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+
+        return view('auth.project-login')->with('hospital', $hospital)
+                                      ->with('project', $project);
+    }
+
+    public function postProjectLogin(Request $request,$hospitalSlug,$projectSlug)
+    { 
+
+        $email = $request->input('email');
+        $password = trim($request->input('password'));
+        if($request->has('remember'))
+            $remember = $request->input('remember');
+        else
+           $remember = 0;
+            
+        
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
+        {   
+            if(Auth::user()->account_status=='active')
+            {
+                return redirect()->intended($hospitalSlug.'/'.$projectSlug.'/projects');
+            }
+            else
+            {
+                Auth::logout();
+                return redirect($hospitalSlug.'/'.$projectSlug.'/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
+            }
+        }
+        
+        return redirect($hospitalSlug.'/'.$projectSlug.'/login')->withErrors([
+            'email' => 'The credentials you entered did not match our records. Try again?',
+        ]);
+    }
+
     public function getLogout()
-    {  
+    {   
+        Auth::logout();
+        return redirect('admin/login');
+        
+
+    }
+
+    public function getHospitalLogout()
+    {   
+        Auth::logout();
+         
+        $hospitalslug= \Request::segment(1);  
+        return redirect($hospitalslug.'/login');
+         
+    }
+
+    public function getProjectLogout()
+    {   
         Auth::logout();
         Session::put('referenceCode',''); 
-        $routePrefix = \Request::route()->getPrefix();
-        if(str_contains($routePrefix, 'admin'))
-            return redirect('admin/login');
-        elseif(str_contains($routePrefix, ''))
-        {
-            return redirect('/');
-        }
-        else 
-        {
-            $hospitalslug = \Request::segment(1);  
-            return redirect($hospitalslug.'/login');
-        }
+ 
+        $hospitalslug= \Request::segment(1);  
+        $projectslug= \Request::segment(2);  
+
+        return redirect($hospitalslug.'/'.$projectslug.'/login');
+         
+
+    }
+
+    public function getPatientLogout()
+    {   
+        Auth::logout();
+        Session::put('referenceCode',''); 
+ 
+        return redirect('patient/login');
+         
+
     }
 
  

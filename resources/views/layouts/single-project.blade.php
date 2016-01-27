@@ -100,7 +100,7 @@
                            <li><a href="#"> My Account</a>
                            </li>
                            <li class="divider"></li>
-                           <li><a href="{{ url($hospital['url_slug'].'/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                           <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
                         </ul>
                      </li>
                   </ul>
