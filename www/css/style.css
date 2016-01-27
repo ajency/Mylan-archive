@@ -30,6 +30,9 @@ p {
   font-weight: 200;
   color: #444444;
 }
+.l-h-20{
+  line-height: 20px;
+}
 .m-b-20 {
   margin-bottom: 20px;
 }
@@ -969,5 +972,14 @@ ul .mcq_active div span {
   .errors .ion-sad-outline {
     font-size: 76px;
   }
+}
+
+.button.button-block.show-more{
+margin-top:0;
+margin-bottom:0;
+background: rgba(37, 150, 149, 0.61);
+}
+.button.button-block.show-more.activated{
+  background: rgba(37, 150, 149, 0.61);
 }
 /***FOOTER***/
