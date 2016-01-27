@@ -60,7 +60,7 @@
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
-                     <a href="{{ url($hospital['url_slug'].'/' ) }}" class="dropdown-toggle active" data-toggle="">
+                     <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/' ) }}" class="dropdown-toggle active" data-toggle="">
                         <div class="iconset top-home"></div>
                      </a>
                   </li>
@@ -105,8 +105,8 @@
                      </li>
                   </ul>
                </div>
-               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left">{{ hospitalImageExist($hospital) }}</a>
-               <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
+               <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/' ) }}" class="pull-left">{{ hospitalImageExist($hospital) }}</a>
+               &nbsp;<h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                
