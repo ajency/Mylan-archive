@@ -319,8 +319,8 @@ $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChar
       <?php 
       foreach($questionLabels as $questionId => $questionLabel)
       {
-        $inputJson = json_encode($questionChartData[$questionId]);
-        $baseLine = $questionBaseLine[$questionId];
+        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
         ?>
         if($(this).val()=='{{$questionId}}')
         { 

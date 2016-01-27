@@ -97,10 +97,10 @@
 <?php 
 
 $questionId = current(array_keys($inputLabels));
-$inputJson = json_encode($inputChartData[$questionId]);
-$inputLabel = $inputLabels[$questionId];
-$maxScore =  (max($allScore[$questionId]) + 10);
-$baseLine = $baseLineArr[$questionId];
+$inputJson = (isset($inputChartData[$questionId])) ? json_encode($inputChartData[$questionId]):'[]';
+$inputLabel = (isset($inputLabels[$questionId]))?$inputLabels[$questionId]:'';
+$maxScore =  (isset($allScore[$questionId]))?(max($allScore[$questionId]) + 10):10;
+$baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
 ?>
 <script type="text/javascript">
  $(document).ready(function() {
@@ -110,10 +110,10 @@ $baseLine = $baseLineArr[$questionId];
       <?php 
       foreach($inputLabels as $questionId => $label)
       {
-        $inputJson = json_encode($inputChartData[$questionId]);
-        $inputLabel = $inputLabels[$questionId];
-        $maxScore =  (max($allScore[$questionId]) + 10);
-        $baseLine = $baseLineArr[$questionId];
+        $inputJson = (isset($inputChartData[$questionId])) ? json_encode($inputChartData[$questionId]):'[]';
+        $inputLabel = (isset($inputLabels[$questionId]))?$inputLabels[$questionId]:'';
+        $maxScore =  (isset($allScore[$questionId]))?(max($allScore[$questionId]) + 10):10;
+        $baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
