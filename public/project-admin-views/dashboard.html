@@ -455,11 +455,12 @@
                                           <span class="text-warning">13</span>
                                           <span class=" text-success">14</span>
                                        </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">23</span>
-                                          <span class="text-warning">54</span>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                23<sm> / 54</sm>
+                                           </h4>
                                        </td>
-                                       <td class="text-center sorting text-success">Reviewed</td>
+                                       <td class="text-center">Missed by +1</td>
                                     </tr>
                                     <tr onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000002</td>
@@ -483,11 +484,12 @@
                                           <span class="text-warning">03</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">11</span>
-                                          <span class="text-warning">13</span>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 13</sm>
+                                           </h4>
                                        </td>
-                                       <td class="text-center sorting text-success">Reviewed</td>
+                                       <td class="text-center">Missed by +1</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000003</td>
@@ -511,11 +513,12 @@
                                           <span class="text-warning">13</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">14</span>
-                                          <span class="text-warning">16</span>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 23</sm>
+                                           </h4>
                                        </td>
-                                       <td class="text-center sorting text-warning">Pending Review</td>
+                                       <td class="text-center">Missed by +1</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000004</td>
@@ -539,11 +542,12 @@
                                           <span class="text-warning">13</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">11</span>
-                                          <span class="text-warning">15</span>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 15</sm>
+                                           </h4>
                                        </td>
-                                       <td class="text-center sorting text-success">Reviewed</td>
+                                       <td class="text-center">Missed by +2</td>
                                     </tr>
                                  </tbody>
                               </table>
@@ -1338,12 +1342,11 @@
          
          $('#reportrange').daterangepicker({
            ranges: {
-              'Today': [moment(), moment()],
-              'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-              'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-              'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-              'This Month': [moment().startOf('month'), moment().endOf('month')],
-              'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            'This Month': [moment(), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              
            }
          }, cb);
          
