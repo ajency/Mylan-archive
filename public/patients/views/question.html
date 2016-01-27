@@ -34,7 +34,12 @@
                     </span>
                 </h4>
                 <br class="hidden-xs">
-                  <p class="text-danger"><strong>Note : </strong>Click the answer you want to select  </p>
+                  <p class="text-danger"
+                    ng-if='view.data.questionType != "descriptive"'
+                    ><strong>Note : </strong>Click the answer you want to select  </p>
+                   <p class="text-danger"
+                    ng-if='view.data.questionType == "descriptive"'>
+                    <strong>Note : </strong>write a short description </p>
                 <br class="hidden-xs">
                 
                   <!-- single choice -->

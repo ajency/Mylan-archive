@@ -24,16 +24,16 @@
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects') }}" data-parsley-validate>
 <div class="grid simple">
                      <div class="grid-body">
-                        <form class="form-no-horizontal-spacing" id="form-condensed">
+                        <form class="form-no-horizontal-spacing" id="form-condensed" data-parsley-validate>
                            <div class="row column-seperation">
                               <div class="col-md-6">
                                  <div class="form-row">
                                     <label>Project Name</label>
-                                    <input name="name" id="name" type="text"  class="form-control" placeholder="Project Name">
+                                    <input name="name" id="name" type="text"  class="form-control" placeholder="Project Name" data-parsley-required>
                                  </div>
                                  <div class="form-row">
                                     <label>Description</label>
-                                    <textarea name="description" id="description" rows="3" placeholder="Write a short summary to describe the projects." style="width:100%;"></textarea>
+                                    <textarea name="description" id="description" rows="3" placeholder="Write a short summary to describe the projects." style="width:100%;" data-parsley-required></textarea>
                                  </div>
                               </div>
                               
