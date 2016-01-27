@@ -13,7 +13,8 @@ return [
     /****parse*******/
     'parse_sdk' => [
         'app_id' => env( 'APP_ID'),
-        'rest_api_key' => env( 'REST_API_KEY')
+        'rest_api_key' => env( 'REST_API_KEY'),
+        'master_key' => env( 'MASTER_KEY')
     ],
 
 

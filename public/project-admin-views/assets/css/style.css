@@ -8667,3 +8667,8 @@ input {
 .footer span {
   color: #757575;
 }
+
+.table-responsive{
+  overflow-x: auto;
+}
+

@@ -349,7 +349,7 @@ class PatientController extends Controller
         }
          
             
-        $data['baseLine']= array_sum(current($baseLine));
+        $data['baseLine']= (!empty($baseLine)) ? array_sum(current($baseLine)) :0;
         $data['chartData']=$chartData;
     
         return $data;
@@ -991,7 +991,7 @@ class PatientController extends Controller
 
         $responseQry->containedIn("patient",$patients);
         //$responseQry->equalTo("project",$projectId);
-        $responseQry->ascending("occurrenceDate");
+        $responseQry->descending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  
@@ -1355,7 +1355,7 @@ class PatientController extends Controller
         $inputChartData = [];
         $inputLabels = [];
         $allScore = [];
-        $completedResponseArr=[];
+
         
         $inputBaseQuestionId = '';
         $inputLable = '';
@@ -1417,7 +1417,7 @@ class PatientController extends Controller
                    
                //  }
             } 
-            else  
+             elseif ($questionType=='single-choice')  
             {
                 if($responseStatus=="base_line" && !isset($baseLineArr[$questionId]))
                    $baseLineArr[$questionId] =$optionScore;
@@ -1430,9 +1430,7 @@ class PatientController extends Controller
              } 
             
             $questionArr[$questionId]= $questionTitle;
-            if($responseStatus!="base_line")
-                $completedResponseArr[$responseId]= $answer->get("response")->get("occurrenceDate")->format('d M'); //get('occurrenceData')
-
+             
         }
         
         foreach ($inputScores as $questionId => $data) {
@@ -1457,7 +1455,6 @@ class PatientController extends Controller
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('responseArr', $responseArr)
-                                        ->with('completedResponseArr', $completedResponseArr)
                                         ->with('questionArr', $questionArr)
                                         ->with('baseLineArr', $baseLineArr)
                                         ->with('submissionArr', $submissionArr)
@@ -1467,7 +1464,6 @@ class PatientController extends Controller
                                         ->with('inputChartData', $inputChartData); 
     }
 
-
     public function getQuestionChartData($patientAnswers)
     {
         $questionLabels = [];
@@ -1475,6 +1471,9 @@ class PatientController extends Controller
         $chartData = [];
         $inputScores = [];
         $allScore =[];
+        $submissionArr =[];
+        $singleChoiceQuestion = [];
+
         foreach ($patientAnswers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
             $questionId = $answer->get("question")->getObjectId();
@@ -1517,15 +1516,18 @@ class PatientController extends Controller
                 continue;
  
             } 
-            else  
+            elseif ($questionType=='single-choice')  
             {
                 $questionLabels[$questionId] = $questionLabel;
+                $singleChoiceQuestion[$questionId] = $questionLabel;
 
                 if($responseStatus=="base_line")
                    $baseLineArr[$questionId] =$optionScore;
                 else
                 {
                    $inputScores[$questionId][$answerDate] = $optionScore ;
+                   $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
+                   $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
                 }
 
              } 
@@ -1550,6 +1552,8 @@ class PatientController extends Controller
         $questiondata['questionBaseLine']=$baseLineArr;
         $questiondata['chartData']=$chartData;
         $questiondata['questionLabels']=$questionLabels;
+        $questiondata['submissions']=$submissionArr;
+        $questiondata['singleChoiceQuestion']=$singleChoiceQuestion;
         
        
         return $questiondata;

@@ -8,7 +8,8 @@
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
-    console.log(patientRefCode);
+    var hospitalLogo = "{{ $hospital['logo'] }}";
+    // console.log({{ $hospital['name'] }});
 
      Parse.User.become(userToken).then(function(user) {
                   console.log('became user');
@@ -32,7 +33,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><img src="../images/nhs-logo.png" width="70"></a>
+        <a class="navbar-brand" href="#"><img src="<?php echo $hospital['logo'] ?>" width="70"></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->

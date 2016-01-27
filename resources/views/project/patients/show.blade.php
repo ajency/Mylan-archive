@@ -180,7 +180,7 @@
   <tr>
      <th class="sorting" width="16%">Patient ID <br><br></th>
      <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-     <th class="sorting">Total Score <br><br></th>
+     <th class="sorting" width="16%">Total Score <br><br></th>
      <th class="sorting">
         Previous
         <br> 
@@ -209,7 +209,7 @@
   <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
      <td class="text-center">{{ $responseData['patient'] }}</td>
      <td class="text-center">
-        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
+        <h4 class="semi-bold m-0 flagcount">{{ $responseData['occurrenceDate'] }}</h4>
         <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
      </td>
      <td class="text-center">
@@ -319,8 +319,8 @@ $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChar
       <?php 
       foreach($questionLabels as $questionId => $questionLabel)
       {
-        $inputJson = json_encode($questionChartData[$questionId]);
-        $baseLine = $questionBaseLine[$questionId];
+        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
