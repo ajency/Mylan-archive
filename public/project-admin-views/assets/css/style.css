@@ -8671,4 +8671,6 @@ input {
 .table-responsive{
   overflow-x: auto;
 }
-
+.bar-inner ul li:hover a {
+    color: #6f7b8a;
+}

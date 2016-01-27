@@ -21,6 +21,7 @@
       <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
       <link href="assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="assets/plugins/date-range-picker/daterangepicker.css" />
       <!-- END CORE CSS FRAMEWORK -->
       <!-- BEGIN CSS TEMPLATE -->
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
@@ -190,7 +191,12 @@
                   </ul>
                   </p>
                   <div class="pull-right m-t-10">
-                     <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+                 
+                     <a href="add-patient.html" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
+                      <div id="reportrange" class="pull-right m-r-10" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                 <span></span> <b class="caret"></b>
+                              </div>
                   </div>
                   <div class="page-title">
                      <h3>Patient ID : <span class="semi-bold">10000001</span></h3>
@@ -914,13 +920,11 @@
       <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
       <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
       <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-      <script src="assets/plugins/jquery-morris-chart/js/morris.min.js"></script>
-      <script src="assets/plugins/jquery-flot/jquery.flot.js"></script>
-      <script src="assets/plugins/jquery-flot/jquery.flot.time.min.js"></script>
-      <script src="assets/plugins/jquery-flot/jquery.flot.selection.min.js"></script>
-      <script src="assets/plugins/jquery-flot/jquery.flot.animator.min.js"></script>
-      <script src="assets/plugins/jquery-flot/jquery.flot.orderBars.js"></script>
-      <script src="assets/plugins/jquery-sparkline/jquery-sparkline.js"></script>
+            <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>    
+      <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
+      <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
+      <script src="assets/plugins/date-range-picker/moment.js"></script>
+      <script type="text/javascript" src="assets/plugins/date-range-picker/daterangepicker.js"></script>
       <script src="assets/plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js"></script>
       <!-- END PAGE LEVEL PLUGINS -->
       <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -936,6 +940,25 @@
      
 
    $(document).ready(function() {
+
+               $(function() {
+         
+         function cb(start, end) {
+           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+         }
+         cb(moment().subtract(29, 'days'), moment());
+         
+         $('#reportrange').daterangepicker({
+           ranges: {
+            'This Month': [moment(), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              
+           }
+         }, cb);
+         
+         });
  var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
