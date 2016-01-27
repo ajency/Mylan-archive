@@ -49,7 +49,7 @@
               </div>
               <div class="col-sm-4">
                     <div class="text-right">
-                       <a href="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
                        <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                     </div>
               </div>
@@ -85,6 +85,7 @@
               </div>
               <div class="col-sm-7">
                <select name="generateChart">
+                    <option value="submissions">Submissions</option>
                       <option value="baseline">Base line flags</option>
                       <option value="previous">Previous flags</option>
                        
@@ -142,14 +143,17 @@
                     <td><i class="fa fa-flag text-{{ $openRedFlag['flag'] }}"></i></td>
                     <td>{{ $openRedFlag['date'] }}</td>
                  </tr>
+                 <?php 
+                  $i++;
+                  ?>
               @endforeach
                                                
               </tbody>
            </table>
               <hr style="margin: 0px 0px 10px 0px;">
-       <div class="text-right">
-              <a href="#" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-           </div>
+      <!--  <div class="text-right">
+              <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/flags') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+           </div> -->
       </div>
           
      </div>
@@ -162,7 +166,7 @@
     <div class="grid simple ">
         <div class="grid simple grid-table">
             <div class="grid-title no-border">
-              <a href="patient-submissions.html"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
+              <a href="#"> <h4>Submissions <span class="semi-bold">(5 recent submissions)</span></h4></a>
             </div>
         </div>
    </div>
@@ -176,7 +180,7 @@
   <tr>
      <th class="sorting" width="16%">Patient ID <br><br></th>
      <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-     <th class="sorting">Total Score <br><br></th>
+     <th class="sorting" width="16%">Total Score <br><br></th>
      <th class="sorting">
         Previous
         <br> 
@@ -205,7 +209,7 @@
   <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
      <td class="text-center">{{ $responseData['patient'] }}</td>
      <td class="text-center">
-        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
+        <h4 class="semi-bold m-0 flagcount">{{ $responseData['occurrenceDate'] }}</h4>
         <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
      </td>
      <td class="text-center">
@@ -251,14 +255,22 @@ $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
 $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+
+//submission chart
+$submissionChartJson = (isset($submissionChart['chartData'])) ? json_encode($submissionChart['chartData']):'[]';
+$submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChart['baseLine']:'';
 ?>
     <script type="text/javascript">
      
 
    $(document).ready(function() {
 
-    patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+    //patientFlagsChart(<?php echo $flagsCount['baslineFlags'];?>);
+    //submission chart
+     // patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+    submissionChart(<?php echo $submissionChartJson;?>,{{$submissionChartbaseLine}});
 
+    //question chart
     patientInputGraph(<?php echo $inputJson;?>,'{{$questionLabel}}',0,{{$baseLine}},'totalbaseline');
 
     var chart = AmCharts.makeChart( "submissionschart", {
@@ -284,7 +296,13 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
          } );// Pie Chart
 
     $('select[name="generateChart"]').change(function (event) { 
-      if($(this).val()=='previous')
+      if($(this).val()=='submissions')
+      { 
+        // patientInputGraph(<?php echo $submissionChartJson;?>,'Submission',0,{{$submissionChartbaseLine}},'chartdiv');
+        submissionChart(<?php echo $submissionChartJson;?>,{{$submissionChartbaseLine}});
+
+      }
+      else if($(this).val()=='previous')
       { 
         patientFlagsChart(<?php echo $flagsCount['previousFlags'];?>);
       }
@@ -301,8 +319,8 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
       <?php 
       foreach($questionLabels as $questionId => $questionLabel)
       {
-        $inputJson = json_encode($questionChartData[$questionId]);
-        $baseLine = $questionBaseLine[$questionId];
+        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
         ?>
         if($(this).val()=='{{$questionId}}')
         { 

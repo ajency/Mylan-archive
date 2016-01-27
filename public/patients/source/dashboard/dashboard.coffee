@@ -5,8 +5,10 @@ angular.module 'angularApp.dashboard',[]
 	$scope.view =
 		data : []
 		display : 'loader'
+		QuestinnarieName : questionnaireName
 
 		init :() -> 
+
 			@display = 'loader'
 			id = RefCode
 			param = 

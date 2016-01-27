@@ -3,6 +3,7 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
     return $scope.view = {
       data: [],
       display: 'loader',
+      QuestinnarieName: questionnaireName,
       init: function() {
         var id, param;
         this.display = 'loader';

@@ -142,11 +142,17 @@
                            <span><i class="fa fa-list-alt"></i> Submissions </span>
                            </a>
                         </li>
-                       <!--  <li>
-                           <a href="javascript:;">
+                        <li class="{{ ( $active_menu == 'flags')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/flags/' ) }}">
+                           <span><i class="fa fa-flag"></i> Flags </span>
+                           </a>
+                        </li>
+                        <li class="{{ ( $active_menu == 'reports')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/reports/' ) }}">
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
-                        </li> -->
+                        </li>
+ 
                      </ul>
                   </div>
                </div>

@@ -65,8 +65,8 @@ Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteL
 });
 
 
-/*****Hospital***/
-Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
+/*****Hospital***/ //,'hospital.permission'
+Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth']], function() {
  Route::get( '/', 'Hospital\HospitalController@show' );
 // Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
@@ -91,6 +91,9 @@ Route::get( '/dashbord', 'Project\ProjectController@show' );
 Route::resource( 'patients', 'Project\PatientController' );
 Route::resource( 'submissions', 'Project\SubmissionController' );
 Route::resource( 'projects', 'Project\ProjectController' );
+
+Route::get( 'flags', 'Project\SubmissionController@getSubmissionFlags' );
+Route::get( 'reports', 'Project\ProjectController@reports' );
 
 Route::get( 'patients/{id}/base-line-score/list', 'Project\PatientController@getpatientBaseLines' );
 Route::get( 'patients/{id}/base-line-score/{responseId}', 'Project\PatientController@showpatientBaseLineScore' );
