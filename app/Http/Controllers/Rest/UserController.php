@@ -101,7 +101,7 @@ class UserController extends Controller
             $data = $request->all();  
             $referenceCode = $data['referenceCode'];
             $deviceIdentifier = $data['deviceIdentifier'];
-            $user = User::where('reference_Code',$referenceCode)->first(); 
+            $user = User::where('type','patient')->where('reference_Code',$referenceCode)->first(); 
             
             if($user==null)
             {
@@ -243,7 +243,7 @@ class UserController extends Controller
             $password = trim($data['password']);
             $newpassword = getPassword($referenceCode , $password);
      
-            $user = User::where('reference_Code',$referenceCode)->first();
+            $user = User::where('type','patient')->where('reference_Code',$referenceCode)->first();
             $userId = $user['id']; 
             
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
@@ -347,11 +347,10 @@ class UserController extends Controller
     public function getParseUser($referenceCode,$installationId,$authKey)
     {
 
-
         $headers = array(
-            "X-Parse-Application-Id: MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA",
-            "X-Parse-REST-API-Key: I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva",
-            "X-Parse-Master-Key: xI28t663DC4wTelQQkfOnY1OOwj39sAHtluZk10i"
+            "X-Parse-Application-Id: ".config('constants.parse_sdk.app_id'),
+            "X-Parse-REST-API-Key: ".config('constants.parse_sdk.rest_api_key'),
+            "X-Parse-Master-Key: ".config('constants.parse_sdk.master_key')
         );
 
         $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';  
