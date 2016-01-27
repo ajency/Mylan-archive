@@ -32,7 +32,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 Route::get('login', 'Auth\AuthController@getLogin');
 Route::get('auth/login', 'Auth\AuthController@getLogin');
 Route::post('login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/logout', 'Auth\AuthController@getPatientLogout');
 
 Route::get('admin/login', 'Auth\AuthController@getAdminLogin');
 Route::post('admin/login', 'Auth\AuthController@postAdminLogin');
@@ -40,7 +40,11 @@ Route::get('admin/logout', 'Auth\AuthController@getLogout');
 
 Route::get('{hospitalslug}/login', 'Auth\AuthController@getHospitalLogin');
 Route::post('{hospitalslug}/login', 'Auth\AuthController@postHospitalLogin');
-Route::get('{hospitalslug}/logout', 'Auth\AuthController@getLogout');
+Route::get('{hospitalslug}/logout', 'Auth\AuthController@getHospitalLogout');
+
+Route::get('{hospitalslug}/{projectslug}/login', 'Auth\AuthController@getProjectLogin');
+Route::post('{hospitalslug}/{projectslug}/login', 'Auth\AuthController@postProjectLogin');
+Route::get('{hospitalslug}/{projectslug}/logout', 'Auth\AuthController@getProjectLogout');
 
 
 /*****PATIENT***/

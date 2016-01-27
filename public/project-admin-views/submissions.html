@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
     <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="assets/plugins/date-range-picker/daterangepicker.css" />
     <!-- END PLUGIN CSS -->
     <!-- BEGIN CORE CSS FRAMEWORK -->
     <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -198,10 +199,9 @@
                                 <div class="col-sm-2">
                                 </div>
                                 <div class="col-sm-4 pull-right">
-                                    <div class="input-group input-daterange">
-                                        <input type="text" class="form-control" value="2012-04-05">
-                                        <span class="input-group-addon">to</span>
-                                        <input type="text" class="form-control" value="2012-04-19">
+                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                        <span></span> <b class="caret"></b>
                                     </div>
                                 </div>
                             </div>
@@ -216,11 +216,15 @@
                                          <div id="piechart"></div>   
                                       </div>
                                       <div class="col-sm-4">
-                                        <h4 class="bold margin-none">40</h4>
-                                        <p> # Completed</p>
-                                        <h4 class="bold margin-none">20</h4>
-                                        <p> # Missed</p>
-                                        
+                                        <h4 class="bold m-0 inline">40</h4>
+                                          <p class="inline"> # Completed</p>
+                                          <br>
+                                      
+                                          <h4 class="bold m-0 inline">20</h4>
+                                          <p class="inline"> # Missed</p>
+                                          <br>
+                                          <h4 class="bold m-0 inline">3 Days</h4>
+                                          <p class="inline"> Late</p>
                                       </div>
                                   </div>
                                    
@@ -262,122 +266,155 @@
                                 <div class="alert alert-info alert-black">
                                     Submission Summary
                                 </div>
-                                                   <table class="table table-flip-scroll table-hover dashboard-tbl">
-                              <thead class="cf">
-                                 <tr> 
-                                    <th class="sorting" width="16%">Patient ID <br><br></th>
-                                    <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                     <th class="sorting">Review <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                   
-                                    <th class="sorting"> Previous
-                                     <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    </th>
-                                    <th class="sorting"> Baseline
-                                    <br> <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                      <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    </th>
-                                    
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr onclick="window.document.location='p1-submission1.html';">
-                                    <td class="text-center">10000001</td>
-                                    <td class="text-center">
-                                      
-                                        <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                        <sm>Seq - 3</sm>
-                                    
-                                    </td>
-                                    <td class="text-center">
-                                      
-                                       Missed by +1
-                                    </td>
-                                     <td class="text-center sorting">
-                                     <span class=" text-error">04</span>
-                                      <span class="text-warning">03</span>
-                                     <span class="text-success">04</span>
-                                    </td>   
-                                         <td class="text-center sorting">
-                                     <span class="text-error">24</span>
-                                      <span class="text-warning">13</span>
-                                     <span class=" text-success">14</span>
-                                    </td>  
-
-                                </tr>
-                                 <tr onclick="window.document.location='p1-submission1.html';">
-                                    <td class="text-center">10000002</td>
-                                    <td class="text-center">
-                                      
-                                        <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
-                                        <sm>Seq - 10</sm>
-                                    
-                                    </td>
-                                  <td class="text-center">
-                                      
-                                       Missed by +2
-                                    </td>
-                                     <td class="text-center sorting">
-                                     <span class="text-error">14</span>
-                                      <span class=" text-warning">13</span>
-                                     <span class=" text-success">14</span>
-                                    </td>   
-                                         <td class="text-center sorting">
-                                     <span class="text-error">04</span>
-                                      <span class="text-warning">03</span>
-                                     <span class="text-success">14</span>
-                                    </td>                                
-                                </tr>
-                                 <tr  onclick="window.document.location='p1-submission1.html';">
-                                    <td class="text-center">10000003</td>
-                                    <td class="text-center">
-                                      
-                                         <h4 class="semi-bold m-0 flagcount">8th Dec</h4>
-                                        <sm>Seq - 11</sm>
-                                    
-                                    </td>
-                                 <td class="text-center">
-                                      
-                                       Missed by +1
-                                    </td>
-                                     <td class="text-center sorting">
-                                     <span class="text-error">04</span>
-                                      <span class="text-warning">03</span>
-                                     <span class="text-success">04</span>
-                                    </td>   
-                                         <td class="text-center sorting">
-                                     <span class="text-error">24</span>
-                                      <span class="text-warning">13</span>
-                                     <span class="text-success">14</span>
-                                    </td>                                
-                                </tr>
-                                 <tr  onclick="window.document.location='p1-submission1.html';">
-                                    <td class="text-center">10000004</td>
-                                    <td class="text-center">
-                                      
-                                         <h4 class="semi-bold m-0 flagcount">9th Dec</h4>
-                                        <sm>Seq - 12</sm>
-                                    
-                                    </td>
-                                 <td class="text-center">
-                                      
-                                       Missed by +1
-                                    </td>
-                                     <td class="text-center sorting">
-                                     <span class="text-error">04</span>
-                                      <span class="text-warning">03</span>
-                                     <span class="text-success">04</span>
-                                    </td>   
-                                         <td class="text-center sorting">
-                                     <span class="text-error">24</span>
-                                      <span class="text-warning">13</span>
-                                     <span class="text-success">14</span>
-                                    </td>                                
-                                </tr>
-                              </tbody>
-                     </table>
+                                <table class="table table-flip-scroll table-hover dashboard-tbl">
+                                 <thead class="cf">
+                                    <tr>
+                                       <th class="sorting" width="16%">Patient ID <br><br></th>
+                                       <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                       <th class="sorting" width="16%">Total Score <br><br></th>
+                                       <th class="sorting">
+                                          Previous
+                                          <br> 
+                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
+                                       <th class="sorting">
+                                          Baseline
+                                          <br> 
+                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
+                                       <th class="sorting">
+                                          Change
+                                          <br> 
+                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
+                                       <th class="sorting">Review Status<br><br>
+                                       </th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center">10000001</td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                          <sm>Sub - 12</sm>
+                                       </td>
+                                       <td class="text-center">
+                                          <h3 class="bold pull-left p-l-10">10</h3>
+                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
+                                          <br>
+                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class=" text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">04</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">24</span>
+                                          <span class="text-warning">13</span>
+                                          <span class=" text-success">14</span>
+                                       </td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                23<sm> / 54</sm>
+                                           </h4>
+                                       </td>
+                                       <td class="text-center">Missed by +1</td>
+                                    </tr>
+                                    <tr onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center">10000002</td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                          <sm>Sub - 13</sm>
+                                       </td>
+                                       <td class="text-center">
+                                          <h3 class="bold pull-left p-l-10">12</h3>
+                                          <sm class="text-muted sm-font m-t-10" >Prev - 11 <i class="fa fa-flag "></i> </sm>
+                                          <br>
+                                          <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">14</span>
+                                          <span class=" text-warning">13</span>
+                                          <span class=" text-success">14</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">14</span>
+                                       </td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 13</sm>
+                                           </h4>
+                                       </td>
+                                       <td class="text-center">Missed by +1</td>
+                                    </tr>
+                                    <tr  onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center">10000003</td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                          <sm>Sub - 10</sm>
+                                       </td>
+                                       <td class="text-center">
+                                          <h3 class="bold pull-left p-l-10">07</h3>
+                                          <sm class="text-muted sm-font m-t-10">Prev - 07 <i class="fa fa-flag "></i> </sm>
+                                          <br>
+                                          <sm class="text-muted sm-font">Base - 15 <i class="fa fa-flag "></i> </sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">04</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">24</span>
+                                          <span class="text-warning">13</span>
+                                          <span class="text-success">14</span>
+                                       </td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 23</sm>
+                                           </h4>
+                                       </td>
+                                       <td class="text-center">Missed by +1</td>
+                                    </tr>
+                                    <tr  onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center">10000004</td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
+                                          <sm>Sub - 13</sm>
+                                       </td>
+                                       <td class="text-center">
+                                          <h3 class="bold pull-left p-l-10">14</h3>
+                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
+                                          <br>
+                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">04</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">24</span>
+                                          <span class="text-warning">13</span>
+                                          <span class="text-success">14</span>
+                                       </td>
+                                       <td class="text-center">
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 15</sm>
+                                           </h4>
+                                       </td>
+                                       <td class="text-center">Missed by +2</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
                                 <hr style="    margin: 0px 0px 10px 0px;">
                             </div>
                         </div>
@@ -413,6 +450,8 @@
         <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
         <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="assets/plugins/date-range-picker/moment.js"></script>
+      <script type="text/javascript" src="assets/plugins/date-range-picker/daterangepicker.js"></script>
         <!-- END PAGE LEVEL PLUGINS -->
         <script src="assets/js/datatables.js" type="text/javascript"></script>
         <!-- BEGIN CORE TEMPLATE JS -->
@@ -583,6 +622,25 @@
                 chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
             }
         });
+/***DATETIME PICKER***/
+$(function() {
+         
+         function cb(start, end) {
+           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+         }
+         cb(moment().subtract(29, 'days'), moment());
+         
+         $('#reportrange').daterangepicker({
+           ranges: {
+            'This Month': [moment(), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              
+           }
+         }, cb);
+         
+         });
 var chart = AmCharts.makeChart( "piechart", {
   "type": "pie",
   "theme": "light",
@@ -594,7 +652,12 @@ var chart = AmCharts.makeChart( "piechart", {
     "value": 20,
      "fillColor": "#CC0000",
     "fillAlphas": 0.5,
-  } ],
+  } ,{
+         "title": "Late",
+         "value": 3,
+         "fillColor": "#000",
+         "fillAlphas": 0.5,
+         }],
   "titleField": "title",
   "valueField": "value",
   "labelRadius": 5,
