@@ -29,6 +29,8 @@ angular.module 'PatientApp.notification',[]
 					@errorType = error
 
 			seenNotify:(id)->
+				App.notification.decrement()
+				
 				console.log '********'
 				console.log id
 

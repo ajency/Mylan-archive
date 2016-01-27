@@ -6,6 +6,20 @@ angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
       animate: false,
       back: false
     });
+    App.notification = {
+      badge: false,
+      count: 0,
+      increment: function() {
+        this.badge = true;
+        return this.count = this.count + 1;
+      },
+      decrement: function() {
+        this.count = this.count - 1;
+        if (this.count <= 0) {
+          return this.badge = false;
+        }
+      }
+    };
     return $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
       var bool, hideForStates;
       App.previousState = from.name;

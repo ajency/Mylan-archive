@@ -23,7 +23,11 @@
 			ng-if="App.menuButtonEnabled"
 			ng-click="view.update()" 
 			class="button update">
-			<div class="badge badge-assertive">2</div> 
+			<div 
+				class="badge badge-assertive"
+				ng-if="App.notification.badge">
+				{{App.notification.count}}
+			</div> 
 			Messages
 		</button>
 

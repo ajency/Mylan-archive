@@ -1,9 +1,35 @@
 angular.module('PatientApp.main', []).controller('MainCtr', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', 'Push', function($scope, App, Storage, QuestionAPI, $ionicLoading, Push) {
+  '$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push', function($scope, App, Storage, notifyAPI, $ionicLoading, Push) {
     return $scope.view = {
       init: function() {
         console.log('inittt...');
-        return Push.register();
+        Push.register();
+        return this.getNotifications();
+      },
+      getNotifications: function() {
+        return Storage.setData('refcode', 'get').then((function(_this) {
+          return function(refcode) {
+            var param;
+            param = {
+              "patientId": refcode
+            };
+            return notifyAPI.getNotification(param).then(function(data) {
+              var arrSeen;
+              console.log('notificato data');
+              console.log(data);
+              arrSeen = [];
+              _.each(data, function(value) {
+                if (value.hasSeen === false) {
+                  return arrSeen.push(1);
+                }
+              });
+              if (arrSeen.length > 0) {
+                App.notification.count = arrSeen.length;
+                return App.notification.badge = true;
+              }
+            });
+          };
+        })(this));
       },
       onBackClick: function() {
         var count;

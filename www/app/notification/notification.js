@@ -34,6 +34,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       },
       seenNotify: function(id) {
         var param;
+        App.notification.decrement();
         console.log('********');
         console.log(id);
         App.navigate('dashboard', {}, {

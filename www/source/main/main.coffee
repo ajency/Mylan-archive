@@ -1,13 +1,43 @@
 angular.module 'PatientApp.main', []
 
-.controller 'MainCtr',['$scope', 'App', 'Storage', 'QuestionAPI', '$ionicLoading', 'Push'
-	, ($scope, App, Storage, QuestionAPI, $ionicLoading, Push)->
+.controller 'MainCtr',['$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push'
+	, ($scope, App, Storage, notifyAPI, $ionicLoading, Push)->
 
 		$scope.view =
 
 			init : ->
 				console.log 'inittt...'
 				Push.register()
+				@getNotifications()
+
+
+
+			getNotifications :->
+
+				Storage.setData 'refcode','get'
+				.then (refcode)=>
+					
+					param =
+						"patientId" : refcode
+
+					notifyAPI.getNotification param
+					.then (data)=>	
+						console.log 'notificato data'
+						console.log data
+
+						arrSeen = []
+						_.each data, (value)->
+							if value.hasSeen == false
+								arrSeen.push(1)
+
+						if arrSeen.length > 0
+							App.notification.count = arrSeen.length
+							App.notification.badge = true
+
+
+
+						
+
 
 			onBackClick : ->
 				switch App.currentState
