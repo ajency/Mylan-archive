@@ -8685,3 +8685,9 @@ ul.parsley-errors-list li {
 .footer span {
   color: #757575;
 }
+.horizontal-menu .bar-inner > ul > li.open {
+    color: #666;
+}
+.horizontal-menu .bar-inner > ul > li:hover a{
+    color: #666;
+}

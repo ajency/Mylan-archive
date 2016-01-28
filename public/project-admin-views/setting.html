@@ -154,7 +154,7 @@
                         <li>
                           <a href="questionnaire.html">Questionnaire</a>
                         </li>
-                            <li>
+                        <li>
                           <a href="setting.html">Questionnaire Setting</a>
                         </li>
                         <!--  <li>
@@ -188,22 +188,14 @@
                         <a href="dashboard.html">HOME</a>
                      </li>
                      <li>
-                        <a href="#" class="active">Patients</a> 
+                        <a href="#" class="active">Settings</a> 
                      </li>
                   </ul>
                   </p>
                   <div>
-                     <div class="pull-right m-t-25">
-                        <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
-                        <a href="add-patient.html" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
-                         <div id="reportrange" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;" class="pull-left m-r-20">
-                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                        <span></span> <b class="caret"></b>
-                                    </div>
-                     </div>
+                    
                      <div class="page-title">
-                        <h3><span class="semi-bold">Patients</span></h3>
-                        <p>(Click on any Patient ID to see Profile Details)</p>
+                        <h3><span class="semi-bold">Settings</span></h3>
                      </div>
                   </div>
                                    
@@ -212,300 +204,56 @@
                            <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                     
-                    
-                        <div class="row">
-            <div class="col-sm-6 ">
-<div class="tiles white">
-                           <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">20 </b> </h4>
-                          <hr>
-                         </div>
-                         </div>
-                     </div>
-                     <div class="col-sm-6">
-                     <div class="tiles white">
-                           <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">10 </b></h4>
-                            <hr>
-                           </div>
-                         </div>
-                     </div>
-                  </div>
-
-
-                   <div class="row ">
-                                
-                                <div class="col-md-5">
-                                    <div class="tiles white added-margin">
-                                  <div class="tiles-body">
-
-                                     <div id="piechart"></div>  
-                                     
-                             
-                                   
-                                        </div>
-                                     </div>
-                                </div>
-                                 <div class="col-md-7 m-t-60 ">                                     
-                                          <div class="col-md-4 text-center ">
-                                                <h3 class="no-margin bold">80%</h3>
-                                                <p class=" text-underline">6 Submissions Done</p> 
-                                             </div>
-                                             <div class="col-md-4 text-center">
-                                                <h3 class="no-margin bold">10%</h3>
-                                                <p class="">4 Submissions Missed</p></div>
-                                              <div class="col-md-4 text-center">
-                                                <h3 class="no-margin bold">10%</h3>
-                                                <p class="">4 Submissions Late</p></div>
-                                          </div> 
-                                       </div>
-                <br>
-                  <div class="row">
-                     <div >
-                        <div class="grid simple grid-table grid-table-sort">
-                           <div class="grid-title no-border">
-                              <h4>Patient <span class="semi-bold">Summary</span></h4>
-                               <div class="dataTables_filter pull-right" id="example_filter" style="margin-top:-8px;"><label>Search <input type="text" aria-controls="example" class="input-medium"></label></div>
-                           </div>
-                           <div class="grid-body no-border" style="display: block;">
-                              <table class="table table-flip-scroll table-hover">
-                                 <thead class="cf">
-                                    <tr>
-                                       <th width="12%">Patient ID</th>
-                                       <th width="31%">Total Submissions</th>
-                                       <th class="sorting">
-                                          Compared To Previous
-                                          <br> 
-                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
-                                       <th class="sorting">
-                                          Compared To Baseline
-                                          <br> 
-                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
-                                       <th class="sorting">Graph <br> <br></th>
-                                       <th>
-                                          Action
-                                       </th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    <tr >
-                                       <td onclick="window.document.location='patient-summary.html';">10000001</td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="lst-sub">
-                                             <h2 class="bold pull-left">
-                                                12<br>
-                                                <sm class="text-success">Completed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                12<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                04<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
-                                             <div class="pull-left p-t-20">
-                                                <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
-                                                <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                             </div>
-                                          </div>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">14</span>
-                                          <span class="text-warning">05</span>
-                                          <span class="text-success">06</span>
-                                       </td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="chart-block" style="padding:28px">
-                                             <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
-                                          </div>
-                                       </td>
-                                       <td>
-                                         <span class="text-error"> Suspend</span>
-                                       </td>
-                                    </tr>
-                                    <tr >
-                                       <td onclick="window.document.location='patient-summary.html';">10000002</td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="lst-sub">
-                                             <h2 class="bold pull-left">
-                                                10<br>
-                                                <sm class="text-success">Completed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                05<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                10<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
-                                             <div class="pull-left p-t-20">
-                                                <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
-                                                <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                             </div>
-                                          </div>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">12</span>
-                                          <span class="text-warning">10</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">11</span>
-                                          <span class="text-warning">08</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="chart-block" style="padding:28px">
-                                             <div id="line2" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
-                                          </div>
-                                       </td>
-                                        <td>
-                                         <span class="text-success"> Activate</span>
-                                       </td>
-                                    </tr>
-                                    <tr >
-                                       <td onclick="window.document.location='patient-summary.html';">10000003</td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="lst-sub">
-                                             <h2 class="bold pull-left">
-                                                05<br>
-                                                <sm class="text-success">Completed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                11<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                06<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
-                                             <div class="pull-left p-t-20">
-                                                <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
-                                                <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                             </div>
-                                          </div>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">11</span>
-                                          <span class="text-warning">07</span>
-                                          <span class="text-success">02</span>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">01</span>
-                                          <span class="text-warning">06</span>
-                                          <span class="text-success">02</span>
-                                       </td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="chart-block" style="padding:28px">
-                                             <div id="line3" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
-                                          </div>
-                                       </td>
-                                          <td>
-                                         <span class="text-success"> Activate</span>
-                                       </td>
-                                    </tr>
-                                    <tr >
-                                       <td onclick="window.document.location='patient-summary.html';">10000004</td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="lst-sub">
-                                             <h2 class="bold pull-left">
-                                                10<br>
-                                                <sm class="text-success">Completed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                05<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                04<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
-                                             <div class="pull-left p-t-20">
-                                                <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
-                                                <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                             </div>
-                                          </div>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="chart-block" style="padding:28px" onclick="window.document.location='patient-summary.html';">
-                                             <div id="line4" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
-                                          </div>
-                                       </td>
-                                        <td>
-                                         <span class="text-danger"> Suspend</span>
-                                       </td>
-                                    </tr>
-                                    <tr >
-                                       <td onclick="window.document.location='patient-summary.html';">10000005</td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="lst-sub">
-                                             <h2 class="bold pull-left">
-                                                10<br>
-                                                <sm class="text-success">Completed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                05<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
-                                                12<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
-                                             <div class="pull-left p-t-20">
-                                                <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
-                                                <span class="sm-font">Next Submission  <b>8th Jan</b></span>
-                                             </div>
-                                          </div>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">12</span>
-                                          <span class="text-warning">07</span>
-                                          <span class="text-success">09</span>
-                                       </td>
-                                       <td class="text-center sorting" onclick="window.document.location='patient-summary.html';">
-                                          <span class=" text-error">14</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
-                                       </td>
-                                       <td onclick="window.document.location='patient-summary.html';">
-                                          <div class="chart-block" style="padding:28px">
-                                             <div id="line5" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
-                                          </div>
-                                       </td>
-                                        <td>
-                                     <span class="text-error"> Suspend</span>
-                                       </td>
-                                    </tr>
-                                 </tbody>
-                              </table>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                       <h3 class="">MRI PANCREATITIS</h3>
+                      
+                      <hr>
+         <form class="form-horizontal">
+  <div class="form-group">
+    <label for="Frequency" class="col-sm-6 control-label">Frequency</label>
+    <div class="col-sm-6">
+      <input type="Frequency" class="form-control" id="Frequency" placeholder="Frequency">
+    </div>
+  </div>
+ <div class="form-group">
+    <label for="Frequency" class="col-sm-6 control-label">Grace Period</label>
+    <div class="col-sm-6">
+      <input type="Frequency" class="form-control" id="Frequency" placeholder="Frequency">
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="Frequency" class="col-sm-6 control-label">Reminder Time</label>
+    <div class="col-sm-6">
+      <input type="Frequency" class="form-control" id="Frequency" placeholder="Frequency">
+    </div>
+  </div>
+ <div class="form-group">
+    <label for="Frequency" class="col-sm-6 control-label">Editable</label>
+    <div class="col-sm-6">
+   <div class="radio">
+<input id="YES" type="radio" name="gender" value="Yes" checked="checked">
+<label for="YES">Yes</label>
+<input id="NO" type="radio" name="gender" value="No">
+<label for="NO">No</label>
+</div>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="Frequency" class="col-sm-6 control-label">Questionnaire Type</label>
+    <div class="col-sm-6">
+<select id="remote" style="width:100%" class="">
+<option value="1">Random</option>
+<option value="1">Sequence</option>
+</select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-6 col-sm-6">
+      <button type="submit" class="btn btn-success">Save</button>
+    </div>
+  </div>
+</form>
+                       
+                  
                                    
                      </div>
                   </div>
@@ -959,7 +707,7 @@ var chart = AmCharts.makeChart( "piechart", {
          text-overflow: initial;
          }
          .bigger{
-            font-size: 25px;
+            font-size: 40px;
          }
          .top-data .col-md-2 {
              width: 33% !important;
@@ -968,7 +716,59 @@ var chart = AmCharts.makeChart( "piechart", {
              height: 115px;
           }
 
-
+          .tgl-flip + .tgl-btn {
+  padding: 2px;
+  -webkit-transition: all .2s ease;
+  transition: all .2s ease;
+  font-family: sans-serif;
+  -webkit-perspective: 100px;
+          perspective: 100px;
+}
+.tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+  display: inline-block;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  line-height: 2em;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-radius: 4px;
+}
+.tgl-flip + .tgl-btn:after {
+  content: attr(data-tg-on);
+  background: #02C66F;
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+.tgl-flip + .tgl-btn:before {
+  background: #FF3A19;
+  content: attr(data-tg-off);
+}
+.tgl-flip + .tgl-btn:active:before {
+  -webkit-transform: rotateY(-20deg);
+          transform: rotateY(-20deg);
+}
+.tgl-flip:checked + .tgl-btn:before {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.tgl-flip:checked + .tgl-btn:after {
+  -webkit-transform: rotateY(0);
+          transform: rotateY(0);
+  left: 0;
+  background: #7FC6A6;
+}
+.tgl-flip:checked + .tgl-btn:active:after {
+  -webkit-transform: rotateY(20deg);
+          transform: rotateY(20deg);
+}
 
       </style>
    </body>
