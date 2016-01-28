@@ -8181,6 +8181,9 @@ body.rtl .footer-widget {
 .page-content .text-green {
   color: #0aa699;
 }
+b.f-w {
+  font-weight: 400;
+}
 label {
   font-size: 15px;
 }
@@ -8425,7 +8428,7 @@ div.upload .img-div {
   margin-left: 10px;
 }
 .lst-sub h2 {
-  font-size: 27px!important;
+  font-size: 23px!important;
   margin-right: 10px;
   text-align: center;
 }
@@ -8666,11 +8669,4 @@ input {
 }
 .footer span {
   color: #757575;
-}
-
-.table-responsive{
-  overflow-x: auto;
-}
-.bar-inner ul li:hover a {
-    color: #6f7b8a;
 }
