@@ -51,6 +51,7 @@
                    
                     @if($questions['type']=='input')
                     <div class="row">
+                    <?php $i=1;?>
                       @foreach($optionsList[$questionId] as $option)
                         <?php 
                           $value = '';
@@ -59,8 +60,10 @@
                         ?>
                         <div class="col-md-4">
                            <label>{{ $option['label'] }}</label>
-                           <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control" type="text" pla/>
+                           <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control inputBox" type="text" pla {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
+
                         </div>
+                         <?php $i++;?>
                       @endforeach
                       
                     </div>
@@ -80,7 +83,7 @@
                       </select>
                        
                     @elseif($questions['type']=='multi-choice')
-                      <select name="question[{{ $questionId }}][]" id="question_{{ $questionId }}" class="multiselect select2 form-control" multiple="multiple"   data-parsley-required>
+                      <select name="question[{{ $questionId }}][]" id="question_{{ $questionId }}" class="multiselect select2 form-control" multiple="multiple"  data-parsley-mincheck="1" data-parsley-required>
                   
                        @foreach($optionsList[$questionId] as $option)
                        <?php 
@@ -123,6 +126,19 @@
 <script type="text/javascript">
 $(function(){
   $(".multiselect").multiselect();
+
+  $('.inputBox').change(function (event) { 
+      if($(this).val()=='')
+      { 
+        $(this).closest('.row').find('input:first').attr('data-parsley-required','');
+        $(this).closest('.row').find('.parsley-required').show();
+      }
+      else
+      {  
+        $(this).closest('.row').find('.parsley-required').hide();
+        $(this).closest('.row').find('input').removeAttr('data-parsley-required');
+      }
+    });
 });
 </script>
  

@@ -208,7 +208,7 @@
                         <li><a href="patient-flag.html"><i class="fa fa-flag"></i> Flags</a></li>
                         <li class=""><a href="baseline-score.html"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
                         <li class="active"><a href="patient-reports.html"><i class="fa fa-bar-chart"></i> Reports</a></li>
-                        <!-- <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li> -->
+                        <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li>
                      </ul>
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
@@ -724,97 +724,96 @@
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
       <script type="text/javascript">
 
-$(document).ready(function() {
+
    $(document).ready(function() {
- var chart = AmCharts.makeChart("chartdiv", {
+var chart = AmCharts.makeChart("chartdiv", {
     "type": "serial",
     "theme": "light",
-    "legend": {
-        "useGraphSettings": true
-    },
+    "autoMarginOffset":25,
     "dataProvider": [{
-        "Date":'1 Jan',
-        "Green": 40
+        "year": "1 Jan",
+        "value": 12
     }, {
-        "Date": '2 Jan',
-        "Green": 42
+        "year": "2 Jan",
+        "value": 23
     }, {
-        "Date": '11 Jan',
-        "Green": 45
+        "year": "4 Jan",
+        "value": 22
     }, {
-        "Date": '12 Jan',
-        "Green": 51
+        "year": "8 Jan",
+        "value": 15
     }, {
-        "Date": '14 Jan',
-        "Green": 53
+        "year": "12 Jan",
+        "value": 18
     }, {
-        "Date": '18 Jan',
-        "Green":45
+        "year": "17 Jan",
+        "value": 19
     }, {
-        "Date": '19 Jan',
-        "Green": 54
+        "year": "18 Jan",
+        "value": 23
     }, {
-        "Date": '20 Jan',
-        "Green": 55
+        "year": "19 Jan",
+        "value": 25
+    }, {
+        "year": "21 Jan",
+        "value": 29
+    }, {
+        "year": "23 Jan",
+        "value": 30
+    }, {
+        "year": "24 Jan",
+        "value": 32
+    },  {
+        "year": "26 Jan",
+        "value": 33
     }],
     "valueAxes": [{
-        "integersOnly": true,
-        "maximum": 6,
-        "minimum": 1,
-        "reversed": true,
         "axisAlpha": 0,
-        "dashLength": 5,
-        "position": "top",
-        "title": "Total Score"
+        "position": "right"
     }],
-     "valueAxes": [{
-        "logarithmic": true,
-        "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": 53,
-
-        }],
-         }],
-
-    "graphs": [ {
-        "balloonText": "Weight in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Weight",
-        "lineColor": "#05A8A5",
-        "valueField": "Green",
-        "fillColor": "#ecb42f",
-        "fillAlphas": 0.2,
-         "dashLength": 2,
-         "hidden":false,
-          "inside": true
-
+    "graphs": [{
+        "id":"g1",
+        "balloonText": "[[category]]<br><b>[[value]] </b>",
+        "type": "step",
+        "bullet":"square",
+        "bulletAlpha":0,
+        "bulletSize":4,
+        "bulletBorderAlpha":0,
+        "valueField": "value"
     }],
-    "chartCursor": {
-        "cursorAlpha": 0,
-        "zoomable": false
+    "chartScrollbar": {
+        "graph":"g1",
+        "gridAlpha":0,
+        "color":"#888888",
+        "scrollbarHeight":55,
+        "backgroundAlpha":0,
+        "selectedBackgroundAlpha":0.1,
+        "selectedBackgroundColor":"#888888",
+        "graphFillAlpha":0,
+        "autoGridCount":false,
+        "selectedGraphFillAlpha":0,
+        "graphLineAlpha":1,
+        "graphLineColor":"#c2c2c2",
+        "selectedGraphLineColor":"#888888",
+        "selectedGraphLineAlpha":1
     },
-    "categoryField": "Date",
+    "chartCursor": {
+        "fullWidth":false,
+        "cursorAlpha": 0.05,
+        "graphBulletAlpha":1
+
+    },
+    "categoryField": "year",
     "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0,
-         "fillColor": "#000000",
-        "gridAlpha": 0,
-          "position": "bottom",
-        "title": "Submission"
+        "parseDates": true,
+        "gridAlpha": 0
     },
     "export": {
-      "enabled": true,
-        "position": "bottom-right"
+        "enabled": true
      }
 });
 
 
-});
- 
 
 });
     
