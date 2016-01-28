@@ -8654,6 +8654,15 @@ input {
     -o-transform: rotateZ(0deg);
   }
 }
+/***Error Style***/
+ul.parsley-errors-list {
+  list-style-type: none;
+  text-align: left;
+  padding-left: 0;
+}
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
 /****FOOTER****/
 .footer {
   background-color: #D2D2D2;
