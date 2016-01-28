@@ -950,64 +950,85 @@
          "dataDateFormat": "YYYY-MM-DD HH:NN",
          "dataProvider": [{
            "date": "2012-01-01",
-           "value": 8
+           "value": 8,
+           "prev":12
          }, {
            "date": "2012-01-01",
-           "value": 8
+           "value": 8,
+           "prev":13
+
          },  {
            "date": "2012-01-03",
-           "value": 12
+           "value": 12,
+           "prev":18
          }, {
            "date": "2012-01-04",
-           "value": 14
+           "value": 14,
+           "prev":16
          }, {
            "date": "2012-01-05",
-           "value": 11
+           "value": 11,
+           "prev":13
          }, {
            "date": "2012-01-06",
-           "value": 6
+           "value": 6,
+           "prev":7
          }, {
            "date": "2012-01-07",
-           "value": 7
+           "value": 7,
+           "prev":18
          }, {
            "date": "2012-01-08",
-           "value": 9
+           "value": 9,
+           "prev":19
          }, {
            "date": "2012-01-09",
-           "value": 13
+           "value": 13,
+           "prev":11
          }, {
            "date": "2012-01-10",
-           "value": 15
+           "value": 15,
+           "prev":13
          },  {
            "date": "2012-01-12",
-           "value": 5
+           "value": 5,
+           "prev":11
          }, {
            "date": "2012-01-13",
-           "value": 12
+           "value": 12,
+           "prev":21
          }, {
            "date": "2012-01-14",
-           "value": 14
+           "value": 14,
+           "prev":24
          }, {
            "date": "2012-01-15",
-           "value": 18
+           "value": 18,
+           "prev":12
          }, {
            "date": "2012-01-16",
-           "value": 14
+           "value": 14,
+           "prev":17
          },  {
            "date": "2012-01-18",
-           "value": 18
+           "value": 18,
+           "prev":13
          }, {
            "date": "2012-01-19",
-           "value": 17
+           "value": 17,
+           "prev":15
          }, {
            "date": "2012-01-20",
-           "value": 15
+           "value": 15,
+           "prev":12
          }, {
            "date": "2012-01-21",
-           "value": 12
+           "value": 12,
+           "prev":12
          },  {
            "date": "2012-01-23",
-           "value": 8
+           "value": 8,
+           "prev":11
          }],
          "valueAxes": [{
            "axisAlpha": 0,
@@ -1018,16 +1039,28 @@
                "toValue": 16,
                "value": 10
            }],
+
            "position": "left",
            "tickLength": 0
          }],
          "graphs": [{
-           "balloonText": "[[category]]<br><b><span style='font-size:14px;'>value:[[value]]</span></b>",
+           "balloonText": "[[category]]<br><b><span style='font-size:14px;'>Baseline:[[value]]</span></b>",
            "bullet": "round",
+               "title": "Baseline",
            "dashLength": 3,
            "colorField":"color",
            "valueField": "value"
-         }],
+         },{
+        "balloonText": "Previous in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Previous",
+        "lineColor": "#f35958",
+        "valueField": "prev",
+         "dashLength": 2,
+         "hidden":false,
+          "inside": true
+
+    }],
          // "trendLines": [{
          //     "finalDate": "2012-01-11 12",
          //     "finalValue": 19,
