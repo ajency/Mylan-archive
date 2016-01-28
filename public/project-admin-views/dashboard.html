@@ -214,8 +214,11 @@
                            <div class="tiles white added-margin">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Red <i class="fa fa-flag text-error" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Red Flags generated across submissions"></i></h5>
-                                 <p>Previous / Baseline </p>
-                                 <h2><b>25</b>/12</h2>
+
+                                 <p  class="p-t-10">Previous / Baseline </p>
+                                 <h2><b>25 </b>/<b class="f-w"> 12</b></h2>
+
+
                               </div>
                            </div>
                         </a>
@@ -225,8 +228,11 @@
                            <div class="tiles white added-margin">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Amber <i class="fa fa-flag text-warning" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Amber Flags generated across submissions"></i></h5>
-                                 <p>Previous / Baseline </p>
-                                 <h2><b>11</b>/12</h2>
+
+
+                                 <p class="p-t-10">Previous / Baseline </p>
+                                 <h2><b>11 </b>/<b class="f-w"> 12</b></h2>
+
                               </div>
                            </div>
                         </a>
@@ -235,9 +241,9 @@
                         <a href="submissions.html">
                            <div class="tiles white added-margin">
                               <div class="tiles-body">
-                                 <h5 class="bold m-0 m-b-25"> Unreviewed Submission <br><i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
+                                 <h5 class="bold m-0 m-b-25"> Unreviewed Submissions<br><i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
-                                 <h2 class="semi-bold num-data">
+                                 <h2 class="bold">
                                  25</h2>
                               </div>
                            </div>
@@ -258,15 +264,15 @@
                                  <div class="col-sm-6">
                                           <div class="row m-t-30">
                                              <div class="col-sm-4">
-                                                <h4 class="bold m-0 inline">40</h4>
+                                                <h2 class="bold m-0 inline">40</h2>
                                                 <p> # Completed</p>
                                              </div>
                                              <div class="col-sm-4">
-                                                <h4 class="bold m-0 inline">40</h4>
+                                                <h2 class="bold m-0 inline">40</h2>
                                                 <p> # Missed</p>
                                              </div>
                                              <div class="col-sm-4">
-                                                <h4 class="bold m-0 inline">3 Days</h4>
+                                                <h2 class="bold m-0 inline">3</h2>
                                                 <p> # Late</p>
                                              </div>
                                           </div>
@@ -305,10 +311,11 @@
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
    </div>
-   <div class="notification-messages success">
+  <div class="notification-messages danger">
+     
       <div class="message-wrapper">
-         <div class="heading"> You have've got 150 messages </div>
-         <div class="description"> 150 newly unread messages in your inbox </div>
+         <div class="heading">Patient ID 1000003   </div>
+         <div class="description"> Missed 1 Question </div>
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
@@ -316,7 +323,7 @@
 
                               
                               <div class="text-right">
-                                 <a href="flags.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                                 <a href="notification.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                            </div>
                         </div>
@@ -444,7 +451,8 @@
                                        <option value="volvo">Red Flags (Base)</option>
                                        <option value="saab">Amber Flags (Previous)</option>
                                        <option value="saab">Amber Flags (Base)</option>
-                                       <option value="saab">On Preview Submissions</option>
+                                       <option value="saab">On Review Submissions</option>
+                                       <option value="saab">Unreviewed Submissions</option>
                                        <option value="saab">Late Submissions</option>
                                        <option value="mercedes">Open Submissions</option>
                                        <option value="audi">Completed Submissions</option>
@@ -470,7 +478,19 @@
                                     <tr>
                                        <th class="sorting" width="16%">Patient ID <br><br></th>
                                        <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                       <th class="sorting" width="16%">Total Score <br><br></th>
+                                       <th class="sorting">
+                                          Total Score
+                                          <br> 
+                                          <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>Current <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
+                                       <th class="sorting">
+                                          Change
+                                          <br> 
+                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
                                        <th class="sorting">
                                           Previous
                                           <br> 
@@ -485,12 +505,7 @@
                                           <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                           <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                        </th>
-                                       <th class="sorting">
-                                          Change
-                                          <br> 
-                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
+                                       
                                        <th class="sorting">Review Status<br><br>
                                        </th>
                                     </tr>
@@ -500,13 +515,17 @@
                                        <td class="text-center">10000001</td>
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                          <sm>Sub - 12</sm>
+                                          <sm><b>#12</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>10</span>
+                                          <span>12</span>
+                                          <span>10</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">10</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                23<sm> / 54</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class=" text-error">04</span>
@@ -518,24 +537,24 @@
                                           <span class="text-warning">13</span>
                                           <span class=" text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                23<sm> / 54</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                     <tr onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000002</td>
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
-                                          <sm>Sub - 13</sm>
+                                          <sm><b>#13</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>09</span>
+                                          <span>11</span>
+                                          <span>12</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">12</h3>
-                                          <sm class="text-muted sm-font m-t-10" >Prev - 11 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 13</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class="text-error">14</span>
@@ -547,53 +566,53 @@
                                           <span class="text-warning">03</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                11<sm> / 13</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000003</td>
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
-                                          <sm>Sub - 10</sm>
-                                       </td>
-                                       <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">07</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 07 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 15 <i class="fa fa-flag "></i> </sm>
+                                          <sm><b>#10</b></sm>
                                        </td>
                                        <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
+                                          <span>15</span>
+                                          <span>07</span>
+                                          <span>07</span>
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
                                                 11<sm> / 23</sm>
                                            </h4>
                                        </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">04</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">24</span>
+                                          <span class="text-warning">13</span>
+                                          <span class="text-success">14</span>
+                                       </td>
+                                       
+                                       <td class="text-center text-warning">Unreviewed</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
                                        <td class="text-center">10000004</td>
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
-                                          <sm>Sub - 13</sm>
+                                          <sm><b>#13</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>10</span>
+                                          <span>12</span>
+                                          <span>14</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">14</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 15</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class="text-error">04</span>
@@ -605,12 +624,8 @@
                                           <span class="text-warning">13</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                11<sm> / 15</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +2</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                  </tbody>
                               </table>
@@ -620,20 +635,18 @@
                               </div>
                            </div>
                         </div>
-                     
                   <div class="row">
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
                            <div class="grid-title no-border">
                               <h4>Patient <span class="semi-bold">Summary</span></h4>
-                              <div class="tools"> <a href="javascript:;" class="collapse"></a>  </div>
                            </div>
                            <div class="grid-body no-border" style="display: block;">
                               <table class="table table-flip-scroll table-hover">
                                  <thead class="cf">
                                     <tr>
                                        <th width="12%">Patient ID</th>
-                                       <th width="27%">Total Submissions</th>
+                                       <th width="31%">Total Submissions</th>
                                        <th class="sorting">
                                           Compared To Previous
                                           <br> 
@@ -667,6 +680,10 @@
                                                 12<br>
                                                 <sm class="text-danger">Missed</sm>
                                              </h2>
+                                             <h2 class="bold pull-left">
+                                                04<br>
+                                                <sm class="text-warning">Late</sm>
+                                             </h2>
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -689,8 +706,7 @@
                                           </div>
                                        </td>
                                        <td>
-                                        <input class='tgl tgl-flip ' id='cb5' type='checkbox' style="display:none;">
-    <label class='tgl-btn' data-tg-off='Suspend' data-tg-on='Activate' for='cb5'></label>
+                                         <span class="text-error"> Suspend</span>
                                        </td>
                                     </tr>
                                     <tr >
@@ -704,6 +720,10 @@
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
+                                             </h2>
+                                             <h2 class="bold pull-left">
+                                                10<br>
+                                                <sm class="text-warning">Late</sm>
                                              </h2>
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
@@ -727,8 +747,7 @@
                                           </div>
                                        </td>
                                         <td>
-                                        <input class='tgl tgl-flip ' id='cb3' type='checkbox' style="display:none;">
-    <label class='tgl-btn' data-tg-off='Suspend' data-tg-on='Activate' for='cb3'></label>
+                                         <span class="text-success"> Activate</span>
                                        </td>
                                     </tr>
                                     <tr >
@@ -742,6 +761,10 @@
                                              <h2 class="bold pull-left">
                                                 11<br>
                                                 <sm class="text-danger">Missed</sm>
+                                             </h2>
+                                             <h2 class="bold pull-left">
+                                                06<br>
+                                                <sm class="text-warning">Late</sm>
                                              </h2>
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
@@ -765,8 +788,7 @@
                                           </div>
                                        </td>
                                           <td>
-                                        <input class='tgl tgl-flip ' id='cb2' type='checkbox' style="display:none;">
-    <label class='tgl-btn' data-tg-off='Suspend' data-tg-on='Activate' for='cb2'></label>
+                                         <span class="text-success"> Activate</span>
                                        </td>
                                     </tr>
                                     <tr >
@@ -780,6 +802,10 @@
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
+                                             </h2>
+                                             <h2 class="bold pull-left">
+                                                04<br>
+                                                <sm class="text-warning">Late</sm>
                                              </h2>
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
@@ -803,8 +829,7 @@
                                           </div>
                                        </td>
                                         <td>
-                                        <input class='tgl tgl-flip ' id='cb6' type='checkbox' style="display:none;">
-    <label class='tgl-btn' data-tg-off='Suspend' data-tg-on='Activate' for='cb6'></label>
+                                         <span class="text-danger"> Suspend</span>
                                        </td>
                                     </tr>
                                     <tr >
@@ -818,6 +843,10 @@
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
+                                             </h2>
+                                             <h2 class="bold pull-left">
+                                                12<br>
+                                                <sm class="text-warning">Late</sm>
                                              </h2>
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
@@ -841,8 +870,7 @@
                                           </div>
                                        </td>
                                         <td>
-                                        <input class='tgl tgl-flip ' id='cb1' type='checkbox' style="display:none;">
-    <label class='tgl-btn' data-tg-off='Suspend' data-tg-on='Activate' for='cb1'></label>
+                                     <span class="text-error"> Suspend</span>
                                        </td>
                                     </tr>
                                  </tbody>
@@ -1440,7 +1468,7 @@
       </script>
       <style type="text/css">
          .grid-title h4 {
-         width: 55% !important;
+         width: 53% !important;
          white-space: inherit;
          overflow: hidden;
          text-overflow: initial;
@@ -1452,62 +1480,9 @@
              width: 33% !important;
          }
          .top-data .tiles {
-             height: 115px;
+             height: 120px;
           }
 
-          .tgl-flip + .tgl-btn {
-  padding: 2px;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
-  font-family: sans-serif;
-  -webkit-perspective: 100px;
-          perspective: 100px;
-}
-.tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
-  display: inline-block;
-  -webkit-transition: all .4s ease;
-  transition: all .4s ease;
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  line-height: 2em;
-  font-weight: bold;
-  color: #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  border-radius: 4px;
-}
-.tgl-flip + .tgl-btn:after {
-  content: attr(data-tg-on);
-  background: #02C66F;
-  -webkit-transform: rotateY(-180deg);
-          transform: rotateY(-180deg);
-}
-.tgl-flip + .tgl-btn:before {
-  background: #FF3A19;
-  content: attr(data-tg-off);
-}
-.tgl-flip + .tgl-btn:active:before {
-  -webkit-transform: rotateY(-20deg);
-          transform: rotateY(-20deg);
-}
-.tgl-flip:checked + .tgl-btn:before {
-  -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
-}
-.tgl-flip:checked + .tgl-btn:after {
-  -webkit-transform: rotateY(0);
-          transform: rotateY(0);
-  left: 0;
-  background: #7FC6A6;
-}
-.tgl-flip:checked + .tgl-btn:active:after {
-  -webkit-transform: rotateY(20deg);
-          transform: rotateY(20deg);
-}
 
       </style>
    </body>
