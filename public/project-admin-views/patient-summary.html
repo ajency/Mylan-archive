@@ -208,7 +208,7 @@
                         <li><a href="patient-flag.html"><i class="fa fa-flag"></i> Flags</a></li>
                         <li class=""><a href="patient-baseline.html"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
                         <li class=""><a href="patient-reports.html"><i class="fa fa-bar-chart"></i> Reports</a></li>
-                        <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li>
+                        <!-- <li class=""><a href="patient-details.html"><i class="fa fa-bar-chart"></i> Details</a></li> -->
                      </ul>
                      <div class="tab-content">
                         <div class="tab-pane table-data active" id="Patients">
@@ -382,69 +382,81 @@
                    </div>
                    <div class="row">
                      <div class="col-sm-12">
-                          <table class="table table-hover" id="example">
-                              <thead>
-                                 <tr>
-                                    <th class="hidden">Patient</th>
-                                    <th class="hidden">Doctor</th>
-                                    <th>Submission #</th>
-                                    <th>Reason for Flag</th>
-                                    <th>Type</th>
-                                    <th>Date</th>
-                                    
-                                 </tr>
-                              </thead>
-                              <tbody>
-                                 <tr class="odd gradeX" onclick="window.document.location='p1-submission6.html';">
-                                    <td class="hidden">123</td>
-                                    <td class="hidden">Dr. Mark</td>
-                                    <td>12</td>
-                                    <td>Difference of more than 5 units in previous answer</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/12/2015</td>
-                                 </tr>
-                                 <tr class="even gradeC" onclick="window.document.location='p1-submission5.html';">
-                                    <td class="hidden">234</td>
-                                    <td class="hidden">Dr. Stanley</td>
-                                    <td>7</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/7/2015</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission4.html';">
-                                    <td class="hidden">456</td>
-                                    <td class="hidden">Dr. Stanley</td>
-                                    <td>6</td>
-                                    <td>5 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/6/2015</td>
-                                 </tr>
-                                 <tr class="even gradeA" onclick="window.document.location='p1-submission3.html';">
-                                    <td class="hidden">123</td>
-                                    <td class="hidden">Dr. Keean</td>
-                                    <td>5</td>
-                                    <td>5 missed submission</td>
-                                   <td><i class="fa fa-flag text-success"></i></td>
-                                    <td>6/5/2015</td>
-                                 </tr>
-                                 <tr class="odd gradeA" onclick="window.document.location='p1-submission2.html';">
-                                    <td class="hidden">56</td>
-                                    <td class="hidden">Dr. Nell</td>
-                                    <td>2</td>
-                                    <td>7 missed submission</td>
-                                    <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/2/2015</td>
-                                 </tr>
-                                 <tr class="gradeA" onclick="window.document.location='p1-submission1.html';">
-                                    <td class="hidden">90</td>
-                                    <td class="hidden">Keean</td>
-                                    <td>1</td>
-                                    <td>12 missed submission</td>
-                                     <td><i class="fa fa-flag text-warning"></i></td>
-                                    <td>6/1/2015</td>
-                                 </tr>                                 
-                              </tbody>
-                           </table>
+                          <table class="table table-hover dashboard-tbl">
+                                    <thead>
+                                       <tr>
+                                         
+                                          <th width="30%"># Submission</th>
+                                          <th>Reason for Flag</th>
+                                          <th>Type</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm><b>#13</b></sm>
+                                             </div>
+                                          </td>
+                                          <td>4 points higher than Baseline</td>
+                                          <td><i class="fa fa-flag text-amber"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                          
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                                <sm><b>#13</b></sm>
+                                             </div>
+                                          </td>
+                                          <td>3 points higher than Baseline</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                                <sm><b>#11</b></sm>
+                                             </div>
+                                          </td>
+                                          <td>2 points higher than Baseline</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
+                                                <sm><b>#12</b></sm>
+                                             </div>
+                                          </td>
+                                          <td>1 point higher than the baseline</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                          
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
+                                                <sm><b>#11</b></sm>
+                                             </div>
+                                          </td>
+                                          <td>Missed a Questionnaire</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                      <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                          <td>10000003</td>
+                                          <td>29th Oct</td>
+                                          <td>4,2</td>
+                                          <td>2 points higher than the previous answer</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                          <td> <span class="label label-warning">De-Flag</span></td>
+                                          </tr> -->
+                                    </tbody>
+                                 </table>
                               <hr style="margin: 0px 0px 10px 0px;">
                        <div class="text-right">
                               <a href="patient-flag.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
@@ -475,7 +487,7 @@
                              <div class="col-sm-12"> 
                        <div class="grid simple grid-table">
                       <div class="grid-title no-border">
-                                      <h4>Submissions <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="List of individual submissions. Default sorting by time."></i></h4>
+                                      <h4>Submissions <span class="semi-bold">Summary</span></h4>
 
                      
                       </div>
@@ -484,9 +496,20 @@
                             <table class="table table-flip-scroll table-hover dashboard-tbl">
                                  <thead class="cf">
                                     <tr>
-                                       <th class="sorting" width="16%">Patient ID <br><br></th>
                                        <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                       <th class="sorting" width="16%">Total Score <br><br></th>
+                                       <th class="sorting">
+                                          Total Score
+                                          <br> 
+                                          <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>Current <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
+                                       <th class="sorting">
+                                          Change
+                                          <br> 
+                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
+                                       </th>
                                        <th class="sorting">
                                           Previous
                                           <br> 
@@ -501,28 +524,27 @@
                                           <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                           <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                        </th>
-                                       <th class="sorting">
-                                          Change
-                                          <br> 
-                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
+                                       
                                        <th class="sorting">Review Status<br><br>
                                        </th>
                                     </tr>
                                  </thead>
                                  <tbody>
                                     <tr onclick="window.document.location='p1-submission1.html';">
-                                       <td class="text-center">10000001</td>
+                                      
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                          <sm>Sub - 12</sm>
+                                          <sm><b>#12</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>10</span>
+                                          <span>12</span>
+                                          <span>10</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">10</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                23<sm> / 54</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class=" text-error">04</span>
@@ -534,24 +556,24 @@
                                           <span class="text-warning">13</span>
                                           <span class=" text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                23<sm> / 54</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                     <tr onclick="window.document.location='p1-submission1.html';">
-                                       <td class="text-center">10000002</td>
+                                      
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
-                                          <sm>Sub - 13</sm>
+                                          <sm><b>#13</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>09</span>
+                                          <span>11</span>
+                                          <span>12</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">12</h3>
-                                          <sm class="text-muted sm-font m-t-10" >Prev - 11 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 09 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 13</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class="text-error">14</span>
@@ -563,53 +585,53 @@
                                           <span class="text-warning">03</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                11<sm> / 13</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
-                                       <td class="text-center">10000003</td>
+                                     
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
-                                          <sm>Sub - 10</sm>
-                                       </td>
-                                       <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">07</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 07 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 15 <i class="fa fa-flag "></i> </sm>
+                                          <sm><b>#10</b></sm>
                                        </td>
                                        <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
+                                          <span>15</span>
+                                          <span>07</span>
+                                          <span>07</span>
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
                                                 11<sm> / 23</sm>
                                            </h4>
                                        </td>
-                                       <td class="text-center">Missed by +1</td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">04</span>
+                                          <span class="text-warning">03</span>
+                                          <span class="text-success">04</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">24</span>
+                                          <span class="text-warning">13</span>
+                                          <span class="text-success">14</span>
+                                       </td>
+                                       
+                                       <td class="text-center text-warning">Unreviewed</td>
                                     </tr>
                                     <tr  onclick="window.document.location='p1-submission1.html';">
-                                       <td class="text-center">10000004</td>
+                                      
                                        <td class="text-center">
                                           <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
-                                          <sm>Sub - 13</sm>
+                                          <sm><b>#13</b></sm>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span>10</span>
+                                          <span>12</span>
+                                          <span>14</span>
                                        </td>
                                        <td class="text-center">
-                                          <h3 class="bold pull-left p-l-10">14</h3>
-                                          <sm class="text-muted sm-font m-t-10">Prev - 12 <i class="fa fa-flag "></i> </sm>
-                                          <br>
-                                          <sm class="text-muted sm-font">Base - 10 <i class="fa fa-flag "></i> </sm>
+                                          <h4 class="semi-bold margin-none flagcount">
+                                                11<sm> / 15</sm>
+                                           </h4>
                                        </td>
                                        <td class="text-center sorting">
                                           <span class="text-error">04</span>
@@ -621,12 +643,8 @@
                                           <span class="text-warning">13</span>
                                           <span class="text-success">14</span>
                                        </td>
-                                       <td class="text-center">
-                                          <h4 class="semi-bold margin-none flagcount">
-                                                11<sm> / 15</sm>
-                                           </h4>
-                                       </td>
-                                       <td class="text-center">Missed by +2</td>
+                                       
+                                       <td class="text-center text-success">Reviewed</td>
                                     </tr>
                                  </tbody>
                               </table>
