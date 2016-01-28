@@ -107,7 +107,7 @@ function hospitalImageExist($hospital)
 { 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-    if($hospital['logo']!='' && file_exists($logoUrl))
+    if($hospital['logo']!='')
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
     else
         $logo = '<h3>'.$hospital['name'].'</h3>';
