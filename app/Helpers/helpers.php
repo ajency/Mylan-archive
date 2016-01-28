@@ -107,7 +107,7 @@ function hospitalImageExist($hospital)
 { 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-    if($hospital['logo']!='')
+    if($hospital['logo']!='' && file_exists($logoUrl))
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
     else
         $logo = '<h3>'.$hospital['name'].'</h3>';
@@ -117,11 +117,11 @@ function hospitalImageExist($hospital)
 
 function verifyProjectSlug($hospitalSlug ,$projectSlug)
 {
-    $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
+    $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first();
     if(empty($hospital))
         abort(404); 
 
-    $project = App\Projects::where('project_slug',$projectSlug)->where('hospital_id',$hospital['id'])->first()->toArray(); 
+    $project = App\Projects::where('project_slug',$projectSlug)->where('hospital_id',$hospital['id'])->first(); 
     if(empty($project))
         abort(404);
 
