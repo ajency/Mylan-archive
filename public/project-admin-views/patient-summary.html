@@ -243,32 +243,40 @@
                         </div>
                    </div>
                            <div class="row">
-                              <div class="col-sm-5">
-                              <div class="alert alert-info">
+                              <div class="col-sm-5 b-r">
+                              <div class="">
                                  <div id="submissionschart"></div>  
                                       <div class="row p-t-20">                                     
                                           
-                                             <div class="col-md-6 text-center">
+                                             <div class="col-md-4 text-center">
                                                 
-                                                <h1 class="no-margin">67%</h1>
+                                                <h3 class="no-margin bold">80%</h3>
                                                 <p class=" text-underline">6 Submissions Done</p> 
                                                                               
                                              </div>
-                                             <div class="col-md-6 text-center">
+                                             <div class="col-md-4 text-center">
                                                 
                                                                                         
-                                                <h1 class="no-margin">32%</h1>
+                                                <h3 class="no-margin bold">10%</h3>
+                                                <p class="">4 Submissions Missed</p>                                                          
+                                             </div>
+                                              <div class="col-md-4 text-center">
+                                                
+                                                                                        
+                                                <h3 class="no-margin bold">10%</h3>
                                                 <p class="">4 Submissions Missed</p>                                                          
                                              </div>
                                           </div> 
                               </div>
                               </div>
+                         <!--      <div class="col-sm-1 ">
+                              </div> -->
                               <div class="col-sm-7">
                                   <select class="pull-right">
-                                      <option value="volvo">Submissions</option>
-                                      <option value="volvo" selected>Total Red Flags</option>
-                                      <option value="saab"> Total Amber Flags</option>
-                                       <option value="saab">Total Green Flags</option>
+                                      <option value="volvo" selected>Total Score</option>
+                                      <option value="volvo" > Red Flags</option>
+                                      <option value="saab">  Amber Flags</option>
+                                       <option value="saab">Green Flags</option>
                                           </select> 
                                            <div id="chartdiv"></div>
                               </div>
@@ -346,7 +354,7 @@
                               <br>
                                        <br><br> -->
 
-                              <br><br>
+                              <hr><br>
                        
                         <select class="pull-right">
                                       <option value="volvo">Pain</option>
@@ -967,68 +975,57 @@
     },
     "dataProvider": [{
         "Date":'1 Jan',
-        "Previous": 1,
-        "Baseline": 5
+        "score": 1
     }, {
         "Date": '2 Jan',
-        "Previous": 1,
-        "Baseline": 2
+        "score": 4
     }, {
         "Date": '11 Jan',
-        "Previous": 2,
-        "Baseline": 3
+        "score": 10
     }, {
         "Date": '12 Jan',
-        "Previous": 3,
-        "Baseline": 4
+        "score": 3
     }, {
         "Date": '14 Jan',
-        "Previous": 5,
-        "Baseline": 1
+        "score": 11
     }, {
         "Date": '18 Jan',
-        "Previous": 3,
-        "Baseline": 2
+        "score": 3
     }, {
         "Date": '19 Jan',
-        "Previous": 1,
-        "Baseline": 2
+        "score": 5
     }, {
         "Date": '22 Jan',
-        "Previous": 2,
-        "Baseline": 1
+        "score": 9
     }],
     "valueAxes": [{
         "integersOnly": true,
         "maximum": 6,
         "minimum": 1,
-        "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "position": "top",
+        "position": "right",
         "title": "Total Score"
     }],
      "valueAxes": [{
         "logarithmic": true,
         "dashLength": 1,
-        
+        "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": 3,
+
+        }],
          }],
 
-    "graphs": [{
-        "balloonText": "Baseline in [[category]]: [[value]]",
+    "graphs": [ {
+        "balloonText": " Score in [[category]]: [[value]]",
         "bullet": "round",
-        "title": "Baseline",
-       "lineColor": "#CC0000",
-        "valueField": "Baseline",
-    "dashLength": 2,
-    "inside": true
-    
-    }, {
-        "balloonText": " Previous in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": "Previous",
+        "title": "Score",
         "lineColor": "#ecb42f",
-        "valueField": "Previous",
+        "valueField": "score",
        "dashLength": 2,
        "inside": true
     }],
@@ -1043,7 +1040,7 @@
          "fillColor": "#000000",
         "gridAlpha": 0,
           "position": "bottom",
-        "title": "Total Red Flags"
+        "title": "Date"
     },
     "export": {
       "enabled": true,
@@ -1055,10 +1052,14 @@
            "theme": "light",
            "dataProvider": [ {
              "title": "# Missed",
-             "value": 4852
+             "value": 10
            }, {
              "title": "# Done",
-             "value": 9899
+             "value": 80
+           } 
+           , {
+             "title": "# late",
+             "value": 10
            } ],
            "titleField": "title",
            "valueField": "value",
@@ -1119,7 +1120,7 @@
         "reversed": true,
         "axisAlpha": 0,
         "dashLength": 5,
-        "position": "top",
+        "position": "right",
         "title": "Total Score"
     }],
 
