@@ -192,7 +192,7 @@
                   </ul>
                   </p>
                     <div class="pull-right">
-                       <a href="add-patient.html" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
+                     
                       <div id="reportrange" class="pull-right m-r-10" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
                                  <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                  <span></span> <b class="caret"></b>
@@ -378,24 +378,41 @@
                         <div class="tab-pane active" id="submissions">
                            <!-- <a href="#" class="btn btn-danger pull-right"><i class="fa fa-download"></i> Download CSV</a>
                            <h4><span class="semi-bold">Recent Submissions</span> (Showing 10 recent submissions)</h4> -->
-                                 <div class="text-right">
-                                       <select name="role" id="role" class="select2">
+                                   <ul class="nav nav-tabs" role="tablist">
+                              <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All Flags  <i class="fa fa-flag text-muted"></i></a>
+                              </li>
+                              <li role="presentation" ><a href="#red" aria-controls="red" role="tab" data-toggle="tab">Red <i class="fa fa-flag text-error"></i></a>
+                              </li>
+                              <li role="presentation"><a href="#amber" aria-controls="amber" role="tab" data-toggle="tab">Amber <i class="fa fa-flag text-warning"></i></a></li>
+                              <li role="presentation"><a href="#green" aria-controls="green" role="tab" data-toggle="tab">Green <i class="fa fa-flag text-success"></i></a></li>
+                           </ul>
+                           <!-- Tab panes -->
+                           <div class="tab-content">
+                              <div role="tabpanel" class="tab-pane active" id="all">
+                                  <div class="row">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-5 text-right">
+                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
                                           <option value="2">Filter By</option>
                                           <option value="2">Previous</option>
                                           <option value="2">Baseline</option>
                                        </select>
                                     </div>
-                                    <br>
-                              <table class="table table-hover dashboard-tbl">
+                                  
+                                 </div>
+                                 <hr class="">
+                                 <table class="table table-hover dashboard-tbl">
                                     <thead>
                                        <tr>
-                                          <th width="30%"># Submission</th>
+                                         
+                                          <th width="20%"># Submission</th>
                                           <th>Reason for Flag</th>
                                           <th>Type</th>
                                        </tr>
                                     </thead>
                                     <tbody>
                                        <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                    
                                           <td width="110px">
                                              <div class="p-l-10 p-r-20">
                                                 <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
@@ -406,6 +423,7 @@
                                           <td><i class="fa fa-flag text-amber"></i></td>
                                        </tr>
                                        <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
                                           <td width="110px">
                                              <div class="p-l-10 p-r-20">
                                                 <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
@@ -416,6 +434,7 @@
                                           <td><i class="fa fa-flag text-error"></i></td>
                                        </tr>
                                        <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
                                           <td width="110px">
                                              <div class="p-l-10 p-r-20">
                                                 <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
@@ -426,6 +445,7 @@
                                           <td><i class="fa fa-flag text-error"></i></td>
                                        </tr>
                                        <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
                                           <td width="110px">
                                              <div class="p-l-10 p-r-20">
                                                 <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
@@ -436,6 +456,7 @@
                                           <td><i class="fa fa-flag text-danger"></i></td>
                                        </tr>
                                        <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                 
                                           <td width="110px">
                                              <div class="p-l-10 p-r-20">
                                                 <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
@@ -444,6 +465,61 @@
                                           </td>
                                           <td>In comparison with baseline score set for Bowel Habits</td>
                                           <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                  
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Diabetes Questionnaire for submission no 03</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                       
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
+                                                <sm>#07</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-success"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Appetite Questionnaire</td>
+                                          <td><i class="fa fa-flag text-amber"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                  
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
+                                                <sm>#17</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Bowel Habits for submission 10</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Diabetes Questionnaire for submission no 11</td>
+                                          <td><i class="fa fa-flag text-success"></i></td>
                                        </tr>
                                        <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
                                           <td>10000003</td>
@@ -455,9 +531,296 @@
                                           </tr> -->
                                     </tbody>
                                  </table>
-                              
-                           
+                              </div>
+                                       <div role="tabpanel" class="tab-pane " id="red">
+                                  <div class="row">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-5 text-right">
+                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
+                                          <option value="2">Filter By</option>
+                                          <option value="2">Previous</option>
+                                          <option value="2">Baseline</option>
+                                       </select>
+                                    </div>
+                                  
+                                 </div>
+                                 <hr class="">
+                                 <table class="table table-hover dashboard-tbl">
+                                    <thead>
+                                       <tr>
+                                         
+                                          <th width="20%"># Submission</th>
+                                          <th>Reason for Flag</th>
+                                          <th>Type</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                 
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Bowel Habits for submission 04</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                   
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
+                                                <sm>#12</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Well Being</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                   
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                   
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
+                                                <sm>#07</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Well Being</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                       
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Bowel Habits for submission 10</td>
+                                          <td><i class="fa fa-flag text-error"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
+                                                <sm>#17</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                      
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                       </tr>
+                                       <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                          <td>10000003</td>
+                                          <td>29th Oct</td>
+                                          <td>4,2</td>
+                                          <td>2 points higher than the previous answer</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                          <td> <span class="label label-warning">De-Flag</span></td>
+                                          </tr> -->
+                                    </tbody>
+                                 </table>
+                              </div>
+                                      <div role="tabpanel" class="tab-pane" id="amber">
+                                 <div class="row">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-5 text-right">
+                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
+                                          <option value="2">Filter By</option>
+                                          <option value="2">Previous</option>
+                                          <option value="2">Baseline</option>
+                                       </select>
+                                    </div>
+                                  
+                                 </div>
+                                 <hr class="">
+                                 <table class="table table-hover">
+                                    <thead>
+                                       <tr>
+                                        
+                                          <th width="20%"># Submission</th>
+                                          <th>Reason for Flag</th>
+                                          <th>Type</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                          
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                          
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                                                            <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Well Being</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                    
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
+                                                <sm>#12</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Well Being</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                      
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">15th Dec</h4>
+                                                <sm>#11</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">17th Dec</h4>
+                                                <sm>#07</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">18th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 02</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                         
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">19th Dec</h4>
+                                                <sm>#17</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with baseline score set for Weight</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
+                                        
+                                          <td width="110px">
+                                             <div class="p-l-10 p-r-20">
+                                                <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
+                                                <sm>#13</sm>
+                                             </div>
+                                          </td>
+                                          <td>In comparison with previous score for Pain for submission 06</td>
+                                          <td><i class="fa fa-flag text-warning"></i></td>
+                                       </tr>
+                                       <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
+                                          <td>10000003</td>
+                                          <td>29th Oct</td>
+                                          <td>4,2</td>
+                                          <td>2 points higher than the previous answer</td>
+                                          <td><i class="fa fa-flag text-danger"></i></td>
+                                          <td> <span class="label label-warning">De-Flag</span></td>
+                                          </tr> -->
+                                    </tbody>
+                                 </table>
+                              </div>
                         </div>
+                            
                         <div class="tab-pane" id="Reports">
                         </div>
                      </div>
