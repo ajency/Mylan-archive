@@ -312,7 +312,7 @@
      
       <div class="message-wrapper">
          <div class="heading">Patient ID 1000001   </div>
-         <div class="description"> Missed 1 Question </div>
+         <div class="description"> Missed 1 Questionnaire </div>
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
@@ -321,7 +321,7 @@
      
       <div class="message-wrapper">
          <div class="heading">Patient ID 1000003   </div>
-         <div class="description"> Missed 1 Question </div>
+         <div class="description"> Missed 1 Questionnaire </div>
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
@@ -372,7 +372,7 @@
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <tr>
+                                    <tr onclick="window.document.location='patient-flag.html';">
                                        <td class="  text-center">10000001</td>
                                        <td class="text-center sorting">
                                           <span class=" text-error">04</span>
@@ -385,7 +385,7 @@
                                           <span class=" text-success">14</span>
                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr onclick="window.document.location='patient-flag.html';">
                                        <td class="  text-center">10000002</td>
                                        <td class="text-center sorting">
                                           <span class="text-error">14</span>
@@ -398,7 +398,7 @@
                                           <span class="text-success">14</span>
                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr onclick="window.document.location='patient-flag.html';">
                                        <td class="  text-center">10000003</td>
                                        <td class="text-center sorting">
                                           <span class="text-error">04</span>
@@ -411,7 +411,7 @@
                                           <span class="text-success">14</span>
                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr onclick="window.document.location='patient-flag.html';">
                                        <td class="  text-center">10000004</td>
                                        <td class="text-center sorting">
                                           <span class="text-error">04</span>
@@ -424,7 +424,7 @@
                                           <span class="text-success">14</span>
                                        </td>
                                     </tr>
-                                    <tr>
+                                    <tr onclick="window.document.location='patient-flag.html';">
                                        <td class="  text-center">10000005</td>
                                        <td class="text-center sorting">
                                           <span class="text-error">04</span>
@@ -460,7 +460,7 @@
                                     </select>
                                  </div>
                               </div>
-                              <div id="chartdiv"></div>
+                              <div id="chartdiv" style="width:100%;"></div>
                            </div>
                         </div>
                      </div>
@@ -524,7 +524,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                0<sm> / 2</sm>
+                                                <b>2</b> / <b class="f-w">0</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -553,7 +553,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                -3<sm> / -1</sm>
+                                                <b>-1</b> / <b class="f-w">-3</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -582,7 +582,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                8<sm> / 0</sm>
+                                                <b>0</b> / <b class="f-w">8</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -611,7 +611,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                -4<sm> / -2</sm>
+                                                <b>-2</b> / <b class="f-w">-4</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -940,174 +940,104 @@
          $(function () {
          $('[data-toggle="tooltip"]').tooltip()
          })
-         $(document).ready(function() {
+    
             
-         var chart = AmCharts.makeChart("chartdiv", {
-         "type": "serial",
-         "theme": "light",
-         "marginRight":80,
-         "autoMarginOffset":20,
-         "dataDateFormat": "YYYY-MM-DD HH:NN",
-         "dataProvider": [{
-           "date": "2012-01-01",
-           "value": 8,
-           "prev":12
-         }, {
-           "date": "2012-01-01",
-           "value": 8,
-           "prev":13
-
-         },  {
-           "date": "2012-01-03",
-           "value": 12,
-           "prev":18
-         }, {
-           "date": "2012-01-04",
-           "value": 14,
-           "prev":16
-         }, {
-           "date": "2012-01-05",
-           "value": 11,
-           "prev":13
-         }, {
-           "date": "2012-01-06",
-           "value": 6,
-           "prev":7
-         }, {
-           "date": "2012-01-07",
-           "value": 7,
-           "prev":18
-         }, {
-           "date": "2012-01-08",
-           "value": 9,
-           "prev":19
-         }, {
-           "date": "2012-01-09",
-           "value": 13,
-           "prev":11
-         }, {
-           "date": "2012-01-10",
-           "value": 15,
-           "prev":13
-         },  {
-           "date": "2012-01-12",
-           "value": 5,
-           "prev":11
-         }, {
-           "date": "2012-01-13",
-           "value": 12,
-           "prev":21
-         }, {
-           "date": "2012-01-14",
-           "value": 14,
-           "prev":24
-         }, {
-           "date": "2012-01-15",
-           "value": 18,
-           "prev":12
-         }, {
-           "date": "2012-01-16",
-           "value": 14,
-           "prev":17
-         },  {
-           "date": "2012-01-18",
-           "value": 18,
-           "prev":13
-         }, {
-           "date": "2012-01-19",
-           "value": 17,
-           "prev":15
-         }, {
-           "date": "2012-01-20",
-           "value": 15,
-           "prev":12
-         }, {
-           "date": "2012-01-21",
-           "value": 12,
-           "prev":12
-         },  {
-           "date": "2012-01-23",
-           "value": 8,
-           "prev":11
+         $(document).ready(function() {
+ var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": [{
+        "Date":'1 Jan',
+        "Previous": 1,
+        "Baseline": 5
+    }, {
+        "Date": '2 Jan',
+        "Previous": 1,
+        "Baseline": 2
+    }, {
+        "Date": '11 Jan',
+        "Previous": 2,
+        "Baseline": 3
+    }, {
+        "Date": '12 Jan',
+        "Previous": 3,
+        "Baseline": 4
+    }, {
+        "Date": '14 Jan',
+        "Previous": 5,
+        "Baseline": 1
+    }, {
+        "Date": '18 Jan',
+        "Previous": 3,
+        "Baseline": 2
+    }, {
+        "Date": '19 Jan',
+        "Previous": 1,
+        "Baseline": 2
+    }, {
+        "Date": '22 Jan',
+        "Previous": 2,
+        "Baseline": 1
+    }],
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 6,
+        "minimum": 1,
+        "reversed": true,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "position": "top",
+        "title": "Total Score"
+    }],
+     "valueAxes": [{
+        "logarithmic": true,
+        "dashLength": 1,
+        
          }],
-         "valueAxes": [{
-           "axisAlpha": 0,
-           "guides": [{
-               "fillAlpha": 0.1,
-               "fillColor": "#888888",
-               "lineAlpha": 0,
-               "toValue": 16,
-               "value": 10
-           }],
 
-           "position": "left",
-           "tickLength": 0
-         }],
-         "graphs": [{
-           "balloonText": "[[category]]<br><b><span style='font-size:14px;'>Baseline:[[value]]</span></b>",
-           "bullet": "round",
-               "title": "Baseline",
-           "dashLength": 3,
-           "colorField":"color",
-           "valueField": "value"
-         },{
-        "balloonText": "Previous in [[category]]: [[value]]",
+    "graphs": [{
+        "balloonText": "Baseline in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Baseline",
+       "lineColor": "#CC0000",
+        "valueField": "Baseline",
+    "dashLength": 2,
+    "inside": true
+    
+    }, {
+        "balloonText": " Previous in [[category]]: [[value]]",
         "bullet": "round",
         "title": "Previous",
-        "lineColor": "#f35958",
-        "valueField": "prev",
-         "dashLength": 2,
-         "hidden":false,
-          "inside": true
-
+        "lineColor": "#ecb42f",
+        "valueField": "Previous",
+       "dashLength": 2,
+       "inside": true
     }],
-         // "trendLines": [{
-         //     "finalDate": "2012-01-11 12",
-         //     "finalValue": 19,
-         //     "initialDate": "2012-01-02 12",
-         //     "initialValue": 10,
-         //     "lineColor": "#CC0000"
-         // }, {
-         //     "finalDate": "2012-01-22 12",
-         //     "finalValue": 10,
-         //     "initialDate": "2012-01-17 12",
-         //     "initialValue": 16,
-         //     "lineColor": "#CC0000"
-         // }],
-         "chartScrollbar": {
-           "scrollbarHeight":2,
-           "offset":-1,
-           "backgroundAlpha":0.1,
-           "backgroundColor":"#888888",
-           "selectedBackgroundColor":"#67b7dc",
-           "selectedBackgroundAlpha":1
-         },
-         "chartCursor": {
-           "fullWidth":true,
-           "valueLineEabled":true,
-           "valueLineBalloonEnabled":true,
-           "valueLineAlpha":0.5,
-           "cursorAlpha":0
-         },
-         "categoryField": "date",
-         "categoryAxis": {
-           "parseDates": true,
-           "axisAlpha": 0,
-           "gridAlpha": 0.1,
-           "minorGridAlpha": 0.1,
-           "minorGridEnabled": true
-         },
-         "export": {
-           "enabled": true
-         }
-         });
-         
-         chart.addListener("dataUpdated", zoomChart);
-         
-         function zoomChart(){
-         chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-         }
-         });
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "Date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+         "fillColor": "#000000",
+        "gridAlpha": 0,
+          "position": "bottom",
+        "title": "Submission"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-right"
+     }
+});
+});
+
+
+
          
          
          
