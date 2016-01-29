@@ -727,8 +727,24 @@ class PatientController extends Controller
 
         $patient = User::find($patientId)->toArray();
 
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+
         $responseStatus = ["completed"];
-        $patientAnwers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $projectController = new ProjectController();
         $submissionsSummary = $projectController->getSubmissionsSummary($patientAnwers); 
@@ -740,6 +756,8 @@ class PatientController extends Controller
                                                 ->with('hospital', $hospital)
                                                  ->with('project', $project)
                                                  ->with('logoUrl', $logoUrl)
+                                                 ->with('endDate', $endDate)
+                                                 ->with('startDate', $startDate)
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 
@@ -1028,6 +1046,36 @@ class PatientController extends Controller
         {
             $page++;
             $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData);
+        }  
+        
+        return $anwsersData;
+     
+    }
+
+
+    public function getPatientAnwersByDate($patient,$projectId,$page=0,$anwsersData,$startDate,$endDate)
+    {
+        $displayLimit = 20; 
+
+        $answersQry = new ParseQuery("Answer");
+        //$answersQry->equalTo("project",$projectId);
+        $answersQry->equalTo("patient",$patient);
+        $answersQry->includeKey("question");
+        $answersQry->includeKey("response");
+        $answersQry->includeKey("option");
+        $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        $answersQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $answersQry->limit($displayLimit);
+        $answersQry->skip($page * $displayLimit);
+        $answersQry->ascending("occurrenceDate");
+ 
+        $anwsers = $answersQry->find();
+        $anwsersData = array_merge($anwsers,$anwsersData); 
+
+        if(!empty($anwsers))
+        {
+            $page++;
+            $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData,$startDate,$endDate);
         }  
         
         return $anwsersData;

@@ -28,7 +28,24 @@
                         <div class="tab-pane table-data" id="Patients">
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
-                        <h4><span class="semi-bold">Submission Details</span><!--  (Showing 10 recent submissions) --></h4>
+                        <div class="row">
+         <div class="col-sm-8">
+         <h4><span class="semi-bold">Submission Details</span><!--  (Showing 10 recent submissions) --></h4>
+       </div>
+       <div class="col-sm-4 m-t-10">
+         <form name="searchData" method="GET"> 
+         <input type="hidden" class="form-control" name="startDate"  >
+         <input type="hidden" class="form-control" name="endDate"  >
+            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+               <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+               <span></span> <b class="caret"></b>
+            </div>
+
+         </form>
+         <input type="hidden" name="flag" value="0">
+          </div>
+      </div>
+                        
                                  <br>
                            <table class="table table-flip-scroll table-hover dashboard-tbl">
                <thead class="cf">
@@ -91,6 +108,9 @@
                      </div>
                      </div>
 
-
+<script type="text/javascript">
+  var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+  var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+  </script>
  
 @endsection
