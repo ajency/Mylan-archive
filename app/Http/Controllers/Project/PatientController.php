@@ -773,8 +773,24 @@ class PatientController extends Controller
 
         $patient = User::find($patientId)->toArray();
 
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+
         $responseStatus = ["completed"];
-        $patientAnwers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $patientFlags =  $this->getPatientsFlags($patientAnwers); 
 
@@ -783,9 +799,11 @@ class PatientController extends Controller
                                                 ->with('tab', '03')
                                                 ->with('patient', $patient)
                                                 ->with('hospital', $hospital)
-                                                 ->with('project', $project)
-                                                 ->with('logoUrl', $logoUrl)
-                                                  ->with('patientFlags', $patientFlags);
+                                                ->with('project', $project)
+                                                ->with('logoUrl', $logoUrl)
+                                                ->with('endDate', $endDate)
+                                                ->with('startDate', $startDate)
+                                                ->with('patientFlags', $patientFlags);
     }
 
     public function getpatientBaseLines($hospitalSlug ,$projectSlug ,$patientId)
