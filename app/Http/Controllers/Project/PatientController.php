@@ -1403,7 +1403,7 @@ class PatientController extends Controller
 
         $patient = User::find($patientId)->toArray();
 
-                $inputs = Input::get(); 
+        $inputs = Input::get(); 
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));

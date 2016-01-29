@@ -119,7 +119,12 @@ $inputLabel = (isset($inputLabels[$questionId]))?$inputLabels[$questionId]:'';
 $maxScore =  (isset($allScore[$questionId]))?(max($allScore[$questionId]) + 10):10;
 $baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
 ?>
+
 <script type="text/javascript">
+
+  var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+  var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+  
  $(document).ready(function() {
  patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}},'chartdiv');
 
@@ -144,9 +149,5 @@ $baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
     });
 
   });
- 
-var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
-var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 </script>
- 
 @endsection
