@@ -46,3 +46,11 @@ angular.module 'angularApp.dashboard',[]
 		$scope.submissions.date =  moment($scope.submissions.occurrenceDate).format('Do')
 	setTime()
 ]
+
+.controller 'headerCtrl', ['$scope', ($scope)->
+	console.log 'header ctrl'
+	$scope.view =
+		notifyClick :->
+			console.log 'ntoification clciked'
+
+]

@@ -49,4 +49,13 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
     };
     return setTime();
   }
+]).controller('headerCtrl', [
+  '$scope', function($scope) {
+    console.log('header ctrl');
+    return $scope.view = {
+      notifyClick: function() {
+        return console.log('ntoification clciked');
+      }
+    };
+  }
 ]);

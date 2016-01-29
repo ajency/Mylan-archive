@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-    Parse.initialize(APP_ID, JS_KEY);
+    
     var questionnaireIdd = '{{ $questionnaire["id"] }}';
     var questionnaireName = '{{ $questionnaire["name"] }}'
     var patientRefCode = '{{ $referenceCode }}';
@@ -11,9 +11,11 @@
     var hospitalLogo = "{{ $hospital['logo'] }}";
     // console.log({{ $hospital['name'] }});
 
-    var APP_ID       = {{ config('constants.parse_sdk.app_id') }}
-    var JS_KEY       = {{ env( 'JS_KEY') }}
-    var REST_API_KEY = {{ config('constants.parse_sdk.rest_api_key') }}
+    var APP_ID       = '{{ config('constants.parse_sdk.app_id') }}'
+    var JS_KEY       = '{{ env( 'JS_KEY') }}'
+    var REST_API_KEY = '{{ config('constants.parse_sdk.rest_api_key') }}'
+
+ Parse.initialize(APP_ID, JS_KEY);
 
      Parse.User.become(userToken).then(function(user) {
                   console.log('became user');
@@ -27,7 +29,7 @@
 
 <div ng-app="angularApp">
 
-  <nav class="navbar navbar-default hospital-nav">
+  <nav class="navbar navbar-default hospital-nav" ng-controller="headerCtrl">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -44,7 +46,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
-         <li><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
+         <li ng-click="view.notifyClick()"><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

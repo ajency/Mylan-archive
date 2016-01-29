@@ -8,11 +8,11 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 	# Parse.initialize APP_ID, JS_KEY
 
 	$rootScope.$on '$routeChangeSuccess', (event, current, previous, rejection)->
-		if !_.isUndefined(current.$$route.controller)
-			App.currentState  = current.$$route.controller
+		# if !_.isUndefined(current.$$route.controller)
+		# 	App.currentState  = current.$$route.controller
 
-		if !_.isUndefined(previous.$$route.controller)
-			App.previousState  = previous.$$route.controller
+		# if !_.isUndefined(previous.$$route.controller)
+		# 	App.previousState  = previous.$$route.controller
 
 
 		
@@ -40,6 +40,12 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 			url: '/questionnaire'
 			templateUrl: 'patients/views/question.html'
 			controller: 'questionnaireCtr'
+
+		.when 'notification',
+			url: '/notification'
+			templateUrl: 'patients/views/notify.html'
+			controller: 'notifyCtrl'
+
 
 		.otherwise redirectTo: '/dashboard'
 	
