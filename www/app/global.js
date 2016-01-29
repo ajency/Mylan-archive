@@ -22,8 +22,8 @@ PARSE_URL = 'https://api.parse.com/1/functions';
 
 PARSE_HEADERS = {
   headers: {
-    "X-Parse-Application-Id": 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA',
-    "X-Parse-REST-API-KeY": 'I4yEHhjBd4e9x28MvmmEOiP7CzHCVXpJxHSu5Xva'
+    "X-Parse-Application-Id": APP_ID,
+    "X-Parse-REST-API-KeY": REST_API_KEY
   }
 };
 
