@@ -12,7 +12,8 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		responseQuery.get(responseId)
 		.then (responseObj) ->
 			if responseObj.get('status') != 'started'
-				response.error "invalidQuestionnaire"
+				# response.error "invalidQuestionnaire"
+				response.success responseObj.get('status')
 
 			else
 				answeredQuestions = responseObj.get('answeredQuestions')
@@ -33,14 +34,16 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 								,(error) ->
 									response.error error
 							else
-								getSummary(responseObj)
-								.then (summaryObjects) ->
-									result = {}
-									result['status'] = "saved_successfully"
-									result['summary'] = summaryObjects
-									response.success result
-								,(error) ->
-									response.error error					       
+								# getSummary(responseObj)
+								# .then (summaryObjects) ->
+								# 	result = {}
+								# 	result['status'] = "saved_successfully"
+								# 	result['summary'] = summaryObjects
+								# 	response.success result
+								# ,(error) ->
+								# 	response.error error
+								result = {}
+								result['status'] = "saved_successfully"					       
 						,(error) ->
 							response.error error
 					,(error) ->
@@ -285,7 +288,11 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		if responseObj.get('status') != 'started'
-			response.error "invalidQuestionnaire"
+			# response.error "invalidQuestionnaire"
+
+			# send the response success with status of response
+			result = {'status':responseObj.get('status')}
+			response.success result
 		else 
 			questionQuery = new Parse.Query('Questions')
 			questionQuery.include('nextQuestion')
@@ -308,14 +315,17 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 							,(error) ->
 								response.error error
 						else
-							getSummary(responseObj)
-							.then (summaryObjects) ->
-								result = {}
-								result['status'] = "saved_successfully"
-								result['summary'] = summaryObjects
-								response.success result
-							,(error) ->
-								response.error error					       
+							# getSummary(responseObj)
+							# .then (summaryObjects) ->
+							# 	result = {}
+							# 	result['status'] = "saved_successfully"
+							# 	result['summary'] = summaryObjects
+							# 	response.success result
+							# ,(error) ->
+							# 	response.error error
+							result = {}
+							result['status'] = "saved_successfully"
+							response.success result					       
 					,(error) ->
 						response.error error
 				,(error) ->
@@ -426,8 +436,9 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		if responseObj.get('status') != 'started'
-			response.error "invalidQuestionnaire."
-
+			# response.error "invalidQuestionnaire."
+			result = {'status':responseObj.get('status')}
+			response.success result
 		else if questionId == ""
 			console.log "================="
 			getLastQuestion(responseObj)
@@ -1706,9 +1717,10 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
 	responseQuery.equalTo('status', 'base_line')
-	responseQuery.descending('createdAt')
 	responseQuery.first()
 	.then (responseBaseLine) ->
+		console.log "responseBaseLine"
+		console.log responseBaseLine
 		answerQuery = new Parse.Query('Answer')
 		answerQuery.equalTo('response', responseBaseLine)
 		answerQuery.equalTo('question', questionsObj)

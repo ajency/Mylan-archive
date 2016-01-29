@@ -869,7 +869,7 @@
       return responseQuery.get(responseId).then(function(responseObj) {
         var answeredQuestions, questionQuery;
         if (responseObj.get('status') !== 'started') {
-          return response.error("invalidQuestionnaire");
+          return response.success(responseObj.get('status'));
         } else {
           answeredQuestions = responseObj.get('answeredQuestions');
           questionQuery = new Parse.Query('Questions');
@@ -879,6 +879,7 @@
           if (answeredQuestions.length !== 0) {
             return questionQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(questionObj) {
               return getNextQuestion(questionObj, []).then(function(nextQuestionObj) {
+                var result;
                 if (!_.isEmpty(nextQuestionObj)) {
                   return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                     return response.success(questionData);
@@ -886,15 +887,8 @@
                     return response.error(error);
                   });
                 } else {
-                  return getSummary(responseObj).then(function(summaryObjects) {
-                    var result;
-                    result = {};
-                    result['status'] = "saved_successfully";
-                    result['summary'] = summaryObjects;
-                    return response.success(result);
-                  }, function(error) {
-                    return response.error(error);
-                  });
+                  result = {};
+                  return result['status'] = "saved_successfully";
                 }
               }, function(error) {
                 return response.error(error);
@@ -1147,9 +1141,12 @@
     value = request.params.value;
     responseQuery = new Parse.Query('Response');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery;
+      var questionQuery, result;
       if (responseObj.get('status') !== 'started') {
-        return response.error("invalidQuestionnaire");
+        result = {
+          'status': responseObj.get('status')
+        };
+        return response.success(result);
       } else {
         questionQuery = new Parse.Query('Questions');
         questionQuery.include('nextQuestion');
@@ -1165,15 +1162,9 @@
                   return response.error(error);
                 });
               } else {
-                return getSummary(responseObj).then(function(summaryObjects) {
-                  var result;
-                  result = {};
-                  result['status'] = "saved_successfully";
-                  result['summary'] = summaryObjects;
-                  return response.success(result);
-                }, function(error) {
-                  return response.error(error);
-                });
+                result = {};
+                result['status'] = "saved_successfully";
+                return response.success(result);
               }
             }, function(error) {
               return response.error(error);
@@ -1290,9 +1281,12 @@
     responseQuery = new Parse.Query('Response');
     responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery;
+      var questionQuery, result;
       if (responseObj.get('status') !== 'started') {
-        return response.error("invalidQuestionnaire.");
+        result = {
+          'status': responseObj.get('status')
+        };
+        return response.success(result);
       } else if (questionId === "") {
         console.log("=================");
         return getLastQuestion(responseObj).then(function(questionObj) {
@@ -2549,9 +2543,10 @@
     responseQuery.equalTo('patient', responseObj.get('patient'));
     responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'));
     responseQuery.equalTo('status', 'base_line');
-    responseQuery.descending('createdAt');
     responseQuery.first().then(function(responseBaseLine) {
       var answerQuery;
+      console.log("responseBaseLine");
+      console.log(responseBaseLine);
       answerQuery = new Parse.Query('Answer');
       answerQuery.equalTo('response', responseBaseLine);
       answerQuery.equalTo('question', questionsObj);
