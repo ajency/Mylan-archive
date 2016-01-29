@@ -101,6 +101,7 @@ angular.module 'PatientApp.Quest'
 	.state 'summary',
 			url: '/summary:summary'
 			parent: 'main'
+			cache: false
 			views: 
 				"appContent":
 					templateUrl: 'views/questionnaire/summary.html'
