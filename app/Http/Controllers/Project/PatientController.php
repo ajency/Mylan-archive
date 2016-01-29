@@ -1240,7 +1240,7 @@ class PatientController extends Controller
 
     public function setPatientBaseLineScore(Request $request, $hospitalSlug ,$projectSlug ,$id)
     {
-        exit;
+        
         // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         // $hospital = $hospitalProjectData['hospital'];
