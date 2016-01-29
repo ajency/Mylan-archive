@@ -30,6 +30,23 @@
                            
                         </div>
                         <div class="tab-pane active" id="Reports">
+                        <div class="row">
+                        <div class="col-sm-8">
+                           <h4><span class="semi-bold">Reports</span><!--  (Showing 10 recent submissions) --></h4>
+                        </div>
+                     <div class="col-sm-4 m-t-10">
+                        <form name="searchData" method="GET"> 
+                           <input type="hidden" class="form-control" name="startDate"  >
+                           <input type="hidden" class="form-control" name="endDate"  >
+                           <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                              <span></span> <b class="caret"></b>
+                           </div>
+
+                        </form>
+                         <input type="hidden" name="flag" value="0">
+                     </div>
+                     </div>
                             <h4>Health Score Results compared with Previous Scores</h4>
                                  <p>The Table below shows the Health Scores for each Week and the Change in their Health when compared with previous Score & Baseline</p>
                              <br><br>
@@ -127,5 +144,9 @@ $baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
     });
 
   });
+ 
+var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 </script>
+ 
 @endsection
