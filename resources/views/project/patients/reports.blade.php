@@ -117,14 +117,14 @@ $questionId = current(array_keys($inputLabels));
 $inputJson = (isset($inputChartData[$questionId])) ? json_encode($inputChartData[$questionId]):'[]';
 $inputLabel = (isset($inputLabels[$questionId]))?$inputLabels[$questionId]:'';
 $maxScore =  (isset($allScore[$questionId]))?(max($allScore[$questionId]) + 10):10;
-$baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:'';
+$baseLine = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:0;
 ?>
 
 <script type="text/javascript">
 
-  var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
-  var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
-  
+  var STARTDATE = '{{ date("D M d Y", strtotime($startDate)) }}'; 
+  var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }}'; 
+
  $(document).ready(function() {
  patientInputGraph(<?php echo $inputJson;?>,'{{$inputLabel}}',{{$maxScore}},{{$baseLine}},'chartdiv');
 
