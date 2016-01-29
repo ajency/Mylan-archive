@@ -254,7 +254,7 @@
 $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
 
 //submission chart
 $submissionChartJson = (isset($submissionChart['chartData'])) ? json_encode($submissionChart['chartData']):'[]';
@@ -320,7 +320,7 @@ $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChar
       foreach($questionLabels as $questionId => $questionLabel)
       {
         $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
-        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
