@@ -42,7 +42,7 @@
                 <input type="hidden" value="{{ $referenceCode }}" name="reference_code">
                 <input type="password" class="form-control input-lg" name="password" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters" >
  
-                 <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span>
+                <!--  <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span> -->
                 </div>
                 <input type="password" data-parsley-equalto="#password" name="retypepassword" class="form-control input-lg"  placeholder="Re-enter your Password" data-parsley-required  />
                 <br class="hidden-xs">
