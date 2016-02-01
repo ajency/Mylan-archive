@@ -1,6 +1,6 @@
 angular.module('PatientApp.main', []).controller('MainCtr', [
-  '$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push', function($scope, App, Storage, notifyAPI, $ionicLoading, Push) {
-    return $scope.view = {
+  '$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push', '$rootScope', function($scope, App, Storage, notifyAPI, $ionicLoading, Push, $rootScope) {
+    $scope.view = {
       init: function() {
         console.log('inittt...');
         Push.register();
@@ -78,6 +78,13 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return $ionicLoading.hide();
       }
     };
+    return $rootScope.$on('in:app:notification', function(e, obj) {
+      if (App.notification.count === 0) {
+        return $scope.view.getNotifications();
+      } else {
+        return App.notification.increment();
+      }
+    });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

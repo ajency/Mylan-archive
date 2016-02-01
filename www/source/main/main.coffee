@@ -1,7 +1,7 @@
 angular.module 'PatientApp.main', []
 
-.controller 'MainCtr',['$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push'
-	, ($scope, App, Storage, notifyAPI, $ionicLoading, Push)->
+.controller 'MainCtr',['$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push', '$rootScope'
+	, ($scope, App, Storage, notifyAPI, $ionicLoading, Push, $rootScope)->
 
 		$scope.view =
 
@@ -77,6 +77,12 @@ angular.module 'PatientApp.main', []
 			closePopup : ->
 				$ionicLoading.hide()
 
+		$rootScope.$on 'in:app:notification', (e, obj)->
+			
+			if App.notification.count is 0
+				$scope.view.getNotifications()
+			else App.notification.increment()
+			
 			
 
 

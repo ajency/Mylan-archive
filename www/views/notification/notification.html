@@ -60,11 +60,19 @@
 
           
       </div>
+
+      <div class="row" ng-if=" view.data.length == 0 ">
+        <div class="col"></div>
+          <div class="col col-80"> 
+            We could not find any Notification.
+          </div>
+          <div class="col"></div>
+      </div>
           
       <div class="row">
         <div class="col"></div>
           <div class="col col-80"> 
-            <button class="button button-block button-balanced">Clear all Notifications
+            <button class="button button-block button-balanced" ng-if=" view.data.length > 0 ">Clear all Notifications
             </button>
           </div>
           <div class="col"></div>

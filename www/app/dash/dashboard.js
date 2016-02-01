@@ -34,6 +34,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               console.log('dashoard data');
               console.log(data);
               _this.data = data;
+              if (_this.data.length < 5) {
+                _this.showMoreButton = false;
+              }
               arr = [];
               if (!_.isEmpty(_.where(_this.data, {
                 status: "due"

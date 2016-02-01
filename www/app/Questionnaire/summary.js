@@ -112,6 +112,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
     return $stateProvider.state('summary', {
       url: '/summary:summary',
       parent: 'main',
+      cache: false,
       views: {
         "appContent": {
           templateUrl: 'views/questionnaire/summary.html',
