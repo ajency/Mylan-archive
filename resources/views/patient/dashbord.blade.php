@@ -3,6 +3,8 @@
 @section('content')
 <script>
     
+
+    
     var questionnaireIdd = '{{ $questionnaire["id"] }}';
     var questionnaireName = '{{ $questionnaire["name"] }}'
     var patientRefCode = '{{ $referenceCode }}';
@@ -11,9 +13,9 @@
     var hospitalLogo = "{{ $hospital['logo'] }}";
     // console.log({{ $hospital['name'] }});
 
-    var APP_ID       = '{{ config('constants.parse_sdk.app_id') }}'
-    var JS_KEY       = '{{ env( 'JS_KEY') }}'
-    var REST_API_KEY = '{{ config('constants.parse_sdk.rest_api_key') }}'
+    var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
+    var JS_KEY       = "{{ env( 'JS_KEY') }}"
+    var REST_API_KEY = "{{ config('constants.parse_sdk.rest_api_key') }}"
 
  Parse.initialize(APP_ID, JS_KEY);
 
@@ -39,7 +41,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><img src="<?php echo $hospital['logo'] ?>" width="auto" haight="45px"></a>
+        <a class="navbar-brand" href="#"><img src="<?php echo $hospital['logo'] ?>" width="auto" height="45px"></a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,7 +54,7 @@
     </div><!-- /.container-fluid -->
   </nav>
 
-  <div ng-view></div>
+  <div style-container class="container_main" ng-view> </div>
 
   <div class="footer">
     <div class="container">

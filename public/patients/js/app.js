@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common']).run([
+app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification']).run([
   '$rootScope', 'App', function($rootScope, App) {
     return $rootScope.$on('$routeChangeSuccess', function(event, current, previous, rejection) {});
   }
@@ -22,9 +22,9 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularA
       url: '/questionnaire',
       templateUrl: 'patients/views/question.html',
       controller: 'questionnaireCtr'
-    }).when('notification', {
+    }).when('/notification', {
       url: '/notification',
-      templateUrl: 'patients/views/notify.html',
+      templateUrl: 'patients/views/notification.html',
       controller: 'notifyCtrl'
     }).otherwise({
       redirectTo: '/dashboard'
