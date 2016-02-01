@@ -196,7 +196,7 @@
         gracePeriod = questionnaireObj.get("gracePeriod");
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
-          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format();
+          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY HH:mm');
         } else {
           convertedGraceDate = graceDate;
         }
@@ -640,7 +640,7 @@
       if (!_.isEmpty(installationObj)) {
         console.log("******converted******");
         timeZone = installationObj.get("timeZone");
-        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format();
+        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY HH:mm');
         console.log(installationId);
         console.log(convertedTime);
         console.log("******converted******");
