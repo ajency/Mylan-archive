@@ -47,10 +47,9 @@ angular.module 'angularApp.dashboard',[]
 	setTime()
 ]
 
-.controller 'headerCtrl', ['$scope', ($scope)->
+.controller 'headerCtrl', ['$scope', '$location', ($scope, $location)->
 	console.log 'header ctrl'
 	$scope.view =
 		notifyClick :->
-			console.log 'ntoification clciked'
-
+			$location.path 'start-questionnaire'
 ]

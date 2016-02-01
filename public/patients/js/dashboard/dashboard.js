@@ -50,11 +50,11 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
     return setTime();
   }
 ]).controller('headerCtrl', [
-  '$scope', function($scope) {
+  '$scope', '$location', function($scope, $location) {
     console.log('header ctrl');
     return $scope.view = {
       notifyClick: function() {
-        return console.log('ntoification clciked');
+        return $location.path('start-questionnaire');
       }
     };
   }

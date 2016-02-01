@@ -47,6 +47,10 @@
     <script src="{{ asset('patients/js/dashboard/dashboard.js') }}"></script>
     <script src="{{ asset('patients/js/dashboard/dashboard_api.js') }}"></script>
     <script src="{{ asset('patients/js/dashboard/start-questionnaire.js') }}"></script>
+    <script src="{{ asset('patients/js/dashboard/directive.js') }}"></script>
+
+    <script src="{{ asset('patients/js/notification/notification.js') }}"></script>
+
 
     <script src="{{ asset('patients/js/questionnaire/summary.js') }}"></script>
     <script src="{{ asset('patients/js/questionnaire/questionnaire-api.js') }}"></script>

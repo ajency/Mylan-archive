@@ -1,5 +1,5 @@
 app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
-		, 'angularApp.questionnaire', 'angularApp.common'])
+		, 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification'])
 
 
 
@@ -41,9 +41,9 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 			templateUrl: 'patients/views/question.html'
 			controller: 'questionnaireCtr'
 
-		.when 'notification',
+		.when '/notification',
 			url: '/notification'
-			templateUrl: 'patients/views/notify.html'
+			templateUrl: 'patients/views/notification.html'
 			controller: 'notifyCtrl'
 
 
