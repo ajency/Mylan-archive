@@ -5,8 +5,9 @@ Parse.Cloud.define "testNotifications", (request, response) ->
 	.then () ->
 		sendNotifications() 
 		.then () ->
-			currentDate = moment()
-			response.success ("moment = #{currentDate.format('DD/MM/YY')} date = #{new Date()}")
+			currentDate = moment().format()
+			convertedDate = convertToZone(currentDate,'Asia/Calcutta').format()
+			response.success ("moment = #{currentDate} date = #{convertedDate}")
 		, (error) ->
 			response.error error
 	, (error) ->
@@ -38,6 +39,7 @@ getNotifications = () ->
 								notificationObj.set 'type',	notificationType
 								notificationObj.set 'processed', false
 								notificationObj.set 'schedule', scheduleObj
+								notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 								notificationObj.save()
 							else
 								dummy = new Parse.Promise()
@@ -93,32 +95,56 @@ getNotificationType = (scheduleObj) ->
 
 
 
-getNotificationMessage = (scheduleObj, notificationType) ->
+getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installationId) ->
 	promise = new Parse.Promise()
 
 	questionnaireQuery = new Parse.Query('Questionnaire')
 	questionnaireQuery.get(scheduleObj.get('questionnaire').id)
 	questionnaireQuery.first()
 	.then (questionnaireObj) ->
-		nextOccurrence = scheduleObj.get('nextOccurrence')
-		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
-		#console.log "-=-=-=-=-=-=-"
-		#console.log "nextOccurrence #{nextOccurrence}"
-		#console.log "currentDate #{currentDate}"
-		#console.log "graceDate #{graceDate}"
-		#console.log "reminderTime #{reminderTime}"
-		#console.log "beforeReminder #{beforeReminder}"
-		#console.log "afterReminder #{afterReminder}"
-		#console.log "-=-=-=-=-=-=-"	
+		# nextOccurrence = scheduleObj.get('nextOccurrence')
 		
-		if notificationType == "beforOccurrence"
-			promise.resolve("Questionnaire is due on #{nextOccurrence}")
-		else if notificationType == "beforeGracePeriod"
-			promise.resolve("Questionnairre was due on #{nextOccurrence}. Please submit it by #{graceDate}")
-		else if notificationType == "missedOccurrence"
-			promise.resolve("You have missed the questionnaire due on #{nextOccurrence}")
-		else
-			promise.resolve("")
+		# console.log "-=-=-=-=-=-=-"
+		# console.log "nextOccurrence #{nextOccurrence}"
+		# console.log "currentDate #{currentDate}"
+		# console.log "graceDate #{graceDate}"
+		# console.log "reminderTime #{reminderTime}"
+		# console.log "beforeReminder #{beforeReminder}"
+		# console.log "afterReminder #{afterReminder}"
+		# console.log "-=-=-=-=-=-=-"
+		timeZoneConverter(installationId,occurrenceDate)
+		.then (convertedTimezoneObject) ->
+			newNextOccurrence = convertedTimezoneObject['occurrenceDate']
+			timeZone = convertedTimezoneObject['timeZone'] 
+			console.log "**New newNextOccurrence**"
+			console.log newNextOccurrence
+			gracePeriod = questionnaireObj.get("gracePeriod")
+			# graceDate =new Date(newNextOccurrence.getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+			# "DD-MM-YYYY HH:mm HH:mm"
+			graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+			if timeZone!=''
+				convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format()
+			else
+				convertedGraceDate = graceDate
+
+			console.log "convertedGraceDate"
+			console.log convertedGraceDate
+
+			if notificationType == "beforOccurrence"
+				message="Questionnaire is due on #{newNextOccurrence}"
+			else if notificationType == "beforeGracePeriod"
+				message="Questionnairre was due on #{newNextOccurrence}. Please submit it by #{convertedGraceDate}"
+			else if notificationType == "missedOccurrence"
+				message="You have missed the questionnaire due on #{newNextOccurrence}"
+			else
+				message=""
+
+			console.log "**Notification Msg occurrenceDate**"
+			console.log occurrenceDate
+			promise.resolve(message)
+		, (error) ->
+			promise.reject error
+
 	, (error) ->
 		promise.reject error
 	promise
@@ -156,17 +182,17 @@ sendNotifications = () ->
 							tokenStorageQuery.equalTo('referenceCode', notification.get('patient'))
 							tokenStorageQuery.find(useMasterKey: true)
 							.then (tokenStorageObjs) ->
-								#console.log "tokenStorageObjs #{tokenStorageObjs.length}"
-								#console.log "---------------------"
-								getNotificationMessage(scheduleObj, notification.get('type'))
-								.then (message) ->	
-									#console.log "message #{message}"
-									#console.log "---------------------"							
-									sendToInstallations = ->
-										promise2 = Parse.Promise.as()
-										_.each tokenStorageObjs, (tokenStorageObj) ->
-											promise2 = promise2
-											.then () ->
+								sendToInstallations = ->
+									promise2 = Parse.Promise.as()
+									_.each tokenStorageObjs, (tokenStorageObj) ->
+										promise2 = promise2
+										.then () ->
+											#console.log "tokenStorageObjs #{tokenStorageObjs.length}"
+											#console.log "---------------------"
+											getNotificationMessage(scheduleObj, notification.get('type'), notification.get('occurrenceDate'),tokenStorageObj.get('installationId'))
+											.then (message) ->	
+												console.log "message #{message}"
+												console.log "---------------------"							
 												installationQuery = new Parse.Query(Parse.Installation)
 												installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
 												#installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
@@ -179,13 +205,13 @@ sendNotifications = () ->
 														header: "Mylan"
 														message: message}
 												})
-											,(error) ->
-												console.log "send1"
-												promise2.reject error
-										promise2
-									sendToInstallations()
-								, (error) ->
-									promise1.reject error
+											, (error) ->
+												promise1.reject error	
+										,(error) ->
+											console.log "send1"
+											promise2.reject error
+									promise2
+								sendToInstallations()
 							, (error) ->
 								console.log "send2"
 								promise1.reject error
@@ -266,6 +292,7 @@ checkMissedResponses = () ->
 						notificationObj.set 'type',	'missedOccurrence'
 						notificationObj.set 'processed', false
 						notificationObj.set 'schedule', responseObj.get('schedule')
+						notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
 						notificationObj.save()
 						.then (notificationObj) ->
 							responseObj.set 'status', 'missed'
@@ -315,6 +342,7 @@ createMissedResponse = () ->
 								notificationObj.set 'type',	'missedOccurrence'
 								notificationObj.set 'processed', false
 								notificationObj.set 'schedule', scheduleObj
+								notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 								notificationObj.save()
 								.then (notificationObj) ->
 									scheduleQuery = new Parse.Query('Schedule')
@@ -450,7 +478,7 @@ getNotificationSendObject = (scheduleObj, notification) ->
 	questionnaireQuery.get(scheduleObj.get('questionnaire').id)
 	questionnaireQuery.first()
 	.then (questionnaireObj) ->
-		nextOccurrence = scheduleObj.get('nextOccurrence')
+		occurrenceDate = notification.get('occurrenceDate')
 		graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
 		notificationType = notification.get('type')
 		#console.log "-=-=-=-=-=-=-"
@@ -462,7 +490,7 @@ getNotificationSendObject = (scheduleObj, notification) ->
 		#console.log "afterReminder #{afterReminder}"
 		#console.log "-=-=-=-=-=-=-"	
 		notificationSendObject = {}
-		notificationSendObject['occurrenceDate'] = nextOccurrence
+		notificationSendObject['occurrenceDate'] = occurrenceDate
 		notificationSendObject['graceDate'] = graceDate
 		notificationSendObject['id'] = notification.id
 		notificationSendObject['hasSeen'] = notification.get('hasSeen')
@@ -511,24 +539,40 @@ hasSeenNotification = (notificationId) ->
 
 
 Parse.Cloud.define 'timeZoneConverter', (request, response) ->
-	timeZoneConverter()
+	timeZoneConverter('cb11e368-67d6-4df4-b79e-0be25cfe5577','2016-02-01T08:11:44.000Z')
 	.then (time) ->
 		response.success time
 	, (error) ->
 		response.error error
 
 
-timeZoneConverter = () ->
+timeZoneConverter = (installationId,occurrenceDate) ->
+	momenttimezone.tz.add("Asia/Calcutta|HMT BURT IST IST|-5R.k -6u -5u -6u|01232|-18LFR.k 1unn.k HB0 7zX0")
+	momenttimezone.tz.link("Asia/Calcutta|Asia/Kolkata")
+	convertedTimezoneObject = {}
 	promise = new Parse.Promise()
 	installationQuery = new Parse.Query(Parse.Installation)
-	installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
-	installationQuery.first()
+	installationQuery.equalTo('installationId', installationId)
+	installationQuery.first(useMasterKey: true)
 	.then (installationObj) ->
-		console.log "====================="
-		console.log "installationObj #{installationObj}"
-		console.log "====================="
-		convertedTime = convertToZone( new Date(),installationObj['timeZone'])
-		promise.resolve (convertedTime)
+		if !_.isEmpty(installationObj)
+			console.log "******converted******"
+			timeZone = installationObj.get("timeZone")
+			convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format()
+			console.log installationId
+			console.log convertedTime
+			console.log "******converted******"
+
+			convertedTimezoneObject['occurrenceDate'] = convertedTime
+			convertedTimezoneObject['timeZone'] = timeZone
+			promise.resolve convertedTimezoneObject
+		else
+			# no timezone data found for this user
+			console.log "******Not converted******"
+			convertedTimezoneObject['occurrenceDate'] = occurrenceDate
+			convertedTimezoneObject['timeZone'] = ''
+			promise.resolve convertedTimezoneObject
+				
 		#promise.resolve (convertToZone( new Date(),installationObj['timeZone']).format())
 	, (error) ->
 		promise.reject error
@@ -536,8 +580,10 @@ timeZoneConverter = () ->
 
 
 convertToZone = (timeObj, timezone) ->
-
-	convertedTime = moment.tz(timeObj, timezone)
+	console.log "****timeObj****"
+	console.log timeObj
+	convertedTime = momenttimezone.tz(timeObj, timezone)
+	console.log convertedTime
 	convertedTime
 
 

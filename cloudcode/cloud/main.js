@@ -89,9 +89,10 @@
   Parse.Cloud.define("testNotifications", function(request, response) {
     return getNotifications().then(function() {
       return sendNotifications().then(function() {
-        var currentDate;
-        currentDate = moment();
-        return response.success("moment = " + (currentDate.format('DD/MM/YY')) + " date = " + (new Date()));
+        var convertedDate, currentDate;
+        currentDate = moment().format();
+        convertedDate = convertToZone(currentDate, 'Asia/Calcutta').format();
+        return response.success("moment = " + currentDate + " date = " + convertedDate);
       }, function(error) {
         return response.error(error);
       });
@@ -123,6 +124,7 @@
                   notificationObj.set('type', notificationType);
                   notificationObj.set('processed', false);
                   notificationObj.set('schedule', scheduleObj);
+                  notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                   return notificationObj.save();
                 } else {
                   dummy = new Parse.Promise();
@@ -179,24 +181,42 @@
     return promise;
   };
 
-  getNotificationMessage = function(scheduleObj, notificationType) {
+  getNotificationMessage = function(scheduleObj, notificationType, occurrenceDate, installationId) {
     var promise, questionnaireQuery;
     promise = new Parse.Promise();
     questionnaireQuery = new Parse.Query('Questionnaire');
     questionnaireQuery.get(scheduleObj.get('questionnaire').id);
     questionnaireQuery.first().then(function(questionnaireObj) {
-      var graceDate, nextOccurrence;
-      nextOccurrence = scheduleObj.get('nextOccurrence');
-      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
-      if (notificationType === "beforOccurrence") {
-        return promise.resolve("Questionnaire is due on " + nextOccurrence);
-      } else if (notificationType === "beforeGracePeriod") {
-        return promise.resolve("Questionnairre was due on " + nextOccurrence + ". Please submit it by " + graceDate);
-      } else if (notificationType === "missedOccurrence") {
-        return promise.resolve("You have missed the questionnaire due on " + nextOccurrence);
-      } else {
-        return promise.resolve("");
-      }
+      return timeZoneConverter(installationId, occurrenceDate).then(function(convertedTimezoneObject) {
+        var convertedGraceDate, graceDate, gracePeriod, message, newNextOccurrence, timeZone;
+        newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
+        timeZone = convertedTimezoneObject['timeZone'];
+        console.log("**New newNextOccurrence**");
+        console.log(newNextOccurrence);
+        gracePeriod = questionnaireObj.get("gracePeriod");
+        graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
+        if (timeZone !== '') {
+          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format();
+        } else {
+          convertedGraceDate = graceDate;
+        }
+        console.log("convertedGraceDate");
+        console.log(convertedGraceDate);
+        if (notificationType === "beforOccurrence") {
+          message = "Questionnaire is due on " + newNextOccurrence;
+        } else if (notificationType === "beforeGracePeriod") {
+          message = "Questionnairre was due on " + newNextOccurrence + ". Please submit it by " + convertedGraceDate;
+        } else if (notificationType === "missedOccurrence") {
+          message = "You have missed the questionnaire due on " + newNextOccurrence;
+        } else {
+          message = "";
+        }
+        console.log("**Notification Msg occurrenceDate**");
+        console.log(occurrenceDate);
+        return promise.resolve(message);
+      }, function(error) {
+        return promise.reject(error);
+      });
     }, function(error) {
       return promise.reject(error);
     });
@@ -227,14 +247,16 @@
                 return tokenStorageQuery.find({
                   useMasterKey: true
                 }).then(function(tokenStorageObjs) {
-                  return getNotificationMessage(scheduleObj, notification.get('type')).then(function(message) {
-                    var sendToInstallations;
-                    sendToInstallations = function() {
-                      var promise2;
-                      promise2 = Parse.Promise.as();
-                      _.each(tokenStorageObjs, function(tokenStorageObj) {
-                        return promise2 = promise2.then(function() {
+                  var sendToInstallations;
+                  sendToInstallations = function() {
+                    var promise2;
+                    promise2 = Parse.Promise.as();
+                    _.each(tokenStorageObjs, function(tokenStorageObj) {
+                      return promise2 = promise2.then(function() {
+                        return getNotificationMessage(scheduleObj, notification.get('type'), notification.get('occurrenceDate'), tokenStorageObj.get('installationId')).then(function(message) {
                           var installationQuery;
+                          console.log("message " + message);
+                          console.log("---------------------");
                           installationQuery = new Parse.Query(Parse.Installation);
                           installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
                           installationQuery.limit(1);
@@ -248,16 +270,16 @@
                             }
                           });
                         }, function(error) {
-                          console.log("send1");
-                          return promise2.reject(error);
+                          return promise1.reject(error);
                         });
+                      }, function(error) {
+                        console.log("send1");
+                        return promise2.reject(error);
                       });
-                      return promise2;
-                    };
-                    return sendToInstallations();
-                  }, function(error) {
-                    return promise1.reject(error);
-                  });
+                    });
+                    return promise2;
+                  };
+                  return sendToInstallations();
                 }, function(error) {
                   console.log("send2");
                   return promise1.reject(error);
@@ -346,6 +368,7 @@
               notificationObj.set('type', 'missedOccurrence');
               notificationObj.set('processed', false);
               notificationObj.set('schedule', responseObj.get('schedule'));
+              notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
               return notificationObj.save().then(function(notificationObj) {
                 responseObj.set('status', 'missed');
                 return responseObj.save();
@@ -398,6 +421,7 @@
                   notificationObj.set('type', 'missedOccurrence');
                   notificationObj.set('processed', false);
                   notificationObj.set('schedule', scheduleObj);
+                  notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                   return notificationObj.save().then(function(notificationObj) {
                     scheduleQuery = new Parse.Query('Schedule');
                     scheduleQuery.doesNotExist('patient');
@@ -539,12 +563,12 @@
     questionnaireQuery = new Parse.Query('Questionnaire');
     questionnaireQuery.get(scheduleObj.get('questionnaire').id);
     questionnaireQuery.first().then(function(questionnaireObj) {
-      var graceDate, nextOccurrence, notificationSendObject, notificationType;
-      nextOccurrence = scheduleObj.get('nextOccurrence');
+      var graceDate, notificationSendObject, notificationType, occurrenceDate;
+      occurrenceDate = notification.get('occurrenceDate');
       graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
       notificationType = notification.get('type');
       notificationSendObject = {};
-      notificationSendObject['occurrenceDate'] = nextOccurrence;
+      notificationSendObject['occurrenceDate'] = occurrenceDate;
       notificationSendObject['graceDate'] = graceDate;
       notificationSendObject['id'] = notification.id;
       notificationSendObject['hasSeen'] = notification.get('hasSeen');
@@ -594,25 +618,41 @@
   };
 
   Parse.Cloud.define('timeZoneConverter', function(request, response) {
-    return timeZoneConverter().then(function(time) {
+    return timeZoneConverter('cb11e368-67d6-4df4-b79e-0be25cfe5577', '2016-02-01T08:11:44.000Z').then(function(time) {
       return response.success(time);
     }, function(error) {
       return response.error(error);
     });
   });
 
-  timeZoneConverter = function() {
-    var installationQuery, promise;
+  timeZoneConverter = function(installationId, occurrenceDate) {
+    var convertedTimezoneObject, installationQuery, promise;
+    momenttimezone.tz.add("Asia/Calcutta|HMT BURT IST IST|-5R.k -6u -5u -6u|01232|-18LFR.k 1unn.k HB0 7zX0");
+    momenttimezone.tz.link("Asia/Calcutta|Asia/Kolkata");
+    convertedTimezoneObject = {};
     promise = new Parse.Promise();
     installationQuery = new Parse.Query(Parse.Installation);
-    installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7');
-    installationQuery.first().then(function(installationObj) {
-      var convertedTime;
-      console.log("=====================");
-      console.log("installationObj " + installationObj);
-      console.log("=====================");
-      convertedTime = convertToZone(new Date(), installationObj['timeZone']);
-      return promise.resolve(convertedTime);
+    installationQuery.equalTo('installationId', installationId);
+    installationQuery.first({
+      useMasterKey: true
+    }).then(function(installationObj) {
+      var convertedTime, timeZone;
+      if (!_.isEmpty(installationObj)) {
+        console.log("******converted******");
+        timeZone = installationObj.get("timeZone");
+        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format();
+        console.log(installationId);
+        console.log(convertedTime);
+        console.log("******converted******");
+        convertedTimezoneObject['occurrenceDate'] = convertedTime;
+        convertedTimezoneObject['timeZone'] = timeZone;
+        return promise.resolve(convertedTimezoneObject);
+      } else {
+        console.log("******Not converted******");
+        convertedTimezoneObject['occurrenceDate'] = occurrenceDate;
+        convertedTimezoneObject['timeZone'] = '';
+        return promise.resolve(convertedTimezoneObject);
+      }
     }, function(error) {
       return promise.reject(error);
     });
@@ -621,7 +661,10 @@
 
   convertToZone = function(timeObj, timezone) {
     var convertedTime;
-    convertedTime = moment.tz(timeObj, timezone);
+    console.log("****timeObj****");
+    console.log(timeObj);
+    convertedTime = momenttimezone.tz(timeObj, timezone);
+    console.log(convertedTime);
     return convertedTime;
   };
 
