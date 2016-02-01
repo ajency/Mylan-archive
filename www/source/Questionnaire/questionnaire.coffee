@@ -98,7 +98,7 @@ angular.module 'PatientApp.Quest',[]
 								else if @data.status == 'completed'
 									CToast.show 'This questionnaire is completed '
 								else if @data.status == 'missed'
-									CToast.show 'This questinarie was Missed'
+									CToast.show 'This questionnaire was Missed'
 
 							
 							@pastAnswer()
@@ -127,10 +127,10 @@ angular.module 'PatientApp.Quest',[]
 							if data.status == 'saved_successfully'
 								App.navigate 'summary', summary:responseId
 							else if data.status == 'completed'
-								@title = 'This questinarie was Completed'
+								@title = 'This questionnaire was Completed'
 								@showConfirm()
 							else if data.status == 'missed'
-								@title = 'This questinarie was Missed'
+								@title = 'This questionnaire was Missed'
 								@showConfirm()
 
 						@variables()
@@ -251,10 +251,10 @@ angular.module 'PatientApp.Quest',[]
 						if !_.isUndefined(data.status)
 
 							if data.status == 'completed'
-								@title = 'This questinarie was Completed'
+								@title = 'This questionnaire was Completed'
 								@showConfirm()
 							else if data.status == 'missed'
-								@title = 'This questinarie was Missed'
+								@title = 'This questionnaire was Missed'
 								@showConfirm()
 
 						@variables()

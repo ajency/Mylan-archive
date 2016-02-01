@@ -94,7 +94,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   } else if (_this.data.status === 'completed') {
                     CToast.show('This questionnaire is completed ');
                   } else if (_this.data.status === 'missed') {
-                    CToast.show('This questinarie was Missed');
+                    CToast.show('This questionnaire was Missed');
                   }
                 }
                 _this.pastAnswer();
@@ -129,10 +129,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                     summary: responseId
                   });
                 } else if (data.status === 'completed') {
-                  _this.title = 'This questinarie was Completed';
+                  _this.title = 'This questionnaire was Completed';
                   _this.showConfirm();
                 } else if (data.status === 'missed') {
-                  _this.title = 'This questinarie was Missed';
+                  _this.title = 'This questionnaire was Missed';
                   _this.showConfirm();
                 }
               }
@@ -253,10 +253,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log(data);
               if (!_.isUndefined(data.status)) {
                 if (data.status === 'completed') {
-                  _this.title = 'This questinarie was Completed';
+                  _this.title = 'This questionnaire was Completed';
                   _this.showConfirm();
                 } else if (data.status === 'missed') {
-                  _this.title = 'This questinarie was Missed';
+                  _this.title = 'This questionnaire was Missed';
                   _this.showConfirm();
                 }
               }
