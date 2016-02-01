@@ -159,4 +159,7 @@ input {
 .table > tbody > tr > td {
   vertical-align: middle;
 }
+.-m-5 {
+  margin-top: -5px;
+}
 /*# sourceMappingURL=dashboard-ver2.css.map */
