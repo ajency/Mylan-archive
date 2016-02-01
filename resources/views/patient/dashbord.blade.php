@@ -13,9 +13,9 @@
     var hospitalLogo = "{{ $hospital['logo'] }}";
     // console.log({{ $hospital['name'] }});
 
-    var APP_ID       = '{{ config('constants.parse_sdk.app_id') }}'
-    var JS_KEY       = '{{ env( 'JS_KEY') }}'
-    var REST_API_KEY = '{{ config('constants.parse_sdk.rest_api_key') }}'
+    var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
+    var JS_KEY       = "{{ env( 'JS_KEY') }}"
+    var REST_API_KEY = "{{ config('constants.parse_sdk.rest_api_key') }}"
 
  Parse.initialize(APP_ID, JS_KEY);
 
