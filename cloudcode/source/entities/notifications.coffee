@@ -428,26 +428,35 @@ getQuestionnaireFrequency =  ( questionnaireObj ) ->
 
 Parse.Cloud.define "getAllNotifications", (request, response) ->
 	patientId = request.params.patientId
-	getAllNotifications(patientId)
+	notificationMessages = []
+	page = 0
+
+	getAllNotifications(patientId,notificationMessages,page)
 	.then (notifications) ->
 		response.success  notifications
 	, (error) ->
 		response.error error
 
 
-
-getAllNotifications = (patientId) ->
+getAllNotifications = (patientId,notificationMessages,page) ->
+	limit = 50
 	promise = new Parse.Promise()
 	notificationQuery = new Parse.Query('Notification')
 	notificationQuery.equalTo('patient', patientId)
 	notificationQuery.include('schedule')
+	notificationQuery.limit(limit)
+	notificationQuery.skip(page*limit)
 	notificationQuery.find()
 	.then (notifications) ->
-		notificationMessages = []
+		
+		if !_.isEmpty(notifications)
+			notificationMessages.push(notification) for notification in notifications
+			page++
+			getAllNotifications(patientId,notificationMessages,page)
 
 		getAll = () ->
 			promise1 = Parse.Promise.as()
-			_.each notifications, (notification) ->
+			_.each notificationMessages, (notification) ->
 				promise1 = promise1
 				.then () ->
 					getNotificationSendObject(notification.get('schedule'), notification)
@@ -461,6 +470,8 @@ getAllNotifications = (patientId) ->
 				, (error) ->
 					promise1.reject error
 			promise1
+
+
 		getAll()
 		.then () ->
 			promise.resolve(notificationMessages)
@@ -469,6 +480,41 @@ getAllNotifications = (patientId) ->
 	, (error) ->
 		promise.reject error
 	promise
+
+# getAllNotifications = (patientId) ->
+# 	promise = new Parse.Promise()
+# 	notificationQuery = new Parse.Query('Notification')
+# 	notificationQuery.equalTo('patient', patientId)
+# 	notificationQuery.include('schedule')
+# 	notificationQuery.find()
+# 	.then (notifications) ->
+# 		notificationMessages = []
+
+# 		getAll = () ->
+# 			promise1 = Parse.Promise.as()
+# 			_.each notifications, (notification) ->
+# 				promise1 = promise1
+# 				.then () ->
+# 					getNotificationSendObject(notification.get('schedule'), notification)
+# 					.then (notificationSendObject) ->
+# 						notificationMessages.push(notificationSendObject)
+# 						dummy = new Parse.Promise()
+# 						dummy.resolve()
+# 						dummy
+# 					, (error) ->
+# 						promise1.reject error
+# 				, (error) ->
+# 					promise1.reject error
+# 			promise1
+# 		getAll()
+# 		.then () ->
+# 			promise.resolve(notificationMessages)
+# 		, (error) ->
+# 			promise.reject(error)
+# 	, (error) ->
+# 		promise.reject error
+# 	promise
+
 
 
 getNotificationSendObject = (scheduleObj, notification) ->

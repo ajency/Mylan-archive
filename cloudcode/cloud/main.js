@@ -508,28 +508,40 @@
   };
 
   Parse.Cloud.define("getAllNotifications", function(request, response) {
-    var patientId;
+    var notificationMessages, page, patientId;
     patientId = request.params.patientId;
-    return getAllNotifications(patientId).then(function(notifications) {
+    notificationMessages = [];
+    page = 0;
+    return getAllNotifications(patientId, notificationMessages, page).then(function(notifications) {
       return response.success(notifications);
     }, function(error) {
       return response.error(error);
     });
   });
 
-  getAllNotifications = function(patientId) {
-    var notificationQuery, promise;
+  getAllNotifications = function(patientId, notificationMessages, page) {
+    var limit, notificationQuery, promise;
+    limit = 50;
     promise = new Parse.Promise();
     notificationQuery = new Parse.Query('Notification');
     notificationQuery.equalTo('patient', patientId);
     notificationQuery.include('schedule');
+    notificationQuery.limit(limit);
+    notificationQuery.skip(page * limit);
     notificationQuery.find().then(function(notifications) {
-      var getAll, notificationMessages;
-      notificationMessages = [];
+      var getAll, j, len, notification;
+      if (!_.isEmpty(notifications)) {
+        for (j = 0, len = notifications.length; j < len; j++) {
+          notification = notifications[j];
+          notificationMessages.push(notification);
+        }
+        page++;
+        getAllNotifications(patientId, notificationMessages, page);
+      }
       getAll = function() {
         var promise1;
         promise1 = Parse.Promise.as();
-        _.each(notifications, function(notification) {
+        _.each(notificationMessages, function(notification) {
           return promise1 = promise1.then(function() {
             return getNotificationSendObject(notification.get('schedule'), notification).then(function(notificationSendObject) {
               var dummy;
