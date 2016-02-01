@@ -264,14 +264,14 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 return selectedvalue.push(opt.id);
               }
             });
+            options = {
+              "questionId": this.data.questionId,
+              "options": selectedvalue,
+              "value": "",
+              "responseId": this.data.responseId
+            };
+            this.loadNextQuestion(options);
           }
-          options = {
-            "questionId": this.data.questionId,
-            "options": selectedvalue,
-            "value": "",
-            "responseId": this.data.responseId
-          };
-          this.loadNextQuestion(options);
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {

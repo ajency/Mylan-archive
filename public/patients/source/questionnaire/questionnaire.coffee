@@ -264,13 +264,13 @@ angular.module 'angularApp.questionnaire'
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
-					options =
-						"questionId" : @data.questionId
-						"options": selectedvalue
-						"value": ""
-						"responseId" : @data.responseId
+						options =
+							"questionId" : @data.questionId
+							"options": selectedvalue
+							"value": ""
+							"responseId" : @data.responseId
 
-					@loadNextQuestion(options)
+						@loadNextQuestion(options)
 
 				if @data.questionType == 'descriptive'
 
