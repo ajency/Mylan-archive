@@ -53,7 +53,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       pastAnswer: function() {
-        var ObjId, optionSelectedArray, optionSelectedValue, pluckId, pluckValue, previousAns, sortedArray;
+        var ObjId, optionSelectedArray, pluckId, previousAns, sortedArray;
         previousAns = this.data.previousQuestionnaireAnswer;
         if (!_.isEmpty(previousAns)) {
           if (this.data.questionType === 'input') {
@@ -67,25 +67,21 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           }
           if (this.data.questionType === 'single-choice' || this.data.questionType === 'multi-choice') {
             optionSelectedArray = [];
-            optionSelectedValue = [];
             sortedArray = _.sortBy(this.data.options, 'score');
             pluckId = _.pluck(sortedArray, 'id');
-            pluckValue = _.pluck(sortedArray, 'option');
             _.each(previousAns.optionId, (function(_this) {
               return function(value) {
                 var a;
                 a = _.indexOf(pluckId, value);
                 if (a !== -1) {
-                  optionSelectedValue.push(pluckValue[a]);
                   a++;
                   return optionSelectedArray.push(a);
                 }
               };
             })(this));
-            this.data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue;
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
-          return this.data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY');
+          return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');
         }
       },
       getQuestion: function() {
