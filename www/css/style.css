@@ -756,21 +756,21 @@ ul .mcq_active div span {
     line-height: 49px;
     font-size: 25px;
   }
-}
-/***MCQS***/
-ul .item.item-checkbox.mcq {
-  white-space: initial;
-}
-ul .item.item-checkbox.mcq div span {
-  width: 35px;
-  height: 35px;
-  top: 18px;
-  line-height: 19px;
-}
-.item.item-radio .item-content span {
-  width: 35px;
-  height: 35px;
-  line-height: 38px;
+  /***MCQS***/
+  ul .item.item-checkbox.mcq {
+    white-space: initial;
+  }
+  ul .item.item-checkbox.mcq div span {
+    width: 35px;
+    height: 35px;
+    top: 18px;
+    line-height: 19px;
+  }
+  .item.item-radio .item-content span {
+    width: 35px;
+    height: 35px;
+    line-height: 38px;
+  }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .centering {
