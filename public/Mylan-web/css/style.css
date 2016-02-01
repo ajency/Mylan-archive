@@ -593,8 +593,11 @@ h3.line-title span {
 .login-info {
   padding: 0 40px 0 30px;
 }
+.input-lg {
+  padding: 14px 16px;
+}
 form .form-control {
-  line-height: 17px;
+  line-height: 15px;
   border: none;
   box-shadow: none;
   background: transparent;
