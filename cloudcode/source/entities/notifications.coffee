@@ -39,6 +39,7 @@ getNotifications = () ->
 								notificationObj.set 'type',	notificationType
 								notificationObj.set 'processed', false
 								notificationObj.set 'schedule', scheduleObj
+								notificationObj.set 'cleared', false
 								notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 								notificationObj.save()
 							else
@@ -292,6 +293,7 @@ checkMissedResponses = () ->
 						notificationObj.set 'type',	'missedOccurrence'
 						notificationObj.set 'processed', false
 						notificationObj.set 'schedule', responseObj.get('schedule')
+						notificationObj.set 'cleared', false
 						notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
 						notificationObj.save()
 						.then (notificationObj) ->
@@ -342,6 +344,7 @@ createMissedResponse = () ->
 								notificationObj.set 'type',	'missedOccurrence'
 								notificationObj.set 'processed', false
 								notificationObj.set 'schedule', scheduleObj
+								notificationObj.set 'cleared', false
 								notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 								notificationObj.save()
 								.then (notificationObj) ->
@@ -443,6 +446,7 @@ getAllNotifications = (patientId,notificationMessages,page) ->
 	promise = new Parse.Promise()
 	notificationQuery = new Parse.Query('Notification')
 	notificationQuery.equalTo('patient', patientId)
+	notificationQuery.equalTo('cleared', false)
 	notificationQuery.include('schedule')
 	notificationQuery.limit(limit)
 	notificationQuery.skip(page*limit)
@@ -632,6 +636,44 @@ convertToZone = (timeObj, timezone) ->
 	console.log convertedTime
 	convertedTime
 
+
+
+# clear notification
+Parse.Cloud.define "clearNotification", (request, response) ->
+	notificationId = request.params.notificationId
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.get(notificationId)
+	.then (notification) ->
+		notification.set 'cleared', true
+		notification.save()
+		.then (notification) ->
+			response.success "cleared"
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+Parse.Cloud.define "clearAllNotifications", (request, response) ->
+	patientId = request.params.patientId
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.equalTo('cleared', false)
+	notificationQuery.find()
+	.then (notifications) ->
+		notificationSaveArr =[]
+		_.each notifications, (notification) ->
+			notification.set 'cleared', true
+			notificationSaveArr.push(notification)
+		
+		Parse.Object.saveAll notificationSaveArr
+            .then (notificationObjs) ->
+                response.success notificationObjs
+            , (error) ->
+                response.error (error) 
+		
+	, (error) ->
+		response.error error
+
+ 
 
 
 

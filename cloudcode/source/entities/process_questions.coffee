@@ -43,7 +43,8 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 								# ,(error) ->
 								# 	response.error error
 								result = {}
-								result['status'] = "saved_successfully"					       
+								result['status'] = "saved_successfully"	
+								response.success result				       
 						,(error) ->
 							response.error error
 					,(error) ->

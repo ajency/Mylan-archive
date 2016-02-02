@@ -124,6 +124,7 @@
                   notificationObj.set('type', notificationType);
                   notificationObj.set('processed', false);
                   notificationObj.set('schedule', scheduleObj);
+                  notificationObj.set('cleared', false);
                   notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                   return notificationObj.save();
                 } else {
@@ -368,6 +369,7 @@
               notificationObj.set('type', 'missedOccurrence');
               notificationObj.set('processed', false);
               notificationObj.set('schedule', responseObj.get('schedule'));
+              notificationObj.set('cleared', false);
               notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
               return notificationObj.save().then(function(notificationObj) {
                 responseObj.set('status', 'missed');
@@ -421,6 +423,7 @@
                   notificationObj.set('type', 'missedOccurrence');
                   notificationObj.set('processed', false);
                   notificationObj.set('schedule', scheduleObj);
+                  notificationObj.set('cleared', false);
                   notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                   return notificationObj.save().then(function(notificationObj) {
                     scheduleQuery = new Parse.Query('Schedule');
@@ -525,6 +528,7 @@
     promise = new Parse.Promise();
     notificationQuery = new Parse.Query('Notification');
     notificationQuery.equalTo('patient', patientId);
+    notificationQuery.equalTo('cleared', false);
     notificationQuery.include('schedule');
     notificationQuery.limit(limit);
     notificationQuery.skip(page * limit);
@@ -679,6 +683,44 @@
     console.log(convertedTime);
     return convertedTime;
   };
+
+  Parse.Cloud.define("clearNotification", function(request, response) {
+    var notificationId, notificationQuery;
+    notificationId = request.params.notificationId;
+    notificationQuery = new Parse.Query('Notification');
+    return notificationQuery.get(notificationId).then(function(notification) {
+      notification.set('cleared', true);
+      return notification.save().then(function(notification) {
+        return response.success("cleared");
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("clearAllNotifications", function(request, response) {
+    var notificationQuery, patientId;
+    patientId = request.params.patientId;
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.equalTo('cleared', false);
+    return notificationQuery.find().then(function(notifications) {
+      var notificationSaveArr;
+      notificationSaveArr = [];
+      _.each(notifications, function(notification) {
+        notification.set('cleared', true);
+        return notificationSaveArr.push(notification);
+      });
+      return Parse.Object.saveAll(notificationSaveArr).then(function(notificationObjs) {
+        return response.success(notificationObjs);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
 
 
   /*
@@ -943,7 +985,8 @@
                   });
                 } else {
                   result = {};
-                  return result['status'] = "saved_successfully";
+                  result['status'] = "saved_successfully";
+                  return response.success(result);
                 }
               }, function(error) {
                 return response.error(error);
