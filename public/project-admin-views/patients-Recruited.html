@@ -216,20 +216,24 @@
                     
                         <div class="row">
             <div class="col-sm-6 ">
+              <a href="patients-Recruited.html">
 <div class="tiles white">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                           <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">20 </b> </h4>
                           <hr>
                          </div>
                          </div>
+                         </a>
                      </div>
                      <div class="col-sm-6">
+                   <a href="patients-active.html">
                      <div class="tiles white">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                             <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">10 </b></h4>
                             <hr>
                            </div>
                          </div>
+                    </a>
                      </div>
                   </div>
 
@@ -252,12 +256,13 @@
                                                 <h3 class="no-margin bold">80%</h3>
                                                 <p class=" text-underline">6 Submissions Done</p> 
                                              </div>
-                                             <div class="col-md-4 text-center">
-                                                <h3 class="no-margin bold">10%</h3>
-                                                <p class="">4 Submissions Missed</p></div>
+                                          
                                               <div class="col-md-4 text-center">
                                                 <h3 class="no-margin bold">10%</h3>
                                                 <p class="">4 Submissions Late</p></div>
+                                                   <div class="col-md-4 text-center">
+                                                <h3 class="no-margin bold">10%</h3>
+                                                <p class="">4 Submissions Missed</p></div>
                                           </div> 
                                        </div>
                 <br>
@@ -267,10 +272,10 @@
                            <div class="grid-title no-border">
                               <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">( This is for the Cumulative Submissions )</sm></h4>
                               <div class="tools">
-                                  <select name="role" id="role" class=" select2  form-control inline filterby pull-left -m-5">
+                                  <select name="role" id="role" class=" select2  form-control inline filterby pull-left -m-5" style="    width: 43%;">
                                           <option value="2">Filter By</option>
-                                          <option value="2" selected>Active Patients</option>
-                                          <option value="2">Recruited Patients</option>
+                                          <option value="2" >Active Patients</option>
+                                          <option value="2" selected>Recruited Patients</option>
                                        </select>
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
                               </div>
@@ -936,30 +941,27 @@ AmCharts.ready(function() {
 var chart = AmCharts.makeChart( "piechart", {
   "type": "pie",
   "theme": "light",
-  "dataProvider": [ {
-    "title": "Completed",
-    "value": 40
-  }, {
-    "title": "Missed",
-    "value": 20,
-     "fillColor": "#CC0000",
-    "fillAlphas": 0.5,
-  } ,{
-         "title": "Late",
-         "value": 3,
-         "fillColor": "#000",
-         "fillAlphas": 0.5,
-         }],
-  "titleField": "title",
-  "valueField": "value",
-  "labelRadius": 5,
+     "dataProvider": [ {
+               "title": "# Missed",
+               "value": 10
+             }, {
+               "title": "# Done",
+               "value": 80
+             } 
+             , {
+               "title": "# late",
+               "value": 10
+             } ],
+             "titleField": "title",
+             "valueField": "value",
+             "labelRadius": 5,
 
-  "radius": "42%",
-  "innerRadius": "60%",
-  "labelText": "[[title]]",
-  "export": {
-    "enabled": true
-  }
+             "radius": "42%",
+             "innerRadius": "60%",
+             "labelText": "[[title]]",
+             "export": {
+               "enabled": true
+             }
 } );
    </script>
          <style type="text/css">

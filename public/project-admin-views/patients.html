@@ -941,30 +941,27 @@ AmCharts.ready(function() {
 var chart = AmCharts.makeChart( "piechart", {
   "type": "pie",
   "theme": "light",
-  "dataProvider": [ {
-    "title": "Completed",
-    "value": 40
-  }, {
-    "title": "Missed",
-    "value": 20,
-     "fillColor": "#CC0000",
-    "fillAlphas": 0.5,
-  } ,{
-         "title": "Late",
-         "value": 3,
-         "fillColor": "#000",
-         "fillAlphas": 0.5,
-         }],
-  "titleField": "title",
-  "valueField": "value",
-  "labelRadius": 5,
+     "dataProvider": [ {
+               "title": "# Missed",
+               "value": 10
+             }, {
+               "title": "# Done",
+               "value": 80
+             } 
+             , {
+               "title": "# late",
+               "value": 10
+             } ],
+             "titleField": "title",
+             "valueField": "value",
+             "labelRadius": 5,
 
-  "radius": "42%",
-  "innerRadius": "60%",
-  "labelText": "[[title]]",
-  "export": {
-    "enabled": true
-  }
+             "radius": "42%",
+             "innerRadius": "60%",
+             "labelText": "[[title]]",
+             "export": {
+               "enabled": true
+             }
 } );
    </script>
          <style type="text/css">
