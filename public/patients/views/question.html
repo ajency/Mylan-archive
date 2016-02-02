@@ -25,7 +25,7 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="q1">
                 <div class="pull-right text-muted">
-                  <small>1 of 10</small>
+                  <!-- <small>1 of 10</small> -->
                 </div>
                 <h4 class="question">
                   <span class="f-w-200">
@@ -50,7 +50,7 @@
                     <div class="item-content">
                       <input type="radio" name="group" ng-model="view.singleChoiceValue"
                         ng-value="answerValue.id" ng-disabled="!view.readonly" >
-                      <i class="radio-icon fa fa-check"></i>
+                      <i class="radio-icon fa fa-check"><span>{{$index + 1}} </span></i> 
                         {{answerValue.option}}
                     </div>
                 </label>
@@ -65,7 +65,7 @@
                     <div class="item-content">
                       <input type="checkbox" ng-model="answerValue.checked"
                         ng-checked="answerValue.checked" ng-disabled="!view.readonly" >
-                      <i class="radio-icon fa fa-check"></i>
+                      <i class="radio-icon fa fa-check"><span>{{$index + 1}} </span></i>
                         {{answerValue.option}}
                     </div>
                 </label>

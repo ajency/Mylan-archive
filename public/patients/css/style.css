@@ -450,6 +450,24 @@ h3.line-title span {
   color: #555555;
   width: 100%;
 }
+.item.item-radio i.radio-icon{
+  position: relative;
+}
+.item.item-radio i.radio-icon:before{
+    visibility: hidden;
+}
+.item.item-radio .radio-icon span{
+  color: #bbb!important;
+  position: absolute;
+    right: 8px;
+    font-weight: bold;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon span{
+    position: absolute;
+    right: 8px;
+    font-weight: bold;
+    color: #fff!important;
+}
 .item.item-radio input {
   visibility: hidden;
   position: absolute;
