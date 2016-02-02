@@ -173,19 +173,19 @@
       <div class="sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
           <h5 class="prev-ans text-left">PREVIOUS ANSWER </h5>
 
-          <p class="text-muted text-left"
-              ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
+          <p class="text-muted text-left" >
             <!-- <span class="text-success">A.</span>  -->
-             <div class="text-left">
-              Last time you answered option: &nbsp;
+             <div class="text-left"  
+             ng-if = 'view.data.questionType === "single-choice" || view.data.questionType === "multi-choice"' >
+              Last time you answered option: &nbsp; 
                 {{ view.data.previousQuestionnaireAnswer.label }}
              </div>
           </p>
 
-          <p class="text-muted text-left"
-            ng-if = 'view.data.questionType == "input" || view.data.questionType == "descriptive"'>
-
-             <div class="text-left">
+          <p class="text-muted text-left">
+             <div 
+              class="text-left" 
+              ng-if = 'view.data.questionType === "input" || view.data.questionType === "descriptive"'>
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}
