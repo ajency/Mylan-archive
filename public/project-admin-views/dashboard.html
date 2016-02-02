@@ -1273,30 +1273,27 @@
          var chart = AmCharts.makeChart( "piechart", {
          "type": "pie",
          "theme": "light",
-         "dataProvider": [ {
-         "title": "Completed",
-         "value": 40
-         }, {
-         "title": "Missed",
-         "value": 20,
-         "fillColor": "#CC0000",
-         "fillAlphas": 0.5,
-         }, {
-         "title": "Late",
-         "value": 3,
-         "fillColor": "#000",
-         "fillAlphas": 0.5,
-         } ],
-         "titleField": "title",
-         "valueField": "value",
-         "labelRadius": 5,
-         
-         "radius": "42%",
-         "innerRadius": "60%",
-         "labelText": "[[title]]",
-         "export": {
-         "enabled": true
-         }
+           "dataProvider": [ {
+               "title": "# Missed",
+               "value": 10
+             }, {
+               "title": "# Completed",
+               "value": 80
+             } 
+             , {
+               "title": "# late",
+               "value": 10
+             } ],
+             "titleField": "title",
+             "valueField": "value",
+             "labelRadius": 5,
+
+             "radius": "42%",
+             "innerRadius": "60%",
+             "labelText": "[[title]]",
+             "export": {
+               "enabled": true
+             }
          } );
          
          $(function() {
