@@ -58,7 +58,8 @@ class SubmissionController extends Controller
         $missedResponses = $responseQry->count();  
 
         $projectController = new ProjectController();
-        $responses = $projectController->getProjectResponses($projectId,0,[] ,$startDateObj,$endDateObj);  
+        //$responses = $projectController->getProjectResponses($projectId,0,[] ,$startDateObj,$endDateObj);
+        $responses = $projectController->parseGetProjectResponse($projectId,$startDate,$endDate);  
         $completedSubmissionCount = count($responses);
         $openStatus = [];
         $closedStatus = [];
@@ -88,7 +89,8 @@ class SubmissionController extends Controller
 
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
-        $projectAnwers = $projectController->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        // $projectAnwers = $projectController->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectAnwers = $projectController->parseGetProjectAnwers($projectId,$startDate,$endDate); 
         $submissionsSummary = $projectController->getSubmissionsSummary($projectAnwers);
 
         return view('project.submissions-list')->with('active_menu', 'submission')
@@ -275,13 +277,31 @@ class SubmissionController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('Y-m-d', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('Y-m-d', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+
         $patientsllFlags = [];
         $patientsFlags = [];
         $responseOpenRedFlags = [];
 
-        $projectAnwers =  $this->getProjectAnwers($projectId,0,[]);
+        $projectController = new ProjectController();
+        $projectAnswers = $projectController->parseGetProjectAnwers($projectId,$startDate,$endDate); 
+        // $projectAnwers =  $this->getProjectAnwers($projectId,0,[]);
  
-        foreach ($projectAnwers as $answer)
+        foreach ($projectAnswers as $answer)
         {
             $baseLineFlag = $answer->get("baseLineFlag");
             $previousFlag = $answer->get("previousFlag");
@@ -338,6 +358,8 @@ class SubmissionController extends Controller
         return view('project.flags')->with('active_menu', 'flags')
                                                ->with('hospital', $hospital)
                                                ->with('project', $project)
+                                               ->with('endDate', $endDate)
+                                               ->with('startDate', $startDate)
                                                ->with('submissionFlags', $submissionFlags);
     }
 

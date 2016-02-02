@@ -24,18 +24,27 @@
                         <div class="grid-body no-border table-data">
                                <br>
        <div class="row">
-         <div class="col-sm-8">
+         <div class="col-sm-4">
            
        </div>
-       <div class="col-sm-4 m-t-10">
+       <div class="col-sm-8 m-t-10">
+ 
+
          <form name="searchData" method="GET"> 
+              <input type="hidden" class="form-control" name="startDate"  >
+  <input type="hidden" class="form-control" name="endDate"  >
+  <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+     <span></span> <b class="caret"></b>
+  </div>
+&nbsp;&nbsp;
                <select class="pull-right" name="referenceCode">
                    @foreach($allPatients as $patient)
-                     <option value="{{ $patient }}">{{ $patient }}</option>
+                     <option {{ ($referenceCode==$patient)?'selected':'' }} value="{{ $patient }}">{{ $patient }}</option>
                    @endforeach
                   </select> 
          </form>
- 
+   <input type="hidden" name="flag" value="0">
           </div>
       </div>
        <hr>
@@ -99,12 +108,14 @@
 $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
  
 ?>
 
- <script type="text/javascript">
-     
+  <script type="text/javascript">
+  var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+  var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+ 
 
    $(document).ready(function() {
  
@@ -118,7 +129,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
       foreach($questionLabels as $questionId => $questionLabel)
       {
         $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
-        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:'';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
         ?>
         if($(this).val()=='{{$questionId}}')
         { 

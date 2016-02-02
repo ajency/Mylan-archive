@@ -22,9 +22,23 @@
    </div>
 </div>
 <div class="col-md-6 m-t-10 text-right">
-   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
-   <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
+ <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
+   &nbsp; &nbsp;
+    <form name="searchData" method="GET"> 
+                   <input type="hidden" class="form-control" name="startDate"  >
+                   <input type="hidden" class="form-control" name="endDate"  >
+                      <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                         <span></span> <b class="caret"></b>
+                      </div>
+
+                   </form>
+                   <input type="hidden" name="flag" value="0">
+
+  
+    
 </div>
+
 <div class="tabbable tabs-left">
    <div class="grid simple">
       <div>
@@ -219,5 +233,9 @@
       <br>      <br>              
    </div>
 </div>
+      <script type="text/javascript">
+      var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+      var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+      </script>
 @endsection
 

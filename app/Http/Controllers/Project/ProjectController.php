@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
+use Parse\ParseCloud;
 use App\Hospital;
 use App\Projects;
 use App\User;
@@ -66,8 +67,8 @@ class ProjectController extends Controller
 
         $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('Y-m-d', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('Y-m-d', strtotime('+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -79,8 +80,13 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
-        $projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectResponses = $this->parseGetProjectResponse($projectId,$startDate,$endDate);
+        //$projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
+        
+
+
+        //$projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectAnwers = $this->parseGetProjectAnwers($projectId,$startDate,$endDate); 
 
         $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
         $projectFlagsCount = $this->projectFlagsCount($projectAnwers); 
@@ -105,7 +111,7 @@ class ProjectController extends Controller
 
         $allPatients = User::where('type','patient')->where(['project_id'=>$projectId])->get()->take(5)->toArray();
         $patientController = new PatientController();
-        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$projectId,$startDateObj,$endDateObj);
+        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$projectId,$startDate,$endDate);
         $patientsSummary = $patientSummaryData['patientResponses'];
         
 
@@ -126,56 +132,80 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjectAnwers($projectId,$page=0,$anwsersData,$startDate,$endDate)
+    public function parseGetProjectResponse($projectId,$startDate,$endDate)
     {
-        $displayLimit = 20; 
+        $startDate = date('Y-m-d', strtotime($startDate));
+        $endDate = date('Y-m-d', strtotime($endDate));
 
-        $answersQry = new ParseQuery("Answer");
-        $answersQry->equalTo("project",$projectId);
-        $answersQry->includeKey("question");
-        $answersQry->includeKey("response");
-        $answersQry->limit($displayLimit);
-        $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("occurrenceDate");
-        $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $answersQry->lessThan("occurrenceDate",$endDate);
-        $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
-
-        if(!empty($anwsers))
-        {
-            $page++;
-            $anwsersData = $this->getProjectAnwers($projectId,$page,$anwsersData ,$startDate,$endDate);
-        }  
+        $data = ['projectId'=>$projectId,'startDate'=>$startDate,'endDate'=>$endDate];
+        $notifications = new ParseCloud();
+        $results = $notifications->run("listAllResponsesForProject",$data);
         
-        return $anwsersData;
-     
+        return $results;
     }
 
-    public function getProjectResponses($projectId,$page=0,$responseData,$startDate,$endDate)
+    public function parseGetProjectAnwers($projectId,$startDate,$endDate)
     {
-        $displayLimit = 20; 
+        $startDate = date('Y-m-d', strtotime($startDate));
+        $endDate = date('Y-m-d', strtotime($endDate));
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","missed"]);
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->limit($displayLimit);
-        $responseQry->skip($page * $displayLimit);
-        $responseQry->ascending("occurrenceDate");
-        $responses = $responseQry->find();
-        $responseData = array_merge($responses,$responseData); 
+        $data = ['projectId'=>$projectId,'startDate'=>$startDate,'endDate'=>$endDate];
+        $notifications = new ParseCloud();
+        $results = $notifications->run("listAllAnswersForProject",$data);
+        
+        return $results;
+    }
+
+    // public function getProjectAnwers($projectId,$page=0,$anwsersData,$startDate,$endDate)
+    // {
+    //     $displayLimit = 20; 
+
+    //     $answersQry = new ParseQuery("Answer");
+    //     $answersQry->equalTo("project",$projectId);
+    //     $answersQry->includeKey("question");
+    //     $answersQry->includeKey("response");
+    //     $answersQry->limit($displayLimit);
+    //     $answersQry->skip($page * $displayLimit);
+    //     $answersQry->ascending("occurrenceDate");
+    //     $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+    //     $answersQry->lessThan("occurrenceDate",$endDate);
+    //     $anwsers = $answersQry->find();
+    //     $anwsersData = array_merge($anwsers,$anwsersData); 
+
+    //     if(!empty($anwsers))
+    //     {
+    //         $page++;
+    //         $anwsersData = $this->getProjectAnwers($projectId,$page,$anwsersData ,$startDate,$endDate);
+    //     }  
+        
+    //     return $anwsersData;
+     
+    // }
+
+    // public function getProjectResponses($projectId,$page=0,$responseData,$startDate,$endDate)
+    // {
+    //     $displayLimit = 20; 
+
+    //     $responseQry = new ParseQuery("Response");
+    //     $responseQry->containedIn("status",["completed","missed"]);
+    //     $responseQry->equalTo("project",$projectId);
+    //     $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+    //     $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+    //     $responseQry->limit($displayLimit);
+    //     $responseQry->skip($page * $displayLimit);
+    //     $responseQry->ascending("occurrenceDate");
+    //     $responses = $responseQry->find();
+    //     $responseData = array_merge($responses,$responseData); 
          
-        if(!empty($responses))
-        {
-            $page++;
-            $responseData = $this->getProjectResponses($projectId,$page,$responseData ,$startDate,$endDate);
-        }  
+    //     if(!empty($responses))
+    //     {
+    //         $page++;
+    //         $responseData = $this->getProjectResponses($projectId,$page,$responseData ,$startDate,$endDate);
+    //     }  
         
-        return $responseData;
+    //     return $responseData;
      
-    }
+    // }
 
     public function getProjectResponseCounts($projectResponses,$projectAnwers)
     {
@@ -578,9 +608,24 @@ class ProjectController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $inputs = Input::get();
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('Y-m-d', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('Y-m-d', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
 
         $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
+
         $allPatients = User::where('type','patient')->lists('reference_code')->toArray();
 
         if(!$referenceCode)
@@ -592,20 +637,17 @@ class ProjectController extends Controller
         $responseArr=[];
         
         $patientController = new PatientController();
-        $responses  = $patientController->getPatientsResponses($patients,$projectId,0,[]);
+        // $responses  = $patientController->getPatientsResponses($patients,$projectId,0,[]);
+        $responses = $patientController->parseGetPatientsResponses($patients,$startDate,$endDate); 
  
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
         }
 
-
-
-        $patientAnswers  = $patientController->getPatientAnwers($referenceCode,$projectId,0,[]);
+        $patientAnswers  = $patientController->parseGetPatientsAnswers($referenceCode,$startDate,$endDate);
 
         $patientChartdata = $patientController->getQuestionChartData($patientAnswers);
-
-
 
         $singleChoiceQuestion = $patientChartdata['singleChoiceQuestion']; 
         $questionLabels = $patientChartdata['questionLabels'];
@@ -622,6 +664,9 @@ class ProjectController extends Controller
                                         ->with('questionBaseLine', $questionBaseLine)
                                         ->with('submissions', $submissions)
                                         ->with('allPatients', $allPatients)
+                                        ->with('endDate', $endDate)
+                                        ->with('startDate', $startDate)
+                                        ->with('referenceCode', $referenceCode)
                                         ->with('project', $project);
 
 

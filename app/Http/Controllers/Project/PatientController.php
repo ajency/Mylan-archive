@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
+use Parse\ParseCloud;
 use App\User;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use App\Hospital;
@@ -64,7 +65,7 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $patientResponses = $this->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+        $patientResponses = $this->patientSummary($patientReferenceCode ,0,$startDate,$endDate);
         $patientsSummary = $patientResponses['patientResponses'];
         $responseRate = $patientResponses['responseRate'];
         $completedResponses = $patientResponses['completedResponses'];
@@ -212,6 +213,22 @@ class PatientController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('Y-m-d', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('Y-m-d', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+
         $patient = User::find($patientId);
 
         // get completed count
@@ -242,7 +259,8 @@ class PatientController extends Controller
         $responseRate['missedRatio'] =  round($missedRatio,2);
 
         //get patient answers
-        $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        //$patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
+        $patientAnswers = $this->parseGetPatientsAnswers($patient['reference_code'],$startDate,$endDate);
         
        
         //flags chart (red,amber,green)  
@@ -280,6 +298,8 @@ class PatientController extends Controller
                                         ->with('questionBaseLine', $questionBaseLine)
                                         ->with('openRedFlags', $openRedFlags)
                                         ->with('submissionChart', $submissionChart)
+                                        ->with('endDate', $endDate)
+                                        ->with('startDate', $startDate)
                                         ->with('project', $project);
     }
 
@@ -744,10 +764,11 @@ class PatientController extends Controller
 
 
         $responseStatus = ["completed"];
-        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        $patientAnswers = $this->parseGetPatientsAnswers($patient['reference_code'],$startDate,$endDate);
 
         $projectController = new ProjectController();
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnwers); 
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnswers); 
 
         return view('project.patients.submissions')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'submissions')
@@ -790,9 +811,10 @@ class PatientController extends Controller
 
 
         $responseStatus = ["completed"];
-        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        $patientAnswers = $this->parseGetPatientsAnswers($patient['reference_code'],$startDate,$endDate);
 
-        $patientFlags =  $this->getPatientsFlags($patientAnwers); 
+        $patientFlags =  $this->getPatientsFlags($patientAnswers); 
 
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
@@ -908,7 +930,7 @@ class PatientController extends Controller
 
         }
 
-        $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[] ,$startDate,$endDate);  
+        $responses = $this->parseGetPatientsResponses($patients,$startDate,$endDate); 
         $completedResponses = [];
         $missedResponses = [];
          
@@ -917,6 +939,9 @@ class PatientController extends Controller
             $patient = $response->get("patient");
             $responseId = $response->getObjectId();
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+
+            if($status=='base_line')
+                continue;
  
             if(!isset($patientData[$patient]))
             {
@@ -926,7 +951,7 @@ class PatientController extends Controller
 
             $patientResponses[$patient]['count'][]=$responseId;
             if($status=='missed')
-            {
+            {  
                 $patientResponses[$patient]['missed'][]=$responseId;
                 $missedResponses[]=$responseId;
                 continue;
@@ -941,7 +966,7 @@ class PatientController extends Controller
         $answersQry->containedIn("response", $completedResponses);
         $answersQry->includeKey("response");
         $anwsers = $answersQry->find();
-        
+
          
         // $submissionFlags = [];  
          
@@ -987,118 +1012,160 @@ class PatientController extends Controller
         
     }
 
-    public function getPatientsResponseByDate($patients,$projectId,$page=0,$responseData,$startDate,$endDate)  
+    public function parseGetPatientsResponses($patients,$startDate,$endDate)  
     {
-        $displayLimit = 20; 
+        $startDate = date('Y-m-d', strtotime($startDate));
+        $endDate = date('Y-m-d', strtotime($endDate));
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","missed"]);
-        $responseQry->containedIn("patient",$patients);
-        //$responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->ascending("occurrenceDate");
-        $responseQry->limit($displayLimit);
-        $responseQry->skip($page * $displayLimit);
-        $responses = $responseQry->find();  
-        $responseData = array_merge($responses,$responseData); 
-
-        if(!empty($responses))
-        {
-            $page++;
-            $responseData = $this->getPatientsResponseByDate($patients,$projectId,$page,$responseData,$startDate,$endDate);  
-        }  
+        $data = ['patientIds'=>$patients,'startDate'=>$startDate,'endDate'=>$endDate];
+        $parseCloud = new ParseCloud();
+        $results = $parseCloud->run("listAllResponsesForPatient",$data);
         
-        return $responseData;
+        return $results;
      
     }
 
-    public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$statusFlag=1)
+    public function parseGetAnswersByPatientIds($patients,$startDate,$endDate)
     {
-        $displayLimit = 20; 
+       $startDate = date('Y-m-d', strtotime($startDate));
+        $endDate = date('Y-m-d', strtotime($endDate));
+
+        $data = ['patientIds'=>$patients,'startDate'=>$startDate,'endDate'=>$endDate];
+
+        $parseCloud = new ParseCloud();
+        $results = $parseCloud->run("getPatientsAnswers",$data);
+        
+        return $results;
+     
+    }
+
+    public function parseGetPatientsAnswers($patient,$startDate,$endDate)
+    {
+        $startDate = date('Y-m-d', strtotime($startDate));
+        $endDate = date('Y-m-d', strtotime($endDate));
+
+        $data = ['patientId'=>$patient,'startDate'=>$startDate,'endDate'=>$endDate];
+        $parseCloud = new ParseCloud();
+        $results = $parseCloud->run("listAllAnswersForPatient",$data);
+        
+        return $results;
+     
+    }
+
+    // public function getPatientsResponseByDate($patients,$projectId,$page=0,$responseData,$startDate,$endDate)  
+    // {
+    //     $displayLimit = 20; 
+
+    //     $responseQry = new ParseQuery("Response");
+    //     $responseQry->containedIn("status",["completed","missed"]);
+    //     $responseQry->containedIn("patient",$patients);
+    //     //$responseQry->equalTo("project",$projectId);
+    //     $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+    //     $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+    //     $responseQry->ascending("occurrenceDate");
+    //     $responseQry->limit($displayLimit);
+    //     $responseQry->skip($page * $displayLimit);
+    //     $responses = $responseQry->find();  
+    //     $responseData = array_merge($responses,$responseData); 
+
+    //     if(!empty($responses))
+    //     {
+    //         $page++;
+    //         $responseData = $this->getPatientsResponseByDate($patients,$projectId,$page,$responseData,$startDate,$endDate);  
+    //     }  
+        
+    //     return $responseData;
+     
+    // }
+
+    // public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$statusFlag=1)
+    // {
+    //     $displayLimit = 20; 
  
-        $responseQry = new ParseQuery("Response");
-        if($statusFlag)
-            $responseQry->containedIn("status",["completed","missed"]);
-        elseif($statusFlag==2)
-           $responseQry->containedIn("status",["completed"]); 
-       elseif($statusFlag==2)
-           $responseQry->containedIn("status",["missed"]); 
+    //     $responseQry = new ParseQuery("Response");
+    //     if($statusFlag)
+    //         $responseQry->containedIn("status",["completed","missed"]);
+    //     elseif($statusFlag==2)
+    //        $responseQry->containedIn("status",["completed"]); 
+    //    elseif($statusFlag==2)
+    //        $responseQry->containedIn("status",["missed"]); 
 
-        $responseQry->containedIn("patient",$patients);
-        //$responseQry->equalTo("project",$projectId);
-        $responseQry->descending("occurrenceDate");
-        $responseQry->limit($displayLimit);
-        $responseQry->skip($page * $displayLimit);
-        $responses = $responseQry->find();  
-        $responseData = array_merge($responses,$responseData); 
+    //     $responseQry->containedIn("patient",$patients);
+    //     //$responseQry->equalTo("project",$projectId);
+    //     $responseQry->descending("occurrenceDate");
+    //     $responseQry->limit($displayLimit);
+    //     $responseQry->skip($page * $displayLimit);
+    //     $responses = $responseQry->find();  
+    //     $responseData = array_merge($responses,$responseData); 
 
-        if(!empty($responses))
-        {
-            $page++;
-            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData);
-        }  
+    //     if(!empty($responses))
+    //     {
+    //         $page++;
+    //         $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData);
+    //     }  
         
-        return $responseData;
+    //     return $responseData;
      
-    }
+    // }
 
-    public function getPatientAnwers($patient,$projectId,$page=0,$anwsersData)
-    {
-        $displayLimit = 20; 
+    // public function getPatientAnwers($patient,$projectId,$page=0,$anwsersData)
+    // {
+    //     $displayLimit = 20; 
 
-        $answersQry = new ParseQuery("Answer");
-        //$answersQry->equalTo("project",$projectId);
-        $answersQry->equalTo("patient",$patient);
-        $answersQry->includeKey("question");
-        $answersQry->includeKey("response");
-        $answersQry->includeKey("option");
-        $answersQry->limit($displayLimit);
-        $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("occurrenceDate");
+    //     $answersQry = new ParseQuery("Answer");
+    //     //$answersQry->equalTo("project",$projectId);
+    //     $answersQry->equalTo("patient",$patient);
+    //     $answersQry->includeKey("question");
+    //     $answersQry->includeKey("response");
+    //     $answersQry->includeKey("option");
+    //     $answersQry->limit($displayLimit);
+    //     $answersQry->skip($page * $displayLimit);
+    //     $answersQry->ascending("occurrenceDate");
  
-        $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+    //     $anwsers = $answersQry->find();
+    //     $anwsersData = array_merge($anwsers,$anwsersData); 
 
-        if(!empty($anwsers))
-        {
-            $page++;
-            $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData);
-        }  
+    //     if(!empty($anwsers))
+    //     {
+    //         $page++;
+    //         $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData);
+    //     }  
         
-        return $anwsersData;
+    //     return $anwsersData;
      
-    }
+    // }
 
 
-    public function getPatientAnwersByDate($patient,$projectId,$page=0,$anwsersData,$startDate,$endDate)
-    {
-        $displayLimit = 20; 
 
-        $answersQry = new ParseQuery("Answer");
-        //$answersQry->equalTo("project",$projectId);
-        $answersQry->equalTo("patient",$patient);
-        $answersQry->includeKey("question");
-        $answersQry->includeKey("response");
-        $answersQry->includeKey("option");
-        $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        $answersQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $answersQry->limit($displayLimit);
-        $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("occurrenceDate");
+
+    // public function getPatientAnwersByDate($patient,$projectId,$page=0,$anwsersData,$startDate,$endDate)
+    // {
+    //     $displayLimit = 20; 
+
+    //     $answersQry = new ParseQuery("Answer");
+    //     //$answersQry->equalTo("project",$projectId);
+    //     $answersQry->equalTo("patient",$patient);
+    //     $answersQry->includeKey("question");
+    //     $answersQry->includeKey("response");
+    //     $answersQry->includeKey("option");
+    //     $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+    //     $answersQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+    //     $answersQry->limit($displayLimit);
+    //     $answersQry->skip($page * $displayLimit);
+    //     $answersQry->ascending("occurrenceDate");
  
-        $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+    //     $anwsers = $answersQry->find();
+    //     $anwsersData = array_merge($anwsers,$anwsersData); 
 
-        if(!empty($anwsers))
-        {
-            $page++;
-            $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData,$startDate,$endDate);
-        }  
+    //     if(!empty($anwsers))
+    //     {
+    //         $page++;
+    //         $anwsersData = $this->getPatientAnwersByDate($patient,$projectId,$page,$anwsersData,$startDate,$endDate);
+    //     }  
         
-        return $anwsersData;
+    //     return $anwsersData;
      
-    }
+    // }
 
     public function getBaseLineData($projectId,$referenceCode,$responseId)
     {
@@ -1422,13 +1489,15 @@ class PatientController extends Controller
         $patients[] = $patient['reference_code'];
         $responseArr=[];
          
-        $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[],$startDateObj,$endDateObj);
+        // $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[],$startDateObj,$endDateObj);
+        $responses = $this->parseGetPatientsResponses($patients,$startDate,$endDate); 
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
         }
 
-        $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        // $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        $answers = $this->parseGetPatientsAnswers($patient['reference_code'],$startDate,$endDate);
 
         $baseLineArr = [];
         $submissionArr = [];

@@ -15,9 +15,24 @@
 
 @section('content')
 <!-- BEGIN PAGE TITLE -->
-<div class="page-title">
-   <h3>Patient <span class="semi-bold">{{ $patient['reference_code']}}</span></h3>
-</div>
+ <div class="pull-right m-t-10">
+                   
+  <form name="searchData" method="GET"> 
+  <input type="hidden" class="form-control" name="startDate"  >
+  <input type="hidden" class="form-control" name="endDate"  >
+  <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+     <span></span> <b class="caret"></b>
+  </div>
+
+  </form>
+  <input type="hidden" name="flag" value="0">
+                    </div>
+                    <div class="page-title">
+                       <h3>Patient <span class="semi-bold">{{ $patient['reference_code']}}</span></h3>
+                    </div>
+ 
+ 
 <div class="tabbable tabs-left">
                         @include('project.patients.side-menu')
      <div class="tab-content">
@@ -260,7 +275,9 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
 $submissionChartJson = (isset($submissionChart['chartData'])) ? json_encode($submissionChart['chartData']):'[]';
 $submissionChartbaseLine = (isset($submissionChart['baseLine']))?$submissionChart['baseLine']:'';
 ?>
-    <script type="text/javascript">
+      <script type="text/javascript">
+      var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+      var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
      
 
    $(document).ready(function() {
