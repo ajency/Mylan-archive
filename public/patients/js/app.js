@@ -2,7 +2,23 @@ var app;
 
 app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification']).run([
   '$rootScope', 'App', function($rootScope, App) {
-    return $rootScope.$on('$routeChangeSuccess', function(event, current, previous, rejection) {});
+    return $rootScope.$on('$routeChangeSuccess', function(event, current, previous, rejection) {
+      console.log('************');
+      console.log(current);
+      console.log('************');
+      console.log(previous);
+      console.log('******/**/****');
+      if (!_.isUndefined(current.$$route)) {
+        App.currentState = current.$$route.controller;
+      }
+      if (!_.isUndefined(previous)) {
+        if (!_.isUndefined(previous.$$route)) {
+          App.previousState = previous.$$route.controller;
+        }
+      }
+      console.log(App.currentState);
+      return console.log(App.previousState);
+    });
   }
 ]).config([
   '$routeProvider', function($routeProvider) {

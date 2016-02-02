@@ -3,8 +3,12 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
     return $scope.view = {
       data: [],
       display: 'loader',
+      hideButton: null,
       init: function() {
         var param;
+        this.hideButton = App.previousState !== 'questionnaireCtr' ? false : true;
+        console.log('hide');
+        console.log(this.hideButton);
         param = {
           responseId: $routeParams.responseId
         };

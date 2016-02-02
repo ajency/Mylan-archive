@@ -3,7 +3,6 @@ angular.module 'angularApp.common', []
 .factory 'App', ['$q', '$http', '$location', ($q, $http, $location)->
 
 	App =
-
 		previousState: ''
 		currentState: ''
 

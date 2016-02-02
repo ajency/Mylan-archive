@@ -6,8 +6,11 @@ angular.module 'angularApp.questionnaire',[]
 		$scope.view =
 			data : []
 			display : 'loader'
-
+			hideButton : null
 			init :() -> 
+				@hideButton = if App.previousState != 'questionnaireCtr' then false else true
+				console.log 'hide'
+				console.log @hideButton
 
 				param = 
 					responseId : $routeParams.responseId

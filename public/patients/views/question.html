@@ -118,21 +118,13 @@
       <div class="col-md-12 text-right" id="notify-css">
         <button type="button" 
           class="btn btn-success"
-           ng-if = "view.data.next == true"
+          
           ng-click="view.nextQuestion()">
           Next 
           <i class="fa fa-chevron-circle-right"></i>
         </button>
       </div>
-      <div class="col-md-12 text-right">
-        <button type="button" 
-          ng-if = "view.data.next == false"
-          class="btn btn-success"
-          ng-click="view.nextQuestion()">
-          Finish 
-          <i class="fa fa-chevron-circle-right"></i>
-        </button>
-      </div>
+      
   </div>
 
   <div class="overlay" ng-if="view.overlay === true" >
