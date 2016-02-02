@@ -200,16 +200,20 @@
                   <div class="row">
             <div class="col-sm-6 ">
 <div class="tiles white">
+   <a href="patients-Recruited.html">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                           <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">20 </b> </h4>
                          </div>
+   </a>                      
                          </div>
                      </div>
                      <div class="col-sm-6">
                      <div class="tiles white">
+         <a href="patients-active.html">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                             <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">10 </b></h4>
                            </div>
+         </a>
                          </div>
                      </div>
                   </div>
@@ -220,14 +224,12 @@
 
                      <div class="col-md-2  ">
                         <a href="red.html">
-                           <div class="tiles white added-margin">
+                           <div class="tiles white added-margin"  onclick="window.document.location='red.html';">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Red <i class="fa fa-flag text-error" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Red Flags generated across submissions"></i></h5>
 
-                                 <p class="p-t-10 m-0">Previous / Baseline </p>
-                                 <h2 class="m-0"><b>25 </b>/<b class="f-w"> 12</b></h2>
-
-
+                                 <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
+                                 <h2 class="m-0"><a href="red-prev.html"><b class="grey">25 </b></a>/<a href="red-base.html"><b class="f-w grey"> 12</b></a></h2>
                               </div>
                            </div>
                         </a>
@@ -239,8 +241,8 @@
                                  <h5 class="bold m-0"> Amber <i class="fa fa-flag text-warning" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Amber Flags generated across submissions"></i></h5>
 
 
-                                 <p class="p-t-10 m-0">Previous / Baseline </p>
-                                 <h2 class="m-0"><b>11 </b>/<b class="f-w"> 12</b></h2>
+                                 <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
+                                 <h2 class="m-0"><a href="amber-prev.html"><b class="grey">11 </b></a>/<a href="amber-base.html"><b class="f-w grey"> 12</b></a></h2>
 
                               </div>
                            </div>
@@ -253,7 +255,7 @@
                                  <h5 class="bold m-b-20 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
                                  <h2 class="bold">
-                                 25</h2>
+                                 <a href="unreviewed-submissions.html"><b class="grey">25</b></a></h2>
                               </div>
                            </div>
                         </a>
@@ -277,13 +279,14 @@
                                                 <p> # Completed</p>
                                              </div>
                                              <div class="col-sm-4 text-center">
-                                                <h2 class="bold m-0 inline">40</h2>
-                                                <p> # Missed</p>
-                                             </div>
-                                             <div class="col-sm-4 text-center">
                                                 <h2 class="bold m-0 inline">3</h2>
                                                 <p> # Late</p>
                                              </div>
+                                             <div class="col-sm-4 text-center">
+                                                <h2 class="bold m-0 inline">40</h2>
+                                                <p> # Missed</p>
+                                             </div>
+                                             
                                           </div>
                                        
                                  </div>
@@ -343,114 +346,7 @@
 
 
                   <br>
-                  <div class="row">
-                     <div class="col-sm-5">
-                        
-                        <div class="grid simple grid-table">
-                           <div class="grid-title no-border">
-                              <h4>Flag <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total flags across submissions for a patient"></i></h4>
-                              <div class="tools">
-                                 <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
-                              </div>
-                           </div>
-                           <div class="grid-body no-border" style="display: block;">
-                              <table class="table table-flip-scroll dashboard-tbl table-hover">
-                                 <thead class="cf">
-                                    <tr>
-                                       <th width="25%" class="sorting">Patient ID<br>&nbsp;</th>
-                                       <th class="sorting">
-                                          Previous
-                                          <br> 
-                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
-                                       <th class="sorting">
-                                          Baseline
-                                          <br> 
-                                          <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                          <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                       </th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    <tr onclick="window.document.location='patient-flag.html';">
-                                       <td class="  text-center">10000001</td>
-                                       <td class="text-center sorting">
-                                          <span class=" text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class=" text-success">14</span>
-                                       </td>
-                                    </tr>
-                                    <tr onclick="window.document.location='patient-flag.html';">
-                                       <td class="  text-center">10000002</td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">14</span>
-                                          <span class=" text-warning">13</span>
-                                          <span class=" text-success">14</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">14</span>
-                                       </td>
-                                    </tr>
-                                    <tr onclick="window.document.location='patient-flag.html';">
-                                       <td class="  text-center">10000003</td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
-                                       </td>
-                                    </tr>
-                                    <tr onclick="window.document.location='patient-flag.html';">
-                                       <td class="  text-center">10000004</td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
-                                       </td>
-                                    </tr>
-                                    <tr onclick="window.document.location='patient-flag.html';">
-                                       <td class="  text-center">10000005</td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">04</span>
-                                          <span class="text-warning">03</span>
-                                          <span class="text-success">04</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">24</span>
-                                          <span class="text-warning">13</span>
-                                          <span class="text-success">14</span>
-                                       </td>
-                                    </tr>
-                                 </tbody>
-                              </table>
-                              <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right">
-                                 <a href="flags.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-sm-7">
-                        <div class="grid simple ">
+                  <div class="grid simple ">
                            <div class="grid-body no-border table-data ">
                               <div class="row">
                                  <div class="col-sm-6"><h4 class="m-t-25">Health <span class="semi-bold">Tracker</span></h4></div>
@@ -466,11 +362,11 @@
                               <div id="chartdiv" style="width:100%;"></div>
                            </div>
                         </div>
-                     </div>
-                  </div>
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
-                              <h4>Submissions <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i></h4>
+
+                              <h4>Submissions <span class="semi-bold">Summary</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i><sm class="light">( This are scores & flags for current submissions )</sm></h4>
+
                               <div class="tools">
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
                               </div>
@@ -491,8 +387,8 @@
                                        <th class="sorting">
                                           Change
                                           <br> 
-                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
                                           <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
+                                          <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
                                        </th>
                                        <th class="sorting">
                                           Previous
@@ -527,7 +423,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                <b>2</b> / <b class="f-w">0</b>
+                                                <b class="text-success">0</b> / <b class="f-w text-success">2</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -556,7 +452,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                <b>-1</b> / <b class="f-w">-3</b>
+                                                <b class="text-error">-3</b> / <b class="f-w text-error">-1</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -585,7 +481,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                <b>0</b> / <b class="f-w">8</b>
+                                                <b class="text-success">8</b> / <b class="f-w text-success">0</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -614,7 +510,7 @@
                                        </td>
                                        <td class="text-center">
                                           <h4 class="semi-bold margin-none flagcount">
-                                                <b>-2</b> / <b class="f-w">-4</b>
+                                                <b class="text-error">-4</b> / <b class="f-w text-error">-2</b>
                                            </h4>
                                        </td>
                                        <td class="text-center sorting">
@@ -641,8 +537,12 @@
                   <div class="row">
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
-                           <div class="grid-title no-border">
-                              <h4>Patient <span class="semi-bold">Summary</span></h4>
+                               <div class="grid-title no-border">
+                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">( This is for the Cumulative Submissions )</sm></h4>
+                              <div class="tools">
+                               
+                                 <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
+                              </div>
                            </div>
                            <div class="grid-body no-border" style="display: block;">
                               <table class="table table-flip-scroll table-hover">
@@ -676,14 +576,15 @@
                                                 12<br>
                                                 <sm class="text-success">Completed</sm>
                                              </h2>
+                                              <h2 class="bold pull-left">
+                                                04<br>
+                                                <sm class="text-warning">Late</sm>
+                                             </h2>
                                              <h2 class="bold pull-left">
                                                 12<br>
                                                 <sm class="text-danger">Missed</sm>
                                              </h2>
-                                             <h2 class="bold pull-left">
-                                                04<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
+                                            
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -714,14 +615,15 @@
                                                 10<br>
                                                 <sm class="text-success">Completed</sm>
                                              </h2>
+                                              <h2 class="bold pull-left">
+                                                10<br>
+                                                <sm class="text-warning">Late</sm>
+                                             </h2>
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
                                              </h2>
-                                             <h2 class="bold pull-left">
-                                                10<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
+                                            
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -753,13 +655,14 @@
                                                 <sm class="text-success">Completed</sm>
                                              </h2>
                                              <h2 class="bold pull-left">
-                                                11<br>
-                                                <sm class="text-danger">Missed</sm>
-                                             </h2>
-                                             <h2 class="bold pull-left">
                                                 06<br>
                                                 <sm class="text-warning">Late</sm>
                                              </h2>
+                                             <h2 class="bold pull-left">
+                                                11<br>
+                                                <sm class="text-danger">Missed</sm>
+                                             </h2>
+                                             
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>6th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -789,14 +692,15 @@
                                                 10<br>
                                                 <sm class="text-success">Completed</sm>
                                              </h2>
+                                                 <h2 class="bold pull-left">
+                                                04<br>
+                                                <sm class="text-warning">Late</sm>
+                                             </h2>
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
                                              </h2>
-                                             <h2 class="bold pull-left">
-                                                04<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
+                                         
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -827,14 +731,15 @@
                                                 10<br>
                                                 <sm class="text-success">Completed</sm>
                                              </h2>
+                                              <h2 class="bold pull-left">
+                                                12<br>
+                                                <sm class="text-warning">Late</sm>
+                                             </h2>
                                              <h2 class="bold pull-left">
                                                 05<br>
                                                 <sm class="text-danger">Missed</sm>
                                              </h2>
-                                             <h2 class="bold pull-left">
-                                                12<br>
-                                                <sm class="text-warning">Late</sm>
-                                             </h2>
+                                            
                                              <div class="pull-left p-t-20">
                                                 <span class="sm-font">Last Submission  <b>7th Dec</b></span><br>
                                                 <span class="sm-font">Next Submission  <b>8th Jan</b></span>
@@ -1415,7 +1320,7 @@
       </script>
       <style type="text/css">
          .grid-title h4 {
-         width: 53% !important;
+         width: 52% !important;
          white-space: inherit;
          overflow: hidden;
          text-overflow: initial;
