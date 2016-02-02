@@ -171,18 +171,32 @@
   </div> -->
     
       <div class="sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
-          <h5 class="prev-ans text-left">PREVIOUS ANSWER 32</h5>
-          <p class="text-muted text-left">
+          <h5 class="prev-ans text-left">PREVIOUS ANSWER </h5>
+
+          <p class="text-muted text-left"
+              ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
             <!-- <span class="text-success">A.</span>  -->
-             <div ng-repeat = "label in  view.data.previousQuestionnaireAnswer.labelDisplay" class="text-left">
-              {{label}} <br>
+             <div class="text-left">
+              Last time you answered option: &nbsp;
+                {{ view.data.previousQuestionnaireAnswer.label }}
              </div>
           </p>
+
+          <p class="text-muted text-left"
+            ng-if = 'view.data.questionType == "input" || view.data.questionType == "descriptive"'>
+
+             <div class="text-left">
+              {{view.data.previousQuestionnaireAnswer.value}}
+              &nbsp; 
+              {{view.data.previousQuestionnaireAnswer.label}}
+             </div>
+          </p>
+
           <div class="text-success text-left">
             <p>
               <i class="fa fa-calendar text-muted"></i>
                Submitted on 
-                <b>{{ view.data.previousQuestionnaireAnswer.date }}</b>
+                <b>{{ view.data.previousQuestionnaireAnswer.dateDisplay }}</b>
             </p>
           </div>
       </div>

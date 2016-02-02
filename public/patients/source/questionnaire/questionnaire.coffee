@@ -66,27 +66,50 @@ angular.module 'angularApp.questionnaire'
 
 					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
 						optionSelectedArray = []
-						optionSelectedValue = []
 						sortedArray = _.sortBy( @data.options, 'score' )
 						pluckId = _.pluck(sortedArray, 'id')
-						pluckValue = _.pluck(sortedArray, 'option')
-
-
 						_.each previousAns.optionId, (value) =>
-
-
 							a = _.indexOf(pluckId, value)
 							if a != -1
-								optionSelectedValue.push(pluckValue[a])
 								a++
 								optionSelectedArray.push(a)
-
-						@data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue
-
 						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
+					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
-					@data.previousQuestionnaireAnswer.date = moment(previousAns.date.iso).format('MMMM Do YYYY')
+
+
+				# if !_.isEmpty(previousAns)
+
+				# 	if @data.questionType == 'input'
+				# 		if !_.isEmpty previousAns.optionId[0] 
+				# 			ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
+				# 			ObjId.option
+				# 			@data.previousQuestionnaireAnswer['label'] = ObjId.option
+
+				# 	if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
+				# 		optionSelectedArray = []
+				# 		optionSelectedValue = []
+				# 		sortedArray = _.sortBy( @data.options, 'score' )
+				# 		pluckId = _.pluck(sortedArray, 'id')
+				# 		pluckValue = _.pluck(sortedArray, 'option')
+
+
+				# 		_.each previousAns.optionId, (value) =>
+
+
+				# 			a = _.indexOf(pluckId, value)
+				# 			if a != -1
+				# 				optionSelectedValue.push(pluckValue[a])
+				# 				a++
+				# 				optionSelectedArray.push(a)
+
+				# 		@data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue
+
+				# 		@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
+
+
+				# 	@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
 
 
@@ -264,13 +287,13 @@ angular.module 'angularApp.questionnaire'
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
-					options =
-						"questionId" : @data.questionId
-						"options": selectedvalue
-						"value": ""
-						"responseId" : @data.responseId
+						options =
+							"questionId" : @data.questionId
+							"options": selectedvalue
+							"value": ""
+							"responseId" : @data.responseId
 
-					@loadNextQuestion(options)
+						@loadNextQuestion(options)
 
 				if @data.questionType == 'descriptive'
 
