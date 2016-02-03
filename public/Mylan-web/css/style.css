@@ -452,7 +452,7 @@ h3.line-title span {
   position: absolute;
 }
 .item.item-radio .item-content {
-  padding: 16px;
+  padding: 7px;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon {
   background: #7bc67a;
@@ -480,6 +480,25 @@ h3.line-title span {
 }
 .item.item-radio .bg-yellow {
   background: #f8fad1;
+}
+/*** RADIO BUTTON STYLING 2 ***/
+.item.item-radio i.radio-icon {
+  position: relative;
+}
+.item.item-radio i.radio-icon:before {
+  visibility: hidden;
+}
+.item.item-radio .radio-icon span {
+  color: #bbb!important;
+  position: absolute;
+  right: 8px;
+  font-weight: bold;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon span {
+  position: absolute;
+  right: 8px;
+  font-weight: bold;
+  color: #fff!important;
 }
 /*** SLIDER STYLING ***/
 .carousel-content {
@@ -960,4 +979,7 @@ div.q-tabs .active:hover {
   padding-top: 31%;
   color: #fff;
   font-size: 25px;
+}
+.q-panel .form-group .form-control {
+  border: 1px solid #ccc;
 }

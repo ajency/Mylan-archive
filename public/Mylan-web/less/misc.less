@@ -480,7 +480,7 @@ h4.line-title,h3.line-title {
       position: absolute;
     }
     .item-content{
-      padding: 16px;
+      padding: 7px;
     }
     &.item-radio input:checked ~ .radio-icon{
       background: @color-light-green;
@@ -512,6 +512,26 @@ h4.line-title,h3.line-title {
       background: @color-pale-yellow;
     }
   }
+
+/*** RADIO BUTTON STYLING 2 ***/
+.item.item-radio i.radio-icon{
+ position: relative;
+}
+.item.item-radio i.radio-icon:before{
+   visibility: hidden;
+}
+.item.item-radio .radio-icon span{
+ color: #bbb!important;
+ position: absolute;
+   right: 8px;
+   font-weight: bold;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon span{
+   position: absolute;
+   right: 8px;
+   font-weight: bold;
+   color: #fff!important;
+}
 /*** SLIDER STYLING ***/
 .carousel-content {
     color:black;
@@ -991,4 +1011,9 @@ div.q-tabs{
     font-size: 25px;
     }
   }
+  .form-group{
+      .form-control{
+            border: 1px solid #ccc;
+      }
+    }
 }
