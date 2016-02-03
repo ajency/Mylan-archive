@@ -8,11 +8,6 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 	# Parse.initialize APP_ID, JS_KEY
 
 	$rootScope.$on '$routeChangeSuccess', (event, current, previous, rejection)->
-		console.log '************'
-		console.log current
-		console.log '************'
-		console.log previous
-		console.log '******/**/****'
 
 		if !_.isUndefined(current.$$route)
 			App.currentState  = current.$$route.controller
@@ -20,10 +15,6 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 		if !_.isUndefined(previous) 
 			if !_.isUndefined(previous.$$route) 
 				App.previousState  = previous.$$route.controller
-
-
-		console.log App.currentState
-		console.log App.previousState
 ]
 
 .config ['$routeProvider' , ($routeProvider)->
