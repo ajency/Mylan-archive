@@ -787,6 +787,7 @@ div.q-tabs .active:hover {
   font-size: 14px;
   margin-bottom: 25px;
   font-weight: 200;
+  word-wrap: break-word;
 }
 .sidebar p span {
   font-size: 25px;
