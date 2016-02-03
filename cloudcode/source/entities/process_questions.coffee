@@ -2165,6 +2165,7 @@ listAllResponsesForProject = (projectId, startDate, endDate) ->
 		responseQuery = new Parse.Query('Response')
 		responseQuery.equalTo('project', projectId)
 		responseQuery.descending('occurrenceDate')
+		responseQuery.containedIn('status', ["completed","missed","base_line"])
 		responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
 		responseQuery.lessThanOrEqualTo('occurrenceDate', endDate)
 		responseQuery.limit(limit)
@@ -2244,10 +2245,10 @@ listAllAnswersForProject = (projectId, startDate, endDate) ->
 
 
 Parse.Cloud.define "listAllResponsesForPatient", (request, response) ->
-	patientId = request.params.patientId
+	patientIds = request.params.patientIds
 	startDate = new Date(request.params.startDate)
 	endDate = new Date(request.params.endDate)
-	listAllResponsesForPatient(patientId, startDate, endDate)
+	listAllResponsesForPatient(patientIds, startDate, endDate)
 	.then (results) ->
 		console.log "___________"
 		console.log "results.length #{results.length}"
@@ -2256,7 +2257,7 @@ Parse.Cloud.define "listAllResponsesForPatient", (request, response) ->
 	, (error) ->
 		response.error error
 
-listAllResponsesForPatient = (patientId, startDate, endDate) ->
+listAllResponsesForPatient = (patientIds, startDate, endDate) ->
 	promise = new Parse.Promise()
 	responseObjects = []
 	page = 0
@@ -2264,8 +2265,9 @@ listAllResponsesForPatient = (patientId, startDate, endDate) ->
 
 	getAllPatientResponses = () ->
 		responseQuery = new Parse.Query('Response')
-		responseQuery.equalTo('patient', patientId)
+		responseQuery.containedIn('patient', patientIds)
 		responseQuery.descending('occurrenceDate')
+		responseQuery.containedIn('status', ["completed","missed","base_line"])
 		responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
 		responseQuery.lessThanOrEqualTo('occurrenceDate', endDate)
 		responseQuery.limit(limit)
@@ -2317,6 +2319,56 @@ listAllAnswersForPatient = (patientId, startDate, endDate) ->
 		answerQuery.descending('updatedAt')
 		answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
 		answerQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		answerQuery.limit(limit)
+		answerQuery.skip(page*limit)
+		answerQuery.include('question')
+		answerQuery.include('response')
+		answerQuery.include('option')
+		answerQuery.find()
+		.then (answerObjs) ->
+			console.log "___________"
+			console.log "answerObjs.length #{answerObjs.length}"
+			console.log "___________"
+			if _.isEmpty(answerObjs)
+				promise.resolve(answerObjects)
+			else
+				answerObjects.push(answerObj) for answerObj in answerObjs
+				page++
+				getAllPatientAnswers()
+		, (error) ->
+			promise.reject error
+		promise
+
+	getAllPatientAnswers()
+
+	promise
+
+
+Parse.Cloud.define "getPatientsAnswers", (request, response) ->
+	patientIds = request.params.patientIds
+	startDate = new Date(request.params.startDate)
+	endDate = new Date(request.params.endDate)
+	getPatientsAnswers(patientIds, startDate, endDate)
+	.then (results) ->
+		console.log "___________"
+		console.log "results.length #{results.length}"
+		console.log "___________"
+		response.success results
+	, (error) ->
+		response.error error
+
+getPatientsAnswers = (patientIds, startDate, endDate) ->
+	promise = new Parse.Promise()
+	answerObjects = []
+	page = 0
+	limit = 100
+
+	getAllPatientAnswers = () ->
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.containedIn('patient', patientIds)
+		answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate)
+		answerQuery.lessThanOrEqualTo('occurrenceDate', endDate)
+		answerQuery.descending('updatedAt')
 		answerQuery.limit(limit)
 		answerQuery.skip(page*limit)
 		answerQuery.include('question')

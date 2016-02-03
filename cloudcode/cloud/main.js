@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -197,7 +197,7 @@
         gracePeriod = questionnaireObj.get("gracePeriod");
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
-          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY HH:mm');
+          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A');
         } else {
           convertedGraceDate = graceDate;
         }
@@ -656,7 +656,7 @@
       if (!_.isEmpty(installationObj)) {
         console.log("******converted******");
         timeZone = installationObj.get("timeZone");
-        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY HH:mm');
+        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A');
         console.log(installationId);
         console.log(convertedTime);
         console.log("******converted******");
@@ -3137,6 +3137,7 @@
       responseQuery = new Parse.Query('Response');
       responseQuery.equalTo('project', projectId);
       responseQuery.descending('occurrenceDate');
+      responseQuery.containedIn('status', ["completed", "missed", "base_line"]);
       responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate);
       responseQuery.lessThanOrEqualTo('occurrenceDate', endDate);
       responseQuery.limit(limit);
@@ -3225,11 +3226,11 @@
   };
 
   Parse.Cloud.define("listAllResponsesForPatient", function(request, response) {
-    var endDate, patientId, startDate;
-    patientId = request.params.patientId;
+    var endDate, patientIds, startDate;
+    patientIds = request.params.patientIds;
     startDate = new Date(request.params.startDate);
     endDate = new Date(request.params.endDate);
-    return listAllResponsesForPatient(patientId, startDate, endDate).then(function(results) {
+    return listAllResponsesForPatient(patientIds, startDate, endDate).then(function(results) {
       console.log("___________");
       console.log("results.length " + results.length);
       console.log("___________");
@@ -3239,7 +3240,7 @@
     });
   });
 
-  listAllResponsesForPatient = function(patientId, startDate, endDate) {
+  listAllResponsesForPatient = function(patientIds, startDate, endDate) {
     var getAllPatientResponses, limit, page, promise, responseObjects;
     promise = new Parse.Promise();
     responseObjects = [];
@@ -3248,8 +3249,9 @@
     getAllPatientResponses = function() {
       var responseQuery;
       responseQuery = new Parse.Query('Response');
-      responseQuery.equalTo('patient', patientId);
+      responseQuery.containedIn('patient', patientIds);
       responseQuery.descending('occurrenceDate');
+      responseQuery.containedIn('status', ["completed", "missed", "base_line"]);
       responseQuery.greaterThanOrEqualTo('occurrenceDate', startDate);
       responseQuery.lessThanOrEqualTo('occurrenceDate', endDate);
       responseQuery.limit(limit);
@@ -3308,6 +3310,63 @@
       answerQuery.descending('updatedAt');
       answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate);
       answerQuery.lessThanOrEqualTo('occurrenceDate', endDate);
+      answerQuery.limit(limit);
+      answerQuery.skip(page * limit);
+      answerQuery.include('question');
+      answerQuery.include('response');
+      answerQuery.include('option');
+      answerQuery.find().then(function(answerObjs) {
+        var answerObj, j, len;
+        console.log("___________");
+        console.log("answerObjs.length " + answerObjs.length);
+        console.log("___________");
+        if (_.isEmpty(answerObjs)) {
+          return promise.resolve(answerObjects);
+        } else {
+          for (j = 0, len = answerObjs.length; j < len; j++) {
+            answerObj = answerObjs[j];
+            answerObjects.push(answerObj);
+          }
+          page++;
+          return getAllPatientAnswers();
+        }
+      }, function(error) {
+        return promise.reject(error);
+      });
+      return promise;
+    };
+    getAllPatientAnswers();
+    return promise;
+  };
+
+  Parse.Cloud.define("getPatientsAnswers", function(request, response) {
+    var endDate, patientIds, startDate;
+    patientIds = request.params.patientIds;
+    startDate = new Date(request.params.startDate);
+    endDate = new Date(request.params.endDate);
+    return getPatientsAnswers(patientIds, startDate, endDate).then(function(results) {
+      console.log("___________");
+      console.log("results.length " + results.length);
+      console.log("___________");
+      return response.success(results);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getPatientsAnswers = function(patientIds, startDate, endDate) {
+    var answerObjects, getAllPatientAnswers, limit, page, promise;
+    promise = new Parse.Promise();
+    answerObjects = [];
+    page = 0;
+    limit = 100;
+    getAllPatientAnswers = function() {
+      var answerQuery;
+      answerQuery = new Parse.Query('Answer');
+      answerQuery.containedIn('patient', patientIds);
+      answerQuery.greaterThanOrEqualTo('occurrenceDate', startDate);
+      answerQuery.lessThanOrEqualTo('occurrenceDate', endDate);
+      answerQuery.descending('updatedAt');
       answerQuery.limit(limit);
       answerQuery.skip(page * limit);
       answerQuery.include('question');

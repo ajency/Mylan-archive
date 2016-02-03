@@ -124,7 +124,7 @@ getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installa
 			# "DD-MM-YYYY HH:mm HH:mm"
 			graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
 			if timeZone!=''
-				convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY HH:mm')
+				convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A')
 			else
 				convertedGraceDate = graceDate
 
@@ -608,7 +608,7 @@ timeZoneConverter = (installationId,occurrenceDate) ->
 		if !_.isEmpty(installationObj)
 			console.log "******converted******"
 			timeZone = installationObj.get("timeZone")
-			convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY HH:mm')
+			convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A')
 			console.log installationId
 			console.log convertedTime
 			console.log "******converted******"
