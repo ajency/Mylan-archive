@@ -985,7 +985,7 @@ ul .mcq_active div span {
     font-size: 25px;
   }
 }
-@media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: landscape) {
+@media (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   /***MCQS***/
   ul .item.item-checkbox.mcq div span {
     width: 35px;
@@ -994,8 +994,6 @@ ul .mcq_active div span {
     line-height: 19px;
     padding: 10px;
   }
-}
-@media screen and (min-width: 768px) and (orientation: landscape) {
   .loader {
     padding-top: 20%;
   }
