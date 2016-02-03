@@ -84,7 +84,7 @@ class SubmissionController extends Controller
         $totalSubmissions = $completedSubmissionCount + $missedResponses;
 
         $responseRate = ($completedSubmissionCount) ? ($completedSubmissionCount/$totalSubmissions) * 100 :0;
-        $responseRate =  round($responseRate,2);
+        $responseRate =  round($responseRate);
 
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
