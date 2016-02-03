@@ -726,11 +726,10 @@ ul .mcq_active div span {
   }
   .item.item-checkbox {
     padding: 28px 16px 28px 69px;
+    top: 0;
   }
-  .item.item-checkbox .checkbox input,
-  .item.item-checkbox .checkbox-icon {
-    left: 28px;
-    top: 35px;
+  .item.item-checkbox .checkbox {
+    top: 0;
   }
   .no-list .no {
     width: 30px;
@@ -986,7 +985,7 @@ ul .mcq_active div span {
     font-size: 25px;
   }
 }
-@media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: landscape) {
+@media (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
   /***MCQS***/
   ul .item.item-checkbox.mcq div span {
     width: 35px;
@@ -995,8 +994,6 @@ ul .mcq_active div span {
     line-height: 19px;
     padding: 10px;
   }
-}
-@media screen and (min-width: 768px) and (orientation: landscape) {
   .loader {
     padding-top: 20%;
   }
