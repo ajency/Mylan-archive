@@ -1,32 +1,36 @@
 angular.module 'angularApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App'
-	, ($scope, App)->
+.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI'
+	, ($scope, App, $routeParams, notifyAPI)->
 
 		$scope.view =
 			data : []
 			display : 'loader'
 
 			init :() ->
-				# Storage.setData 'refcode','get'
-				# .then (refcode)=>
-				# 	display : 'loader'
-				# 	param =
-				# 		"patientId" : refcode
+				console.log 'inside notification controller'
+			
+				param =
+					"patientId" : RefCode
 
-				# 	notifyAPI.getNotification param
-				# 	.then (data)=>	
-				# 		console.log 'notification data'
-				# 		console.log data
-				# 		@display = 'noError'
-				# 		@data = []
-				# 		@data = data
-				# 		_.each @data, (value)->
-				# 			value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
-				# 			value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
-				# ,(error)=>
-				# 	@display = 'error'
-				# 	@errorType = error
+				console.log '**** notification coffeee ******'
+				console.log param
+
+				notifyAPI.getNotification param
+				.then (data)=>	
+					console.log 'notification data'
+					console.log data
+					@display = 'noError'
+					@data = []
+					@data = data
+					_.each @data, (value)->
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
+						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
+
+				,(error)=>
+					@display = 'error'
+					@errorType = error
+				
 
 			seenNotify:(id)->
 				# App.notification.decrement()
@@ -47,7 +51,7 @@ angular.module 'angularApp.notification',[]
 				# 	console.log 'error data'
 
 			onTapToRetry : ->
-				# @display = 'loader'
-				# @init()
+				@display = 'loader'
+				@init()
 
 ]

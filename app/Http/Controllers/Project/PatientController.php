@@ -236,10 +236,10 @@ class PatientController extends Controller
         $totalResponses = ($responseRate['completed'] + $responseRate['missed']);
 
         $completedRatio = ($totalResponses) ? ($responseRate['completed']/$totalResponses) * 100 :0;
-        $responseRate['completedRatio'] =  round($completedRatio,2);
+        $responseRate['completedRatio'] =  round($completedRatio);
 
         $missedRatio = ($totalResponses) ? ($responseRate['missed']/$totalResponses) * 100 :0;
-        $responseRate['missedRatio'] =  round($missedRatio,2);
+        $responseRate['missedRatio'] =  round($missedRatio);
 
         //get patient answers
         $patientAnswers = $this->getPatientAnwers($patient['reference_code'],$projectId,0,[]);
@@ -864,7 +864,7 @@ class PatientController extends Controller
         $projectId = intval ($projectId);
         $projectName = Projects::find($projectId)->name; 
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,$responseId);
+        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,$responseId,true);
         $questionnaireName = $baseLineData['questionnaireName']; 
         $questionsList = $baseLineData['questionsList']; 
         $optionsList = $baseLineData['optionsList']; 
@@ -975,7 +975,7 @@ class PatientController extends Controller
         }
 
         $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
-        $responseRate =  round($responseRate,2);
+        $responseRate =  round($responseRate);
          
  
         $data['patientResponses']=$patientResponses;
@@ -1100,7 +1100,7 @@ class PatientController extends Controller
      
     }
 
-    public function getBaseLineData($projectId,$referenceCode,$responseId)
+    public function getBaseLineData($projectId,$referenceCode,$responseId,$flag)
     {
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
@@ -1125,9 +1125,11 @@ class PatientController extends Controller
             $options = $optionsQry->find(); 
 
             $responseQry = new ParseQuery("Response");
-            $responseQry->equalTo("objectId", $responseId); 
+            if($flag)
+                $responseQry->equalTo("objectId", $responseId); 
             $responseQry->equalTo("patient", $referenceCode); 
             $responseQry->equalTo("status", 'base_line'); 
+            $responseQry->descending("createdAt");
             $response = $responseQry->first();
         }
          
@@ -1215,12 +1217,12 @@ class PatientController extends Controller
 
 
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,'');
+        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,'',false);
         $questionnaireName = $baseLineData['questionnaireName']; 
         $questionnaireId = $baseLineData['questionnaireId']; 
         $questionsList = $baseLineData['questionsList'];  
         $optionsList = $baseLineData['optionsList']; 
-        $answersList = [];//$baseLineData['answersList']; 
+        $answersList = $baseLineData['answersList']; 
         //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         
         return view('project.patients.baselinescore-edit')->with('active_menu', 'patients')
