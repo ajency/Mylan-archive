@@ -48,7 +48,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
-         <li ng-click="view.notifyClick()"><a href="#"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
+         <li><a href="#notification"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
