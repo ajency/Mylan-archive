@@ -23,9 +23,6 @@ h3 span {
 .m-t-0 {
   margin-top: 0!important;
 }
-.b-r {
-  border-right: 1px solid #ddd;
-}
 .fancy-title {
   line-height: 40px;
   color: #666;
@@ -309,6 +306,12 @@ h3.line-title span {
   position: relative;
   top: 4px;
 }
+.alert.alert-danger {
+  background: rgba(238, 82, 53, 0.09);
+  text-align: left;
+  color: #ee5235;
+  font-size: 14px;
+}
 @media (max-width: 767px) {
   .alert {
     font-size: 14px;
@@ -447,12 +450,30 @@ h3.line-title span {
   color: #555555;
   width: 100%;
 }
+.item.item-radio i.radio-icon{
+  position: relative;
+}
+.item.item-radio i.radio-icon:before{
+    visibility: hidden;
+}
+.item.item-radio .radio-icon span{
+  color: #bbb!important;
+  position: absolute;
+    right: 8px;
+    font-weight: bold;
+}
+.item.item-radio.item-radio input:checked ~ .radio-icon span{
+    position: absolute;
+    right: 8px;
+    font-weight: bold;
+    color: #fff!important;
+}
 .item.item-radio input {
   visibility: hidden;
   position: absolute;
 }
 .item.item-radio .item-content {
-  padding: 7px;
+  padding: 16px;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon {
   background: #7bc67a;
@@ -480,25 +501,6 @@ h3.line-title span {
 }
 .item.item-radio .bg-yellow {
   background: #f8fad1;
-}
-/*** RADIO BUTTON STYLING 2 ***/
-.item.item-radio i.radio-icon {
-  position: relative;
-}
-.item.item-radio i.radio-icon:before {
-  visibility: hidden;
-}
-.item.item-radio .radio-icon span {
-  color: #bbb!important;
-  position: absolute;
-  right: 8px;
-  font-weight: bold;
-}
-.item.item-radio.item-radio input:checked ~ .radio-icon span {
-  position: absolute;
-  right: 8px;
-  font-weight: bold;
-  color: #fff!important;
 }
 /*** SLIDER STYLING ***/
 .carousel-content {
@@ -612,11 +614,8 @@ h3.line-title span {
 .login-info {
   padding: 0 40px 0 30px;
 }
-.input-lg {
-  padding: 14px 16px;
-}
 form .form-control {
-  line-height: 15px;
+  line-height: 17px;
   border: none;
   box-shadow: none;
   background: transparent;
@@ -680,19 +679,6 @@ form .fa.fa-question {
 form .fa.fa-question::before {
   position: relative;
   bottom: 9px;
-}
-.icon {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto;
-  border: 1px dashed #00AAAC;
-  border-radius: 50%;
-  display: table;
-}
-.icon i {
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 22px;
 }
 @media (max-width: 767px) {
   h3 {
@@ -787,7 +773,6 @@ div.q-tabs .active:hover {
   font-size: 14px;
   margin-bottom: 25px;
   font-weight: 200;
-  word-wrap: break-word;
 }
 .sidebar p span {
   font-size: 25px;
@@ -981,6 +966,26 @@ div.q-tabs .active:hover {
   color: #fff;
   font-size: 25px;
 }
-.q-panel .form-group .form-control {
-  border: 1px solid #ccc;
+.error-panel {
+  height: 456px;
+  display: table;
+  width: 100%;
 }
+.error-panel .panel-body {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/***Error Style***/
+ul.parsley-errors-list
+{
+  list-style-type: none;
+    text-align: left;
+    padding-left: 15px;
+}
+    
+ul.parsley-errors-list li {
+  color: #f35958!important;
+}
+
+
