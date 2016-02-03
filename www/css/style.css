@@ -726,11 +726,10 @@ ul .mcq_active div span {
   }
   .item.item-checkbox {
     padding: 28px 16px 28px 69px;
+    top: 0;
   }
-  .item.item-checkbox .checkbox input,
-  .item.item-checkbox .checkbox-icon {
-    left: 28px;
-    top: 35px;
+  .item.item-checkbox .checkbox {
+    top: 0;
   }
   .no-list .no {
     width: 30px;
