@@ -727,9 +727,6 @@ ul .mcq_active div span {
   .item.item-checkbox {
     padding: 28px 16px 28px 69px;
   }
-  .item.item-checkbox span {
-    padding: 23px;
-  }
   .item.item-checkbox .checkbox input,
   .item.item-checkbox .checkbox-icon {
     left: 28px;
@@ -756,16 +753,7 @@ ul .mcq_active div span {
     line-height: 49px;
     font-size: 25px;
   }
-  /***MCQS***/
-  ul .item.item-checkbox.mcq {
-    white-space: initial;
-  }
-  ul .item.item-checkbox.mcq div span {
-    width: 35px;
-    height: 35px;
-    top: 18px;
-    line-height: 19px;
-  }
+  /***Radio buttons***/
   .item.item-radio .item-content span {
     width: 35px;
     height: 35px;
@@ -919,6 +907,7 @@ ul .mcq_active div span {
     height: 35px;
     top: 18px;
     line-height: 19px;
+    padding: 10px;
   }
   .item.item-radio .item-content span {
     width: 35px;
