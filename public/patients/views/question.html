@@ -3,7 +3,7 @@
   ng-switch="view.display">
   <!-- Wrapper for slides -->
      <div ng-switch-when="loader"> <!-- loader-->
-                    <div class="text-center"><span class="cf-loader"> </span></div>
+                    <div class="text-center"><span class="cf-loader" id="notify-css"> </span></div>
       </div>
 
   <div ng-switch-when="error">
@@ -80,14 +80,12 @@
                   ng-repeat ="answerValue in view.data.options">
                     <div class="form-group">
                     <input 
-                        type="number" ng-pattern="/^[a-z]+[@+!+#][a-z]*$/"
+                        type="text"
                         class="form-control input-lg"
-                        ng-pattern="/^[a-z]+[@+!+#][a-z]*$/"
-                         
                         ng-model="view.val_answerValue[answerValue.option]"
                         id="Kgs" placeholder="{{answerValue.option}}"
                         ng-readonly = "!view.readonly">
-                    f<p class="alert" ng-show="digits.view.val_answerValue[answerValue.option].$error.pattern">Numbers only, please.</p> 
+                  
                     </div>
                 </div>
             </form>

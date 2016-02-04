@@ -77,52 +77,10 @@ angular.module 'angularApp.questionnaire'
 
 					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
-
-
-				# if !_.isEmpty(previousAns)
-
-				# 	if @data.questionType == 'input'
-				# 		if !_.isEmpty previousAns.optionId[0] 
-				# 			ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
-				# 			ObjId.option
-				# 			@data.previousQuestionnaireAnswer['label'] = ObjId.option
-
-				# 	if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
-				# 		optionSelectedArray = []
-				# 		optionSelectedValue = []
-				# 		sortedArray = _.sortBy( @data.options, 'score' )
-				# 		pluckId = _.pluck(sortedArray, 'id')
-				# 		pluckValue = _.pluck(sortedArray, 'option')
-
-
-				# 		_.each previousAns.optionId, (value) =>
-
-
-				# 			a = _.indexOf(pluckId, value)
-				# 			if a != -1
-				# 				optionSelectedValue.push(pluckValue[a])
-				# 				a++
-				# 				optionSelectedArray.push(a)
-
-				# 		@data.previousQuestionnaireAnswer['labelDisplay'] = optionSelectedValue
-
-				# 		@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
-
-
-				# 	@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
-
-
-
-
 			getQuestion :() ->
 
 				@display = 'loader'
-				# Storage.setData 'refcode','get'
-				# .then (refcode)=>
-				# 	@refcode = refcode
-				# 	Storage.setData 'patientData','get'
-				# .then (patientData)=>
-
+				
 				@respStatus = $routeParams.respStatus
 				
 
@@ -170,6 +128,7 @@ angular.module 'angularApp.questionnaire'
 						console.log 'inside then'
 						console.log data
 						@data = data
+
 						@pastAnswer()
 						# Storage.setData 'responseId', 'set', data.result.responseId
 						@display = 'noError'
@@ -190,6 +149,16 @@ angular.module 'angularApp.questionnaire'
 						console.log 'inside then'
 						console.log data
 						@data = data
+						if !_.isUndefined(@data.status)
+								if @data.status == 'saved_successfully'
+									CToast.show 'This questionnaire was already answer'
+									$location.path('summary/'+responseId)
+								else if @data.status == 'completed'
+									CToast.show 'This questionnaire is completed '
+								else if @data.status == 'missed'
+									CToast.show 'This questionnaire was Missed'
+
+						
 						@pastAnswer()
 						@display = 'noError'
 					,(error)=>
