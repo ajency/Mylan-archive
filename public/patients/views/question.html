@@ -17,7 +17,8 @@
   <br>
     <div class="row">
     <div class="col-sm-17 col-xs-24">
-      <h3><<!-- a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> --> Please Answer the following Question </h3>
+      <h3>
+        <!-- a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> --> Please Answer the following Question </h3>
       <br>
  <div class="q-panel">
      <div class="panel panel-default">
@@ -79,11 +80,14 @@
                   ng-repeat ="answerValue in view.data.options">
                     <div class="form-group">
                     <input 
-                        type="text" 
-                        class="form-control input-lg" 
+                        type="number" ng-pattern="/^[a-z]+[@+!+#][a-z]*$/"
+                        class="form-control input-lg"
+                        ng-pattern="/^[a-z]+[@+!+#][a-z]*$/"
+                         
                         ng-model="view.val_answerValue[answerValue.option]"
                         id="Kgs" placeholder="{{answerValue.option}}"
                         ng-readonly = "!view.readonly">
+                    f<p class="alert" ng-show="digits.view.val_answerValue[answerValue.option].$error.pattern">Numbers only, please.</p> 
                     </div>
                 </div>
             </form>
