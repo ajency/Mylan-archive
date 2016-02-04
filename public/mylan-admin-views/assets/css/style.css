@@ -8348,6 +8348,9 @@ div.upload .img-div {
   left: 0;
   right: 0;
 }
+div.upload .img-div img {
+  margin: 0 auto;
+}
 .f-w-500 {
   font-weight: 500;
 }

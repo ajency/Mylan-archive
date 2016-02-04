@@ -3,7 +3,7 @@
   ng-switch="view.display">
   <!-- Wrapper for slides -->
      <div ng-switch-when="loader"> <!-- loader-->
-                    <div class="text-center"><span class="cf-loader"> </span></div>
+                    <div class="text-center"><span class="cf-loader" id="notify-css"> </span></div>
       </div>
 
   <div ng-switch-when="error">
@@ -17,7 +17,8 @@
   <br>
     <div class="row">
     <div class="col-sm-17 col-xs-24">
-      <h3><a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> Please Answer the following Question </h3>
+      <h3>
+        <!-- a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> --> Please Answer the following Question </h3>
       <br>
  <div class="q-panel">
      <div class="panel panel-default">
@@ -77,13 +78,14 @@
                 <div 
                   class="col-xs-8"
                   ng-repeat ="answerValue in view.data.options">
-                    <div class="form-group b-b">
+                    <div class="form-group">
                     <input 
-                        type="text" 
-                        class="form-control input-lg" 
+                        type="text"
+                        class="form-control input-lg"
                         ng-model="view.val_answerValue[answerValue.option]"
                         id="Kgs" placeholder="{{answerValue.option}}"
                         ng-readonly = "!view.readonly">
+                  
                     </div>
                 </div>
             </form>
@@ -91,7 +93,8 @@
 
                 <!-- descriptive -->
             <form class="row" ng-if='view.data.questionType == "descriptive"'>
-              <div class="form-group b-b"> <textarea type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
+              <div class="form-group"> 
+                <textarea type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
                   ng-readonly = "!view.readonly" ></textarea> </div>
             </form>
 
