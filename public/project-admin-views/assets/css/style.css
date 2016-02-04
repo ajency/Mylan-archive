@@ -8379,6 +8379,9 @@ div.upload .img-div {
   left: 0;
   right: 0;
 }
+div.upload .img-div img {
+  margin: 0 auto;
+}
 /****DASHBOARD****/
 .top-data .col-md-2 {
   width: 20% !important;

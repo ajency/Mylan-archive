@@ -28,18 +28,18 @@
        <div class="row">
            <div class="col-md-4 text-center">
                 <div class="upload">
+                        <a class="deleteHospitalLogo btn btn-link btn-xs pull-right" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
                         @if($hospital['logo']!='')
-                        <img src="{{ $imagePath }}" class="img-responsive">
-                        <a class="deleteHospitalLogo" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;">[delete]</a>
+                        <img src="{{ $imagePath }}" height="100px">
                         @endif
-                                               
-                        </div>
                         <span id="loader"></span>
                         <a id="pickfiles" class="{{ ($hospital['logo']!='')?'hidden':'' }}" href="javascript:;">
-                        <i class=" fa fa-image fa-3x"></i><br>
+                        <i class=" fa fa-image fa-3x text-danger"></i><br>
                         <h5 class="text-muted">Click to upload Hospital Logo</h5>
-                        </a>
+                        </a>                     
+                        </div>
+                        
                         
 
                         <input type="hidden" name="hospital_logo" id="hospital_logo">    
