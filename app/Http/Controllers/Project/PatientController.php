@@ -36,13 +36,13 @@ class PatientController extends Controller
         $projectId = intval($project['id']);
 
         $inputs = Input::get();
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 day'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at')->get()->toArray();
         $activepatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
@@ -940,13 +940,13 @@ class PatientController extends Controller
             elseif($status=='late')
             {
                 $patientResponses[$patient]['late'][]=$responseId;
-                $lateResponses[]=$responseId;
+                $lateResponses[]=$response;
                 
             }
             elseif($status=='completed')
             {
                 $patientResponses[$patient]['completed'][]=$responseId;
-                $completedResponses[]=$responseId;
+                $completedResponses[]=$response;
                 
             }
         }
