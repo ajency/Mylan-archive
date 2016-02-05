@@ -43,12 +43,12 @@ class PatientController extends Controller
         $endDateYmd = date('Y-m-d', strtotime($endDate));
 
         $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
-        $newPatients = [];
+        $activepatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
             
-            if($patient['account_status']=='created')
-                $newPatients[]= $patient['reference_code'];
+            if($patient['account_status']=='active')
+                $activepatients[]= $patient['reference_code'];
             
             $patientReferenceCode[] = $patient['reference_code'];
         }
@@ -64,11 +64,15 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $patientResponses = $this->patientSummary($patientReferenceCode ,0,$startDateObj,$endDateObj);
+        $patientResponses = $this->patientSummary($patientReferenceCode ,$startDateObj,$endDateObj);
+
         $patientsSummary = $patientResponses['patientResponses'];
-        $responseRate = $patientResponses['responseRate'];
-        $completedResponses = $patientResponses['completedResponses'];
-        $missedResponses = $patientResponses['missedResponses'];
+        $completed = $patientResponses['completed']; 
+        $late = $patientResponses['late']; 
+        $missed = $patientResponses['missed']; 
+        $completedCount = $patientResponses['completedCount'];
+        $lateCount = $patientResponses['lateCount'];
+        $missedCount = $patientResponses['missedCount'];
          
       
 
@@ -76,11 +80,14 @@ class PatientController extends Controller
                                           ->with('logoUrl', $logoUrl)
                                           ->with('project', $project)
                                           ->with('active_menu', 'patients')
-                                          ->with('newPatients', count($newPatients))
+                                          ->with('activepatients', count($activepatients))
                                           ->with('patients', $patients)
-                                          ->with('responseRate', $responseRate)
-                                          ->with('completedResponses', $completedResponses)
-                                          ->with('missedResponses', $missedResponses)
+                                          ->with('completed', $completed)
+                                          ->with('late', $late)
+                                          ->with('missed', $missed)
+                                          ->with('completedCount', $completedCount)
+                                          ->with('lateCount', $lateCount)
+                                          ->with('missedCount', $missedCount)
                                           ->with('endDate', $endDate)
                                           ->with('startDate', $startDate)
                                           ->with('patientsSummary', $patientsSummary);
@@ -885,7 +892,7 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function patientSummary($patients ,$projectId,$startDate,$endDate)
+    public function patientSummary($patients,$startDate,$endDate)
     {
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
@@ -898,18 +905,18 @@ class PatientController extends Controller
         {
             $patientId = $schedule->get("patient");
             $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
-            // $patientNextOccurrence[$patientId]=$nextOccurrence;
             $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
-            $patientResponses[$patientId]['totalFlags']=[];
-            $patientResponses[$patientId]['missed'] =[];
-            $patientResponses[$patientId]['count'] =[];
-            $patientResponses[$patientId]['completed'] =[];
             $patientResponses[$patientId]['lastSubmission'] = '-' ;
+            $patientResponses[$patientId]['missed'] =[];
+            $patientResponses[$patientId]['late'] =[];
+            $patientResponses[$patientId]['completed'] =[];
+            
 
         }
 
-        $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[] ,$startDate,$endDate);  
+        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate);  
         $completedResponses = [];
+        $lateResponses = [];
         $missedResponses = [];
          
         foreach ($responses as $key => $response) {
@@ -924,27 +931,31 @@ class PatientController extends Controller
                 $patientData[$patient] = $occurrenceDate;
             }
 
-            $patientResponses[$patient]['count'][]=$responseId;
             if($status=='missed')
             {
                 $patientResponses[$patient]['missed'][]=$responseId;
                 $missedResponses[]=$responseId;
-                continue;
+                 
             }
-            $patientResponses[$patient]['completed'][] =$responseId;
-
-            $completedResponses[]=$response;
+            elseif($status=='late')
+            {
+                $patientResponses[$patient]['late'][]=$responseId;
+                $lateResponses[]=$responseId;
+                
+            }
+            elseif($status=='completed')
+            {
+                $patientResponses[$patient]['completed'][]=$responseId;
+                $completedResponses[]=$responseId;
+                
+            }
         }
          
-       
         $answersQry = new ParseQuery("Answer");
         $answersQry->containedIn("response", $completedResponses);
         $answersQry->includeKey("response");
         $anwsers = $answersQry->find();
         
-         
-        // $submissionFlags = [];  
-         
         foreach ($anwsers as  $anwser) {
 
             $baseLineFlag = $anwser->get("baseLineFlag");
@@ -967,34 +978,43 @@ class PatientController extends Controller
             if($baseLineFlag !=null )
             {   
                 $patientResponses[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;
-                $patientResponses[$patient]['totalFlags'][]= $previousFlag;
-                
+                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;               
             }
 
         }
+       
+       
 
-        $responseRate = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
-        $responseRate =  round($responseRate);
+        $completed = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $completed =  round($completed);
+
+        $late = (count($responses)) ? (count($lateResponses)/count($responses)) * 100 :0;
+        $late =  round($late);
+
+        $missed = (count($responses)) ? (count($missedResponses)/count($responses)) * 100 :0;
+        $missed =  round($missed);
          
  
         $data['patientResponses']=$patientResponses;
-        $data['responseRate']=$responseRate; 
-        $data['completedResponses']=count($completedResponses);
-        $data['missedResponses']=count($missedResponses);
+        $data['completed']=$completed; 
+        $data['late']=$late; 
+        $data['missed']=$missed; 
+        $data['completedCount']=count($completedResponses);
+        $data['lateCount']=count($lateResponses);
+        $data['missedCount']=count($missedResponses);
+ 
 
         return $data;
         
     }
 
-    public function getPatientsResponseByDate($patients,$projectId,$page=0,$responseData,$startDate,$endDate)  
+    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate)  
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","missed"]);
+        $responseQry->containedIn("status",["completed","late","missed"]);
         $responseQry->containedIn("patient",$patients);
-        //$responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->ascending("occurrenceDate");
@@ -1006,7 +1026,7 @@ class PatientController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponseByDate($patients,$projectId,$page,$responseData,$startDate,$endDate);  
+            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate);  
         }  
         
         return $responseData;

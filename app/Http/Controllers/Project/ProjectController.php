@@ -105,7 +105,7 @@ class ProjectController extends Controller
 
         $allPatients = User::where('type','patient')->where(['project_id'=>$projectId])->get()->take(5)->toArray();
         $patientController = new PatientController();
-        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$projectId,$startDateObj,$endDateObj);
+        $patientSummaryData  = $patientController->patientSummary($patientReferenceCode ,$startDateObj,$endDateObj);
         $patientsSummary = $patientSummaryData['patientResponses'];
         
 
