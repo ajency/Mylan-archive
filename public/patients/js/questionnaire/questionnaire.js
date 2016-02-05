@@ -13,7 +13,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       descriptiveAnswer: '',
       flag: true,
       readonly: true,
+      limitTo: 5,
+      showMoreButton: true,
       overlay: false,
+      showMore: function() {
+        this.limitTo = this.limitTo + 5;
+        App.resize();
+        if (this.data.length < this.limitTo) {
+          return this.showMoreButton = false;
+        }
+      },
       CSpinnerShow: function() {
         return this.overlay = true;
       },

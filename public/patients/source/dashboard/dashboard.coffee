@@ -6,6 +6,8 @@ angular.module 'angularApp.dashboard',[]
 		data : []
 		display : 'loader'
 		QuestinnarieName : questionnaireName
+		showMoreButton : true
+		limitTo: 5
 
 		init :() -> 
 
@@ -18,6 +20,8 @@ angular.module 'angularApp.dashboard',[]
 			.then (data)=>
 				@data = data
 				@display = 'noError'
+				if @data.length < 5
+					@showMoreButton = false
 			,(error)=>
 				@display = 'error'
 				@errorType = error
@@ -35,6 +39,11 @@ angular.module 'angularApp.dashboard',[]
 				@display = 'loader'
 				console.log 'onTapToRetry'
 				@init()
+
+		showMore : ->
+			@limitTo = @limitTo + 5
+			if @data.length < @limitTo 
+				@showMoreButton = false
 
 				
 ]

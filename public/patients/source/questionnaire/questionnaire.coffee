@@ -17,8 +17,17 @@ angular.module 'angularApp.questionnaire'
 			descriptiveAnswer : ''
 			flag : true
 			readonly : true
+			limitTo : 5
+			showMoreButton : true
 
 			overlay : false
+
+			showMore : ->
+				@limitTo = @limitTo + 5
+				App.resize()
+				if @data.length < @limitTo 
+					@showMoreButton = false
+
 
 			CSpinnerShow : ()->
 				@overlay = true;

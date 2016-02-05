@@ -8352,10 +8352,6 @@ input {
   background: #949494;
   color: #fff;
 }
-/***Error Style***/
-ul.parsley-errors-list li {
-  color: #f35958!important;
-}
 /***Image Upload***/
 div.upload {
   width: auto;
