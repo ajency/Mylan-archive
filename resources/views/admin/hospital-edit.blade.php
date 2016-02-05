@@ -31,7 +31,7 @@
                         <a class="deleteHospitalLogo btn btn-link btn-xs pull-right {{ ($hospital['logo']=='')?'hidden':'' }}" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
                         @if($hospital['logo']!='')
-                        <img src="{{ $imagePath }}" height="100px" class="imageUploaded">
+                        <img src="{{ $imagePath }}" height="50px" class="imageUploaded">
                         @endif
                          
                         <a id="pickfiles" class="{{ ($hospital['logo']!='')?'hidden':'' }}" href="javascript:;">
@@ -47,7 +47,7 @@
 
                         <input type="hidden" name="hospital_logo" id="hospital_logo">    
                     </div>
-                
+                    <p class="text-left">Upload a logo having dimensions of approximately 200 X 50.</p>
            </div>
            <div class="col-md-8">
                

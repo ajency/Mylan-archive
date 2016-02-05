@@ -43,7 +43,7 @@
 
                         <input type="hidden" name="hospital_logo" id="hospital_logo" data-parsley-required>
                     </div>
-                
+                <p class="text-left">Upload a logo having dimensions of approximately 200 X 50.</p>
            </div>
            <div class="col-md-8">
                

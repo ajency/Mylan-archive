@@ -85,7 +85,7 @@ var uploader = new plupload.Uploader({
         FileUploaded: function (up, file, xhr) {
             fileResponse = JSON.parse(xhr.response);
             $('#pickfiles').addClass('hidden');
-            var imgStr = '<img src="'+ fileResponse.data.image_path +'" height="100px" class="imageUploaded">';
+            var imgStr = '<img src="'+ fileResponse.data.image_path +'" height="50px" class="imageUploaded">';
             // imgStr += '<a class="deleteHospitalLogo" data-type="hospital" data-value="'+HOSPITAL_ID+'" href="javascript:;">[delete]</a>';
             $('#hospital_logo').val(fileResponse.data.filename);
             $('#hospital_logo_block').append(imgStr);
