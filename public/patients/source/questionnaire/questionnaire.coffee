@@ -395,6 +395,7 @@ angular.module 'angularApp.questionnaire'
 			closeModal : ->
 				$('#pauseModal').modal('hide')
 				$('.modal-backdrop').addClass('hidden')
+				$("body").removeClass("modal-open");
 				$location.path('dashboard')
 				
 
