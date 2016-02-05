@@ -16,6 +16,15 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
           return function(data) {
             _this.data = data;
             _this.data.submissionDate = moment(_this.data.submissionDate).format('MMMM Do YYYY');
+            _.each(_this.data, function(value) {
+              var a;
+              a = value.input;
+              if (!_.isUndefined(a)) {
+                return value['type'] = 'input';
+              } else {
+                return value['type'] = 'option';
+              }
+            });
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
