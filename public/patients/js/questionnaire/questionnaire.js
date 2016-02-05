@@ -13,7 +13,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       descriptiveAnswer: '',
       flag: true,
       readonly: true,
+      limitTo: 5,
+      showMoreButton: true,
       overlay: false,
+      showMore: function() {
+        this.limitTo = this.limitTo + 5;
+        App.resize();
+        if (this.data.length < this.limitTo) {
+          return this.showMoreButton = false;
+        }
+      },
       CSpinnerShow: function() {
         return this.overlay = true;
       },
@@ -153,6 +162,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data;
+              if (!_.isUndefined(_this.data.status)) {
+                if (_this.data.status === 'saved_successfully') {
+                  CToast.show('This questionnaire was already answer');
+                  $location.path('summary/' + responseId);
+                } else if (_this.data.status === 'completed') {
+                  CToast.show('This questionnaire is completed ');
+                } else if (_this.data.status === 'missed') {
+                  CToast.show('This questionnaire was Missed');
+                }
+              }
               _this.pastAnswer();
               return _this.display = 'noError';
             };

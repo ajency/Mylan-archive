@@ -4,6 +4,8 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       data: [],
       display: 'loader',
       QuestinnarieName: questionnaireName,
+      showMoreButton: true,
+      limitTo: 5,
       init: function() {
         var id, param;
         this.display = 'loader';
@@ -14,7 +16,10 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         return DashboardAPI.get(param).then((function(_this) {
           return function(data) {
             _this.data = data;
-            return _this.display = 'noError';
+            _this.display = 'noError';
+            if (_this.data.length < 5) {
+              return _this.showMoreButton = false;
+            }
           };
         })(this), (function(_this) {
           return function(error) {
@@ -36,6 +41,12 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         this.display = 'loader';
         console.log('onTapToRetry');
         return this.init();
+      },
+      showMore: function() {
+        this.limitTo = this.limitTo + 5;
+        if (this.data.length < this.limitTo) {
+          return this.showMoreButton = false;
+        }
       }
     };
   }

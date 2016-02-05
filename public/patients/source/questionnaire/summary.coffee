@@ -19,6 +19,14 @@ angular.module 'angularApp.questionnaire',[]
 				.then (data)=>
 					@data = data
 					@data.submissionDate = moment(@data.submissionDate).format('MMMM Do YYYY')
+					
+					_.each @data, (value)->
+						a = value.input
+						if !_.isUndefined a
+							value['type'] = 'input'
+						else
+							value['type'] = 'option'
+
 					@display = 'noError'
 				,(error)=>
 					@display = 'error'

@@ -3,7 +3,7 @@
   ng-switch="view.display">
   <!-- Wrapper for slides -->
      <div ng-switch-when="loader"> <!-- loader-->
-                    <div class="text-center"><span class="cf-loader"> </span></div>
+                    <div class="text-center"><span class="cf-loader" id="notify-css"> </span></div>
       </div>
 
   <div ng-switch-when="error">
@@ -17,7 +17,8 @@
   <br>
     <div class="row">
     <div class="col-sm-17 col-xs-24">
-      <h3><!-- a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> --> Please Answer the following Question </h3>
+      <h3>
+        <!-- a class="btn btn-default btn-circle  m-t-0"><i class="fa fa-hand-o-left text-muted"></i></a> --> Please Answer the following Question </h3>
       <br>
  <div class="q-panel">
      <div class="panel panel-default">
@@ -79,18 +80,19 @@
                   ng-repeat ="answerValue in view.data.options">
                     <div class="form-group">
                     <input 
-                        type="text" 
-                        class="form-control input-lg" 
+                        type="text"
+                        class="form-control input-lg"
                         ng-model="view.val_answerValue[answerValue.option]"
                         id="Kgs" placeholder="{{answerValue.option}}"
                         ng-readonly = "!view.readonly">
+                  
                     </div>
                 </div>
             </form>
 
 
                 <!-- descriptive -->
-            <form ng-if='view.data.questionType == "descriptive"'>
+            <form class="row" ng-if='view.data.questionType == "descriptive"'>
               <div class="form-group"> 
                 <textarea type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
                   ng-readonly = "!view.readonly" ></textarea> </div>
@@ -166,18 +168,18 @@
       <div class="sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
           <h5 class="prev-ans text-left">PREVIOUS ANSWER </h5>
 
-          <p>
+          <p class="text-muted text-left" >
             <!-- <span class="text-success">A.</span>  -->
-             <div class="text-left text-muted"  
+             <div class="text-left"  
              ng-if = 'view.data.questionType === "single-choice" || view.data.questionType === "multi-choice"' >
               Last time you answered option: &nbsp; 
                 {{ view.data.previousQuestionnaireAnswer.label }}
              </div>
           </p>
 
-          <p>
+          <p class="text-muted text-left">
              <div 
-              class="text-left text-muted" 
+              class="text-left" 
               ng-if = 'view.data.questionType === "input" || view.data.questionType === "descriptive"'>
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 

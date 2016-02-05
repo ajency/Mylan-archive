@@ -37,7 +37,8 @@
                            </div>
                         </div>
                      </div>
-                      <div ng-repeat ="submissions in view.data"
+
+                      <div ng-repeat ="submissions in view.data | limitTo: view.limitTo "
                           ng-controller="EachRequestTimeCtrl">
 
                          <div class="panel-body b-b-g" ng-if="submissions.status == 'upcoming'">
@@ -138,7 +139,18 @@
                              </div>
                           </div>
 
+                         
+
                       </div>
+
+                       <div class="panel-body b-b-g text-center" ng-if = "view.showMoreButton">
+                            <div class="">
+                                 <a type="button" class="btn btn-default btn-block btn-warning"  
+                                  ng-click="view.showMore()">
+                                    <span>View More</span>
+                                  </a>
+                            </div>
+                        </div>
 
                       
                   </div> <!-- panel-default -->
