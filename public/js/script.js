@@ -74,21 +74,23 @@ var uploader = new plupload.Uploader({
  
         FilesAdded: function(up, files) {
             uploader.start();
-            $('#loader').removeClass('hidden');
+            $('.loader').removeClass('hidden');
         },
  
         UploadProgress: function(up, file) {
-            document.getElementById('loader').innerHTML = '<span>' + file.percent + "%</span>";
+    
+            $('.loader').html('<div class="progress-bar progress-bar-black animate-progress-bar" data-percentage="' + file.percent +'%" style="width: ' + file.percent +'%;"></div>');
         },
 
         FileUploaded: function (up, file, xhr) {
             fileResponse = JSON.parse(xhr.response);
             $('#pickfiles').addClass('hidden');
-            var imgStr = '<img src="'+ fileResponse.data.image_path +'" class="img-responsive">';
-            imgStr += '<a class="deleteHospitalLogo" data-type="hospital" data-value="'+HOSPITAL_ID+'" href="javascript:;">[delete]</a>';
+            var imgStr = '<img src="'+ fileResponse.data.image_path +'" height="50px" class="imageUploaded">';
+            // imgStr += '<a class="deleteHospitalLogo" data-type="hospital" data-value="'+HOSPITAL_ID+'" href="javascript:;">[delete]</a>';
             $('#hospital_logo').val(fileResponse.data.filename);
-            $('#hospital_logo_block').html(imgStr);
-            $('#loader').addClass('hidden');
+            $('#hospital_logo_block').append(imgStr);
+            $('.loader').addClass('hidden');
+            $('.deleteHospitalLogo').removeClass('hidden');
 
          },
  
@@ -112,8 +114,9 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
     if(!hospitalId)
     {
         imageName = $("#hospital_logo").val();
-        $('#hospital_logo_block').html('');
+        $('.imageUploaded').remove();
         $('#pickfiles').removeClass('hidden');
+        $('.deleteHospitalLogo').addClass('hidden');
     }
     else
     {
@@ -124,8 +127,9 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
                 imageName: imageName
             },
             success: function (response) {
-                $('#hospital_logo_block').html('');
-                $('#pickfiles').removeClass('hidden');
+               $('.imageUploaded').remove();
+               $('#pickfiles').removeClass('hidden');
+               $('.deleteHospitalLogo').addClass('hidden');
             }
         });
     }
