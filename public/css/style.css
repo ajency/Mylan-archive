@@ -8165,23 +8165,14 @@ body.rtl .footer-widget {
 label {
   font-size: 15px;
 }
+.breadcrumb li {
+  padding-left: 0;
+}
 .m-b-0 {
   margin-bottom: 0;
 }
 .m-l-42 {
   margin-left: 42px;
-}
-.b-r {
-  border-color: #C1C1C1;
-}
-.page-title h3 {
-  width: auto;
-}
-.page-title a i {
-  font-size: 20px;
-  margin-left: 12px;
-  top: -5px;
-  float: none;
 }
 .table-data div.DTTT .btn:first-child {
   display: none;
@@ -8228,7 +8219,7 @@ label {
 }
 .feature-list .col-md-3 {
   padding: 0 25px 0 25px;
-  height: 158px;
+  height: 145px;
 }
 .feature-list .col-md-3.b-r {
   border-color: #C1C1C1;
@@ -8236,19 +8227,11 @@ label {
 .feature-list .col-md-3.b-r h3 {
   margin: 0;
 }
-.feature-list.fivefetures .col-md-3 {
-  width: 20%!important;
-  height: 170px;
-  padding: 0 15px 0 15px;
-}
 .sub-title {
   font-size: 19px;
 }
 .table tbody tr {
   cursor: pointer;
-}
-.active-item {
-  background: #fff;
 }
 .select2-container.select2,
 input {
@@ -8262,6 +8245,12 @@ input {
 }
 .page-title h3 {
   width: auto;
+}
+.page-title a i {
+  font-size: 20px;
+  margin-left: 12px;
+  top: -5px;
+  float: none;
 }
 .bg-gray {
   background: #eee;
@@ -8288,8 +8277,20 @@ input {
 .footer span {
   color: #757575;
 }
-.breadcrumb li {
-  padding-left: 0;
+.ios-switch {
+  height: 30px!important;
+  width: 55px!important;
+}
+.ios-switch .handle {
+  width: 26px!important;
+  height: 26px!important;
+}
+.ios-switch.on .handle {
+  -o-transform: translate3d(25px, 0, 0) !important;
+  -ms-transform: translate3d(25px, 0, 0) !important;
+  -moz-transform: translate3d(25px, 0, 0) !important;
+  -webkit-transform: translate3d(25px, 0, 0) !important;
+  transform: translate3d(25px, 0, 0) !important;
 }
 .inner-tabs {
   background: transparent;
@@ -8311,20 +8312,8 @@ input {
 .inner-tabs li:visited a i {
   color: #999;
 }
-.ios-switch {
-  height: 30px!important;
-  width: 55px!important;
-}
-.ios-switch .handle {
-  width: 26px!important;
-  height: 26px!important;
-}
-.ios-switch.on .handle {
-  -o-transform: translate3d(25px, 0, 0) !important;
-  -ms-transform: translate3d(25px, 0, 0) !important;
-  -moz-transform: translate3d(25px, 0, 0) !important;
-  -webkit-transform: translate3d(25px, 0, 0) !important;
-  transform: translate3d(25px, 0, 0) !important;
+ul.parsley-errors-list li {
+  color: #f35958!important;
 }
 div.upload {
   width: auto;
@@ -8348,9 +8337,6 @@ div.upload .img-div {
   left: 0;
   right: 0;
 }
-div.upload .img-div img {
-  margin: 0 auto;
-}
 .f-w-500 {
   font-weight: 500;
 }
@@ -8366,5 +8352,5 @@ div.upload .img-div img {
   font-weight: 400;
 }
 .adminlogin .logo-img {
-  margin-right: 50px;
+  margin-right: 105px;
 }
