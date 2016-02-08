@@ -1070,15 +1070,15 @@ class PatientController extends Controller
  
         }
        
-       
+        $totalResponses = count($responses) + array_sum($missedResponses);
 
-        $completed = (count($responses)) ? (count($completedResponses)/count($responses)) * 100 :0;
+        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
         $completed =  round($completed);
 
-        $late = (count($responses)) ? (count($lateResponses)/count($responses)) * 100 :0;
+        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
         $late =  round($late);
 
-        $missed = (count($responses)) ? (array_sum($missedResponses)/count($responses)) * 100 :0;
+        $missed = ($totalResponses) ? (array_sum($missedResponses)/$totalResponses) * 100 :0;
         $missed =  round($missed);
          
  
