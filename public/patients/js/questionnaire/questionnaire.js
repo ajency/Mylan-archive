@@ -413,6 +413,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       closeModal: function() {
         $('#pauseModal').modal('hide');
         $('.modal-backdrop').addClass('hidden');
+        $("body").removeClass("modal-open");
         return $location.path('dashboard');
       }
     };
