@@ -283,6 +283,10 @@ class PatientController extends Controller
         //get patient answers
         $patientAnswers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
         
+        $patients[] = $patient['reference_code'];
+        $responseStatus = ["completed","late"];
+        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
+
        
         //flags chart (total,red,amber,green)  
         $flagsCount = $this->patientFlagsCount($patientAnswers,$baselineAnwers);
@@ -292,13 +296,13 @@ class PatientController extends Controller
 
         //patient submissions
         $projectController = new ProjectController();
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnswers); 
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
 
         //question chart
         $questionsChartData = $this->getQuestionChartData($patientAnswers,$baselineAnwers);
 
         //red flags
-        $openRedFlags = $this->getOpenRedFlags($patientAnswers);
+        $openRedFlags = [];//$this->getOpenRedFlags($patientAnswers);
 
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
@@ -840,7 +844,7 @@ class PatientController extends Controller
         // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $patients[] = $patient['reference_code'];
-        $responseStatus = ["completed"];
+        $responseStatus = ["completed","late"];
         $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
  
         $projectController = new ProjectController();
