@@ -65,7 +65,7 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $patientResponses = $this->patientSummary($patientReferenceCode ,$startDateObj,$endDateObj);
+        $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj);
 
         $patientsSummary = $patientResponses['patientResponses'];
         $completed = $patientResponses['completed']; 
@@ -836,11 +836,15 @@ class PatientController extends Controller
                      );
 
 
-        $responseStatus = ["completed"];
-        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        // $responseStatus = ["completed"];
+        // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
+        $patients[] = $patient['reference_code'];
+        $responseStatus = ["completed"];
+        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
+ 
         $projectController = new ProjectController();
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientAnwers); 
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
 
         return view('project.patients.submissions')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'submissions')
@@ -1000,7 +1004,9 @@ class PatientController extends Controller
 
         }
 
-        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate);  
+        $responseStatus = ["completed","late","missed"]; 
+        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus);  
+
         $completedResponses = [];
         $lateResponses = [];
         $missedResponses = [];
@@ -1094,12 +1100,12 @@ class PatientController extends Controller
         
     }
 
-    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate)  
+    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status)  
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","late","missed"]);
+        $responseQry->containedIn("status",$status);  //["completed","late","missed"]
         $responseQry->containedIn("patient",$patients);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
@@ -1112,7 +1118,7 @@ class PatientController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate);  
+            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate,$status);  
         }  
         
         return $responseData;
@@ -1529,8 +1535,9 @@ class PatientController extends Controller
 
         $patients[] = $patient['reference_code'];
         $responseArr=[];
-         
-        $responses = $this->getPatientsResponseByDate($patients,$projectId,0,[],$startDateObj,$endDateObj);
+        
+        $responseStatus = ["completed","late","missed"]; 
+        $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');

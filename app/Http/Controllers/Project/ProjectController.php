@@ -505,51 +505,98 @@ class ProjectController extends Controller
         return $patientFlagsData;
     }
 
-    public function getSubmissionsSummary($projectAnwers)
-    {
-        $submissionsData = [];
+    // public function getSubmissionsSummary($projectAnwers)
+    // {
+    //     $submissionsData = [];
 
-        foreach ($projectAnwers as $answer) {
-            $patient = $answer->get("patient");
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-            $score = $answer->get("score");
-            $totalScore = $answer->get("response")->get("totalScore");
-            $responseId = $answer->get("response")->getObjectId();
-            $responseStatus = $answer->get("response")->get("status");
-            $questionId = $answer->get("question")->getObjectId();
-            $questionType = $answer->get("question")->get("type");
-            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-            $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('dS M');
-            $comparedToBaslineScore = $answer->get("response")->get("comparedToBaseLine");
-            $comparedToPrevious = $answer->get("response")->get("comparedToPrevious");
+    //     foreach ($projectAnwers as $answer) {
+    //         $patient = $answer->get("patient");
+    //         $baseLineFlag = $answer->get("baseLineFlag");
+    //         $previousFlag = $answer->get("previousFlag");
+    //         $score = $answer->get("score");
+    //         $totalScore = $answer->get("response")->get("totalScore");
+    //         $responseId = $answer->get("response")->getObjectId();
+    //         $responseStatus = $answer->get("response")->get("status");
+    //         $questionId = $answer->get("question")->getObjectId();
+    //         $questionType = $answer->get("question")->get("type");
+    //         $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+    //         $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('dS M');
+    //         $comparedToBaslineScore = $answer->get("response")->get("comparedToBaseLine");
+    //         $comparedToPrevious = $answer->get("response")->get("comparedToPrevious");
 
-            if($responseStatus!='completed')
-                continue;
+    //         if($responseStatus!='completed')
+    //             continue;
 
-            if($questionType!='single-choice')
-                continue;
+    //         if($questionType!='single-choice')
+    //             continue;
 
-            if(!isset($submissionsData[$responseId]))
-            {
-                $submissionsData[$responseId]['patient'] ='';
-                $submissionsData[$responseId]['sequenceNumber'] ='';
-                $submissionsData[$responseId]['occurrenceDate'] ='';
-                $submissionsData[$responseId]['totalScore'] = 0;
-                $submissionsData[$responseId]['previousScore'] =0;
-                $submissionsData[$responseId]['baseLineScore'] =0;
-                $submissionsData[$responseId]['baseLineFlag']['red']=[];
-                $submissionsData[$responseId]['baseLineFlag']['green']=[];
-                $submissionsData[$responseId]['baseLineFlag']['amber']=[];
+    //         if(!isset($submissionsData[$responseId]))
+    //         {
+    //             $submissionsData[$responseId]['patient'] ='';
+    //             $submissionsData[$responseId]['sequenceNumber'] ='';
+    //             $submissionsData[$responseId]['occurrenceDate'] ='';
+    //             $submissionsData[$responseId]['totalScore'] = 0;
+    //             $submissionsData[$responseId]['previousScore'] =0;
+    //             $submissionsData[$responseId]['baseLineScore'] =0;
+    //             $submissionsData[$responseId]['baseLineFlag']['red']=[];
+    //             $submissionsData[$responseId]['baseLineFlag']['green']=[];
+    //             $submissionsData[$responseId]['baseLineFlag']['amber']=[];
 
-                $submissionsData[$responseId]['previousFlag']['red']=[];
-                $submissionsData[$responseId]['previousFlag']['green']=[];
-                $submissionsData[$responseId]['previousFlag']['amber']=[];
+    //             $submissionsData[$responseId]['previousFlag']['red']=[];
+    //             $submissionsData[$responseId]['previousFlag']['green']=[];
+    //             $submissionsData[$responseId]['previousFlag']['amber']=[];
 
-            }
+    //         }
 
              
 
+    //         $submissionsData[$responseId]['patient'] = $patient;
+    //         $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
+    //         $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
+    //         $submissionsData[$responseId]['totalScore'] = $totalScore;
+    //         $submissionsData[$responseId]['baseLineScore']= $comparedToBaslineScore;
+    //         $submissionsData[$responseId]['previousScore']= $comparedToPrevious;
+
+    //         if($baseLineFlag !=null )
+    //         {   
+    //             $submissionsData[$responseId]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
+    //             $submissionsData[$responseId]['previousFlag'][$previousFlag][]= $previousFlag;
+                
+    //         }
+
+ 
+    //     }
+    //     // dd($submissionsData); 
+    //     return $submissionsData;
+    // }
+
+    public function getSubmissionsSummary($responses)
+    {
+        $submissionsData = [];
+
+        foreach ($responses as $response) {
+            $patient = $response->get("patient");
+            $baseLineFlag = $response->get("baseLineFlag");
+            $previousFlag = $response->get("previousFlag");
+            $score = $response->get("score");
+            $totalScore = $response->get("totalScore");
+            $responseId = $response->getObjectId();
+
+            $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
+            $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
+            $baseLineTotalGreenFlags = $response->get("baseLineTotalGreenFlags");
+            $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+            $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
+            $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
+ 
+ 
+            $sequenceNumber = $response->get("sequenceNumber");
+            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+            $comparedToBaslineScore = $response->get("comparedToBaseLine");
+            $comparedToPrevious = $response->get("comparedToPrevious");
+
+
+          
             $submissionsData[$responseId]['patient'] = $patient;
             $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
@@ -557,12 +604,13 @@ class ProjectController extends Controller
             $submissionsData[$responseId]['baseLineScore']= $comparedToBaslineScore;
             $submissionsData[$responseId]['previousScore']= $comparedToPrevious;
 
-            if($baseLineFlag !=null )
-            {   
-                $submissionsData[$responseId]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $submissionsData[$responseId]['previousFlag'][$previousFlag][]= $previousFlag;
-                
-            }
+            $submissionsData[$responseId]['baseLineFlag']['red']=$baseLineTotalRedFlags;
+            $submissionsData[$responseId]['baseLineFlag']['green']=$baseLineTotalAmberFlags;
+            $submissionsData[$responseId]['baseLineFlag']['amber']=$baseLineTotalGreenFlags;
+
+            $submissionsData[$responseId]['previousFlag']['red']=$previousTotalRedFlags;
+            $submissionsData[$responseId]['previousFlag']['green']=$previousTotalAmberFlags;
+            $submissionsData[$responseId]['previousFlag']['amber']=$previousTotalGreenFlags;
 
  
         }
