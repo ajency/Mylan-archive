@@ -404,15 +404,20 @@ class PatientController extends Controller
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("patient", $patient); 
         $responseQry->equalTo("status", 'base_line'); 
-        $response = $responseQry->first();
+        $response = $responseQry->first();  
 
-        $answersQry = new ParseQuery("Answer");
-        $answersQry->equalTo("response",$response);
-        $answersQry->exists("score");
-        $answersQry->includeKey("question");
-        $answersQry->includeKey("response");
-        $answersQry->includeKey("option");
-        $answers = $answersQry->find();
+        $answers =[];
+        if(!empty($response))
+        {
+            $answersQry = new ParseQuery("Answer");
+            $answersQry->equalTo("response",$response);
+            $answersQry->exists("score");
+            $answersQry->includeKey("question");
+            $answersQry->includeKey("response");
+            $answersQry->includeKey("option");
+            $answers = $answersQry->find();
+        }
+        
 
         return $answers;
     }
