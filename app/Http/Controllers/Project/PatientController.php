@@ -1043,36 +1043,24 @@ class PatientController extends Controller
             }
         }
          
-        $answersQry = new ParseQuery("Answer");
-        $answersQry->containedIn("response", $completedResponses);
-        $answersQry->includeKey("response");
-        $anwsers = $answersQry->find();
-        
-        foreach ($anwsers as  $anwser) {
+        foreach ($completedResponses as $response) {
+            $patient = $response->get("patient");
+            $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
+            $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
+            $baseLineTotalGreenFlags = $response->get("baseLineTotalGreenFlags");
+            $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+            $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
+            $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
+ 
+            $patientResponses[$patient]['baseLineFlag']['red']=$baseLineTotalRedFlags;
+            $patientResponses[$patient]['baseLineFlag']['green']=$baseLineTotalAmberFlags;
+            $patientResponses[$patient]['baseLineFlag']['amber']=$baseLineTotalGreenFlags;
 
-            $baseLineFlag = $anwser->get("baseLineFlag");
-            $previousFlag = $anwser->get("previousFlag");
-            $patient = $anwser->get("patient");
-            $responseId = $anwser->get("response")->getObjectId();
-            $occurrenceDate = $anwser->get("response")->get("occurrenceDate")->format('dS M');
+            $patientResponses[$patient]['previousFlag']['red']=$previousTotalRedFlags;
+            $patientResponses[$patient]['previousFlag']['green']=$previousTotalAmberFlags;
+            $patientResponses[$patient]['previousFlag']['amber']=$previousTotalGreenFlags;
 
-            if(!isset($patientResponses[$patient]))
-            {
-                $patientResponses[$patient]['baseLineFlag']['red']=[];
-                $patientResponses[$patient]['previousFlag']['red']=[];
-                $patientResponses[$patient]['baseLineFlag']['green']=[];
-                $patientResponses[$patient]['previousFlag']['green']=[];
-                $patientResponses[$patient]['baseLineFlag']['amber']=[];
-                $patientResponses[$patient]['previousFlag']['amber']=[];
-
-            }
-
-            if($baseLineFlag !=null )
-            {   
-                $patientResponses[$patient]['baseLineFlag'][$baseLineFlag][]= $baseLineFlag;
-                $patientResponses[$patient]['previousFlag'][$previousFlag][]= $previousFlag;               
-            }
-
+ 
         }
        
        
