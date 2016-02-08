@@ -982,7 +982,7 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function patientSummary($patients,$startDate,$endDate)
+    public function patientsSummary($patients,$startDate,$endDate)
     {
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
