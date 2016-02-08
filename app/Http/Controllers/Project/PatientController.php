@@ -1114,7 +1114,7 @@ class PatientController extends Controller
         $responseQry->containedIn("patient",$patients);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->ascending("occurrenceDate");
+        $responseQry->descending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responses = $responseQry->find();  

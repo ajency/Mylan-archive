@@ -18,7 +18,19 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
+<div class="pull-right">
+  <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
+  <form name="searchData" method="GET"> 
+   <input type="hidden" class="form-control" name="startDate"  >
+   <input type="hidden" class="form-control" name="endDate"  >
+   <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+      <span></span> <b class="caret"></b>
+   </div>
 
+</form>
+ <input type="hidden" name="flag" value="0">
+</div>
 <div class="page-title">
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
   </div>
@@ -28,79 +40,89 @@
                         <div class="tab-pane table-data" id="Patients">
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
-                     <div class="row">
-                        <div class="col-sm-8">
-                           <h4><span class="semi-bold">Submission Summary</span><!--  (Showing 10 recent submissions) --></h4>
-                        </div>
-                     <div class="col-sm-4 m-t-10">
-                        <form name="searchData" method="GET"> 
-                           <input type="hidden" class="form-control" name="startDate"  >
-                           <input type="hidden" class="form-control" name="endDate"  >
-                           <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-                              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                              <span></span> <b class="caret"></b>
-                           </div>
-
-                        </form>
-                         <input type="hidden" name="flag" value="0">
-                     </div>
-                     </div>
+                        <div class="grid simple grid-table">
+                    <div class="grid-title no-border">
+                       <h4>
+                          Submissions <span class="semi-bold">Summary</span> 
+                          <sm class="light">( This are scores & flags for current submissions )</sm>
+                       </h4>
+                    </div>
+                    <div class="grid-body no-border" style="display: block;">
+                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <thead class="cf">
+                             <tr>
+                                <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                <th class="sorting">
+                                   Total Score
+                                   <br> 
+                                   <sm>Base <i class="iconset top-down-arrow"></i></sm>
+                                   <sm>Prev <i class="iconset top-down-arrow"></i></sm>
+                                   <sm>Current <i class="iconset top-down-arrow"></i></sm>
+                                </th>
+                                <th class="sorting">
+                                   Change
+                                   <br> 
+                                   <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
+                                </th>
+                                <th class="sorting">
+                                   Previous
+                                   <br> 
+                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                </th>
+                                <th class="sorting">
+                                   Baseline
+                                   <br> 
+                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                </th>
+                                <th class="sorting">Review Status<br><br>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody>
+                             
+                              @foreach($submissionsSummary as $responseId=> $submission)
+                              <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
+                                 <td>
+                                   <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                                   <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                </td>
+                                <td class="text-center sorting">
+                                   <span>{{ $submission['totalScore'] }}</span>
+                                   <span>{{ $submission['baseLineScore'] }}</span>
+                                   <span>{{ $submission['previousScore'] }}</span>
+                                </td>
+                                <td class="text-center">
+                                   <h4 class="semi-bold margin-none flagcount">
+                                      <b class="text-error">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-error">{{ $submission['comparedToPrevious'] }}</b>
+                                   </h4>
+                                </td>
+                                <td class="text-center sorting">
+                                    <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
+                                    <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
+                                    <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
+                                 </td>
+                                 <td class="text-center sorting">
+                                    <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
+                                    <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
+                                    <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
+                                 </td>
+                                <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                             </tr>
                         
-                                 <br>
-                           <table class="table table-flip-scroll table-hover dashboard-tbl">
-               <thead class="cf">
-                  <tr>
+                            @endforeach
+                             
+                                
+                          </tbody>
+                       </table>
                      
-                     <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                     <th class="sorting">Total Score <br><br></th>
-                     <th class="sorting">
-                        Previous
-                        <br> 
-                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                     </th>
-                     <th class="sorting">
-                        Baseline
-                        <br> 
-                        <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                        <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                     </th>
-                  </tr>
-               </thead>
-               <tbody>
-        
-                @foreach($submissionsSummary as $responseId=> $submission)
-         
-             
-                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                     
-                     <td class="text-center">
-                        <h4 class="semi-bold margin-none flagcount">{{ $submission['occurrenceDate'] }}</h4>
-                        <sm>Seq - {{ $submission['sequenceNumber'] }}</sm>
-                     </td>
-                     <td class="text-center">
-                        <h3 class="bold margin-none pull-left p-l-10">{{ $submission['totalScore'] }}</h3>
-                        <sm class="text-muted sm-font m-t-10">Prev  {{ $submission['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
-                        <br>
-                        <sm class="text-muted sm-font">Base  {{ $submission['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
-                     </td>
-                     <td class="text-center sorting">
-                        <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
-                        <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
-                        <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
-                     </td>
-                     <td class="text-center sorting">
-                        <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
-                        <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
-                        <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
-                     </td>
-                  </tr>
-            
-                @endforeach
-               </tbody>
-            </table>
+                    </div>
+                 </div>
+ 
                         </div>
                         <div class="tab-pane " id="Reports">
 

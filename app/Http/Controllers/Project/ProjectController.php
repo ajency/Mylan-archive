@@ -581,6 +581,7 @@ class ProjectController extends Controller
             $score = $response->get("score");
             $totalScore = $response->get("totalScore");
             $responseId = $response->getObjectId();
+            $reviewed = $response->get("reviewed");
 
             $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
             $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
@@ -598,11 +599,14 @@ class ProjectController extends Controller
 
           
             $submissionsData[$responseId]['patient'] = $patient;
+            $submissionsData[$responseId]['reviewed'] = $reviewed;
             $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
             $submissionsData[$responseId]['totalScore'] = $totalScore;
-            $submissionsData[$responseId]['baseLineScore']= $comparedToBaslineScore;
-            $submissionsData[$responseId]['previousScore']= $comparedToPrevious;
+            $submissionsData[$responseId]['baseLineScore'] = $totalScore + $comparedToBaslineScore;
+            $submissionsData[$responseId]['previousScore'] = $totalScore + $comparedToPrevious;
+            $submissionsData[$responseId]['comparedToBaslineScore']= $comparedToBaslineScore;
+            $submissionsData[$responseId]['comparedToPrevious']= $comparedToPrevious;
 
             $submissionsData[$responseId]['baseLineFlag']['red']=$baseLineTotalRedFlags;
             $submissionsData[$responseId]['baseLineFlag']['green']=$baseLineTotalGreenFlags;
