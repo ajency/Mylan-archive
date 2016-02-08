@@ -26,19 +26,25 @@
 <div class="grid simple">
    <div class="grid-body">
        <div class="row">
-          <div class="col-md-4 text-center">
-               
-                    <div class="upload">
+            <div class="col-md-4 text-center">
+                <div class="upload">
+                        <a class="deleteHospitalLogo btn btn-link btn-xs pull-right hidden" data-type="hospital" data-value="0" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
-                    
+                                                 
+                        <a id="pickfiles" class="" href="javascript:;">
+                        <i class=" fa fa-image fa-3x text-danger"></i><br>
+                        <h5 class="text-muted">Click to upload Hospital Logo</h5>
+                        </a> 
+                        <div class="loader progress transparent progress-small no-radius hidden" >
+                        </div>                    
                         </div>
-                        <span id="loader"></span>
-                        <a id="pickfiles" href="javascript:;"> <i class="fa fa-image fa-3x"></i><br>
-                        <h5  class="text-muted">Click to upload Hospital Logo</h5></a>
+                        
+                        
+
                         <input type="hidden" name="hospital_logo" id="hospital_logo" data-parsley-required>
                     </div>
-                
-            </div>
+                <p class="text-left">Upload a logo having dimensions of approximately 200 X 50.</p>
+           </div>
            <div class="col-md-8">
                
                    <div class="row form-row">
