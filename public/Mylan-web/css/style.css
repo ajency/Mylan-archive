@@ -987,7 +987,7 @@ div.q-tabs .active:hover {
 ul.parsley-errors-list {
   list-style-type: none;
   text-align: left;
-  padding-left: 0;
+  padding-left: 15px;
 }
 ul.parsley-errors-list li {
   color: #f35958!important;
