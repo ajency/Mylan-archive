@@ -160,14 +160,14 @@ class SubmissionController extends Controller
         $oldResponseQry->equalTo("patient", $referenceCode);
         $oldResponseQry->equalTo("status", "completed");
         $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
-        $oldResponseQry->descending("updatedAt");
+        
         $oldResponse = $oldResponseQry->first();
 
         $baseLineResponseQry = new ParseQuery("Response");
         $baseLineResponseQry->equalTo("patient", $referenceCode);
         $baseLineResponseQry->equalTo("status", "base_line");
+        $baseLineResponseQry->descending("createdAt");
         $baseLineResponse = $baseLineResponseQry->first();
-
 
         $previousAnswersList =[];
         if(!empty($oldResponse))
@@ -233,7 +233,7 @@ class SubmissionController extends Controller
                                         'question' => $answers->get("question")->get("question"), 
                                         'questionType' => $questionType, 
                                         'option' => [$answers->get("option")->get("label")],  
-                                        'value' => $answers->get("value"),  
+                                        'value' => $answers->get("value"),   
                                         'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
                           ]; 
                 }
@@ -254,7 +254,9 @@ class SubmissionController extends Controller
                                         'option' => $option,  
                                         'value' => $answers->get("value"),  
                                         'baseLineFlag' => $answers->get("baseLineFlag"),  
-                                        'previousFlag' => $answers->get("previousFlag"),  
+                                        'previousFlag' => $answers->get("previousFlag"), 
+                                        'comparedToBaseLine' => $answers->get("comparedToBaseLine"),  
+                                        'comparedToPrevious' => $answers->get("comparedToPrevious"),  
                                         'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
                           ];
            }

@@ -347,9 +347,71 @@ $('.deleteUserHospitalAccess').click(function (event) {
  
 });
 
-function projectDashbordChart(chartData,flagArr)
+function lineChartWithOutBaseLine(chartData,legends,container)
 {
-    graphs = _.map(flagArr, function(value, key){ 
+    graphs = _.map(legends, function(value, key){ 
+        var graphObj = {
+        "balloonText": " "+value+" in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": value,
+        "valueField": key,
+        "dashLength": 2,
+        "inside": true
+
+        };
+
+        return graphObj;
+    })
+   
+
+    var chart = AmCharts.makeChart(container, {
+        "type": "serial",
+        "theme": "light",
+        "legend": {
+            "useGraphSettings": true
+        },
+        "dataProvider": chartData,
+        "valueAxes": [{
+            "integersOnly": true,
+            "maximum": 6,
+            "minimum": 1,
+            "reversed": true,
+            "axisAlpha": 0,
+            "dashLength": 5,
+            "position": "top",
+            "title": "Total Score"
+        }],
+         "valueAxes": [{
+            "logarithmic": true,
+            "dashLength": 1,
+            
+             }],
+
+        "graphs": graphs,
+        "chartCursor": {
+            "cursorAlpha": 0,
+            "zoomable": false
+        },
+        "categoryField": "Date",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+             "fillColor": "#000000",
+            "gridAlpha": 0,
+              "position": "bottom",
+            "title": "Submission"
+        },
+        "export": {
+          "enabled": true,
+            "position": "bottom-right"
+         }
+    });
+    
+}
+
+function lineChartWithBaseLine(chartData,legends,baselineScore,container)
+{
+    graphs = _.map(legends, function(value, key){ 
         var graphObj = {
           "balloonText": "[[category]]<br><b><span style='font-size:14px;'>"+value+":[["+key+"]]</span></b>",
           "bullet": "round",
@@ -360,130 +422,122 @@ function projectDashbordChart(chartData,flagArr)
 
         return graphObj;
     })
-    console.log(graphs);
-    var chart = AmCharts.makeChart("chartdiv", {
-    "type": "serial",
-    "theme": "light",
-    "marginRight":80,
-    "autoMarginOffset":20,
-    "dataDateFormat": "YYYY-MM-DD HH:NN",
-    "dataProvider": chartData,
-    "valueAxes": [{
-      "axisAlpha": 0,
-      "guides": [{
-      "fillAlpha": 0.1,
-      "fillColor": "#888888",
-      "lineAlpha": 0,
-      "toValue": 16,
-      "value": 10
-    }],
-    "position": "left",
-    "tickLength": 0
-    }],
-    "graphs": graphs,
-    // "trendLines": [{
-    //     "finalDate": "2012-01-11 12",
-    //     "finalValue": 19,
-    //     "initialDate": "2012-01-02 12",
-    //     "initialValue": 10,
-    //     "lineColor": "#CC0000"
-    // }, {
-    //     "finalDate": "2012-01-22 12",
-    //     "finalValue": 10,
-    //     "initialDate": "2012-01-17 12",
-    //     "initialValue": 16,
-    //     "lineColor": "#CC0000"
-    // }],
-    "chartScrollbar": {
-    "scrollbarHeight":2,
-    "offset":-1,
-    "backgroundAlpha":0.1,
-    "backgroundColor":"#888888",
-    "selectedBackgroundColor":"#67b7dc",
-    "selectedBackgroundAlpha":1
-    },
-    "chartCursor": {
-    "fullWidth":true,
-    "valueLineEabled":true,
-    "valueLineBalloonEnabled":true,
-    "valueLineAlpha":0.5,
-    "cursorAlpha":0
-    },
-    "categoryField": "date",
-    "categoryAxis": {
-    "parseDates": true,
-    "axisAlpha": 0,
-    "gridAlpha": 0.1,
-    "minorGridAlpha": 0.1,
-    "minorGridEnabled": true
-    },
-    "export": {
-    "enabled": true
-    }
-    });
+   
+    var chart = AmCharts.makeChart(container, {
+          "type": "serial",
+          "theme": "light",
+          "legend": {
+              "useGraphSettings": true
+          },
+          "dataProvider": chartData,
+          "valueAxes": [{
+              "integersOnly": true,
+              "maximum": 6,
+              "minimum": 1,
+              "axisAlpha": 0,
+              "dashLength": 5,
+              "position": "right",
+              "title": "Total Score"
+          }],
+           "valueAxes": [{
+              "logarithmic": true,
+              "dashLength": 1,
+              "guides": [{
+                  "dashLength": 6,
+                  "inside": true,
+                  "label": "Baseline",
+                  "lineAlpha": 1,
+                  "value": baselineScore,
+         
+              }],
+               }],
+         
+          "graphs": graphs,
+          "chartCursor": {
+              "cursorAlpha": 0,
+              "zoomable": false
+          },
+          "categoryField": "Date",
+          "categoryAxis": {
+              "gridPosition": "start",
+              "axisAlpha": 0,
+               "fillColor": "#000000",
+              "gridAlpha": 0,
+                "position": "bottom",
+              "title": "Date"
+          },
+          "export": {
+            "enabled": true,
+              "position": "bottom-right"
+           }
+         });
 }
 
-function patientInputGraph(chartData,label,maxScore,baseLine,container)
+function shadedLineChartQithBaseLine(chartData,label,baseLine,container)
 {
-    var chart = AmCharts.makeChart(container, {
-    "type": "serial",
-    "theme": "light",
-    "legend": {
-        "useGraphSettings": true
-    },
-    "dataProvider": chartData,
-    "valueAxes": [{
-        "integersOnly": true,
-        "maximum": 50,
-        "minimum": 0,
-        "reversed": false,
-        "axisAlpha": 0,
-        "dashLength": 5,
-        "gridCount": 10,
-        "position": "left",
-        "title": label
-    }],
-
-     "valueAxes": [{
-        "logarithmic": true,
-        "dashLength": 1,
-        "guides": [{
-            "dashLength": 6,
-            "inside": true,
-            "label": "Baseline",
-            "lineAlpha": 1,
-            "value": baseLine
-        }],
-           }],
-    "startDuration": 0.5,
-    "graphs": [{
-        "balloonText": label+" in [[category]]: [[value]]",
-        "bullet": "round",
-        "title": label,
-        "valueField": "value",
-      "fillAlphas": 0
-    
-    }
-
-    ],
-    "chartCursor": {
-        "cursorAlpha": 0,
-        "zoomable": false
-    },
-    "categoryField": "date",
-    "categoryAxis": {
-        "gridPosition": "start",
-        "axisAlpha": 0,
-        "fillAlpha": 0.05,
-        "fillColor": "#000000",
-        "gridAlpha": 0,
-        "position": "bottom"
-    },
-    "export": {
-      "enabled": true,
-        "position": "bottom-right"
-     }
-});
+             var chart = AmCharts.makeChart("totalbaseline", {
+         "type": "serial",
+         "theme": "light",
+         "legend": {
+             "useGraphSettings": true
+         },
+         "dataProvider": chartData,
+         "valueAxes": [{
+             "integersOnly": true,
+             "maximum": 6,
+             "minimum": 1,
+             "reversed": true,
+             "axisAlpha": 0,
+             "dashLength": 5,
+             "position": "right",
+             "title": "Total Score"
+         }],
+         
+          "valueAxes": [{
+             "logarithmic": true,
+             "dashLength": 1,
+          "guides": [{
+                 "dashLength": 6,
+                 "inside": true,
+                 "label": "Baseline",
+                 "lineAlpha": 1,
+                 "value": baseLine,
+         
+             }],
+              }],
+         
+         "graphs": [ {
+             "balloonText": "[[category]]: [[value]]",
+             "bullet": "round",
+             "title": "Score",
+             "lineColor": "#05A8A5",
+             "valueField": "Green",
+             "fillColor": "#ecb42f",
+             "fillAlphas": 0.2,
+              "dashLength": 2,
+              "hidden":false,
+               "inside": true
+         
+         }],
+         
+         "chartCursor": {
+             "cursorAlpha": 0,
+             "zoomable": false
+         },
+         "categoryField": "Date",
+         "categoryAxis": {
+             "gridPosition": "start",
+             "axisAlpha": 0,
+              "fillColor": "#000000",
+             "gridAlpha": 0,
+               "position": "bottom",
+             "title": "Projects"
+         },
+         "export": {
+           "enabled": true,
+             "position": "bottom-right"
+          }
+         });
 }
 
 function patientFlagsChart(chartData)

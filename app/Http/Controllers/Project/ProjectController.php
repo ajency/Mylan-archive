@@ -514,6 +514,7 @@ class ProjectController extends Controller
             $baseLineFlag = $answer->get("baseLineFlag");
             $previousFlag = $answer->get("previousFlag");
             $score = $answer->get("score");
+            $totalScore = $answer->get("response")->get("totalScore");
             $responseId = $answer->get("response")->getObjectId();
             $responseStatus = $answer->get("response")->get("status");
             $questionId = $answer->get("question")->getObjectId();
@@ -534,7 +535,7 @@ class ProjectController extends Controller
                 $submissionsData[$responseId]['patient'] ='';
                 $submissionsData[$responseId]['sequenceNumber'] ='';
                 $submissionsData[$responseId]['occurrenceDate'] ='';
-                $submissionsData[$responseId]['totalScore'] =0;
+                $submissionsData[$responseId]['totalScore'] = 0;
                 $submissionsData[$responseId]['previousScore'] =0;
                 $submissionsData[$responseId]['baseLineScore'] =0;
                 $submissionsData[$responseId]['baseLineFlag']['red']=[];
@@ -547,11 +548,12 @@ class ProjectController extends Controller
 
             }
 
-            $submissionsData[$responseId]['totalScore'] += $score;
+             
 
             $submissionsData[$responseId]['patient'] = $patient;
             $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
+            $submissionsData[$responseId]['totalScore'] = $totalScore;
             $submissionsData[$responseId]['baseLineScore']= $comparedToBaslineScore;
             $submissionsData[$responseId]['previousScore']= $comparedToPrevious;
 

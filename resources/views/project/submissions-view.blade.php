@@ -90,6 +90,7 @@
                                  <div class="grid-body">
                                     @if($answer['questionType']=='single-choice')
                                     <div class="pull-right">
+                                        {{ $answer['comparedToBaseLine'] }}
                                         @if($answer['baseLineFlag']=='green')
                                           <span class="text-success"><i class="fa fa-flag"></i></span>
                                         @elseif($answer['baseLineFlag']=='red')
@@ -99,6 +100,7 @@
                                         @endif
 
                                        <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                                       {{ $answer['comparedToPrevious'] }}
                                         @if($answer['previousFlag']=='green')
                                           <span class="text-success"><i class="fa fa-flag"></i></span>
                                         @elseif($answer['previousFlag']=='red')
