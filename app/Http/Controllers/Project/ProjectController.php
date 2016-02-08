@@ -605,12 +605,12 @@ class ProjectController extends Controller
             $submissionsData[$responseId]['previousScore']= $comparedToPrevious;
 
             $submissionsData[$responseId]['baseLineFlag']['red']=$baseLineTotalRedFlags;
-            $submissionsData[$responseId]['baseLineFlag']['green']=$baseLineTotalAmberFlags;
-            $submissionsData[$responseId]['baseLineFlag']['amber']=$baseLineTotalGreenFlags;
+            $submissionsData[$responseId]['baseLineFlag']['green']=$baseLineTotalGreenFlags;
+            $submissionsData[$responseId]['baseLineFlag']['amber']=$baseLineTotalAmberFlags;
 
             $submissionsData[$responseId]['previousFlag']['red']=$previousTotalRedFlags;
-            $submissionsData[$responseId]['previousFlag']['green']=$previousTotalAmberFlags;
-            $submissionsData[$responseId]['previousFlag']['amber']=$previousTotalGreenFlags;
+            $submissionsData[$responseId]['previousFlag']['green']=$previousTotalGreenFlags;
+            $submissionsData[$responseId]['previousFlag']['amber']=$previousTotalAmberFlags;
 
  
         }
