@@ -87,14 +87,14 @@
                         <sm class="text-muted sm-font">Base  {{ $submission['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
                      </td>
                      <td class="text-center sorting">
-                        <span class="text-error">{{ count($submission['previousFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($submission['previousFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($submission['previousFlag']['green']) }}</span>
+                        <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
+                        <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
+                        <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
                      </td>
                      <td class="text-center sorting">
-                        <span class="text-error">{{ count($submission['baseLineFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($submission['baseLineFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($submission['baseLineFlag']['green']) }}</span>
+                        <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
+                        <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
+                        <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
                      </td>
                   </tr>
             
