@@ -1088,7 +1088,7 @@ class PatientController extends Controller
         $data['missed']=$missed; 
         $data['completedCount']=count($completedResponses);
         $data['lateCount']=count($lateResponses);
-        $data['missedCount']=count($missedResponses);
+        $data['missedCount']=array_sum($missedResponses);
          
 
         return $data;
