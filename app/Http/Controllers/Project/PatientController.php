@@ -997,6 +997,7 @@ class PatientController extends Controller
         $missedResponses = [];
 
          foreach ($patients as $patient) {
+            $missedCount = 0;
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'missed'); 
@@ -1073,13 +1074,13 @@ class PatientController extends Controller
         $totalResponses = count($responses) + array_sum($missedResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $completed =  round($completed);
+        $completed =  round($completed,2);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $late =  round($late);
+        $late =  round($late,2);
 
         $missed = ($totalResponses) ? (array_sum($missedResponses)/$totalResponses) * 100 :0;
-        $missed =  round($missed);
+        $missed =  round($missed,2);
          
  
         $data['patientResponses']=$patientResponses;
@@ -1089,8 +1090,8 @@ class PatientController extends Controller
         $data['completedCount']=count($completedResponses);
         $data['lateCount']=count($lateResponses);
         $data['missedCount']=array_sum($missedResponses);
+        $data['totalResponses']=$totalResponses;
          
-
         return $data;
         
     }
