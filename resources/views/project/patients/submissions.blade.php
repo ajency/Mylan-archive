@@ -30,7 +30,7 @@
                         <div class="tab-pane table-data active" id="Submissions">
                      <div class="row">
                         <div class="col-sm-8">
-                           <h4><span class="semi-bold">Submission Details</span><!--  (Showing 10 recent submissions) --></h4>
+                           <h4><span class="semi-bold">Submission Summary</span><!--  (Showing 10 recent submissions) --></h4>
                         </div>
                      <div class="col-sm-4 m-t-10">
                         <form name="searchData" method="GET"> 
@@ -71,30 +71,30 @@
                </thead>
                <tbody>
         
-                @foreach($submissionsSummary as $responseId=>$responseData)
+                @foreach($submissionsSummary as $responseId=> $submission)
          
              
                   <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
                      
                      <td class="text-center">
-                        <h4 class="semi-bold margin-none flagcount">{{ $responseData['occurrenceDate'] }}</h4>
-                        <sm>Seq - {{ $responseData['sequenceNumber'] }}</sm>
+                        <h4 class="semi-bold margin-none flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                        <sm>Seq - {{ $submission['sequenceNumber'] }}</sm>
                      </td>
                      <td class="text-center">
-                        <h3 class="bold margin-none pull-left p-l-10">{{ $responseData['totalScore'] }}</h3>
-                        <sm class="text-muted sm-font m-t-10">Prev - {{ $responseData['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
+                        <h3 class="bold margin-none pull-left p-l-10">{{ $submission['totalScore'] }}</h3>
+                        <sm class="text-muted sm-font m-t-10">Prev  {{ $submission['previousScore'] }}  <i class="fa fa-flag "></i> </sm>
                         <br>
-                        <sm class="text-muted sm-font">Base - {{ $responseData['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
+                        <sm class="text-muted sm-font">Base  {{ $submission['baseLineScore'] }} <i class="fa fa-flag "></i> </sm>
                      </td>
                      <td class="text-center sorting">
-                        <span class="text-error">{{ count($responseData['previousFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($responseData['previousFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($responseData['previousFlag']['green']) }}</span>
+                        <span class="text-error">{{ count($submission['previousFlag']['red']) }}</span>
+                        <span class="text-warning">{{ count($submission['previousFlag']['amber']) }}</span>
+                        <span class=" text-success">{{ count($submission['previousFlag']['green']) }}</span>
                      </td>
                      <td class="text-center sorting">
-                        <span class="text-error">{{ count($responseData['baseLineFlag']['red']) }}</span>
-                        <span class="text-warning">{{ count($responseData['baseLineFlag']['amber']) }}</span>
-                        <span class=" text-success">{{ count($responseData['baseLineFlag']['green']) }}</span>
+                        <span class="text-error">{{ count($submission['baseLineFlag']['red']) }}</span>
+                        <span class="text-warning">{{ count($submission['baseLineFlag']['amber']) }}</span>
+                        <span class=" text-success">{{ count($submission['baseLineFlag']['green']) }}</span>
                      </td>
                   </tr>
             

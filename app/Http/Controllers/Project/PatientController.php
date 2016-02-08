@@ -1191,7 +1191,7 @@ class PatientController extends Controller
         $answersQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $answersQry->limit($displayLimit);
         $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("occurrenceDate");
+        $answersQry->descending("occurrenceDate");
  
         $anwsers = $answersQry->find();
         $anwsersData = array_merge($anwsers,$anwsersData); 
