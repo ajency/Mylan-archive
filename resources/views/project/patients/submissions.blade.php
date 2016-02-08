@@ -98,7 +98,7 @@
                                 </td>
                                 <td class="text-center">
                                    <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-error">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-error">{{ $submission['comparedToPrevious'] }}</b>
+                                      <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
                                    </h4>
                                 </td>
                                 <td class="text-center sorting">

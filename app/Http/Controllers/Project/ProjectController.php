@@ -596,7 +596,8 @@ class ProjectController extends Controller
             $comparedToBaslineScore = $response->get("comparedToBaseLine");
             $comparedToPrevious = $response->get("comparedToPrevious");
 
-
+            $submissionsData[$responseId]['totalBaseLineFlag'] = $baseLineFlag;
+            $submissionsData[$responseId]['totalPreviousFlag'] = $previousFlag;
           
             $submissionsData[$responseId]['patient'] = $patient;
             $submissionsData[$responseId]['reviewed'] = $reviewed;
