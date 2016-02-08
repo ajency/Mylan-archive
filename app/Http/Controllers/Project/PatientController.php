@@ -991,25 +991,38 @@ class PatientController extends Controller
         $patientNextOccurrence = [];
         $patientResponses = [];
         $patientData = [];
+
+        $completedResponses = [];
+        $lateResponses = [];
+        $missedResponses = [];
+
+         foreach ($patients as $patient) {
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("patient", $patient); 
+            $responseQry->equalTo("status", 'missed'); 
+            $missedCount = $responseQry->count();
+
+            //
+            $patientResponses[$patient]['lastSubmission'] = '-' ;
+            $patientResponses[$patient]['nextSubmission'] = '-';
+            $patientResponses[$patient]['missed'] =[];
+            $patientResponses[$patient]['late'] =[];
+            $patientResponses[$patient]['completed'] =[];
+
+            $patientResponses[$patient]['missed']=$missedCount;
+            $missedResponses[] = $missedCount;
+        }
+
         foreach($schedules as $schedule)
         {
             $patientId = $schedule->get("patient");
             $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
             $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
-            $patientResponses[$patientId]['lastSubmission'] = '-' ;
-            $patientResponses[$patientId]['missed'] =[];
-            $patientResponses[$patientId]['late'] =[];
-            $patientResponses[$patientId]['completed'] =[];
-            
 
         }
 
-        $responseStatus = ["completed","late","missed"]; 
+        $responseStatus = ["completed","late"]; 
         $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus);  
-
-        $completedResponses = [];
-        $lateResponses = [];
-        $missedResponses = [];
          
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
@@ -1023,13 +1036,7 @@ class PatientController extends Controller
                 $patientData[$patient] = $occurrenceDate;
             }
 
-            if($status=='missed')
-            {
-                $patientResponses[$patient]['missed'][]=$responseId;
-                $missedResponses[]=$responseId;
-                 
-            }
-            elseif($status=='late')
+            if($status=='late')
             {
                 $patientResponses[$patient]['late'][]=$responseId;
                 $lateResponses[]=$response;
@@ -1071,7 +1078,7 @@ class PatientController extends Controller
         $late = (count($responses)) ? (count($lateResponses)/count($responses)) * 100 :0;
         $late =  round($late);
 
-        $missed = (count($responses)) ? (count($missedResponses)/count($responses)) * 100 :0;
+        $missed = (count($responses)) ? (array_sum($missedResponses)/count($responses)) * 100 :0;
         $missed =  round($missed);
          
  
@@ -1082,7 +1089,7 @@ class PatientController extends Controller
         $data['completedCount']=count($completedResponses);
         $data['lateCount']=count($lateResponses);
         $data['missedCount']=count($missedResponses);
- 
+         
 
         return $data;
         

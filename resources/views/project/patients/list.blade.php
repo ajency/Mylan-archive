@@ -146,7 +146,7 @@
                             $patientsSummary[$referenceCode]['lastSubmission'] = '-';
                             $patientsSummary[$referenceCode]['nextSubmission'] = '-';
                             $patientsSummary[$referenceCode]['completed'] = [];
-                            $patientsSummary[$referenceCode]['missed'] = [];
+                            $patientsSummary[$referenceCode]['missed'] = 0;
                             $patientsSummary[$referenceCode]['late'] = [];
                        
                         }
@@ -167,7 +167,7 @@
                                     <sm class="text-warning">Late</sm>
                                  </h2>
                                  <h2 class="bold pull-left">
-                                    {{ count($patientSummary['missed']) }}<br>
+                                    {{ $patientSummary['missed'] }}<br>
                                     <sm class="text-danger">Missed</sm>
                                  </h2>
                                  <div class="pull-left p-t-20">
