@@ -135,7 +135,7 @@ class SubmissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($hospitalSlug ,$projectSlug,$responseId)
+    public function show($hospitalSlug ,$projectSlug,$submissionId)
     {
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
@@ -145,7 +145,7 @@ class SubmissionController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $data =  $this->getSubmissionData($responseId);
+        $data =  $this->getSubmissionData($submissionId);
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
         $answersList = $data['answers'];
@@ -163,7 +163,7 @@ class SubmissionController extends Controller
         $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
 
         $oldResponseQry = new ParseQuery("Response");
-        $oldResponseQry->notEqualTo("objectId", $responseId);
+        $oldResponseQry->notEqualTo("objectId", $submissionId);
         $oldResponseQry->equalTo("patient", $referenceCode);
         $oldResponseQry->equalTo("status", "completed");
         $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
@@ -228,7 +228,7 @@ class SubmissionController extends Controller
                                                 ->with('questionnaire', $questionnaire)
                                                 ->with('date', $date)
                                                 ->with('answersList', $answersList)
-                                                ->with('currentSubmission', $responseId)
+                                                ->with('currentSubmission', $submissionId)
                                                 ->with('responseData', $responseData)
                                                 ->with('allSubmissions', $allSubmissions)
                                                 ->with('submissionJson', $submissionJson)
