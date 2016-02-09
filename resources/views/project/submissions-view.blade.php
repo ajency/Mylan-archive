@@ -178,85 +178,11 @@
 
 
      <script type="text/javascript">
-      var chart = AmCharts.makeChart("chartdiv", {
-    "theme": "light",
-    "type": "serial",
-     "legend": {
-    "useGraphSettings": true
-  },
-    "dataProvider": [{
-        "question": "Pain",
-        "base": 13,
-        "prev": 10,
-        "current": 7
-
-    }, {
-        "question": "Bowel Habits",
-        "base": 19,
-        "prev": 13,
-        "current": 18
-    }, {
-        "question": "Weight",
-      "base": 10,
-        "prev": 05,
-        "current": 13
-    }, {
-        "question": "Appetite",
-         "base": 20,
-        "prev": 22,
-        "current": 13
-    }, {
-        "question": "Well Being   ",
-         "base": 29,
-        "prev": 13,
-        "current": 16
-    }, {
-        "question": "Diabetes",
-         "base": 10,
-        "prev": 13,
-        "current": 18
-    }],
-    "valueAxes": [{
-        "position": "left",
-        "title": "Score",
-    }],
-    "startDuration": 1,
-    "graphs": [{
-        "balloonText": "Previous [[category]] (: <b>[[value]]</b>",
-        "fillAlphas": 0.9,
-        "lineAlpha": 0.2,
-        "title": "Previous",
-        "type": "column",
-        "valueField": "prev"
-    }, {
-        "balloonText": "Baseline [[category]] : <b>[[value]]</b>",
-        "fillAlphas": 0.9,
-        "lineAlpha": 0.2,
-        "title": "Baseline",
-        "type": "column",
-        "valueField": "base"
-    },{
-        "balloonText": "Current [[category]]: <b>[[value]]</b>",
-        "fillAlphas": 0.9,
-        "lineAlpha": 0.2,
-        "title": "Current",
-        "type": "column",
-        "clustered":false,
-        "columnWidth":0.5,
-        "valueField": "current"
-    }],
-    "plotAreaFillAlphas": 0.1,
-    "categoryField": "question",
-    "categoryAxis": {
-        "gridPosition": "start"
-    },
-    "export": {
-      "enabled": true
-     }
-
-});
+      
 
    $(document).ready(function() {
+
+      submissionBarChart(<?php echo $submissionJson; ?>,'chartdiv');
 
       $('select[name="patientSubmission"]').change(function (event) { 
          window.location="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/"+$(this).val();

@@ -670,5 +670,53 @@ function submissionChart(chartData,baseLine)
 
 }
 
+function submissionBarChart(chartData,container)
+{
+    var chart = AmCharts.makeChart(container, {
+    "theme": "light",
+    "type": "serial",
+     "legend": {
+    "useGraphSettings": true
+  },
+    "dataProvider": chartData,
+    "startDuration": 1,
+    "graphs": [{
+        "balloonText": "Previous [[category]] (: <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Previous",
+        "type": "column",
+        "valueField": "prev"
+    }, {
+        "balloonText": "Baseline [[category]] : <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Baseline",
+        "type": "column",
+        "valueField": "base"
+    },{
+        "balloonText": "Current [[category]]: <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Current",
+        "type": "column",
+        "clustered":false,
+        "columnWidth":0.5,
+        "valueField": "current"
+    }],
+    "plotAreaFillAlphas": 0.1,
+    "categoryField": "question",
+    "categoryAxis": {
+        "gridPosition": "start"
+    },
+    "export": {
+      "enabled": true
+     }
+
+});
+
+
+}
+
 
 
