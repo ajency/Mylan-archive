@@ -121,7 +121,6 @@
                        @foreach($submissionFlags['flags']['red'] as $submissionFlag)
                         
                        <tr class="odd gradeX" >
-                          <td>{{ $submissionFlag['patient'] }}</td>
                           <td width="110px">
                              <div class="p-l-10 p-r-20">
                                 <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
@@ -162,7 +161,6 @@
                                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
                                       
                                      <tr class="odd gradeX" >
-                                        <td>{{ $submissionFlag['patient'] }}</td>
                                         <td width="110px">
                                            <div class="p-l-10 p-r-20">
                                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
@@ -202,8 +200,7 @@
                                   <tbody>
                                      @foreach($submissionFlags['flags']['green'] as $submissionFlag)
                                       
-                                     <tr class="odd gradeX" >
-                                        <td>{{ $submissionFlag['patient'] }}</td>
+                                     <tr class="odd gradeX" >  
                                         <td width="110px">
                                            <div class="p-l-10 p-r-20">
                                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
