@@ -177,6 +177,7 @@ class SubmissionController extends Controller
         $baseLineResponse = $baseLineResponseQry->first();
 
         $previousAnswersList =[];
+        $previousChartData = [];
         if(!empty($oldResponse))
         {
             $previousData =  $this->getSubmissionData($oldResponse->getObjectId());
@@ -185,6 +186,7 @@ class SubmissionController extends Controller
         }
 
         $baseLineAnswersList =[];
+        $baseChartData = [];
         if(!empty($baseLineResponse))
         {
             $baseLineData =  $this->getSubmissionData($baseLineResponse->getObjectId());
@@ -205,9 +207,9 @@ class SubmissionController extends Controller
 
         $submissionChart = [];
         foreach ($baseChartData as $questionId => $chartData) {
-            $currentScore = $currentChartData[$questionId]['score'];
+            $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
             $baseScore = $chartData['score'];
-            $previousScore = $previousChartData[$questionId]['score'];
+            $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
             $question = $chartData['question'];
             $submissionChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
              
