@@ -785,6 +785,8 @@ class PatientController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $submissionStatus = '';
+
         $patient = User::find($patientId)->toArray();
 
         $inputs = Input::get(); 
@@ -807,7 +809,16 @@ class PatientController extends Controller
         // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $patients[] = $patient['reference_code'];
-        $responseStatus = ["completed","late"];
+        
+        if(isset($inputs['submissionStatus']))
+        {
+            $responseStatus = [$inputs['submissionStatus']];
+            $submissionStatus = $inputs['submissionStatus'];
+        }
+        else
+        {
+            $responseStatus = ["completed","late","missed"];
+        }
         $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
  
         $projectController = new ProjectController();
@@ -822,6 +833,7 @@ class PatientController extends Controller
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
+                                                 ->with('submissionStatus', $submissionStatus)
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 

@@ -46,6 +46,17 @@
                           Submissions <span class="semi-bold">Summary</span> 
                           <sm class="light">( This are scores & flags for current submissions )</sm>
                        </h4>
+                       <div class="tools">
+                     <form method="get">  
+                     <select name="submissionStatus" id="submissionStatus" class=" select2  form-control inline filterby pull-left -m-5">
+                        <option value="">Filter By</option>
+                        <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
+                        <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
+                        <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
+                     </select>
+                     </form>
+                     
+                  </div>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
                        <table class="table table-flip-scroll table-hover dashboard-tbl">
@@ -86,33 +97,64 @@
                           <tbody>
                              
                               @foreach($submissionsSummary as $responseId=> $submission)
-                              <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                                 <td>
-                                   <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
-                                   <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span>{{ $submission['baseLineScore'] }}</span>
-                                   <span>{{ $submission['previousScore'] }}</span>
-                                   <span>{{ $submission['totalScore'] }}</span>
-                                </td>
-                                <td class="text-center">
-                                   <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
-                                   </h4>
-                                </td>
-                                <td class="text-center sorting">
-                                    <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
-                                    <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
-                                    <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
-                                    <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
-                                    <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
-                                 </td>
-                                <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
-                             </tr>
+                                 @if($submission['status']=='missed')
+                                    <tr>
+                                       <td>
+                                         <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                                         <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                      </td>
+                                      <td class="text-center sorting">
+                                         <span>-</span>
+                                         <span>-</span>
+                                         <span>-</span>
+                                      </td>
+                                      <td class="text-center">
+                                         <h4 class="semi-bold margin-none flagcount">
+                                            -
+                                         </h4>
+                                      </td>
+                                      <td class="text-center sorting">
+                                          <span class="text-error">-</span>
+                                          <span class="text-warning">-</span>
+                                          <span class=" text-success">-</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">-</span>
+                                          <span class="text-warning">-</span>
+                                          <span class=" text-success">-</span>
+                                       </td>
+                                      <td class="text-center text-success">-</td>
+                                   </tr>
+                                 @else 
+
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
+                                    <td>
+                                      <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                                      <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                   </td>
+                                   <td class="text-center sorting">
+                                      <span>{{ $submission['baseLineScore'] }}</span>
+                                      <span>{{ $submission['previousScore'] }}</span>
+                                      <span>{{ $submission['totalScore'] }}</span>
+                                   </td>
+                                   <td class="text-center">
+                                      <h4 class="semi-bold margin-none flagcount">
+                                         <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
+                                      </h4>
+                                   </td>
+                                   <td class="text-center sorting">
+                                       <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
+                                       <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
+                                       <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
+                                    </td>
+                                    <td class="text-center sorting">
+                                       <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
+                                       <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
+                                       <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
+                                    </td>
+                                   <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                                </tr>
+                                @endif
                         
                             @endforeach
                              
@@ -133,6 +175,16 @@
 <script type="text/javascript">
   var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
   var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+
+  
+
+   $(document).ready(function() {
+
+      $('select[name="submissionStatus"]').change(function (event) { 
+         $('form').submit();
+      });
+
+   });
   </script>
  
 @endsection

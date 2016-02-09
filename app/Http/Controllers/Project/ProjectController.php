@@ -582,6 +582,7 @@ class ProjectController extends Controller
             $totalScore = $response->get("totalScore");
             $responseId = $response->getObjectId();
             $reviewed = $response->get("reviewed");
+            $status = $response->get("status");
 
             $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
             $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
@@ -601,6 +602,7 @@ class ProjectController extends Controller
           
             $submissionsData[$responseId]['patient'] = $patient;
             $submissionsData[$responseId]['reviewed'] = $reviewed;
+            $submissionsData[$responseId]['status'] = $status;
             $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
             $submissionsData[$responseId]['totalScore'] = $totalScore;
