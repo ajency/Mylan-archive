@@ -92,9 +92,9 @@
                                    <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                 </td>
                                 <td class="text-center sorting">
-                                   <span>{{ $submission['totalScore'] }}</span>
                                    <span>{{ $submission['baseLineScore'] }}</span>
                                    <span>{{ $submission['previousScore'] }}</span>
+                                   <span>{{ $submission['totalScore'] }}</span>
                                 </td>
                                 <td class="text-center">
                                    <h4 class="semi-bold margin-none flagcount">

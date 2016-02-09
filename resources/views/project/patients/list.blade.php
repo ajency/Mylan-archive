@@ -178,47 +178,33 @@
                            </td>
                            <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <span class=" text-error">
-                              @if(isset($patientSummary['previousFlag']['red']))
-                              {{ count($patientSummary['previousFlag']['red']) }}
-                              @else
-                              0
-                             @endif</span>
+                               
+                              {{ $patientSummary['previousFlag']['red'] }}
+                              </span>
                               <span class="text-warning">
-                               @if(isset($patientSummary['previousFlag']['amber']))
-                                {{ count($patientSummary['previousFlag']['amber']) }}
-                                @else
-                                0
-                               @endif 
+                     
+                                {{ $patientSummary['previousFlag']['amber'] }}
+                     
                               </span>
                               <span class="text-success">
-                                @if(isset($patientSummary['previousFlag']['green']))
-                                {{ count($patientSummary['previousFlag']['green']) }}
-                                @else
-                                0
-                               @endif
+                                
+                                {{ $patientSummary['previousFlag']['green'] }}
+                               
                               </span>
                            </td>
                            <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <span class=" text-error">
-                                @if(isset($patientSummary['baseLineFlag']['red']))
-                                  {{ count($patientSummary['baseLineFlag']['red']) }}
-                                  @else
-                                  0
-                                 @endif
+                              <span class=" text-error">                         
+                                  {{ $patientSummary['baseLineFlag']['red'] }}
+                               
                               </span>
                               <span class="text-warning">
-                                @if(isset($patientSummary['baseLineFlag']['amber']))
-                                  {{ count($patientSummary['baseLineFlag']['amber']) }}
-                                  @else
-                                  0
-                                 @endif
+                                  {{ $patientSummary['baseLineFlag']['amber'] }}
+                                  
                               </span>
                               <span class="text-success">
-                                @if(isset($patientSummary['baseLineFlag']['green']))
-                                  {{ count($patientSummary['baseLineFlag']['green']) }}
-                                  @else
-                                  0
-                                 @endif
+                         
+                                  {{ $patientSummary['baseLineFlag']['green'] }}
+                              
                               </span>
                            </td>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
