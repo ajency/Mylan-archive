@@ -1092,9 +1092,9 @@ class PatientController extends Controller
         $responseQry->containedIn("patient",$patients);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-        $responseQry->descending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
+        $responseQry->descending("occurrenceDate");
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
 
@@ -1108,30 +1108,24 @@ class PatientController extends Controller
      
     }
 
-    public function getPatientsResponses($patients,$projectId,$page=0,$responseData,$statusFlag=1)
+
+    public function getPatientsResponses($patients,$page=0,$responseData,$status)  
     {
         $displayLimit = 20; 
- 
-        $responseQry = new ParseQuery("Response");
-        if($statusFlag)
-            $responseQry->containedIn("status",["completed","missed"]);
-        elseif($statusFlag==2)
-           $responseQry->containedIn("status",["completed"]); 
-       elseif($statusFlag==2)
-           $responseQry->containedIn("status",["missed"]); 
 
+        $responseQry = new ParseQuery("Response");
+        $responseQry->containedIn("status",$status);  //["completed","late","missed"]
         $responseQry->containedIn("patient",$patients);
-        //$responseQry->equalTo("project",$projectId);
-        $responseQry->descending("occurrenceDate");
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
+        $responseQry->descending("occurrenceDate");
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
 
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponses($patients,$projectId,$page,$responseData);
+            $responseData = $this->getPatientsResponses($patients,$page,$responseData,$status);  
         }  
         
         return $responseData;

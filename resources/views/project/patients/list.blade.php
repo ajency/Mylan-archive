@@ -17,23 +17,37 @@
 @endsection
 @section('content')
 <div>
-   <div class="pull-right m-t-25">
-      <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
-      <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
-      <form name="searchData" method="GET"> 
+   
+   
+   <div class="row">
+     <div class="col-sm-7">
+        <div class="page-title">
+          <h3><span class="semi-bold">Patients</span></h3>
+          <p>(Click on any Patient ID to see Profile Details)</p>
+        </div>
+     </div>
+     <div class="col-sm-5 pull-right">
+       <div class="row m-t-10">
+       <div class="col-sm-8 text-right">
+       <form name="searchData" method="GET"> 
+      
        <input type="hidden" class="form-control" name="startDate"  >
        <input type="hidden" class="form-control" name="endDate"  >
-          <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+          <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
              <span></span> <b class="caret"></b>
           </div>
 
        </form>
+      </div>
+       <div class="col-sm-4 text-right">
+       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+          
        <input type="hidden" name="flag" value="0">
+       </div>
+     
    </div>
-   <div class="page-title">
-      <h3><span class="semi-bold">Patients</span></h3>
-      <p>(Click on any Patient ID to see Profile Details)</p>
+     </div>
    </div>
 </div>
 <div class="grid simple">

@@ -24,9 +24,15 @@
                         <div class="tab-pane table-data" id="Patients">
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
-                        <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
-                           <p>(Showing Submission details)</p>
+                          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
+                           <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
+                           <!-- <p>(Showing Submission details)</p> -->
                            <br>
+                  <div id="chartdiv" style="width:100%; Height:500px;"></div> <br>
+                  <br>    
+                           <div>
+                           </div>
+
                            <div class="user-description-box">
                            <div class="row">
                               <div class="col-md-6">
@@ -34,32 +40,21 @@
                                  <div class="row">
                                     
                                     <div class="col-md-8">
-                                       <label>Sequence Number - {{ $sequenceNumber }} </label>
-                                         
-                                       <!-- <select name="role" id="role" class="select2 form-control"  >
-                                          <option value="1">Select Sequence</option>
-                                          <option value="2">Sequence 1</option>
-                                          <option value="3">Sequence 2</option>
-                                          <option value="4">Sequence 3</option>
-                                          <option value="5">Sequence 4</option>
-                                          <option value="6">Sequence 5</option>
-                                          <option value="7">Sequence 6</option>
-                                          <option value="8">Sequence 7</option>
-                                          <option value="9">Sequence 8</option>
-                                          <option value="10">Sequence 9</option>
-                                          <option value="11">Sequence 10</option>
-                                          <option value="12">Sequence 11</option>
-                                          <option value="13" selected>Sequence 12</option>
-                                       </select> -->
+                                       <label>Submission Number</label>
+                                       <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
+                                       @foreach($allSubmissions as $responseId =>$submission)
+                                          <option value="{{$responseId}}" {{ ($currentSubmission==$responseId)?'selected':'' }}>{{ $submission }}</option>
+                                       @endforeach
+                                       </select>
                                     </div>
                                  </div>
                                  <br>
                                  <div>Submitted on {{ $date }}</div>
                               </div>
-                              <!-- <div class="col-md-3 m-t-25">
+                              <div class="col-md-3 m-t-25">
                                  <div class="row">
                                     <div class="col-md-2">
-                                       <h4><i class="fa fa-circle text-warning"></i></h4>
+                                      
                                     </div>
                                     <div class="col-md-8"> 
                                        <select name="role" id="role" class="select2 form-control"  >
@@ -72,14 +67,18 @@
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
                                  </div>
-                                 -->
+                                
                               </div>
-                              <!-- <div class="col-md-3 m-t-25 text-right ">
-                                 <span class="text-danger"><i class="fa fa-flag"></i> 4</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                              <span class="text-warning"><i class="fa fa-flag"></i> 4</span>
-                              </div> -->
+                              <div class="col-md-3 m-t-25 text-right ">
+                              Previous | Baseline<br>
+                                 <span class="text-{{ $responseData['previousFlag'] }}"><i class="fa fa-flag"></i> {{ $responseData['comparedToPrevious'] }}</span><span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i> {{ $responseData['comparedToBaseLine'] }}</span>
+                              </div>
                            </div>
                               
+                           </div>
+                           <br>
+                      
                            </div>
                            <br>
  
@@ -90,6 +89,17 @@
                                  <div class="grid-body">
                                     @if($answer['questionType']=='single-choice')
                                     <div class="pull-right">
+                                       {{ $answer['comparedToPrevious'] }}
+                                        @if($answer['previousFlag']=='green')
+                                          <span class="text-success"><i class="fa fa-flag"></i></span>
+                                        @elseif($answer['previousFlag']=='red')
+                                          <span class="text-danger"><i class="fa fa-flag"></i></span>
+                                        @elseif($answer['previousFlag']=='amber')
+                                        <span class="text-warning"><i class="fa fa-flag"></i></span>
+                                        @endif
+
+                                       <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+
                                         {{ $answer['comparedToBaseLine'] }}
                                         @if($answer['baseLineFlag']=='green')
                                           <span class="text-success"><i class="fa fa-flag"></i></span>
@@ -99,15 +109,6 @@
                                         <span class="text-warning"><i class="fa fa-flag"></i></span>
                                         @endif
 
-                                       <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                                       {{ $answer['comparedToPrevious'] }}
-                                        @if($answer['previousFlag']=='green')
-                                          <span class="text-success"><i class="fa fa-flag"></i></span>
-                                        @elseif($answer['previousFlag']=='red')
-                                          <span class="text-danger"><i class="fa fa-flag"></i></span>
-                                        @elseif($answer['previousFlag']=='amber')
-                                        <span class="text-warning"><i class="fa fa-flag"></i></span>
-                                        @endif
                                      </div>
                                      @endif
                                     <label class="semi-bold">Q {{$i}} ) {{ $answer['question']}}</label>
@@ -176,7 +177,93 @@
                      </div>
 
 
- 
+     <script type="text/javascript">
+      var chart = AmCharts.makeChart("chartdiv", {
+    "theme": "light",
+    "type": "serial",
+     "legend": {
+    "useGraphSettings": true
+  },
+    "dataProvider": [{
+        "question": "Pain",
+        "base": 13,
+        "prev": 10,
+        "current": 7
+
+    }, {
+        "question": "Bowel Habits",
+        "base": 19,
+        "prev": 13,
+        "current": 18
+    }, {
+        "question": "Weight",
+      "base": 10,
+        "prev": 05,
+        "current": 13
+    }, {
+        "question": "Appetite",
+         "base": 20,
+        "prev": 22,
+        "current": 13
+    }, {
+        "question": "Well Being   ",
+         "base": 29,
+        "prev": 13,
+        "current": 16
+    }, {
+        "question": "Diabetes",
+         "base": 10,
+        "prev": 13,
+        "current": 18
+    }],
+    "valueAxes": [{
+        "position": "left",
+        "title": "Score",
+    }],
+    "startDuration": 1,
+    "graphs": [{
+        "balloonText": "Previous [[category]] (: <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Previous",
+        "type": "column",
+        "valueField": "prev"
+    }, {
+        "balloonText": "Baseline [[category]] : <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Baseline",
+        "type": "column",
+        "valueField": "base"
+    },{
+        "balloonText": "Current [[category]]: <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.2,
+        "title": "Current",
+        "type": "column",
+        "clustered":false,
+        "columnWidth":0.5,
+        "valueField": "current"
+    }],
+    "plotAreaFillAlphas": 0.1,
+    "categoryField": "question",
+    "categoryAxis": {
+        "gridPosition": "start"
+    },
+    "export": {
+      "enabled": true
+     }
+
+});
+
+   $(document).ready(function() {
+
+      $('select[name="patientSubmission"]').change(function (event) { 
+         window.location="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/"+$(this).val();
+      });
+
+   });
+      </script> 
                  
 
  

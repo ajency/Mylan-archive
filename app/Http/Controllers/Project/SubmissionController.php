@@ -12,6 +12,7 @@ use App\Hospital;
 use App\Projects;
 use App\User;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Project\PatientController;
 use App\UserAccess;
 use \Input;
 
@@ -150,6 +151,11 @@ class SubmissionController extends Controller
         $answersList = $data['answers'];
         $response = $data['response'];
 
+        $responseData['comparedToBaseLine'] = $response->get("comparedToBaseLine");
+        $responseData['comparedToPrevious'] = $response->get("comparedToPrevious");
+        $responseData['baseLineFlag'] = $response->get("baseLineFlag");
+        $responseData['previousFlag'] = $response->get("previousFlag");
+
         $referenceCode = $response->get("patient");
         $sequenceNumber = $response->get("sequenceNumber");
 
@@ -183,6 +189,18 @@ class SubmissionController extends Controller
             $baseLineAnswersList = $baseLineData['answers'];
         }
 
+        // get patient submissions
+        $allSubmissions = [];
+        $patientController = new PatientController();
+        $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed"]);
+
+        foreach ($completedResponses as $key => $response) {
+            $responseId = $response->getObjectId();
+            $sequenceNumber = $response->get("sequenceNumber");
+            $allSubmissions[$responseId] = "Submission ".$sequenceNumber;
+        }
+
+        
         return view('project.submissions-view')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'submissions')
                                                 ->with('tab', '02')
@@ -195,6 +213,9 @@ class SubmissionController extends Controller
                                                 ->with('questionnaire', $questionnaire)
                                                 ->with('date', $date)
                                                 ->with('answersList', $answersList)
+                                                ->with('currentSubmission', $responseId)
+                                                ->with('responseData', $responseData)
+                                                ->with('allSubmissions', $allSubmissions)
                                                 ->with('previousAnswersList', $previousAnswersList)
                                                 ->with('baseLineAnswersList', $baseLineAnswersList);
     }
