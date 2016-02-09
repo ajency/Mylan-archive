@@ -531,102 +531,30 @@ class PatientController extends Controller
         return $data;
     }
 
-    public function getOpenRedFlags($projectAnwers)
+    public function getsubmissionFlags($projectAnwers)
     {
 
-        $openRedFlags = [];
-        $responseOpenRedFlags = [];
+        $submissionFlags = [];
         $questionsTypes = ['single-choice','input']; 
  
         foreach ($projectAnwers as $answer)
         {
             $baseLineFlag = $answer->get("baseLineFlag");
             $previousFlag = $answer->get("previousFlag");
-            $baseLineFlagStatus = $answer->get("baseLineFlagStatus");
-            $previousFlagStatus = $answer->get("previousFlagStatus");
+
             $responseId = $answer->get("response")->getObjectId();
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
             $questionLabel = $answer->get("question")->get("title");
+            $patient = $answer->get("patient");
 
             $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
             $responsePreviousFlag = $answer->get("response")->get("previousFlag");
-            $responseBaseLineFlagStatus = $answer->get("response")->get("baseLineFlagStatus");
-            $responsePreviousFlagStatus = $answer->get("response")->get("previousFlagStatus");
-
-             $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
-
-
-            // if(!in_array($questionType, $questionsTypes))
-            //     continue;
-
-             if($questionType!='single-choice')
-                continue;
-
-            
-            if($baseLineFlag=='red')
-            {
-              $openRedFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
-            }
-
- 
-            if($previousFlag =='red') 
-            {
-                $openRedFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
-            }
-
-            if(!isset($responseOpenRedFlags[$responseId]))
-            {
-                $responseOpenRedFlags[$responseId]=$responseId;
-
-                if($responseBaseLineFlag=='red')
-                {
-                  $openRedFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
-                }
-
-     
-                if($responsePreviousFlag =='red') 
-                {
-                    $openRedFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
-                }
-
-            }
-            
-        }
-
-
-
-        return $openRedFlags;
-    }
-
-    public function getPatientsFlags($projectAnwers)
-    {
-
-        $patientsFlags = [];
-        $responseOpenRedFlags = [];
-        $questionsTypes = ['single-choice','input']; 
- 
-        foreach ($projectAnwers as $answer)
-        {
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-            $baseLineFlagStatus = $answer->get("baseLineFlagStatus");
-            $previousFlagStatus = $answer->get("previousFlagStatus");
-            $responseId = $answer->get("response")->getObjectId();
-            $questionId = $answer->get("question")->getObjectId();
-            $questionType = $answer->get("question")->get("type");
-            $questionLabel = $answer->get("question")->get("title");
-
-            $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
-            $responsePreviousFlag = $answer->get("response")->get("previousFlag");
-            $responseBaseLineFlagStatus = $answer->get("response")->get("baseLineFlagStatus");
-            $responsePreviousFlagStatus = $answer->get("response")->get("previousFlagStatus");
 
             $responseStatus = $answer->get("response")->get("status");
 
              $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
+             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
 
              if($responseStatus=='base_line')
                 continue;
@@ -636,25 +564,36 @@ class PatientController extends Controller
 
          
                 
-            $patientsFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
  
-            $patientsFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+
+            $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+ 
+            $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
             
 
             if(!isset($responseOpenRedFlags[$responseId]))
             {
                 $responseOpenRedFlags[$responseId]=$responseId;
 
-                $patientsFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
                  
-                $patientsFlags[]= ['sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+
+                $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                 
+                $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
             }
             
         }
+        
+        $submissionFlags['all'] = $patientsllFlags;
+        $submissionFlags['flags'] =$patientsFlags;
 
 
 
-        return $patientsFlags;
+        return $submissionFlags;
     }
     
 
@@ -865,10 +804,10 @@ class PatientController extends Controller
                      );
 
 
-        $responseStatus = ["completed"];
+        $responseStatus = ["completed","late"];
         $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
-        $patientFlags =  $this->getPatientsFlags($patientAnwers); 
+        $submissionFlags =  $this->getsubmissionFlags($patientAnwers); 
 
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
@@ -879,7 +818,7 @@ class PatientController extends Controller
                                                 ->with('logoUrl', $logoUrl)
                                                 ->with('endDate', $endDate)
                                                 ->with('startDate', $startDate)
-                                                ->with('patientFlags', $patientFlags);
+                                                ->with('submissionFlags', $submissionFlags);
     }
 
     public function getpatientBaseLines($hospitalSlug ,$projectSlug ,$patientId)
