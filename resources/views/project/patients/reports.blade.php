@@ -115,16 +115,15 @@ Question score chart</h4>
                                  <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
                               <br><br>
                        
-                        <select class="pull-right">
-                                      <option value="volvo">Submission 1</option>
-                                      <option value="saab">Submission 2</option>
-                                       <option value="saab">Submission 3</option>
-                                       <option value="saab">Submission 4</option>
-                                       <option value="saab">Submission 5</option>
-                                       <option value="saab">Submission 6</option>
-                                          </select> 
+                       <select class="pull-right" name="generateSubmissionChart">
+                        @foreach($submissionNumbers as $submissionNumber => $responseId)
+                        <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
+                        @endforeach
+                      </select> 
+                
 
-                                           <div id="submissionrange" class="p-t-20"></div>
+                       <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+
                         </div>
                      </div>
                      </div>
@@ -135,6 +134,9 @@ $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
 $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+
+ 
+$submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($submissionChart[$firstSubmission]):'[]';
 ?>
 
 <script type="text/javascript">
@@ -144,7 +146,10 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
 
  $(document).ready(function() {
  
- shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart')
+ shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart');
+
+//submission chart
+ submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
 
  $('select[name="generateQuestionChart"]').change(function (event) { 
       <?php 
@@ -156,6 +161,23 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
         if($(this).val()=='{{$questionId}}')
         { 
           shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'questionChart')
+        }
+
+        <?php
+      }
+      ?>
+
+    });
+
+ $('select[name="generateSubmissionChart"]').change(function (event) { 
+      <?php 
+      foreach($submissionNumbers as $submissionNumber => $responseId)
+      {
+        $submissionJson = json_encode($submissionChart[$responseId]);
+        ?>
+        if($(this).val()=='{{$responseId}}')
+        { 
+          submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
         }
 
         <?php

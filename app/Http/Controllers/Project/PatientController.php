@@ -1492,6 +1492,7 @@ class PatientController extends Controller
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+            $responseStatus = $response->get("status");
 
             if ($responseStatus=='completed') {
                 $patientSubmissions[] = $response;
@@ -1514,7 +1515,10 @@ class PatientController extends Controller
         $questionChartData = $questionsChartData['chartData'];
         $questionBaseLine = $questionsChartData['questionBaseLine'];
 
-        //$patientSubmissionChart = $this->getPatientSubmissionChart($patientSubmissions,$answers,$baselineAnwers);
+        $patientSubmissionChart = $this->getPatientSubmissionChart($patientSubmissions,$answers,$baselineAnwers);
+        $submissionChart = $patientSubmissionChart['submissionChart'] ;
+        $submissionNumbers = $patientSubmissionChart['submissions'] ;
+        $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
        
      
         return view('project.patients.reports')->with('active_menu', 'patients')
@@ -1531,6 +1535,9 @@ class PatientController extends Controller
                                         ->with('questionLabels', $questionLabels)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
+                                        ->with('firstSubmission', $firstSubmission)
+                                        ->with('submissionChart', $submissionChart)
+                                        ->with('submissionNumbers', $submissionNumbers)
                                         ->with('questionChartData', $questionChartData); 
     }
 
@@ -1689,8 +1696,8 @@ class PatientController extends Controller
            $responseId = $answer->get("response")->getObjectId();
 
            $responseStatus = $answer->get("response")->get("status");
-           if($responseStatus=='missed' || $responseStatus=='started')
-                continue;
+           // if($responseStatus=='missed' || $responseStatus=='started')
+           //      continue;
 
             if($questionType == 'single-choice')
                 $chartData[$responseId][$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("score")];
@@ -1698,10 +1705,58 @@ class PatientController extends Controller
                 $chartData[$responseId][$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("value")];
            
         }
+        //baseline
+        $baseChartData = [];
+        foreach($baselineAnwers as $answer)
+        {  
+           $question =  $answer->get("question");
+           $questionId =  $question->getObjectId();
+           $questionType =  $question->get("type");
+           $responseId = $answer->get("response")->getObjectId();
 
-        sort($submissions);
-        dd($submissions);
+           $responseStatus = $answer->get("response")->get("status");
+           if($responseStatus=='missed' || $responseStatus=='started')
+                continue;
 
+            if($questionType == 'single-choice')
+                $baseChartData[$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("score")];
+            elseif($questionType == 'input')
+                $baseChartData[$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("value")];
+           
+        }
+
+        // ksort($submissions);
+        // echo '<pre>';
+        // print_r($submissions);
+        // echo '</pre>';
+        $submissionChart = [];
+        $previousRecord = [];
+
+        $i=0;
+        foreach ($submissions as $sequenceNumber => $responseId) {
+            $currentChartData = $chartData[$responseId];
+            $previousRecord[$i] = $responseId;
+            $previousResponseId = ($i)?$previousRecord[$i-1]:0;
+            $previousChartData = (isset($chartData[$previousResponseId]))?$chartData[$previousResponseId]:[];
+
+            // $submissionChart [$responseId] = $previousResponseId;
+
+            foreach ($baseChartData as $questionId => $data) {
+                $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
+                $baseScore = $data['score'];
+                $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
+                $question = $data['question'];
+                $submissionChart[$responseId][] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+                 
+            }
+             $i++;
+        }
+       
+
+       $result['submissionChart'] = $submissionChart;
+       $result['submissions'] = $submissions;
+
+       return $result;
 
     }
 
