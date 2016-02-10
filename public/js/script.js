@@ -475,7 +475,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
 }
 
 function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
-{
+{  
     var chart = AmCharts.makeChart(container, {
          "type": "serial",
          "theme": "light",

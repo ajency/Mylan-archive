@@ -171,7 +171,7 @@
                     <option value="{{ $questionId }}" >{{ $question }}</option>
                     @endforeach
                  </select>
-              <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
+              <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
               <br><br> 
               <div>
                  <div class="grid simple grid-table">
@@ -382,7 +382,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
     lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
 
     //question chart
-    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'totalbaseline')
+    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart')
  
     var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
@@ -447,7 +447,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'totalbaseline')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'questionChart')
         }
 
         <?php

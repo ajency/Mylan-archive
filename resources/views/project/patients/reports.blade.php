@@ -101,13 +101,13 @@ Flag is not displayed if the current score is same as previous score</p>
 Question score chart</h4>
                                  <p>Question score chart shows the score of each question with reference to baseline for all submissions</p>
                               <br><br>
-                              <select class="pull-right" name="generateChart">
+                              <select class="pull-right" name="generateQuestionChart">
                                 @foreach($questionLabels as $questionId => $label)
                                 <option value="{{ $questionId }}">{{ $label }}</option>
                                 @endforeach
                               </select> 
 
-                               <div id="questionChart" class="p-t-20"></div>
+                               <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
 
                                              <hr>
                              
@@ -129,12 +129,12 @@ Question score chart</h4>
                      </div>
                      </div>
 
-<?php 
+ <?php 
 
 $questionId = current(array_keys($questionLabels));
-$questionJson = (isset($chartData[$questionId])) ? json_encode($chartData[$questionId]):'[]';
+$inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-$baseLineScore = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:0;
+$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
 ?>
 
 <script type="text/javascript">
@@ -144,20 +144,18 @@ $baseLineScore = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:0;
 
  $(document).ready(function() {
  
- var legends = {value: "<?php echo $questionLabel;?>"};
- shadedLineChartWithBaseLine(<?php echo $questionJson;?>,legends,<?php echo $baseLineScore;?>,'questionChart');
+ shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart')
 
- $('select[name="generateChart"]').change(function (event) { 
+ $('select[name="generateQuestionChart"]').change(function (event) { 
       <?php 
       foreach($questionLabels as $questionId => $label)
       {
-        $questionJson = (isset($chartData[$questionId])) ? json_encode($chartData[$questionId]):'[]';
-        $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-        $baseLineScore = (isset($baseLineArr[$questionId]))?$baseLineArr[$questionId]:0;
+        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $questionJson;?>,legends,<?php echo $baseLineScore;?>,'questionChart');
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'questionChart')
         }
 
         <?php
