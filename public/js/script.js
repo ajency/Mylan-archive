@@ -375,13 +375,17 @@ function lineChartWithOutBaseLine(chartData,legends,container)
             "integersOnly": true,
             "maximum": 20,
             "minimum": 0,
-            "reversed": false,
+            "reversed": true,
             "axisAlpha": 0,
             "dashLength": 5,
             "position": "top",
             "title": "Total Score"
         }],
-     
+         "valueAxes": [{
+            "logarithmic": false,
+            "dashLength": 0,
+        
+         }],
 
         "graphs": graphs,
         "chartCursor": {
