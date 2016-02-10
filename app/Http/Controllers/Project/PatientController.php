@@ -1492,14 +1492,7 @@ class PatientController extends Controller
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
-            $responseStatus = $response->get("status");
-
-            if ($responseStatus=='completed') {
-                $patientSubmissions[] = $response;
-            }
-            elseif ($responseStatus=='late') {
-                $patientSubmissions[] = $response;
-            }
+            
         }
 
         $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
@@ -1515,7 +1508,7 @@ class PatientController extends Controller
         $questionChartData = $questionsChartData['chartData'];
         $questionBaseLine = $questionsChartData['questionBaseLine'];
 
-        $patientSubmissionChart = $this->getPatientSubmissionChart($patientSubmissions,$answers,$baselineAnwers);
+        $patientSubmissionChart = $this->getPatientSubmissionChart($answers,$baselineAnwers);
         $submissionChart = $patientSubmissionChart['submissionChart'] ;
         $submissionNumbers = $patientSubmissionChart['submissions'] ;
         $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
@@ -1676,17 +1669,11 @@ class PatientController extends Controller
         return $questiondata;
     }
 
-    public function getPatientSubmissionChart($patientResponses,$patientAnwers,$baselineAnwers)
+    public function getPatientSubmissionChart($patientAnwers,$baselineAnwers)
     {
 
         $chartData =[];
         $submissions =[];
-
-        foreach ($patientResponses as  $response) {
-            $responseId = $response->getObjectId();
-            $sequenceNumber = $response->get("sequenceNumber");
-            $submissions[$sequenceNumber] = $responseId;
-        }
 
         foreach($patientAnwers as $answer)
         {  
@@ -1713,10 +1700,13 @@ class PatientController extends Controller
            $questionId =  $question->getObjectId();
            $questionType =  $question->get("type");
            $responseId = $answer->get("response")->getObjectId();
+           $sequenceNumber = $answer->get("response")->get("sequenceNumber");
 
            $responseStatus = $answer->get("response")->get("status");
            if($responseStatus=='missed' || $responseStatus=='started')
                 continue;
+
+            $submissions[$sequenceNumber] = $responseId;
 
             if($questionType == 'single-choice')
                 $baseChartData[$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("score")];
@@ -1725,7 +1715,7 @@ class PatientController extends Controller
            
         }
 
-        // ksort($submissions);
+        ksort($submissions);
         // echo '<pre>';
         // print_r($submissions);
         // echo '</pre>';
