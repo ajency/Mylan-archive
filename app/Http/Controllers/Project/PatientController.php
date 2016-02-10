@@ -1681,10 +1681,12 @@ class PatientController extends Controller
            $questionId =  $question->getObjectId();
            $questionType =  $question->get("type");
            $responseId = $answer->get("response")->getObjectId();
+           $sequenceNumber = $answer->get("response")->get("sequenceNumber");
 
            $responseStatus = $answer->get("response")->get("status");
            // if($responseStatus=='missed' || $responseStatus=='started')
            //      continue;
+            $submissions[$sequenceNumber] = $responseId;
 
             if($questionType == 'single-choice')
                 $chartData[$responseId][$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("score")];
@@ -1700,13 +1702,13 @@ class PatientController extends Controller
            $questionId =  $question->getObjectId();
            $questionType =  $question->get("type");
            $responseId = $answer->get("response")->getObjectId();
-           $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+           
 
            $responseStatus = $answer->get("response")->get("status");
            if($responseStatus=='missed' || $responseStatus=='started')
                 continue;
 
-            $submissions[$sequenceNumber] = $responseId;
+            
 
             if($questionType == 'single-choice')
                 $baseChartData[$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("score")];
@@ -1716,6 +1718,7 @@ class PatientController extends Controller
         }
 
         ksort($submissions);
+         
         // echo '<pre>';
         // print_r($submissions);
         // echo '</pre>';
@@ -1724,6 +1727,12 @@ class PatientController extends Controller
 
         $i=0;
         foreach ($submissions as $sequenceNumber => $responseId) {
+            if(!isset($chartData[$responseId]))
+            {
+                $submissionChart[$responseId]=[];
+                continue;
+            }
+
             $currentChartData = $chartData[$responseId];
             $previousRecord[$i] = $responseId;
             $previousResponseId = ($i)?$previousRecord[$i-1]:0;
