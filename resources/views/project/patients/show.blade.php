@@ -121,155 +121,44 @@
               Flag is not displayed if the current score is same as previous score
            </p>
            <br><br>
-           <div class="row hidden">
-              <div class="col-sm-6">
-                 <div class="row">
-                    <div class="col-sm-4">
-                       <div class="form-row">
-                          <label>Start Date</label>
-                          <div class="input-append default date" style="width:100%;">
-                             <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
-                             <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-sm-4">
-                       <div class="form-row">
-                          <label>End Date</label>
-                          <div class="input-append default date" style="width:100%;">
-                             <input type="text" class="form-control" id="sandbox-advance" style="width:76%;">
-                             <span class="add-on"><span class="arrow"></span><i class="fa fa-th"></i></span>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="col-sm-4 m-t-25">
-                       <a href="" class="btn btn-default">Apply</a>
-                    </div>
-                 </div>
-              </div>
-              <div class="col-sm-6 m-t-25 text-right">
-                 <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a>
-                 <a href="" class="btn btn-danger"><i class="fa fa-download"></i> Download PDF</a>
-              </div>
-           </div>
-           <table class="table table-flip-scroll cf">
-              <thead class="cf">
-                 <tr>
-                    <th>Week</th>
-                    <th>1 Jan</th>
-                    <th>2 Jan</th>
-                    <th>11 Jan</th>
-                    <th>12 Jan</th>
-                    <th>14 Jan</th>
-                    <th>18 Jan</th>
-                    <th>19 Jan</th>
-                    <th>22 Jan</th>
-                    <th>23 Jan</th>
-                    <th>24 Jan</th>
-                    <th>25 Jan</th>
-                 </tr>
-              </thead>
-              <tbody>
-                 <tr>
-                    <td>Pain</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"><i class="fa fa-flag text-error" ></i></td>
-                    <td class="bg-warning"> <i class="fa fa-flag text-warning" ></i></td>
-                    <td></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                 </tr>
-                 <tr>
-                    <td>Bowel Habits</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                    <td class="bg-warning"></td>
-                    <td ></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                 </tr>
-                 <tr>
-                    <td>Weight</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-success"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"><i class="fa fa-flag text-error" ></i></td>
-                    <td class="bg-danger"></td>
-                    <td ></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"><i class="fa fa-flag text-error" ></i></td>
-                 </tr>
-                 <tr>
-                    <td>Appetite</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                    <td class="bg-warning"><i class="fa fa-flag text-warning" ></i></td>
-                    <td ></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"><i class="fa fa-flag text-warning" ></i></td>
-                 </tr>
-                 <tr>
-                    <td>Well Being</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                    <td class="bg-warning"></td>
-                    <td></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                 </tr>
-                 <tr>
-                    <td>Diabetes</td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-success"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-danger"></td>
-                    <td class="bg-warning"></td>
-                    <td></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-warning"></td>
-                 </tr>
-                 <tr>
-                    <td><b>Total</b></td>
-                    <td class="bg-gray"></td>
-                    <td class="bg-success"></td>
-                    <td></td>
-                    <td class="bg-danger"> <i class="fa fa-flag text-error" ></i></td>
-                    <td class="bg-danger"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="bg-danger"></td>
-                 </tr>
-              </tbody>
-           </table>
+            
+           <div class="table-responsive"> 
+         <table class="table">
+                        <thead class="cf">
+                           <tr>
+                              <th>Week</th>
+                              @foreach($responseArr as $response)
+                              <th>{{ $response }}</th>
+                              @endforeach
+                           </tr>
+                        </thead>
+                        <tbody>
+                           @foreach($flagsQuestions as $questionId => $question)
+                           <tr>
+                              <td>{{ $question }}</td>
+                              @foreach($responseArr as $responseId => $response)
+                              <?php
+                              if(isset($submissionFlags[$responseId][$questionId]))
+                              {
+                                $class='bg-'.$submissionFlags[$responseId][$questionId]['baslineFlag'];
+                                $flag= ($submissionFlags[$responseId][$questionId]['previousFlag']=='no_colour')?'hidden':'text-'.$submissionFlags[$responseId][$questionId]['previousFlag'];
+                              }
+                              else
+                              {
+                                $class='bg-gray';
+                                $flag = 'hidden';
+                              }
+                              ?>
+                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                   
+                              @endforeach
+                              
+                           </tr>
+                        @endforeach
+                           
+                        </tbody>
+                     </table>
+                     </div>   
            <div>
                
               <hr>
@@ -333,119 +222,75 @@
                              </tr>
                           </thead>
                           <tbody>
-                             <tr onclick="window.document.location='p1-submission1.html';">
-                                <td>
-                                   <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                   <sm><b>#12</b></sm>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span>10</span>
-                                   <span>12</span>
-                                   <span>10</span>
-                                </td>
-                                <td class="text-center">
-                                   <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-success">0</b> / <b class="f-w text-success">2</b>
-                                   </h4>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class=" text-error">04</span>
-                                   <span class="text-warning">03</span>
-                                   <span class="text-success">04</span>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">24</span>
-                                   <span class="text-warning">13</span>
-                                   <span class=" text-success">14</span>
-                                </td>
-                                <td class="text-center text-success">Reviewed</td>
-                             </tr>
-                             <tr onclick="window.document.location='p1-submission1.html';">
-                                <td>
-                                   <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
-                                   <sm><b>#13</b></sm>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span>09</span>
-                                   <span>11</span>
-                                   <span>12</span>
-                                </td>
-                                <td class="text-center">
-                                   <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-error">-3</b> / <b class="f-w text-error">-1</b>
-                                   </h4>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">14</span>
-                                   <span class=" text-warning">13</span>
-                                   <span class=" text-success">14</span>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">04</span>
-                                   <span class="text-warning">03</span>
-                                   <span class="text-success">14</span>
-                                </td>
-                                <td class="text-center text-success">Reviewed</td>
-                             </tr>
-                             <tr  onclick="window.document.location='p1-submission1.html';">
-                                <td>
-                                   <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
-                                   <sm><b>#10</b></sm>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span>15</span>
-                                   <span>07</span>
-                                   <span>07</span>
-                                </td>
-                                <td class="text-center">
-                                   <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-success">8</b> / <b class="f-w text-success">0</b>
-                                   </h4>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">04</span>
-                                   <span class="text-warning">03</span>
-                                   <span class="text-success">04</span>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">24</span>
-                                   <span class="text-warning">13</span>
-                                   <span class="text-success">14</span>
-                                </td>
-                                <td class="text-center text-warning">Unreviewed</td>
-                             </tr>
-                             <tr  onclick="window.document.location='p1-submission1.html';">
-                                <td>
-                                   <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
-                                   <sm><b>#13</b></sm>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span>10</span>
-                                   <span>12</span>
-                                   <span>14</span>
-                                </td>
-                                <td class="text-center">
-                                   <h4 class="semi-bold margin-none flagcount">
-                                      <b class="text-error">-4</b> / <b class="f-w text-error">-2</b>
-                                   </h4>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">04</span>
-                                   <span class="text-warning">03</span>
-                                   <span class="text-success">04</span>
-                                </td>
-                                <td class="text-center sorting">
-                                   <span class="text-error">24</span>
-                                   <span class="text-warning">13</span>
-                                   <span class="text-success">14</span>
-                                </td>
-                                <td class="text-center text-success">Reviewed</td>
-                             </tr>
+                             
+                              @foreach($submissionsSummary as $responseId=> $submission)
+                                 @if($submission['status']=='missed')
+                                    <tr>
+                                       <td>
+                                         <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                                         <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                      </td>
+                                      <td class="text-center sorting">
+                                         <span>-</span>
+                                         <span>-</span>
+                                         <span>-</span>
+                                      </td>
+                                      <td class="text-center">
+                                         <h4 class="semi-bold margin-none flagcount">
+                                            -
+                                         </h4>
+                                      </td>
+                                      <td class="text-center sorting">
+                                          <span class="text-error">-</span>
+                                          <span class="text-warning">-</span>
+                                          <span class=" text-success">-</span>
+                                       </td>
+                                       <td class="text-center sorting">
+                                          <span class="text-error">-</span>
+                                          <span class="text-warning">-</span>
+                                          <span class=" text-success">-</span>
+                                       </td>
+                                      <td class="text-center text-success">-</td>
+                                   </tr>
+                                 @else 
+
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
+                                    <td>
+                                      <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
+                                      <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                   </td>
+                                   <td class="text-center sorting">
+                                      <span>{{ $submission['baseLineScore'] }}</span>
+                                      <span>{{ $submission['previousScore'] }}</span>
+                                      <span>{{ $submission['totalScore'] }}</span>
+                                   </td>
+                                   <td class="text-center">
+                                      <h4 class="semi-bold margin-none flagcount">
+                                         <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
+                                      </h4>
+                                   </td>
+                                   <td class="text-center sorting">
+                                       <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
+                                       <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
+                                       <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
+                                    </td>
+                                    <td class="text-center sorting">
+                                       <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
+                                       <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
+                                       <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
+                                    </td>
+                                   <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                                </tr>
+                                @endif
+                        
+                            @endforeach
+                             
+                                
                           </tbody>
                        </table>
                        <hr style="margin: 0px 0px 10px 0px;">
                        <div class="text-right">
-                          <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                        </div>
                     </div>
                  </div>
@@ -575,7 +420,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
     lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
 
     //question chart
-    shadedLineChartQithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'totalbaseline')
+    // shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'totalbaseline')
  
     var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",

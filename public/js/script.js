@@ -373,8 +373,8 @@ function lineChartWithOutBaseLine(chartData,legends,container)
         "dataProvider": chartData,
         "valueAxes": [{
             "integersOnly": true,
-            "maximum": 6,
-            "minimum": 1,
+            "maximum": 20,
+            "minimum": 0,
             "reversed": true,
             "axisAlpha": 0,
             "dashLength": 5,
@@ -413,17 +413,18 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
 {
     graphs = _.map(legends, function(value, key){ 
         var graphObj = {
-          "balloonText": "[[category]]<br><b><span style='font-size:14px;'>"+value+":[["+key+"]]</span></b>",
-          "bullet": "round",
-          "dashLength": 3,
-          "colorField":"color",
-          "valueField": key
+          "balloonText": value+" on [[category]]: [[value]]",
+              "bullet": "round",
+              "title": value,
+              "valueField": key,
+             "dashLength": 2,
+             "inside": true
         };
 
         return graphObj;
     })
    
-    var chart = AmCharts.makeChart(container, {
+     var chart = AmCharts.makeChart(container, {
           "type": "serial",
           "theme": "light",
           "legend": {
@@ -432,8 +433,8 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
           "dataProvider": chartData,
           "valueAxes": [{
               "integersOnly": true,
-              "maximum": 6,
-              "minimum": 1,
+              "maximum": 50,
+              "minimum": 0,
               "axisAlpha": 0,
               "dashLength": 5,
               "position": "right",
@@ -473,71 +474,88 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
          });
 }
 
-function shadedLineChartQithBaseLine(chartData,label,baseLine,container)
+function shadedLineChartWithBaseLine(chartData,legends,baseLine,container)
 {
-             var chart = AmCharts.makeChart("totalbaseline", {
-         "type": "serial",
-         "theme": "light",
-         "legend": {
-             "useGraphSettings": true
-         },
-         "dataProvider": chartData,
-         "valueAxes": [{
-             "integersOnly": true,
-             "maximum": 6,
-             "minimum": 1,
-             "reversed": true,
-             "axisAlpha": 0,
-             "dashLength": 5,
-             "position": "right",
-             "title": "Total Score"
+    graphs = _.map(legends, function(value, key){ 
+        var graphObj = {
+          
+        "balloonText": value+"  in [[category]]: [["+key+"]]",
+        "bullet": "round",
+        "title": value,
+        "lineColor": "#05A8A5",
+        "valueField": key,
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":false,
+          "inside": true
+
+        };
+
+        return graphObj;
+    })
+
+     var chart = AmCharts.makeChart(container, {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": [{"date":"03 Feb","value":4},{"date":"03 Feb","value":2},{"date":"04 Feb","value":2},{"date":"04 Feb","value":2},{"date":"04 Feb","value":3},{"date":"04 Feb","value":3},{"date":"04 Feb","value":4},{"date":"08 Feb","value":2},{"date":"08 Feb","value":3}],
+    "valueAxes": [{
+        "integersOnly": true,
+        "maximum": 6,
+        "minimum": 1,
+        "reversed": true,
+        "axisAlpha": 0,
+        "dashLength": 5,
+        "position": "top",
+        "title": "Total Score"
+    }],
+     "valueAxes": [{
+        "logarithmic": true,
+        "dashLength": 1,
+        "guides": [{
+            "dashLength": 6,
+            "inside": true,
+            "label": "Baseline",
+            "lineAlpha": 1,
+            "value": 53,
+
+        }],
          }],
-         
-          "valueAxes": [{
-             "logarithmic": true,
-             "dashLength": 1,
-          "guides": [{
-                 "dashLength": 6,
-                 "inside": true,
-                 "label": "Baseline",
-                 "lineAlpha": 1,
-                 "value": baseLine,
-         
-             }],
-              }],
-         
-         "graphs": [ {
-             "balloonText": "[[category]]: [[value]]",
-             "bullet": "round",
-             "title": "Score",
-             "lineColor": "#05A8A5",
-             "valueField": "Green",
-             "fillColor": "#ecb42f",
-             "fillAlphas": 0.2,
-              "dashLength": 2,
-              "hidden":false,
-               "inside": true
-         
-         }],
-         
-         "chartCursor": {
-             "cursorAlpha": 0,
-             "zoomable": false
-         },
-         "categoryField": "Date",
-         "categoryAxis": {
-             "gridPosition": "start",
-             "axisAlpha": 0,
-              "fillColor": "#000000",
-             "gridAlpha": 0,
-               "position": "bottom",
-             "title": "Projects"
-         },
-         "export": {
-           "enabled": true,
-             "position": "bottom-right"
-          }
-         });
+
+    "graphs": [ {
+        "balloonText": "Weight in [[category]]: [[value]]",
+        "bullet": "round",
+        "title": "Weight",
+        "lineColor": "#05A8A5",
+        "valueField": "Green",
+        "fillColor": "#ecb42f",
+        "fillAlphas": 0.2,
+         "dashLength": 2,
+         "hidden":false,
+          "inside": true
+
+    }],
+    "chartCursor": {
+        "cursorAlpha": 0,
+        "zoomable": false
+    },
+    "categoryField": "Date",
+    "categoryAxis": {
+        "gridPosition": "start",
+        "axisAlpha": 0,
+         "fillColor": "#000000",
+        "gridAlpha": 0,
+          "position": "bottom",
+        "title": "Submission"
+    },
+    "export": {
+      "enabled": true,
+        "position": "bottom-right"
+     }
+});
 }
 
 function patientFlagsChart(chartData)

@@ -239,39 +239,64 @@ class PatientController extends Controller
 
         $patient = User::find($patientId);
 
-        // get completed count
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","completed");
-        $responseQry->equalTo("patient",$patient['reference_code']);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['completedCount'] = $responseQry->count();
+        // // get completed count
+        // $responseQry = new ParseQuery("Response");
+        // $responseQry->equalTo("status","completed");
+        // $responseQry->equalTo("patient",$patient['reference_code']);
+        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        // $responseRate['completedCount'] = $responseQry->count();
 
     
-         // get missed count
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","missed");
-        $responseQry->equalTo("patient",$patient['reference_code']);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['missedCount'] = $responseQry->count();
+        //  // get missed count
+        // $responseQry = new ParseQuery("Response");
+        // $responseQry->equalTo("status","missed");
+        // $responseQry->equalTo("patient",$patient['reference_code']);
+        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        // $responseRate['missedCount'] = $responseQry->count();
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","late");
-        $responseQry->equalTo("patient",$patient['reference_code']);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['lateCount'] = $responseQry->count();
+        // $responseQry = new ParseQuery("Response");
+        // $responseQry->equalTo("status","late");
+        // $responseQry->equalTo("patient",$patient['reference_code']);
+        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        // $responseRate['lateCount'] = $responseQry->count();
 
-        $totalResponses = ($responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount'] );
+        $patients[] = $patient['reference_code'];
+        $responseStatus = ["completed","late","missed"];
+        $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = [];
+        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+        foreach ($patientResponses as  $response) {
+            $responseId = $response->getObjectId();
+            $responseStatus = $response->get("status");
+            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
 
-        $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
+            if ($responseStatus=='completed') {
+                $completedResponses[]= $response;
+                $patientSubmissions[] = $response;
+            }
+            elseif ($responseStatus=='late') {
+                $lateResponses[]= $response;
+                $patientSubmissions[] = $response;
+            }
+            elseif ($responseStatus=='missed') {
+                $missedResponses[]= $response;
+            }
+        } 
+
+        $totalResponses = count($patientResponses);
+        $responseRate['completedCount'] = count($completedResponses);
+        $responseRate['missedCount'] = count($missedResponses);
+        $responseRate['lateCount'] = count($lateResponses);
+
+        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
         $responseRate['completed'] =  round($completed);
 
-        $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
+        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
         $responseRate['missed'] =  round($missed);
 
-        $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
+        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
         $responseRate['late'] =  round($late);
 
         $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
@@ -279,20 +304,20 @@ class PatientController extends Controller
         //get patient answers
         $patientAnswers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
         
-        $patients[] = $patient['reference_code'];
-        $responseStatus = ["completed","late"];
-        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
-
-       
+      
         //flags chart (total,red,amber,green)  
-        $flagsCount = $this->patientFlagsCount($patientResponses,$baselineAnwers);
+        $flagsCount = $this->patientFlagsCount($patientSubmissions,$baselineAnwers);
 
-        // $submissionChart =  $this->getSubmissionChart($patientAnswers,$missedResponses);
+        //health chart
+        $healthChart = $this->healthChartData($patientAnswers);
+        $submissionFlags = $healthChart['submissionFlags'];
+        $flagsQuestions = $healthChart['questionLabel'];
        
 
         //patient submissions
         $projectController = new ProjectController();
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
+        $lastFiveSubmissions = array_slice($patientSubmissions, 0, 5, true);
+        $submissionsSummary = $projectController->getSubmissionsSummary($lastFiveSubmissions); 
 
         //question chart
         $questionsChartData = $this->getQuestionChartData($patientAnswers,$baselineAnwers);
@@ -317,6 +342,9 @@ class PatientController extends Controller
                                         ->with('questionChartData', $questionChartData)
                                         ->with('questionLabels', $questionLabels)
                                         ->with('questionBaseLine', $questionBaseLine)
+                                        ->with('flagsQuestions', $flagsQuestions)
+                                        ->with('responseArr', $responseArr)
+                                        ->with('submissionFlags', $submissionFlags)
                                         ->with('openRedFlags', $openRedFlags)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
@@ -454,7 +482,7 @@ class PatientController extends Controller
             $amberFlagsByDate[$occurrenceDate]['previous']=$previousTotalAmberFlags;
             $greenFlagsByDate[$occurrenceDate]['previous']=$previousTotalGreenFlags;
 
-            $totalFlagsByDate[$occurrenceDate][] = $totalScore;
+            $totalFlagsByDate[$occurrenceDate] = $totalScore;
 
             
         }
@@ -1461,104 +1489,16 @@ class PatientController extends Controller
 
         $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
-        $baseLineArr = [];
-        $submissionArr = [];
-        $questionArr = [];
-        $inputScores = [];
-        $inputChartData = [];
-        $inputLabels = [];
-        $allScore = [];
+        $healthChart = $this->healthChartData($answers);
+        $submissionArr = $healthChart['submissionFlags'];
+        $questionArr = $healthChart['questionLabel'];
 
-        
-        $inputBaseQuestionId = '';
-        $inputLable = '';
-        $inputBaseLineScore ='';
+        $questionChart = $this->getQuestionChartData($answers);
 
+        $baseLineArr = $questionChart['questionBaseLine'];
+        $chartData = $questionChart['chartData'];
+        $questionLabels = $questionChart['questionLabels'];
        
-        foreach ($answers as   $answer) {
-            $responseStatus = $answer->get("response")->get("status");
-            $questionId = $answer->get("question")->getObjectId();
-            $questionType = $answer->get("question")->get("type");
-            $questionTitle = $answer->get("question")->get("title");
-            $responseId = $answer->get("response")->getObjectId();
-            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
-            $optionValue = $answer->get("value");
-
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
-            $answerDate = strtotime($answerDate);
-
-            
-            if($responseStatus=='missed' || $responseStatus=='started')
-                continue;
-
-            if($questionType=='descriptive')
-                continue;
-           
-            if($questionType=='input')
-            { 
-                $inputBaseQuestionId = $questionId;
-                $inputLable =  ucfirst(strtolower($questionTitle));
-
-                $inputLabels[$questionId] = $inputLable;
-                $allScore[$questionId][] = $optionValue;
-
-                if($responseStatus=="base_line" && !isset($baseLineArr[$questionId]))
-                    $baseLineArr[$questionId] =$optionValue;
-                else
-                    $inputScores[$questionId][$answerDate] = $optionValue ;
-
-                continue;
-            }
-            elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
-
-                continue;
-               // if($responseStatus=="base_line")
-               //  {
-               //      if(isset($baseLineArr[$questionId]))
-               //          $baseLineArr[$questionId] += $optionScore;
-               //      else
-               //          $baseLineArr[$questionId] = $optionScore;
-               //  }
-               //  else
-               //  {
-               //      if(isset($submissionArr[$responseId][$questionId]))
-               //          $submissionArr[$responseId][$questionId] += $optionScore;
-               //      else
-               //          $submissionArr[$responseId][$questionId] = $optionScore;
-                   
-               //  }
-            } 
-             elseif ($questionType=='single-choice')  
-            {
-                if($responseStatus=="base_line" && !isset($baseLineArr[$questionId]))
-                   $baseLineArr[$questionId] =$optionScore;
-                else
-                {
-                   $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
-                   $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
-                }
-
-             } 
-            
-            $questionArr[$questionId]= $questionTitle;
-             
-        }
-        
-        foreach ($inputScores as $questionId => $data) {
-            ksort($data);
-            $i=0;
-            foreach($data as $date => $value)
-            { 
-                $inputChartData[$questionId][$i]['date'] = date('d M',$date);
-                $inputChartData[$questionId][$i]['value'] = $value;
-               // $inputChartData[$questionId][$i]['base_line'] = $baseLineArr[$questionId];
-                $i++;
-            }
-            $inputChartData[$questionId] = $inputChartData[$questionId];
-            
-        }
      
         return view('project.patients.reports')->with('active_menu', 'patients')
                                         ->with('active_tab', 'reports')
@@ -1570,13 +1510,49 @@ class PatientController extends Controller
                                         ->with('responseArr', $responseArr)
                                         ->with('questionArr', $questionArr)
                                         ->with('baseLineArr', $baseLineArr)
-                                        ->with('submissionArr', $submissionArr)
-                                        ->with('inputBaseLineScore', $inputBaseLineScore)
-                                        ->with('inputLabels', $inputLabels)
-                                        ->with('allScore', $allScore)
+                                        ->with('submissionArr', $submissionArr)                    
+                                        ->with('questionLabels', $questionLabels)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
-                                        ->with('inputChartData', $inputChartData); 
+                                        ->with('chartData', $chartData); 
+    }
+
+    public function healthChartData($answers)
+    {
+        foreach ($answers as   $answer) {
+            $responseStatus = $answer->get("response")->get("status");
+            $questionId = $answer->get("question")->getObjectId();
+            $questionType = $answer->get("question")->get("type");
+            $questionTitle = $answer->get("question")->get("title");
+            $responseId = $answer->get("response")->getObjectId();
+
+            $baseLineFlag = $answer->get("baseLineFlag");
+            $previousFlag = $answer->get("previousFlag");
+            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $answerDate = strtotime($answerDate);
+
+            
+            if($responseStatus=='missed' || $responseStatus=='started'|| $responseStatus=='base_line')
+                continue;
+
+
+           if ($questionType=='single-choice')  
+            { 
+               $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
+               $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
+
+               $questionArr[$questionId]= $questionTitle;
+            } 
+            
+            
+             
+        }
+
+        $data['questionLabel']=$questionArr;
+        $data['submissionFlags']=$submissionArr;
+
+        return $data;
+ 
     }
 
     public function getQuestionChartData($patientAnswers)
