@@ -166,15 +166,11 @@
               <div class="pull-left">
                  <h4 class="bold">Questionnaire Graph</h4>
               </div>
-              <select class="pull-right">
-                 <option value="volvo">Pain</option>
-                 <option value="saab">Bowel Habits</option>
-                 <option value="saab">Weight</option>
-                 <option value="saab">Appetite</option>
-                 <option value="saab">Well Being</option>
-                 <option value="saab">Diabetes</option>
-                 <option value="saab">Total</option>
-              </select>
+              <select class="pull-right" name="generateQuestionChart">
+                    @foreach($questionLabels as $questionId =>$question)
+                    <option value="{{ $questionId }}" >{{ $question }}</option>
+                    @endforeach
+                 </select>
               <div id="totalbaseline" class="p-t-20" style="width:100%; height:400px;"></div>
               <br><br> 
               <div>
@@ -420,7 +416,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
     lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
 
     //question chart
-    // shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'totalbaseline')
+    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'totalbaseline')
  
     var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
@@ -476,7 +472,24 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
 
     });
 
+     $('select[name="generateQuestionChart"]').change(function (event) { 
+      <?php 
+      foreach($questionLabels as $questionId => $label)
+      {
+        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+        ?>
+        if($(this).val()=='{{$questionId}}')
+        { 
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'totalbaseline')
+        }
 
+        <?php
+      }
+      ?>
+
+    });
+ 
 });
  
 

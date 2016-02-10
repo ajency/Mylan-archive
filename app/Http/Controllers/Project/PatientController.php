@@ -1631,8 +1631,8 @@ class PatientController extends Controller
             $i=0;
             foreach($data as $date => $value)
             { 
-                $chartData[$questionId][$i]['date'] = date('d M',$date);
-                $chartData[$questionId][$i]['value'] = $value;
+                $chartData[$questionId][$i]['Date'] = date('d M',$date);
+                $chartData[$questionId][$i]['score'] = intval($value);
                
                 $i++;
             }
