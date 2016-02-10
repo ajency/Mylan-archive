@@ -322,8 +322,8 @@ class PatientController extends Controller
         //question chart
         $questionsChartData = $this->getQuestionChartData($patientAnswers,$baselineAnwers);
 
-        //red flags
-        $openRedFlags = [];//$this->getOpenRedFlags($patientAnswers);
+        //patient submission flags
+        $patientFlags =  $this->getsubmissionFlags($patientAnswers); 
 
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
@@ -345,7 +345,7 @@ class PatientController extends Controller
                                         ->with('flagsQuestions', $flagsQuestions)
                                         ->with('responseArr', $responseArr)
                                         ->with('submissionFlags', $submissionFlags)
-                                        ->with('openRedFlags', $openRedFlags)
+                                        ->with('patientFlags', $patientFlags)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('project', $project);
@@ -563,6 +563,7 @@ class PatientController extends Controller
     {
 
         $submissionFlags = [];
+        $responseFlags = [];
         $questionsTypes = ['single-choice','input']; 
  
         foreach ($projectAnwers as $answer)
@@ -601,9 +602,9 @@ class PatientController extends Controller
             $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
             
 
-            if(!isset($responseOpenRedFlags[$responseId]))
+            if(!isset($responseFlags[$responseId]))
             {
-                $responseOpenRedFlags[$responseId]=$responseId;
+                $responseFlags[$responseId]=$responseId;
 
                 $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
                  

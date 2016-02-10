@@ -317,69 +317,35 @@
                           </tr>
                        </thead>
                        <tbody>
-                          <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
-                             <td width="110px">
-                                <div class="p-l-10 p-r-20">
-                                   <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
-                                   <sm><b>#13</b></sm>
-                                </div>
-                             </td>
-                             <td>In comparison with previous score for Pain for submission 06</td>
-                             <td><i class="fa fa-flag text-amber"></i></td>
-                          </tr>
-                          <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
-                             <td width="110px">
-                                <div class="p-l-10 p-r-20">
-                                   <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                   <sm><b>#13</b></sm>
-                                </div>
-                             </td>
-                             <td>In comparison with baseline score set for Weight</td>
-                             <td><i class="fa fa-flag text-error"></i></td>
-                          </tr>
-                          <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
-                             <td width="110px">
-                                <div class="p-l-10 p-r-20">
-                                   <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
-                                   <sm><b>#11</b></sm>
-                                </div>
-                             </td>
-                             <td>In comparison with previous score for Bowel Habits for submission 10</td>
-                             <td><i class="fa fa-flag text-error"></i></td>
-                          </tr>
-                          <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
-                             <td width="110px">
-                                <div class="p-l-10 p-r-20">
-                                   <h4 class="semi-bold m-0 flagcount">14th Dec</h4>
-                                   <sm><b>#12</b></sm>
-                                </div>
-                             </td>
-                             <td>In comparison with baseline score set for Weight</td>
-                             <td><i class="fa fa-flag text-danger"></i></td>
-                          </tr>
-                          <tr class="odd gradeX" onclick="window.document.location='p1-submission1.html';">
-                             <td width="110px">
-                                <div class="p-l-10 p-r-20">
-                                   <h4 class="semi-bold m-0 flagcount">16th Dec</h4>
-                                   <sm><b>#11</b></sm>
-                                </div>
-                             </td>
-                             <td>In comparison with baseline score set for Bowel Habits</td>
-                             <td><i class="fa fa-flag text-error"></i></td>
-                          </tr>
-                          <!-- <tr class="odd gradeX" onclick="window.document.location='single-submission01.html';">
-                             <td>10000003</td>
-                             <td>29th Oct</td>
-                             <td>4,2</td>
-                             <td>2 points higher than the previous answer</td>
-                             <td><i class="fa fa-flag text-danger"></i></td>
-                             <td> <span class="label label-warning">De-Flag</span></td>
-                             </tr> -->
-                       </tbody>
+                       <?php 
+                          $i=1;
+                        ?>
+                           @foreach($patientFlags['all'] as $allSubmissionFlag)
+                         <?php 
+                          if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
+                               continue;
+                           
+                            if($i==6)
+                              break;
+                          ?>
+                         <tr class="odd gradeX" >
+                            <td width="110px">
+                               <div class="p-l-10 p-r-20">
+                                  <h4 class="semi-bold m-0 flagcount">{{ $allSubmissionFlag['date'] }}</h4>
+                                  <sm>#{{ $allSubmissionFlag['sequenceNumber'] }}</sm>
+                               </div>
+                            </td>
+                            <td>{{ $allSubmissionFlag['reason'] }}</td>
+                            <td><i class="fa fa-flag text-{{ $allSubmissionFlag['flag'] }}"></i></td>
+                         </tr>
+                         <?php 
+                          $i++;
+                          ?>
+                        @endforeach 
                     </table>
                     <hr style="margin: 0px 0px 10px 0px;">
                     <div class="text-right">
-                       <a href="patient-flag.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/flags') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                     </div>
                  </div>
               </div>
