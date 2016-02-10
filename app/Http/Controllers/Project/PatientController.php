@@ -566,6 +566,9 @@ class PatientController extends Controller
         $responseFlags = [];
         $patientsallFlags=[];
         $patientsFlags = [];
+        $patientsFlags['red'] = [];
+        $patientsFlags['amber'] = [];
+        $patientsFlags['green'] = [];
         $questionsTypes = ['single-choice','input']; 
  
         foreach ($projectAnwers as $answer)
