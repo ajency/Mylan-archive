@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -359,25 +359,28 @@
         promise1 = Parse.Promise.as();
         _.each(responseObjs, function(responseObj) {
           return promise1 = promise1.then(function() {
-            var currentDate, notificationObj, timeObj;
-            timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'));
-            currentDate = new Date();
-            if (currentDate.getTime() > timeObj['upperLimit']) {
-              notificationObj = new Parse.Object('Notification');
-              notificationObj.set('hasSeen', false);
-              notificationObj.set('patient', responseObj.get('patient'));
-              notificationObj.set('type', 'missedOccurrence');
-              notificationObj.set('processed', false);
-              notificationObj.set('schedule', responseObj.get('schedule'));
-              notificationObj.set('cleared', false);
-              notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
-              return notificationObj.save().then(function(notificationObj) {
-                responseObj.set('status', 'missed');
+            return getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
+              var currentDateTime, notificationObj;
+              currentDateTime = moment().format();
+              if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
+                notificationObj = new Parse.Object('Notification');
+                notificationObj.set('hasSeen', false);
+                notificationObj.set('patient', responseObj.get('patient'));
+                notificationObj.set('type', 'missedOccurrence');
+                notificationObj.set('processed', false);
+                notificationObj.set('schedule', responseObj.get('schedule'));
+                notificationObj.set('cleared', false);
+                notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
+                return notificationObj.save().then(function(notificationObj) {
+                  responseObj.set('status', 'missed');
+                  return responseObj.save();
+                });
+              } else {
                 return responseObj.save();
-              });
-            } else {
-              return responseObj.save();
-            }
+              }
+            }, function(error) {
+              return promise.reject(error);
+            });
           }, function(error) {
             return promise.reject(error);
           });
@@ -408,51 +411,54 @@
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
           return promise1 = promise1.then(function() {
-            var currentDate, timeObj;
-            timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
-            currentDate = new Date();
-            if (currentDate.getTime() > timeObj['upperLimit'].getTime()) {
-              return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
-                responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-                responseObj.set('status', 'missed');
-                return responseObj.save().then(function(responseObj) {
-                  var notificationObj;
-                  notificationObj = new Parse.Object('Notification');
-                  notificationObj.set('hasSeen', false);
-                  notificationObj.set('patient', scheduleObj.get('patient'));
-                  notificationObj.set('type', 'missedOccurrence');
-                  notificationObj.set('processed', false);
-                  notificationObj.set('schedule', scheduleObj);
-                  notificationObj.set('cleared', false);
-                  notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-                  return notificationObj.save().then(function(notificationObj) {
-                    scheduleQuery = new Parse.Query('Schedule');
-                    scheduleQuery.doesNotExist('patient');
-                    scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-                    return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
-                      var newNextOccurrence;
-                      newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-                      newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
-                      scheduleObj.set('nextOccurrence', newNextOccurrence);
-                      return scheduleObj.save();
+            return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+              var currentDateTime;
+              currentDateTime = moment().format();
+              if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
+                return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+                  responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+                  responseObj.set('status', 'missed');
+                  return responseObj.save().then(function(responseObj) {
+                    var notificationObj;
+                    notificationObj = new Parse.Object('Notification');
+                    notificationObj.set('hasSeen', false);
+                    notificationObj.set('patient', scheduleObj.get('patient'));
+                    notificationObj.set('type', 'missedOccurrence');
+                    notificationObj.set('processed', false);
+                    notificationObj.set('schedule', scheduleObj);
+                    notificationObj.set('cleared', false);
+                    notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+                    return notificationObj.save().then(function(notificationObj) {
+                      scheduleQuery = new Parse.Query('Schedule');
+                      scheduleQuery.doesNotExist('patient');
+                      scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+                      return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                        var newNextOccurrence;
+                        newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+                        newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+                        scheduleObj.set('nextOccurrence', newNextOccurrence);
+                        return scheduleObj.save();
+                      }, function(error) {
+                        console.log("missed1");
+                        return promise1.reject(error);
+                      });
                     }, function(error) {
-                      console.log("missed1");
                       return promise1.reject(error);
                     });
                   }, function(error) {
+                    console.log("missed2");
                     return promise1.reject(error);
                   });
                 }, function(error) {
-                  console.log("missed2");
+                  console.log("missed3");
                   return promise1.reject(error);
                 });
-              }, function(error) {
-                console.log("missed3");
-                return promise1.reject(error);
-              });
-            } else {
-              return scheduleObj.save();
-            }
+              } else {
+                return scheduleObj.save();
+              }
+            }, function(error) {
+              return promise1.reject(error);
+            });
           }, function(error) {
             console.log("missed4");
             return promise1.reject(error);
@@ -546,6 +552,74 @@
         var promise1;
         promise1 = Parse.Promise.as();
         _.each(notificationMessages, function(notification) {
+          return promise1 = promise1.then(function() {
+            return getNotificationSendObject(notification.get('schedule'), notification).then(function(notificationSendObject) {
+              var dummy;
+              notificationMessages.push(notificationSendObject);
+              dummy = new Parse.Promise();
+              dummy.resolve();
+              return dummy;
+            }, function(error) {
+              return promise1.reject(error);
+            });
+          }, function(error) {
+            return promise1.reject(error);
+          });
+        });
+        return promise1;
+      };
+      return getAll().then(function() {
+        return promise.resolve(notificationMessages);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  Parse.Cloud.define("getPatientNotificationCount", function(request, response) {
+    var notificationQuery, patientId;
+    patientId = request.params.patientId;
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.equalTo('patient', patientId);
+    notificationQuery.equalTo('cleared', false);
+    return notificationQuery.count().then(function(notificationCount) {
+      return response.success(notificationCount);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("getPatientNotifications", function(request, response) {
+    var limit, page, patientId;
+    patientId = request.params.patientId;
+    page = request.params.page;
+    limit = request.params.limit;
+    return getPatientNotifications(patientId, page, limit).then(function(notifications) {
+      return response.success(notifications);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getPatientNotifications = function(patientId, page, limit) {
+    var notificationQuery, promise;
+    promise = new Parse.Promise();
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.equalTo('patient', patientId);
+    notificationQuery.equalTo('cleared', false);
+    notificationQuery.include('schedule');
+    notificationQuery.limit(limit);
+    notificationQuery.skip(page * limit);
+    notificationQuery.find().then(function(notifications) {
+      var getAll, notificationMessages;
+      notificationMessages = [];
+      getAll = function() {
+        var promise1;
+        promise1 = Parse.Promise.as();
+        _.each(notifications, function(notification) {
           return promise1 = promise1.then(function() {
             return getNotificationSendObject(notification.get('schedule'), notification).then(function(notificationSendObject) {
               var dummy;
@@ -1014,7 +1088,7 @@
       scheduleQuery.equalTo('patient', patientId);
       return scheduleQuery.first().then(function(scheduleObj) {
         return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
-          responseObj.set('reviewed', 'open');
+          responseObj.set('reviewed', 'unreviewed');
           responseObj.set('status', 'started');
           responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
           return responseObj.save().then(function(responseObj) {
@@ -1023,8 +1097,8 @@
             scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
             return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
               var newNextOccurrence;
-              newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+              newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format();
+              newNextOccurrence = new Date(newNextOccurrence);
               scheduleObj.set('nextOccurrence', newNextOccurrence);
               return scheduleObj.save().then(function(scheduleObj) {
                 return firstQuestion(questionnaireId).then(function(questionObj) {
@@ -1824,16 +1898,6 @@
     return promise;
   };
 
-  isValidUpcomingTime = function(timeObj) {
-    var currentTime;
-    currentTime = new Date();
-    if (timeObj['lowerLimit'].getTime() > currentTime.getTime()) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   getCompletedObjects = function(scheduleObj, patientId) {
     var completedObj, promise, responseQuery;
     completedObj = {};
@@ -1997,28 +2061,31 @@
         responseQuery.equalTo('patient', patientId);
         responseQuery.descending('occurrenceDate');
         return responseQuery.find().then(function(responseObjs) {
-          var j, len, responseObj, result, status, timeObj, upcoming_due;
-          timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
-          status = "";
-          if (isValidTime(timeObj)) {
-            status = "due";
-          } else if (isValidUpcomingTime(timeObj)) {
-            status = "upcoming";
-          }
-          upcoming_due = {
-            occurrenceDate: scheduleObj.get('nextOccurrence'),
-            status: status
-          };
-          results.push(upcoming_due);
-          for (j = 0, len = responseObjs.length; j < len; j++) {
-            responseObj = responseObjs[j];
-            result = {};
-            result['status'] = responseObj.get('status');
-            result['occurrenceDate'] = responseObj.get('occurrenceDate');
-            result['occurrenceId'] = responseObj.id;
-            results.push(result);
-          }
-          return response.success(results);
+          return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+            var j, len, responseObj, result, status, upcoming_due;
+            status = "";
+            if (isValidTime(timeObj)) {
+              status = "due";
+            } else if (isValidUpcomingTime(timeObj)) {
+              status = "upcoming";
+            }
+            upcoming_due = {
+              occurrenceDate: scheduleObj.get('nextOccurrence'),
+              status: status
+            };
+            results.push(upcoming_due);
+            for (j = 0, len = responseObjs.length; j < len; j++) {
+              responseObj = responseObjs[j];
+              result = {};
+              result['status'] = responseObj.get('status');
+              result['occurrenceDate'] = responseObj.get('occurrenceDate');
+              result['occurrenceId'] = responseObj.id;
+              results.push(result);
+            }
+            return response.success(results);
+          }, function(error) {
+            return response.error(error);
+          });
         }, function(error) {
           return response.error(error);
         });
@@ -2038,37 +2105,42 @@
     responseQuery.equalTo('status', 'started');
     responseQuery.include('questionnaire');
     responseQuery.first().then(function(responseObj) {
-      var timeObj;
       if (!_.isUndefined(responseObj)) {
-        timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'));
-        if (isValidMissedTime(timeObj)) {
-          responseObj.set('status', 'missed');
-          return responseObj.save().then(function(responseObj) {
-            return promise.resolve();
-          }, function(error) {
-            return promise.error(error);
-          });
-        } else {
-          return promise.resolve();
-        }
-      } else {
-        timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'));
-        if (isValidMissedTime(timeObj)) {
-          return createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
-            responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+        return getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
+          if (isValidMissedTime(timeObj)) {
             responseObj.set('status', 'missed');
             return responseObj.save().then(function(responseObj) {
-              var scheduleQuery;
-              scheduleQuery = new Parse.Query('Schedule');
-              scheduleQuery.doesNotExist('patient');
-              scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-              return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
-                var newNextOccurrence;
-                newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-                newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
-                scheduleObj.set('nextOccurrence', newNextOccurrence);
-                return scheduleObj.save().then(function(scheduleObj) {
-                  return promise.resolve();
+              return promise.resolve();
+            }, function(error) {
+              return promise.error(error);
+            });
+          } else {
+            return promise.resolve();
+          }
+        }, function(error) {
+          return promise.error(error);
+        });
+      } else {
+        return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+          if (isValidMissedTime(timeObj)) {
+            return createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
+              responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+              responseObj.set('status', 'missed');
+              return responseObj.save().then(function(responseObj) {
+                var scheduleQuery;
+                scheduleQuery = new Parse.Query('Schedule');
+                scheduleQuery.doesNotExist('patient');
+                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+                return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                  var newNextOccurrence;
+                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format();
+                  newNextOccurrence = new Date(newNextOccurrence);
+                  scheduleObj.set('nextOccurrence', newNextOccurrence);
+                  return scheduleObj.save().then(function(scheduleObj) {
+                    return promise.resolve();
+                  }, function(error) {
+                    return promise.error(error);
+                  });
                 }, function(error) {
                   return promise.error(error);
                 });
@@ -2078,12 +2150,12 @@
             }, function(error) {
               return promise.error(error);
             });
-          }, function(error) {
-            return promise.error(error);
-          });
-        } else {
-          return promise.resolve();
-        }
+          } else {
+            return promise.resolve();
+          }
+        }, function(error) {
+          return promise.error(error);
+        });
       }
     }, function(error) {
       return promise.error(error);
@@ -2133,9 +2205,9 @@
   };
 
   isValidUpcomingTime = function(timeObj) {
-    var currentTime;
-    currentTime = new Date();
-    if (timeObj['lowerLimit'].getTime() > currentTime.getTime()) {
+    var currentDateTime;
+    currentDateTime = moment().format();
+    if (moment(timeObj['lowerLimit']).isAfter(currentDateTime, 'second')) {
       return true;
     } else {
       return false;
@@ -2143,9 +2215,15 @@
   };
 
   isValidMissedTime = function(timeObj) {
-    var currentTime;
-    currentTime = new Date();
-    if (timeObj['upperLimit'].getTime() < currentTime.getTime()) {
+    var currentDateTime;
+    currentDateTime = moment().format();
+    console.log('*-----------------*');
+    console.log("upperLimit");
+    console.log(timeObj['upperLimit']);
+    console.log("currentDateTime");
+    console.log(currentDateTime);
+    console.log('*-----------------*');
+    if (moment(timeObj['upperLimit']).isBefore(currentDateTime, 'second')) {
       return true;
     } else {
       return false;
@@ -2153,36 +2231,58 @@
   };
 
   getValidTimeFrame = function(questionnaireObj, occurrenceDate) {
-    var gracePeriod, lowerLimit, timeObj, upperLimit;
-    gracePeriod = questionnaireObj.get('gracePeriod') * 1000;
-    upperLimit = new Date(occurrenceDate.getTime());
-    upperLimit.setTime(occurrenceDate.getTime() + gracePeriod);
-    lowerLimit = new Date(occurrenceDate.getTime());
-    lowerLimit.setTime(lowerLimit.getTime() - gracePeriod);
-    timeObj = {};
-    timeObj['upperLimit'] = upperLimit;
-    timeObj['lowerLimit'] = lowerLimit;
-    return timeObj;
+    var promise, scheduleQuery;
+    promise = new Parse.Promise();
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.doesNotExist('patient');
+    scheduleQuery.equalTo('questionnaire', questionnaireObj);
+    scheduleQuery.first().then(function(questionnaireScheduleObj) {
+      var frequency, gracePeriod, lowerLimit, timeObj, upperLimit;
+      gracePeriod = questionnaireObj.get('gracePeriod');
+      frequency = questionnaireScheduleObj.get('frequency');
+      upperLimit = moment(occurrenceDate).add(frequency, 's').format();
+      upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format();
+      upperLimit = moment(upperLimit).subtract(60, 's').format();
+      lowerLimit = moment(occurrenceDate).subtract(gracePeriod, 's').format();
+      timeObj = {};
+      timeObj['upperLimit'] = upperLimit;
+      timeObj['lowerLimit'] = lowerLimit;
+      return promise.resolve(timeObj);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
   };
 
   getValidPeriod = function(scheduleObj) {
-    var gracePeriod, lowerLimit, nextOccurrence, timeObj, upperLimit;
-    nextOccurrence = scheduleObj.get('nextOccurrence');
-    gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000;
-    lowerLimit = new Date(nextOccurrence.getTime());
-    lowerLimit.setTime(lowerLimit.getTime() - gracePeriod);
-    upperLimit = new Date(nextOccurrence.getTime());
-    upperLimit.setTime(upperLimit.getTime() + gracePeriod);
-    timeObj = {};
-    timeObj['lowerLimit'] = lowerLimit;
-    timeObj['upperLimit'] = upperLimit;
-    return timeObj;
+    var promise, scheduleQuery;
+    promise = new Parse.Promise();
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.doesNotExist('patient');
+    scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+    scheduleQuery.first().then(function(questionnaireScheduleObj) {
+      var frequency, gracePeriod, lowerLimit, nextOccurrence, timeObj, upperLimit;
+      nextOccurrence = scheduleObj.get('nextOccurrence');
+      gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod');
+      frequency = questionnaireScheduleObj.get('frequency');
+      upperLimit = moment(nextOccurrence).add(frequency, 's').format();
+      upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format();
+      upperLimit = moment(upperLimit).subtract(60, 's').format();
+      lowerLimit = moment(nextOccurrence).subtract(gracePeriod, 's').format();
+      timeObj = {};
+      timeObj['lowerLimit'] = lowerLimit;
+      timeObj['upperLimit'] = upperLimit;
+      return promise.resolve(timeObj);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
   };
 
   isValidTime = function(timeObj) {
-    var currentTime;
-    currentTime = new Date();
-    if ((timeObj['lowerLimit'].getTime() <= currentTime.getTime()) && (timeObj['upperLimit'].getTime() >= currentTime.getTime())) {
+    var currentDateTime;
+    currentDateTime = moment().format();
+    if ((moment(timeObj['lowerLimit']).isSameOrBefore(currentDateTime, 'second')) && (moment(timeObj['upperLimit']).isSameOrAfter(currentDateTime, 'second'))) {
       return true;
     } else {
       return false;
@@ -2501,11 +2601,25 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       return getBaseLineScores(responseObj).then(function(BaseLine) {
         return getPreviousScores(responseObj).then(function(previous) {
+          var occurrenceDate, questionnaireObj, status;
+          questionnaireObj = responseObj.get("questionnaire");
+          occurrenceDate = responseObj.get("occurrenceDate");
+          if (isLateSubmission(questionnaireObj, occurrenceDate)) {
+            status = "late";
+          } else {
+            status = "completed";
+          }
           responseObj.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
+          responseObj.set("baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']);
+          responseObj.set("baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']);
+          responseObj.set("baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']);
           responseObj.set("comparedToPrevious", previous['comparedToPrevious']);
+          responseObj.set("previousTotalRedFlags", previous['previousTotalRedFlags']);
+          responseObj.set("previousTotalAmberFlags", previous['previousTotalAmberFlags']);
+          responseObj.set("previousTotalGreenFlags", previous['previousTotalGreenFlags']);
           responseObj.set("baseLineFlag", BaseLine['baseLineFlag']);
           responseObj.set("previousFlag", previous['previousFlag']);
-          responseObj.set("status", "completed");
+          responseObj.set("status", status);
           responseObj.set("totalScore", BaseLine['totalScore']);
           return responseObj.save().then(function(responseObj) {
             return response.success("submitted_successfully");
@@ -2521,6 +2635,39 @@
     }, function(error) {
       return response.error(error);
     });
+  });
+
+  isLateSubmission = function(questionnaireObj, occurrenceDate) {
+    var currentDateTime, gracePeriod, result;
+    gracePeriod = questionnaireObj.get('gracePeriod');
+    currentDateTime = moment().format();
+    occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
+    if (moment(currentDateTime).isAfter(occurrenceDate, 'second')) {
+      console.log("LATE SUBMISSION");
+      result = true;
+    } else {
+      console.log("COMPLETED");
+      result = false;
+    }
+    return result;
+  };
+
+  Parse.Cloud.define("isLateSubmission", function(request, response) {
+    var currentDateTime, occurrenceDate, resumeObj;
+    occurrenceDate = request.params.occurrenceDate;
+    currentDateTime = moment().format();
+    occurrenceDate = moment(occurrenceDate).format();
+    resumeObj = {};
+    resumeObj['occurrenceDate'] = occurrenceDate;
+    resumeObj['currentDateTime'] = currentDateTime;
+    if (moment(currentDateTime).isAfter(occurrenceDate, 'second')) {
+      console.log("LATE SUBMISSION");
+      resumeObj['status'] = "LATE SUBMISSION";
+    } else {
+      console.log("COMPLETED");
+      resumeObj['status'] = "COMPLETED";
+    }
+    return response.success(resumeObj);
   });
 
   getPreviousScores = function(responseObj) {
@@ -2542,11 +2689,21 @@
           answerQuery.include('question');
           answerQuery.equalTo('response', responseObj);
           return answerQuery.find().then(function(answers) {
-            var answer, j, k, len, len1, previous, totalAnswerScore, totalPreviousScore;
+            var answer, j, k, len, len1, previous, totalAmberFlags, totalAnswerScore, totalGreenFlags, totalPreviousScore, totalRedFlags;
             totalPreviousScore = 0;
             totalAnswerScore = 0;
+            totalRedFlags = 0;
+            totalAmberFlags = 0;
+            totalGreenFlags = 0;
             for (j = 0, len = answers.length; j < len; j++) {
               answer = answers[j];
+              if (answer.get('previousFlag') === 'red') {
+                totalRedFlags = parseInt(totalRedFlags) + 1;
+              } else if (answer.get('previousFlag') === 'amber') {
+                totalAmberFlags = parseInt(totalAmberFlags) + 1;
+              } else if (answer.get('previousFlag') === 'green') {
+                totalGreenFlags = parseInt(totalGreenFlags) + 1;
+              }
               if (answer.get('question').get('type') === 'single-choice') {
                 totalAnswerScore += answer.get('score');
               }
@@ -2558,8 +2715,11 @@
               }
             }
             previous = {};
-            previous['comparedToPrevious'] = totalAnswerScore - totalPreviousScore;
-            previous['previousFlag'] = getFlag(totalAnswerScore - totalPreviousScore);
+            previous['comparedToPrevious'] = totalPreviousScore - totalAnswerScore;
+            previous['previousFlag'] = getFlag(totalPreviousScore - totalAnswerScore);
+            previous['previousTotalRedFlags'] = totalRedFlags;
+            previous['previousTotalAmberFlags'] = totalAmberFlags;
+            previous['previousTotalGreenFlags'] = totalGreenFlags;
             return promise.resolve(previous);
           }, function(error) {
             return promise.reject(error);
@@ -2571,8 +2731,11 @@
         return getBaseLineScores(responseObj).then(function(baseLine) {
           var previous;
           previous = {};
-          previous['comparedToPrevious'] = baseLine['comparedToBaseLine'];
-          previous['previousFlag'] = baseLine['baseLineFlag'];
+          previous['comparedToPrevious'] = 0;
+          previous['previousFlag'] = '';
+          previous['previousTotalRedFlags'] = 0;
+          previous['previousTotalAmberFlags'] = 0;
+          previous['previousTotalGreenFlags'] = 0;
           return promise.resolve(previous);
         }, function(error) {
           return promise.reject(error);
@@ -2602,11 +2765,21 @@
         answerQuery.include('question');
         answerQuery.equalTo('response', responseObj);
         return answerQuery.find().then(function(answers) {
-          var BaseLine, answer, j, k, len, len1, totalAnswerScore, totalBaseLineScore;
+          var BaseLine, answer, j, k, len, len1, totalAmberFlags, totalAnswerScore, totalBaseLineScore, totalGreenFlags, totalRedFlags;
           totalBaseLineScore = 0;
           totalAnswerScore = 0;
+          totalRedFlags = 0;
+          totalAmberFlags = 0;
+          totalGreenFlags = 0;
           for (j = 0, len = answers.length; j < len; j++) {
             answer = answers[j];
+            if (answer.get('baseLineFlag') === 'red') {
+              totalRedFlags = parseInt(totalRedFlags) + 1;
+            } else if (answer.get('baseLineFlag') === 'amber') {
+              totalAmberFlags = parseInt(totalAmberFlags) + 1;
+            } else if (answer.get('baseLineFlag') === 'green') {
+              totalGreenFlags = parseInt(totalGreenFlags) + 1;
+            }
             if (answer.get('question').get('type') === 'single-choice') {
               totalAnswerScore += answer.get('score');
             }
@@ -2619,8 +2792,11 @@
           }
           BaseLine = {};
           BaseLine['totalScore'] = totalAnswerScore;
-          BaseLine['comparedToBaseLine'] = totalAnswerScore - totalBaseLineScore;
-          BaseLine['baseLineFlag'] = getFlag(totalAnswerScore - totalBaseLineScore);
+          BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore;
+          BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore);
+          BaseLine['baseLineTotalRedFlags'] = totalRedFlags;
+          BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags;
+          BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags;
           return promise.resolve(BaseLine);
         }, function(error) {
           return promise.reject(error);
@@ -2640,6 +2816,7 @@
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo('patient', responseObj.get('patient'));
     responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'));
+    responseQuery.descending('updatedAt');
     responseQuery.equalTo('status', 'base_line');
     responseQuery.first().then(function(responseBaseLine) {
       var answerQuery;
@@ -2650,8 +2827,10 @@
       answerQuery.equalTo('question', questionsObj);
       return answerQuery.first().then(function(BaseLineAnswer) {
         var BaseLine, BaseLineValue;
+        console.log("BaseLineAnswer");
+        console.log(BaseLineAnswer);
         BaseLineValue = BaseLineAnswer.get('score');
-        BaseLineValue = optionsObj.get('score') - BaseLineValue;
+        BaseLineValue = BaseLineValue - optionsObj.get('score');
         BaseLine = {};
         BaseLine['comparedToBaseLine'] = BaseLineValue;
         BaseLine['baseLineFlag'] = getFlag(BaseLineValue);
@@ -2682,7 +2861,7 @@
         results1 = [];
         for (j = 0, len = answerObjects.length; j < len; j++) {
           answerObj = answerObjects[j];
-          if (answerObj.get('response').get('status') === 'completed') {
+          if (answerObj.get('response').get('status') === 'completed' || answerObj.get('response').get('status') === 'late') {
             results1.push(answerObj);
           }
         }
@@ -2734,7 +2913,7 @@
         return answerQuery.get(previousQuestion['answerId']).then(function(answerObj) {
           var previous, previousFlag, previousValue;
           previousValue = answerObj.get('score');
-          previousValue = optionsObj.get('score') - previousValue;
+          previousValue = previousValue - optionsObj.get('score');
           previousFlag = "";
           if (previousValue <= -2) {
             previousFlag = "red";
@@ -2756,8 +2935,8 @@
         return getBaseLineValues(responseObj, questionsObj, optionsObj).then(function(BaseLine) {
           var previous;
           previous = {};
-          previous['comparedToPrevious'] = BaseLine['comparedToBaseLine'];
-          previous['previousFlag'] = BaseLine['baseLineFlag'];
+          previous['comparedToPrevious'] = 0;
+          previous['previousFlag'] = '';
           return promise.resolve(previous);
         }, function(error) {
           return promise.reject(error);

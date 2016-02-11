@@ -71,7 +71,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		.then (scheduleObj) ->
 			createResponse questionnaireId, patientId, scheduleObj
 			.then (responseObj) ->
-				responseObj.set 'reviewed', 'open'
+				responseObj.set 'reviewed', 'unreviewed'
 				responseObj.set 'status', 'started'
 				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 				responseObj.save()
@@ -81,8 +81,10 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 					scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
 					scheduleQuery.first()
 					.then (scheduleQuestionnaireObj) ->
-						newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-						newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+						# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+						# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+						newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format()
+						newNextOccurrence = new Date(newNextOccurrence)
 						scheduleObj.set 'nextOccurrence', newNextOccurrence
 						scheduleObj.save()
 						.then (scheduleObj) ->
@@ -859,13 +861,13 @@ getUpcomingObject = (scheduleObj, patientId) ->
 		promise.resolve(upcomingObj)
 	promise
 
-isValidUpcomingTime = (timeObj) ->
-	currentTime = new Date()
+# isValidUpcomingTime = (timeObj) ->
+# 	currentTime = new Date()
 
-	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
-		true
-	else
-		false
+# 	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
+# 		true
+# 	else
+# 		false
 
 
 
@@ -1103,23 +1105,26 @@ Parse.Cloud.define "dashboard", (request, response) ->
 			responseQuery.descending('occurrenceDate')
 			responseQuery.find()
 			.then (responseObjs) ->
-				timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-				status =""
-				if isValidTime(timeObj)
-					status ="due"
-				else if isValidUpcomingTime(timeObj)
-					status = "upcoming"
-				upcoming_due =
-					occurrenceDate: scheduleObj.get('nextOccurrence')
-					status: status 
-				results.push(upcoming_due)
-				for responseObj in responseObjs
-					result = {}
-					result['status'] = responseObj.get('status')
-					result['occurrenceDate'] = responseObj.get('occurrenceDate')
-					result['occurrenceId'] = responseObj.id
-					results.push result
-				response.success (results)
+				getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+				.then (timeObj) ->
+					status =""
+					if isValidTime(timeObj)
+						status ="due"
+					else if isValidUpcomingTime(timeObj)
+						status = "upcoming"
+					upcoming_due =
+						occurrenceDate: scheduleObj.get('nextOccurrence')
+						status: status 
+					results.push(upcoming_due)
+					for responseObj in responseObjs
+						result = {}
+						result['status'] = responseObj.get('status')
+						result['occurrenceDate'] = responseObj.get('occurrenceDate')
+						result['occurrenceId'] = responseObj.id
+						results.push result
+					response.success (results)
+				, (error) ->
+					response.error error 
 				#response.success (timeObj)
 			, (error) ->
 				response.error error 
@@ -1141,46 +1146,54 @@ updateMissedObjects = (scheduleObj, patientId) ->
 	responseQuery.first()
 	.then (responseObj) ->
 		if !_.isUndefined(responseObj)
-			timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
-			if isValidMissedTime(timeObj)
-				responseObj.set 'status', 'missed'
-				responseObj.save()
-				.then (responseObj) ->
-					promise.resolve()
-				, (error) ->
-					promise.error error
-			else
-				promise.resolve()
-		else
-			timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-			if isValidMissedTime(timeObj)
-				createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)#, 'missed', scheduleObj.get('nextOccurrence'))
-				.then (responseObj) ->
-					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+			getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+			.then (timeObj) ->
+				if isValidMissedTime(timeObj)
 					responseObj.set 'status', 'missed'
 					responseObj.save()
 					.then (responseObj) ->
-						scheduleQuery = new Parse.Query('Schedule')
-						scheduleQuery.doesNotExist('patient')
-						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-						scheduleQuery.first()
-						.then (scheduleQuestionnaireObj) ->
-							newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-							newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-							scheduleObj.set 'nextOccurrence', newNextOccurrence
-							scheduleObj.save()
-							.then (scheduleObj) ->
-								promise.resolve()
+						promise.resolve()
+					, (error) ->
+						promise.error error
+				else
+					promise.resolve()
+			, (error) ->
+				promise.error error
+		else
+			getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+			.then (timeObj) ->
+				if isValidMissedTime(timeObj)
+					createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)#, 'missed', scheduleObj.get('nextOccurrence'))
+					.then (responseObj) ->
+						responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+						responseObj.set 'status', 'missed'
+						responseObj.save()
+						.then (responseObj) ->
+							scheduleQuery = new Parse.Query('Schedule')
+							scheduleQuery.doesNotExist('patient')
+							scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+							scheduleQuery.first()
+							.then (scheduleQuestionnaireObj) ->
+								# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+								# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format()
+								newNextOccurrence = new Date(newNextOccurrence)
+								scheduleObj.set 'nextOccurrence', newNextOccurrence
+								scheduleObj.save()
+								.then (scheduleObj) ->
+									promise.resolve()
+								, (error) ->
+									promise.error error
 							, (error) ->
 								promise.error error
 						, (error) ->
 							promise.error error
 					, (error) ->
 						promise.error error
-				, (error) ->
-					promise.error error
-			else 
-				promise.resolve()
+				else 
+					promise.resolve()
+			, (error) ->
+				promise.error error
 	, (error) ->
 		promise.error error
 	promise
@@ -1227,67 +1240,180 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 	promise
 
 
-isValidUpcomingTime = (timeObj) ->
-	currentTime = new Date()
+# isValidUpcomingTime = (timeObj) ->
+# 	currentTime = new Date()
 
-	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
+# 	if timeObj['lowerLimit'].getTime() > currentTime.getTime()
+# 		true
+# 	else
+# 		false
+
+# isValidMissedTime = (timeObj) ->
+# 	currentTime = new Date()
+
+# 	if timeObj['upperLimit'].getTime() < currentTime.getTime()
+# 		true
+# 	else
+# 		false
+
+isValidUpcomingTime = (timeObj) ->
+	currentDateTime = moment().format()
+
+	if moment(timeObj['lowerLimit']).isAfter(currentDateTime, 'second')
 		true
 	else
 		false
 
 isValidMissedTime = (timeObj) ->
-	currentTime = new Date()
-
-	if timeObj['upperLimit'].getTime() < currentTime.getTime()
+	currentDateTime = moment().format()
+	console.log '*-----------------*'
+	console.log  "upperLimit"
+	console.log timeObj['upperLimit']
+	console.log "currentDateTime"
+	console.log currentDateTime
+	console.log '*-----------------*'
+	if moment(timeObj['upperLimit']).isBefore(currentDateTime, 'second')
 		true
 	else
 		false
 
+# getValidTimeFrame = (questionnaireObj, occurrenceDate) ->
+# 	gracePeriod = questionnaireObj.get('gracePeriod') * 1000
+
+# 	upperLimit = new Date(occurrenceDate.getTime())
+# 	upperLimit.setTime(occurrenceDate.getTime() + gracePeriod)
+
+# 	lowerLimit = new Date(occurrenceDate.getTime())
+# 	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+
+# 	timeObj = {}
+
+# 	timeObj['upperLimit'] = upperLimit
+# 	timeObj['lowerLimit'] = lowerLimit
+
+# 	timeObj
+
 getValidTimeFrame = (questionnaireObj, occurrenceDate) ->
-	gracePeriod = questionnaireObj.get('gracePeriod') * 1000
+	promise = new Parse.Promise()
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.doesNotExist('patient')
+	scheduleQuery.equalTo('questionnaire', questionnaireObj)
+	scheduleQuery.first()
+	.then (questionnaireScheduleObj) ->
+		gracePeriod = questionnaireObj.get('gracePeriod')
+		frequency = questionnaireScheduleObj.get('frequency')
 
-	upperLimit = new Date(occurrenceDate.getTime())
-	upperLimit.setTime(occurrenceDate.getTime() + gracePeriod)
+		upperLimit = moment(occurrenceDate).add(frequency, 's').format()
+		upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format()
+		upperLimit = moment(upperLimit).subtract(60, 's').format()
 
-	lowerLimit = new Date(occurrenceDate.getTime())
-	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+		lowerLimit =  moment(occurrenceDate).subtract(gracePeriod, 's').format()
 
-	timeObj = {}
+		timeObj = {}
 
-	timeObj['upperLimit'] = upperLimit
-	timeObj['lowerLimit'] = lowerLimit
+		timeObj['upperLimit'] = upperLimit
+		timeObj['lowerLimit'] = lowerLimit
 
-	timeObj
+		promise.resolve timeObj
+	, (error) ->
+		promise.reject error
+	promise
+
+
 
 getValidPeriod = (scheduleObj) ->
-	nextOccurrence = scheduleObj.get('nextOccurrence')
-	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
+	promise = new Parse.Promise()
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.doesNotExist('patient')
+	scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+	scheduleQuery.first()
+	.then (questionnaireScheduleObj) ->
 
-	lowerLimit = new Date(nextOccurrence.getTime())
-	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+		nextOccurrence = scheduleObj.get('nextOccurrence')
+		gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') 
+		frequency = questionnaireScheduleObj.get('frequency')
 
-	upperLimit = new Date(nextOccurrence.getTime())
-	upperLimit.setTime(upperLimit.getTime() + gracePeriod)
+		upperLimit = moment(nextOccurrence).add(frequency, 's').format()
+		upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format()
+		upperLimit = moment(upperLimit).subtract(60, 's').format()
 
-	timeObj = {}
+		lowerLimit =  moment(nextOccurrence).subtract(gracePeriod, 's').format()
 
-	timeObj['lowerLimit'] = lowerLimit
-	timeObj['upperLimit'] = upperLimit
+		timeObj = {}
 
-	timeObj
+		timeObj['lowerLimit'] = lowerLimit
+		timeObj['upperLimit'] = upperLimit
+
+		promise.resolve timeObj
+	, (error) ->
+		promise.reject error
+	promise
+
+# getValidPeriod = (scheduleObj) ->
+# 	nextOccurrence = scheduleObj.get('nextOccurrence')
+# 	gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') * 1000
+
+# 	lowerLimit = new Date(nextOccurrence.getTime())
+# 	lowerLimit.setTime(lowerLimit.getTime() - gracePeriod)
+
+# 	upperLimit = new Date(nextOccurrence.getTime())
+# 	upperLimit.setTime(upperLimit.getTime() + gracePeriod)
+
+# 	timeObj = {}
+
+# 	timeObj['lowerLimit'] = lowerLimit
+# 	timeObj['upperLimit'] = upperLimit
+
+# 	timeObj
 
 
 isValidTime = (timeObj) ->
-	currentTime = new Date()
+	currentDateTime = moment().format()
 
-	if (timeObj['lowerLimit'].getTime() <= currentTime.getTime()) and (timeObj['upperLimit'].getTime() >= currentTime.getTime())
+	if (moment(timeObj['lowerLimit']).isSameOrBefore(currentDateTime, 'second')) and (moment(timeObj['upperLimit']).isSameOrAfter(currentDateTime, 'second'))
 		true
 	else
 		false
 
+# isValidTime = (timeObj) ->
+# 	currentTime = new Date()
+
+# 	if (timeObj['lowerLimit'].getTime() <= currentTime.getTime()) and (timeObj['upperLimit'].getTime() >= currentTime.getTime())
+# 		true
+# 	else
+# 		false
 
 
+# Parse.Cloud.define "testOccuranceDate", (request, response) ->
+# 	occurrenceDate = request.params.occurrenceDate
+# 	timeObj = testDate(occurrenceDate)
+ 
+# 	response.success timeObj
+ 
 
+
+# testDate = (occurrenceDate) ->
+# 	gracePeriod = 180
+# 	currentDateTime = moment()
+
+# 	lowerLimit = moment(occurrenceDate).subtract(gracePeriod, 's')
+
+# 	upperLimit = moment(occurrenceDate).add(gracePeriod, 's')
+
+# 	diffrence = moment(lowerLimit).diff(currentDateTime)
+
+# 	val = 0
+# 	if(upperLimit<lowerLimit)
+# 		val = 1lp= 
+
+# 	timeObj = {}
+
+# 	timeObj['lowerLimit'] = lowerLimit.format()
+# 	timeObj['upperLimit'] = upperLimit.format()
+# 	timeObj['diffrence'] = diffrence
+# 	timeObj['val'] = val
+
+# 	timeObj
 
 
 
@@ -1594,11 +1720,25 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 		.then (BaseLine) ->
 			getPreviousScores(responseObj)
 			.then (previous) ->
+				questionnaireObj = responseObj.get "questionnaire"
+				occurrenceDate = responseObj.get "occurrenceDate"
+
+				if isLateSubmission(questionnaireObj,occurrenceDate)
+					status = "late"
+				else
+					status = "completed"
+
 				responseObj.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+				responseObj.set "baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']
+				responseObj.set "baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']
+				responseObj.set "baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']
 				responseObj.set "comparedToPrevious", previous['comparedToPrevious']
+				responseObj.set "previousTotalRedFlags", previous['previousTotalRedFlags']
+				responseObj.set "previousTotalAmberFlags", previous['previousTotalAmberFlags']
+				responseObj.set "previousTotalGreenFlags", previous['previousTotalGreenFlags']
 				responseObj.set "baseLineFlag", BaseLine['baseLineFlag']
 				responseObj.set "previousFlag", previous['previousFlag']
-				responseObj.set "status", "completed"
+				responseObj.set "status", status
 				responseObj.set "totalScore", BaseLine['totalScore']
 				responseObj.save()
 				.then (responseObj) ->
@@ -1611,6 +1751,38 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 			response.error error
 	, (error) ->
 		response.error error
+
+isLateSubmission = (questionnaireObj,occurrenceDate) ->
+	gracePeriod = questionnaireObj.get('gracePeriod')
+	currentDateTime = moment().format()
+
+	occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+
+	if moment(currentDateTime).isAfter(occurrenceDate, 'second')
+		console.log "LATE SUBMISSION"
+		result = true
+	else
+		console.log "COMPLETED"
+		result = false
+	result
+
+
+Parse.Cloud.define "isLateSubmission", (request, response) ->
+	occurrenceDate = request.params.occurrenceDate
+	currentDateTime = moment().format()
+	occurrenceDate = moment(occurrenceDate).format()
+	resumeObj = {}
+	resumeObj['occurrenceDate'] = occurrenceDate
+	resumeObj['currentDateTime'] = currentDateTime
+
+	if moment(currentDateTime).isAfter(occurrenceDate, 'second')
+		console.log "LATE SUBMISSION"
+		resumeObj['status'] = "LATE SUBMISSION"
+	else
+		console.log "COMPLETED"
+		resumeObj['status'] = "COMPLETED"
+		
+	response.success resumeObj
 
 
 getPreviousScores = (responseObj) ->
@@ -1635,7 +1807,19 @@ getPreviousScores = (responseObj) ->
 				.then (answers) ->
 					totalPreviousScore = 0
 					totalAnswerScore = 0
+					totalRedFlags = 0
+					totalAmberFlags = 0
+					totalGreenFlags = 0
+
 					for answer in answers
+						if answer.get('previousFlag') == 'red'
+							totalRedFlags = parseInt(totalRedFlags) + 1
+						else if answer.get('previousFlag') == 'amber'
+							totalAmberFlags = parseInt(totalAmberFlags) + 1
+						else if answer.get('previousFlag') == 'green'
+							totalGreenFlags = parseInt(totalGreenFlags) + 1
+
+
 						if answer.get('question').get('type') == 'single-choice'
 							totalAnswerScore += answer.get('score')
 
@@ -1643,8 +1827,13 @@ getPreviousScores = (responseObj) ->
 						if answer.get('question').get('type') == 'single-choice'
 							totalPreviousScore += answer.get('score')
 					previous = {}
-					previous['comparedToPrevious'] = totalAnswerScore - totalPreviousScore
-					previous['previousFlag'] = getFlag(totalAnswerScore - totalPreviousScore)			
+					previous['comparedToPrevious'] = totalPreviousScore - totalAnswerScore
+					previous['previousFlag'] = getFlag(totalPreviousScore - totalAnswerScore)	
+					previous['previousTotalRedFlags'] = totalRedFlags
+					previous['previousTotalAmberFlags'] = totalAmberFlags
+					previous['previousTotalGreenFlags'] = totalGreenFlags
+
+		
 					promise.resolve(previous)
 				, (error) ->
 					promise.reject error
@@ -1654,8 +1843,14 @@ getPreviousScores = (responseObj) ->
 			getBaseLineScores(responseObj)
 			.then (baseLine) ->
 				previous = {}
-				previous['comparedToPrevious'] = baseLine['comparedToBaseLine']
-				previous['previousFlag'] = baseLine['baseLineFlag']			
+				# previous['comparedToPrevious'] = baseLine['comparedToBaseLine']
+				# previous['previousFlag'] = baseLine['baseLineFlag']
+				previous['comparedToPrevious'] = 0
+				previous['previousFlag'] = ''
+				previous['previousTotalRedFlags'] = 0
+				previous['previousTotalAmberFlags'] = 0
+				previous['previousTotalGreenFlags'] = 0	
+
 				promise.resolve(previous)
 			, (error) ->
 				promise.reject error
@@ -1687,7 +1882,18 @@ getBaseLineScores = (responseObj) ->
 			.then (answers) ->
 				totalBaseLineScore = 0
 				totalAnswerScore = 0
+				totalRedFlags = 0
+				totalAmberFlags = 0
+				totalGreenFlags = 0
+
 				for answer in answers
+					if answer.get('baseLineFlag') == 'red'
+						totalRedFlags = parseInt(totalRedFlags) + 1
+					else if answer.get('baseLineFlag') == 'amber'
+						totalAmberFlags = parseInt(totalAmberFlags) + 1
+					else if answer.get('baseLineFlag') == 'green'
+						totalGreenFlags = parseInt(totalGreenFlags) + 1
+
 					if answer.get('question').get('type') == 'single-choice'
 						totalAnswerScore += answer.get('score')
 
@@ -1696,8 +1902,12 @@ getBaseLineScores = (responseObj) ->
 						totalBaseLineScore += answer.get('score')
 				BaseLine = {}
 				BaseLine['totalScore'] = totalAnswerScore
-				BaseLine['comparedToBaseLine'] = totalAnswerScore - totalBaseLineScore
-				BaseLine['baseLineFlag'] = getFlag(totalAnswerScore - totalBaseLineScore)			
+				BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore
+				BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore)
+				BaseLine['baseLineTotalRedFlags'] = totalRedFlags
+				BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags
+				BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags
+
 				promise.resolve(BaseLine)
 			, (error) ->
 				promise.reject error
@@ -1717,6 +1927,7 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
+	responseQuery.descending('updatedAt');
 	responseQuery.equalTo('status', 'base_line')
 	responseQuery.first()
 	.then (responseBaseLine) ->
@@ -1727,8 +1938,10 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 		answerQuery.equalTo('question', questionsObj)
 		answerQuery.first()
 		.then (BaseLineAnswer) ->
+			console.log "BaseLineAnswer"
+			console.log BaseLineAnswer
 			BaseLineValue = BaseLineAnswer.get('score')
-			BaseLineValue = optionsObj.get('score') - BaseLineValue
+			BaseLineValue = BaseLineValue - optionsObj.get('score')
 			BaseLine  = {}
 			BaseLine['comparedToBaseLine'] = BaseLineValue
 			BaseLine['baseLineFlag'] = getFlag(BaseLineValue)
@@ -1753,7 +1966,7 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 	answerQuery.find()
 	.then (answerObjects) ->
 		result = {}
-		answerObjects = (answerObj for answerObj in answerObjects when answerObj.get('response').get('status') == 'completed')
+		answerObjects = (answerObj for answerObj in answerObjects when (answerObj.get('response').get('status') == 'completed' || answerObj.get('response').get('status') == 'late'))
 		if !_.isEmpty answerObjects
 
 				optionIds = []
@@ -1776,6 +1989,27 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 
 	promise
 
+# getPatientPreviousResponse =  (responseObj, patientId) ->
+# 	promise = new Parse.Promise()
+
+# 	responseQuery = new Parse.Query('Response')
+# 	responseQuery.include('response')
+# 	responseQuery.equalTo("patient", patientId)
+# 	responseQuery.notEqualTo("objectId", responseObj)
+# 	responseQuery.equalTo("status", 'completed')
+# 	responseQuery.descending('updatedAt');
+# 	responseQuery.first()
+# 	.then (responseObject) ->
+# 		result = {}
+# 		if !_.isEmpty responseObject
+# 			result = responseObject
+
+# 		promise.resolve result
+# 	, (error) ->
+# 		promise.reject error
+
+# 	promise
+
 
 getPreviousValues = (responseObj, questionsObj, optionsObj) ->
 	promise = new Parse.Promise()
@@ -1786,7 +2020,7 @@ getPreviousValues = (responseObj, questionsObj, optionsObj) ->
 			answerQuery.get(previousQuestion['answerId'])
 			.then (answerObj) ->
 				previousValue = answerObj.get('score')
-				previousValue = optionsObj.get('score') - previousValue
+				previousValue = previousValue - optionsObj.get('score')
 				previousFlag = ""
 				if previousValue <= -2
 					previousFlag = "red"
@@ -1807,8 +2041,10 @@ getPreviousValues = (responseObj, questionsObj, optionsObj) ->
 			getBaseLineValues(responseObj, questionsObj, optionsObj)
 				.then (BaseLine) ->
 					previous  = {}
-					previous['comparedToPrevious'] = BaseLine['comparedToBaseLine']
-					previous['previousFlag'] = BaseLine['baseLineFlag']
+					# previous['comparedToPrevious'] = BaseLine['comparedToBaseLine']
+					# previous['previousFlag'] = BaseLine['baseLineFlag']
+					previous['comparedToPrevious'] = 0
+					previous['previousFlag'] = ''
 					promise.resolve(previous)
 				, (error) ->
 					promise.reject error

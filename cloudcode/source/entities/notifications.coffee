@@ -284,23 +284,28 @@ checkMissedResponses = () ->
 			_.each responseObjs, (responseObj) ->
 				promise1 = promise1
 				.then () ->
-					timeObj = getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
-					currentDate = new Date()
-					if currentDate.getTime() > timeObj['upperLimit']
-						notificationObj = new Parse.Object('Notification')
-						notificationObj.set 'hasSeen', false
-						notificationObj.set 'patient', responseObj.get('patient')
-						notificationObj.set 'type',	'missedOccurrence'
-						notificationObj.set 'processed', false
-						notificationObj.set 'schedule', responseObj.get('schedule')
-						notificationObj.set 'cleared', false
-						notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
-						notificationObj.save()
-						.then (notificationObj) ->
-							responseObj.set 'status', 'missed'
+					getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+					.then (timeObj) ->
+						# currentDate = new Date()
+						# if currentDate.getTime() > timeObj['upperLimit']
+						currentDateTime = moment().format()
+						if moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')
+							notificationObj = new Parse.Object('Notification')
+							notificationObj.set 'hasSeen', false
+							notificationObj.set 'patient', responseObj.get('patient')
+							notificationObj.set 'type',	'missedOccurrence'
+							notificationObj.set 'processed', false
+							notificationObj.set 'schedule', responseObj.get('schedule')
+							notificationObj.set 'cleared', false
+							notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
+							notificationObj.save()
+							.then (notificationObj) ->
+								responseObj.set 'status', 'missed'
+								responseObj.save()
+						else
 							responseObj.save()
-					else
-						responseObj.save()
+					, (error) ->
+						promise.reject error
 				, (error) ->
 					promise.reject error
 			promise1
@@ -329,47 +334,52 @@ createMissedResponse = () ->
 			_.each scheduleObjs, (scheduleObj) ->
 				promise1 = promise1
 				.then () ->
-					timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-					currentDate = new Date()
-					if currentDate.getTime() > timeObj['upperLimit'].getTime()
-						createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
-						.then (responseObj) ->
-							responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-							responseObj.set 'status', 'missed'
-							responseObj.save()
+					getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+					.then (timeObj) ->
+						# currentDate = new Date()
+						# if currentDate.getTime() > timeObj['upperLimit'].getTime()
+						currentDateTime = moment().format()
+						if moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')
+							createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
 							.then (responseObj) ->
-								notificationObj = new Parse.Object('Notification')
-								notificationObj.set 'hasSeen', false
-								notificationObj.set 'patient', scheduleObj.get('patient')
-								notificationObj.set 'type',	'missedOccurrence'
-								notificationObj.set 'processed', false
-								notificationObj.set 'schedule', scheduleObj
-								notificationObj.set 'cleared', false
-								notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-								notificationObj.save()
-								.then (notificationObj) ->
-									scheduleQuery = new Parse.Query('Schedule')
-									scheduleQuery.doesNotExist('patient')
-									scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-									scheduleQuery.first()
-									.then (scheduleQuestionnaireObj) ->
-										newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-										newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-										scheduleObj.set 'nextOccurrence', newNextOccurrence
-										scheduleObj.save()
+								responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+								responseObj.set 'status', 'missed'
+								responseObj.save()
+								.then (responseObj) ->
+									notificationObj = new Parse.Object('Notification')
+									notificationObj.set 'hasSeen', false
+									notificationObj.set 'patient', scheduleObj.get('patient')
+									notificationObj.set 'type',	'missedOccurrence'
+									notificationObj.set 'processed', false
+									notificationObj.set 'schedule', scheduleObj
+									notificationObj.set 'cleared', false
+									notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+									notificationObj.save()
+									.then (notificationObj) ->
+										scheduleQuery = new Parse.Query('Schedule')
+										scheduleQuery.doesNotExist('patient')
+										scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+										scheduleQuery.first()
+										.then (scheduleQuestionnaireObj) ->
+											newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+											newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+											scheduleObj.set 'nextOccurrence', newNextOccurrence
+											scheduleObj.save()
+										, (error) ->
+											console.log  "missed1"
+											promise1.reject error
 									, (error) ->
-										console.log  "missed1"
 										promise1.reject error
 								, (error) ->
+									console.log  "missed2"
 									promise1.reject error
 							, (error) ->
-								console.log  "missed2"
+								console.log  "missed3"
 								promise1.reject error
-						, (error) ->
-							console.log  "missed3"
-							promise1.reject error
-					else 
-						scheduleObj.save()
+						else 
+							scheduleObj.save()
+					, (error) ->
+						promise1.reject error
 				, (error) ->
 					console.log  "missed4"
 					promise1.reject error
@@ -519,7 +529,67 @@ getAllNotifications = (patientId,notificationMessages,page) ->
 # 		promise.reject error
 # 	promise
 
+Parse.Cloud.define "getPatientNotificationCount", (request, response) ->
+	patientId = request.params.patientId
+	 
 
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.equalTo('patient', patientId)
+	notificationQuery.equalTo('cleared', false)
+	notificationQuery.count()
+	.then (notificationCount) ->
+		response.success  notificationCount
+	, (error) ->
+		response.error error
+
+Parse.Cloud.define "getPatientNotifications", (request, response) ->
+	patientId = request.params.patientId
+	page = request.params.page
+	limit = request.params.limit  
+
+	getPatientNotifications(patientId,page,limit)
+	.then (notifications) ->
+		response.success  notifications
+	, (error) ->
+		response.error error
+
+
+getPatientNotifications = (patientId,page,limit) ->
+	promise = new Parse.Promise()
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.equalTo('patient', patientId)
+	notificationQuery.equalTo('cleared', false)
+	notificationQuery.include('schedule')
+	notificationQuery.limit(limit)
+	notificationQuery.skip(page*limit)
+	notificationQuery.find()
+	.then (notifications) ->
+		notificationMessages = []
+
+		getAll = () ->
+			promise1 = Parse.Promise.as()
+			_.each notifications, (notification) ->
+				promise1 = promise1
+				.then () ->
+					getNotificationSendObject(notification.get('schedule'), notification)
+					.then (notificationSendObject) ->
+						notificationMessages.push(notificationSendObject)
+						dummy = new Parse.Promise()
+						dummy.resolve()
+						dummy
+					, (error) ->
+						promise1.reject error
+				, (error) ->
+					promise1.reject error
+			promise1
+		getAll()
+		.then () ->
+			promise.resolve(notificationMessages)
+		, (error) ->
+			promise.reject(error)
+	, (error) ->
+		promise.reject error
+	promise
 
 getNotificationSendObject = (scheduleObj, notification) ->
 	promise = new Parse.Promise()
