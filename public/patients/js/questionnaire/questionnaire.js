@@ -15,6 +15,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       readonly: true,
       limitTo: 5,
       showMoreButton: true,
+      popTitle: '',
       overlay: false,
       showMore: function() {
         this.limitTo = this.limitTo + 5;
@@ -189,6 +190,15 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           return function(data) {
             console.log('******next question******');
             console.log(data);
+            if (!_.isUndefined(data.status)) {
+              if (data.status === 'completed') {
+                _this.popTitle = 'This questionnaire was Completed';
+                _this.showConfirm();
+              } else if (data.status === 'missed') {
+                _this.popTitle = 'This questionnaire was Missed';
+                _this.showConfirm();
+              }
+            }
             _this.variables();
             _this.data = [];
             _this.data = data;
@@ -198,9 +208,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.readonly = _this.data.editable;
             }
             _this.pastAnswer();
-            if (!_.isUndefined(_this.data.status)) {
-              $location.path('summary/' + param.responseId);
-            }
             return _this.display = 'noError';
           };
         })(this), (function(_this) {
@@ -306,6 +313,15 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         this.CSpinnerShow();
         return QuestionAPI.getPrevQuest(param).then((function(_this) {
           return function(data) {
+            if (!_.isUndefined(data.status)) {
+              if (data.status === 'completed') {
+                _this.popTitle = 'This questionnaire was Completed';
+                _this.showConfirm();
+              } else if (data.status === 'missed') {
+                _this.popTitle = 'This questionnaire was Missed';
+                _this.showConfirm();
+              }
+            }
             console.log('previous data');
             console.log(_this.data);
             _this.variables();
@@ -412,6 +428,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       },
       closeModal: function() {
         $('#pauseModal').modal('hide');
+        $('.modal-backdrop').addClass('hidden');
+        $("body").removeClass("modal-open");
+        return $location.path('dashboard');
+      },
+      showConfirm: function() {
+        console.log('popup shown ');
+        return $('#QuestionarieModal').modal('show');
+      },
+      CloseQUestionPopup: function() {
+        $('#QuestionarieModal').modal('hide');
         $('.modal-backdrop').addClass('hidden');
         $("body").removeClass("modal-open");
         return $location.path('dashboard');

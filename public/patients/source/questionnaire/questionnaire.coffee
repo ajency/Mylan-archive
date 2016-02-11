@@ -19,6 +19,7 @@ angular.module 'angularApp.questionnaire'
 			readonly : true
 			limitTo : 5
 			showMoreButton : true
+			popTitle : ''
 
 			overlay : false
 
@@ -175,9 +176,8 @@ angular.module 'angularApp.questionnaire'
 						@errorType = error
 
 			loadNextQuestion :(param)->
-				# Storage.setData 'responseId','get'
-				# .then (responseId)=>	
-				# 	CSpinner.show '', 'Please wait..'
+
+
 				@CSpinnerShow()
 				QuestionAPI.saveAnswer param
 				.then (data)=>
@@ -185,6 +185,14 @@ angular.module 'angularApp.questionnaire'
 					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
 					console.log data
+					if !_.isUndefined(data.status)
+						if data.status == 'completed'
+							@popTitle = 'This questionnaire was Completed'
+							@showConfirm()
+						else if data.status == 'missed'
+							@popTitle = 'This questionnaire was Missed'
+							@showConfirm()
+
 					@variables()
 					@data = []
 					@data = data
@@ -194,8 +202,7 @@ angular.module 'angularApp.questionnaire'
 						@hasAnswerShow()
 						@readonly = @data.editable
 					@pastAnswer()
-					if !_.isUndefined(@data.status)
-						$location.path('summary/'+param.responseId)
+					
 					@display = 'noError'					
 				,(error)=>
 					if error == 'offline'
@@ -207,6 +214,8 @@ angular.module 'angularApp.questionnaire'
 						
 
 			nextQuestion : ->
+
+				
 		
 				if @data.questionType == 'single-choice'
 
@@ -292,6 +301,14 @@ angular.module 'angularApp.questionnaire'
 				@CSpinnerShow()
 				QuestionAPI.getPrevQuest param
 				.then (data)=>
+					if !_.isUndefined(data.status)
+						if data.status == 'completed'
+							@popTitle = 'This questionnaire was Completed'
+							@showConfirm()
+						else if data.status == 'missed'
+							@popTitle = 'This questionnaire was Missed'
+							@showConfirm()
+
 					console.log 'previous data'
 					console.log @data	
 					@variables()
@@ -395,9 +412,18 @@ angular.module 'angularApp.questionnaire'
 			closeModal : ->
 				$('#pauseModal').modal('hide')
 				$('.modal-backdrop').addClass('hidden')
-				$("body").removeClass("modal-open");
+				$("body").removeClass("modal-open")
 				$location.path('dashboard')
-				
+
+			showConfirm : ->
+				console.log 'popup shown '
+				$('#QuestionarieModal').modal('show')
+
+			CloseQUestionPopup : ->
+				$('#QuestionarieModal').modal('hide')
+				$('.modal-backdrop').addClass('hidden')
+				$("body").removeClass("modal-open")
+				$location.path('dashboard')
 
 
 ]
