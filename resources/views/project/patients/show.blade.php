@@ -389,14 +389,14 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
                  "theme": "light",
                  "dataProvider": [ {
                    "title": "# Missed",
-                   "value": {{ $responseRate['missed'] }}
+                   "value": {{ $responseRate['missedCount'] }}
                  }, {
                    "title": "# Completed",
-                   "value": {{ $responseRate['completed'] }}
+                   "value": {{ $responseRate['completedCount'] }}
                  } 
                  , {
                    "title": "# late",
-                   "value": {{ $responseRate['late'] }}
+                   "value": {{ $responseRate['lateCount'] }}
                  } ],
                  "titleField": "title",
                  "valueField": "value",

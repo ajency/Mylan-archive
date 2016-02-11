@@ -197,7 +197,7 @@ class SubmissionController extends Controller
         // get patient submissions
         $allSubmissions = [];
         $patientController = new PatientController();
-        $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed"]);
+        $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed","late"]);
 
         foreach ($completedResponses as $key => $response) {
             $responseId = $response->getObjectId();

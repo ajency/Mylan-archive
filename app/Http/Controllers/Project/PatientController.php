@@ -291,13 +291,13 @@ class PatientController extends Controller
         $responseRate['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed);
+        $responseRate['completed'] =  round($completed,2);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed);
+        $responseRate['missed'] =  round($missed,2);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late);
+        $responseRate['late'] =  round($late,2);
 
         $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
 
