@@ -43,6 +43,32 @@ $('.validateRefernceCode').change(function (event) {
     
  
 });
+
+    $('select[name="updateSubmissionStatus"]').change(function (event) { 
+       var status = $(this).val();
+       var responseId = $(this).attr('object-id');
+       $("#statusLoader").removeClass('hidden');
+       $.ajax({
+        url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
+        type: "POST",
+        data: {
+            status: status
+        },
+        dataType: "JSON",
+        success: function (response) {
+          $("#statusLoader").addClass('hidden');
+            // if (!response.data)
+            // {   
+            //     alert('Reference Code Already Taken');
+            //     $("#reference_code").val('');
+            // }
+
+            // $(".cf-loader").addClass('hidden');
+        }
+      });
+
+    });
+
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
      

@@ -156,6 +156,7 @@ class SubmissionController extends Controller
         $responseData['comparedToPrevious'] = $response->get("comparedToPrevious");
         $responseData['baseLineFlag'] = $response->get("baseLineFlag");
         $responseData['previousFlag'] = $response->get("previousFlag");
+        $responseData['reviewed'] = $response->get("reviewed");
 
         $referenceCode = $response->get("patient");
         $sequenceNumber = $response->get("sequenceNumber");
@@ -413,6 +414,37 @@ class SubmissionController extends Controller
      
     }
 
+    public function updateSubmissionStatus(Request $request, $hospitalSlug ,$projectSlug, $responseId)
+    {
+       
+        try{
+            $data = $request->all();  
+            $reviewStatus = $data['status'];
+
+            $responseObj = new ParseQuery("Response");
+            $response = $responseObj->get($responseId);
+
+            $response->set('reviewed',$reviewStatus);
+            $response->save(); 
+
+            $json_resp = array(
+              'code' => 'success' , 
+              'message' => 'successfully updated'
+            );
+             $status_code = 200; 
+
+        }
+        catch (Exception $ex) {
+
+            $json_resp = array(
+              'code' => 'Failed' , 
+              'message' => 'Error in update'
+            );
+            $status_code = 404;        
+        }
+
+        return response()->json( $json_resp, $status_code); 
+    }
     /**
      * Show the form for editing the specified resource.
      *

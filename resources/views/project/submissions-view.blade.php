@@ -57,13 +57,13 @@
                                       
                                     </div>
                                     <div class="col-md-8"> 
-                                       <select name="role" id="role" class="select2 form-control"  >
-                                          <option value="1">Status</option>
-                                          <option value="2">Reviewed</option>
-                                          <option value="2" selected>Pending Review</option>
+                                       <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
+                                          <option {{ ($responseData['reviewed']=='reviewed')?'selected':''}} value="reviewed">Reviewed</option>
+                                          <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
                                        </select>
-                                     
+                                      
                                     </div>
+                                    <span class="cf-loader hidden" id="statusLoader"></span>
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
                                  </div>
