@@ -15,15 +15,15 @@ angular.module 'PatientApp.notification',[]
 						"patientId" : refcode
 
 					notifyAPI.getNotification param
-					.then (data)=>	
-						console.log 'notification data'
-						console.log data
-						@display = 'noError'
-						@data = []
-						@data = data
-						_.each @data, (value)->
-							value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
-							value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
+				.then (data)->	
+					console.log 'notification data'
+					console.log data
+					@display = 'noError'
+					@data = []
+					@data = data
+					_.each @data, (value)->
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
+						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
 				,(error)=>
 					@display = 'error'
 					@errorType = error

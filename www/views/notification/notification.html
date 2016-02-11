@@ -12,7 +12,7 @@
 
     <div ng-switch-when="noError">
        <div ng-repeat ="notify in view.data">
-
+          ---- {{notify.type}} ---
           <div class="row" 
             ng-if = "notify.type === 'beforOccurrence'"
             ng-click ="view.seenNotify(notify.id)">

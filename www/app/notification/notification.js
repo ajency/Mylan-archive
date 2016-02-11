@@ -13,19 +13,19 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
             param = {
               "patientId": refcode
             };
-            return notifyAPI.getNotification(param).then(function(data) {
-              console.log('notification data');
-              console.log(data);
-              _this.display = 'noError';
-              _this.data = [];
-              _this.data = data;
-              return _.each(_this.data, function(value) {
-                value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
-                return value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY');
-              });
-            });
+            return notifyAPI.getNotification(param);
           };
-        })(this), (function(_this) {
+        })(this)).then(function(data) {
+          console.log('notification data');
+          console.log(data);
+          this.display = 'noError';
+          this.data = [];
+          this.data = data;
+          return _.each(this.data, function(value) {
+            value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
+            return value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY');
+          });
+        }, (function(_this) {
           return function(error) {
             _this.display = 'error';
             return _this.errorType = error;

@@ -179,10 +179,10 @@
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         },
-        "com.parse.cordova.core.pushplugin": {
+        "cordova-plugin-app-preferences": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         },
-        "cordova-plugin-app-preferences": {
+        "com.parse.cordova.core.pushplugin": {
             "PACKAGE_NAME": "com.ionicframework.mylan393718"
         },
         "com.phonegap.plugins.PushPlugin": {
