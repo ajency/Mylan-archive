@@ -101,9 +101,7 @@ angular.module 'angularApp.questionnaire'
 						"value": ""
 						"responseId" : $routeParams.responseId 
 
-					# Storage.setData 'responseId','get'
-					# .then (responseId)=>	
-					# 	param.responseId = responseId
+
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
 						console.log 'previous data'
@@ -116,6 +114,7 @@ angular.module 'angularApp.questionnaire'
 						if !_.isEmpty(@data.hasAnswer)
 							@hasAnswerShow()	
 						@display = 'noError'
+						@checkQuestinarieStatus(data)
 					,(error)=>
 						@display = 'error'
 						console.log error
@@ -142,6 +141,7 @@ angular.module 'angularApp.questionnaire'
 						@pastAnswer()
 						# Storage.setData 'responseId', 'set', data.result.responseId
 						@display = 'noError'
+					
 					,(error)=>
 						@display = 'error'
 						@errorType = error
@@ -159,18 +159,9 @@ angular.module 'angularApp.questionnaire'
 						console.log 'inside then'
 						console.log data
 						@data = data
-						if !_.isUndefined(@data.status)
-								if @data.status == 'saved_successfully'
-									CToast.show 'This questionnaire was already answer'
-									$location.path('summary/'+responseId)
-								else if @data.status == 'completed'
-									CToast.show 'This questionnaire is completed '
-								else if @data.status == 'missed'
-									CToast.show 'This questionnaire was Missed'
-
-						
 						@pastAnswer()
 						@display = 'noError'
+						@checkQuestinarieStatus(data)
 					,(error)=>
 						@display = 'error'
 						@errorType = error
@@ -185,13 +176,7 @@ angular.module 'angularApp.questionnaire'
 					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
 					console.log data
-					if !_.isUndefined(data.status)
-						if data.status == 'completed'
-							@popTitle = 'This questionnaire was Completed'
-							@showConfirm()
-						else if data.status == 'missed'
-							@popTitle = 'This questionnaire was Missed'
-							@showConfirm()
+					
 
 					@variables()
 					@data = []
@@ -203,7 +188,8 @@ angular.module 'angularApp.questionnaire'
 						@readonly = @data.editable
 					@pastAnswer()
 					
-					@display = 'noError'					
+					@display = 'noError'
+					@checkQuestinarieStatus(data)
 				,(error)=>
 					if error == 'offline'
 						CToast.show 'Check net connection,answer not saved'
@@ -301,14 +287,7 @@ angular.module 'angularApp.questionnaire'
 				@CSpinnerShow()
 				QuestionAPI.getPrevQuest param
 				.then (data)=>
-					if !_.isUndefined(data.status)
-						if data.status == 'completed'
-							@popTitle = 'This questionnaire was Completed'
-							@showConfirm()
-						else if data.status == 'missed'
-							@popTitle = 'This questionnaire was Missed'
-							@showConfirm()
-
+					
 					console.log 'previous data'
 					console.log @data	
 					@variables()
@@ -318,7 +297,8 @@ angular.module 'angularApp.questionnaire'
 					@pastAnswer()
 					if !_.isEmpty(@data.hasAnswer)
 						@hasAnswerShow()	
-					console.log @data	
+					console.log @data
+					@checkQuestinarieStatus(data)
 				,(error)=>
 					console.log error
 					if error == 'offline'
@@ -424,6 +404,17 @@ angular.module 'angularApp.questionnaire'
 				$('.modal-backdrop').addClass('hidden')
 				$("body").removeClass("modal-open")
 				$location.path('dashboard')
+
+			checkQuestinarieStatus:(data)->
+				
+				if !_.isUndefined(data.status)
+					if data.status == 'completed'
+						@popTitle = 'This questionnaire was Completed'
+						@showConfirm()
+					else if data.status == 'missed'
+						@popTitle = 'This questionnaire was Missed'
+						@showConfirm()
+					@display = 'completed'
 
 
 ]

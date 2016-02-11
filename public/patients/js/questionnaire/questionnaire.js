@@ -117,7 +117,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
               }
-              return _this.display = 'noError';
+              _this.display = 'noError';
+              return _this.checkQuestinarieStatus(data);
             };
           })(this), (function(_this) {
             return function(error) {
@@ -163,18 +164,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data;
-              if (!_.isUndefined(_this.data.status)) {
-                if (_this.data.status === 'saved_successfully') {
-                  CToast.show('This questionnaire was already answer');
-                  $location.path('summary/' + responseId);
-                } else if (_this.data.status === 'completed') {
-                  CToast.show('This questionnaire is completed ');
-                } else if (_this.data.status === 'missed') {
-                  CToast.show('This questionnaire was Missed');
-                }
-              }
               _this.pastAnswer();
-              return _this.display = 'noError';
+              _this.display = 'noError';
+              return _this.checkQuestinarieStatus(data);
             };
           })(this), (function(_this) {
             return function(error) {
@@ -190,15 +182,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           return function(data) {
             console.log('******next question******');
             console.log(data);
-            if (!_.isUndefined(data.status)) {
-              if (data.status === 'completed') {
-                _this.popTitle = 'This questionnaire was Completed';
-                _this.showConfirm();
-              } else if (data.status === 'missed') {
-                _this.popTitle = 'This questionnaire was Missed';
-                _this.showConfirm();
-              }
-            }
             _this.variables();
             _this.data = [];
             _this.data = data;
@@ -208,7 +191,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.readonly = _this.data.editable;
             }
             _this.pastAnswer();
-            return _this.display = 'noError';
+            _this.display = 'noError';
+            return _this.checkQuestinarieStatus(data);
           };
         })(this), (function(_this) {
           return function(error) {
@@ -313,15 +297,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         this.CSpinnerShow();
         return QuestionAPI.getPrevQuest(param).then((function(_this) {
           return function(data) {
-            if (!_.isUndefined(data.status)) {
-              if (data.status === 'completed') {
-                _this.popTitle = 'This questionnaire was Completed';
-                _this.showConfirm();
-              } else if (data.status === 'missed') {
-                _this.popTitle = 'This questionnaire was Missed';
-                _this.showConfirm();
-              }
-            }
             console.log('previous data');
             console.log(_this.data);
             _this.variables();
@@ -332,7 +307,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             if (!_.isEmpty(_this.data.hasAnswer)) {
               _this.hasAnswerShow();
             }
-            return console.log(_this.data);
+            console.log(_this.data);
+            return _this.checkQuestinarieStatus(data);
           };
         })(this), (function(_this) {
           return function(error) {
@@ -441,6 +417,18 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         $('.modal-backdrop').addClass('hidden');
         $("body").removeClass("modal-open");
         return $location.path('dashboard');
+      },
+      checkQuestinarieStatus: function(data) {
+        if (!_.isUndefined(data.status)) {
+          if (data.status === 'completed') {
+            this.popTitle = 'This questionnaire was Completed';
+            this.showConfirm();
+          } else if (data.status === 'missed') {
+            this.popTitle = 'This questionnaire was Missed';
+            this.showConfirm();
+          }
+          return this.display = 'completed';
+        }
       }
     };
   }
