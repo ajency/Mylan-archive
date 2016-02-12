@@ -608,7 +608,7 @@ class ProjectController extends Controller
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
             $submissionsData[$responseId]['totalScore'] = $totalScore;
             $submissionsData[$responseId]['baseLineScore'] = $totalScore + $comparedToBaslineScore;
-            $submissionsData[$responseId]['previousScore'] = ($sequenceNumber==1)?0:$totalScore + $comparedToPrevious;
+            $submissionsData[$responseId]['previousScore'] = ($previousFlag=='')?0:$totalScore + $comparedToPrevious;
             $submissionsData[$responseId]['comparedToBaslineScore']= $comparedToBaslineScore;
             $submissionsData[$responseId]['comparedToPrevious']= $comparedToPrevious;
 
