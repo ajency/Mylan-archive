@@ -391,65 +391,37 @@ class SubmissionController extends Controller
         $patientsFlags = [];
         $responseOpenRedFlags = [];
 
-        $projectAnwers =  $this->getProjectAnwers($projectId,0,[]);
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-7 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                     );
+
+        $filterType = (isset($inputs['type']))?$inputs['type']:'';
+
+        $responseStatus = ["completed","late","missed"];
+        $projectController = new ProjectController(); 
+        $projectAnswers = $projectController->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
  
-        foreach ($projectAnwers as $answer)
-        {
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-
-            $responseId = $answer->get("response")->getObjectId();
-            $questionId = $answer->get("question")->getObjectId();
-            $questionType = $answer->get("question")->get("type");
-            $questionLabel = $answer->get("question")->get("title");
-            $patient = $answer->get("patient");
-
-            $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
-            $responsePreviousFlag = $answer->get("response")->get("previousFlag");
-
-            $responseStatus = $answer->get("response")->get("status");
-
-             $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
-
-             if($responseStatus=='base_line')
-                continue;
-
-             if($questionType!='single-choice')
-                continue;
-
-         
-                
-            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+        $patientController = new PatientController(); 
+        $submissionFlags =  $patientController->getsubmissionFlags($projectAnswers,$filterType); 
  
-            $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
-
-            $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
- 
-            $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
-            
-
-            if(!isset($responseOpenRedFlags[$responseId]))
-            {
-                $responseOpenRedFlags[$responseId]=$responseId;
-
-                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
-                 
-                $patientsllFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
-
-                $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
-                 
-                $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
-            }
-            
-        }
-        
-        $submissionFlags['all'] = $patientsllFlags;
-        $submissionFlags['flags'] =$patientsFlags;
 
         return view('project.flags')->with('active_menu', 'flags')
                                                ->with('hospital', $hospital)
                                                ->with('project', $project)
+                                               ->with('endDate', $endDate)
+                                                 ->with('startDate', $startDate)
+                                              ->with('filterType', $filterType)
                                                ->with('submissionFlags', $submissionFlags);
     }
 

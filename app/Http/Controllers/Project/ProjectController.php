@@ -80,8 +80,8 @@ class ProjectController extends Controller
                      );
 
         $responseStatus = ["completed","late","missed"];
-        $projectResponses = $this->getProjectResponsesByDate($projectId,$page=0,[],$startDateObj,$endDateObj,$responseStatus); 
-        $projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
+        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus); 
+        $projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
         $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
         $projectFlagsCount = $this->projectFlagsCount($projectAnwers); 
