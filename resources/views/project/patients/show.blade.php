@@ -126,7 +126,7 @@
          <table class="table">
                         <thead class="cf">
                            <tr>
-                              <th>Week</th>
+                              <th class="headcol">Week</th>
                               @foreach($responseArr as $response)
                               <th>{{ $response }}</th>
                               @endforeach
@@ -135,7 +135,7 @@
                         <tbody>
                            @foreach($flagsQuestions as $questionId => $question)
                            <tr>
-                              <td>{{ $question }}</td>
+                              <td class="headcol">{{ $question }}</td>
                               @foreach($responseArr as $responseId => $response)
                               <?php
                               if(isset($submissionFlags[$responseId][$questionId]))
@@ -461,5 +461,20 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
 
     
 </script>
+<style>
+.headcol {
+  position:absolute;
+  width: 150px;
+  left:0;
+  top:auto;
+  background: white;
+}
+
+td {
+  margin:0;
+  white-space:nowrap;
+}
+
+</style>
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection

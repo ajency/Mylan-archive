@@ -57,7 +57,7 @@ Flag is not displayed if the current score is same as previous score</p>
                            <table class="table">
                                           <thead class="cf">
                                              <tr>
-                                                <th>Week</th>
+                                                <th class="headcol">Week</th>
                                                 @foreach($responseArr as $response)
                                                 <th>{{ $response }}</th>
                                                 @endforeach
@@ -66,7 +66,7 @@ Flag is not displayed if the current score is same as previous score</p>
                                           <tbody>
                                              @foreach($questionArr as $questionId => $question)
                                              <tr>
-                                                <td>{{ $question }}</td>
+                                                <td class="headcol">{{ $question }}</td>
                                                 @foreach($responseArr as $responseId => $response)
                                                 <?php
                                                 if(isset($submissionArr[$responseId][$questionId]))
@@ -188,4 +188,19 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
   });
 </script>
+<style>
+.headcol {
+  position:absolute;
+  width: 150px;
+  left:0;
+  top:auto;
+  background: white;
+}
+
+td {
+  margin:0;
+  white-space:nowrap;
+}
+
+</style>
 @endsection
