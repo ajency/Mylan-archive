@@ -108,11 +108,13 @@
                      <sm class="light">( This is for the Cumulative Submissions )</sm>
                   </h4>
                   <div class="tools">
-                     <select name="role" id="role" class=" select2  form-control inline filterby pull-left -m-5">
-                        <option value="2">Filter By</option>
-                        <option value="2">Active Patients</option>
-                        <option value="2">Recruited Patients</option>
+                  <form method="get">  
+                     <select name="patients" id="patients" class=" select2  form-control inline filterby pull-left -m-5">
+                        <option value="">Filter By</option>
+                        <option {{ ($patientsStatus=='active')?'selected':''}} value="active">Active Patients</option>
+                        <option {{ ($patientsStatus=='created')?'selected':''}} value="created">Recruited Patients</option>
                      </select>
+                  </form>
                      <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
                   </div>
                </div>
@@ -275,7 +277,13 @@ var chart = AmCharts.makeChart( "piechart", {
                "enabled": true
              }
 } );
+   $(document).ready(function() {
 
+      $('select[name="patients"]').change(function (event) { 
+         $('form').submit();
+      });
+
+   });
    </script>
          <style type="text/css">
          .grid-title h4 {

@@ -42,7 +42,17 @@ class PatientController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patientsStatus ='';
+        if(isset($inputs['patients']))
+        {
+            $patientsStatus = $inputs['patients'];
+            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        }
+        else
+        {
+            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        }
+        
          
         $activepatients = [];
         $patientReferenceCode = [];
@@ -91,6 +101,7 @@ class PatientController extends Controller
                                           ->with('missedCount', $missedCount)
                                           ->with('endDate', $endDate)
                                           ->with('startDate', $startDate)
+                                          ->with('patientsStatus', $patientsStatus)
                                           ->with('patientsSummary', $patientsSummary);
     }
 
