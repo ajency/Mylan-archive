@@ -195,6 +195,9 @@ class SubmissionController extends Controller
         $answersList = $data['answers'];
         $response = $data['response'];
         $currentChartData = $data['chartData'];
+        $previousSubmissionId = $data['previousSubmission'];
+        $baseLineId = $data['baseLine'];
+        
 
         $responseData['comparedToBaseLine'] = $response->get("comparedToBaseLine");
         $responseData['comparedToPrevious'] = $response->get("comparedToPrevious");
@@ -207,34 +210,34 @@ class SubmissionController extends Controller
 
         $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
 
-        $oldResponseQry = new ParseQuery("Response");
-        $oldResponseQry->notEqualTo("objectId", $submissionId);
-        $oldResponseQry->equalTo("patient", $referenceCode);
-        $oldResponseQry->equalTo("status", "completed");
-        $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
+        // $oldResponseQry = new ParseQuery("Response");
+        // $oldResponseQry->notEqualTo("objectId", $submissionId);
+        // $oldResponseQry->equalTo("patient", $referenceCode);
+        // $oldResponseQry->equalTo("status", "completed");
+        // $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
         
-        $oldResponse = $oldResponseQry->first();
+        // $oldResponse = $oldResponseQry->first();
 
-        $baseLineResponseQry = new ParseQuery("Response");
-        $baseLineResponseQry->equalTo("patient", $referenceCode);
-        $baseLineResponseQry->equalTo("status", "base_line");
-        $baseLineResponseQry->descending("createdAt");
-        $baseLineResponse = $baseLineResponseQry->first();
+        // $baseLineResponseQry = new ParseQuery("Response");
+        // $baseLineResponseQry->equalTo("patient", $referenceCode);
+        // $baseLineResponseQry->equalTo("status", "base_line");
+        // $baseLineResponseQry->descending("createdAt");
+        // $baseLineResponse = $baseLineResponseQry->first();
 
         $previousAnswersList =[];
         $previousChartData = [];
-        if(!empty($oldResponse))
+        if($previousSubmissionId!='')
         {
-            $previousData =  $this->getSubmissionData($oldResponse->getObjectId());
+            $previousData =  $this->getSubmissionData($previousSubmissionId);
             $previousAnswersList = $previousData['answers'];
             $previousChartData = $previousData['chartData'];
         }
 
         $baseLineAnswersList =[];
         $baseChartData = [];
-        if(!empty($baseLineResponse))
+        if($baseLineId!='')
         {
-            $baseLineData =  $this->getSubmissionData($baseLineResponse->getObjectId());
+            $baseLineData =  $this->getSubmissionData($baseLineId);
             $baseLineAnswersList = $baseLineData['answers'];
             $baseChartData = $baseLineData['chartData'];
         }
@@ -288,6 +291,8 @@ class SubmissionController extends Controller
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $responseId);
         $responseQry->includeKey('questionnaire');
+        $responseQry->includeKey('baseLine');
+        $responseQry->includeKey('previousSubmission');
         $response = $responseQry->first();
 
         $answerQry = new ParseQuery("Answer");
@@ -301,6 +306,8 @@ class SubmissionController extends Controller
 
         $questionnaire = $response->get("questionnaire")->get("name");
         $date = $response->getUpdatedAt()->format('d-m-Y');
+        $baseLine = $response->get("baseLine")->getObjectId();
+        $previousSubmission = $response->get("previousSubmission")->getObjectId();
          
         foreach($answers as $answers)
         {  
@@ -353,7 +360,8 @@ class SubmissionController extends Controller
            
         }
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date , 'answers'=>$answersList, 'response'=>$response,'chartData'=>$chartData] ;
+
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$answersList, 'response'=>$response,'chartData'=>$chartData] ;
         return $data;
     }
 
