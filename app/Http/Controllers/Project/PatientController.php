@@ -570,7 +570,7 @@ class PatientController extends Controller
         return $data;
     }
 
-    public function getsubmissionFlags($projectAnwers)
+    public function getsubmissionFlags($projectAnwers,$filterType='')
     {
 
         $submissionFlags = [];
@@ -608,27 +608,44 @@ class PatientController extends Controller
                 continue;
 
          
-                
-            $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
- 
-            $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+            if($filterType=='baseline' || $filterType=='')
+            {
+                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
 
-            $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+                $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+            }  
+                
  
-            $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+            if($filterType=='previous' || $filterType=='')
+            {
+                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+
+                $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+            } 
+                
+
+            
+ 
+            
             
 
             if(!isset($responseFlags[$responseId]))
             {
                 $responseFlags[$responseId]=$responseId;
 
-                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
-                 
-                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                if($filterType=='baseline' || $filterType=='')
+                {
+                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
 
-                $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
-                 
-                $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                }
+                
+                if($filterType=='previous' || $filterType=='')
+                { 
+                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+
+                    $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                }
             }
             
         }
@@ -848,11 +865,12 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
+        $filterType = (isset($inputs['type']))?$inputs['type']:'';
 
         $responseStatus = ["completed","late"];
         $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
-        $submissionFlags =  $this->getsubmissionFlags($patientAnwers); 
+        $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
 
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
@@ -863,6 +881,7 @@ class PatientController extends Controller
                                                 ->with('logoUrl', $logoUrl)
                                                 ->with('endDate', $endDate)
                                                 ->with('startDate', $startDate)
+                                                ->with('filterType', $filterType)
                                                 ->with('submissionFlags', $submissionFlags);
     }
 

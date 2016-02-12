@@ -51,19 +51,22 @@
                            </ul>
                            <!-- Tab panes -->
                            <div class="tab-content">
-                              <div role="tabpanel" class="tab-pane active" id="all">
-                                  <div class="row">
+                                <div class="row">
                                     <div class="col-md-7"></div>
                                     <div class="col-md-5 text-right">
-                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
-                                          <option value="2">Filter By</option>
-                                          <option value="2">Previous</option>
-                                          <option value="2">Baseline</option>
+                                     <form method="get">
+                                       <select name="type" id="type" class=" select2 m-t-5 form-control inline filterby ">
+                                          <option value="">Filter By</option>
+                                          <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
+                                          <option {{ ($filterType=='baseline')?'selected':''}} value="baseline">Baseline</option>
                                        </select>
+                                       </form>
                                     </div>
                                   
                                  </div>
                                  <hr class="">
+                              <div role="tabpanel" class="tab-pane active" id="all">
+                                  
                     <table class="table table-hover dashboard-tbl">
                       <thead>
                          <tr>
@@ -96,18 +99,7 @@
                      
                               </div>
                                        <div role="tabpanel" class="tab-pane " id="red">
-                                  <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5 text-right">
-                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
-                                          <option value="2">Filter By</option>
-                                          <option value="2">Previous</option>
-                                          <option value="2">Baseline</option>
-                                       </select>
-                                    </div>
-                                  
-                                 </div>
-                                 <hr class="">
+               
                     <table class="table table-hover dashboard-tbl">
                       <thead>
                          <tr>
@@ -137,18 +129,7 @@
                        
                               </div>
                                       <div role="tabpanel" class="tab-pane" id="amber">
-                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5 text-right">
-                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
-                                          <option value="2">Filter By</option>
-                                          <option value="2">Previous</option>
-                                          <option value="2">Baseline</option>
-                                       </select>
-                                    </div>
-                                  
-                                 </div>
-                                 <hr class="">
+                           
                                  <table class="table table-hover">
                                     <thead>
                                        <tr>
@@ -177,18 +158,7 @@
                              
                               </div>
                               <div role="tabpanel" class="tab-pane" id="green">
-                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5 text-right">
-                                       <select name="role" id="role" class=" select2 m-t-5 form-control inline filterby ">
-                                          <option value="2">Filter By</option>
-                                          <option value="2">Previous</option>
-                                          <option value="2">Baseline</option>
-                                       </select>
-                                    </div>
-                                  
-                                 </div>
-                                 <hr class="">
+                       
                                  <table class="table table-hover">
                                     <thead>
                                        <tr>
@@ -229,6 +199,14 @@
 <script type="text/javascript">
 var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
 var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
+
+   $(document).ready(function() {
+
+      $('select[name="type"]').change(function (event) { 
+         $('form').submit();
+      });
+
+   });
 </script>
  
 @endsection
