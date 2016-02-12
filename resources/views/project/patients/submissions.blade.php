@@ -176,7 +176,6 @@
   var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
   var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 
-  
 
    $(document).ready(function() {
 

@@ -20,14 +20,15 @@
 @section('content')
    <div class="pull-right">
     <form name="searchData" method="GET"> 
-       <input type="hidden" class="form-control" name="startDate"  >
-       <input type="hidden" class="form-control" name="endDate"  >
-       <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-          <span></span> <b class="caret"></b>
-       </div>
+      <input type="hidden" class="form-control" name="startDate"  >
+      <input type="hidden" class="form-control" name="endDate"  >
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+           <span></span> <b class="caret"></b>
+        </div>
 
-    </form>
+  </form>
+   <input type="hidden" name="flag" value="0">
   </div>
 <div class="page-title">
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
@@ -54,7 +55,7 @@
                                 <div class="row">
                                     <div class="col-md-7"></div>
                                     <div class="col-md-5 text-right">
-                                     <form method="get">
+                                     <form name="filterData" method="get">
                                        <select name="type" id="type" class=" select2 m-t-5 form-control inline filterby ">
                                           <option value="">Filter By</option>
                                           <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>

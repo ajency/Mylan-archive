@@ -170,6 +170,7 @@
             <div class="clearfix"></div>
               <div class="container m-b-50">
                  <div class="content">
+                   @yield('breadcrumb')
                    @yield('content')
                  </div>
               </div>

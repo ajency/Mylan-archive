@@ -79,7 +79,8 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $projectResponses = $this->getProjectResponses($projectId,$page=0,[],$startDateObj,$endDateObj); 
+        $responseStatus = ["completed","late","missed"];
+        $projectResponses = $this->getProjectResponsesByDate($projectId,$page=0,[],$startDateObj,$endDateObj,$responseStatus); 
         $projectAnwers = $this->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
 
         $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
@@ -126,7 +127,7 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjectAnwers($projectId,$page=0,$anwsersData,$startDate,$endDate)
+    public function getProjectAnwersByDate($projectId,$page=0,$anwsersData,$startDate,$endDate)
     {
         $displayLimit = 20; 
 
@@ -145,19 +146,19 @@ class ProjectController extends Controller
         if(!empty($anwsers))
         {
             $page++;
-            $anwsersData = $this->getProjectAnwers($projectId,$page,$anwsersData ,$startDate,$endDate);
+            $anwsersData = $this->getProjectAnwersByDate($projectId,$page,$anwsersData ,$startDate,$endDate);
         }  
         
         return $anwsersData;
      
     }
 
-    public function getProjectResponses($projectId,$page=0,$responseData,$startDate,$endDate)
+    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status)
     {
         $displayLimit = 20; 
 
         $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","missed"]);
+        $responseQry->containedIn("status",$status);  //["completed","late","missed"]
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
@@ -170,7 +171,7 @@ class ProjectController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getProjectResponses($projectId,$page,$responseData ,$startDate,$endDate);
+            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status);
         }  
         
         return $responseData;
@@ -607,7 +608,7 @@ class ProjectController extends Controller
             $submissionsData[$responseId]['occurrenceDate']= $occurrenceDate;
             $submissionsData[$responseId]['totalScore'] = $totalScore;
             $submissionsData[$responseId]['baseLineScore'] = $totalScore + $comparedToBaslineScore;
-            $submissionsData[$responseId]['previousScore'] = $totalScore + $comparedToPrevious;
+            $submissionsData[$responseId]['previousScore'] = ($sequenceNumber==1)?0:$totalScore + $comparedToPrevious;
             $submissionsData[$responseId]['comparedToBaslineScore']= $comparedToBaslineScore;
             $submissionsData[$responseId]['comparedToPrevious']= $comparedToPrevious;
 

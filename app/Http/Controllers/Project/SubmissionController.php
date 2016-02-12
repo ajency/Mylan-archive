@@ -49,48 +49,96 @@ class SubmissionController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        //get missed response count
+        $responseRate = [];   
+         // get missed count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","missed");
         $responseQry->equalTo("project",$projectId);
-
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $missedResponses = $responseQry->count();  
+        $responseRate['missedCount'] = $responseQry->count();
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","late");
+        $responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        $responseRate['lateCount'] = $responseQry->count();
+
+        // get completed count
+        $submissionStatus = '';
+        if(isset($inputs['submissionStatus']))
+        {
+            
+            $submissionStatus = $inputs['submissionStatus'];
+
+            if($submissionStatus=='completed')
+            {
+              //$responseRate['missedCount'] =0;
+              $responseRate['lateCount']  =0;
+              $responseStatus = [$inputs['submissionStatus']];
+            }
+            // elseif($submissionStatus=='missed')
+            // {
+            //   $responseRate['lateCount']  =0;
+            //   $responseStatus = [];
+            // }
+            elseif($submissionStatus=='late')
+            {
+              //$responseRate['missedCount'] =0;
+              $responseStatus = [$inputs['submissionStatus']];
+            }
+        }
+        else
+        {
+            $responseStatus = ["completed","late"];
+        }
 
         $projectController = new ProjectController();
-        $responses = $projectController->getProjectResponses($projectId,0,[] ,$startDateObj,$endDateObj);  
-        $completedSubmissionCount = count($responses);
-        $openStatus = [];
-        $closedStatus = [];
-        $timeDifference = [];
         
-        foreach ($responses as $key => $response) {
+        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus);  
+                
+        $timeDifference = [];
+        $completedResponses = [];
+        
+        foreach ($patientSubmissions as $key => $response) {
+            $reviwed = $response->get("reviwed");
             $status = $response->get("status");
-            $previousFlagStatus = $response->get("previousFlagStatus");
+      
             $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
             $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
             $responseId = $response->getObjectId();
 
-            if ($previousFlagStatus=='closed') {
+            if($status=='completed')
+            {
+              $completedResponses[] = $response;
+            }
+
+            if ($reviwed=='reviwed') {
                 $diff = strtotime($updatedAt) - strtotime($createdAt);
                 $timeDifference[] = $diff/3600;
-                $closedStatus[] = $responseId;
             }
-            elseif ($previousFlagStatus=='open') {
-                $openStatus[] = $responseId;
-            }
+             
         }
 
-        $totalSubmissions = $completedSubmissionCount + $missedResponses;
+        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
-        $responseRate = ($completedSubmissionCount) ? ($completedSubmissionCount/$totalSubmissions) * 100 :0;
-        $responseRate =  round($responseRate);
+        $responseRate['completedCount'] = count($completedResponses);
+
+        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+        $responseRate['completed'] =  round($completed,2);
+
+        $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
+        $responseRate['missed'] =  round($missed,2);
+
+        $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
+        $responseRate['late'] =  round($late,2);
+
+
 
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
-        $projectAnwers = $projectController->getProjectAnwers($projectId,$page=0,[],$startDateObj,$endDateObj);
-        $submissionsSummary = $projectController->getSubmissionsSummary($projectAnwers);
+        $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
         return view('project.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
@@ -100,11 +148,7 @@ class SubmissionController extends Controller
                                                  ->with('startDate', $startDate)
                                                  ->with('avgReviewTime', $avgReviewTime)
                                                  ->with('responseRate', $responseRate)
-                                                 ->with('completedSubmissionCount', $completedSubmissionCount)
-                                                 ->with('missedResponses', $missedResponses)
-                                                 ->with('openStatus', count($openStatus))
-                                                 ->with('closedStatus', count($closedStatus))
-                                                 ->with('totalSubmissions', $totalSubmissions)
+                                                 ->with('submissionStatus', $submissionStatus)
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 
