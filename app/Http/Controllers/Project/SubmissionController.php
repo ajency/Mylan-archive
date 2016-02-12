@@ -189,7 +189,7 @@ class SubmissionController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $data =  $this->getSubmissionData($submissionId);
+        $data =  $this->getSubmissionData($submissionId,true);
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
         $answersList = $data['answers'];
@@ -228,7 +228,7 @@ class SubmissionController extends Controller
         $previousChartData = [];
         if($previousSubmissionId!='')
         {
-            $previousData =  $this->getSubmissionData($previousSubmissionId);
+            $previousData =  $this->getSubmissionData($previousSubmissionId,false);
             $previousAnswersList = $previousData['answers'];
             $previousChartData = $previousData['chartData'];
         }
@@ -237,11 +237,11 @@ class SubmissionController extends Controller
         $baseChartData = [];
         if($baseLineId!='')
         {
-            $baseLineData =  $this->getSubmissionData($baseLineId);
+            $baseLineData =  $this->getSubmissionData($baseLineId,false);
             $baseLineAnswersList = $baseLineData['answers'];
             $baseChartData = $baseLineData['chartData'];
         }
-
+       
         // get patient submissions
         $allSubmissions = [];
         $patientController = new PatientController();
@@ -286,14 +286,13 @@ class SubmissionController extends Controller
                                                 ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 
-     public function getSubmissionData($responseId)
+     public function getSubmissionData($responseId,$flag)
     { 
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $responseId);
         $responseQry->includeKey('questionnaire');
-        $responseQry->includeKey('baseLine');
-        $responseQry->includeKey('previousSubmission');
         $response = $responseQry->first();
+        
 
         $answerQry = new ParseQuery("Answer");
         $answerQry->equalTo("response",$response);
@@ -305,10 +304,23 @@ class SubmissionController extends Controller
         $chartData =[];
 
         $questionnaire = $response->get("questionnaire")->get("name");
+        if($flag)
+        {
+          $baseLine = $response->get("baseLine")->getObjectId();
+          $previousSubmission = $response->get("previousSubmission")->getObjectId();
+        }
+        else
+        {
+          $baseLine = '';
+          $previousSubmission = '';
+        }
         $date = $response->getUpdatedAt()->format('d-m-Y');
-        $baseLine = $response->get("baseLine")->getObjectId();
-        $previousSubmission = $response->get("previousSubmission")->getObjectId();
-         
+        
+        
+        // ($response->get("previousSubmission")==null)?'' : $response->get("previousSubmission")->getObjectId();
+
+ 
+          
         foreach($answers as $answers)
         {  
            $question =  $answers->get("question");
