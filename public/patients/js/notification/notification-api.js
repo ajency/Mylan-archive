@@ -5,7 +5,7 @@ angular.module('angularApp.notification').factory('notifyAPI', [
     notifyAPI.getNotification = function(param) {
       var defer;
       defer = $q.defer();
-      App.SendParseRequest('getAllNotifications', param).then(function(data) {
+      App.SendParseRequest('getPatientNotifications', param).then(function(data) {
         return defer.resolve(data);
       }, (function(_this) {
         return function(error) {
@@ -18,6 +18,18 @@ angular.module('angularApp.notification').factory('notifyAPI', [
       var defer;
       defer = $q.defer();
       App.SendParseRequest('hasSeenNotification', param).then(function(data) {
+        return defer.resolve(data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
+    notifyAPI.deleteNotification = function(param) {
+      var defer;
+      defer = $q.defer();
+      App.SendParseRequest('clearNotification', param).then(function(data) {
         return defer.resolve(data);
       }, (function(_this) {
         return function(error) {

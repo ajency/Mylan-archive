@@ -1,5 +1,5 @@
 angular.module('angularApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', '$routeParams', 'notifyAPI', function($scope, App, $routeParams, notifyAPI) {
+  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', function($scope, App, $routeParams, notifyAPI, $location) {
     return $scope.view = {
       data: [],
       display: 'loader',
@@ -7,7 +7,9 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         var param;
         console.log('inside notification controller');
         param = {
-          "patientId": RefCode
+          "patientId": RefCode,
+          "page": 1,
+          "limit": 10
         };
         console.log('**** notification coffeee ******');
         console.log(param);
@@ -31,8 +33,27 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         })(this));
       },
       deleteNotify: function(id) {
+        var param;
         console.log('***1deleteNotifcation****');
-        return console.log(id);
+        console.log(id);
+        param = {
+          "notificationId": id
+        };
+        return notifyAPI.deleteNotification(param).then(function(data) {
+          var spliceIndex;
+          console.log('sucess notification seen data');
+          console.log(data);
+          spliceIndex = _.findIndex($scope.view.data, function(request) {
+            return request.id === id;
+          });
+          console.log('spliceeIndexx');
+          console.log(spliceIndex);
+          if (spliceIndex !== -1) {
+            return $scope.view.data.splice(spliceIndex, 1);
+          }
+        }, function(error) {
+          return console.log('error data');
+        });
       },
       seenNotify: function(id) {
         var param;

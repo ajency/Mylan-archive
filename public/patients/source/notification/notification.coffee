@@ -1,7 +1,7 @@
 angular.module 'angularApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI'
-	, ($scope, App, $routeParams, notifyAPI)->
+.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI', '$location'
+	, ($scope, App, $routeParams, notifyAPI, $location)->
 
 		$scope.view =
 			data : []
@@ -12,6 +12,8 @@ angular.module 'angularApp.notification',[]
 			
 				param =
 					"patientId" : RefCode
+					"page" : 1
+					"limit": 10
 
 				console.log '**** notification coffeee ******'
 				console.log param
@@ -34,19 +36,31 @@ angular.module 'angularApp.notification',[]
 			deleteNotify:(id)->
 				console.log '***1deleteNotifcation****'
 				console.log id 
+				param = 
+					"notificationId":id
+
+				notifyAPI.deleteNotification param
+				.then (data)->
+					console.log 'sucess notification seen data'
+					console.log data
+					spliceIndex = _.findIndex $scope.view.data, (request)->
+						request.id is id
+					console.log 'spliceeIndexx'
+					console.log spliceIndex 
+					$scope.view.data.splice(spliceIndex, 1) if spliceIndex isnt -1
+					
+
+				,(error)->
+					console.log 'error data'
+				
+
 
 				# App.notification.decrement()
 
 			seenNotify:(id)->
 				console.log '***seenNotifcation****'
 				console.log id 
-				# App.notification.decrement()
 				
-				# console.log '********'
-				# console.log id
-
-				# App.navigate 'dashboard', {}, {animate: false, back: false}
-
 				param = 
 					"notificationId":id
 
