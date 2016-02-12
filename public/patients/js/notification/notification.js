@@ -30,10 +30,32 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
           };
         })(this));
       },
-      seenNotify: function(id) {},
+      deleteNotify: function(id) {
+        console.log('***1deleteNotifcation****');
+        return console.log(id);
+      },
+      seenNotify: function(id) {
+        var param;
+        console.log('***seenNotifcation****');
+        console.log(id);
+        param = {
+          "notificationId": id
+        };
+        notifyAPI.setNotificationSeen(param).then(function(data) {
+          console.log('sucess notification seen data');
+          return console.log(data);
+        }, function(error) {
+          return console.log('error data');
+        });
+        return $location.path('dashboard');
+      },
       onTapToRetry: function() {
         this.display = 'loader';
         return this.init();
+      },
+      deleteNotifcation: function(id) {
+        console.log('***deleteNotifcation****');
+        return console.log(id);
       }
     };
   }

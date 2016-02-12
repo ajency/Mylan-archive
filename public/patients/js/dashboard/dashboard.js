@@ -63,10 +63,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
 ]).controller('headerCtrl', [
   '$scope', '$location', function($scope, $location) {
     console.log('header ctrl');
-    return $scope.view = {
-      notifyClick: function() {
-        return $location.path('start-questionnaire');
-      }
-    };
+    return $scope.notifyIocn = '23';
   }
 ]);

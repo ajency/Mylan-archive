@@ -18,7 +18,7 @@ angular.module 'angularApp.notification'
 	notifyAPI.setNotificationSeen = (param)->
 
 		defer = $q.defer()		
-		App.SendParseRequest('getAllNotifications', param)
+		App.SendParseRequest('hasSeenNotification', param)
 		.then (data)->
 			defer.resolve data
 		, (error)=>

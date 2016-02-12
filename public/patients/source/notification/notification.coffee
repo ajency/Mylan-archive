@@ -30,9 +30,16 @@ angular.module 'angularApp.notification',[]
 				,(error)=>
 					@display = 'error'
 					@errorType = error
-				
+			
+			deleteNotify:(id)->
+				console.log '***1deleteNotifcation****'
+				console.log id 
+
+				# App.notification.decrement()
 
 			seenNotify:(id)->
+				console.log '***seenNotifcation****'
+				console.log id 
 				# App.notification.decrement()
 				
 				# console.log '********'
@@ -40,18 +47,23 @@ angular.module 'angularApp.notification',[]
 
 				# App.navigate 'dashboard', {}, {animate: false, back: false}
 
-				# param = 
-				# 	"notificationId":id
+				param = 
+					"notificationId":id
 
-				# notifyAPI.setNotificationSeen param
-				# .then (data)->
-				# 	console.log 'sucess data'
-				# 	console.log data
-				# ,(error)->
-				# 	console.log 'error data'
+				notifyAPI.setNotificationSeen param
+				.then (data)->
+					console.log 'sucess notification seen data'
+					console.log data
+				,(error)->
+					console.log 'error data'
+				$location.path('dashboard')
 
 			onTapToRetry : ->
 				@display = 'loader'
 				@init()
+
+			deleteNotifcation:(id)->
+				console.log '***deleteNotifcation****'
+				console.log id 
 
 ]

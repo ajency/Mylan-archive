@@ -58,7 +58,6 @@ angular.module 'angularApp.dashboard',[]
 
 .controller 'headerCtrl', ['$scope', '$location', ($scope, $location)->
 	console.log 'header ctrl'
-	$scope.view =
-		notifyClick :->
-			$location.path 'start-questionnaire'
+	$scope.notifyIocn = '23'
+		
 ]

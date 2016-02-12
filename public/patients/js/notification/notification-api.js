@@ -17,7 +17,7 @@ angular.module('angularApp.notification').factory('notifyAPI', [
     notifyAPI.setNotificationSeen = function(param) {
       var defer;
       defer = $q.defer();
-      App.SendParseRequest('getAllNotifications', param).then(function(data) {
+      App.SendParseRequest('hasSeenNotification', param).then(function(data) {
         return defer.resolve(data);
       }, (function(_this) {
         return function(error) {

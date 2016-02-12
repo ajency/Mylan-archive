@@ -26,27 +26,46 @@
                       <div ng-repeat ="notify in view.data">
 
                           <li class="list-group-item" 
-                          ng-if = "notify.type === 'beforOccurrence'">
+                            ng-if = "notify.type === 'beforOccurrence'">
                             <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                            <a href="" class="btn btn-xs text-success"
+                              ng-click="view.deleteNotify(notify.id)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)">
+                              Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                            </p>
 
+                          </li>
+
+                          <li class="list-group-item" 
+                            ng-if = "notify.type === 'missedOccurrence'">
+                            <span class="pull-right">
+                            <a href="" class="btn btn-xs text-success"
+                              ng-click="view.deleteNotify(notify.id)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)">
+                                Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                              Please submit it by {{notify.graceDateDisplay}} 
+                            </p>
                           </li>
 
                           <li class="list-group-item" 
                           ng-if = "notify.type === 'missedOccurrence'">
                             <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                            Please submit it by {{notify.graceDateDisplay}} 
-                          </li>
+                              <a href="" class="btn btn-xs text-success" 
+                                ng-click="view.deleteNotify(notify.id)">
 
-                          <li class="list-group-item" 
-                          ng-if = "notify.type === 'missedOccurrence'">
-                            <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                            Please submit it by {{notify.graceDateDisplay}} 
+                                <i class="fa fa-trash"></i>
+
+                              </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)" >
+                              Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                            Please submit it by {{notify.graceDateDisplay}} </p>
                           </li>
 
                       </div>
