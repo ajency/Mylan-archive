@@ -2598,6 +2598,7 @@
     var responseId, responseQuery;
     responseId = request.params.responseId;
     responseQuery = new Parse.Query("Response");
+    responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
       return getBaseLineScores(responseObj).then(function(BaseLine) {
         return getPreviousScores(responseObj).then(function(previous) {
@@ -2621,6 +2622,7 @@
           responseObj.set("previousFlag", previous['previousFlag']);
           responseObj.set("status", status);
           responseObj.set("totalScore", BaseLine['totalScore']);
+          responseObj.set("baseLine", BaseLine['baseLine']);
           return responseObj.save().then(function(responseObj) {
             return response.success("submitted_successfully");
           }, function(error) {
@@ -2638,11 +2640,11 @@
   });
 
   isLateSubmission = function(questionnaireObj, occurrenceDate) {
-    var currentDateTime, gracePeriod, result;
+    var currentDateTime, graceDate, gracePeriod, result;
     gracePeriod = questionnaireObj.get('gracePeriod');
     currentDateTime = moment().format();
-    occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
-    if (moment(currentDateTime).isAfter(occurrenceDate, 'second')) {
+    graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
+    if (moment(currentDateTime).isAfter(graceDate, 'second')) {
       console.log("LATE SUBMISSION");
       result = true;
     } else {
@@ -2653,10 +2655,11 @@
   };
 
   Parse.Cloud.define("isLateSubmission", function(request, response) {
-    var currentDateTime, occurrenceDate, resumeObj;
+    var currentDateTime, gracePeriod, occurrenceDate, resumeObj;
     occurrenceDate = request.params.occurrenceDate;
     currentDateTime = moment().format();
-    occurrenceDate = moment(occurrenceDate).format();
+    gracePeriod = 1000;
+    occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
     resumeObj = {};
     resumeObj['occurrenceDate'] = occurrenceDate;
     resumeObj['currentDateTime'] = currentDateTime;
@@ -2791,6 +2794,7 @@
             }
           }
           BaseLine = {};
+          BaseLine['baseLine'] = responseBaseLine;
           BaseLine['totalScore'] = totalAnswerScore;
           BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore;
           BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore);

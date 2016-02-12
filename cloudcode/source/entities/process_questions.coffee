@@ -1714,6 +1714,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 #	else
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
+	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		getBaseLineScores(responseObj) 
@@ -1740,6 +1741,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 				responseObj.set "previousFlag", previous['previousFlag']
 				responseObj.set "status", status
 				responseObj.set "totalScore", BaseLine['totalScore']
+				responseObj.set "baseLine", BaseLine['baseLine']
 				responseObj.save()
 				.then (responseObj) ->
 					response.success "submitted_successfully"
@@ -1752,13 +1754,53 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	, (error) ->
 		response.error error
 
+
+# #Change the 'status' of the responseObj to 'completed'
+# Parse.Cloud.define "submitQuestionnairetest", (request, response) ->
+# #	if !request.user
+# #		response.error('Must be logged in.')
+# #
+# #	else
+# 	responseId = request.params.responseId
+# 	responseQuery = new Parse.Query("Response")
+# 	responseQuery.include('questionnaire')
+# 	responseQuery.get(responseId)
+# 	.then (responseObj) ->
+# 		getBaseLineScores(responseObj) 
+# 		.then (BaseLine) ->
+# 			getPreviousScores(responseObj)
+# 			.then (previous) ->
+# 				questionnaireObj = responseObj.get "questionnaire"
+# 				occurrenceDate = responseObj.get "occurrenceDate"
+
+# 				gracePeriod = questionnaireObj.get('gracePeriod')
+# 				currentDateTime = moment().format()
+
+# 				graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+
+# 				if moment(currentDateTime).isAfter(graceDate, 'second')
+# 					console.log "LATE SUBMISSION"
+# 					result = "LATE SUBMISSION #{occurrenceDate} #{graceDate} #{gracePeriod}"
+# 				else
+# 					result = "COMPLETED #{occurrenceDate} #{graceDate} #{gracePeriod}"
+
+# 				response.success result
+				 
+# 			, (error) ->
+# 				response.error error
+# 		, (error) ->
+# 			response.error error
+# 	, (error) ->
+# 		response.error error
+
 isLateSubmission = (questionnaireObj,occurrenceDate) ->
 	gracePeriod = questionnaireObj.get('gracePeriod')
 	currentDateTime = moment().format()
 
-	occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+	graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
 
-	if moment(currentDateTime).isAfter(occurrenceDate, 'second')
+
+	if moment(currentDateTime).isAfter(graceDate, 'second')
 		console.log "LATE SUBMISSION"
 		result = true
 	else
@@ -1770,7 +1812,10 @@ isLateSubmission = (questionnaireObj,occurrenceDate) ->
 Parse.Cloud.define "isLateSubmission", (request, response) ->
 	occurrenceDate = request.params.occurrenceDate
 	currentDateTime = moment().format()
-	occurrenceDate = moment(occurrenceDate).format()
+	gracePeriod = 1000
+	# occurrenceDate = moment(occurrenceDate).format()
+	occurrenceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+
 	resumeObj = {}
 	resumeObj['occurrenceDate'] = occurrenceDate
 	resumeObj['currentDateTime'] = currentDateTime
@@ -1781,7 +1826,7 @@ Parse.Cloud.define "isLateSubmission", (request, response) ->
 	else
 		console.log "COMPLETED"
 		resumeObj['status'] = "COMPLETED"
-		
+
 	response.success resumeObj
 
 
@@ -1901,6 +1946,7 @@ getBaseLineScores = (responseObj) ->
 					if answer.get('question').get('type') == 'single-choice'
 						totalBaseLineScore += answer.get('score')
 				BaseLine = {}
+				BaseLine['baseLine'] = responseBaseLine
 				BaseLine['totalScore'] = totalAnswerScore
 				BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore
 				BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore)
