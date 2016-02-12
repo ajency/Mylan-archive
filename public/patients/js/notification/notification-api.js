@@ -38,6 +38,18 @@ angular.module('angularApp.notification').factory('notifyAPI', [
       })(this));
       return defer.promise;
     };
+    notifyAPI.deleteAllNotification = function(param) {
+      var defer;
+      defer = $q.defer();
+      App.SendParseRequest('clearAllNotifications', param).then(function(data) {
+        return defer.resolve(data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
     return notifyAPI;
   }
 ]);

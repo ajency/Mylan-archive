@@ -34,7 +34,7 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                              Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                           {{notify.id}} --    Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
                             </p>
 
                           </li>
@@ -48,13 +48,13 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                                Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                              {{notify.id}} --    Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
                               Please submit it by {{notify.graceDateDisplay}} 
                             </p>
                           </li>
 
                           <li class="list-group-item" 
-                          ng-if = "notify.type === 'missedOccurrence'">
+                            ng-if = "notify.type === 'missedOccurrence'">
                             <span class="pull-right">
                               <a href="" class="btn btn-xs text-success" 
                                 ng-click="view.deleteNotify(notify.id)">
@@ -64,19 +64,33 @@
                               </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)" >
-                              Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                             {{notify.id}} --   Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
                             Please submit it by {{notify.graceDateDisplay}} </p>
                           </li>
 
 
 
                       </div>
-                     <!--  <div class="">
-                                 <a type="button" class="btn btn-default btn-block btn-warning"  
-                                  ng-click="view.showMore()">
-                                    <span>View More</span>
-                                  </a>
-                            </div> -->
+
+                      <div class="" ng-if="view.canLoadMore === true ">
+                         <a type="button" class="btn btn-default btn-block btn-warning"
+                          ng-click="view.showMore()">
+                            <span>View More</span>
+                          </a>
+                      </div>
+
+                      <div class="text-center text-success" ng-if="view.canLoadMore === false">
+                            <span>No more Notification to be displayed </span>
+                      </div>
+
+                      <br>
+
+                      <div class="text-center text-success">
+                          <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
+                              <span>Clear All Notification</span>
+                          </a>
+                      </div>
+
                   </ul>
              </div>
           </div>

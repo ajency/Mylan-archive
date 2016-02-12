@@ -6,14 +6,16 @@ angular.module 'angularApp.notification',[]
 		$scope.view =
 			data : []
 			display : 'loader'
+			page : 0
+			noNotification : null
+			limit : 10
 
 			init :() ->
-				console.log 'inside notification controller'
 			
 				param =
 					"patientId" : RefCode
-					"page" : 1
-					"limit": 10
+					"page" : @page
+					"limit": @limit
 
 				console.log '**** notification coffeee ******'
 				console.log param
@@ -23,8 +25,18 @@ angular.module 'angularApp.notification',[]
 					console.log 'notification data'
 					console.log data
 					@display = 'noError'
-					@data = []
-					@data = data
+					dataSize = _.size data
+					if dataSize > 0
+						if dataSize < @limit
+							@canLoadMore = false
+						else
+							@canLoadMore = true
+					else
+						@canLoadMore = false
+
+					
+				
+					@data = @data.concat data
 					_.each @data, (value)->
 						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
 						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
@@ -32,6 +44,9 @@ angular.module 'angularApp.notification',[]
 				,(error)=>
 					@display = 'error'
 					@errorType = error
+
+				.finally =>
+					@page = @page + 1
 			
 			deleteNotify:(id)->
 				console.log '***1deleteNotifcation****'
@@ -79,5 +94,24 @@ angular.module 'angularApp.notification',[]
 			deleteNotifcation:(id)->
 				console.log '***deleteNotifcation****'
 				console.log id 
+
+			showMore :()->
+				@init()
+
+			DeleteAll:()->
+				param = 
+					"patientId": RefCode 
+
+				notifyAPI.deleteAllNotification param
+				.then (data)->
+					console.log 'sucess notification seen data'
+					console.log data
+				,(error)->
+					console.log 'error data'
+
+
+
+
+
 
 ]

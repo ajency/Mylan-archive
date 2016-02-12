@@ -3,23 +3,35 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
     return $scope.view = {
       data: [],
       display: 'loader',
+      page: 0,
+      noNotification: null,
+      limit: 10,
       init: function() {
         var param;
-        console.log('inside notification controller');
         param = {
           "patientId": RefCode,
-          "page": 1,
-          "limit": 10
+          "page": this.page,
+          "limit": this.limit
         };
         console.log('**** notification coffeee ******');
         console.log(param);
         return notifyAPI.getNotification(param).then((function(_this) {
           return function(data) {
+            var dataSize;
             console.log('notification data');
             console.log(data);
             _this.display = 'noError';
-            _this.data = [];
-            _this.data = data;
+            dataSize = _.size(data);
+            if (dataSize > 0) {
+              if (dataSize < _this.limit) {
+                _this.canLoadMore = false;
+              } else {
+                _this.canLoadMore = true;
+              }
+            } else {
+              _this.canLoadMore = false;
+            }
+            _this.data = _this.data.concat(data);
             return _.each(_this.data, function(value) {
               value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
               return value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY');
@@ -29,6 +41,10 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
           return function(error) {
             _this.display = 'error';
             return _this.errorType = error;
+          };
+        })(this))["finally"]((function(_this) {
+          return function() {
+            return _this.page = _this.page + 1;
           };
         })(this));
       },
@@ -77,6 +93,21 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       deleteNotifcation: function(id) {
         console.log('***deleteNotifcation****');
         return console.log(id);
+      },
+      showMore: function() {
+        return this.init();
+      },
+      DeleteAll: function() {
+        var param;
+        param = {
+          "patientId": RefCode
+        };
+        return notifyAPI.deleteAllNotification(param).then(function(data) {
+          console.log('sucess notification seen data');
+          return console.log(data);
+        }, function(error) {
+          return console.log('error data');
+        });
       }
     };
   }
