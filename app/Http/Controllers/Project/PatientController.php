@@ -127,6 +127,35 @@ class PatientController extends Controller
                                             ->with('logoUrl', $logoUrl);
     }
 
+    public function validateRefernceCode(Request $request,$patientId) {
+        $reference_code = $request->input('reference_code');
+        
+        $msg = '';
+        $flag = true;
+
+
+        if ($patientId)
+            $patientData = User::where('reference_code', $reference_code)->where('id', '!=', $patientId)->get()->toArray();
+        else
+            $patientData = User::where('reference_code', $reference_code)->get()->toArray();
+
+
+        
+        $status = 201;
+        if (!empty($patientData)) {
+            $msg = 'Reference Code Already Taken';
+            $flag = false;
+            $status = 200;
+        }
+
+
+        return response()->json([
+                    'code' => 'reference_validation',
+                    'message' => $msg,
+                    'data' => $flag,
+                        ], $status);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
