@@ -307,7 +307,10 @@ class SubmissionController extends Controller
         if($flag)
         {
           $baseLine = $response->get("baseLine")->getObjectId();
-          $previousSubmission = $response->get("previousSubmission")->getObjectId();
+          if(!is_null($response->get("previousSubmission")))
+            $previousSubmission = $response->get("previousSubmission")->getObjectId();
+          else
+            $previousSubmission = '';
         }
         else
         {
