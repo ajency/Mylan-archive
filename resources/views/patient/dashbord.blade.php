@@ -42,7 +42,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#"><img src="<?php echo $hospital['logo'] ?>" width="auto" height="45px"></a>
-        
+        <!-- <div ng-include src="'patients/views/i.html'"></div> -->
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->

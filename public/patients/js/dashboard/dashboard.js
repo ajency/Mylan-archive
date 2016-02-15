@@ -17,7 +17,7 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
           return function(data) {
             _this.data = data;
             _this.display = 'noError';
-            if (_this.data.length < 5) {
+            if (_this.data.length < 6) {
               return _this.showMoreButton = false;
             }
           };

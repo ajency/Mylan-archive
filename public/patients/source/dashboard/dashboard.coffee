@@ -20,7 +20,7 @@ angular.module 'angularApp.dashboard',[]
 			.then (data)=>
 				@data = data
 				@display = 'noError'
-				if @data.length < 5
+				if @data.length < 6
 					@showMoreButton = false
 			,(error)=>
 				@display = 'error'
