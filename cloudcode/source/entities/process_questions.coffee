@@ -1742,6 +1742,8 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 				responseObj.set "status", status
 				responseObj.set "totalScore", BaseLine['totalScore']
 				responseObj.set "baseLine", BaseLine['baseLine']
+				if previous['previousSubmission'] !=''
+					responseObj.set "previousSubmission", previous['previousSubmission']
 				responseObj.save()
 				.then (responseObj) ->
 					response.success "submitted_successfully"
@@ -1835,7 +1837,7 @@ getPreviousScores = (responseObj) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
-	responseQuery.equalTo('status', 'completed')
+	responseQuery.containedIn('status', ['completed','late'])
 	responseQuery.descending('occurrenceDate')
 	responseQuery.first()
 	.then (previousResponseObj) ->
@@ -1872,6 +1874,7 @@ getPreviousScores = (responseObj) ->
 						if answer.get('question').get('type') == 'single-choice'
 							totalPreviousScore += answer.get('score')
 					previous = {}
+					previous['previousSubmission'] = previousResponseObj
 					previous['comparedToPrevious'] = totalPreviousScore - totalAnswerScore
 					previous['previousFlag'] = getFlag(totalPreviousScore - totalAnswerScore)	
 					previous['previousTotalRedFlags'] = totalRedFlags
@@ -1885,20 +1888,30 @@ getPreviousScores = (responseObj) ->
 			, (error) ->
 				promise.reject error
 		else
-			getBaseLineScores(responseObj)
-			.then (baseLine) ->
-				previous = {}
-				# previous['comparedToPrevious'] = baseLine['comparedToBaseLine']
-				# previous['previousFlag'] = baseLine['baseLineFlag']
-				previous['comparedToPrevious'] = 0
-				previous['previousFlag'] = ''
-				previous['previousTotalRedFlags'] = 0
-				previous['previousTotalAmberFlags'] = 0
-				previous['previousTotalGreenFlags'] = 0	
+			# getBaseLineScores(responseObj)
+			# .then (baseLine) ->
+			# 	previous = {}
+			# 	# previous['comparedToPrevious'] = baseLine['comparedToBaseLine']
+			# 	# previous['previousFlag'] = baseLine['baseLineFlag']
+			# 	previous['previousSubmission'] =''
+			# 	previous['comparedToPrevious'] = 0
+			# 	previous['previousFlag'] = ''
+			# 	previous['previousTotalRedFlags'] = 0
+			# 	previous['previousTotalAmberFlags'] = 0
+			# 	previous['previousTotalGreenFlags'] = 0	
+			# 	promise.resolve(previous)
+			# , (error) ->
+			# 	promise.reject error
 
-				promise.resolve(previous)
-			, (error) ->
-				promise.reject error
+			previous = {}
+			previous['previousSubmission'] =''
+			previous['comparedToPrevious'] = 0
+			previous['previousFlag'] = ''
+			previous['previousTotalRedFlags'] = 0
+			previous['previousTotalAmberFlags'] = 0
+			previous['previousTotalGreenFlags'] = 0	
+			promise.resolve(previous)
+
 	, (error) ->
 		promise.reject error
 	promise

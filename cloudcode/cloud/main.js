@@ -2623,6 +2623,9 @@
           responseObj.set("status", status);
           responseObj.set("totalScore", BaseLine['totalScore']);
           responseObj.set("baseLine", BaseLine['baseLine']);
+          if (previous['previousSubmission'] !== '') {
+            responseObj.set("previousSubmission", previous['previousSubmission']);
+          }
           return responseObj.save().then(function(responseObj) {
             return response.success("submitted_successfully");
           }, function(error) {
@@ -2679,10 +2682,10 @@
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo('patient', responseObj.get('patient'));
     responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'));
-    responseQuery.equalTo('status', 'completed');
+    responseQuery.containedIn('status', ['completed', 'late']);
     responseQuery.descending('occurrenceDate');
     responseQuery.first().then(function(previousResponseObj) {
-      var answerQuery;
+      var answerQuery, previous;
       if (!_.isEmpty(previousResponseObj)) {
         answerQuery = new Parse.Query('Answer');
         answerQuery.include('question');
@@ -2718,6 +2721,7 @@
               }
             }
             previous = {};
+            previous['previousSubmission'] = previousResponseObj;
             previous['comparedToPrevious'] = totalPreviousScore - totalAnswerScore;
             previous['previousFlag'] = getFlag(totalPreviousScore - totalAnswerScore);
             previous['previousTotalRedFlags'] = totalRedFlags;
@@ -2731,18 +2735,14 @@
           return promise.reject(error);
         });
       } else {
-        return getBaseLineScores(responseObj).then(function(baseLine) {
-          var previous;
-          previous = {};
-          previous['comparedToPrevious'] = 0;
-          previous['previousFlag'] = '';
-          previous['previousTotalRedFlags'] = 0;
-          previous['previousTotalAmberFlags'] = 0;
-          previous['previousTotalGreenFlags'] = 0;
-          return promise.resolve(previous);
-        }, function(error) {
-          return promise.reject(error);
-        });
+        previous = {};
+        previous['previousSubmission'] = '';
+        previous['comparedToPrevious'] = 0;
+        previous['previousFlag'] = '';
+        previous['previousTotalRedFlags'] = 0;
+        previous['previousTotalAmberFlags'] = 0;
+        previous['previousTotalGreenFlags'] = 0;
+        return promise.resolve(previous);
       }
     }, function(error) {
       return promise.reject(error);
