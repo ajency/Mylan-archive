@@ -1,7 +1,7 @@
 angular.module 'angularApp.questionnaire'
 
-.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location'
-	, ($scope, QuestionAPI, $routeParams, CToast, $location)->
+.controller 'questionnaireCtr', ['$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', 'Storage'
+	, ($scope, QuestionAPI, $routeParams, CToast, $location, Storage)->
 
 		$scope.view =
 			# noError / error / loader
@@ -20,6 +20,7 @@ angular.module 'angularApp.questionnaire'
 			limitTo : 5
 			showMoreButton : true
 			popTitle : ''
+			responseId : ''
 
 			overlay : false
 
@@ -89,86 +90,94 @@ angular.module 'angularApp.questionnaire'
 
 			getQuestion :() ->
 
-				@display = 'loader'
-				
-				@respStatus = $routeParams.respStatus
-				
+				questionnaireData = Storage.questionnaire 'get'
+				console.log '**************getQuestion**************'
+				console.log questionnaireData
+				if !_.isEmpty questionnaireData 
 
-				if @respStatus == 'lastQuestion'
-					param =
-						"questionId" : ''
-						"options": []
-						"value": ""
-						"responseId" : $routeParams.responseId 
-
-
-					QuestionAPI.getPrevQuest param
-					.then (data)=>
-						console.log 'previous data'
-						console.log @data	
-						@variables()
-						@data = []
-						@data = data
-						@readonly = @data.editable
-						@pastAnswer()
-						if !_.isEmpty(@data.hasAnswer)
-							@hasAnswerShow()	
-						@display = 'noError'
-						@checkQuestinarieStatus(data)
-					,(error)=>
-						@display = 'error'
-						console.log error
-						if error == 'offline'
-							CToast.show 'Check net connection,answer not saved'
-						else
-							CToast.show 'Error ,try again'
-						
-
-				else if @respStatus == 'noValue'
-					responseId = ''
-
-					options =
-						"responseId": responseId
-						"questionnaireId": questionnaireIdd
-						"patientId": RefCode
-
-					QuestionAPI.getQuestion options
-					.then (data)=>
-						console.log 'inside then'
-						console.log data
-						@data = data
-
-						@pastAnswer()
-						# Storage.setData 'responseId', 'set', data.result.responseId
-						@display = 'noError'
+					@display = 'loader'
 					
-					,(error)=>
-						@display = 'error'
-						@errorType = error
+					@respStatus = questionnaireData.respStatus
+					@responseId = questionnaireData.responseId
+					
 
-				else 
-					responseId = @respStatus
+					if @respStatus == 'lastQuestion'
+						param =
+							"questionId" : ''
+							"options": []
+							"value": ""
+							"responseId" : questionnaireData.responseId 
 
-					options =
-						"responseId": responseId
-						"questionnaireId": questionnaireIdd
-						"patientId": RefCode
 
-					QuestionAPI.getQuestion options
-					.then (data)=>
-						console.log 'inside then'
-						console.log data
-						@data = data
-						@pastAnswer()
-						@display = 'noError'
-						@checkQuestinarieStatus(data)
-					,(error)=>
-						@display = 'error'
-						@errorType = error
+						QuestionAPI.getPrevQuest param
+						.then (data)=>
+							console.log 'previous data'
+							console.log @data	
+							@variables()
+							@data = []
+							@data = data
+							@readonly = @data.editable
+							@pastAnswer()
+							if !_.isEmpty(@data.hasAnswer)
+								@hasAnswerShow()	
+							@display = 'noError'
+							@checkQuestinarieStatus(data)
+						,(error)=>
+							@display = 'error'
+							console.log error
+							if error == 'offline'
+								CToast.show 'Check net connection,answer not saved'
+							else
+								CToast.show 'Error ,try again'
+							
 
+					else if @respStatus == 'noValue'
+						responseId = ''
+
+						options =
+							"responseId": responseId
+							"questionnaireId": questionnaireIdd
+							"patientId": RefCode
+
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data
+
+							@pastAnswer()
+							# Storage.setData 'responseId', 'set', data.result.responseId
+							@display = 'noError'
+						
+						,(error)=>
+							@display = 'error'
+							@errorType = error
+
+					else 
+						responseId = questionnaireData.responseId 
+
+						options =
+							"responseId": responseId
+							"questionnaireId": questionnaireIdd
+							"patientId": RefCode
+
+						QuestionAPI.getQuestion options
+						.then (data)=>
+							console.log 'inside then'
+							console.log data
+							@data = data
+							@pastAnswer()
+							@display = 'noError'
+							@checkQuestinarieStatus(data)
+						,(error)=>
+							@display = 'error'
+							@errorType = error
+				else
+				  $location.path 'dashboard'
+				  			
 			loadNextQuestion :(param)->
 
-
+				@responseId = param.responseId
 				@CSpinnerShow()
 				QuestionAPI.saveAnswer param
 				.then (data)=>
@@ -411,10 +420,20 @@ angular.module 'angularApp.questionnaire'
 					if data.status == 'completed'
 						@popTitle = 'This questionnaire was Completed'
 						@showConfirm()
+						@display = 'completed'
 					else if data.status == 'missed'
 						@popTitle = 'This questionnaire was Missed'
 						@showConfirm()
-					@display = 'completed'
+						@display = 'completed'
+					else if data.status == 'saved_successfully'
+						summaryData = 
+							previousState : 'questionnaire'
+							responseId : @responseId
+
+						Storage.summary 'set', summaryData
+						$location.path('summary')
+
+
 
 
 ]

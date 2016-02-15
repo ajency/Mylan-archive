@@ -1,5 +1,5 @@
 angular.module('angularApp.dashboard', []).controller('dashboardController', [
-  '$scope', 'DashboardAPI', '$location', function($scope, DashboardAPI, $location) {
+  '$scope', 'DashboardAPI', '$location', 'Storage', function($scope, DashboardAPI, $location, Storage) {
     return $scope.view = {
       data: [],
       display: 'loader',
@@ -29,13 +29,25 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         })(this));
       },
       summary: function(id) {
-        return $location.path('summary/' + id);
+        var summaryData;
+        summaryData = {
+          previousState: 'dashboard',
+          responseId: id
+        };
+        Storage.summary('set', summaryData);
+        return $location.path('summary');
       },
       startQuiz: function() {
         return $location.path('start-questionnaire');
       },
       resumeQuiz: function(id) {
-        return $location.path('questionnaire/' + id + '/000');
+        var questionnaireData;
+        questionnaireData = {
+          respStatus: 'resume',
+          responseId: id
+        };
+        Storage.questionnaire('set', questionnaireData);
+        return $location.path('questionnaire');
       },
       onTapToRetry: function() {
         this.display = 'loader';

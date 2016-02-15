@@ -43,6 +43,7 @@
     <script src="{{ asset('patients/js/common/common.js') }}"></script>
     <script src="{{ asset('patients/js/common/angular-components.js') }}"></script>
     <script src="{{ asset('patients/js/common/error.js') }}"></script>
+    <script src="{{ asset('patients/js/common/storage.js') }}"></script>
 
     <script src="{{ asset('patients/js/dashboard/dashboard.js') }}"></script>
     <script src="{{ asset('patients/js/dashboard/dashboard_api.js') }}"></script>
