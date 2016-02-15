@@ -367,7 +367,7 @@
 $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+//$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
 
 
 ?>
@@ -382,7 +382,7 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
     lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
 
     //question chart
-    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart')
+    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart')
  
     var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
@@ -443,11 +443,11 @@ $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionI
       foreach($questionLabels as $questionId => $label)
       {
         $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
-        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+        //$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'questionChart')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart')
         }
 
         <?php

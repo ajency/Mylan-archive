@@ -133,7 +133,7 @@ Question score chart</h4>
 $questionId = current(array_keys($questionLabels));
 $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
 $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$questionId]:'';
-$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+// $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
 
  
 $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($submissionChart[$firstSubmission]):'[]';
@@ -146,7 +146,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
  $(document).ready(function() {
  
- shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',{{$baseLine}},'questionChart');
+ shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart');
 
 //submission chart
  submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
@@ -156,11 +156,11 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       foreach($questionLabels as $questionId => $label)
       {
         $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
-        $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+        // $baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',{{$baseLine}},'questionChart')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart')
         }
 
         <?php

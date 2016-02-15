@@ -521,16 +521,8 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
          }],
          
           "valueAxes": [{
-             "logarithmic": true,
-             "dashLength": 1,
-          "guides": [{
-                 "dashLength": 6,
-                 "inside": true,
-                 "label": "Baseline",
-                 "lineAlpha": 1,
-                 "value": baseLine,
-         
-             }],
+             "logarithmic": false,
+             "dashLength": 0,
               }],
          
          "graphs": [ {
@@ -545,7 +537,19 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
               "hidden":false,
                "inside": true
          
-         }],
+         },
+         {
+             "balloonText": "[[category]]: [[value]]",
+             "bullet": "round",
+             "title": "Baseline",
+             "lineColor": "#000",
+             "valueField": "baseLine",
+              "dashLength": 2,
+              "hidden":false,
+               "inside": true
+         
+         }
+         ],
          
          "chartCursor": {
              "cursorAlpha": 0,

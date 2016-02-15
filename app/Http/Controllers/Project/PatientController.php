@@ -331,14 +331,14 @@ class PatientController extends Controller
         $submissionsSummary = $projectController->getSubmissionsSummary($lastFiveSubmissions); 
 
         //question chart
-        $questionsChartData = $this->getQuestionChartData($patientAnswers,$baselineAnwers);
+        $questionsChartData = $this->getQuestionChartData($patientAnswers);
 
         //patient submission flags
         $patientFlags =  $this->getsubmissionFlags($patientAnswers); 
 
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
-        $questionBaseLine = $questionsChartData['questionBaseLine'];
+        //$questionBaseLine = $questionsChartData['questionBaseLine'];
  
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
@@ -352,7 +352,7 @@ class PatientController extends Controller
                                         ->with('patient', $patient)
                                         ->with('questionChartData', $questionChartData)
                                         ->with('questionLabels', $questionLabels)
-                                        ->with('questionBaseLine', $questionBaseLine)
+                                        //->with('questionBaseLine', $questionBaseLine)
                                         ->with('flagsQuestions', $flagsQuestions)
                                         ->with('responseArr', $responseArr)
                                         ->with('submissionFlags', $submissionFlags)
@@ -1532,11 +1532,11 @@ class PatientController extends Controller
         $questionArr = $healthChart['questionLabel'];
 
         $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
-        $questionsChartData = $this->getQuestionChartData($answers,$baselineAnwers);
+        $questionsChartData = $this->getQuestionChartData($answers);
 
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
-        $questionBaseLine = $questionsChartData['questionBaseLine'];
+        // $questionBaseLine = $questionsChartData['questionBaseLine'];
 
         $patientSubmissionChart = $this->getPatientSubmissionChart($answers,$baselineAnwers);
         $submissionChart = $patientSubmissionChart['submissionChart'] ;
@@ -1553,7 +1553,7 @@ class PatientController extends Controller
                                         ->with('patient', $patient)
                                         ->with('responseArr', $responseArr)
                                         ->with('questionArr', $questionArr)
-                                        ->with('questionBaseLine', $questionBaseLine)
+                                        // ->with('questionBaseLine', $questionBaseLine)
                                         ->with('submissionArr', $submissionArr)                    
                                         ->with('questionLabels', $questionLabels)
                                         ->with('endDate', $endDate)
@@ -1622,6 +1622,8 @@ class PatientController extends Controller
             $responseId = $answer->get("response")->getObjectId();
             $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
             $optionValue = $answer->get("value");
+            $comparedToBaseLine = $answer->get("comparedToBaseLine");
+            $baseLineScore = $optionScore + $comparedToBaseLine;
 
             $baseLineFlag = $answer->get("baseLineFlag");
             $previousFlag = $answer->get("previousFlag");
@@ -1630,7 +1632,7 @@ class PatientController extends Controller
             $questionLabel =  ucfirst(strtolower($questionTitle));
 
             
-            if($responseStatus=='missed' || $responseStatus=='started')
+            if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
 
             if($questionType=='descriptive')
@@ -1644,10 +1646,11 @@ class PatientController extends Controller
                 $questionLabels[$questionId] = $questionLabel;
                 $allScore[$questionId][] = $optionValue;
 
-                if($responseStatus=="base_line")
-                    $baseLineArr[$questionId] =$optionValue;
-                else
-                    $inputScores[$questionId][$answerDate] = $optionValue ;
+                // if($responseStatus=="base_line")
+                //     $baseLineArr[$questionId] =$optionValue;
+                // else
+                $baseLineArr[$questionId][$answerDate] =$baseLineScore;
+                $inputScores[$questionId][$answerDate] = $optionValue ;
 
                 continue;
             }
@@ -1661,14 +1664,15 @@ class PatientController extends Controller
                 $questionLabels[$questionId] = $questionLabel;
                 $singleChoiceQuestion[$questionId] = $questionLabel;
 
-                if($responseStatus=="base_line")
-                   $baseLineArr[$questionId] =$optionScore;
-                else
-                {
-                   $inputScores[$questionId][$answerDate] = $optionScore ;
-                   $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
-                   $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
-                }
+                // if($responseStatus=="base_line")
+                //    $baseLineArr[$questionId] =$optionScore;
+                // else
+                // {
+               $baseLineArr[$questionId][$answerDate] =$baseLineScore;
+               $inputScores[$questionId][$answerDate] = $optionScore ;
+               $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
+               $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
+                // }
 
              } 
             
@@ -1680,8 +1684,10 @@ class PatientController extends Controller
             $i=0;
             foreach($data as $date => $value)
             { 
+                $baslineScore = $baseLineArr[$questionId][$date];
                 $chartData[$questionId][$i]['Date'] = date('d M',$date);
                 $chartData[$questionId][$i]['score'] = intval($value);
+                $chartData[$questionId][$i]['baseLine'] = intval($baslineScore);
                
                 $i++;
             }
@@ -1689,7 +1695,7 @@ class PatientController extends Controller
             
         }
         
-        $questiondata['questionBaseLine']=$baseLineArr;
+        // $questiondata['questionBaseLine']=$baseLineArr;
         $questiondata['chartData']=$chartData;
         $questiondata['questionLabels']=$questionLabels;
         $questiondata['submissions']=$submissionArr;
