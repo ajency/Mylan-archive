@@ -17,7 +17,7 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
           return function(data) {
             _this.data = data;
             _this.display = 'noError';
-            if (_this.data.length < 5) {
+            if (_this.data.length < 6) {
               return _this.showMoreButton = false;
             }
           };
@@ -63,10 +63,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
 ]).controller('headerCtrl', [
   '$scope', '$location', function($scope, $location) {
     console.log('header ctrl');
-    return $scope.view = {
-      notifyClick: function() {
-        return $location.path('start-questionnaire');
-      }
-    };
+    return $scope.notifyIocn = '23';
   }
 ]);

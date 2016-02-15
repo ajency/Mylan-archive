@@ -26,30 +26,71 @@
                       <div ng-repeat ="notify in view.data">
 
                           <li class="list-group-item" 
-                          ng-if = "notify.type === 'beforOccurrence'">
+                            ng-if = "notify.type === 'beforOccurrence'">
                             <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                            <a href="" class="btn btn-xs text-success"
+                              ng-click="view.deleteNotify(notify.id)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)">
+                           {{notify.id}} --    Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                            </p>
 
                           </li>
 
                           <li class="list-group-item" 
-                          ng-if = "notify.type === 'missedOccurrence'">
+                            ng-if = "notify.type === 'missedOccurrence'">
                             <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                            Please submit it by {{notify.graceDateDisplay}} 
+                            <a href="" class="btn btn-xs text-success"
+                              ng-click="view.deleteNotify(notify.id)">
+                              <i class="fa fa-trash"></i>
+                            </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)">
+                              {{notify.id}} --    Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                              Please submit it by {{notify.graceDateDisplay}} 
+                            </p>
                           </li>
 
                           <li class="list-group-item" 
-                          ng-if = "notify.type === 'missedOccurrence'">
+                            ng-if = "notify.type === 'missedOccurrence'">
                             <span class="pull-right">
-                            <a href="#" class="btn btn-xs text-success"><i class="fa fa-trash"></i></a>
-                            </span>Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                            Please submit it by {{notify.graceDateDisplay}} 
+                              <a href="" class="btn btn-xs text-success" 
+                                ng-click="view.deleteNotify(notify.id)">
+
+                                <i class="fa fa-trash"></i>
+
+                              </a>
+                            </span>
+                            <p ng-click="view.seenNotify(notify.id)" >
+                             {{notify.id}} --   Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                            Please submit it by {{notify.graceDateDisplay}} </p>
                           </li>
+
+
 
                       </div>
+
+                      <div class="" ng-if="view.canLoadMore === true ">
+                         <a type="button" class="btn btn-default btn-block btn-warning"
+                          ng-click="view.showMore()">
+                            <span>View More</span>
+                          </a>
+                      </div>
+
+                      <div class="text-center text-success" ng-if="view.canLoadMore === false">
+                            <span>No more Notification to be displayed </span>
+                      </div>
+
+                      <br>
+
+                      <div class="text-center text-success">
+                          <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
+                              <span>Clear All Notification</span>
+                          </a>
+                      </div>
+
                   </ul>
              </div>
           </div>

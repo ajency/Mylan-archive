@@ -15,6 +15,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       readonly: true,
       limitTo: 5,
       showMoreButton: true,
+      popTitle: '',
       overlay: false,
       showMore: function() {
         this.limitTo = this.limitTo + 5;
@@ -116,7 +117,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
               }
-              return _this.display = 'noError';
+              _this.display = 'noError';
+              return _this.checkQuestinarieStatus(data);
             };
           })(this), (function(_this) {
             return function(error) {
@@ -162,18 +164,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               console.log('inside then');
               console.log(data);
               _this.data = data;
-              if (!_.isUndefined(_this.data.status)) {
-                if (_this.data.status === 'saved_successfully') {
-                  CToast.show('This questionnaire was already answer');
-                  $location.path('summary/' + responseId);
-                } else if (_this.data.status === 'completed') {
-                  CToast.show('This questionnaire is completed ');
-                } else if (_this.data.status === 'missed') {
-                  CToast.show('This questionnaire was Missed');
-                }
-              }
               _this.pastAnswer();
-              return _this.display = 'noError';
+              _this.display = 'noError';
+              return _this.checkQuestinarieStatus(data);
             };
           })(this), (function(_this) {
             return function(error) {
@@ -198,10 +191,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.readonly = _this.data.editable;
             }
             _this.pastAnswer();
-            if (!_.isUndefined(_this.data.status)) {
-              $location.path('summary/' + param.responseId);
-            }
-            return _this.display = 'noError';
+            _this.display = 'noError';
+            return _this.checkQuestinarieStatus(data);
           };
         })(this), (function(_this) {
           return function(error) {
@@ -316,7 +307,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             if (!_.isEmpty(_this.data.hasAnswer)) {
               _this.hasAnswerShow();
             }
-            return console.log(_this.data);
+            console.log(_this.data);
+            return _this.checkQuestinarieStatus(data);
           };
         })(this), (function(_this) {
           return function(error) {
@@ -415,6 +407,28 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         $('.modal-backdrop').addClass('hidden');
         $("body").removeClass("modal-open");
         return $location.path('dashboard');
+      },
+      showConfirm: function() {
+        console.log('popup shown ');
+        return $('#QuestionarieModal').modal('show');
+      },
+      CloseQUestionPopup: function() {
+        $('#QuestionarieModal').modal('hide');
+        $('.modal-backdrop').addClass('hidden');
+        $("body").removeClass("modal-open");
+        return $location.path('dashboard');
+      },
+      checkQuestinarieStatus: function(data) {
+        if (!_.isUndefined(data.status)) {
+          if (data.status === 'completed') {
+            this.popTitle = 'This questionnaire was Completed';
+            this.showConfirm();
+          } else if (data.status === 'missed') {
+            this.popTitle = 'This questionnaire was Missed';
+            this.showConfirm();
+          }
+          return this.display = 'completed';
+        }
       }
     };
   }

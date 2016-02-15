@@ -20,7 +20,7 @@ angular.module 'angularApp.dashboard',[]
 			.then (data)=>
 				@data = data
 				@display = 'noError'
-				if @data.length < 5
+				if @data.length < 6
 					@showMoreButton = false
 			,(error)=>
 				@display = 'error'
@@ -58,7 +58,6 @@ angular.module 'angularApp.dashboard',[]
 
 .controller 'headerCtrl', ['$scope', '$location', ($scope, $location)->
 	console.log 'header ctrl'
-	$scope.view =
-		notifyClick :->
-			$location.path 'start-questionnaire'
+	$scope.notifyIocn = '23'
+		
 ]
