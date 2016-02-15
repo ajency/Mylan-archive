@@ -461,20 +461,6 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
 
     
 </script>
-<style>
-.headcol {
-  position:absolute;
-  width: 150px;
-  left:0;
-  top:auto;
-  background: white;
-}
 
-td {
-  margin:0;
-  white-space:nowrap;
-}
-
-</style>
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection

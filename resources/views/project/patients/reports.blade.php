@@ -188,19 +188,5 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
   });
 </script>
-<style>
-.headcol {
-  position:absolute;
-  width: 150px;
-  left:0;
-  top:auto;
-  background: white;
-}
-
-td {
-  margin:0;
-  white-space:nowrap;
-}
-
-</style>
+ 
 @endsection
