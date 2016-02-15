@@ -103,6 +103,24 @@
          </div>
        </div>
 
+       <div ng-if="submissions.status == 'late'" >
+         <div class="clm-list" >
+            <div class="row" >
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-checkmark-circled text-leaf"></i> Late </h6>
+               </div>
+               <div class="col">
+                  <h6>{{ submissions.occurrenceDate }}</h6>
+               </div>
+               <div class="col col-20 text-right">
+                  <button class="button button-block button-small button-balanced"  
+                  ng-click = "view.summary(submissions.occurrenceId);">View</button>
+               </div>
+            </div>
+         </div>
+       </div>
+
+
 
       <div ng-if="submissions.status == 'missed'">
          <div class="clm-list" >

@@ -37,7 +37,7 @@ angular.module 'PatientApp.dashboard',[]
 						console.log 'dashoard data'
 						console.log data
 						@data = data
-						if @data.length < 5
+						if @data.length < 6
 							@showMoreButton = false
 						arr = []
 						if !_.isEmpty(_.where(@data, {status: "due"})) 

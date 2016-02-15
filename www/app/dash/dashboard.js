@@ -34,7 +34,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               console.log('dashoard data');
               console.log(data);
               _this.data = data;
-              if (_this.data.length < 5) {
+              if (_this.data.length < 6) {
                 _this.showMoreButton = false;
               }
               arr = [];
