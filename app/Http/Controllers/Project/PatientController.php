@@ -648,6 +648,7 @@ class PatientController extends Controller
             $previousFlag = $answer->get("previousFlag");
 
             $responseId = $answer->get("response")->getObjectId();
+            $answerId = $answer->getObjectId();
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
             $questionLabel = $answer->get("question")->get("title");
@@ -667,49 +668,44 @@ class PatientController extends Controller
              if($questionType!='single-choice')
                 continue;
 
-         
-            if($filterType=='baseline' || $filterType=='')
-            {
-                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
-
-                $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
-            }  
-                
- 
-            if($filterType=='previous' || $filterType=='')
-            {
-                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
-
-                $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
-            } 
-                
-
-            
- 
-            
-            
-
             if(!isset($responseFlags[$responseId]))
             {
                 $responseFlags[$responseId]=$responseId;
 
                 if($filterType=='baseline' || $filterType=='')
                 {
-                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
 
-                    $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responseBaseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
                 }
                 
                 if($filterType=='previous' || $filterType=='')
                 { 
-                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
 
-                    $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responsePreviousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
                 }
             }
+
+            if($filterType=='baseline' || $filterType=='')
+            {
+                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
+
+                $patientsFlags[$baseLineFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
+            }  
+                
+ 
+            if($filterType=='previous' || $filterType=='')
+            {
+                $patientsallFlags[]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
+
+                $patientsFlags[$previousFlag][]= ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
+            } 
+                
+
             
         }
-        
+       // dd($patientsallFlags); 
         $submissionFlags['all'] = $patientsallFlags;
         $submissionFlags['flags'] =$patientsFlags;
 
@@ -1781,12 +1777,15 @@ class PatientController extends Controller
            $questionType =  $question->get("type");
            $responseId = $answer->get("response")->getObjectId();
            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+           
+
+           $responseStatus = $answer->get("response")->get("status");
+           if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
+                continue;
+
            $baseLine = $answer->get("response")->get("baseLine")->getObjectId();
            $preSubmissionId = (!is_null($answer->get("response")->get("previousSubmission")))?$answer->get("response")->get("previousSubmission")->getObjectId():'';
 
-           $responseStatus = $answer->get("response")->get("status");
-           // if($responseStatus=='missed' || $responseStatus=='started')
-           //      continue;
             $submissions[$sequenceNumber] = $responseId;
             $responseIds[$responseId]['BaseLine'] = $baseLine;
             $responseIds[$responseId]['Previous'] = $preSubmissionId;
