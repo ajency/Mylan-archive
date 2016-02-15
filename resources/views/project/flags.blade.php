@@ -33,10 +33,12 @@
                   <form name="searchData" method="GET"> 
   <input type="hidden" class="form-control" name="startDate"  >
   <input type="hidden" class="form-control" name="endDate"  >
-    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-       <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-       <span></span> <b class="caret"></b>
-    </div>
+ 
+   <div id="reportrange" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;margin-right:10px;">
+          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+          <span></span> <b class="caret"></b>
+      </div>
+                            
 
   </form>
   <input type="hidden" name="flag" value="0">
