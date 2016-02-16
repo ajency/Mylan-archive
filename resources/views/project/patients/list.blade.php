@@ -108,7 +108,7 @@
                      <sm class="light">( This is for the Cumulative Submissions )</sm>
                   </h4>
                   <div class="tools">
-                  <form method="get">  
+                  <form method="get" class="tools-form">  
                      <select name="patients" id="patients" class=" select2  form-control inline filterby pull-left -m-5">
                         <option value="">Filter By</option>
                         <option {{ ($patientsStatus=='active')?'selected':''}} value="active">Active Patients</option>
@@ -124,14 +124,14 @@
                         <tr>
                            <th width="12%">Patient ID</th>
                            <th width="31%">Total Submissions</th>
-                           <th class="sorting">
+                           <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
                               <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
                               <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                               <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                            </th>
-                           <th class="sorting">
+                           <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
                               <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -192,37 +192,39 @@
                                  </div>
                               </div>
                            </td>
-                           <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <span class=" text-error">
-                               
-                              {{ $patientSummary['previousFlag']['red'] }}
-                              </span>
-                              <span class="text-warning">
-                     
-                                {{ $patientSummary['previousFlag']['amber'] }}
-                     
-                              </span>
-                              <span class="text-success">
-                                
-                                {{ $patientSummary['previousFlag']['green'] }}
-                               
-                              </span>
-                           </td>
-                           <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <span class=" text-error">                         
-                                  {{ $patientSummary['baseLineFlag']['red'] }}
-                               
-                              </span>
-                              <span class="text-warning">
-                                  {{ $patientSummary['baseLineFlag']['amber'] }}
-                                  
-                              </span>
-                              <span class="text-success">
-                         
-                                  {{ $patientSummary['baseLineFlag']['green'] }}
+                          
                               
-                              </span>
-                           </td>
+                            <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                             
+                            {{ $patientSummary['previousFlag']['red'] }}
+                            </td>
+                            <td class="text-center sorting text-warning" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                   
+                              {{ $patientSummary['previousFlag']['amber'] }}
+                   
+                            </td>
+                            <td class="text-left sorting text-success" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                              
+                              {{ $patientSummary['previousFlag']['green'] }}
+                             
+                            </td>
+
+                           
+                           
+                            <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">                         
+                                {{ $patientSummary['baseLineFlag']['red'] }}
+                             
+                            </td>
+                            <td class="text-center sorting text-warning" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                                {{ $patientSummary['baseLineFlag']['amber'] }}
+                                
+                            </td>
+                            <td class="text-left sorting text-success" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                       
+                                {{ $patientSummary['baseLineFlag']['green'] }}
+                            
+                            </td>
+                           
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="chart-block" style="padding:28px">
                                  <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>

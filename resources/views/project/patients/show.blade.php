@@ -121,14 +121,17 @@
               Flag is not displayed if the current score is same as previous score
            </p>
            <br><br>
-            
-           <div class="table-responsive"> 
+            <div class="tableOuter">
+            <div class="x-axis-text">Submissions</div>
+           <div class="y-axis-text">Questions</div>
+           <div class="table-responsive sticky-table-outer-div"> 
+           
          <table class="table">
                         <thead class="cf">
                            <tr>
-                              <th class="headcol">Week</th>
+                              <th class="headcol th-headcol"></th>
                               @foreach($responseArr as $response)
-                              <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
+                              <th width="50px">{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
                               @endforeach
                            </tr>
                         </thead>
@@ -149,7 +152,7 @@
                                 $flag = 'hidden';
                               }
                               ?>
-                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                              <td width="50px" class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
                    
                               @endforeach
                               
@@ -158,7 +161,8 @@
                            
                         </tbody>
                      </table>
-                     </div>   
+                     </div>
+           </div>             
            <div>
                
               <hr>
