@@ -40,7 +40,7 @@ class PatientController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
         $patientsStatus ='';
         if(isset($inputs['patients']))
@@ -668,7 +668,7 @@ class PatientController extends Controller
              $sequenceNumber = $answer->get("response")->get("sequenceNumber");
              $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
 
-             if($responseStatus=='base_line')
+             if($responseStatus=='base_line' || $responseStatus=='missed' || $responseStatus=='started')
                 continue;
 
              if($questionType!='single-choice')
