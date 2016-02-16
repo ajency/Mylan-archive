@@ -1789,7 +1789,7 @@ class PatientController extends Controller
            
 
            $responseStatus = $answer->get("response")->get("status");
-           if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_l')
+           if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
 
            $baseLine = $answer->get("response")->get("baseLine")->getObjectId();
