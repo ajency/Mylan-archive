@@ -668,7 +668,7 @@ class PatientController extends Controller
              $sequenceNumber = $answer->get("response")->get("sequenceNumber");
              $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
 
-             if($responseStatus=='base_line')
+             if($responseStatus=='base_line' || $responseStatus=='missed' || $responseStatus=='started')
                 continue;
 
              if($questionType!='single-choice')
