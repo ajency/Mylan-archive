@@ -6,7 +6,7 @@
 
     
     var questionnaireIdd = '{{ $questionnaire["id"] }}';
-    var questionnaireName = '{{ $questionnaire["name"] }}'
+    var questionnaireName = '{{ $hospital["project"] }}'
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
