@@ -1,49 +1,62 @@
 angular.module 'angularApp.dashboard',[]
 
-.controller 'dashboardController', ['$scope', 'DashboardAPI', '$location', ($scope, DashboardAPI, $location)->
+.controller 'dashboardController', ['$scope', 'DashboardAPI', '$location', 'Storage'
+	, ($scope, DashboardAPI, $location, Storage)->
 	
-	$scope.view =
-		data : []
-		display : 'loader'
-		QuestinnarieName : questionnaireName
-		showMoreButton : true
-		limitTo: 5
+		$scope.view =
+			data : []
+			display : 'loader'
+			QuestinnarieName : questionnaireName
+			showMoreButton : true
+			limitTo: 5
 
-		init :() -> 
+			init :() -> 
 
-			@display = 'loader'
-			id = RefCode
-			param = 
-				"patientId": id
-
-			DashboardAPI.get(param)
-			.then (data)=>
-				@data = data
-				@display = 'noError'
-				if @data.length < 6
-					@showMoreButton = false
-			,(error)=>
-				@display = 'error'
-				@errorType = error
-
-		summary : (id)->
-			$location.path('summary/'+id)
-
-		startQuiz :() ->
-			$location.path 'start-questionnaire'
-
-		resumeQuiz : (id)->
-			$location.path 'questionnaire/'+id+'/000'
-
-		onTapToRetry : ->
 				@display = 'loader'
-				console.log 'onTapToRetry'
-				@init()
+				id = RefCode
+				param = 
+					"patientId": id
 
-		showMore : ->
-			@limitTo = @limitTo + 5
-			if @data.length < @limitTo 
-				@showMoreButton = false
+				DashboardAPI.get(param)
+				.then (data)=>
+					@data = data
+					@display = 'noError'
+					if @data.length < 6
+						@showMoreButton = false
+				,(error)=>
+					@display = 'error'
+					@errorType = error
+
+			summary : (id)->
+				summaryData = 
+					previousState : 'dashboard'
+					responseId : id
+
+				Storage.summary 'set', summaryData
+				$location.path('summary')
+
+			startQuiz :() ->
+				$location.path 'start-questionnaire'
+
+			resumeQuiz : (id)->
+
+				questionnaireData = 
+					respStatus : 'resume'
+					responseId : id
+
+				Storage.questionnaire 'set', questionnaireData
+
+				$location.path 'questionnaire'
+
+			onTapToRetry : ->
+					@display = 'loader'
+					console.log 'onTapToRetry'
+					@init()
+
+			showMore : ->
+				@limitTo = @limitTo + 5
+				if @data.length < @limitTo 
+					@showMoreButton = false
 
 				
 ]

@@ -1,11 +1,18 @@
 angular.module 'angularApp.dashboard'
 
-.controller 'StartQuestionnaireCtrl', ['$scope', 'QuestionAPI', '$routeParams', '$location'
-	, ($scope, QuestionAPI, $routeParams, $location)->
+.controller 'StartQuestionnaireCtrl', ['$scope', 'QuestionAPI', '$routeParams', '$location', 'Storage'
+	, ($scope, QuestionAPI, $routeParams, $location, Storage)->
 
 		$scope.view =
 			startQuiz :(quizID) ->
-				$location.path 'questionnaire/noValue/000'
+
+				questionnaireData = 
+					respStatus : 'noValue'
+					responseId : ''
+
+				Storage.questionnaire 'set', questionnaireData
+
+				$location.path 'questionnaire'
 				# App.navigate 'questionnaire', respStatus:'noValue'
 
 ]

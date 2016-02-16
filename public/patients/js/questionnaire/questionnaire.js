@@ -1,5 +1,5 @@
 angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
-  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', function($scope, QuestionAPI, $routeParams, CToast, $location) {
+  '$scope', 'QuestionAPI', '$routeParams', 'CToast', '$location', 'Storage', function($scope, QuestionAPI, $routeParams, CToast, $location, Storage) {
     return $scope.view = {
       pastAnswerDiv: 0,
       title: 'C-weight',
@@ -16,6 +16,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       limitTo: 5,
       showMoreButton: true,
       popTitle: '',
+      responseId: '',
       overlay: false,
       showMore: function() {
         this.limitTo = this.limitTo + 5;
@@ -95,88 +96,97 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       getQuestion: function() {
-        var options, param, responseId;
-        this.display = 'loader';
-        this.respStatus = $routeParams.respStatus;
-        if (this.respStatus === 'lastQuestion') {
-          param = {
-            "questionId": '',
-            "options": [],
-            "value": "",
-            "responseId": $routeParams.responseId
-          };
-          return QuestionAPI.getPrevQuest(param).then((function(_this) {
-            return function(data) {
-              console.log('previous data');
-              console.log(_this.data);
-              _this.variables();
-              _this.data = [];
-              _this.data = data;
-              _this.readonly = _this.data.editable;
-              _this.pastAnswer();
-              if (!_.isEmpty(_this.data.hasAnswer)) {
-                _this.hasAnswerShow();
-              }
-              _this.display = 'noError';
-              return _this.checkQuestinarieStatus(data);
+        var options, param, questionnaireData, responseId;
+        questionnaireData = Storage.questionnaire('get');
+        console.log('**************getQuestion**************');
+        console.log(questionnaireData);
+        if (!_.isEmpty(questionnaireData)) {
+          this.display = 'loader';
+          this.respStatus = questionnaireData.respStatus;
+          this.responseId = questionnaireData.responseId;
+          if (this.respStatus === 'lastQuestion') {
+            param = {
+              "questionId": '',
+              "options": [],
+              "value": "",
+              "responseId": questionnaireData.responseId
             };
-          })(this), (function(_this) {
-            return function(error) {
-              _this.display = 'error';
-              console.log(error);
-              if (error === 'offline') {
-                return CToast.show('Check net connection,answer not saved');
-              } else {
-                return CToast.show('Error ,try again');
-              }
+            return QuestionAPI.getPrevQuest(param).then((function(_this) {
+              return function(data) {
+                console.log('previous data');
+                console.log(_this.data);
+                _this.variables();
+                _this.data = [];
+                _this.data = data;
+                _this.readonly = _this.data.editable;
+                _this.pastAnswer();
+                if (!_.isEmpty(_this.data.hasAnswer)) {
+                  _this.hasAnswerShow();
+                }
+                _this.display = 'noError';
+                return _this.checkQuestinarieStatus(data);
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                _this.display = 'error';
+                console.log(error);
+                if (error === 'offline') {
+                  return CToast.show('Check net connection,answer not saved');
+                } else {
+                  return CToast.show('Error ,try again');
+                }
+              };
+            })(this));
+          } else if (this.respStatus === 'noValue') {
+            responseId = '';
+            options = {
+              "responseId": responseId,
+              "questionnaireId": questionnaireIdd,
+              "patientId": RefCode
             };
-          })(this));
-        } else if (this.respStatus === 'noValue') {
-          responseId = '';
-          options = {
-            "responseId": responseId,
-            "questionnaireId": questionnaireIdd,
-            "patientId": RefCode
-          };
-          return QuestionAPI.getQuestion(options).then((function(_this) {
-            return function(data) {
-              console.log('inside then');
-              console.log(data);
-              _this.data = data;
-              _this.pastAnswer();
-              return _this.display = 'noError';
+            return QuestionAPI.getQuestion(options).then((function(_this) {
+              return function(data) {
+                console.log('inside then');
+                console.log(data);
+                _this.data = data;
+                _this.pastAnswer();
+                return _this.display = 'noError';
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                _this.display = 'error';
+                return _this.errorType = error;
+              };
+            })(this));
+          } else {
+            responseId = questionnaireData.responseId;
+            options = {
+              "responseId": responseId,
+              "questionnaireId": questionnaireIdd,
+              "patientId": RefCode
             };
-          })(this), (function(_this) {
-            return function(error) {
-              _this.display = 'error';
-              return _this.errorType = error;
-            };
-          })(this));
+            return QuestionAPI.getQuestion(options).then((function(_this) {
+              return function(data) {
+                console.log('inside then');
+                console.log(data);
+                _this.data = data;
+                _this.pastAnswer();
+                _this.display = 'noError';
+                return _this.checkQuestinarieStatus(data);
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                _this.display = 'error';
+                return _this.errorType = error;
+              };
+            })(this));
+          }
         } else {
-          responseId = this.respStatus;
-          options = {
-            "responseId": responseId,
-            "questionnaireId": questionnaireIdd,
-            "patientId": RefCode
-          };
-          return QuestionAPI.getQuestion(options).then((function(_this) {
-            return function(data) {
-              console.log('inside then');
-              console.log(data);
-              _this.data = data;
-              _this.pastAnswer();
-              _this.display = 'noError';
-              return _this.checkQuestinarieStatus(data);
-            };
-          })(this), (function(_this) {
-            return function(error) {
-              _this.display = 'error';
-              return _this.errorType = error;
-            };
-          })(this));
+          return $location.path('dashboard');
         }
       },
       loadNextQuestion: function(param) {
+        this.responseId = param.responseId;
         this.CSpinnerShow();
         return QuestionAPI.saveAnswer(param).then((function(_this) {
           return function(data) {
@@ -419,15 +429,24 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         return $location.path('dashboard');
       },
       checkQuestinarieStatus: function(data) {
+        var summaryData;
         if (!_.isUndefined(data.status)) {
           if (data.status === 'completed') {
             this.popTitle = 'This questionnaire was Completed';
             this.showConfirm();
+            return this.display = 'completed';
           } else if (data.status === 'missed') {
             this.popTitle = 'This questionnaire was Missed';
             this.showConfirm();
+            return this.display = 'completed';
+          } else if (data.status === 'saved_successfully') {
+            summaryData = {
+              previousState: 'questionnaire',
+              responseId: this.responseId
+            };
+            Storage.summary('set', summaryData);
+            return $location.path('summary');
           }
-          return this.display = 'completed';
         }
       }
     };
