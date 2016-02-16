@@ -129,7 +129,7 @@ class ProjectController extends Controller
 
     public function getProjectAnwersByDate($projectId,$page=0,$anwsersData,$startDate,$endDate)
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $answersQry = new ParseQuery("Answer");
         $answersQry->equalTo("project",$projectId);
@@ -155,7 +155,7 @@ class ProjectController extends Controller
 
     public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status)
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]

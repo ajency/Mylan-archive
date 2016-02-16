@@ -310,7 +310,9 @@ class PatientController extends Controller
         foreach ($patientResponses as  $response) {
             $responseId = $response->getObjectId();
             $responseStatus = $response->get("status");
-            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+
+            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
 
             if ($responseStatus=='completed') {
                 $completedResponses[]= $response;
@@ -1154,16 +1156,15 @@ class PatientController extends Controller
 
     public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status)  
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]
         $responseQry->containedIn("patient",$patients);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
-        
-        $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
+        $responseQry->limit($displayLimit);
         $responseQry->descending("occurrenceDate");
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
@@ -1181,7 +1182,7 @@ class PatientController extends Controller
 
     public function getPatientsResponses($patients,$page=0,$responseData,$status)  
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]
@@ -1204,7 +1205,7 @@ class PatientController extends Controller
 
     public function getPatientAnwers($patient,$projectId,$page=0,$anwsersData)
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $answersQry = new ParseQuery("Answer");
         //$answersQry->equalTo("project",$projectId);
@@ -1232,7 +1233,7 @@ class PatientController extends Controller
 
     public function getPatientAnwersByDate($patient,$projectId,$page=0,$anwsersData,$startDate,$endDate)
     {
-        $displayLimit = 20; 
+        $displayLimit = 90; 
 
         $answersQry = new ParseQuery("Answer");
         //$answersQry->equalTo("project",$projectId);
@@ -1588,7 +1589,8 @@ class PatientController extends Controller
         $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
-            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
             
         }
 

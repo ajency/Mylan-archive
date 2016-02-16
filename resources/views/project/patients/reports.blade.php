@@ -59,7 +59,7 @@ Flag is not displayed if the current score is same as previous score</p>
                                              <tr>
                                                 <th class="headcol">Week</th>
                                                 @foreach($responseArr as $response)
-                                                <th>{{ $response }}</th>
+                                                <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
                                                 @endforeach
                                              </tr>
                                           </thead>
