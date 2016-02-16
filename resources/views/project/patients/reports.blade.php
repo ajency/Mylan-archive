@@ -72,7 +72,7 @@ Flag is not displayed if the current score is same as previous score</p>
                                                 if(isset($submissionArr[$responseId][$questionId]))
                                                 {
                                                   $class='bg-'.$submissionArr[$responseId][$questionId]['baslineFlag'];
-                                                  $flag= ($submissionArr[$responseId][$questionId]['previousFlag']=='no_colour')?'hidden':'text-'.$submissionArr[$responseId][$questionId]['previousFlag'];
+                                                  $flag= ($submissionArr[$responseId][$questionId]['previousFlag']=='no_colour'|| $submissionArr[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionArr[$responseId][$questionId]['previousFlag'];
                                                 }
                                                 else
                                                 {

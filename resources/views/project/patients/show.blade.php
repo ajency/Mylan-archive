@@ -141,7 +141,7 @@
                               if(isset($submissionFlags[$responseId][$questionId]))
                               {
                                 $class='bg-'.$submissionFlags[$responseId][$questionId]['baslineFlag'];
-                                $flag= ($submissionFlags[$responseId][$questionId]['previousFlag']=='no_colour')?'hidden':'text-'.$submissionFlags[$responseId][$questionId]['previousFlag'];
+                                $flag= ($submissionFlags[$responseId][$questionId]['previousFlag']=='no_colour' || $submissionFlags[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionFlags[$responseId][$questionId]['previousFlag'];
                               }
                               else
                               {

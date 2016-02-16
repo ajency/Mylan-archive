@@ -66,7 +66,7 @@ class ProjectController extends Controller
 
         $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-7 day'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
@@ -79,45 +79,49 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-        $responseStatus = ["completed","late","missed"];
-        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus); 
-        $projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
-        $responseCount = $this->getProjectResponseCounts($projectResponses,$projectAnwers);
-        $projectFlagsCount = $this->projectFlagsCount($projectAnwers); 
-        $projectSubmissionCount = $this->projectSubmissionCount($projectResponses);
-        $patientsFlagSummary = $this->patientsFlagSummary($projectAnwers);  
-        $submissionsSummary = $this->getSubmissionsSummary($projectAnwers); 
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
 
-        
-        $patients = User::where('type','patient')->where('project_id',$project['id'])->orderBy('created_at')->get()->toArray();
-        $newPatients = [];
+        //dd($patients);
+        $activepatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
             
-            if($patient['account_status']=='created')
-                $newPatients[]= $patient['reference_code'];
+            if($patient['account_status']=='active')
+                $activepatients[]= $patient['reference_code'];
             
             $patientReferenceCode[] = $patient['reference_code'];
         }
-        
-        $patients['patientsCount'] = count($patients);
-        $patients['newPatients'] = count($newPatients);
 
-        $allPatients = User::where('type','patient')->where(['project_id'=>$projectId])->get()->take(5)->toArray();
+
+        $responseStatus = ["completed","late","missed"];
+        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus); 
+        // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
+
+         $responseCount = $this->getProjectResponseCounts($projectResponses);
+        // //red flags,amber flags ,unreviwed submission , submission
+         $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
+
+         //patient submissions
+        $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+        $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
+
+        $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
-        $patientSummaryData  = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj);
-        $patientsSummary = $patientSummaryData['patientResponses'];
-        
+        $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
+ 
+
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
-                                        ->with('projectFlagsCount', $projectFlagsCount)
-                                        ->with('projectSubmissionCount', $projectSubmissionCount)
-                                        ->with('patientsFlagSummary', $patientsFlagSummary)
+                                        ->with('activepatients', count($activepatients))
+                                        ->with('allpatientscount', count($patientReferenceCode))
+                                        ->with('responseCount', $responseCount)
                                         ->with('submissionsSummary', $submissionsSummary)
-                                        ->with('patientsSummary', $patientsSummary)
-                                        ->with('allPatients', $allPatients)
+                                        ->with('patientResponses', $patientResponses['patientResponses'])
+                                        ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
                                         ->with('endDate', $endDate)
@@ -178,174 +182,162 @@ class ProjectController extends Controller
      
     }
 
-    public function getProjectResponseCounts($projectResponses,$projectAnwers)
+    public function getProjectResponseCounts($projectResponses)
     {
-        $redFlags['baseLineFlag'] =[];
-        $redFlags['previousFlag'] =[];
-        $amberFlags['baseLineFlag'] = [];
-        $amberFlags['previousFlag'] = [];
-        $missed = [];
-        $completed = [];
-        $openSubmissions=[];
+        $completedResponses =[];
+        $lateResponses=[];
+        $patientSubmissions = [];
+        $missedResponses=[];
+        $responseRate = [];
+        $unreviewed = [];
+        $redFlags = [];
+        $amberFlags = [];
+        foreach ($projectResponses as  $response) {
+            $responseId = $response->getObjectId();
+            $responseStatus = $response->get("status");
+            $reviewed = $response->get("reviewed");
+            
+            $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
+            $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
+            $baseLineTotalGreenFlags = $response->get("baseLineTotalGreenFlags");
+            $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+            $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
+            $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
 
-        $missedByDate = [];
-        $openSubmissionsByDate=[];
-        $completedByDate = [];
 
-        $missedSubmissionData = [];
-        $openSubmissionData=[];
-        $completedSubmissionData = [];
+            if ($responseStatus=='completed') {
+                $completedResponses[]= $responseId;
+                $patientSubmissions[]=$response;
+            }
+            elseif ($responseStatus=='late') {
+                $lateResponses[]= $responseId;
+                $patientSubmissions[]=$response;
+            }
+            elseif ($responseStatus=='missed') {
+                $missedResponses[]= $responseId;
+            }
+
+            if($reviewed=='unreviewed')
+            {
+                $unreviewed []= $responseId;
+            }
+            if ($responseStatus=='completed' || $responseStatus=='late') {
+                 
+                    $redFlags['baseLine'][]=$baseLineTotalRedFlags;
+                 
+                    $amberFlags['baseLine'][]=$baseLineTotalAmberFlags;
+                 
+                    $redFlags['previous'][]=$previousTotalRedFlags;
+                 
+                    $amberFlags['previous'][]=$previousTotalAmberFlags;
+                 
+            }
+        }
+
+        $totalResponses = count($projectResponses);
+        $data['completedCount'] = count($completedResponses);
+        $data['missedCount'] = count($missedResponses);
+        $data['lateCount'] = count($lateResponses);
+
+        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+        $data['completed'] =  round($completed,2);
+
+        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
+        $data['missed'] =  round($missed,2);
+
+        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
+        $data['late'] =  round($late,2);
+
+        $data['redBaseLine'] = (isset($redFlags['baseLine']))?array_sum($redFlags['baseLine']):0;
+        $data['redPrevious'] = (isset($redFlags['previous']))?array_sum($redFlags['previous']):0;
+        $data['amberBaseLine'] = (isset($amberFlags['baseLine']))?array_sum($amberFlags['baseLine']):0;
+        $data['amberPrevious'] = (isset($amberFlags['previous']))?array_sum($amberFlags['previous']):0;
+        $data['unreviewedSubmission'] = count($unreviewed);
+        $data['patientSubmissions'] = $patientSubmissions;
+        
  
 
-        foreach ($projectResponses as $response) {
-            $responseId = $response->getObjectId();
-            $status = $response->get("status");
-            $reviewed = $response->get("reviewed");
-            $responseDate = $response->get("occurrenceDate")->format('d-m-Y');
-            $responseDate = strtotime($responseDate);
-
-            if($status=='missed')
-            {
-                $missed[]=$responseId;
-                $missedByDate[$responseDate][] =$responseId;
-            }
-
-            if($status=='completed')
-            {
-                $completed[]=$responseId;
-                $completedByDate[$responseDate][] =$responseId;
-            }
-
-            if($reviewed=='open')
-            {
-                $openSubmissions[]=$responseId;
-                $openSubmissionsByDate[$responseDate][] =$responseId;
-            }
-
-
-        }
-         
-        ksort($missedByDate);
-        $i=0;
-        foreach($missedByDate as $date => $value)
-        { 
-            $missedSubmissionData[$i]["date"] = date('Y-m-d',$date);
-            $missedSubmissionData[$i]["missed"] = count($value);
-            $i++;
-        }
-
-        ksort($completedByDate);
-        $i=0;
-        foreach($completedByDate as $date => $value)
-        { 
-            $completedSubmissionData[$i]["date"] = date('Y-m-d',$date);
-            $completedSubmissionData[$i]["completed"] = count($value);
-            $i++;
-        }
-
-        ksort($openSubmissionsByDate);
-        $i=0;
-        foreach($openSubmissionsByDate as $date => $value)
-        { 
-            $openSubmissionData[$i]["date"] = date('Y-m-d',$date);
-            $openSubmissionData[$i]["open_review"] = count($value);
-            $i++;
-        }
-
-        foreach ($projectAnwers as $answer) {
-            $answerId = $answer->getObjectId();
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-
-            if($baseLineFlag=='red')
-                $redFlags['baseLineFlag'][]=$answerId;
-
-            if($previousFlag=='red')
-                $redFlags['previousFlag'][]=$answerId;
-
-            if($baseLineFlag=='amber')
-                $amberFlags['baseLineFlag'][]=$answerId;
-
-            if($previousFlag=='amber')
-                $amberFlags['previousFlag'][]=$answerId;
-        }
-
-        $data['redFlags'] = $redFlags;
-        $data['amberFlags'] = $amberFlags;
-        $data['missed'] = count($missed);
-        $data['completed'] = count($completed);
-        $data['openSubmissions'] = count($openSubmissions);
-
-        $data['missedSubmissionData'] = json_encode($missedSubmissionData);
-        $data['completedSubmissionData'] = json_encode($completedSubmissionData);
-        $data['openSubmissionData'] = json_encode($openSubmissionData);
+        
          
         return $data;
     }
 
-    public function projectFlagsCount($projectAnwers)
+    public function projectFlagsChart($patientResponses)
     {
 
         $redFlagsByDate = [];
         $amberFlagsByDate = [];
-        $basLineRedFlags =[];
-        $previousRedFlags =[];
-      
-        foreach ($projectAnwers as $answer)
-        {
-            $baseLineFlag = $answer->get("baseLineFlag");
-            $previousFlag = $answer->get("previousFlag");
-            $responseId = $answer->get("response")->getObjectId();
-            $questionId = $answer->get("question")->getObjectId();
-            $questionType = $answer->get("question")->get("type");
-            $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
-            $answerDate = strtotime($answerDate);
+        // $greenFlagsByDate = [];
+        $unreviewedSubmissionByDate = [];
+        $missedByDate = [];
+        $completedByDate = [];
+        $lateByDate = [];
+       
+        foreach ($patientResponses as $response) {
+            $responseId = $response->getObjectId();
+            
+            $reviewed = $response->get("reviewed");
 
-            if($questionType!='single-choice')
-                continue;
+            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y');
+            $occurrenceDate = strtotime($occurrenceDate);
 
-            if(!isset($redFlagsByDate[$answerDate]))
-            {
-                $redFlagsByDate[$answerDate]['baseLine']=[];
-                $amberFlagsByDate[$answerDate]['baseLine']=[];
-                $redFlagsByDate[$answerDate]['previous']=[];
-                $amberFlagsByDate[$answerDate]['previous']=[];
+
+            $responseStatus = $response->get("status");
+
+            if ($responseStatus=='completed') {
+                $completedByDate[$occurrenceDate][]= $responseId;
+            }
+            elseif ($responseStatus=='late') {
+                $missedByDate[$occurrenceDate][]= $responseId;
+            }
+            elseif ($responseStatus=='missed') {
+                $missedByDate[$occurrenceDate][]= $responseId;
             }
 
-            if($baseLineFlag=='red')
+            if($reviewed=='unreviewed')
             {
-              $redFlagsByDate[$answerDate]['baseLine'][] = $responseId;
+                $unreviewedSubmissionByDate[$occurrenceDate][]= $responseId;
             }
 
-            if($baseLineFlag=='amber')
-            {
-                $amberFlagsByDate[$answerDate]['baseLine'][] = $responseId;
 
+            $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
+            $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
+            $baseLineTotalGreenFlags = $response->get("baseLineTotalGreenFlags");
+            $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+            $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
+            $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
+
+            
+             
+           if ($responseStatus=='completed' || $responseStatus=='late') {
+                $redFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalRedFlags;
+                $amberFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalAmberFlags;
+                $greenFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalGreenFlags;
+                $redFlagsByDate[$occurrenceDate]['previous'][]=$previousTotalRedFlags;
+                $amberFlagsByDate[$occurrenceDate]['previous'][]=$previousTotalAmberFlags;
+                $greenFlagsByDate[$occurrenceDate]['previous'][]=$previousTotalGreenFlags;
             }
-
-            if($previousFlag =='red') 
-            {
-                $redFlagsByDate[$answerDate]['previous'][] = $responseId;
-            }
-
-            if($previousFlag =='amber') 
-            {
-                $amberFlagsByDate[$answerDate]['previous'][] = $responseId;
-            }
-
+            //$totalFlagsByDate[$occurrenceDate] = $totalScore;
+            // $baseLineByDate[$occurrenceDate] = $totalScore + $comparedToBaseLine;
             
         }
 
+        
         $redFlagData = [];
         $amberFlagData = [];
+        $greenFlagData = [];
+        $unreviewedData = [];
+
+        // $baslineFlagData = [];
+        // $previousFlagData = [];
 
         ksort($redFlagsByDate);
         $i=0;
         foreach($redFlagsByDate as $date => $value)
         { 
-            $redFlagData[$i]["date"] = date('Y-m-d',$date);
-            $redFlagData[$i]["base_line"] = count($value['baseLine']);
-            $redFlagData[$i]["previous"] = count($value['previous']) ;
+            $redFlagData[$i]["Date"] = date('d M',$date);
+            $redFlagData[$i]["Baseline"] = array_sum($value['baseLine']);
+            $redFlagData[$i]["Previous"] = array_sum($value['previous']) ;
  
             $i++;
         }
@@ -354,17 +346,42 @@ class ProjectController extends Controller
         $i=0;
         foreach($amberFlagsByDate as $date => $value)
         { 
-            $amberFlagData[$i]["date"] = date('Y-m-d',$date);
-            $amberFlagData[$i]["base_line"] = count($value['baseLine']);
-            $amberFlagData[$i]["previous"] = count($value['previous']) ;
+            $amberFlagData[$i]["Date"] =  date('d M',$date);
+            $amberFlagData[$i]["Baseline"] = array_sum($value['baseLine']);
+            $amberFlagData[$i]["Previous"] = array_sum($value['previous']) ;
+ 
+            $i++;
+        }
+
+        // ksort($greenFlagsByDate);
+        // $i=0;
+        // foreach($greenFlagsByDate as $date => $value)
+        // { 
+        //     $greenFlagData[$i]["Date"] =  date('d M',$date);
+        //     $greenFlagData[$i]["Baseline"] = $value['baseLine'];
+        //     $greenFlagData[$i]["Previous"] = $value['previous'] ;
+ 
+        //     $i++;
+        // }
+
+
+        ksort($unreviewedSubmissionByDate);
+        $i=0;
+        foreach($unreviewedSubmissionByDate as $date => $value)
+        { 
+            $unreviewedData[$i]["Date"] =  date('d M',$date);
+            $unreviewedData[$i]["score"] = count($value);
  
             $i++;
         }
        
-
+     
         $data['redFlags'] = json_encode($redFlagData);
         $data['amberFlags'] = json_encode($amberFlagData);
-
+        $data['greenFlags'] = json_encode($greenFlagData); 
+        $data['unreviewedSubmission'] = json_encode($unreviewedData);
+        
+        
         return $data;
     }
 
@@ -637,6 +654,21 @@ class ProjectController extends Controller
         $projectId = intval($project['id']);
 
         $inputs = Input::get();
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                     );
 
         $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
         $allPatients = User::where('type','patient')->lists('reference_code')->toArray();
@@ -650,26 +682,76 @@ class ProjectController extends Controller
         $responseArr=[];
         
         $patientController = new PatientController();
-        $responses  = $patientController->getPatientsResponses($patients,$projectId,0,[]);
- 
-        foreach ($responses as  $response) {
+        $responseByDate = [];
+        $responseStatus = ["completed","late","missed"];
+        $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
+        $patientResponses = $patientController->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+        foreach ($patientResponses as  $response) {
             $responseId = $response->getObjectId();
-            $responseArr[$responseId] = $response->get("occurrenceDate")->format('d M');
+            $responseStatus = $response->get("status");
+
+            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
+
+            if ($responseStatus=='completed') {
+                $completedResponses[]= $response;
+                $patientSubmissions[] = $response;
+            }
+            elseif ($responseStatus=='late') {
+                $lateResponses[]= $response;
+                $patientSubmissions[] = $response;
+            }
+            elseif ($responseStatus=='missed') {
+                $missedResponses[]= $response;
+            }
+
+            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $occurrenceDate = strtotime($occurrenceDate);
+            $responseByDate[$occurrenceDate] = $responseId;
+        } 
+
+        ksort($responseByDate);
+        $patientSubmissionsByDate = [];
+        foreach ($responseByDate as $date => $responseId) {
+            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
         }
 
+        $totalResponses = count($patientResponses);
+        $responseRate['completedCount'] = count($completedResponses);
+        $responseRate['missedCount'] = count($missedResponses);
+        $responseRate['lateCount'] = count($lateResponses);
 
+        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+        $responseRate['completed'] =  round($completed,2);
 
-        $patientAnswers  = $patientController->getPatientAnwers($referenceCode,$projectId,0,[]);
+        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
+        $responseRate['missed'] =  round($missed,2);
 
-        $patientChartdata = $patientController->getQuestionChartData($patientAnswers);
+        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
+        $responseRate['late'] =  round($late,2);  
 
+        $baselineAnwers = $patientController->getPatientBaseLine($patient['reference_code']);
+        $allBaselineAnwers = $patientController->getAllPatientBaseLine($patient['reference_code']);
 
+        //get patient answers
+        $patientAnswers = $patientController->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        
 
-        $singleChoiceQuestion = $patientChartdata['singleChoiceQuestion']; 
-        $questionLabels = $patientChartdata['questionLabels'];
-        $questionChartData = $patientChartdata['chartData'];
-        $questionBaseLine = $patientChartdata['questionBaseLine'];
-        $submissions = $patientChartdata['submissions'];      
+         //flags chart (total,red,amber,green)  
+        $flagsCount = $patientController->patientFlagsCount($patientSubmissions,$baselineAnwers);    
+
+        //health chart
+        $healthChart = $this->healthChartData($patientAnswers);
+        $submissionFlags = $healthChart['submissionFlags'];
+        $flagsQuestions = $healthChart['questionLabel'];
+
+        //question chart
+        $questionsChartData = $this->getQuestionChartData($patientAnswers);
+        $questionLabels = $questionsChartData['questionLabels'];
+        $questionChartData = $questionsChartData['chartData'];
+
+        $patientSubmissionChart = $patientController->getPatientSubmissionChart($patientAnswers,$allBaselineAnwers);
+
 
         return view('project.reports')->with('active_menu', 'reports')
                                         ->with('responseArr', $responseArr)
