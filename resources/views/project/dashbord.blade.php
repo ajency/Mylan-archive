@@ -317,7 +317,7 @@
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
                               <div class="text-right">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions';" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                               </div>
                            </div>
                         </div>
