@@ -37,7 +37,7 @@ class PatientController extends Controller
 
         $inputs = Input::get();
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
@@ -72,7 +72,7 @@ class PatientController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
         $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj);
@@ -262,7 +262,7 @@ class PatientController extends Controller
 
         $inputs = Input::get();
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
@@ -274,7 +274,7 @@ class PatientController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
         $patient = User::find($patientId);
@@ -858,7 +858,7 @@ class PatientController extends Controller
         $inputs = Input::get(); 
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -867,10 +867,10 @@ class PatientController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-
+        
         // $responseStatus = ["completed"];
         // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
@@ -885,8 +885,9 @@ class PatientController extends Controller
         {
             $responseStatus = ["completed","late","missed"];
         }
+
         $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
- 
+        //dd($patientResponses);
         $projectController = new ProjectController();
         $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
 
@@ -918,7 +919,7 @@ class PatientController extends Controller
         $inputs = Input::get(); 
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -927,7 +928,7 @@ class PatientController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
         $filterType = (isset($inputs['type']))?$inputs['type']:'';
@@ -1158,8 +1159,9 @@ class PatientController extends Controller
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]
         $responseQry->containedIn("patient",$patients);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
         $responseQry->descending("occurrenceDate");
@@ -1565,7 +1567,7 @@ class PatientController extends Controller
         $inputs = Input::get(); 
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -1574,7 +1576,7 @@ class PatientController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
 
