@@ -8608,4 +8608,7 @@ ul.parsley-errors-list li {
   margin-right: 10px
   /*margin-top:-3px; compensate for top border*/
 }
+.th-headcol {
+  min-height: 80px;
+}
 /*# sourceMappingURL=style.css.map */
