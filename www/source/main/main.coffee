@@ -8,36 +8,22 @@ angular.module 'PatientApp.main', []
 			init : ->
 				console.log 'inittt...'
 				Push.register()
-				@getNotifications()
+				@getNotificationCount()
 
-
-
-			getNotifications :->
-
+			getNotificationCount :->
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					
 					param =
 						"patientId" : refcode
 
-					notifyAPI.getNotification param
+					notifyAPI.getNotificationCount param
 					.then (data)=>	
 						console.log 'notificato data'
 						console.log data
-
-						arrSeen = []
-						_.each data, (value)->
-							if value.hasSeen == false
-								arrSeen.push(1)
-
-						if arrSeen.length > 0
-							App.notification.count = arrSeen.length
+						if data > 0
+							App.notification.count = data
 							App.notification.badge = true
-
-
-
-						
-
 
 			onBackClick : ->
 				switch App.currentState
@@ -62,10 +48,7 @@ angular.module 'PatientApp.main', []
 			update : ->
 				App.navigate 'notification'
 
-
 			pause : ->
-				# LoadingPopup.showLoadingPopup 'views/main/pause.html' use single method
-
 				$ionicLoading.show
 					scope: $scope
 					templateUrl:'views/main/pause.html'
@@ -78,14 +61,14 @@ angular.module 'PatientApp.main', []
 				$ionicLoading.hide()
 
 		$rootScope.$on 'in:app:notification', (e, obj)->
-			
 			if App.notification.count is 0
-				$scope.view.getNotifications()
+				$scope.view.getNotificationCount()
 			else App.notification.increment()
-			
-			
 
-
+		$rootScope.$on 'notification:count:update', (e, obj)->
+			console.log 'notificcation count uopdate'
+			$scope.view.getNotificationCount()
+			
 ]
 
 .config ['$stateProvider', ($stateProvider)->

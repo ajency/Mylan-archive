@@ -4,27 +4,20 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
       init: function() {
         console.log('inittt...');
         Push.register();
-        return this.getNotifications();
+        return this.getNotificationCount();
       },
-      getNotifications: function() {
+      getNotificationCount: function() {
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             var param;
             param = {
               "patientId": refcode
             };
-            return notifyAPI.getNotification(param).then(function(data) {
-              var arrSeen;
+            return notifyAPI.getNotificationCount(param).then(function(data) {
               console.log('notificato data');
               console.log(data);
-              arrSeen = [];
-              _.each(data, function(value) {
-                if (value.hasSeen === false) {
-                  return arrSeen.push(1);
-                }
-              });
-              if (arrSeen.length > 0) {
-                App.notification.count = arrSeen.length;
+              if (data > 0) {
+                App.notification.count = data;
                 return App.notification.badge = true;
               }
             });
@@ -78,12 +71,16 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return $ionicLoading.hide();
       }
     };
-    return $rootScope.$on('in:app:notification', function(e, obj) {
+    $rootScope.$on('in:app:notification', function(e, obj) {
       if (App.notification.count === 0) {
-        return $scope.view.getNotifications();
+        return $scope.view.getNotificationCount();
       } else {
         return App.notification.increment();
       }
+    });
+    return $rootScope.$on('notification:count:update', function(e, obj) {
+      console.log('notificcation count uopdate');
+      return $scope.view.getNotificationCount();
     });
   }
 ]).config([
