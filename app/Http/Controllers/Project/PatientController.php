@@ -616,9 +616,10 @@ class PatientController extends Controller
         $i=0;
         foreach($totalFlagsByDate as $date => $value)
         { 
+            $baseLineScore =  $baseLineByDate[$date];
             $totalFlagData[$i]["Date"] =  date('d M',$date);
             $totalFlagData[$i]["score"] = $value;
-            $totalFlagData[$i]["baseLine"] = $baseLineByDate;
+            $totalFlagData[$i]["baseLine"] = $baseLineScore;
  
             $i++;
         }
