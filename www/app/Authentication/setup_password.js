@@ -7,6 +7,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
       hospitalLogo: HospitalData.logo,
+      hospitalName: HospitalData.name,
       reset: function() {
         this.New_password = '';
         this.Re_password = '';
