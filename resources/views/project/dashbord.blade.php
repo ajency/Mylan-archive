@@ -192,7 +192,7 @@
                                    <option value="red_flags" selected> Red Flags</option>
                                    <option value="amber_flags">  Amber Flags</option>
                                    <option value="unreviewed" >Unreviewed Submissions</option>
-                                   <!-- <option value="submissions">Submissions</option> -->
+                                   <option value="submissions">Submissions</option>
                                 </select>
                            
                                  </div>
@@ -485,12 +485,12 @@
               lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv");
 
             }
-            // else if($(this).val()=='green_flags')
-            // {
-            //   legends = {Baseline: "Baseline",Previous: "Previous"};
-            //   lineChartWithOutBaseLine(<?php echo $projectFlagsChart['greenFlags'];?>,legends,"chartdiv");
+            else if($(this).val()=='submissions')
+            {
+              legends = {completed: "Completed",late: "Late",missed: "Missed"};
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv");
 
-            // } 
+            } 
 
           });
 

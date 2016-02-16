@@ -269,6 +269,7 @@ class ProjectController extends Controller
         $amberFlagsByDate = [];
         // $greenFlagsByDate = [];
         $unreviewedSubmissionByDate = [];
+        $submissionByDate = [];
         $missedByDate = [];
         $completedByDate = [];
         $lateByDate = [];
@@ -288,7 +289,7 @@ class ProjectController extends Controller
                 $completedByDate[$occurrenceDate][]= $responseId;
             }
             elseif ($responseStatus=='late') {
-                $missedByDate[$occurrenceDate][]= $responseId;
+                $lateByDate[$occurrenceDate][]= $responseId;
             }
             elseif ($responseStatus=='missed') {
                 $missedByDate[$occurrenceDate][]= $responseId;
@@ -374,12 +375,24 @@ class ProjectController extends Controller
  
             $i++;
         }
+
+        $i=0;
+        foreach($unreviewedSubmissionByDate as $date => $value)
+        { 
+            $submissionByDate[$i]["Date"] =  date('d M',$date);
+            $submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
+            $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
+            $submissionByDate[$i]["missed"] = (isset($missedByDate[$date]))?count($missedByDate[$date]):0;
+ 
+            $i++;
+        }
        
      
         $data['redFlags'] = json_encode($redFlagData);
         $data['amberFlags'] = json_encode($amberFlagData);
         $data['greenFlags'] = json_encode($greenFlagData); 
         $data['unreviewedSubmission'] = json_encode($unreviewedData);
+        $data['patientsSubmission'] = json_encode($submissionByDate);
         
         
         return $data;
