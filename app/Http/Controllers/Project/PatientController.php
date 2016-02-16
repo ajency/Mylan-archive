@@ -525,6 +525,7 @@ class PatientController extends Controller
         $amberFlagsByDate = [];
         $greenFlagsByDate = [];
         $totalFlagsByDate = [];
+        $baseLineByDate = [];
         $baseLineData = [];
        
         foreach ($patientResponses as $response) {
@@ -533,6 +534,7 @@ class PatientController extends Controller
             $previousFlag = $response->get("previousFlag");
             $score = $response->get("score");
             $totalScore = $response->get("totalScore");
+            $comparedToBaseLine = $response->get("comparedToBaseLine");
 
 
             $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
@@ -554,7 +556,7 @@ class PatientController extends Controller
             $greenFlagsByDate[$occurrenceDate]['previous']=$previousTotalGreenFlags;
 
             $totalFlagsByDate[$occurrenceDate] = $totalScore;
-
+            $baseLineByDate[$occurrenceDate] = $totalScore + $comparedToBaseLine;
             
         }
 
@@ -616,6 +618,7 @@ class PatientController extends Controller
         { 
             $totalFlagData[$i]["Date"] =  date('d M',$date);
             $totalFlagData[$i]["score"] = $value;
+            $totalFlagData[$i]["baseLine"] = $baseLineByDate;
  
             $i++;
         }
