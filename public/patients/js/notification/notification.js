@@ -103,6 +103,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
           "patientId": RefCode
         };
         return notifyAPI.deleteAllNotification(param).then(function(data) {
+          this.data = [];
           console.log('sucess notification seen data');
           return console.log(data);
         }, function(error) {

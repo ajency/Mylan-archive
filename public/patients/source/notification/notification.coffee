@@ -104,6 +104,7 @@ angular.module 'angularApp.notification',[]
 
 				notifyAPI.deleteAllNotification param
 				.then (data)->
+					@data = []
 					console.log 'sucess notification seen data'
 					console.log data
 				,(error)->
