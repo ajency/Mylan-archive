@@ -121,8 +121,11 @@
               Flag is not displayed if the current score is same as previous score
            </p>
            <br><br>
-            
-           <div class="table-responsive"> 
+            <div class="tableOuter">
+            <div class="x-axis-text">Submissions</div>
+           <div class="y-axis-text">Questions</div>
+           <div class="table-responsive sticky-table-outer-div"> 
+           
          <table class="table">
                         <thead class="cf">
                            <tr>
@@ -158,7 +161,8 @@
                            
                         </tbody>
                      </table>
-                     </div>   
+                     </div>
+           </div>             
            <div>
                
               <hr>

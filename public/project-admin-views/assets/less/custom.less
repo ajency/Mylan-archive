@@ -377,7 +377,7 @@ color: #fff;
 }	
 #piechart{
 	width		: 100%;
-	height		: 90px;
+	height		: 150px;
 	font-size	: 11px;
 	margin-left: -40px;
 }
@@ -619,3 +619,51 @@ ul.parsley-errors-list li {
 		color: #757575;
 	}
 }
+.grid.simple .grid-title .tools form
+{
+	display: inline-block;
+}
+.tableOuter
+{
+	position: relative;
+	width: 97%;
+	margin-left: 3%;
+
+	.x-axis-text
+	{
+		width: 100%;
+    	text-align: center;
+    	font-size: 15px;
+	}
+	.y-axis-text
+	{
+		position: absolute;
+	    left: -45px;	    
+	    transform: rotate(-90deg);
+	    top: 48%;
+	    font-size: 15px;
+	}
+}
+.sticky-table-outer-div
+{
+width: 100%; 
+overflow-x:scroll;  
+padding-left:100px; 
+overflow-y:visible;
+padding-bottom:1px; 
+border: 1px solid #f1f1f1;
+border-bottom:none;
+
+	
+}
+.headcol {
+    position:absolute; 
+    width:100px; 
+    left:1px;
+    top:auto;
+    border-right: 0px none black;  
+    background: #fff;           
+    border-top-width:3px; /*only relevant for first row*/
+    margin-right: 10px;
+    /*margin-top:-3px; compensate for top border*/
+} 
