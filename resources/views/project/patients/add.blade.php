@@ -152,7 +152,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.datetimepicker').datetimepicker({
-        format: 'DD-MM-YYYY HH:mm'
+        format: 'DD-MM-YYYY hh:mm a'
 
       });
 
