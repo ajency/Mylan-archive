@@ -363,9 +363,15 @@
                         </tr>
                      </thead>
                      <tbody>
+                     <?php 
+                          $i=1;
+                        ?>
                   @if(!empty($patients))   
                      @foreach($patients as $patient)
                       <?php
+                         if($i==6)
+                              break;
+
                         $patientId = $patient['id'];
                         $status = $patient['account_status'];
                         $patientStatus = $patient['account_status'];
@@ -451,6 +457,9 @@
                               <span class="{{ $status_class }}"> {{ $status }}</span>
                            </td>
                         </tr>
+                        <?php 
+                          $i++;
+                          ?>
                         @endforeach
                     @else 
                         <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>

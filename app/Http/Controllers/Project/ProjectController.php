@@ -111,6 +111,7 @@ class ProjectController extends Controller
         $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
+        
  
 
 

@@ -1307,7 +1307,7 @@
            ranges: {
             'This Month': [moment(), moment()],
             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'Last 6 Months': [moment().month(-6), moment()],
               'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
               
            }
