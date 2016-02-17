@@ -56,7 +56,7 @@
       <div class="row">
          <div class="col-sm-6 ">
             <div class="tiles white">
-               <a href="patients-Recruited.html">
+               <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
                   <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                      <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ count($patients) }} </b> </h4>
                      <hr>
@@ -66,7 +66,7 @@
          </div>
          <div class="col-sm-6">
             <div class="tiles white">
-               <a href="patients-active.html">
+               <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=active') }}">
                   <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                      <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $activepatients }} </b></h4>
                      <hr>
