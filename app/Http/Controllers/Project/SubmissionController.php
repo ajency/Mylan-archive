@@ -121,8 +121,6 @@ class SubmissionController extends Controller
              
         }
 
-        
-
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
         $responseRate['completedCount'] = count($completedResponses);

@@ -252,6 +252,7 @@
                                           <span class=" text-success">-</span>
                                        </td>
                                       <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
 
