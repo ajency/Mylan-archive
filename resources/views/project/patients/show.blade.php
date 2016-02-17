@@ -338,7 +338,7 @@
                             if($i==6)
                               break;
                           ?>
-                         <tr class="odd gradeX" >
+                         <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
                             <td width="110px">
                                <div class="p-l-10 p-r-20">
                                   <h4 class="semi-bold m-0 flagcount">{{ $allSubmissionFlag['date'] }}</h4>

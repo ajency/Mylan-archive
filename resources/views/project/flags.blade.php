@@ -87,7 +87,7 @@
                       if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
                            continue;
                       ?>
-                     <tr class="odd gradeX" >
+                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
                         <td>{{ $allSubmissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -120,7 +120,7 @@
                   @if(!empty($submissionFlags['flags']['red']))
                      @foreach($submissionFlags['flags']['red'] as $submissionFlag)
                       
-                     <tr class="odd gradeX" >
+                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td>{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -154,7 +154,7 @@
                   @if(!empty($submissionFlags['flags']['amber']))
                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
                       
-                     <tr class="odd gradeX" >
+                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td>{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -187,7 +187,7 @@
                   @if(!empty($submissionFlags['flags']['green']))
                       @foreach($submissionFlags['flags']['green'] as $submissionFlag)
                       
-                     <tr class="odd gradeX" >
+                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td>{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
