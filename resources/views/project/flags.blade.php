@@ -100,7 +100,7 @@
                      </tr>
                     @endforeach 
                   @else 
-                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif     
                   </tbody>
                </table>
@@ -133,7 +133,7 @@
                      </tr>
                     @endforeach 
                   @else 
-                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif    
                   </tbody>
                </table>
@@ -167,7 +167,7 @@
                      </tr>
                     @endforeach 
                   @else 
-                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif 
                   </tbody>
                </table>
@@ -200,7 +200,7 @@
                      </tr>
                     @endforeach 
                   @else 
-                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif   
                   </tbody>
                </table>
