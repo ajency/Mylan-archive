@@ -145,6 +145,7 @@
                         </tr>
                      </thead>
                      <tbody>
+                   @if(!empty($patients))   
                      @foreach($patients as $patient)
                       <?php
                         $patientId = $patient['id'];
@@ -235,6 +236,9 @@
                            </td>
                         </tr>
                         @endforeach
+                  @else 
+                    <tr><td class="text-center" colspan="6">No data found</td></tr>
+                  @endif 
                      </tbody>
                   </table>
                </div>

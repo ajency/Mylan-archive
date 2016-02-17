@@ -49,13 +49,16 @@
               </thead>
 
               <tbody>
+              @if(!empty($baseLines))  
                @foreach($baseLines as $responseId => $baseLine)
                  <tr onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score/'.$responseId) }}'">
                     <td>#{{ $baseLine['sequenceNumber'] }}</td>
                     <td>{{ $baseLine['date'] }}</td>
                  </tr>  
               @endforeach                                     
- 
+            @else 
+              <tr><td class="text-center" colspan="3">No data found</td></tr>
+            @endif 
               </tbody>
            </table>
       </div>
