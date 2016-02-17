@@ -242,12 +242,14 @@
                                    <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                    <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                 </th>
+                                <th class="sorting">Status<br><br>
+                                </th>
                                 <th class="sorting">Review Status<br><br>
                                 </th>
                              </tr>
                           </thead>
                           <tbody>
-                             
+                          @if(!empty($submissionsSummary))   
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed')
                                     <tr>
@@ -306,17 +308,20 @@
                                        <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
                                        <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
                                     </td>
+                                   <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                    <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
                                 </tr>
                                 @endif
                         
                             @endforeach
-                             
+                        @else 
+                        <tr><td class="text-center" colspan="6">No data found</td></tr>
+                        @endif    
                                 
                           </tbody>
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right">
+                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                               </div>
                            </div>
@@ -358,6 +363,7 @@
                         </tr>
                      </thead>
                      <tbody>
+                  @if(!empty($patients))   
                      @foreach($patients as $patient)
                       <?php
                         $patientId = $patient['id'];
@@ -446,10 +452,13 @@
                            </td>
                         </tr>
                         @endforeach
+                    @else 
+                        <tr><td class="text-center" colspan="6">No data found</td></tr>
+                    @endif 
                      </tbody>
                   </table>
                               <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right">
+                              <div class="text-right {{ (empty($patients))?'hidden':'' }}">
                                  <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                               </div>
                            </div>

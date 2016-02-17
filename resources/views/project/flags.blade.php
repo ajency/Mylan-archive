@@ -81,6 +81,7 @@
                      </tr>
                   </thead>
                   <tbody>
+                  @if(!empty($submissionFlags['all']))
                     @foreach($submissionFlags['all'] as $allSubmissionFlag)
                      <?php 
                       if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
@@ -98,7 +99,9 @@
                         <td><i class="fa fa-flag text-{{ $allSubmissionFlag['flag'] }}"></i></td>
                      </tr>
                     @endforeach 
-                      
+                  @else 
+                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                  @endif     
                   </tbody>
                </table>
             </div>
@@ -114,6 +117,7 @@
                      </tr>
                   </thead>
                   <tbody>
+                  @if(!empty($submissionFlags['flags']['red']))
                      @foreach($submissionFlags['flags']['red'] as $submissionFlag)
                       
                      <tr class="odd gradeX" >
@@ -128,7 +132,9 @@
                         <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                      </tr>
                     @endforeach 
-                      
+                  @else 
+                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                  @endif    
                   </tbody>
                </table>
             </div>
@@ -145,6 +151,7 @@
                      </tr>
                   </thead>
                   <tbody>
+                  @if(!empty($submissionFlags['flags']['amber']))
                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
                       
                      <tr class="odd gradeX" >
@@ -159,7 +166,9 @@
                         <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                      </tr>
                     @endforeach 
-                     
+                  @else 
+                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                  @endif 
                   </tbody>
                </table>
             </div>
@@ -175,6 +184,7 @@
                      </tr>
                   </thead>
                   <tbody>
+                  @if(!empty($submissionFlags['flags']['green']))
                       @foreach($submissionFlags['flags']['green'] as $submissionFlag)
                       
                      <tr class="odd gradeX" >
@@ -189,7 +199,9 @@
                         <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                      </tr>
                     @endforeach 
-                      
+                  @else 
+                    <tr><td class="text-center" colspan="3">No data found</td></tr>
+                  @endif   
                   </tbody>
                </table>
             </div>
