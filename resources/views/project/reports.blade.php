@@ -48,10 +48,13 @@
 </div>
                   <div class="grid simple">
                         <div class="grid-body no-border table-data">
-                               <br>
-       <div class="row">
+                                
+       
+      <div class="tab-pane table-data active"  >
+      <br>
+      <div class="row">
          <div class="col-sm-8">
-           
+           <h3 class="m-b-25">Patient Id<span class="semi-bold"> {{ $referenceCode }}</span></h3>
        </div>
        <div class="col-sm-4 m-t-10">
          <form name="searchData" method="GET"> 
@@ -64,8 +67,7 @@
  
           </div>
       </div>
-      <div class="tab-pane table-data active" id="pid1001">
-         <h3 class="m-b-25">Patient Id<span class="semi-bold"> {{ $referenceCode }}</span></h3>
+         
          <div class="grid simple ">
             <div class="grid simple grid-table">
                <div class="grid-title no-border">
