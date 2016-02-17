@@ -8228,7 +8228,15 @@ input {
   -webkit-transform: translate3d(25px, 0, 0) !important;
   transform: translate3d(25px, 0, 0) !important;
 }
-.grid.simple .grid-title .tools form {
+.grid.simple .grid-title .tools form.tools-form {
   display: inline-block;
+}
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 11%;
+  border: 1px solid #ddd;
 }
 /*# sourceMappingURL=style.css.map */
