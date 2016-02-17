@@ -115,8 +115,8 @@ class SubmissionController extends Controller
             }
 
             if ($reviewed=='reviewed') {
-                $diff = strtotime($updatedAt) - strtotime($createdAt);
-                $timeDifference[] = $diff/3600;
+                $datediff = strtotime($updatedAt) - strtotime($createdAt);
+                $timeDifference[] = ceil($datediff/(60*60*24));
             }
              
         }
