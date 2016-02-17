@@ -220,10 +220,10 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     $(document).ready(function() {
 
     var legends = {score: "Total Score",baseLine: "Base Line"};
-    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv");
+    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
 
       //question chart
-    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart')
+    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
 
     //submission chart
     submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
@@ -241,7 +241,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart','Submissions','Score');
         }
 
         <?php
@@ -271,23 +271,23 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       if($(this).val()=='total_score')
       { 
        var legends = {score: "Total Score",baseLine: "Base Line"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
       }
       else if($(this).val()=='red_flags')
       { 
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
       }
       else if($(this).val()=='amber_flags')
       {
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
 
       }
       else if($(this).val()=='green_flags')
       {
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv",'Submissions','Total Green Flags');
 
       } 
 

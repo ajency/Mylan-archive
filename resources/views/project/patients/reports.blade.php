@@ -157,7 +157,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
  $(document).ready(function() {
  
- shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart');
+ shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
 
 //submission chart
  submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
@@ -171,7 +171,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart','Submissions','Score');
         }
 
         <?php

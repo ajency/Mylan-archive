@@ -373,7 +373,7 @@ $('.deleteUserHospitalAccess').click(function (event) {
  
 });
 
-function lineChartWithOutBaseLine(chartData,legends,container)
+function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLabel)
 {
     graphs = _.map(legends, function(value, key){ 
         var graphObj = {
@@ -405,13 +405,13 @@ function lineChartWithOutBaseLine(chartData,legends,container)
             "axisAlpha": 0,
             "dashLength": 5,
             "position": "top",
-            "title": "Total Score"
+            "title": yaxisLabel
         }],
          "valueAxes": [{
             "logarithmic": false,
             "dashLength": 0,
             "position": "left",
-            "title": "Total Score"
+            "title": yaxisLabel
          }],
 
         "graphs": graphs,
@@ -426,7 +426,7 @@ function lineChartWithOutBaseLine(chartData,legends,container)
              "fillColor": "#000000",
             "gridAlpha": 0,
               "position": "bottom",
-            "title": "Submission"
+            "title": xaxisLable
         },
         "export": {
           "enabled": true,
@@ -436,7 +436,7 @@ function lineChartWithOutBaseLine(chartData,legends,container)
     
 }
 
-function lineChartWithBaseLine(chartData,legends,baselineScore,container)
+function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLable,yaxisLabel)
 {
     graphs = _.map(legends, function(value, key){ 
         var graphObj = {
@@ -465,7 +465,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
               "axisAlpha": 0,
               "dashLength": 5,
               "position": "left",
-              "title": "Total Score"
+              "title": yaxisLabel
           }],
            "valueAxes": [{
               "logarithmic": true,
@@ -492,7 +492,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
                "fillColor": "#000000",
               "gridAlpha": 0,
                 "position": "bottom",
-              "title": "Date"
+              "title": xaxisLable
           },
           "export": {
             "enabled": true,
@@ -501,7 +501,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
          });
 }
 
-function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
+function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLable,yaxisLabel)
 {  
     var chart = AmCharts.makeChart(container, {
          "type": "serial",
@@ -518,14 +518,14 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
              "axisAlpha": 0,
              "dashLength": 5,
              "position": "left",
-             "title": "Total Score"
+             "title": yaxisLabel
          }],
          
           "valueAxes": [{
              "logarithmic": false,
              "dashLength": 0,
              "position": "left",
-            "title": "Total Score"
+            "title": yaxisLabel
               }],
          
          "graphs": [ {
@@ -565,7 +565,7 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
               "fillColor": "#000000",
              "gridAlpha": 0,
                "position": "bottom",
-             "title": "Projects"
+             "title": xaxisLable
          },
          "export": {
            "enabled": true,

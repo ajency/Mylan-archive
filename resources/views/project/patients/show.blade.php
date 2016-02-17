@@ -392,11 +392,11 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
 
     // submission chart
     var legends = {score: "Total Score",baseLine: "Base Line"};
-    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv");
+    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
     //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
 
     //question chart
-    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart')
+    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
  
     var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
@@ -432,23 +432,23 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
        // legends = {score: "Total Score"};
        //  lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
        var legends = {score: "Total Score",baseLine: "Base Line"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
       }
       else if($(this).val()=='red_flags')
       { 
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
       }
       else if($(this).val()=='amber_flags')
       {
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
 
       }
       else if($(this).val()=='green_flags')
       {
         legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv");
+        lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv",'Submissions','Total Green Flags');
 
       } 
 
@@ -463,7 +463,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
         ?>
         if($(this).val()=='{{$questionId}}')
         { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart')
+          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart','Submissions','Score');
         }
 
         <?php
