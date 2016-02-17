@@ -44,12 +44,12 @@
   <input type="hidden" name="flag" value="0">
          </div>
          <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All Flags  <i class="fa fa-flag text-muted"></i></a>
+            <li role="presentation" class="{{ ($activeTab=='all')?'active':''}}"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">All Flags  <i class="fa fa-flag text-muted"></i></a>
             </li>
-            <li role="presentation" ><a href="#red" aria-controls="red" role="tab" data-toggle="tab">Red <i class="fa fa-flag text-error"></i></a>
+            <li role="presentation" class="{{ ($activeTab=='red')?'active':''}}"><a href="#red" aria-controls="red" role="tab" data-toggle="tab">Red <i class="fa fa-flag text-error"></i></a>
             </li>
-            <li role="presentation"><a href="#amber" aria-controls="amber" role="tab" data-toggle="tab">Amber <i class="fa fa-flag text-warning"></i></a></li>
-            <li role="presentation"><a href="#green" aria-controls="green" role="tab" data-toggle="tab">Green <i class="fa fa-flag text-success"></i></a></li>
+            <li role="presentation" class="{{ ($activeTab=='amber')?'active':''}}"><a href="#amber" aria-controls="amber" role="tab" data-toggle="tab">Amber <i class="fa fa-flag text-warning"></i></a></li>
+            <li role="presentation" class="{{ ($activeTab=='green')?'active':''}}"><a href="#green" aria-controls="green" role="tab" data-toggle="tab">Green <i class="fa fa-flag text-success"></i></a></li>
          </ul>
          <!-- Tab panes -->
          <div class="tab-content">
@@ -69,7 +69,7 @@
                   </div>
                </div>
                <hr class="m-0">
-            <div role="tabpanel" class="tab-pane active" id="all">
+            <div role="tabpanel" class="tab-pane {{ ($activeTab=='all')?'active':''}}" id="all">
  
                <table class="table table-hover dashboard-tbl">
                   <thead>
@@ -105,12 +105,12 @@
                   </tbody>
                </table>
             </div>
-            <div role="tabpanel" class="tab-pane " id="red">
+            <div role="tabpanel" class="tab-pane {{ ($activeTab=='red')?'active':''}}" id="red">
 
                <table class="table table-hover dashboard-tbl">
                   <thead>
                      <tr>
-                        <th>Patient Id</th>
+                        <th>Patient Id </th>
                         <th width="20%"># Submission</th>
                         <th>Reason for Flag</th>
                         <th>Type</th>
@@ -138,7 +138,7 @@
                   </tbody>
                </table>
             </div>
-            <div role="tabpanel" class="tab-pane" id="amber">
+            <div role="tabpanel" class="tab-pane {{ ($activeTab=='amber')?'active':''}}" id="amber">
 
         
                <table class="table table-hover">
@@ -172,7 +172,7 @@
                   </tbody>
                </table>
             </div>
-            <div role="tabpanel" class="tab-pane" id="green">
+            <div role="tabpanel" class="tab-pane {{ ($activeTab=='green')?'active':''}}" id="green">
 
                <table class="table table-hover">
                   <thead>

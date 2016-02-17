@@ -410,7 +410,8 @@ class SubmissionController extends Controller
                      );
 
         $filterType = (isset($inputs['type']))?$inputs['type']:'';
-
+        $activeTab = (isset($inputs['active']))?$inputs['active']:'all';
+        
         $responseStatus = ["completed","late","missed"];
         $projectController = new ProjectController(); 
         $projectAnswers = $projectController->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
@@ -423,8 +424,9 @@ class SubmissionController extends Controller
                                                ->with('hospital', $hospital)
                                                ->with('project', $project)
                                                ->with('endDate', $endDate)
-                                                 ->with('startDate', $startDate)
-                                              ->with('filterType', $filterType)
+                                               ->with('startDate', $startDate)
+                                               ->with('filterType', $filterType)
+                                               ->with('activeTab', $activeTab)
                                                ->with('submissionFlags', $submissionFlags);
     }
 
