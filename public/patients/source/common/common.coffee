@@ -5,6 +5,7 @@ angular.module 'angularApp.common', []
 	App =
 		previousState: ''
 		currentState: ''
+		test : 4555
 
 		errorCode : (error) ->
 			error = ''

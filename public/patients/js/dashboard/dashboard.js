@@ -73,8 +73,40 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
     return setTime();
   }
 ]).controller('headerCtrl', [
-  '$scope', '$location', function($scope, $location) {
-    console.log('header ctrl');
-    return $scope.notifyIocn = '23';
+  '$scope', '$location', 'App', 'notifyAPI', '$rootScope', function($scope, $location, App, notifyAPI, $rootScope) {
+    $scope.view = {
+      notificationCount: 0,
+      badge: false,
+      getNotificationCount: function() {
+        var param;
+        console.log('inside getNotificationCount');
+        param = {
+          "patientId": RefCode
+        };
+        return notifyAPI.getNotificationCount(param).then((function(_this) {
+          return function(data) {
+            if (data > 0) {
+              return _this.notificationCount = data;
+            }
+          };
+        })(this));
+      },
+      decrement: function() {
+        this.notificationCount = this.notificationCount - 1;
+        if (this.notificationCount <= 0) {
+          return this.badge = false;
+        }
+      },
+      init: function() {
+        console.log('init');
+        return this.getNotificationCount();
+      }
+    };
+    $rootScope.$on('notification:count', function() {
+      return $scope.view.getNotificationCount();
+    });
+    return $rootScope.$on('decrement:notification:count', function() {
+      return $scope.view.decrement();
+    });
   }
 ]);

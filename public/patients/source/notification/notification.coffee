@@ -1,7 +1,7 @@
 angular.module 'angularApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI', '$location'
-	, ($scope, App, $routeParams, notifyAPI, $location)->
+.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope'
+	, ($scope, App, $routeParams, notifyAPI, $location, $rootScope)->
 
 		$scope.view =
 			data : []
@@ -11,6 +11,7 @@ angular.module 'angularApp.notification',[]
 			limit : 10
 
 			init :() ->
+				$rootScope.$broadcast 'notification:count'
 			
 				param =
 					"patientId" : RefCode
@@ -55,16 +56,25 @@ angular.module 'angularApp.notification',[]
 					"notificationId":id
 
 				notifyAPI.deleteNotification param
-				.then (data)->
+				.then (data)=>
 					console.log 'sucess notification seen data'
 					console.log data
+
+					idObject = _.findWhere(@data, {id: id}) 
+					if idObject.hasSeen == false 
+						$rootScope.$broadcast 'decrement:notification:count'
+
 					spliceIndex = _.findIndex $scope.view.data, (request)->
 						request.id is id
 					console.log 'spliceeIndexx'
 					console.log spliceIndex 
 					$scope.view.data.splice(spliceIndex, 1) if spliceIndex isnt -1
-					
 
+					if @data.length < 5
+						@init()
+
+
+					
 				,(error)->
 					console.log 'error data'
 				

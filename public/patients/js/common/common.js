@@ -4,6 +4,7 @@ angular.module('angularApp.common', []).factory('App', [
     return App = {
       previousState: '',
       currentState: '',
+      test: 4555,
       errorCode: function(error) {
         error = '';
         if (error.code === '100') {

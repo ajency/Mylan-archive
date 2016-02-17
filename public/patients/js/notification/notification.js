@@ -1,5 +1,5 @@
 angular.module('angularApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', function($scope, App, $routeParams, notifyAPI, $location) {
+  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope', function($scope, App, $routeParams, notifyAPI, $location, $rootScope) {
     return $scope.view = {
       data: [],
       display: 'loader',
@@ -8,6 +8,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       limit: 10,
       init: function() {
         var param;
+        $rootScope.$broadcast('notification:count');
         param = {
           "patientId": RefCode,
           "page": this.page,
@@ -55,19 +56,30 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "notificationId": id
         };
-        return notifyAPI.deleteNotification(param).then(function(data) {
-          var spliceIndex;
-          console.log('sucess notification seen data');
-          console.log(data);
-          spliceIndex = _.findIndex($scope.view.data, function(request) {
-            return request.id === id;
-          });
-          console.log('spliceeIndexx');
-          console.log(spliceIndex);
-          if (spliceIndex !== -1) {
-            return $scope.view.data.splice(spliceIndex, 1);
-          }
-        }, function(error) {
+        return notifyAPI.deleteNotification(param).then((function(_this) {
+          return function(data) {
+            var idObject, spliceIndex;
+            console.log('sucess notification seen data');
+            console.log(data);
+            idObject = _.findWhere(_this.data, {
+              id: id
+            });
+            if (idObject.hasSeen === false) {
+              $rootScope.$broadcast('decrement:notification:count');
+            }
+            spliceIndex = _.findIndex($scope.view.data, function(request) {
+              return request.id === id;
+            });
+            console.log('spliceeIndexx');
+            console.log(spliceIndex);
+            if (spliceIndex !== -1) {
+              $scope.view.data.splice(spliceIndex, 1);
+            }
+            if (_this.data.length < 5) {
+              return _this.init();
+            }
+          };
+        })(this), function(error) {
           return console.log('error data');
         });
       },

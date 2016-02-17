@@ -34,7 +34,7 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                           {{notify.id}} --    Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                           Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
                             </p>
 
                           </li>
@@ -48,13 +48,13 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                              {{notify.id}} --    Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                             Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
                               Please submit it by {{notify.graceDateDisplay}} 
                             </p>
                           </li>
 
                           <li class="list-group-item" 
-                            ng-if = "notify.type === 'missedOccurrence'">
+                            ng-if = "notify.type === 'beforeGracePeriod'">
                             <span class="pull-right">
                               <a href="" class="btn btn-xs text-success" 
                                 ng-click="view.deleteNotify(notify.id)">
@@ -64,8 +64,7 @@
                               </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)" >
-                             {{notify.id}} --   Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                            Please submit it by {{notify.graceDateDisplay}} </p>
+                            Your Questionnaire is due on {{notify.occurrenceDateDisplay}}</p>
                           </li>
 
 

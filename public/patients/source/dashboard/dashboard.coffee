@@ -69,8 +69,37 @@ angular.module 'angularApp.dashboard',[]
 	setTime()
 ]
 
-.controller 'headerCtrl', ['$scope', '$location', ($scope, $location)->
-	console.log 'header ctrl'
-	$scope.notifyIocn = '23'
+.controller 'headerCtrl', ['$scope', '$location', 'App', 'notifyAPI', '$rootScope'
+	, ($scope, $location, App, notifyAPI, $rootScope)->
+	
+		
+		$scope.view =
+				notificationCount : 0
+				badge : false 
+
+				getNotificationCount :->
+					console.log 'inside getNotificationCount'
+					param =
+	  					"patientId" : RefCode
+
+				  	notifyAPI.getNotificationCount param
+				  	.then (data)=>
+				  		if data > 0 
+				  			@notificationCount = data
+
+				decrement : ->
+					@notificationCount = @notificationCount - 1
+					@badge = false if @notificationCount <= 0
+
+				init :->
+					console.log 'init'
+					@getNotificationCount()
+
+		$rootScope.$on 'notification:count', ->
+			$scope.view.getNotificationCount()
+
+		$rootScope.$on 'decrement:notification:count', ->
+			$scope.view.decrement()
+
 		
 ]
