@@ -102,7 +102,7 @@ class SubmissionController extends Controller
         $completedResponses = [];
         
         foreach ($patientSubmissions as $key => $response) {
-            $reviwed = $response->get("reviwed");
+            $reviewed = $response->get("reviewed");
             $status = $response->get("status");
       
             $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
@@ -114,12 +114,14 @@ class SubmissionController extends Controller
               $completedResponses[] = $response;
             }
 
-            if ($reviwed=='reviwed') {
+            if ($reviewed=='reviewed') {
                 $diff = strtotime($updatedAt) - strtotime($createdAt);
                 $timeDifference[] = $diff/3600;
             }
              
         }
+
+        
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
@@ -146,7 +148,7 @@ class SubmissionController extends Controller
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
-                                                 ->with('avgReviewTime', $avgReviewTime)
+                                                 ->with('avgReviewTime', round($avgReviewTime))
                                                  ->with('responseRate', $responseRate)
                                                  ->with('submissionStatus', $submissionStatus)
                                                  ->with('submissionsSummary', $submissionsSummary);
@@ -411,7 +413,7 @@ class SubmissionController extends Controller
 
         $filterType = (isset($inputs['type']))?$inputs['type']:'';
         $activeTab = (isset($inputs['active']))?$inputs['active']:'all';
-        
+
         $responseStatus = ["completed","late","missed"];
         $projectController = new ProjectController(); 
         $projectAnswers = $projectController->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
