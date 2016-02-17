@@ -743,39 +743,48 @@ class ProjectController extends Controller
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
         $responseRate['late'] =  round($late,2);  
 
-        $baselineAnwers = $patientController->getPatientBaseLine($patient['reference_code']);
-        $allBaselineAnwers = $patientController->getAllPatientBaseLine($patient['reference_code']);
+        $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
+        $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);
 
         //get patient answers
-        $patientAnswers = $patientController->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+        $patientAnswers = $patientController->getPatientAnwersByDate($referenceCode,$projectId,0,[],$startDateObj,$endDateObj);
         
 
          //flags chart (total,red,amber,green)  
         $flagsCount = $patientController->patientFlagsCount($patientSubmissions,$baselineAnwers);    
 
         //health chart
-        $healthChart = $this->healthChartData($patientAnswers);
+        $healthChart = $patientController->healthChartData($patientAnswers);
         $submissionFlags = $healthChart['submissionFlags'];
         $flagsQuestions = $healthChart['questionLabel'];
 
         //question chart
-        $questionsChartData = $this->getQuestionChartData($patientAnswers);
+        $questionsChartData = $patientController->getQuestionChartData($patientAnswers);
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
 
         $patientSubmissionChart = $patientController->getPatientSubmissionChart($patientAnswers,$allBaselineAnwers);
-
+        $submissionChart = $patientSubmissionChart['submissionChart'] ;
+        $submissionNumbers = $patientSubmissionChart['submissions'] ;
+        $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
 
         return view('project.reports')->with('active_menu', 'reports')
-                                        ->with('responseArr', $responseArr)
                                         ->with('hospital', $hospital)
-                                        ->with('questionChartData', $questionChartData)
+                                        ->with('project', $project)
+                                        ->with('referenceCode', $referenceCode)
+                                        ->with('responseRate', $responseRate)
+                                        ->with('responseArr', $patientSubmissionsByDate)
+                                        ->with('flagsQuestions', $flagsQuestions)
+                                        ->with('flagsCount', $flagsCount)
+                                        ->with('submissionFlags', $submissionFlags)            
                                         ->with('questionLabels', $questionLabels)
-                                        ->with('singleChoiceQuestion', $singleChoiceQuestion)
-                                        ->with('questionBaseLine', $questionBaseLine)
-                                        ->with('submissions', $submissions)
+                                        ->with('endDate', $endDate)
+                                        ->with('startDate', $startDate)
                                         ->with('allPatients', $allPatients)
-                                        ->with('project', $project);
+                                        ->with('firstSubmission', $firstSubmission)
+                                        ->with('submissionChart', $submissionChart)
+                                        ->with('submissionNumbers', $submissionNumbers)
+                                        ->with('questionChartData', $questionChartData);
 
 
     }
