@@ -71,8 +71,8 @@
                               </div>
                               <div class="col-md-3 m-t-25 text-right ">
                               Previous | Baseline<br>
-                                 <span class="text-{{ $responseData['previousFlag'] }}"><i class="fa fa-flag"></i> {{ $responseData['comparedToPrevious'] }}</span><span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                              <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i> {{ $responseData['comparedToBaseLine'] }}</span>
+                                 <span class="text-{{ $responseData['previousFlag'] }}"><i class="fa fa-flag"></i></span><span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
                               </div>
                            </div>
                               

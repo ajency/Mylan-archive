@@ -304,6 +304,7 @@ class PatientController extends Controller
         // $responseRate['lateCount'] = $responseQry->count();
 
         $patients[] = $patient['reference_code'];
+        $responseByDate = [];
         $responseStatus = ["completed","late","missed"];
         $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
         $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
@@ -325,7 +326,17 @@ class PatientController extends Controller
             elseif ($responseStatus=='missed') {
                 $missedResponses[]= $response;
             }
+
+            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $occurrenceDate = strtotime($occurrenceDate);
+            $responseByDate[$occurrenceDate] = $responseId;
         } 
+
+        ksort($responseByDate);
+        $patientSubmissionsByDate = [];
+        foreach ($responseByDate as $date => $responseId) {
+            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
+        }
 
         $totalResponses = count($patientResponses);
         $responseRate['completedCount'] = count($completedResponses);
@@ -385,7 +396,7 @@ class PatientController extends Controller
                                         ->with('questionLabels', $questionLabels)
                                         //->with('questionBaseLine', $questionBaseLine)
                                         ->with('flagsQuestions', $flagsQuestions)
-                                        ->with('responseArr', $responseArr)
+                                        ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('submissionFlags', $submissionFlags)
                                         ->with('patientFlags', $patientFlags)
                                         ->with('endDate', $endDate)
@@ -1592,6 +1603,15 @@ class PatientController extends Controller
             $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
             $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
             
+            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+            $occurrenceDate = strtotime($occurrenceDate);
+            $responseByDate[$occurrenceDate] = $responseId;
+        } 
+
+        ksort($responseByDate);
+        $patientSubmissionsByDate = [];
+        foreach ($responseByDate as $date => $responseId) {
+            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
         }
 
         $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
@@ -1622,7 +1642,7 @@ class PatientController extends Controller
                                         ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
-                                        ->with('responseArr', $responseArr)
+                                        ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('questionArr', $questionArr)
                                         // ->with('questionBaseLine', $questionBaseLine)
                                         ->with('submissionArr', $submissionArr)                    
