@@ -1608,7 +1608,9 @@ class PatientController extends Controller
             $responseByDate[$occurrenceDate] = $responseId;
         } 
 
-        ksort($responseByDate);
+        if(!empty($responseByDate))
+            ksort($responseByDate);
+        
         $patientSubmissionsByDate = [];
         foreach ($responseByDate as $date => $responseId) {
             $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
