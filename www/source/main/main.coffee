@@ -13,7 +13,6 @@ angular.module 'PatientApp.main', []
 			getNotificationCount :->
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
-					
 					param =
 						"patientId" : refcode
 
@@ -65,9 +64,9 @@ angular.module 'PatientApp.main', []
 				$scope.view.getNotificationCount()
 			else App.notification.increment()
 
-		$rootScope.$on 'notification:count:update', (e, obj)->
-			console.log 'notificcation count uopdate'
-			$scope.view.getNotificationCount()
+		# $rootScope.$on 'notification:count:update', (e, obj)->
+		# 	console.log 'notificcation count uopdate'
+		# 	$scope.view.getNotificationCount()
 			
 ]
 

@@ -1,5 +1,5 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount) {
     $scope.view = {
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
@@ -99,7 +99,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
     };
     return $scope.$on('$ionicView.enter', function(event, viewData) {
       console.log('view enter');
-      return $scope.view.displaydata();
+      $scope.view.displaydata();
+      return Storage.setData('refcode', 'get').then(function(refcode) {
+        return NotifyCount.getCount(refcode);
+      });
     });
   }
 ]).config([

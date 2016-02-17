@@ -1,16 +1,17 @@
 angular.module 'PatientApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope'
-	, ($scope, App, Storage, notifyAPI, $rootScope)->
+.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount'
+	, ($scope, App, Storage, notifyAPI, $rootScope, NotifyCount)->
 
 		$scope.view =
 			data : []
-			display : 'loader'
+			display : 'noError'
 			page : 0
 			limit : 10
 			refcode : ''
 			canLoadMore : true
 			refresh: false
+			gotAllRequests: false
 
 			init :() ->
 				
@@ -30,13 +31,14 @@ angular.module 'PatientApp.notification',[]
 							@canLoadMore = false
 						else
 							@canLoadMore = true
+
+						if @refresh then @data = data
+						else @data = @data.concat data
 					else
 						@canLoadMore = false
 
-					if @refresh then @data = data
-					else @data = @data.concat data
+					@gotAllRequests = true if !@canLoadMore
 
-					
 					_.each @data, (value)->
 						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
 						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
@@ -49,8 +51,6 @@ angular.module 'PatientApp.notification',[]
 					$scope.$broadcast 'scroll.refreshComplete'
 					$scope.$broadcast 'scroll.infiniteScrollComplete'
 
-				
-
 			seenNotify:(id)->
 				App.navigate 'dashboard', {}, {animate: false, back: false}
 				param = 
@@ -58,7 +58,6 @@ angular.module 'PatientApp.notification',[]
 				notifyAPI.setNotificationSeen param
 				.then (data)->
 					console.log 'sucess data'
-					console.log data
 				,(error)->
 					console.log 'error data'
 
@@ -67,18 +66,15 @@ angular.module 'PatientApp.notification',[]
 					App.notification.decrement()
 
 			onTapToRetry : ->
-				@display = 'loader'
-				@init()
-
+				@gotAllRequests = false
+				@page = 0
+				@display = 'noError'
 
 			onInfiniteScroll : ->
 				@refresh = false
-
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					@refcode = refcode
-
-					console.log 'iii'
 					@init()
 
 			onScrollComplete : ->
@@ -89,13 +85,11 @@ angular.module 'PatientApp.notification',[]
 					"patientId": @refcode 
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
-					console.log 'sucess notification seen data'
-					console.log data
 					@data = []
+					@page = 0
 					App.notification.count = 0
 					App.notification.badge = false
 				,(error)->
-					console.log 'error data'
 					if error == 'offline'
 							CToast.show 'Check net connection'
 						else if error == 'server_error'
@@ -103,8 +97,9 @@ angular.module 'PatientApp.notification',[]
 						else
 							CToast.showLongBottom 'Error in clearing Notification ,Server error'
 
-
 			onPullToRefresh : ->
+				@gotAllRequests = false
+				NotifyCount.getCount(@refcode)
 				@page = 0
 				@refresh = true
 				@canLoadMore = false
@@ -124,10 +119,16 @@ angular.module 'PatientApp.notification',[]
 				if idObject.hasSeen == false 
 					App.notification.decrement()
 
-			getNotificationCount:()->
-				$rootScope.$broadcast 'notification:count:update'
-					
+			# getNotificationCount:()->
+			# 	$rootScope.$broadcast 'notification:count:update'
 
+		$scope.$on '$ionicView.enter', ->
+			console.log 'notification ionic view enter....'
+			Storage.setData 'refcode','get'
+				.then (refcode)->
+					NotifyCount.getCount(refcode)
+
+					
 ]
 
 .config ['$stateProvider', ($stateProvider)->

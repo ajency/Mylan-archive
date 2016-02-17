@@ -1,28 +1,52 @@
 
-<ion-view ng-init="view.getNotificationCount();">
+<ion-view>
   <!-- ng-init="view.init();" -->
    <ion-nav-title>
    <!--  <h1 class="title">{{view.hospitalName}}</h1> -->
    </ion-nav-title>
    <ion-content ng-switch="view.display">
       
-   <!--  <div class="loader" ng-switch-when="loader">
-        <ion-spinner>
-        </ion-spinner>
-    </div> -->
+     <!--  <div class="loader" ng-switch-when="loader">
+          <ion-spinner>
+          </ion-spinner>
+      </div> -->
 
-    <ion-refresher
-      on-refresh="view.onPullToRefresh();"
-      class="aj-refresher">
-    </ion-refresher>
+      <ion-refresher
+        on-refresh="view.onPullToRefresh();"
+        class="aj-refresher">
+      </ion-refresher>
 
+      <div ng-switch-when="noError">
+         <div ng-repeat ="notify in view.data">
+          
+            <div class="row" 
+              ng-if = "notify.type === 'beforOccurrence'">
+                  <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
+                      <div>
+                          <p class="f-w-400">Questionnaire is due on </p>
+                          <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                      </div>
+                  </div>
+                  <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
+                      <a class="button icon ion-minus-circled delete-btn"></a>
+                  </div>
+            </div>
 
+            <div class="row" 
+                ng-if = "notify.type === 'missedOccurrence'">
+                <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
+                    <div>
+                        <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p>
+                    </div>
+                </div>
+                <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
+                    <a class="button icon ion-minus-circled delete-btn"></a>
+                </div>
+            </div>
 
-    <div ng-switch-when="noError">
-       <div ng-repeat ="notify in view.data">
-        
-          <div class="row" 
-            ng-if = "notify.type === 'beforOccurrence'">
+            <div class="row" 
+                ng-if = "notify.type === 'beforeGracePeriod'" >
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
                         <p class="f-w-400">Questionnaire is due on </p>
@@ -30,82 +54,52 @@
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
-                    <a class="button icon ion-minus-circled"></a>
+                    <a class="button icon ion-minus-circled delete-btn"></a>
                 </div>
-          </div>
+            </div>
 
-          <div class="row" 
-              ng-if = "notify.type === 'missedOccurrence'">
-              <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
-                  <div>
-                      <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                        Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p>
-                  </div>
-              </div>
-              <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
-                  <a class="button icon ion-minus-circled"></a>
-              </div>
-          </div>
+            
+        </div>
 
-          <div class="row" 
-              ng-if = "notify.type === 'beforeGracePeriod'" >
-              <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
-                  <div>
-                      <p class="f-w-400">Questionnaire is due on </p>
-                      <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
-                  </div>
+        <div class="row" ng-if="view.gotAllRequests && view.data.length == 0 ">
+          <div class="col"></div>
+            <div class="col col-80"> 
+              We could not find any Notification.
+            </div>
+            <div class="col"></div>
+        </div>
+            
+         <!--  <div class="row">
+            <div class="col"></div>
+              <div class="col col-80"> 
+                <button class="button button-block button-balanced" ng-if=" view.data.length > 0 ">Clear all Notifications
+                </button>
               </div>
-              <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
-                  <a class="button icon ion-minus-circled"></a>
-              </div>
-          </div>
+              <div class="col"></div>
+          </div> -->
+          <ion-infinite-scroll
+            ng-if="view.canLoadMore"
+            on-infinite="view.onInfiniteScroll();"
+            distance="1%"
+            class="aj-refresher">
+          </ion-infinite-scroll>
 
-          
       </div>
 
-      <div class="row" ng-if=" view.data.length == 0 ">
-        <div class="col"></div>
-          <div class="col col-80"> 
-            We could not find any Notification.
-          </div>
-          <div class="col"></div>
-      </div>
-          
-     <!--  <div class="row">
-        <div class="col"></div>
-          <div class="col col-80"> 
-            <button class="button button-block button-balanced" ng-if=" view.data.length > 0 ">Clear all Notifications
-            </button>
-          </div>
-          <div class="col"></div>
-      </div> -->
-
-      
-
-    </div>
-
-    
-    <ion-infinite-scroll
-          ng-if="view.canLoadMore"
-          on-infinite="view.onInfiniteScroll();"
-          distance="1%"
-          class="aj-refresher">
-    </ion-infinite-scroll>
-
-
-    <aj-error class="errors"
-            error-type="view.errorType"
-            ng-switch-when="error"
-            tap-to-retry="view.onTapToRetry();">
-    </aj-error>
+      <aj-error class="errors"
+              error-type="view.errorType"
+              ng-switch-when="error"
+              tap-to-retry="view.onTapToRetry();">
+      </aj-error>
 
    </ion-content>
 
    <ion-footer-bar
-    class="bar-assertive bar no-shadow can cel-req-btn">
-
+    class="notification-footer">
+   
       <div
-        class="title no-shadow"
+        ng-disabled="view.data.length === 0"
+        class="button clear-notification button-block button-balanced"
         ng-click="view.DeleteAll();">
         Clear all Notifications
       </div>
