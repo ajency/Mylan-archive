@@ -58,7 +58,7 @@
                   <div class="row top-data m-t-10">
 
                      <div class="col-md-2  ">
-                        <a href="red.html">
+                        <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red">
                            <div class="tiles white added-margin"  onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red';">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Red <i class="fa fa-flag text-error" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Red Flags generated across submissions"></i></h5>

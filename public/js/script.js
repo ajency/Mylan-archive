@@ -401,7 +401,7 @@ function lineChartWithOutBaseLine(chartData,legends,container)
             "integersOnly": true,
             "maximum": 20,
             "minimum": 0,
-            "reversed": true,
+            "reversed": false,
             "axisAlpha": 0,
             "dashLength": 5,
             "position": "top",
@@ -410,7 +410,8 @@ function lineChartWithOutBaseLine(chartData,legends,container)
          "valueAxes": [{
             "logarithmic": false,
             "dashLength": 0,
-        
+            "position": "left",
+            "title": "Total Score"
          }],
 
         "graphs": graphs,
@@ -463,7 +464,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container)
               "minimum": 0,
               "axisAlpha": 0,
               "dashLength": 5,
-              "position": "right",
+              "position": "left",
               "title": "Total Score"
           }],
            "valueAxes": [{
@@ -516,13 +517,15 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container)
              "reversed": true,
              "axisAlpha": 0,
              "dashLength": 5,
-             "position": "right",
+             "position": "left",
              "title": "Total Score"
          }],
          
           "valueAxes": [{
              "logarithmic": false,
              "dashLength": 0,
+             "position": "left",
+            "title": "Total Score"
               }],
          
          "graphs": [ {
@@ -587,7 +590,7 @@ function patientFlagsChart(chartData)
             "reversed": false,
             "axisAlpha": 0,
             "dashLength": 5,
-            "position": "top",
+            "position": "left",
             "title": "Total Score"
         }],
         
