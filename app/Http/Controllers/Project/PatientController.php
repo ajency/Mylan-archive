@@ -1595,6 +1595,7 @@ class PatientController extends Controller
         $patients[] = $patient['reference_code'];
         $responseArr=[];
         $patientSubmissions=[];
+        $responseByDate = [];
         
         $responseStatus = ["completed","late","missed"]; 
         $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
@@ -1609,6 +1610,7 @@ class PatientController extends Controller
         } 
 
         ksort($responseByDate);
+
         $patientSubmissionsByDate = [];
         foreach ($responseByDate as $date => $responseId) {
             $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
