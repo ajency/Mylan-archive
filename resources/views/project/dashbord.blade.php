@@ -15,7 +15,7 @@
                      <h1>Dashboard</h1>
                   </div>
                   <div class="col-sm-4">
-                     <a href="add-patient.html" class="btn btn-primary pull-right m-t-10"><i class="fa fa-plus"></i> Add Patient</a>
+                     <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create') }}" class="btn btn-primary pull-right m-t-10"><i class="fa fa-plus"></i> Add Patient</a>
                   </div>
                   <div class="grid simple ">
                      <div class="grid-body no-border table-data grid-data-table">
@@ -35,7 +35,7 @@
                   <div class="row">
             <div class="col-sm-6 ">
 <div class="tiles white">
-   <a href="patients-Recruited.html">
+   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                           <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $activepatients }} </b> </h4>
                          </div>
@@ -44,7 +44,7 @@
                      </div>
                      <div class="col-sm-6">
                      <div class="tiles white">
-         <a href="patients-active.html">
+         <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=active') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                             <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $allpatientscount }} </b></h4>
                            </div>
@@ -59,38 +59,38 @@
 
                      <div class="col-md-2  ">
                         <a href="red.html">
-                           <div class="tiles white added-margin"  onclick="window.document.location='red.html';">
+                           <div class="tiles white added-margin"  onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red';">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Red <i class="fa fa-flag text-error" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Red Flags generated across submissions"></i></h5>
 
                                  <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
-                                 <h2 class="m-0"><a href="red-prev.html"><b class="grey">{{ $responseCount['redPrevious'] }} </b></a>/<a href="red-base.html"><b class="f-w grey"> {{ $responseCount['redBaseLine'] }}</b></a></h2>
+                                 <h2 class="m-0"><a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red&type=previous"><b class="grey">{{ $responseCount['redPrevious'] }} </b></a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red&type=baseline"><b class="f-w grey"> {{ $responseCount['redBaseLine'] }}</b></a></h2>
                               </div>
                            </div>
                         </a>
                      </div>
                      <div class="col-md-2 ">
-                        <a href="amber.html">
+                        <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=amber">
                            <div class="tiles white added-margin">
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Amber <i class="fa fa-flag text-warning" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Amber Flags generated across submissions"></i></h5>
 
 
                                  <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
-                                 <h2 class="m-0"><a href="amber-prev.html"><b class="grey">{{ $responseCount['amberPrevious'] }} </b></a>/<a href="amber-base.html"><b class="f-w grey"> {{ $responseCount['amberBaseLine'] }}</b></a></h2>
+                                 <h2 class="m-0"><a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=amber&type=previous"><b class="grey">{{ $responseCount['amberPrevious'] }} </b></a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=amber&type=baseline"><b class="f-w grey"> {{ $responseCount['amberBaseLine'] }}</b></a></h2>
 
                               </div>
                            </div>
                         </a>
                      </div>
                      <div class="col-md-2 ">
-                        <a href="submissions.html">
+                        <a href="#">
                            <div class="tiles white added-margin">
                               <div class="tiles-body p-17">
                                  <h5 class="bold m-b-20 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
                                  <h2 class="bold">
-                                 <a href="unreviewed-submissions.html"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></a></h2>
+                                 <a href="#"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></a></h2>
                               </div>
                            </div>
                         </a>
