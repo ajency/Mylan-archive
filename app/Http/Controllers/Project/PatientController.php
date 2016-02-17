@@ -1309,12 +1309,15 @@ class PatientController extends Controller
         $answersList=[];
         $baseLineResponseId = '';
 
-        foreach ($questions as   $question) {
-            $questionId = $question->getObjectId();
-            $questionType = $question->get('type');
-            $name = $question->get('question');
-            $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
-        }
+        // foreach ($questions as   $question) {
+        //     $questionId = $question->getObjectId();
+        //     $questionType = $question->get('type');
+        //     $name = $question->get('question');
+        //     $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
+        // }
+
+        $questionsList = $this->getSequenceQuestions($questions);
+        // dd($firstQuestionId);
 
         foreach ($options as   $option) {
             $questionId = $option->get('question')->getObjectId();
@@ -1369,6 +1372,53 @@ class PatientController extends Controller
         $data['baseLineResponseId'] = $baseLineResponseId; 
 
         return $data;
+    }
+
+    public function getFirstQuestion($questions)
+    {
+        foreach ($questions as   $question) {
+            if(is_null($question->get('previousQuestion')))
+            {
+                $questionId = $question->getObjectId();
+                break;
+            }
+                
+            
+        }
+
+        return $questionId;
+    }
+
+    public function getSequenceQuestions($questions)
+    {
+        $questionsList = [];
+        $sequenceQuestions = [];
+        foreach ($questions as   $question) {
+            $questionId = $question->getObjectId();
+            $nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
+            
+            $questionType = $question->get('type');
+            $name = $question->get('question');
+            $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'type'=>$questionType];
+        }
+
+        $firstQuestionId = $this->getFirstQuestion($questions);
+
+        $orderQuestions = $this->orderQuestions($questionsList,$firstQuestionId,[]);
+ 
+        return $orderQuestions;
+    }
+
+    public function orderQuestions($questionsList,$firstQuestionId,$questions)
+    {
+        $questions[$firstQuestionId] = $questionsList[$firstQuestionId];
+        $nextQuestionId = $questionsList[$firstQuestionId]['nextQuestionId'];
+
+        if(count($questions)!=count($questionsList))
+            $questions = $this->orderQuestions($questionsList,$nextQuestionId,$questions);
+         
+        return $questions;
+
     }
 
      public function getpatientBaseLineScore($hospitalSlug ,$projectSlug ,$patientId)

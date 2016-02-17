@@ -323,12 +323,13 @@ class SubmissionController extends Controller
         // ($response->get("previousSubmission")==null)?'' : $response->get("previousSubmission")->getObjectId();
 
  
-          
+         $questions = []; 
         foreach($answers as $answers)
         {  
            $question =  $answers->get("question");
            $questionId =  $question->getObjectId();
            $questionType =  $question->get("type");
+           $questions[] = $question;
 
 
            if($questionType == 'multi-choice')
@@ -375,8 +376,25 @@ class SubmissionController extends Controller
            
         }
 
+        $patientController = new PatientController();
+        $questionsList = $patientController->getSequenceQuestions($questions);
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$answersList, 'response'=>$response,'chartData'=>$chartData] ;
+        
+        //sort data
+        $sortedChartData = [];
+        $sequentialanswersList = [];
+
+        foreach ($questionsList as $questionId => $data) {
+            
+            if(isset($chartData[$questionId]))
+                $sortedChartData[$questionId] = $chartData[$questionId];
+
+            $sequentialanswersList[$questionId]=  $answersList[$questionId];
+        }
+
+
+
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$sequentialanswersList, 'response'=>$response,'chartData'=>$sortedChartData] ;
         return $data;
     }
 
@@ -454,6 +472,8 @@ class SubmissionController extends Controller
         return $anwsersData;
      
     }
+
+  
 
     public function updateSubmissionStatus(Request $request, $hospitalSlug ,$projectSlug, $responseId)
     {
