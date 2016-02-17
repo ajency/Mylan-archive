@@ -53,7 +53,10 @@ Green-indicates current score is better then previous/baseline score
 White-Indicates current score is same as baseline score.
 Flag is not displayed if the current score is same as previous score</p>
                              <br><br>
-                          <div class="table-responsive"> 
+                          <div class="tableOuter">
+                        <div class="x-axis-text">Submissions</div>
+                       <div class="y-axis-text">Questions</div>
+                       <div class="table-responsive sticky-table-outer-div"> 
                            <table class="table">
                                           <thead class="cf">
                                              <tr>
@@ -89,7 +92,8 @@ Flag is not displayed if the current score is same as previous score</p>
                                              
                                           </tbody>
                                        </table>
-                                       </div>   
+                       </div>   
+                       </div>
                            
                             
                                        <br>
@@ -101,11 +105,15 @@ Flag is not displayed if the current score is same as previous score</p>
 Question score chart</h4>
                                  <p>Question score chart shows the score of each question with reference to baseline for all submissions</p>
                               <br><br>
-                              <select class="pull-right" name="generateQuestionChart">
-                                @foreach($questionLabels as $questionId => $label)
-                                <option value="{{ $questionId }}">{{ $label }}</option>
-                                @endforeach
-                              </select> 
+                              <label class="pull-right">
+                              Choose Questions
+                              <br>
+                                <select name="generateQuestionChart">
+                                  @foreach($questionLabels as $questionId => $label)
+                                  <option value="{{ $questionId }}">{{ $label }}</option>
+                                  @endforeach
+                                </select>
+                              </label> 
 
                                <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
 
@@ -114,12 +122,15 @@ Question score chart</h4>
                               <h4 class="bold">Question score per submission graph</h4>
                                  <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
                               <br><br>
-                       
-                       <select class="pull-right" name="generateSubmissionChart">
-                        @foreach($submissionNumbers as $submissionNumber => $responseId)
-                        <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
-                        @endforeach
-                      </select> 
+                       <label class="pull-right">
+                          Choose Submissions
+                          <br>
+                         <select class="pull-right" name="generateSubmissionChart">
+                          @foreach($submissionNumbers as $submissionNumber => $responseId)
+                          <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
+                          @endforeach
+                        </select> 
+                      </label>
                 
 
                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
