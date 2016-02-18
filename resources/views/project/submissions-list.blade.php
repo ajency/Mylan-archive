@@ -83,7 +83,7 @@
             
                               <form method="get">  
                              <select name="submissionStatus" id="submissionStatus" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
-                                <option value="">Filter By</option>
+                                <option value="all">All</option>
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->

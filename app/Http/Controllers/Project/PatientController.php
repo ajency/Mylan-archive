@@ -1763,7 +1763,7 @@ class PatientController extends Controller
             $questionType = $answer->get("question")->get("type");
             $questionTitle = $answer->get("question")->get("title");
             $responseId = $answer->get("response")->getObjectId();
-            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
+            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):$answer->get("value");
             $optionValue = $answer->get("value");
             $comparedToBaseLine = $answer->get("comparedToBaseLine");
             $baseLineScore = $optionScore + $comparedToBaseLine;

@@ -67,6 +67,7 @@ class SubmissionController extends Controller
 
         // get completed count
         $submissionStatus = '';
+        $responseStatus = ["completed","late"];
         if(isset($inputs['submissionStatus']))
         {
             
@@ -89,10 +90,7 @@ class SubmissionController extends Controller
               $responseStatus = [$inputs['submissionStatus']];
             }
         }
-        else
-        {
-            $responseStatus = ["completed","late"];
-        }
+        
 
         $projectController = new ProjectController();
         
@@ -146,7 +144,7 @@ class SubmissionController extends Controller
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
-                                                 ->with('avgReviewTime', round($avgReviewTime))
+                                                 ->with('avgReviewTime', $avgReviewTime)
                                                  ->with('responseRate', $responseRate)
                                                  ->with('submissionStatus', $submissionStatus)
                                                  ->with('submissionsSummary', $submissionsSummary);
