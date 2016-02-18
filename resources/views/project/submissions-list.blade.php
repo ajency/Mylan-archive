@@ -235,8 +235,8 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
        "valueField": "value",
        "labelRadius": 5,
 
-       "radius": "42%",
-       "innerRadius": "60%",
+       "radius": "30%",
+       "innerRadius": "48%",
        "labelText": "[[title]]",
        "export": {
          "enabled": true

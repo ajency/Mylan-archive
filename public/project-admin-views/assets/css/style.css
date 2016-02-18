@@ -8590,7 +8590,7 @@ ul.parsley-errors-list li {
 .sticky-table-outer-div {
   width: 100%;
   overflow-x: scroll;
-  padding-left: 100px;
+  padding-left: 150px;
   overflow-y: visible;
   padding-bottom: 1px;
   border: 1px solid #f1f1f1;
@@ -8617,13 +8617,15 @@ ul.parsley-errors-list li {
 }
 .sticky-table-outer-div .table .headcol {
   position: absolute;
-  width: 100px !important;
+  width: 150px !important;
   left: 1px;
   top: auto;
   border-right: 0px none black;
   background: #fff;
   margin-right: 10px;
-  text-align: left
+  text-align: left;
+  height: 30px;
+  overflow: hidden
   /*margin-top:-3px; compensate for top border*/
 }
 .th-headcol {
