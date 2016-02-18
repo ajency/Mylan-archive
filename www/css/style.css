@@ -526,21 +526,39 @@ ul .mcq_active div span {
   right: 15px;
   top: 5%;
 }
-.notification-footer
-{
-  padding: 0; 
+.label-outer label {
+  padding: 0;
 }
-.button.clear-notification
-{
+.label-outer label input {
+  padding: 0 10px;
+  border: 1px solid #eeeeee;
+  margin-right: 10px;
+}
+.label-outer label input[disabled] + span {
+  color: #eeeeee;
+}
+.delete-btn {
+  padding: 5px;
+  min-width: 20px;
+  min-height: 15px;
+  line-height: 20px;
+  margin-top: 10px;
+  background: #ffffff;
+}
+.delete-btn:before {
+  line-height: 20px !important;
+  margin-top: 1px !important;
+  color: #ee5235;
+}
+.notification-footer {
+  padding: 0;
+}
+.notification-footer .button.clear-notification {
   width: 100%;
   margin: 0 -4px 0 0;
-  line-height: 3.4; 
-} 
-.button.delete-btn
-{
-  color: #ef473a;
+  line-height: 3.2;
+  border-radius: 0;
 }
-
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;

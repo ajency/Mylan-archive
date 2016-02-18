@@ -564,7 +564,55 @@ ul{
     	right: 15px;
     	top: 5%;
 	}
-  @media screen and (max-width:767px) and (orientation:landscape){
+
+.label-outer
+{
+	label
+	{
+		padding: 0;
+
+		input
+		{
+			padding: 0 10px;
+			border:1px solid @color-light-gray;
+			margin-right: 10px;
+		}
+
+		input[disabled] + span
+		{
+			color: @color-light-gray;
+		}
+	}
+}
+.delete-btn
+{
+	padding: 5px;
+    min-width: 20px;
+    min-height: 15px;
+    line-height: 20px;
+    margin-top: 10px;
+    background: @color-white;
+
+    &:before
+    {
+    	line-height: 20px !important;
+    	margin-top: 1px !important;
+    	color: @color-danger;
+    }
+}
+.notification-footer
+{
+	padding: 0;
+
+	.button.clear-notification
+	{
+		width: 100%;
+	    margin: 0 -4px 0 0;
+	    line-height: 3.2;
+	    border-radius: 0;
+	}
+}
+@media screen and (max-width:767px) and (orientation:landscape){
 	.loader{
 		padding-top: 21%;
 	}
