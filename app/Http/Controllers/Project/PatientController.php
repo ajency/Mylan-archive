@@ -1316,7 +1316,7 @@ class PatientController extends Controller
         //     $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
         // }
 
-        $questionsList = $this->getSequenceQuestions($questions);
+        $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions) :[];
         // dd($firstQuestionId);
 
         foreach ($options as   $option) {
@@ -1376,6 +1376,7 @@ class PatientController extends Controller
 
     public function getFirstQuestion($questions)
     {
+        $questionId ='';
         foreach ($questions as   $question) {
             if(is_null($question->get('previousQuestion')))
             {
@@ -1398,8 +1399,9 @@ class PatientController extends Controller
             $nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
             
             $questionType = $question->get('type');
+            $title = $question->get('title');
             $name = $question->get('question');
-            $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'type'=>$questionType];
+            $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
         }
 
         $firstQuestionId = $this->getFirstQuestion($questions);
@@ -1708,11 +1710,14 @@ class PatientController extends Controller
     }
 
     public function healthChartData($answers)
-    {
+    {  
         $questionArr =[];
+        $questionList =[];
+        $questionObjs =[];
         $submissionArr=[];
         foreach ($answers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
+            $questionobj = $answer->get("question");
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
             $questionTitle = $answer->get("question")->get("title");
@@ -1727,20 +1732,27 @@ class PatientController extends Controller
             if($responseStatus=='missed' || $responseStatus=='started'|| $responseStatus=='base_line')
                 continue;
 
-
+            $questionObjs[$questionId] =$questionobj;
            if ($questionType=='single-choice')  
             { 
                $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
                $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
-
-               $questionArr[$questionId]= $questionTitle;
+               $questionArr[$questionId] ='';
             } 
             
             
              
         }
 
-        $data['questionLabel']=$questionArr;
+        $sequentialQuestion = (!empty($questionObjs))? $this->getSequenceQuestions($questionObjs) :[];//used ly to get question in rt order
+         
+        foreach ($sequentialQuestion as $questionId => $questionData) {
+            if(isset($questionArr[$questionId]))
+                $questionList[$questionId]= $sequentialQuestion[$questionId]['title'];
+        }
+
+ 
+        $data['questionLabel']=$questionList;
         $data['submissionFlags']=$submissionArr;
 
         return $data;
@@ -1750,6 +1762,9 @@ class PatientController extends Controller
     public function getQuestionChartData($patientAnswers)
     {
         $questionLabels = [];
+        $questionList =[];
+        $questionObjs =[];
+
         $baseLineArr= []; 
         $chartData = [];
         $inputScores = [];
@@ -1764,7 +1779,7 @@ class PatientController extends Controller
             $questionType = $answer->get("question")->get("type");
             $questionTitle = $answer->get("question")->get("title");
             $responseId = $answer->get("response")->getObjectId();
-            $optionScore =  $answer->get("option")->get("score");
+            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):0;
             $optionValue = $answer->get("value");
             $comparedToBaseLine = $answer->get("comparedToBaseLine");
             $baseLineScore = $optionScore + $comparedToBaseLine;
@@ -1776,6 +1791,7 @@ class PatientController extends Controller
             $questionLabel =  ucfirst(strtolower($questionTitle));
             $baseLineObj = $answer->get("response")->get("baseLine");
             $questionObj =$answer->get("question");
+            $questionObjs[$questionId] =$questionObj;
             
             if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
@@ -1839,10 +1855,17 @@ class PatientController extends Controller
             
             
         }
+
+        $sequentialQuestion = (!empty($questionObjs))?$this->getSequenceQuestions($questionObjs):[];//used ly to get question in rt order
+         
+        foreach ($sequentialQuestion as $questionId => $questionData) {
+            if(isset($questionLabels[$questionId]))
+                $questionList[$questionId]= $sequentialQuestion[$questionId]['title'];
+        }
         
         // $questiondata['questionBaseLine']=$baseLineArr;
         $questiondata['chartData']=$chartData;
-        $questiondata['questionLabels']=$questionLabels;
+        $questiondata['questionLabels']=$questionList;
         $questiondata['submissions']=$submissionArr;
         $questiondata['singleChoiceQuestion']=$singleChoiceQuestion;
         
@@ -1856,6 +1879,7 @@ class PatientController extends Controller
         $chartData =[];
         $submissions =[];
         $responseIds =[];
+        $questionObjs =[];
 
         foreach($patientAnwers as $answer)
         {  
@@ -1864,7 +1888,8 @@ class PatientController extends Controller
            $questionType =  $question->get("type");
            $responseId = $answer->get("response")->getObjectId();
            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-           
+           $questionObj =$answer->get("question");
+           $questionObjs[$questionId] =$questionObj;
 
            $responseStatus = $answer->get("response")->get("status");
            if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
@@ -1883,6 +1908,9 @@ class PatientController extends Controller
                 $chartData[$responseId][$answer->get("question")->getObjectId()] =['question'=>$answer->get("question")->get("title"),'score'=>$answer->get("value")];
            
         }
+
+         $sequentialQuestion =  (!empty($questionObjs))? $this->getSequenceQuestions($questionObjs):[]; //used ly to get question in rt order
+
         //baseline
         $allBaseChartData = $this->getBaseLineChartData($allBaselineAnwers);
 
@@ -1910,13 +1938,26 @@ class PatientController extends Controller
 
             $baseChartData = $allBaseChartData[$baseLineId];
 
-            foreach ($baseChartData as $questionId => $data) {
-                $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
-                $baseScore = $data['score'];
-                $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
-                $question = $data['question'];
-                $submissionChart[$responseId][] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+            // foreach ($baseChartData as $questionId => $data) {
+            //     $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
+            //     $baseScore = $data['score'];
+            //     $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
+            //     $question = $data['question'];
+            //     $submissionChart[$responseId][] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
                  
+            // }
+
+            foreach ($sequentialQuestion as $questionId => $values) {
+                if(isset($baseChartData[$questionId]))
+                {
+                    $data = $baseChartData[$questionId];
+                    $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
+                    $baseScore = $data['score'];
+                    $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
+                    $question = $data['question'];
+                    $submissionChart[$responseId][] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+                }
+                
             }
              $i++;
         }

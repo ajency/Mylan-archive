@@ -747,6 +747,7 @@ class ProjectController extends Controller
         $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
         $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);
 
+       
         //get patient answers
         $patientAnswers = $patientController->getPatientAnwersByDate($referenceCode,$projectId,0,[],$startDateObj,$endDateObj);
         
