@@ -237,7 +237,7 @@
                         </tr>
                         @endforeach
                   @else 
-                    <tr><td class="text-center" colspan="6">No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif 
                      </tbody>
                   </table>
@@ -276,8 +276,8 @@ var chart = AmCharts.makeChart( "piechart", {
              "valueField": "value",
              "labelRadius": 5,
 
-             "radius": "42%",
-             "innerRadius": "60%",
+             "radius": "30%",
+             "innerRadius": "48%",
              "labelText": "[[title]]",
              "export": {
                "enabled": true

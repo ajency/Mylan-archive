@@ -205,4 +205,37 @@ input {
   -webkit-transform: translate3d(25px, 0, 0) !important;
   transform: translate3d(25px, 0, 0) !important;
 }
+.grid.simple .grid-title .tools form.tools-form {
+  display: inline-block;
+}
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 11%;
+  border: 1px solid #ddd;
+}
+.has-feedback {
+  margin: 50px;
+  background: white;
+  float: left;
+  clear: both;
+}
+.has-feedback span {
+  position: absolute;
+  padding: 5px;
+  margin-left: 3px;
+  color: #999;
+}
+.has-feedback input,
+.has-feedback textarea,
+.has-feedback select {
+  position: relative;
+  margin: 0;
+  border-width: 1px;
+  padding: 6px;
+  background: transparent;
+  font: inherit;
+}
 /*# sourceMappingURL=custom.css.map */

@@ -648,7 +648,7 @@ ul.parsley-errors-list li {
 {
 width: 100%; 
 overflow-x:scroll;  
-padding-left:100px; 
+padding-left:150px; 
 overflow-y:visible;
 padding-bottom:1px; 
 border: 1px solid #f1f1f1;
@@ -680,13 +680,15 @@ border-bottom:none;
 }
 .sticky-table-outer-div .table .headcol {
     position:absolute; 
-    width:100px !important; 
+    width:150px !important; 
     left:1px;
     top:auto;
     border-right: 0px none black;  
     background: #fff;             
     margin-right: 10px;
     text-align: left;
+    height: 30px;
+    overflow: hidden;
     /*margin-top:-3px; compensate for top border*/
 } 
 .th-headcol
@@ -708,5 +710,24 @@ border-bottom:none;
     margin-top: 11%;
     border: 1px solid #ddd;
 }
-
+.input {
+  margin: 50px;
+  background: white;
+  float: left;
+  clear: both;
+}
+.input span {
+  position: absolute;
+  padding: 5px;
+  margin-left: 3px;
+  color: #999;
+}
+.input input, .input textarea, .input select {
+  position: relative;
+  margin: 0;
+  border-width: 1px;
+  padding: 6px;
+  background: transparent;
+  font: inherit;
+}
 
