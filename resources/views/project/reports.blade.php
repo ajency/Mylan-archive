@@ -114,14 +114,14 @@
             <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
-           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'response-10':''}}"> 
+           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
            
          <table class="table">
                         <thead class="cf">
                            <tr>
                               <th class="headcol th-headcol"></th>
                               @foreach($responseArr as $response)
-                              <th width="50px">{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
+                              <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
                               @endforeach
                            </tr>
                         </thead>
@@ -142,7 +142,7 @@
                                 $flag = 'hidden';
                               }
                               ?>
-                              <td width="50px" class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
                    
                               @endforeach
                               

@@ -124,7 +124,7 @@
             <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
-           <div class="table-responsive sticky-table-outer-div"> 
+           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
            
          <table class="table">
                         <thead class="cf">
@@ -152,7 +152,7 @@
                                 $flag = 'hidden';
                               }
                               ?>
-                              <td class="{{ $class }} {{(count($responseArr)>10)?'response-10':''}}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
                    
                               @endforeach
                               

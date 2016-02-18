@@ -660,15 +660,29 @@ border-bottom:none;
     table-layout: fixed;
     max-width: 100%;
 }
+.sticky-table-outer-div table tr
+{
+	display: table-row;
+    width: 100% !important;
+    float: left;
+}
+.sticky-table-outer-div.sticky-tableWidth table 
+{
+	width: 100%;
+}
+.sticky-table-outer-div.sticky-tableWidth table tr
+{
+	float: none;
+}
 .sticky-table-outer-div .table th
 {
 	text-align: center;
-	width: 80px !important;
+	width: 81px !important;
 }
 .sticky-table-outer-div .table td
 {
 	text-align: center;
-	width: 80px !important;
+	width: 81px !important;
 }
 .sticky-table-outer-div .table td i
 {
@@ -687,9 +701,10 @@ border-bottom:none;
     background: #fff;             
     margin-right: 10px;
     text-align: left;
-    height: 30px;
+    /*height: 30px;*/
     overflow: hidden;
-    /*margin-top:-3px; compensate for top border*/
+    padding: 0 10px !important;
+    line-height: 2.9;    
 } 
 .th-headcol
 {
