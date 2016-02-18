@@ -71,16 +71,12 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return $ionicLoading.hide();
       }
     };
-    $rootScope.$on('in:app:notification', function(e, obj) {
+    return $rootScope.$on('in:app:notification', function(e, obj) {
       if (App.notification.count === 0) {
         return $scope.view.getNotificationCount();
       } else {
         return App.notification.increment();
       }
-    });
-    return $rootScope.$on('notification:count:update', function(e, obj) {
-      console.log('notificcation count uopdate');
-      return $scope.view.getNotificationCount();
     });
   }
 ]).config([

@@ -1,13 +1,14 @@
 angular.module('PatientApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', function($scope, App, Storage, notifyAPI, $rootScope) {
-    return $scope.view = {
+  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', function($scope, App, Storage, notifyAPI, $rootScope, NotifyCount) {
+    $scope.view = {
       data: [],
-      display: 'loader',
+      display: 'noError',
       page: 0,
       limit: 10,
       refcode: '',
       canLoadMore: true,
       refresh: false,
+      gotAllRequests: false,
       init: function() {
         var param;
         param = {
@@ -28,13 +29,16 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
               } else {
                 _this.canLoadMore = true;
               }
+              if (_this.refresh) {
+                _this.data = data;
+              } else {
+                _this.data = _this.data.concat(data);
+              }
             } else {
               _this.canLoadMore = false;
             }
-            if (_this.refresh) {
-              _this.data = data;
-            } else {
-              _this.data = _this.data.concat(data);
+            if (!_this.canLoadMore) {
+              _this.gotAllRequests = true;
             }
             _.each(_this.data, function(value) {
               value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
@@ -65,8 +69,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
           "notificationId": id
         };
         notifyAPI.setNotificationSeen(param).then(function(data) {
-          console.log('sucess data');
-          return console.log(data);
+          return console.log('sucess data');
         }, function(error) {
           return console.log('error data');
         });
@@ -78,15 +81,15 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         }
       },
       onTapToRetry: function() {
-        this.display = 'loader';
-        return this.init();
+        this.gotAllRequests = false;
+        this.page = 0;
+        return this.display = 'noError';
       },
       onInfiniteScroll: function() {
         this.refresh = false;
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             _this.refcode = refcode;
-            console.log('iii');
             return _this.init();
           };
         })(this));
@@ -101,14 +104,12 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         };
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            console.log('sucess notification seen data');
-            console.log(data);
             _this.data = [];
+            _this.page = 0;
             App.notification.count = 0;
             return App.notification.badge = false;
           };
         })(this), function(error) {
-          console.log('error data');
           if (error === 'offline') {
             return CToast.show('Check net connection');
           } else if (error === 'server_error') {
@@ -119,6 +120,8 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         });
       },
       onPullToRefresh: function() {
+        this.gotAllRequests = false;
+        NotifyCount.getCount(this.refcode);
         this.page = 0;
         this.refresh = true;
         this.canLoadMore = false;
@@ -146,11 +149,14 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         if (idObject.hasSeen === false) {
           return App.notification.decrement();
         }
-      },
-      getNotificationCount: function() {
-        return $rootScope.$broadcast('notification:count:update');
       }
     };
+    return $scope.$on('$ionicView.enter', function() {
+      console.log('notification ionic view enter....');
+      return Storage.setData('refcode', 'get').then(function(refcode) {
+        return NotifyCount.getCount(refcode);
+      });
+    });
   }
 ]).config([
   '$stateProvider', function($stateProvider) {

@@ -1,7 +1,7 @@
 angular.module 'PatientApp.dashboard',[]
 
-.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData)->
+.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData', 'NotifyCount'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount)->
 
 		$scope.view =
 			hospitalName: HospitalData.name
@@ -84,7 +84,13 @@ angular.module 'PatientApp.dashboard',[]
 
 		$scope.$on '$ionicView.enter', (event, viewData)->
 			console.log 'view enter'
-			$scope.view.displaydata()	
+			$scope.view.displaydata()
+			Storage.setData 'refcode','get'
+				.then (refcode)->
+					NotifyCount.getCount(refcode)
+
+				
+
 
 
 

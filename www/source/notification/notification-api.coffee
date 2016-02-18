@@ -5,7 +5,6 @@ angular.module 'PatientApp.notification'
 	notifyAPI = {}
 
 	notifyAPI.getNotification = (param)->
-
 		defer = $q.defer()		
 		App.SendParseRequest('getPatientNotifications', param)
 		.then (data)->
@@ -26,7 +25,6 @@ angular.module 'PatientApp.notification'
 		defer.promise
 
 	notifyAPI.getNotificationCount = (param)->
-
 		defer = $q.defer()		
 		App.SendParseRequest('getPatientNotificationCount', param)
 		.then (data)->
@@ -37,7 +35,6 @@ angular.module 'PatientApp.notification'
 		defer.promise
 
 	notifyAPI.deleteAllNotification = (param)->
-
 		defer = $q.defer()		
 		App.SendParseRequest('clearAllNotifications', param)
 		.then (data)->
@@ -48,7 +45,6 @@ angular.module 'PatientApp.notification'
 		defer.promise
 
 	notifyAPI.deleteNotification = (param)->
-
 		defer = $q.defer()		
 		App.SendParseRequest('clearNotification', param)
 		.then (data)->
@@ -58,8 +54,6 @@ angular.module 'PatientApp.notification'
 			
 		defer.promise
 
-
-	
 	notifyAPI
 
 ]

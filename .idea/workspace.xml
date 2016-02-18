@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="104bd5f2-4089-4e4e-bd7d-3ab3b0ceca23" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/source/dash/dashboard.coffee" afterPath="$PROJECT_DIR$/www/source/dash/dashboard.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/dashboard/dashboard.html" afterPath="$PROJECT_DIR$/www/views/dashboard/dashboard.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app/dash/dashboard.js" afterPath="$PROJECT_DIR$/www/app/dash/dashboard.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/source/main/main.coffee" afterPath="$PROJECT_DIR$/www/source/main/main.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/source/notification/notification-api.coffee" afterPath="$PROJECT_DIR$/www/source/notification/notification-api.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/source/notification/notification.coffee" afterPath="$PROJECT_DIR$/www/source/notification/notification.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/views/notification/notification.html" afterPath="$PROJECT_DIR$/www/views/notification/notification.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/app/notification/notification.js" afterPath="$PROJECT_DIR$/www/app/notification/notification.js" />
     </list>
     <ignored path="Mylan.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,10 +65,10 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane />
       </pane>
@@ -189,13 +191,13 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
