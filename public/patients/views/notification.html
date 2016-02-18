@@ -78,13 +78,15 @@
                           </a>
                       </div>
 
-                      <div class="text-center text-success" ng-if="view.canLoadMore === false">
+                      <div class="text-center text-success" 
+                      ng-if="view.gotAllRequests && view.data.length == 0 ">
                             <span>No more Notification to be displayed </span>
                       </div>
 
                       <br>
 
-                      <div class="text-center text-success">
+                      <div class="text-center text-success" 
+                        ng-if="view.data.length > 0">
                           <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
                               <span>Clear All Notification</span>
                           </a>

@@ -86,7 +86,8 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         return notifyAPI.getNotificationCount(param).then((function(_this) {
           return function(data) {
             if (data > 0) {
-              return _this.notificationCount = data;
+              _this.notificationCount = data;
+              return _this.badge = true;
             }
           };
         })(this));
@@ -100,10 +101,17 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       init: function() {
         console.log('init');
         return this.getNotificationCount();
+      },
+      deleteAllNotification: function() {
+        this.notificationCount = 0;
+        return this.badge = false;
       }
     };
     $rootScope.$on('notification:count', function() {
       return $scope.view.getNotificationCount();
+    });
+    $rootScope.$on('delete:all:count', function() {
+      return $scope.view.deleteAllNotification();
     });
     return $rootScope.$on('decrement:notification:count', function() {
       return $scope.view.decrement();

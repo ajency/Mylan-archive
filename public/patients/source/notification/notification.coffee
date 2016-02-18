@@ -9,6 +9,7 @@ angular.module 'angularApp.notification',[]
 			page : 0
 			noNotification : null
 			limit : 10
+			gotAllRequests: false
 
 			init :() ->
 				$rootScope.$broadcast 'notification:count'
@@ -35,7 +36,7 @@ angular.module 'angularApp.notification',[]
 					else
 						@canLoadMore = false
 
-					
+					@gotAllRequests = true if !@canLoadMore
 				
 					@data = @data.concat data
 					_.each @data, (value)->
@@ -72,9 +73,6 @@ angular.module 'angularApp.notification',[]
 
 					if @data.length < 5
 						@init()
-
-
-					
 				,(error)->
 					console.log 'error data'
 				
@@ -99,6 +97,8 @@ angular.module 'angularApp.notification',[]
 
 			onTapToRetry : ->
 				@display = 'loader'
+				@gotAllRequests = false
+				@page = 0
 				@init()
 
 			deleteNotifcation:(id)->
@@ -113,7 +113,10 @@ angular.module 'angularApp.notification',[]
 					"patientId": RefCode 
 
 				notifyAPI.deleteAllNotification param
-				.then (data)->
+				.then (data)=>
+					$rootScope.$broadcast 'delete:all:count'
+					@gotAllRequests = true
+					@canLoadMore = false
 					@data = []
 					console.log 'sucess notification seen data'
 					console.log data

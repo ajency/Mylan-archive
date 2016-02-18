@@ -86,6 +86,8 @@ angular.module 'angularApp.dashboard',[]
 				  	.then (data)=>
 				  		if data > 0 
 				  			@notificationCount = data
+				  			@badge = true
+				  			
 
 				decrement : ->
 					@notificationCount = @notificationCount - 1
@@ -95,8 +97,16 @@ angular.module 'angularApp.dashboard',[]
 					console.log 'init'
 					@getNotificationCount()
 
+				deleteAllNotification : ->
+					@notificationCount = 0
+					@badge = false
+
+
 		$rootScope.$on 'notification:count', ->
 			$scope.view.getNotificationCount()
+
+		$rootScope.$on 'delete:all:count', ->
+			$scope.view.deleteAllNotification()
 
 		$rootScope.$on 'decrement:notification:count', ->
 			$scope.view.decrement()

@@ -6,6 +6,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       page: 0,
       noNotification: null,
       limit: 10,
+      gotAllRequests: false,
       init: function() {
         var param;
         $rootScope.$broadcast('notification:count');
@@ -31,6 +32,9 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
               }
             } else {
               _this.canLoadMore = false;
+            }
+            if (!_this.canLoadMore) {
+              _this.gotAllRequests = true;
             }
             _this.data = _this.data.concat(data);
             return _.each(_this.data, function(value) {
@@ -100,6 +104,8 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
+        this.gotAllRequests = false;
+        this.page = 0;
         return this.init();
       },
       deleteNotifcation: function(id) {
@@ -114,11 +120,16 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "patientId": RefCode
         };
-        return notifyAPI.deleteAllNotification(param).then(function(data) {
-          this.data = [];
-          console.log('sucess notification seen data');
-          return console.log(data);
-        }, function(error) {
+        return notifyAPI.deleteAllNotification(param).then((function(_this) {
+          return function(data) {
+            $rootScope.$broadcast('delete:all:count');
+            _this.gotAllRequests = true;
+            _this.canLoadMore = false;
+            _this.data = [];
+            console.log('sucess notification seen data');
+            return console.log(data);
+          };
+        })(this), function(error) {
           return console.log('error data');
         });
       }
