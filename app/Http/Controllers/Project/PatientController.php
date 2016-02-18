@@ -1759,11 +1759,12 @@ class PatientController extends Controller
 
         foreach ($patientAnswers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
+            $patientId = $answer->get("patient");
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
             $questionTitle = $answer->get("question")->get("title");
             $responseId = $answer->get("response")->getObjectId();
-            $optionScore = ($questionType=='multi-choice' || $questionType=='single-choice') ? $answer->get("option")->get("score"):$answer->get("value");
+            $optionScore =  $answer->get("option")->get("score");
             $optionValue = $answer->get("value");
             $comparedToBaseLine = $answer->get("comparedToBaseLine");
             $baseLineScore = $optionScore + $comparedToBaseLine;
@@ -1773,7 +1774,8 @@ class PatientController extends Controller
             $answerDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y h:i:s');
             $answerDate = strtotime($answerDate);
             $questionLabel =  ucfirst(strtolower($questionTitle));
-
+            $baseLineObj = $answer->get("response")->get("baseLine");
+            $questionObj =$answer->get("question");
             
             if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
@@ -1783,15 +1785,18 @@ class PatientController extends Controller
            
             if($questionType=='input')
             { 
-                $inputBaseQuestionId = $questionId;
+                $baseLineAnswerQry = new ParseQuery("Answer");
+                $baseLineAnswerQry->equalTo("response", $baseLineObj); 
+                $baseLineAnswerQry->equalTo("question", $questionObj); 
+                $baseLineAnswerQry->equalTo("patient", $patientId); 
+                $baseLineAnswer = $baseLineAnswerQry->first();
+                $baseLineScore = $baseLineAnswer->get("value");
+                 
                 
-
+                $inputBaseQuestionId = $questionId;
                 $questionLabels[$questionId] = $questionLabel;
                 $allScore[$questionId][] = $optionValue;
 
-                // if($responseStatus=="base_line")
-                //     $baseLineArr[$questionId] =$optionValue;
-                // else
                 $baseLineArr[$questionId][$answerDate] =$baseLineScore;
                 $inputScores[$questionId][$answerDate] = $optionValue ;
 
@@ -1807,15 +1812,12 @@ class PatientController extends Controller
                 $questionLabels[$questionId] = $questionLabel;
                 $singleChoiceQuestion[$questionId] = $questionLabel;
 
-                // if($responseStatus=="base_line")
-                //    $baseLineArr[$questionId] =$optionScore;
-                // else
-                // {
+
                $baseLineArr[$questionId][$answerDate] =$baseLineScore;
                $inputScores[$questionId][$answerDate] = $optionScore ;
                $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
                $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
-                // }
+
 
              } 
             
