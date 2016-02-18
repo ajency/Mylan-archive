@@ -112,8 +112,6 @@ hr.broad {
 }
 /***HEADER & FOOTER STYLES***/
 .bar.bar-header {
-  -webkit-box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
-  -moz-box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
   box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
 }
 .bar.bar-header .button.update {
@@ -244,48 +242,34 @@ h3.line-title span {
 }
 .button.button-calm,
 .button.button-calm.activated {
-  -moz-box-shadow: 0px 4px 0 0 #009CBF;
-  -webkit-box-shadow: 0px 4px 0 0 #009CBF;
   box-shadow: 0px 4px 0 0 #009CBF;
   border: none;
 }
 .button.button-block.button-dark {
   background: #bdbdbd;
-  -moz-box-shadow: 0px 4px 0 0 #A8A8A8;
-  -webkit-box-shadow: 0px 4px 0 0 #A8A8A8;
   box-shadow: 0px 4px 0 0 #A8A8A8;
   border: none;
 }
 .button.button-block.button-dark.activated {
   background: #A8A8A8;
-  -moz-box-shadow: 0px 4px 0 0 #A8A8A8;
-  -webkit-box-shadow: 0px 4px 0 0 #A8A8A8;
   box-shadow: 0px 4px 0 0 #A8A8A8;
 }
 .button.button-block.button-balanced {
   background: #00aaa7;
-  -moz-box-shadow: 0px 4px 0 0 #008380;
-  -webkit-box-shadow: 0px 4px 0 0 #008380;
   box-shadow: 0px 4px 0 0 #008380;
   border: none;
 }
 .button.button-block.button-balanced.activated {
   background: #008380;
-  -moz-box-shadow: 0px 4px 0 0 #008380;
-  -webkit-box-shadow: 0px 4px 0 0 #008380;
   box-shadow: 0px 4px 0 0 #008380;
 }
 .button.button-block.button-assertive {
   background: #ee5235;
-  -moz-box-shadow: 0px 4px 0 0 #A73F2C;
-  -webkit-box-shadow: 0px 4px 0 0 #A73F2C;
   box-shadow: 0px 4px 0 0 #A73F2C;
   border: none;
 }
 .button.button-block.button-assertive.activated {
   background: #A73F2C;
-  -moz-box-shadow: 0px 4px 0 0 #A73F2C;
-  -webkit-box-shadow: 0px 4px 0 0 #A73F2C;
   box-shadow: 0px 4px 0 0 #A73F2C;
 }
 .button.button-assertive {
@@ -326,6 +310,8 @@ a.button-clear.btn-link {
 .button.button-block.show-more {
   margin-top: 0;
   margin-bottom: 0;
+  min-height: 25px;
+  line-height: 40px;
 }
 /***INPUT TAGS***/
 .item-input input {
@@ -1025,3 +1011,4 @@ ul .mcq_active div span {
   background: rgba(37, 150, 149, 0.61);
 }
 /***FOOTER***/
+/*# sourceMappingURL=style.css.map */
