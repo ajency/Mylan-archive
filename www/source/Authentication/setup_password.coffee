@@ -19,7 +19,22 @@ angular.module 'PatientApp.Auth',[]
 				@passwordmissmatch = ''
 
 			completesetup : ->
-					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)))
+					passtext = document.getElementById("password").value
+				
+					reg = new RegExp('^[0-9]+$')
+					
+					boolPassword = reg.test(passtext)
+
+					repasstext = document.getElementById("repassword").value
+					
+					
+					
+					boolRePassword = reg.test(repasstext)
+
+					console.log '--'
+					console.log boolPassword
+
+					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)) || (boolPassword == false) ||(boolRePassword == false))
 						@passwordmissmatch = "Please Enter Valid 4 digit password"		
 					else			
 						if angular.equals(@New_password, @Re_password)

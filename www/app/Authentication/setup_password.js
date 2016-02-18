@@ -14,7 +14,15 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         return this.passwordmissmatch = '';
       },
       completesetup: function() {
-        if ((this.New_password === '' || this.Re_password === '') || (_.isUndefined(this.New_password) && _.isUndefined(this.New_password))) {
+        var boolPassword, boolRePassword, passtext, reg, repasstext;
+        passtext = document.getElementById("password").value;
+        reg = new RegExp('^[0-9]+$');
+        boolPassword = reg.test(passtext);
+        repasstext = document.getElementById("repassword").value;
+        boolRePassword = reg.test(repasstext);
+        console.log('--');
+        console.log(boolPassword);
+        if ((this.New_password === '' || this.Re_password === '') || ((_.isUndefined(this.New_password) && _.isUndefined(this.New_password)) || (boolPassword === false) || (boolRePassword === false))) {
           return this.passwordmissmatch = "Please Enter Valid 4 digit password";
         } else {
           if (angular.equals(this.New_password, this.Re_password)) {
