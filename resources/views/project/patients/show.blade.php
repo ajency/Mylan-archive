@@ -152,7 +152,7 @@
                                 $flag = 'hidden';
                               }
                               ?>
-                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                              <td class="{{ $class }} {{(count($responseArr)>10)?'response-10':''}}"><i class="fa fa-flag {{ $flag }}" ></i></td>
                    
                               @endforeach
                               

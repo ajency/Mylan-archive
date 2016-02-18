@@ -114,7 +114,7 @@
             <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
-           <div class="table-responsive sticky-table-outer-div"> 
+           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'response-10':''}}"> 
            
          <table class="table">
                         <thead class="cf">
