@@ -119,15 +119,10 @@ angular.module 'PatientApp.notification',[]
 				if idObject.hasSeen == false 
 					App.notification.decrement()
 
-			# getNotificationCount:()->
-			# 	$rootScope.$broadcast 'notification:count:update'
-
 		$scope.$on '$ionicView.enter', ->
-			console.log 'notification ionic view enter....'
 			Storage.setData 'refcode','get'
 				.then (refcode)->
 					NotifyCount.getCount(refcode)
-
 					
 ]
 

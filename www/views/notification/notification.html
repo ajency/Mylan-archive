@@ -23,6 +23,7 @@
               ng-if = "notify.type === 'beforOccurrence'">
                   <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                       <div>
+                        
                           <p class="f-w-400">Questionnaire is due on </p>
                           <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
                       </div>
@@ -36,8 +37,12 @@
                 ng-if = "notify.type === 'missedOccurrence'">
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
-                        <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p>
+                      
+                      <p class="f-w-400">You have missed the questionnaire due on </p>
+                          <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+
+                       <!--  <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p> -->
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
@@ -49,8 +54,10 @@
                 ng-if = "notify.type === 'beforeGracePeriod'" >
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
-                        <p class="f-w-400">Questionnaire is due on </p>
-                        <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                        
+                        <p class="f-w-400">
+                          Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
+                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p>
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 

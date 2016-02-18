@@ -152,7 +152,6 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       }
     };
     return $scope.$on('$ionicView.enter', function() {
-      console.log('notification ionic view enter....');
       return Storage.setData('refcode', 'get').then(function(refcode) {
         return NotifyCount.getCount(refcode);
       });

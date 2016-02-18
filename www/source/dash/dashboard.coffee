@@ -89,12 +89,6 @@ angular.module 'PatientApp.dashboard',[]
 				.then (refcode)->
 					NotifyCount.getCount(refcode)
 
-				
-
-
-
-
-
 ]
 
 .config ['$stateProvider', ($stateProvider)->
