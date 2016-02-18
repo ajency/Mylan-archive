@@ -1324,8 +1324,10 @@ class PatientController extends Controller
             $optionId = $option->getObjectId();
             $label = $option->get('label');
             $score = $option->get('score');
-            $optionsList[$questionId][] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
+            $optionsList[$questionId][$score] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
         }
+
+        ksort($optionsList);
 
         if(!empty($response))
         {
