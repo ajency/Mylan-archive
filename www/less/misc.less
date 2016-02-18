@@ -564,7 +564,27 @@ ul{
     	right: 15px;
     	top: 5%;
 	}
-  @media screen and (max-width:767px) and (orientation:landscape){
+
+.label-outer
+{
+	label
+	{
+		padding: 0;
+
+		input
+		{
+			padding: 0 10px;
+			border:1px solid @color-light-gray;
+			margin-right: 10px;
+		}
+
+		input[disabled] + span
+		{
+			color: @color-light-gray;
+		}
+	}
+}
+@media screen and (max-width:767px) and (orientation:landscape){
 	.loader{
 		padding-top: 21%;
 	}

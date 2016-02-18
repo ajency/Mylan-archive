@@ -76,14 +76,17 @@
 
       <div class="row" ng-if='view.data.questionType == "input"'>
         <div 
-          class="col"
+          class="col label-outer"
           ng-repeat ="answerValue in view.data.options">
-          <label class="item-input  item-icon-right b-b b-t b-l b-r">
-            <input 
+          <label class="item-input  item-icon-right">
+           <input class="b-b b-t b-l b-r"
               type="number" 
-              placeholder="{{answerValue.option}}"
+              placeholder=""
               ng-model="view.val_answerValue[answerValue.option]"
-              ng-readonly = "!view.readonly">
+              ng-readonly = "!view.readonly"/>
+
+            <span>{{answerValue.option}}</span>
+            
           </label>
         </div>
       </div>

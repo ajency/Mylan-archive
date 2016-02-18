@@ -526,21 +526,17 @@ ul .mcq_active div span {
   right: 15px;
   top: 5%;
 }
-.notification-footer
-{
-  padding: 0; 
+.label-outer label {
+  padding: 0;
 }
-.button.clear-notification
-{
-  width: 100%;
-  margin: 0 -4px 0 0;
-  line-height: 3.4; 
-} 
-.button.delete-btn
-{
-  color: #ef473a;
+.label-outer label input {
+  padding: 0 10px;
+  border: 1px solid #eeeeee;
+  margin-right: 10px;
 }
-
+.label-outer label input[disabled] + span {
+  color: #eeeeee;
+}
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;
