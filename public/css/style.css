@@ -8239,4 +8239,24 @@ input {
   margin-top: 11%;
   border: 1px solid #ddd;
 }
+.input input[data-placeholder] {
+  color: #AAA;
+}
+.input input[data-placeholder].active {
+  color: black;
+  outline: none;
+}
+.input input:focus {
+  outline: none;
+  color: #aaa;
+}
+.parsley-errors-list {
+  padding: 0;
+}
+.parsley-errors-list li {
+  list-style: none;
+  color: #f00;
+  text-align: left;
+  font-size: 12px;
+}
 /*# sourceMappingURL=style.css.map */

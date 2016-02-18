@@ -35,9 +35,10 @@
          
 					@endif
           <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/setup') }}"  data-parsley-validate>
-                <div class="has-feedback ">
-                  <input  name="reference_code"  type="text" class="form-control input-lg b-b"   aria-describedby="inputSuccess2Status" placeholder="Enter your Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
-                   
+                <div class="has-feedback input">
+                
+                  <input  name="reference_code"  type="text" class="form-control input-lg b-b input" placeholder="Enter your Reference Code"   aria-describedby="inputSuccess2Status" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                 
                 </div>
                 <br class="hidden-xs">
  
@@ -86,4 +87,5 @@
   </div>
   </div>
 </div>
+
 @endsection

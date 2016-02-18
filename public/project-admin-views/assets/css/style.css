@@ -8644,4 +8644,26 @@ ul.parsley-errors-list li {
   margin-top: 11%;
   border: 1px solid #ddd;
 }
+.input {
+  margin: 50px;
+  background: white;
+  float: left;
+  clear: both;
+}
+.input span {
+  position: absolute;
+  padding: 5px;
+  margin-left: 3px;
+  color: #999;
+}
+.input input,
+.input textarea,
+.input select {
+  position: relative;
+  margin: 0;
+  border-width: 1px;
+  padding: 6px;
+  background: transparent;
+  font: inherit;
+}
 /*# sourceMappingURL=style.css.map */

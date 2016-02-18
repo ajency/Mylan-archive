@@ -35,7 +35,7 @@
             </div>
 					@endif
                 <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/login') }}" data-parsley-validate>
-                <div class="has-feedback ">  
+                <div class="has-feedback input">  
                 <?php
                 $referenceCode = Session::get('referenceCode');
                 ?>
@@ -50,8 +50,9 @@
                  <!-- <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span> -->
 
                 </div>
-                <input type="password" name="password" class="form-control input-lg b-b" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
-               
+                <div class="input">  
+                  <input type="password" name="password" class="form-control input-lg b-b" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
+                </div>
                 <div class="checkbox text-left hidden-xs" >
                  
                   <label>
@@ -101,4 +102,6 @@
   </div>
   </div>
 </div>
+
+
 @endsection
