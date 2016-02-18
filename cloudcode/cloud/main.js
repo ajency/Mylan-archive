@@ -1038,9 +1038,11 @@
     if ((responseId !== "") && (!_.isUndefined(responseId)) && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
-        var answeredQuestions, questionQuery;
+        var answeredQuestions, questionQuery, result;
         if (responseObj.get('status') !== 'started') {
-          return response.success(responseObj.get('status'));
+          result = {};
+          result['status'] = responseObj.get('status');
+          return response.success(result);
         } else {
           answeredQuestions = responseObj.get('answeredQuestions');
           questionQuery = new Parse.Query('Questions');
@@ -1050,7 +1052,6 @@
           if (answeredQuestions.length !== 0) {
             return questionQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(questionObj) {
               return getNextQuestion(questionObj, []).then(function(nextQuestionObj) {
-                var result;
                 if (!_.isEmpty(nextQuestionObj)) {
                   return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
                     return response.success(questionData);
@@ -1315,9 +1316,8 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery, result;
       if (responseObj.get('status') !== 'started') {
-        result = {
-          'status': responseObj.get('status')
-        };
+        result = {};
+        result['status'] = responseObj.get('status');
         return response.success(result);
       } else {
         questionQuery = new Parse.Query('Questions');
@@ -1455,9 +1455,8 @@
     return responseQuery.get(responseId).then(function(responseObj) {
       var questionQuery, result;
       if (responseObj.get('status') !== 'started') {
-        result = {
-          'status': responseObj.get('status')
-        };
+        result = {};
+        result['status'] = responseObj.get('status');
         return response.success(result);
       } else if (questionId === "") {
         console.log("=================");

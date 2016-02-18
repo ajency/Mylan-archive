@@ -13,7 +13,9 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		.then (responseObj) ->
 			if responseObj.get('status') != 'started'
 				# response.error "invalidQuestionnaire"
-				response.success responseObj.get('status')
+				result = {}
+				result['status'] = responseObj.get('status')
+				response.success result
 
 			else
 				answeredQuestions = responseObj.get('answeredQuestions')
@@ -294,7 +296,9 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 			# response.error "invalidQuestionnaire"
 
 			# send the response success with status of response
-			result = {'status':responseObj.get('status')}
+			result = {}
+			result['status'] = responseObj.get('status')
+ 
 			response.success result
 		else 
 			questionQuery = new Parse.Query('Questions')
@@ -440,7 +444,8 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	.then (responseObj) ->
 		if responseObj.get('status') != 'started'
 			# response.error "invalidQuestionnaire."
-			result = {'status':responseObj.get('status')}
+			result = {}
+			result['status'] = responseObj.get('status')
 			response.success result
 		else if questionId == ""
 			console.log "================="
