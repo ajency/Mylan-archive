@@ -419,7 +419,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           ObjId = _.findWhere(this.data.options, {
             id: this.data.hasAnswer.option[0]
           });
-          return this.val_answerValue[ObjId.option] = parseInt(this.data.hasAnswer.value);
+          return this.val_answerValue[ObjId.option] = this.data.hasAnswer.value;
         }
       },
       navigateOnDevice: function() {

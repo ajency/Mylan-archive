@@ -396,10 +396,10 @@ angular.module 'PatientApp.Quest',[]
 						if (_.contains(@data.hasAnswer.option, value.id))
 							value['checked'] = true
 						
-
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
+					@val_answerValue[ObjId.option] = @data.hasAnswer.value
+					
 
 			navigateOnDevice:()->
 				if $('.popup-container').hasClass('active')
