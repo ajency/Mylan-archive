@@ -1207,7 +1207,7 @@ class PatientController extends Controller
             
         }
 
-        $totalFlagData = [];
+        
 
 
         
@@ -1216,6 +1216,7 @@ class PatientController extends Controller
         {
             $i=0;
             ksort($date);
+            $totalFlagData = [];
             foreach ($date as $sequenceNumber => $value) {
                 $baseLineScore =  $baseLineBySubmission[$patient][$sequenceNumber];
                 $totalFlagData[$i]["submission"] =  $sequenceNumber;

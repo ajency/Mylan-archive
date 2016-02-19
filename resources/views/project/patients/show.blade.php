@@ -483,18 +483,18 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       }
       else if($(this).val()=='red_flags')
       { 
-        legends = {Baseline: "Baseline",Previous: "Previous"};
+        legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
         lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
       }
       else if($(this).val()=='amber_flags')
       {
-        legends = {Baseline: "Baseline",Previous: "Previous"};
+        legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
         lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
 
       }
       else if($(this).val()=='green_flags')
       {
-        legends = {Baseline: "Baseline",Previous: "Previous"};
+        legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
         lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv",'Submissions','Total Green Flags');
 
       } 

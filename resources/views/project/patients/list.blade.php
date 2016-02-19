@@ -142,7 +142,9 @@
                               <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                               <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                            </th>
-                           <th class="sorting">Graph <br> <br></th>
+                           <th class="sorting">Graph <br> 
+                               <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
+                                       </th>
                            <!-- <th>
                               Action
                            </th> -->
@@ -299,16 +301,16 @@ var chart = AmCharts.makeChart( "piechart", {
       });
 
       <?php 
-    /*foreach($patients as $patient)
+    foreach($patients as $patient)
     {
       $patientId = $patient['id'];
       $referenceCode = $patient['reference_code'];
                                           
-      $chartData = (isset($patientMiniGraphData[$referenceCode]) && !empty($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):[];
+      $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
       ?>
       miniGraph(<?php echo $chartData; ?>,'chart_mini_{{ $patientId }}')
       <?php 
-    }*/
+    } 
   ?>
 
    });

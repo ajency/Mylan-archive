@@ -122,6 +122,7 @@ class ProjectController extends Controller
                                         ->with('responseCount', $responseCount)
                                         ->with('submissionsSummary', $submissionsSummary)
                                         ->with('patientResponses', $patientResponses['patientResponses'])
+                                        ->with('patientMiniGraphData', $patientResponses['patientMiniGraphData'])
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)

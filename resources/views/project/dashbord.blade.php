@@ -363,7 +363,9 @@
                               <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                               <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                            </th>
-                           <th class="sorting">Graph <br> <br></th>
+                           <th class="sorting">Graph <br> 
+                               <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
+                                       </th>
                        <!--     <th>
                               Action
                            </th> -->
@@ -445,7 +447,7 @@
                            </td>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="chart-block" style="padding:28px">
-                                 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
+                                 <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
                            <!-- <td>
@@ -478,30 +480,30 @@
       $('[data-toggle="tooltip"]').tooltip();
 
        // submission chart
-       var legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Submissions','Total Red Flags');
+       var legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
+        lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Project Submissions','Total Red Flags');
 
         $('select[name="generateChart"]').change(function (event) { 
             if($(this).val()=='unreviewed')
             { 
              var legends = {score: "Unreviewed Submission"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['unreviewedSubmission'];?>,legends,"chartdiv",'Submissions','Total Unreviewed Submission');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['unreviewedSubmission'];?>,legends,"chartdiv",'Project Submissions','Total Unreviewed Submission');
             }
             else if($(this).val()=='red_flags')
             { 
-              legends = {Baseline: "Baseline",Previous: "Previous"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
+              legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv",'Project Submissions','Total Red Flags');
             }
             else if($(this).val()=='amber_flags')
             {
-              legends = {Baseline: "Baseline",Previous: "Previous"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
+              legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv",'Project Submissions','Total Amber Flags');
 
             }
             else if($(this).val()=='submissions')
             {
               legends = {completed: "Completed",late: "Late",missed: "Missed"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv",'Submissions','Total Count');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv",'Project Submissions','Total Count');
 
             } 
 
@@ -524,7 +526,22 @@
          }
       </style>
       <script type="text/javascript">
- 
+      
+   $(document).ready(function() {
+      <?php 
+    foreach($patients as $patient)
+    {
+      $patientId = $patient['id'];
+      $referenceCode = $patient['reference_code'];
+                                          
+      $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
+      ?>
+      miniGraph(<?php echo $chartData; ?>,'chart_mini_{{ $patientId }}')
+      <?php 
+    } 
+  ?>
+
+   });
         
          
          var chart = AmCharts.makeChart( "piechart", {
