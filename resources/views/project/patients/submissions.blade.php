@@ -66,29 +66,29 @@
                                 <th class="sorting">
                                    Total Score
                                    <br> 
-                                   <sm>Base <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>Prev <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>Current <i class="iconset top-down-arrow"></i></sm>
+                                   <sm>Base <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm>Prev <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm>Current <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th class="sorting">
                                    Change
                                    <br> 
-                                   <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm>δ Base  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm>δ Prev  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th class="sorting">
                                    Previous
                                    <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                                   <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th class="sorting">Status<br><br>
                                 <th class="sorting">Review Status<br><br>
