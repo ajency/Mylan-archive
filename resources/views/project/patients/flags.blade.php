@@ -4,13 +4,13 @@
 <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#" class="active" > HOME</a>
+            <a href="#"> HOME</a>
          </li>
          <li>
             <a href="#"> Patients</a>
          </li>
          <li>
-            <a href="#"> Flags</a>
+            <a href="#" class="active"> Flags</a>
          </li> 
       </ul>
       </p>
