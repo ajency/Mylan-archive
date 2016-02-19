@@ -84,13 +84,13 @@
                         </a>
                      </div>
                      <div class="col-md-2 ">
-                        <a href="#">
+                        <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed">
                            <div class="tiles white added-margin">
                               <div class="tiles-body p-17">
                                  <h5 class="bold m-b-20 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
                                  <h2 class="bold">
-                                  <b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></h2>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></a></h2>
                               </div>
                            </div>
                         </a>

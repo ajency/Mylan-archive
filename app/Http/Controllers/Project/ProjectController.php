@@ -97,7 +97,7 @@ class ProjectController extends Controller
 
 
         $responseStatus = ["completed","late","missed"];
-        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus); 
+        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus);
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
          $responseCount = $this->getProjectResponseCounts($projectResponses);
@@ -159,12 +159,13 @@ class ProjectController extends Controller
      
     }
 
-    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status)
+    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status,$reviewStatus=['reviewed','unreviewed'])
     {
         $displayLimit = 90; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]
+        $responseQry->containedIn("reviewed",$reviewStatus);
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);

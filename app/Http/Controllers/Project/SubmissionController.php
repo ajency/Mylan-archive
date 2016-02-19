@@ -68,10 +68,12 @@ class SubmissionController extends Controller
         // get completed count
         $submissionStatus = '';
         $responseStatus = ["completed","late"];
+        $reviewStatus = ['reviewed','unreviewed'];
         if(isset($inputs['submissionStatus']))
         {
             
             $submissionStatus = $inputs['submissionStatus'];
+
 
             if($submissionStatus=='completed')
             {
@@ -89,12 +91,23 @@ class SubmissionController extends Controller
               //$responseRate['missedCount'] =0;
               $responseStatus = [$inputs['submissionStatus']];
             }
+            elseif($submissionStatus=='unreviewed')
+            {
+              //$responseRate['missedCount'] =0;
+             $reviewStatus=[$inputs['submissionStatus']];
+            }
         }
+
+        // $reviewStatus=['reviewed','unreviewed'];
+        // if(isset($inputs['reviewStatus']))
+        // {
+        //   $reviewStatus=[$inputs['reviewStatus']];
+        // }
         
 
         $projectController = new ProjectController();
         
-        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus);  
+        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$reviewStatus);  
                 
         $timeDifference = [];
         $completedResponses = [];
