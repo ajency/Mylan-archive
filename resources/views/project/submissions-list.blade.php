@@ -110,7 +110,7 @@
                                    <sm>Prev <i class="iconset top-down-arrow"></i></sm>
                                    <sm>Current <i class="iconset top-down-arrow"></i></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Change
                                    <br> 
                                    <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
