@@ -62,6 +62,7 @@
                         <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
                         <option {{ ($filterType=='baseline')?'selected':''}} value="baseline">Baseline</option>
                      </select>
+                     <span class="cf-loader hidden flagsFilter"></span>
                      </form>
                   </div>
                   <div class="col-md-3 text-right">
@@ -216,6 +217,7 @@
    $(document).ready(function() {
 
       $('select[name="type"]').change(function (event) { 
+        $(".flagsFilter").removeClass('hidden');
          $('form').submit();
       });
 

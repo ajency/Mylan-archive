@@ -88,11 +88,12 @@
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
+                             <span class="cf-loader hidden submissionFilter"></span>
                              </form>
                            </div>
-                           <div class="col-md-3 text-right">
-                              <!-- <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> -->
-                           </div>
+                          <!--  <div class="col-md-3 text-right">
+                              <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                           </div> -->
                         </div>
                         <div class="alert alert-info alert-black">
                            Submission Summary
@@ -262,6 +263,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
 $(document).ready(function() {
 
       $('select[name="submissionStatus"]').change(function (event) { 
+         $(".submissionFilter").removeClass('hidden');
          $('form').submit();
       });
 

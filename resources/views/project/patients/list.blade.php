@@ -115,6 +115,8 @@
                         <option {{ ($patientsStatus=='created')?'selected':''}} value="created">Recruited Patients</option>
                      </select>
                   </form>
+                  <span class="cf-loader hidden patientFilter"></span>
+                  
                      <!-- <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div> -->
                   </div>
                </div>
@@ -286,6 +288,7 @@ var chart = AmCharts.makeChart( "piechart", {
    $(document).ready(function() {
 
       $('select[name="patients"]').change(function (event) { 
+        $(".patientFilter").removeClass('hidden');
          $('form').submit();
       });
 

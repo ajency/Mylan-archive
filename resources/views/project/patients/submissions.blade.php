@@ -54,6 +54,7 @@
                         <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                         <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
                      </select>
+                     <span class="cf-loader hidden submissionFilter"></span>
                      </form>
                      
                   </div>
@@ -197,6 +198,7 @@
    $(document).ready(function() {
 
       $('select[name="submissionStatus"]').change(function (event) { 
+        $(".submissionFilter").removeClass('hidden');
          $('form').submit();
       });
 

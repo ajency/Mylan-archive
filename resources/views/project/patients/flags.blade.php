@@ -61,6 +61,7 @@
                                           <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
                                           <option {{ ($filterType=='baseline')?'selected':''}} value="baseline">Baseline</option>
                                        </select>
+                                       <span class="cf-loader hidden flagsFilter"></span>
                                        </form>
                                     </div>
                                   
@@ -216,6 +217,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
    $(document).ready(function() {
 
       $('select[name="type"]').change(function (event) { 
+        $(".flagsFilter").removeClass('hidden');
          $('form').submit();
       });
 
