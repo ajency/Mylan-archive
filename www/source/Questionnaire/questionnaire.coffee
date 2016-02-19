@@ -91,16 +91,15 @@ angular.module 'PatientApp.Quest',[]
 							console.log 'inside then'
 							console.log data
 							@data = data
-							if !_.isUndefined(@data.status)
-								if @data.status == 'saved_successfully'
-									CToast.show 'This questionnaire was already answer'
-									App.navigate 'summary', summary:responseId
-								else if @data.status == 'completed'
-									CToast.show 'This questionnaire is completed '
-								else if @data.status == 'missed'
-									CToast.show 'This questionnaire was Missed'
-
-							
+							@checkQuestinarieStatus(@data)
+							# if !_.isUndefined(@data.status)
+							# 	if @data.status == 'saved_successfully'
+							# 		CToast.show 'This questionnaire was already answer'
+							# 		App.navigate 'summary', summary:responseId
+							# 	else if @data.status == 'completed'
+							# 		CToast.show 'This questionnaire is completed '
+							# 	else if @data.status == 'missed'
+							# 		CToast.show 'This questionnaire was Missed'
 							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.responseId
 							@display = 'noError'
@@ -420,6 +419,17 @@ angular.module 'PatientApp.Quest',[]
 			  	@alertPopup.then (res) ->
 				    if res
 				      App.navigate 'dashboard', {}, {animate: false, back: false}
+
+			checkQuestinarieStatus:(data)->
+				if !_.isUndefined(data.status)
+					if data.status == 'saved_successfully'
+						App.navigate 'summary', summary:responseId
+					else if data.status == 'completed'
+						@title = 'This questionnaire was Completed'
+						@showConfirm()
+					else if data.status == 'missed'
+						@title = 'This questionnaire was Missed'
+						@showConfirm()
 				    
 
 

@@ -85,18 +85,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
-                if (!_.isUndefined(_this.data.status)) {
-                  if (_this.data.status === 'saved_successfully') {
-                    CToast.show('This questionnaire was already answer');
-                    App.navigate('summary', {
-                      summary: responseId
-                    });
-                  } else if (_this.data.status === 'completed') {
-                    CToast.show('This questionnaire is completed ');
-                  } else if (_this.data.status === 'missed') {
-                    CToast.show('This questionnaire was Missed');
-                  }
-                }
+                _this.checkQuestinarieStatus(_this.data);
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
                 return _this.display = 'noError';
@@ -453,6 +442,21 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             });
           }
         });
+      },
+      checkQuestinarieStatus: function(data) {
+        if (!_.isUndefined(data.status)) {
+          if (data.status === 'saved_successfully') {
+            return App.navigate('summary', {
+              summary: responseId
+            });
+          } else if (data.status === 'completed') {
+            this.title = 'This questionnaire was Completed';
+            return this.showConfirm();
+          } else if (data.status === 'missed') {
+            this.title = 'This questionnaire was Missed';
+            return this.showConfirm();
+          }
+        }
       }
     };
     onDeviceBack = function() {
