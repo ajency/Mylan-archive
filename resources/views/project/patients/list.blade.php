@@ -280,8 +280,8 @@ var chart = AmCharts.makeChart( "piechart", {
              "valueField": "value",
              "labelRadius": 5,
 
-             "radius": "30%",
-             "innerRadius": "48%",
+             "radius": "42%",
+             "innerRadius": "60%",
              "labelText": "[[title]]",
              "export": {
                "enabled": true

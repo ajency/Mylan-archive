@@ -99,46 +99,84 @@
                         </div>
                         <div class="alert alert-info alert-black">
                            Submission Summary
-                           <sm class="light">( This are scores & flags for current submissions )</sm>
+                           <sm class="light">(This are scores & flags for current submissions)</sm>
                         </div>
-                          <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <table class="table table-flip-scroll table-hover dashboard-tbl sort-table class='sortable'">
                           <thead class="cf">
-                             <tr>
-                                <th class="sorting" width="16%">Patient ID <br><br></th>
-                                <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                <th colspan="3" class="sorting">
-                                   Total Score
-                                   <br> 
-                                   <sm>Base <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>Prev <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>Current <i class="iconset top-down-arrow"></i></sm>
-                                </th>
-                                <th colspan="3" class="sorting">
-                                   Change
-                                   <br> 
-                                   <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
-                                </th>
-                                <th colspan="3" class="sorting">
-                                   Previous
-                                   <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                </th>
-                                <th colspan="3" class="sorting">
-                                   Baseline
-                                   <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                </th>
-                                <th class="sorting">Status<br><br>
-                                </th>
-                                <th class="sorting">Review Status<br><br>
-                                </th>
-                             </tr>
-                          </thead>
+                                       <tr class="table-border-none">
+                                       <th width="5%"> Patient Id</th>
+                                       <th width="10%" class="text-left"> # Submissions</th>
+                                       <th width="20%" class="text-center " colspan="3">
+                                             Total Score
+                                       </th>
+                                     
+                                       <th width="18%"  colspan="3" class="text-center">
+                                          Change
+                                        
+                                       </th>
+                                       <th width="15%" colspan="3" class="text-center">
+                                          Previous
+                                         
+                                       </th>
+                                       <th width="15%" colspan="3" class="text-center">
+                                          Baseline
+                                          
+                                       </th>
+                                       
+                                       <th width="45%" class="text-center"> Status
+                                       </th>
+                                       <th width="15%" class="text-center"> Review Status
+                                       </th>
+                                    </tr>
+                                    <tr class="md-size">
+                                       <th width="10%" ></th>
+                                       <th width="20%"></th>
+                                       <th  class="text-right ">
+                                             Base
+                                       </th>
+                                        
+                                       <th  class="text-center ">
+                                            Prev
+                                       </th>
+                                       <th  class="text-left ">
+                                    
+                                         Current 
+                                       </th>
+                                       <th  class="text-right">
+                                          δ Base  
+                                       </th>
+                                       <th ></th>
+                                       <th  class="text-left">
+                                         δ Prev  
+                                        </th>
+                                       <th class="text-center">
+                                          <i class="fa fa-flag text-error"></i>  
+                                       </th>
+                                         <th  class="text-center">
+                                          <i class="fa fa-flag text-warning"></i>  
+                                       </th>
+                                        <th  class="text-center">
+                                        <i class="fa fa-flag text-success"></i> 
+                                       </th>
+                                       <th  class="text-center">
+                                         
+                                         <i class="fa fa-flag text-error"></i> 
+                                         
+                                       </th>
+                                       <th class="text-center">
+                                         
+                                          <i class="fa fa-flag text-warning"></i>  
+                                      
+                                       </th>
+                                       <th class="text-center">
+                
+                                          <i class="fa fa-flag text-success"></i> 
+                                       </th>
+                                       <th >
+                                       </th>
+
+                                    </tr>
+                                 </thead>
                           <tbody>
                           @if(!empty($submissionsSummary))     
                               @foreach($submissionsSummary as $responseId=> $submission)
@@ -254,8 +292,8 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
        "valueField": "value",
        "labelRadius": 5,
 
-       "radius": "30%",
-       "innerRadius": "48%",
+       "radius": "42%",
+       "innerRadius": "60%",
        "labelText": "[[title]]",
        "export": {
          "enabled": true

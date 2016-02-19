@@ -8718,4 +8718,12 @@ select option {
   float: left;
   margin-top: 14px;
 }
+.sort-table thead tr.md-size th {
+  padding: 0 3px 10px !important;
+  font-size: 11px;
+  border-top: 0 !important;
+}
+.sort-table thead tr.md-size th a {
+  color: #333;
+}
 /*# sourceMappingURL=style.css.map */
