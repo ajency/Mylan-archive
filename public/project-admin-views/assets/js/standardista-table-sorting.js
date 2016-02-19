@@ -111,7 +111,7 @@ var standardistaTableSorting = {
 
 			var spanEl = createElement('span');
 			spanEl.className = 'tableSortArrow';
-			spanEl.appendChild(document.createTextNode('\u00A0\u00A0'));
+			spanEl.appendChild(document.createTextNode('\u2191'));
 			row.cells[i].appendChild(spanEl);
 
 		}
@@ -202,7 +202,7 @@ var standardistaTableSorting = {
 			if (arrowParent != td) {
 				spanEl = createElement('span');
 				spanEl.className = 'tableSortArrow';
-				spanEl.appendChild(document.createTextNode('\u00A0\u00A0'));
+				spanEl.appendChild(document.createTextNode('\u2191'));
 				arrowParent.appendChild(spanEl);
 			}
 		}
