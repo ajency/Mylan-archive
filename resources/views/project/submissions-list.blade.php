@@ -99,7 +99,7 @@
                         </div>
                         <div class="alert alert-info alert-black">
                            Submission Summary
-                           <sm class="light">(This are scores & flags for current submissions)</sm>
+                           <sm class="light">(These are scores & flags for current submissions)</sm>
                         </div>
                           <table class="table table-flip-scroll table-hover dashboard-tbl sort-table class='sortable'">
                           <thead class="cf">
@@ -142,11 +142,11 @@
                                     
                                          Current 
                                        </th>
-                                       <th  class="text-right">
+                                       <th  class="text-right no-sort">
                                           δ Base  
                                        </th>
                                        <th class="no-sort"></th>
-                                       <th  class="text-left">
+                                       <th  class="text-left no-sort">
                                          δ Prev  
                                         </th>
                                        <th class="text-center th-flag-outer">

@@ -40,7 +40,7 @@
                     <div class="grid-title no-border">
                        <h4>
                           Submissions <span class="semi-bold">Summary</span> 
-                          <sm class="light">(This are scores & flags for current submissions)</sm>
+                          <sm class="light">(These are scores & flags for current submissions)</sm>
                        </h4>
                        <div class="tools">
                        <label class="filter-label">Filter</label>
@@ -98,11 +98,11 @@
                                     
                                          Current 
                                        </th>
-                                       <th  class="text-right">
+                                       <th  class="text-right no-sort">
                                           δ Base  
                                        </th>
                                        <th class="no-sort"></th>
-                                       <th  class="text-left">
+                                       <th  class="text-left no-sort">
                                          δ Prev  
                                         </th>
                                        <th class="text-center th-flag-outer">

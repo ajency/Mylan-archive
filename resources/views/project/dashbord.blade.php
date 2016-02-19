@@ -203,7 +203,7 @@
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
 
-                              <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i> --><sm class="light">(This are scores & flags for current submissions)</sm></h4>
+                              <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i> --><sm class="light">(These are scores & flags for current submissions)</sm></h4>
 
                               <!-- <div class="tools">
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
@@ -337,7 +337,7 @@
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
                                <div class="grid-title no-border">
-                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(This is for the Cumulative Submissions)</sm></h4>
+                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(These is for the Cumulative Submissions)</sm></h4>
                               <!-- <div class="tools">
                                
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
