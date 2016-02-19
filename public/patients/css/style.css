@@ -956,6 +956,9 @@ div.q-tabs .active:hover {
 .q-panel .form-group .form-control {
   border: 1px solid #ccc;
 }
+.input {
+  position: relative;
+}
 .input input {
   width: 100%;
   border: none;
@@ -983,19 +986,28 @@ div.q-tabs .active:hover {
   text-align: left;
   font-size: 12px;
 }
-/*.placeholderWrap{
-    position: relative; 
-    display: inline-block;}
-.placeholderWrap label{
-    color: #555;
-    position: absolute; 
-    top: 6px; left: 6px;
-    pointer-events: none;
-    display: block;
+.input .placeholderWrap {
+  position: relative;
+  display: block;
 }
-
-.placeholder-focus label{color: #999;}
-.placeholder-changed label{
-    display: none;
-}*/
+.input .placeholderWrap label {
+  color: #555;
+  position: absolute;
+  top: 12px;
+  left: 9px;
+  pointer-events: none;
+  display: block;
+  font-weight: 400;
+}
+.input .placeholder-focus label {
+  color: #999;
+}
+.input .placeholder-changed label {
+  display: none;
+}
+.input .showHidePw {
+  position: absolute;
+  top: 12px;
+  right: 7px;
+}
 /*# sourceMappingURL=style.css.map */

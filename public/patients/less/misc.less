@@ -1018,6 +1018,10 @@ div.q-tabs{
       }
     }
 }
+.input
+{
+  position: relative;
+}
 .input input {
     width: 100%;
     border: none;
@@ -1053,18 +1057,27 @@ div.q-tabs{
   font-size: 12px;
 }
 
-/*.placeholderWrap{
+.input .placeholderWrap{
     position: relative; 
-    display: inline-block;}
-.placeholderWrap label{
+    display: block;
+  }
+.input .placeholderWrap label{
     color: #555;
     position: absolute; 
-    top: 6px; left: 6px;
+    top: 12px;
+    left: 9px;
     pointer-events: none;
     display: block;
+    font-weight: 400;
 }
 
-.placeholder-focus label{color: #999;}
-.placeholder-changed label{
+.input .placeholder-focus label{color: #999;}
+.input .placeholder-changed label{
     display: none;
-}*/
+}
+.input .showHidePw
+{
+  position: absolute;
+  top: 12px;
+  right: 7px;  
+}
