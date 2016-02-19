@@ -906,7 +906,7 @@ class PatientController extends Controller
 
         $patients[] = $patient['reference_code'];
         
-        if(isset($inputs['submissionStatus']))
+        if(isset($inputs['submissionStatus']) && $inputs['submissionStatus']!='all')
         {
             $responseStatus = [$inputs['submissionStatus']];
             $submissionStatus = $inputs['submissionStatus'];

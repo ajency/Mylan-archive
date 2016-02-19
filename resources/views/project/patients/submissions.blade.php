@@ -50,7 +50,7 @@
                        <label class="filter-label">Filter</label>
                      <form method="get">  
                      <select name="submissionStatus" id="submissionStatus" class=" select2  form-control inline filterby pull-left -m-5">
-                        <option value="">All</option>
+                        <option value="all">All</option>
                         <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                         <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                         <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
