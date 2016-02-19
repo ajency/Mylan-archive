@@ -325,7 +325,7 @@ color: #fff;
 		font-size:9px;
 		padding: 0px 3px;
 		&:hover{
-			color: #05A8A5;
+			/*color: #05A8A5;*/
 			cursor: pointer;
 			i{
 			color: #05A8A5;
@@ -802,5 +802,24 @@ select, select option
     a
     {
     	color: #333;
+    }
+    &.th-flag-outer
+    {
+    	position: relative;
+
+    	a
+    	{
+    		position: absolute;
+    		width: 20px;
+		    height: 20px;
+		    left: 11px;
+    	}
+    }
+    &.no-sort
+    {
+    	.tableSortArrow
+    	{
+    		display: none;
+    	}
     }
 }

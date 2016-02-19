@@ -214,7 +214,7 @@
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
-                                <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
+                                <th class="sorting"># Submission <!-- <i class="fa fa-angle-down" style="cursor:pointer;"></i> --><br><br></th>
                                 <th colspan="3" class="sorting">
                                    Total Score
                                    <br> 

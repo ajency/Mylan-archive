@@ -8328,7 +8328,7 @@ div.upload .img-div img {
   padding: 0px 3px;
 }
 .sorting sm:hover {
-  color: #05A8A5;
+  /*color: #05A8A5;*/
   cursor: pointer;
 }
 .sorting sm:hover i {
@@ -8725,5 +8725,17 @@ select option {
 }
 .sort-table thead tr.md-size th a {
   color: #333;
+}
+.sort-table thead tr.md-size th.th-flag-outer {
+  position: relative;
+}
+.sort-table thead tr.md-size th.th-flag-outer a {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 11px;
+}
+.sort-table thead tr.md-size th.no-sort .tableSortArrow {
+  display: none;
 }
 /*# sourceMappingURL=style.css.map */
