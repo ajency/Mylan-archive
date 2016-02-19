@@ -3,10 +3,12 @@
 <!-- BEGIN BREADCRUMBS -->
 <p>
       <ul class="breadcrumb">
+
           <li><a href="#">Patients</a></li>
         <li><a href="#">{{ $patient['reference_code']}}</a> </li>
         <li><a href="#" class="active">Flags</a> </li>
          
+
       </ul>
       </p>
        
