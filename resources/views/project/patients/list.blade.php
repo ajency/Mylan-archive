@@ -4,10 +4,10 @@
 <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#" class="active" > HOME</a>
+            <a href="#"> HOME</a>
          </li>
          <li>
-            <a href="#"> Patients</a>
+            <a href="#" class="active"> Patients</a>
          </li>
           
       </ul>
@@ -107,18 +107,20 @@
                      Patient <span class="semi-bold">Summary</span> 
                      <sm class="light">( This is for the Cumulative Submissions )</sm>
                   </h4>
-                  <div class="tools">
+                  <!-- <div class="tools">
+                  <label class="filter-label">Filter</label>
                   <form method="get" class="tools-form">  
                      <select name="patients" id="patients" class=" select2  form-control inline filterby pull-left -m-5">
-                        <option value="">Filter By</option>
+                        <option value="">All</option>
                         <option {{ ($patientsStatus=='active')?'selected':''}} value="active">Active Patients</option>
                         <option {{ ($patientsStatus=='created')?'selected':''}} value="created">Recruited Patients</option>
                      </select>
-                  </form>
-                  <span class="cf-loader hidden patientFilter"></span>
+                     <span class="cf-loader hidden patientFilter m-t-3"></span>
+                  </form> -->
+                  
                   
                      <!-- <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div> -->
-                  </div>
+                  <!-- </div> -->
                </div>
                <div class="grid-body no-border" style="display: block;">
                   <table class="table table-flip-scroll table-hover">
@@ -239,7 +241,7 @@
                         </tr>
                         @endforeach
                   @else 
-                    <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                    <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                   @endif 
                      </tbody>
                   </table>

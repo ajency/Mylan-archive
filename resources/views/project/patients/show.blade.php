@@ -270,13 +270,13 @@
                                   <td class="text-center sorting">{{ $submission['previousScore'] }}</td>
                                   <td class="text-left sorting">{{ $submission['totalScore'] }}</td>
                                   
-                                  <td class="text-right semi-bold margin-none flagcount">
+                                  <td class="text-right semi-bold margin-none flagcount p-h-0">
                                       <h4><b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b></h4>
                                   </td>
-                                  <td class="text-center semi-bold margin-none flagcount">
+                                  <td class="text-center semi-bold margin-none flagcount p-h-0">
                                     <h4><b>/</b></h4>
                                   </td> 
-                                  <td class="text-left semi-bold margin-none flagcount">
+                                  <td class="text-left semi-bold margin-none flagcount p-h-0">
                                       <h4><b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b></h4>
                                   </td>
 
@@ -295,7 +295,7 @@
                         
                             @endforeach
                            @else 
-                        <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
@@ -360,7 +360,7 @@
                           ?>
                         @endforeach 
                        @else 
-                        <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif 
                     </table>
                     <hr style="margin: 0px 0px 10px 0px;">
