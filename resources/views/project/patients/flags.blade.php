@@ -53,16 +53,17 @@
                            <!-- Tab panes -->
                            <div class="tab-content">
                                 <div class="row">
-                                    <div class="col-md-7"></div>
-                                    <div class="col-md-5 text-right">
-                                     <form name="filterData" method="get">
-                                       <select name="type" id="type" class=" select2 m-t-5 form-control inline filterby ">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-3 text-right filter-dropdown m-t-15">
+                                     <span class="cf-loader hidden flagsFilter pull-right"></span>
+                                     <form name="filterData" method="get" class="pull-right">
+                                       <select name="type" id="type" class=" select2  form-control inline filterby ">
                                           <option value="">Filter By</option>
                                           <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
                                           <option {{ ($filterType=='baseline')?'selected':''}} value="baseline">Baseline</option>
-                                       </select>
-                                       <span class="cf-loader hidden flagsFilter"></span>
+                                       </select>                                       
                                        </form>
+                                       
                                     </div>
                                   
                                  </div>

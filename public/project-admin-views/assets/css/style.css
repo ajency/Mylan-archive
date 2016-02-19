@@ -8645,7 +8645,7 @@ ul.parsley-errors-list li {
   /*height: 30px;*/
   overflow: hidden;
   padding: 0 10px !important;
-  line-height: 2.9;
+  line-height: 3;
 }
 .th-headcol {
   min-height: 80px;
@@ -8688,5 +8688,14 @@ ul.parsley-errors-list li {
 select,
 select option {
   text-transform: capitalize;
+}
+.filter-dropdown form {
+  float: left;
+}
+.filter-dropdown .cf-loader {
+  display: block;
+  width: 20px;
+  float: left;
+  margin-top: 14px;
 }
 /*# sourceMappingURL=style.css.map */
