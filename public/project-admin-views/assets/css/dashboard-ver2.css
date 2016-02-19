@@ -176,4 +176,7 @@ input {
 .table-border-none {
   border: none !important;
 }
+.no-sort span {
+  display: none;
+}
 /*# sourceMappingURL=dashboard-ver2.css.map */
