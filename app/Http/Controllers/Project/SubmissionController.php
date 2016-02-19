@@ -68,6 +68,7 @@ class SubmissionController extends Controller
         // get completed count
         $submissionStatus = '';
         $responseStatus = ["completed","late"];
+        
         $reviewStatus = ['reviewed','unreviewed'];
         if(isset($inputs['submissionStatus']))
         {
