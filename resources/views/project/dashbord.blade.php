@@ -479,29 +479,29 @@
 
        // submission chart
        var legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
-        lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Submissions','Total Red Flags');
+        lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Project Submissions','Total Red Flags');
 
         $('select[name="generateChart"]').change(function (event) { 
             if($(this).val()=='unreviewed')
             { 
              var legends = {score: "Unreviewed Submission"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['unreviewedSubmission'];?>,legends,"chartdiv",'Submissions','Total Unreviewed Submission');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['unreviewedSubmission'];?>,legends,"chartdiv",'Project Submissions','Total Unreviewed Submission');
             }
             else if($(this).val()=='red_flags')
             { 
               legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv",'Project Submissions','Total Red Flags');
             }
             else if($(this).val()=='amber_flags')
             {
               legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv",'Project Submissions','Total Amber Flags');
 
             }
             else if($(this).val()=='submissions')
             {
               legends = {completed: "Completed",late: "Late",missed: "Missed"};
-              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv",'Submissions','Total Count');
+              lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv",'Project Submissions','Total Count');
 
             } 
 
