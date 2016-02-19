@@ -294,7 +294,7 @@
                         
                             @endforeach
                            @else 
-                        <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
@@ -359,7 +359,7 @@
                           ?>
                         @endforeach 
                        @else 
-                        <tr><td class="text-center no-data-found" colspan="12"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif 
                     </table>
                     <hr style="margin: 0px 0px 10px 0px;">
