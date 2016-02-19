@@ -445,7 +445,7 @@
                            </td>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="chart-block" style="padding:28px">
-                                 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
+                                 <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
                            <!-- <td>
@@ -524,7 +524,22 @@
          }
       </style>
       <script type="text/javascript">
- 
+      
+   $(document).ready(function() {
+      <?php 
+    foreach($patients as $patient)
+    {
+      $patientId = $patient['id'];
+      $referenceCode = $patient['reference_code'];
+                                          
+      $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
+      ?>
+      miniGraph(<?php echo $chartData; ?>,'chart_mini_{{ $patientId }}')
+      <?php 
+    } 
+  ?>
+
+   });
         
          
          var chart = AmCharts.makeChart( "piechart", {

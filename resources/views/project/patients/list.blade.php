@@ -299,16 +299,16 @@ var chart = AmCharts.makeChart( "piechart", {
       });
 
       <?php 
-    /*foreach($patients as $patient)
+    foreach($patients as $patient)
     {
       $patientId = $patient['id'];
       $referenceCode = $patient['reference_code'];
                                           
-      $chartData = (isset($patientMiniGraphData[$referenceCode]) && !empty($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):[];
+      $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
       ?>
       miniGraph(<?php echo $chartData; ?>,'chart_mini_{{ $patientId }}')
       <?php 
-    }*/
+    } 
   ?>
 
    });
