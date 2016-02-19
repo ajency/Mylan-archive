@@ -144,6 +144,10 @@
         $(document).ready(function(){
             (function($){
                 
+                if($("#passwordInput").value !== '')
+                {
+                    $("#passwordInput").parent(".placeholderWrap").toggleClass('placeholder-changed');
+                }
                 var phid=0;
                 $.fn.placeholder = function(){
                     return this.bind({

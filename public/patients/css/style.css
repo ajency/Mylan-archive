@@ -1007,7 +1007,21 @@ div.q-tabs .active:hover {
 }
 .input .showHidePw {
   position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  z-index: 99;
+  height: 30px;
+  opacity: 0;
+  cursor: pointer;
+}
+.input .showHidePw + i {
+  position: absolute;
   top: 12px;
   right: 7px;
+  font-size: 20px;
+}
+.input .showHidePw:checked + i {
+  color: #00bae5;
 }
 /*# sourceMappingURL=style.css.map */

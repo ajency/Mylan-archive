@@ -115,7 +115,7 @@
                         <option {{ ($patientsStatus=='created')?'selected':''}} value="created">Recruited Patients</option>
                      </select>
                   </form>
-                     <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
+                     <!-- <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div> -->
                   </div>
                </div>
                <div class="grid-body no-border" style="display: block;">
