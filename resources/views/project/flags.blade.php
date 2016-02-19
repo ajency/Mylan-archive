@@ -54,20 +54,21 @@
          <!-- Tab panes -->
          <div class="tab-content">
                         <div class="row">
-                  <div class="col-md-7"></div>
-                  <div class="col-md-2 text-right">
-                    <form name="filterData" method="get">
-                     <select name="type" id="type" class=" select2 m-t-5 form-control inline filterby ">
+                  <div class="col-md-10"></div>
+                  <div class="col-md-2 text-right filter-dropdown">
+                    <span class="cf-loader hidden flagsFilter pull-right"></span>
+                    <form name="filterData" method="get" class="pull-right">
+                     <select name="type" id="type" class=" select2 m-t-5 m-b-5 form-control inline filterby ">
                         <option value="">Filter By</option>
                         <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
                         <option {{ ($filterType=='baseline')?'selected':''}} value="baseline">Baseline</option>
                      </select>
-                     <span class="cf-loader hidden flagsFilter"></span>
                      </form>
+                     
                   </div>
-                  <div class="col-md-3 text-right">
-                     <!-- <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> -->
-                  </div>
+                  <!--<div class="col-md-3 text-right">
+                      <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> 
+                  </div>-->
                </div>
                <hr class="m-0">
             <div role="tabpanel" class="tab-pane {{ ($activeTab=='all')?'active':''}}" id="all">

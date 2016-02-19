@@ -78,22 +78,23 @@
                         <hr>
                         <!-- Chart - Added -->
                         <div class="row">
-                           <div class="col-md-7"></div>
-                           <div class="col-md-2 text-right">
+                           <div class="col-md-10"></div>
+                           <div class="col-md-2 text-right filter-dropdown">
             
                               <form method="get">  
-                             <select name="submissionStatus" id="submissionStatus" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                             <select name="submissionStatus" id="submissionStatus" class="pull-right select2 m-t-5 m-b-20 form-control inline filterby pull-right">
                                 <option value="all">All</option>
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
-                             <span class="cf-loader hidden submissionFilter"></span>
+                             
                              </form>
+                             <span class="cf-loader hidden submissionFilter"></span>
                            </div>
-                          <!--  <div class="col-md-3 text-right">
-                              <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
-                           </div> -->
+                          <!-- <div class="col-md-3 text-right">
+                               <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> 
+                           </div>-->
                         </div>
                         <div class="alert alert-info alert-black">
                            Submission Summary
@@ -111,7 +112,7 @@
                                    <sm>Prev <i class="iconset top-down-arrow"></i></sm>
                                    <sm>Current <i class="iconset top-down-arrow"></i></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Change
                                    <br> 
                                    <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
