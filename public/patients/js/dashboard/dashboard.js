@@ -7,7 +7,13 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       showMoreButton: true,
       limitTo: 5,
       init: function() {
-        var id, param;
+        var id, param, questionnaireData, startQuestData, summaryData;
+        questionnaireData = {};
+        Storage.questionnaire('set', questionnaireData);
+        startQuestData = {};
+        Storage.startQuestionnaire('set', startQuestData);
+        summaryData = {};
+        Storage.summary('set', summaryData);
         this.display = 'loader';
         id = RefCode;
         param = {
@@ -38,6 +44,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         return $location.path('summary');
       },
       startQuiz: function() {
+        var startQuestData;
+        startQuestData = 'start';
+        Storage.startQuestionnaire('set', startQuestData);
         return $location.path('start-questionnaire');
       },
       resumeQuiz: function(id) {
