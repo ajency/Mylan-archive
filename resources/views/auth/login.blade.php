@@ -51,7 +51,8 @@
 
                 </div>
                 <div class="input">  
-                  <input type="password" name="password" class="form-control input-lg b-b" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
+                  <input type="password" name="password" class="form-control input-lg b-b passwordInput" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
+                  <input id="showHidePw" class="showHidePw" type="checkbox" />Show password
                 </div>
                 <div class="checkbox text-left hidden-xs" >
                  
@@ -103,5 +104,38 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(function(){    
+    //Place this plugin snippet into another file in your applicationb
+    (function ($) {
+        $.toggleShowPassword = function (options) {
+            var settings = $.extend({
+                field: "#password",
+                control: "#toggle_show_password",
+            }, options);
+
+            var control = $(settings.control);
+            var field = $(settings.field)
+
+            control.bind('click', function () {
+                if (control.is(':checked')) {
+                    field.attr('type', 'text');
+                } else {
+                    field.attr('type', 'password');
+                }
+            })
+        };
+    }(jQuery));
+
+    //Here how to call above plugin from everywhere in your application document body
+    $.toggleShowPassword({
+        field: '.passwordInput',
+        control: '.showHidePw'
+    });
+    $(".passwordInput").keyup(function(){
+      $(this).attr("type","password");
+    });
+  });
+</script>
 
 @endsection

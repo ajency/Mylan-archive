@@ -8678,4 +8678,8 @@ ul.parsley-errors-list li {
   background: transparent;
   font: inherit;
 }
+select,
+select option {
+  text-transform: capitalize;
+}
 /*# sourceMappingURL=style.css.map */
