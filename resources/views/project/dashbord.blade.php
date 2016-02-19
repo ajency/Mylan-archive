@@ -231,16 +231,16 @@
                                 <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
                                 <th class="sorting">Status<br><br>
                                 </th>
@@ -254,7 +254,7 @@
                                  @if($submission['status']=='missed')
                                     <tr>
                                       <td class="text-center">{{ $submission['patient'] }}</td>
-                                       <td>
+                                       <td class="text-center">
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>

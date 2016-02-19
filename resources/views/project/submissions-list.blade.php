@@ -142,11 +142,11 @@
                                     
                                          Current 
                                        </th>
-                                       <th  class="text-right no-sort">
+                                       <th  class="no-sort text-right ">
                                           δ Base  
                                        </th>
                                        <th class="no-sort"></th>
-                                       <th  class="text-left no-sort">
+                                       <th  class="no-sort text-left ">
                                          δ Prev  
                                         </th>
                                        <th class="text-center th-flag-outer">
