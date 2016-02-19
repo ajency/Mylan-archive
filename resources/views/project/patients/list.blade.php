@@ -105,7 +105,7 @@
                <div class="grid-title no-border">
                   <h4>
                      Patient <span class="semi-bold">Summary</span> 
-                     <sm class="light">( This is for the Cumulative Submissions )</sm>
+                     <sm class="light">(This is for the Cumulative Submissions)</sm>
                   </h4>
                   <!-- <div class="tools">
                   <label class="filter-label">Filter</label>
@@ -131,16 +131,16 @@
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
-                              <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                              <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                              <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                            </th>
                            <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
-                              <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                              <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                              <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                            </th>
                            <th class="sorting">Graph <br> 
                                <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
