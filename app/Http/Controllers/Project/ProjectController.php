@@ -169,7 +169,7 @@ class ProjectController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
-        $responseQry->ascending("createdAt","sequenceNumber");
+        $responseQry->descending("createdAt","sequenceNumber");
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
          
