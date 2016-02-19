@@ -535,7 +535,7 @@ ul .mcq_active div span {
   margin-right: 10px;
 }
 .label-outer label input[disabled] + span {
-  color: #eeeeee;
+  color: #999;
 }
 .delete-btn {
   padding: 5px;
