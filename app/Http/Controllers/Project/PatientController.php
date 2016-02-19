@@ -311,9 +311,10 @@ class PatientController extends Controller
         foreach ($patientResponses as  $response) {
             $responseId = $response->getObjectId();
             $responseStatus = $response->get("status");
+            $sequenceNumber = $response->get("sequenceNumber");
 
             $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
-            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
+            $responseArr[$responseId]['SUBMISSIONNO'] = $sequenceNumber;
 
             if ($responseStatus=='completed') {
                 $completedResponses[]= $response;
@@ -328,13 +329,15 @@ class PatientController extends Controller
             }
 
             $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
-            $occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$occurrenceDate] = $responseId;
+            // $occurrenceDate = strtotime($occurrenceDate);
+            $responseByDate[$sequenceNumber] = $responseId;
         } 
+
+
 
         ksort($responseByDate);
         $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $date => $responseId) {
+        foreach ($responseByDate as $sequenceNumber => $responseId) {
             $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
         }
 
@@ -1655,14 +1658,15 @@ class PatientController extends Controller
         $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
+            $sequenceNumber = $response->get("sequenceNumber");
             $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
             $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
             
             $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
-            $occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$occurrenceDate] = $responseId;
+            //$occurrenceDate = strtotime($occurrenceDate);
+            $responseByDate[$sequenceNumber] = $responseId;
         } 
-
+        
         ksort($responseByDate);
 
         $patientSubmissionsByDate = [];
@@ -1745,6 +1749,8 @@ class PatientController extends Controller
             
              
         }
+
+
 
         $sequentialQuestion = (!empty($questionObjs))? $this->getSequenceQuestions($questionObjs) :[];//used ly to get question in rt order
          
