@@ -5,6 +5,7 @@ angular.module 'angularApp.storage', []
 	Storage = {}
 	summaryData = {}
 	questionnaireData = {}
+	startQuestion = {}
 
 	Storage.summary = (action, data)->
 	    switch action
@@ -22,6 +23,15 @@ angular.module 'angularApp.storage', []
 
 	      when 'get'
 	        questionnaireData
+
+	Storage.startQuestionnaire = (action, data)->
+    	
+	    switch action
+	      when 'set'
+	        startQuestion = data
+
+	      when 'get'
+	        startQuestion
 
 
 	Storage

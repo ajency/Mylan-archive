@@ -15,7 +15,17 @@ angular.module 'angularApp.questionnaire',[]
 				console.log summaryData
 
 				if !_.isEmpty(summaryData) 
+
 					@responseId = summaryData.responseId
+
+					if summaryData.previousState == 'questionnaire'
+						
+						questionnaireData = 
+							respStatus : 'lastQuestion'
+							responseId : @responseId
+
+						Storage.questionnaire 'set', questionnaireData
+
 
 					@hideButton = if summaryData.previousState == 'questionnaire' then true else false
 					# @hideButton = if App.previousState != 'questionnaireCtr' then false else true

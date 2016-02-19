@@ -9,6 +9,14 @@ angular.module('angularApp.dashboard').controller('StartQuestionnaireCtrl', [
         };
         Storage.questionnaire('set', questionnaireData);
         return $location.path('questionnaire');
+      },
+      init: function() {
+        var startQuestionData;
+        startQuestionData = Storage.startQuestionnaire('get');
+        console.log('start questinnarie...');
+        if (_.isEmpty(startQuestionData)) {
+          return $location.path('dashboard');
+        }
       }
     };
   }

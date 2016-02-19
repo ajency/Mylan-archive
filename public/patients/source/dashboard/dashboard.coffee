@@ -11,6 +11,14 @@ angular.module 'angularApp.dashboard',[]
 			limitTo: 5
 
 			init :() -> 
+				questionnaireData = {}
+				Storage.questionnaire 'set', questionnaireData
+
+				startQuestData = {}
+				Storage.startQuestionnaire 'set', startQuestData
+
+				summaryData = {}
+				Storage.summary 'set', summaryData
 
 				@display = 'loader'
 				id = RefCode
@@ -36,6 +44,8 @@ angular.module 'angularApp.dashboard',[]
 				$location.path('summary')
 
 			startQuiz :() ->
+				startQuestData = 'start'
+				Storage.startQuestionnaire 'set', startQuestData
 				$location.path 'start-questionnaire'
 
 			resumeQuiz : (id)->
