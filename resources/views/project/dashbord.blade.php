@@ -205,9 +205,9 @@
 
                               <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i> --><sm class="light">( This are scores & flags for current submissions )</sm></h4>
 
-                              <div class="tools">
+                              <!-- <div class="tools">
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
-                              </div>
+                              </div> -->
                            </div>
                            <div class="grid-body no-border" style="display: block;">
                               <table class="table table-flip-scroll table-hover dashboard-tbl">
@@ -332,10 +332,10 @@
                         <div class="grid simple grid-table grid-table-sort">
                                <div class="grid-title no-border">
                               <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">( This is for the Cumulative Submissions )</sm></h4>
-                              <div class="tools">
+                              <!-- <div class="tools">
                                
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
-                              </div>
+                              </div> -->
                            </div>
                            <div class="grid-body no-border" style="display: block;">
                               <table class="table table-flip-scroll table-hover">
@@ -358,9 +358,9 @@
                               <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                            </th>
                            <th class="sorting">Graph <br> <br></th>
-                           <th>
+                       <!--     <th>
                               Action
-                           </th>
+                           </th> -->
                         </tr>
                      </thead>
                      <tbody>
@@ -454,9 +454,9 @@
                                  <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
                               </div>
                            </td>
-                           <td>
+                           <!-- <td>
                               <span class="{{ $status_class }}"> {{ $status }}</span>
-                           </td>
+                           </td> -->
                         </tr>
                         <?php 
                           $i++;
