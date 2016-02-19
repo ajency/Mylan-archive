@@ -685,7 +685,7 @@ class ProjectController extends Controller
                      );
 
         $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
-        $allPatients = User::where('type','patient')->lists('reference_code')->toArray();
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->lists('reference_code')->toArray();
 
         if(!$referenceCode)
         {

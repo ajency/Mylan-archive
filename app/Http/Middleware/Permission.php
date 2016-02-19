@@ -34,7 +34,7 @@ class Permission
                     ];
 
         $uri        =[  'admin'=>['view'],
-                        'admin/dashbord'=>['view'],
+                        'admin/dashboard'=>['view'],
                         'admin/hospital/{hospital}/uploadlogo'=>['edit'],
                         'admin/hospital/{hospital}/deletelogo'=>['edit'],
                     

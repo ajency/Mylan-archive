@@ -128,7 +128,7 @@
                   <div class="bar-inner">
                      <ul>
                         <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
-                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/dashbord/' ) }}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/dashboard/' ) }}">
                            <span><i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>

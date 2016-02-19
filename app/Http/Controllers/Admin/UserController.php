@@ -28,7 +28,7 @@ class UserController extends Controller
                                           ->with('users', $users); 
     }
 
-    public function dashbord()
+    public function dashboard()
     {  
         return view('admin.dashbord')->with('active_menu', 'dashbord');
     }

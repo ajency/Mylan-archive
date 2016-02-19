@@ -34,23 +34,42 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        if ($this->auth->check()) {
-            return redirect('/dashbord');
-        }
-
         // if ($this->auth->check()) {
-
-        //     $routePrefix = $request->route()->getPrefix();
-        //     if(str_contains($routePrefix, 'admin'))
-        //             return redirect('/admin'); 
-        //     elseif(str_contains($routePrefix, 'hospital'))
-        //     {
-        //         $id= $request->id;
-        //         return redirect('/hospital/'.$id); 
-                 
-        //     }
-            
+        //     return redirect('/dashboard');
         // }
+
+        if ($this->auth->check()) {
+
+            $routePrefix = $request->route()->getPrefix();
+            if(str_contains($routePrefix, 'admin'))
+                    return redirect('/admin'); 
+            elseif(str_contains($routePrefix, 'hospital'))
+            {
+                $id= $request->id;
+                return redirect('/hospital/'.$id); 
+                 
+            }
+            $routePrefix = $request->route()->getPrefix(); 
+            if(str_contains($routePrefix, 'admin'))
+                return redirect()->guest('admin');
+            elseif(str_contains($routePrefix, 'patient'))
+            {
+                return redirect()->guest('/dashboard');
+            }
+            elseif(str_contains($routePrefix, '{hospitalslug}/{projectslug}'))
+            {
+                $hospitalslug= $request->hospitalslug;
+                $projectslug= $request->projectslug;
+
+                return redirect()->guest($hospitalslug.'/'.$projectslug.'/');
+            }
+            elseif(str_contains($routePrefix, '/{hospitalslug}'))
+            {
+                $hospitalslug= $request->hospitalslug;
+                return redirect()->guest($hospitalslug.'/');
+            }
+            
+        }
 
         return $next($request);
     }
