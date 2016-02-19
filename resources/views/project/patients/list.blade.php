@@ -230,7 +230,7 @@
                            
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="chart-block" style="padding:28px">
-                                 <div id="line1" style="vertical-align: middle; display: inline-block; width: 100px; height: 30px;"></div>
+                                 <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
                           <!--  <td>
@@ -285,12 +285,29 @@ var chart = AmCharts.makeChart( "piechart", {
                "enabled": true
              }
 } );
+
+
+
+
    $(document).ready(function() {
 
       $('select[name="patients"]').change(function (event) { 
         $(".patientFilter").removeClass('hidden');
          $('form').submit();
       });
+
+      <?php 
+    /*foreach($patients as $patient)
+    {
+      $patientId = $patient['id'];
+      $referenceCode = $patient['reference_code'];
+                                          
+      $chartData = (isset($patientMiniGraphData[$referenceCode]) && !empty($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):[];
+      ?>
+      miniGraph(<?php echo $chartData; ?>,'chart_mini_{{ $patientId }}')
+      <?php 
+    }*/
+  ?>
 
    });
    </script>

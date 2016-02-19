@@ -10,7 +10,7 @@
             <a href="#"> Patients</a>
          </li>
          <li>
-            <a href="#"> Submissions</a>
+            <a href="#"> Flags</a>
          </li> 
       </ul>
       </p>

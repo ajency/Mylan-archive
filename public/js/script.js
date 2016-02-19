@@ -377,7 +377,7 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
 {
     graphs = _.map(legends, function(value, key){ 
         var graphObj = {
-        "balloonText": " "+value+" in [[category]]: [[value]]",
+        "balloonText": " "+value+" on [[category]]: [[value]]",
         "bullet": "round",
         "title": value,
         "valueField": key,
@@ -595,7 +595,7 @@ function patientFlagsChart(chartData)
         }],
         
         "graphs": [{
-            "balloonText": "Red Flag in [[category]]: [[value]]",
+            "balloonText": "Red Flag on [[category]]: [[value]]",
             "bullet": "round",
             "title": "Red",
            "lineColor": "#CC0000",
@@ -606,7 +606,7 @@ function patientFlagsChart(chartData)
         "inside": true
         
         }, {
-            "balloonText": " Amber Flag in [[category]]: [[value]]",
+            "balloonText": " Amber Flag on [[category]]: [[value]]",
             "bullet": "round",
             "title": "Amber",
             "lineColor": "#ecb42f",
@@ -617,7 +617,7 @@ function patientFlagsChart(chartData)
            "hidden":false,
            "inside": true
         }, {
-            "balloonText": "Green Flag in [[category]]: [[value]]",
+            "balloonText": "Green Flag on [[category]]: [[value]]",
             "bullet": "round",
             "title": "Green",
             "lineColor": "#05A8A5",
@@ -752,5 +752,50 @@ function submissionBarChart(chartData,container)
 
 }
 
+function miniGraph(chartData,container)
+{
+  AmCharts.ready(function() {
 
+    // line chart, with different line color below zero         
+    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+    chart.dataProvider = chartData;
+    chart.categoryField = "submission";
+    chart.autoMargins = false;
+    chart.marginLeft = 0;
+    chart.marginRight = 5;
+    chart.marginTop = 0;
+    chart.marginBottom = 0;
+
+    var graph = new AmCharts.AmGraph();
+    graph.valueField = "score";
+    graph.showBalloon = false;
+    graph.lineColor = "#ffbf63";
+    graph.negativeLineColor = "#289eaf";
+    chart.addGraph(graph);
+
+    var baseLine = new AmCharts.AmGraph();
+    baseLine.valueField = "baseLine";
+    baseLine.showBalloon = false;
+    baseLine.lineColor = "#000";
+    baseLine.negativeLineColor = "#84B761";
+    chart.addGraph(baseLine);
+
+    var valueAxis = new AmCharts.ValueAxis();
+    valueAxis.gridAlpha = 0;
+    valueAxis.axisAlpha = 0;
+    chart.addValueAxis(valueAxis);
+
+    var categoryAxis = chart.categoryAxis;
+    categoryAxis.gridAlpha = 0;
+    categoryAxis.axisAlpha = 0;
+    categoryAxis.startOnAxis = true;
+
+    // using guide to show 0 grid
+    // var guide = new AmCharts.Guide();
+    // guide.value = 0;
+    // guide.lineAlpha = 0.1;
+    // valueAxis.addGuide(guide);
+    chart.write(container);
+ });
+}
 

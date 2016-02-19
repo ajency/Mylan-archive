@@ -77,6 +77,8 @@ class PatientController extends Controller
 
         $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj);
 
+        
+
         $patientsSummary = $patientResponses['patientResponses'];
         $completed = $patientResponses['completed']; 
         $late = $patientResponses['late']; 
@@ -84,6 +86,7 @@ class PatientController extends Controller
         $completedCount = $patientResponses['completedCount'];
         $lateCount = $patientResponses['lateCount'];
         $missedCount = $patientResponses['missedCount'];
+        $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
          
       
 
@@ -102,8 +105,10 @@ class PatientController extends Controller
                                           ->with('endDate', $endDate)
                                           ->with('startDate', $startDate)
                                           ->with('patientsStatus', $patientsStatus)
+                                          ->with('patientMiniGraphData', $patientMiniGraphData)
                                           ->with('patientsSummary', $patientsSummary);
     }
+
 
 
     /**
@@ -1162,6 +1167,9 @@ class PatientController extends Controller
 
         $missed = ($totalResponses) ? (array_sum($missedResponses)/$totalResponses) * 100 :0;
         $missed =  round($missed,2);
+
+        $patientMiniGraphData = $this->patientsMiniGraph($responses);
+        
          
  
         $data['patientResponses']=$patientResponses;
@@ -1172,9 +1180,59 @@ class PatientController extends Controller
         $data['lateCount']=count($lateResponses);
         $data['missedCount']=array_sum($missedResponses);
         $data['totalResponses']=$totalResponses;
+        $data['patientMiniGraphData']=$patientMiniGraphData;
          
         return $data;
         
+    }
+
+    public function patientsMiniGraph($patientResponses)
+    {
+
+        
+        $totalFlagsBySubmission = [];
+        $baseLineBySubmission = [];
+        $baseLineData = [];
+        $submissionDates = [];
+       
+        foreach ($patientResponses as $response) {
+            $patient = $response->get("patient");
+            $score = $response->get("score");
+            $totalScore = $response->get("totalScore");
+            $comparedToBaseLine = $response->get("comparedToBaseLine");
+            $sequenceNumber = $response->get("sequenceNumber");
+
+            $totalFlagsBySubmission[$patient][$sequenceNumber] = $totalScore;
+            $baseLineBySubmission[$patient][$sequenceNumber] = $totalScore + $comparedToBaseLine;
+            
+        }
+
+        $totalFlagData = [];
+
+
+        
+        $patientGraphData = [];
+        foreach($totalFlagsBySubmission as $patient => $date)
+        {
+            $i=0;
+            ksort($date);
+            foreach ($date as $sequenceNumber => $value) {
+                $baseLineScore =  $baseLineBySubmission[$patient][$sequenceNumber];
+                $totalFlagData[$i]["submission"] =  $sequenceNumber;
+                $totalFlagData[$i]["score"] = $value;
+                $totalFlagData[$i]["baseLine"] = $baseLineScore;
+     
+                $i++;
+            }
+
+            $patientGraphData[$patient]=$totalFlagData;
+            
+        }
+       
+        // $data['totalFlags'] = json_encode($totalFlagData);
+
+        
+        return $patientGraphData;
     }
 
     public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status)  
