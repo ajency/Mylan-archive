@@ -478,7 +478,7 @@
       $('[data-toggle="tooltip"]').tooltip();
 
        // submission chart
-       var legends = {Baseline: "Baseline",Previous: "Previous"};
+       var legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
         lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Submissions','Total Red Flags');
 
         $('select[name="generateChart"]').change(function (event) { 
