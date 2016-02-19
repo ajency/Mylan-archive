@@ -489,12 +489,12 @@
             }
             else if($(this).val()=='red_flags')
             { 
-              legends = {Baseline: "Baseline",Previous: "Previous"};
+              legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
               lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
             }
             else if($(this).val()=='amber_flags')
             {
-              legends = {Baseline: "Baseline",Previous: "Previous"};
+              legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
               lineChartWithOutBaseLine(<?php echo $projectFlagsChart['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
 
             }
