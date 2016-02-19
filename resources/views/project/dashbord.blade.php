@@ -1,13 +1,13 @@
 @extends('layouts.single-project')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
-      <p>
+      <!-- <p>
       <ul class="breadcrumb">
          <li>
             <a href="#" class="active" > HOME</a>
          </li>
       </ul>
-      </p>
+      </p> -->
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
@@ -104,11 +104,11 @@
                            <div class="tiles-body">
                            <br>
                               <div class="row">
-                                 <div class="col-sm-6">
+                                 <div class="col-sm-5">
                                     <div id="piechart"></div>
                                  </div>
-                                 <div class="col-sm-6">
-                                          <div class="row m-t-30">
+                                 <div class="col-sm-7">
+                                          <div class="col-sm-12 m-t-30">
                                              <div class="col-sm-4 text-center">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['completed'] }}%</h2>
                                                 <p> # Completed</p>

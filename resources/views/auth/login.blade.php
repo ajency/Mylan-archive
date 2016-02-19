@@ -52,7 +52,8 @@
                 </div>
                 <div class="input">  
                   <input type="password" name="password" class="form-control input-lg b-b passwordInput" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters"  />
-                  <input id="showHidePw" class="showHidePw" type="checkbox" />Show password
+                  <input id="showHidePw" class="showHidePw" type="checkbox" />
+                  <i class="fa fa-eye"></i>
                 </div>
                 <div class="checkbox text-left hidden-xs" >
                  
