@@ -133,9 +133,7 @@
         field: '.passwordInput',
         control: '.showHidePw'
     });
-    $(".passwordInput").keyup(function(){
-      $(this).attr("type","password");
-    });
+    
   });
 </script>
 
