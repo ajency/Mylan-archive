@@ -253,6 +253,7 @@
        <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/moment.js') }}"></script>
       <script src="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.js') }}" type="text/javascript"></script>
       <script src="{{ asset('project-admin-views/assets/plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
+      <script src="{{ asset('project-admin-views/assets/js/tablesort.min.js') }}" type="text/javascript"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
@@ -262,5 +263,5 @@
       <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
 
-   </body>
+ 
 </html>
