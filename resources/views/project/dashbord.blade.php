@@ -256,7 +256,7 @@
                                       <td class="text-center">{{ $submission['patient'] }}</td>
                                        <td class="text-center">
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
-                                         <sm class="text-center"><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                         <sm ><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
                                       
                                        <td class="text-center sorting">-</td>
@@ -288,7 +288,7 @@
 
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
                                     <td class="text-center">{{ $submission['patient'] }}</td>
-                                    <td>
+                                    <td lass="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                    </td>
