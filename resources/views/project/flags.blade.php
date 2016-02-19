@@ -65,7 +65,7 @@
                      </form>
                   </div>
                   <div class="col-md-3 text-right">
-                     <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                     <!-- <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> -->
                   </div>
                </div>
                <hr class="m-0">

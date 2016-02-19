@@ -1013,6 +1013,7 @@ div.q-tabs .active:hover {
   z-index: 99;
   height: 30px;
   opacity: 0;
+  cursor: pointer;
 }
 .input .showHidePw + i {
   position: absolute;

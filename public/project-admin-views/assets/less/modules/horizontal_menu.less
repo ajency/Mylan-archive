@@ -17,14 +17,14 @@
 			margin: 0;
 			padding: 0;
 			& > li {
-				display: inline-block;
-				padding: 10px 15px;
+				display: inline-block;				
 				font-family: 'Open Sans';
 				vertical-align: middle;
 				&.classic{
 					position: relative;
 				}
 				&.open{
+					background: none !important;
 					& > a {
 					opacity: 1;
 					}
@@ -36,6 +36,8 @@
 				}
 				& > a {
 					color: @color-black;
+					padding: 10px 15px;
+					display: block;
 					& > .arrow{
 						display: inline-block;
 						&:before{
@@ -53,6 +55,10 @@
 							top: 6px;
 						}
 					}
+					&:hover
+					{
+						opacity: 0.5;
+					}
 
 				}
 				a{
@@ -62,7 +68,7 @@
 						transition:opacity 0.1s linear 0s;
 					}
 					&:hover{
-						opacity: 1;
+						opacity: 0.5;
 						.description{
 						opacity: 1;
 						}

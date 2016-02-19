@@ -91,7 +91,7 @@
                              </form>
                            </div>
                            <div class="col-md-3 text-right">
-                              <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
+                              <!-- <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> -->
                            </div>
                         </div>
                         <div class="alert alert-info alert-black">
@@ -103,7 +103,7 @@
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
                                 <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Total Score
                                    <br> 
                                    <sm>Base <i class="iconset top-down-arrow"></i></sm>
@@ -116,14 +116,14 @@
                                    <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
                                    <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
                                    <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
                                    <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
                                    <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
                                    <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
@@ -146,26 +146,35 @@
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
-                                      <td class="text-center sorting">
-                                         <span>-</span>
-                                         <span>-</span>
-                                         <span>-</span>
-                                      </td>
-                                      <td class="text-center">
-                                         <h4 class="semi-bold margin-none flagcount">
-                                            -
-                                         </h4>
-                                      </td>
-                                      <td class="text-center sorting">
-                                          <span class="text-error">-</span>
-                                          <span class="text-warning">-</span>
-                                          <span class=" text-success">-</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">-</span>
-                                          <span class="text-warning">-</span>
-                                          <span class=" text-success">-</span>
-                                       </td>
+                                        
+                                       <td class="text-center sorting">-</td>
+                                       <td class="text-center sorting">-</td>
+                                       <td class="text-center sorting">-</td>
+                                        
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>
+                                              -
+                                           </h4>
+                                        </td>
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>
+                                              -
+                                           </h4>
+                                        </td>
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>
+                                              -
+                                           </h4>
+                                        </td>
+                      
+                                        <td class="text-right sorting text-error">-</td>
+                                        <td class="text-center sorting text-warning">-</td>
+                                        <td class="text-left sorting  text-success">-</td>
+                        
+                                        <td class="text-right sorting text-error">-</td>
+                                        <td class="text-center sorting text-warning">-</td>
+                                        <td class="text-left sorting  text-success">-</td>
+                          
                                       <td class="text-center text-success">-</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
@@ -177,26 +186,33 @@
                                       <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                    </td>
-                                   <td class="text-center sorting">
-                                      <span>{{ $submission['baseLineScore'] }}</span>
-                                      <span>{{ $submission['previousScore'] }}</span>
-                                      <span>{{ $submission['totalScore'] }}</span>
-                                   </td>
-                                   <td class="text-center">
-                                      <h4 class="semi-bold margin-none flagcount">
-                                         <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
+                                   
+                                    <td class="text-right sorting">{{ $submission['baseLineScore'] }}</td>
+                                    <td class="text-center sorting">{{ $submission['previousScore'] }}</td>
+                                    <td class="text-left sorting">{{ $submission['totalScore'] }}</td>
+
+                                    <td class="text-right semi-bold margin-none flagcount">
+                                      <h4>
+                                         <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b>
                                       </h4>
-                                   </td>
-                                   <td class="text-center sorting">
-                                       <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
-                                       <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
-                                       <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
                                     </td>
-                                    <td class="text-center sorting">
-                                       <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
-                                       <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
-                                       <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
+                                    <td class="text-center semi-bold margin-none flagcount">
+                                      <h4><b>/</b></h4>
                                     </td>
+                                    <td class="text-left semi-bold margin-none flagcount">
+                                      <h4>
+                                        <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
+                                      </h4>
+                                    </td>
+                                   
+                                     <td class="text-right sorting text-error">{{ $submission['previousFlag']['red'] }}</td>
+                                     <td class="text-center sorting text-warning">{{ $submission['previousFlag']['amber'] }}</td>
+                                     <td class="text-left sorting text-success">{{ $submission['previousFlag']['green'] }}</td>
+                                 
+                                     <td class="text-right sorting text-error">{{ $submission['baseLineFlag']['red'] }}</td>
+                                     <td class="text-center sorting text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
+                                     <td class="text-left sorting text-success">{{ $submission['baseLineFlag']['green'] }}</td>
+                               
                                    <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                    <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
                                 </tr>

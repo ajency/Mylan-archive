@@ -215,27 +215,27 @@
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
                                 <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Total Score
                                    <br> 
                                    <sm>Base <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                    <sm>Prev <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                    <sm>Current <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Change
                                    <br> 
                                    <sm>δ Base  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                    <sm>δ Prev  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
                                    <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                    <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                    <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                                 </th>
-                                <th class="sorting">
+                                <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
                                    <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
@@ -258,26 +258,29 @@
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
-                                      <td class="text-center sorting">
-                                         <span>-</span>
-                                         <span>-</span>
-                                         <span>-</span>
-                                      </td>
-                                      <td class="text-center">
-                                         <h4 class="semi-bold margin-none flagcount">
-                                            -
-                                         </h4>
-                                      </td>
-                                      <td class="text-center sorting">
-                                          <span class="text-error">-</span>
-                                          <span class="text-warning">-</span>
-                                          <span class=" text-success">-</span>
-                                       </td>
-                                       <td class="text-center sorting">
-                                          <span class="text-error">-</span>
-                                          <span class="text-warning">-</span>
-                                          <span class=" text-success">-</span>
-                                       </td>
+                                      
+                                       <td class="text-center sorting">-</td>
+                                       <td class="text-center sorting">-</td>
+                                       <td class="text-center sorting">-</td>
+                                    
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>-</h4>
+                                        </td>
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>-</h4>
+                                        </td>
+                                        <td class="text-center semi-bold margin-none flagcount">
+                                           <h4>-</h4>
+                                        </td>
+
+                                        <td class="text-right sorting text-error">-</td>
+                                        <td class="text-center sorting text-warning">-</td>
+                                        <td class="text-left sorting  text-success">-</td>
+                                     
+                                        <td class="text-right sorting text-error">-</td>
+                                        <td class="text-center sorting text-warning">-</td>
+                                        <td class="text-left sorting  text-success">-</td>
+                                     
                                       <td class="text-center text-success">-</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
@@ -289,26 +292,29 @@
                                       <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                    </td>
-                                   <td class="text-center sorting">
-                                      <span>{{ $submission['baseLineScore'] }}</span>
-                                      <span>{{ $submission['previousScore'] }}</span>
-                                      <span>{{ $submission['totalScore'] }}</span>
-                                   </td>
-                                   <td class="text-center">
-                                      <h4 class="semi-bold margin-none flagcount">
-                                         <b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b> / <b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b>
-                                      </h4>
-                                   </td>
-                                   <td class="text-center sorting">
-                                       <span class="text-error">{{ $submission['previousFlag']['red'] }}</span>
-                                       <span class="text-warning">{{ $submission['previousFlag']['amber'] }}</span>
-                                       <span class=" text-success">{{ $submission['previousFlag']['green'] }}</span>
-                                    </td>
-                                    <td class="text-center sorting">
-                                       <span class="text-error">{{ $submission['baseLineFlag']['red'] }}</span>
-                                       <span class="text-warning">{{ $submission['baseLineFlag']['amber'] }}</span>
-                                       <span class=" text-success">{{ $submission['baseLineFlag']['green'] }}</span>
-                                    </td>
+                                   
+                                      <td class="text-right sorting">{{ $submission['baseLineScore'] }}</td>
+                                      <td class="text-center sorting">{{ $submission['previousScore'] }}</td>
+                                      <td class="text-left sorting">{{ $submission['totalScore'] }}</td>
+                                   
+                                     <td class="text-right semi-bold margin-none flagcount">
+                                        <h4><b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b></h4>
+                                     </td>
+                                     <td  class="text-center semi-bold margin-none flagcount">
+                                       <h4><b>/</b></h4>
+                                     </td>
+                                     <td  class="text-left semi-bold margin-none flagcount">
+                                        <h4><b class="f-w text-{{ $submission['totalPreviousFlag'] }}">{{ $submission['comparedToPrevious'] }}</b></h4>
+                                     </td>
+
+                                     <td class="text-right sorting text-error">{{ $submission['previousFlag']['red'] }}</td>
+                                     <td class="text-center sorting text-warning">{{ $submission['previousFlag']['amber'] }}</td>
+                                     <td class="text-left sorting text-success">{{ $submission['previousFlag']['green'] }}</td>
+                                
+                                     <td class="text-right sorting text-error">{{ $submission['baseLineFlag']['red'] }}</td>
+                                     <td class="text-center sorting text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
+                                     <td class="text-left sorting text-success">{{ $submission['baseLineFlag']['green'] }}</td>
+                                  
                                    <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                    <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
                                 </tr>
@@ -343,14 +349,14 @@
                         <tr>
                            <th width="12%">Patient ID</th>
                            <th width="31%">Total Submissions</th>
-                           <th class="sorting">
+                           <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
                               <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                               <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
                               <sm><i class="fa fa-flag text-success"></i> <!--  <i class="iconset top-down-arrow"></i> --></sm>
                            </th>
-                           <th class="sorting">
+                           <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
                               <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
@@ -418,36 +424,24 @@
                                  </div>
                               </div>
                            </td>
-                           <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <span class=" text-error">
-                               
+                           <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">                              
                               {{ $patientSummary['previousFlag']['red'] }}
-                              </span>
-                              <span class="text-warning">
-                     
-                                {{ $patientSummary['previousFlag']['amber'] }}
-                     
-                              </span>
-                              <span class="text-success">
-                                
-                                {{ $patientSummary['previousFlag']['green'] }}
-                               
-                              </span>
                            </td>
-                           <td class="text-center sorting" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <span class=" text-error">                         
-                                  {{ $patientSummary['baseLineFlag']['red'] }}
-                               
-                              </span>
-                              <span class="text-warning">
-                                  {{ $patientSummary['baseLineFlag']['amber'] }}
-                                  
-                              </span>
-                              <span class="text-success">
-                         
-                                  {{ $patientSummary['baseLineFlag']['green'] }}
-                              
-                              </span>
+                           <td class="text-center sorting text-warning" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">                              
+                              {{ $patientSummary['previousFlag']['amber'] }}
+                           </td>
+                           <td class="text-left sorting text-success" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                              {{ $patientSummary['previousFlag']['green'] }}
+                           </td>
+
+                           <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                              {{ $patientSummary['baseLineFlag']['red'] }}
+                           </td>
+                           <td class="text-center sorting text-warning" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                              {{ $patientSummary['baseLineFlag']['amber'] }}
+                           </td>
+                           <td class="text-left sorting text-success" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
+                              {{ $patientSummary['baseLineFlag']['green'] }}
                            </td>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="chart-block" style="padding:28px">
