@@ -8698,4 +8698,8 @@ select option {
   float: left;
   margin-top: 14px;
 }
+.table .p-h-0 {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
 /*# sourceMappingURL=style.css.map */
