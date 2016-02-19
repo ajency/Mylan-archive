@@ -127,16 +127,16 @@
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
-                              <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                            </th>
                            <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
-                              <sm><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
+                              <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
                            </th>
                            <th class="sorting">Graph <br> <br></th>
                            <th>
