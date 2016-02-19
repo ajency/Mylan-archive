@@ -51,19 +51,21 @@
                                  <br>
                                  <div>Submitted on {{ $date }}</div>
                               </div>
-                              <div class="col-md-3 m-t-25">
+                              <div class="col-md-3">
                                  <div class="row">
                                     <div class="col-md-2">
                                       
                                     </div>
+
                                     <div class="col-md-8"> 
+                                      <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
                                           <option {{ ($responseData['reviewed']=='reviewed')?'selected':''}} value="reviewed">Reviewed</option>
                                           <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
                                        </select>
                                       
                                     </div>
-                                    <span class="cf-loader hidden" id="statusLoader"></span>
+                                    <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
                                  </div>

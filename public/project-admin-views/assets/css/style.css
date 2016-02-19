@@ -8392,7 +8392,7 @@ div.upload .img-div img {
   background: #D1DADE;
 }
 .grid.simple .grid-title .tools .filterby {
-  margin-top: -6px;
+  margin-top: -7px;
 }
 .grid-table .grid-body {
   padding: 10px 0px!important;
@@ -8701,5 +8701,21 @@ select option {
 .table .p-h-0 {
   padding-right: 0 !important;
   padding-left: 0 !important;
+}
+.m-t-3 {
+  margin-top: 3px;
+}
+.filter-label {
+  float: left;
+  margin-right: 10px;
+  margin-top: 2px;
+}
+.filter-dropdown.submission-filter form,
+.filter-dropdown.submission-filter .cf-loader {
+  float: right;
+}
+.filter-dropdown.submission-filter form label {
+  float: left;
+  margin-top: 14px;
 }
 /*# sourceMappingURL=style.css.map */

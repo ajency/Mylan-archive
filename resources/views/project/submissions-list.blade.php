@@ -78,10 +78,11 @@
                         <hr>
                         <!-- Chart - Added -->
                         <div class="row">
-                           <div class="col-md-10"></div>
-                           <div class="col-md-2 text-right filter-dropdown">
-            
-                              <form method="get">  
+                           <div class="col-md-9"></div>
+                           <div class="col-md-3 text-right filter-dropdown submission-filter">
+                              <span class="cf-loader hidden submissionFilter"></span>
+                              <form method="get"> 
+                              <label class="filter-label m-t-15 m-r-10">Filter</label>                              
                              <select name="submissionStatus" id="submissionStatus" class="pull-right select2 m-t-5 m-b-20 form-control inline filterby pull-right">
                                 <option value="all">All</option>
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
@@ -90,7 +91,7 @@
                              </select>
                              
                              </form>
-                             <span class="cf-loader hidden submissionFilter"></span>
+                             
                            </div>
                           <!-- <div class="col-md-3 text-right">
                                <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> 

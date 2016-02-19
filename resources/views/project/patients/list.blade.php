@@ -108,14 +108,16 @@
                      <sm class="light">( This is for the Cumulative Submissions )</sm>
                   </h4>
                   <div class="tools">
+                  <label class="filter-label">Filter</label>
                   <form method="get" class="tools-form">  
                      <select name="patients" id="patients" class=" select2  form-control inline filterby pull-left -m-5">
-                        <option value="">Filter By</option>
+                        <option value="">All</option>
                         <option {{ ($patientsStatus=='active')?'selected':''}} value="active">Active Patients</option>
                         <option {{ ($patientsStatus=='created')?'selected':''}} value="created">Recruited Patients</option>
                      </select>
+                     <span class="cf-loader hidden patientFilter m-t-3"></span>
                   </form>
-                  <span class="cf-loader hidden patientFilter"></span>
+                  
                   
                      <!-- <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div> -->
                   </div>
