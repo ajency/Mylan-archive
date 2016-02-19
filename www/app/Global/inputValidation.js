@@ -1,24 +1,17 @@
 var app;
 
-app = angular.module('PatientApp.Global');
-
-app.directive('inputvalidation', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, element, attrs, modelCtrl) {
-      modelCtrl.$parsers.push(function(inputValue) {
-        var transformedInput;
-        if (!inputValue) {
-          return '';
-        }
-        console.log(inputValue);
-        transformedInput = inputValue;
-        if (transformedInput !== inputValue) {
-          modelCtrl.$setViewValue(transformedInput);
-          modelCtrl.$render();
-        }
-        return transformedInput;
-      });
-    }
-  };
-});
+app = angular.module('PatientApp.Global').directive('textSelect', [
+  '$timeout', function($timeout) {
+    return {
+      link: function(scope, element, attr) {
+        return $(':text').keyup(function(e) {
+          if ($(this).val() !== '') {
+            return $(':text').not(this).attr('disabled', 'disabled');
+          } else {
+            return $(':text').removeAttr('disabled');
+          }
+        });
+      }
+    };
+  }
+]);
