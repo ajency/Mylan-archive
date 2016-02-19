@@ -703,6 +703,7 @@ class ProjectController extends Controller
         foreach ($patientResponses as  $response) {
             $responseId = $response->getObjectId();
             $responseStatus = $response->get("status");
+            $sequenceNumber = $response->get("sequenceNumber");
 
             $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
             $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
@@ -721,12 +722,12 @@ class ProjectController extends Controller
 
             $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
             $occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$occurrenceDate] = $responseId;
+            $responseByDate[$sequenceNumber] = $responseId;
         } 
 
         ksort($responseByDate);
         $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $date => $responseId) {
+        foreach ($responseByDate as $sequenceNumber => $responseId) {
             $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
         }
 
