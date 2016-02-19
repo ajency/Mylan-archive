@@ -44,7 +44,7 @@ class HospitalPermission
 
                     ]; 
         $uri        =[  '{hospitalslug}'=>['view'],
-                        '{hospitalslug}/dashbord'=>['view'],
+                        '{hospitalslug}/dashboard'=>['view'],
                         '{hospitalslug}/patients/{id}/submission-reports'=>['view'],
                         '{hospitalslug}/patients/{id}/submissions'=>['view'],
                         '{hospitalslug}/patients/{id}/base-line-score'=>['view','edit'],

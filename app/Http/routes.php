@@ -50,14 +50,14 @@ Route::get('{hospitalslug}/{projectslug}/logout', 'Auth\AuthController@getProjec
 /*****PATIENT***/
 Route::group( ['middleware' => ['auth']], function() {
 //Route::get( '/', 'Patient\PatientController@index' );
-Route::get( '/dashbord', 'Patient\PatientController@index' );
+Route::get( '/dashboard', 'Patient\PatientController@index' );
 
 });
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth']], function() {
-Route::get( '/', 'Admin\UserController@dashbord' );
-Route::get( '/dashbord', 'Admin\UserController@dashbord' );
+Route::get( '/', 'Admin\UserController@dashboard' );
+Route::get( '/dashboard', 'Admin\UserController@dashboard' );
 Route::resource( 'hospitals', 'Admin\HospitalController' );
 Route::resource( 'users', 'Admin\UserController' );
 Route::resource( 'user-access', 'Admin\UserAccessController' );
@@ -91,7 +91,7 @@ Route::resource( 'users', 'Hospital\UserController' );
 /*****project***/ //,'project.permission'
 Route::group( ['prefix' => '{hospitalslug}/{projectslug}'  , 'middleware' => ['auth']], function() {
 Route::get( '/', 'Project\ProjectController@show' );
-Route::get( '/dashbord', 'Project\ProjectController@show' );
+Route::get( '/dashboard', 'Project\ProjectController@show' );
 Route::resource( 'patients', 'Project\PatientController' );
 Route::resource( 'submissions', 'Project\SubmissionController' );
 Route::resource( 'projects', 'Project\ProjectController' );

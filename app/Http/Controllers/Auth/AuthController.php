@@ -128,7 +128,7 @@ class AuthController extends Controller
                         $schedule->save();
                     }
                     
-                    return redirect()->intended('dashbord');
+                    return redirect()->intended('dashboard');
                 }
                 else
                 {
@@ -175,7 +175,7 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active')
             {  
-                return redirect()->intended('admin/dashbord');
+                return redirect()->intended('admin/dashboard');
             }
             else
             {

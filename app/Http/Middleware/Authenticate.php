@@ -49,12 +49,13 @@ class Authenticate
 
         if (!Auth::check())
         {
+            Auth::logout();
            $routePrefix = $request->route()->getPrefix(); 
             if(str_contains($routePrefix, 'admin'))
                 return redirect()->guest('admin/login');
             elseif(str_contains($routePrefix, 'patient'))
             {
-                return redirect()->guest('patient/login');
+                return redirect()->guest('/');
             }
             elseif(str_contains($routePrefix, '{hospitalslug}/{projectslug}'))
             {
