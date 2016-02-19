@@ -417,11 +417,12 @@ class PatientController extends Controller
         {
             $responseId = $answer->get("response")->getObjectId();
             $responseStatus = $answer->get("response")->get("status");
+            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
             $score = $answer->get("score");
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d-m-Y');
-            $occurrenceDate = strtotime($occurrenceDate);
+            // $occurrenceDate = strtotime($occurrenceDate);
 
             if($questionType!='single-choice')
                 continue;
@@ -438,7 +439,7 @@ class PatientController extends Controller
             
 
  
-            $patientResponses[$occurrenceDate][$responseId] = $responseId;
+            $patientResponses[$sequenceNumber][$responseId] = $occurrenceDate;
             $responseByDate[$responseId][] = $score;
             
 
@@ -459,12 +460,13 @@ class PatientController extends Controller
         $i=0;
         foreach($patientResponses as $date => $responses)
         { 
-            $date = date('d-m-Y',$date);
+            // $date = date('d-m-Y',$date);
             
 
-          foreach ($responses as $responseId) {
+          foreach ($responses as $responseId=>$responseOcurrenceDate) {
+
             $patientResponseScore = array_sum($responseByDate[$responseId]);
-            $chartData[$i]['date'] = $date;
+            $chartData[$i]['date'] = $responseOcurrenceDate;
             $chartData[$i]['value'] = $patientResponseScore;
             $i++;
           }
@@ -537,12 +539,13 @@ class PatientController extends Controller
     public function patientFlagsCount($patientResponses,$baselineAnwers)
     {
 
-        $redFlagsByDate = [];
-        $amberFlagsByDate = [];
-        $greenFlagsByDate = [];
-        $totalFlagsByDate = [];
-        $baseLineByDate = [];
+        $redFlagsBySubmission = [];
+        $amberFlagsBySubmission = [];
+        $greenFlagsBySubmission = [];
+        $totalFlagsBySubmission = [];
+        $baseLineBySubmission = [];
         $baseLineData = [];
+        $submissionDates = [];
        
         foreach ($patientResponses as $response) {
             $patient = $response->get("patient");
@@ -551,6 +554,7 @@ class PatientController extends Controller
             $score = $response->get("score");
             $totalScore = $response->get("totalScore");
             $comparedToBaseLine = $response->get("comparedToBaseLine");
+            $sequenceNumber = $response->get("sequenceNumber");
 
 
             $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
@@ -562,17 +566,17 @@ class PatientController extends Controller
 
             $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
             $occurrenceDate = strtotime($occurrenceDate);
-             
+            $submissionDates[$sequenceNumber] = $occurrenceDate; 
            
-            $redFlagsByDate[$occurrenceDate]['baseLine']=$baseLineTotalRedFlags;
-            $amberFlagsByDate[$occurrenceDate]['baseLine']=$baseLineTotalAmberFlags;
-            $greenFlagsByDate[$occurrenceDate]['baseLine']=$baseLineTotalGreenFlags;
-            $redFlagsByDate[$occurrenceDate]['previous']=$previousTotalRedFlags;
-            $amberFlagsByDate[$occurrenceDate]['previous']=$previousTotalAmberFlags;
-            $greenFlagsByDate[$occurrenceDate]['previous']=$previousTotalGreenFlags;
+            $redFlagsBySubmission[$sequenceNumber]['baseLine']=$baseLineTotalRedFlags;
+            $amberFlagsBySubmission[$sequenceNumber]['baseLine']=$baseLineTotalAmberFlags;
+            $greenFlagsBySubmission[$sequenceNumber]['baseLine']=$baseLineTotalGreenFlags;
+            $redFlagsBySubmission[$sequenceNumber]['previous']=$previousTotalRedFlags;
+            $amberFlagsBySubmission[$sequenceNumber]['previous']=$previousTotalAmberFlags;
+            $greenFlagsBySubmission[$sequenceNumber]['previous']=$previousTotalGreenFlags;
 
-            $totalFlagsByDate[$occurrenceDate] = $totalScore;
-            $baseLineByDate[$occurrenceDate] = $totalScore + $comparedToBaseLine;
+            $totalFlagsBySubmission[$sequenceNumber] = $totalScore;
+            $baseLineBySubmission[$sequenceNumber] = $totalScore + $comparedToBaseLine;
             
         }
 
@@ -581,6 +585,7 @@ class PatientController extends Controller
         {
             $responseId = $answer->get("response")->getObjectId();
             $questionId = $answer->get("question")->getObjectId();
+            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
             $score = $answer->get("score");
             $baseLineData[$questionId] = $score;
             
@@ -594,33 +599,36 @@ class PatientController extends Controller
         // $baslineFlagData = [];
         // $previousFlagData = [];
 
-        ksort($redFlagsByDate);
+        ksort($redFlagsBySubmission);
         $i=0;
-        foreach($redFlagsByDate as $date => $value)
+        foreach($redFlagsBySubmission as $sequenceNumber => $value)
         { 
-            $redFlagData[$i]["Date"] = date('d M',$date);
+            $occurrenceDate = $submissionDates[$sequenceNumber]; 
+            $redFlagData[$i]["Date"] = date('d M',$occurrenceDate);
             $redFlagData[$i]["Baseline"] = $value['baseLine'];
             $redFlagData[$i]["Previous"] = $value['previous'] ;
  
             $i++;
         }
 
-        ksort($amberFlagsByDate);
+        ksort($amberFlagsBySubmission);
         $i=0;
-        foreach($amberFlagsByDate as $date => $value)
+        foreach($amberFlagsBySubmission as $sequenceNumber => $value)
         { 
-            $amberFlagData[$i]["Date"] =  date('d M',$date);
+            $occurrenceDate = $submissionDates[$sequenceNumber]; 
+            $amberFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
             $amberFlagData[$i]["Baseline"] = $value['baseLine'];
             $amberFlagData[$i]["Previous"] = $value['previous'] ;
  
             $i++;
         }
 
-        ksort($greenFlagsByDate);
+        ksort($greenFlagsBySubmission);
         $i=0;
-        foreach($greenFlagsByDate as $date => $value)
+        foreach($greenFlagsBySubmission as $sequenceNumber => $value)
         { 
-            $greenFlagData[$i]["Date"] =  date('d M',$date);
+            $occurrenceDate = $submissionDates[$sequenceNumber]; 
+            $greenFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
             $greenFlagData[$i]["Baseline"] = $value['baseLine'];
             $greenFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -628,12 +636,13 @@ class PatientController extends Controller
         }
 
 
-        ksort($totalFlagsByDate);
+        ksort($totalFlagsBySubmission);
         $i=0;
-        foreach($totalFlagsByDate as $date => $value)
-        { 
-            $baseLineScore =  $baseLineByDate[$date];
-            $totalFlagData[$i]["Date"] =  date('d M',$date);
+        foreach($totalFlagsBySubmission as $sequenceNumber => $value)
+        {
+            $occurrenceDate = $submissionDates[$sequenceNumber];  
+            $baseLineScore =  $baseLineBySubmission[$sequenceNumber];
+            $totalFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
             $totalFlagData[$i]["score"] = $value;
             $totalFlagData[$i]["baseLine"] = $baseLineScore;
  
@@ -1670,7 +1679,7 @@ class PatientController extends Controller
         ksort($responseByDate);
 
         $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $date => $responseId) {
+        foreach ($responseByDate as $sequenceNumber => $responseId) {
             $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
         }
 

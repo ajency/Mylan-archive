@@ -279,7 +279,7 @@ class ProjectController extends Controller
             $responseId = $response->getObjectId();
             
             $reviewed = $response->get("reviewed");
-
+            $sequenceNumber = $response->get("sequenceNumber");
             $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y');
             $occurrenceDate = strtotime($occurrenceDate);
 
