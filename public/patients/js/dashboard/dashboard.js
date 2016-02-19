@@ -7,7 +7,13 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       showMoreButton: true,
       limitTo: 5,
       init: function() {
-        var id, param;
+        var id, param, questionnaireData, startQuestData, summaryData;
+        questionnaireData = {};
+        Storage.questionnaire('set', questionnaireData);
+        startQuestData = {};
+        Storage.startQuestionnaire('set', startQuestData);
+        summaryData = {};
+        Storage.summary('set', summaryData);
         this.display = 'loader';
         id = RefCode;
         param = {
@@ -38,6 +44,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         return $location.path('summary');
       },
       startQuiz: function() {
+        var startQuestData;
+        startQuestData = 'start';
+        Storage.startQuestionnaire('set', startQuestData);
         return $location.path('start-questionnaire');
       },
       resumeQuiz: function(id) {
@@ -73,8 +82,48 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
     return setTime();
   }
 ]).controller('headerCtrl', [
-  '$scope', '$location', function($scope, $location) {
-    console.log('header ctrl');
-    return $scope.notifyIocn = '23';
+  '$scope', '$location', 'App', 'notifyAPI', '$rootScope', function($scope, $location, App, notifyAPI, $rootScope) {
+    $scope.view = {
+      notificationCount: 0,
+      badge: false,
+      getNotificationCount: function() {
+        var param;
+        console.log('inside getNotificationCount');
+        param = {
+          "patientId": RefCode
+        };
+        return notifyAPI.getNotificationCount(param).then((function(_this) {
+          return function(data) {
+            if (data > 0) {
+              _this.notificationCount = data;
+              return _this.badge = true;
+            }
+          };
+        })(this));
+      },
+      decrement: function() {
+        this.notificationCount = this.notificationCount - 1;
+        if (this.notificationCount <= 0) {
+          return this.badge = false;
+        }
+      },
+      init: function() {
+        console.log('init');
+        return this.getNotificationCount();
+      },
+      deleteAllNotification: function() {
+        this.notificationCount = 0;
+        return this.badge = false;
+      }
+    };
+    $rootScope.$on('notification:count', function() {
+      return $scope.view.getNotificationCount();
+    });
+    $rootScope.$on('delete:all:count', function() {
+      return $scope.view.deleteAllNotification();
+    });
+    return $rootScope.$on('decrement:notification:count', function() {
+      return $scope.view.decrement();
+    });
   }
 ]);

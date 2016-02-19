@@ -1,671 +1,778 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-      <meta charset="utf-8" />
-      <title>Mylan - Project Administrator</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-      <meta content="" name="description" />
-      <meta content="" name="author" />
-      <!-- BEGIN PLUGIN CSS -->
-      <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
-      <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
-      <link href="assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-      <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
-      <link rel="stylesheet" href="assets/plugins/jquery-ricksaw-chart/css/rickshaw.css" type="text/css" media="screen">
-      <link rel="stylesheet" href="assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
-      <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
-      <link href="assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css" media="screen" />
-      <link rel="stylesheet" type="text/css" href="assets/plugins/date-range-picker/daterangepicker.css" />
-      <!-- END PLUGIN CSS -->
-      <!-- BEGIN CORE CSS FRAMEWORK -->
-      <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-      <link href="assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
-      <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
-      <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css" />
-      <!-- END CORE CSS FRAMEWORK -->
-      <!-- BEGIN CSS TEMPLATE -->
-      <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
-      <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
-      <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css" />
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>Mylan - Project Administrator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN PLUGIN CSS -->
+    <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" href="assets/plugins/jquery-ricksaw-chart/css/rickshaw.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
+    <link href="assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="assets/plugins/date-range-picker/daterangepicker.css" />
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link href="assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/boostrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" type="text/css" />
+    <!-- END CORE CSS FRAMEWORK -->
+    <!-- BEGIN CSS TEMPLATE -->
+    <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css" />
       <link href="assets/css/dashboard-ver2.css" rel="stylesheet" type="text/css"/>
-      <!-- END CSS TEMPLATE -->
-   </head>
-   <!-- END HEAD -->
-   <!-- BEGIN BODY -->
-   <body class="horizontal-menu">
-      <!-- BEGIN HEADER -->
-      <div class="header navbar navbar-inverse ">
-         <!-- BEGIN TOP NAVIGATION BAR -->
-         <div class="navbar-inner">
+    <!-- END CSS TEMPLATE -->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+
+<body class="horizontal-menu">
+    <!-- BEGIN HEADER -->
+    <div class="header navbar navbar-inverse ">
+        <!-- BEGIN TOP NAVIGATION BAR -->
+        <div class="navbar-inner">
             <div class="header-seperation">
-               <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
-                  <li class="dropdown">
-                     <a id="horizontal-menu-toggle" href="#" class="">
-                        <div class="iconset top-menu-toggle-white"></div>
-                     </a>
-                  </li>
-               </ul>
-               <!-- BEGIN LOGO -->
-               <a href="index.html"><img src="assets/img/logo.png" class="logo" alt="" data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21" /></a>
-               <!-- END LOGO -->
-               <ul class="nav pull-right notifcation-center">
-                  <li class="dropdown" id="header_task_bar">
-                     <a href="index.html" class="dropdown-toggle active" data-toggle="">
-                        <div class="iconset top-home"></div>
-                     </a>
-                  </li>
-                  <li class="dropdown" id="header_inbox_bar">
-                     <a href="email.html" class="dropdown-toggle">
-                        <div class="iconset top-messages"></div>
-                        <span class="badge" id="msgs-badge">2</span>
-                     </a>
-                  </li>
-                  <li class="dropdown" id="portrait-chat-toggler" style="display:none">
-                     <a href="#sidr" class="chat-menu-toggle">
-                        <div class="iconset top-chat-white "></div>
-                     </a>
-                  </li>
-               </ul>
+                <ul class="nav pull-left notifcation-center" id="main-menu-toggle-wrapper" style="display:none">
+                    <li class="dropdown">
+                        <a id="horizontal-menu-toggle" href="#" class="">
+                            <div class="iconset top-menu-toggle-white"></div>
+                        </a>
+                    </li>
+                </ul>
+                <!-- BEGIN LOGO -->
+                <a href="index.html"><img src="assets/img/logo.png" class="logo" alt="" data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21" /></a>
+                <!-- END LOGO -->
+                <ul class="nav pull-right notifcation-center">
+                    <li class="dropdown" id="header_task_bar">
+                        <a href="index.html" class="dropdown-toggle active" data-toggle="">
+                            <div class="iconset top-home"></div>
+                        </a>
+                    </li>
+                    <li class="dropdown" id="header_inbox_bar">
+                        <a href="email.html" class="dropdown-toggle">
+                            <div class="iconset top-messages"></div>
+                            <span class="badge" id="msgs-badge">2</span>
+                        </a>
+                    </li>
+                    <li class="dropdown" id="portrait-chat-toggler" style="display:none">
+                        <a href="#sidr" class="chat-menu-toggle">
+                            <div class="iconset top-chat-white "></div>
+                        </a>
+                    </li>
+                </ul>
             </div>
             <!-- END RESPONSIVE MENU TOGGLER -->
             <div class="header-quick-nav container text-center">
-               <!-- BEGIN CHAT TOGGLER -->
-               <div class="pull-right">
-                  <div class="chat-toggler">
-                     <a href="#">
-                        <div class="user-details">
-                           <div class="username">
-                              John <span class="bold">Smith</span>
-                              <span class="badge badge-default">Project Admin</span>
-                           </div>
-                        </div>
-                     </a>
-                  </div>
-                  <ul class="nav quick-section ">
-                     <li class="quicklinks">
-                        <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
-                           <div class="iconset top-settings-dark "></div>
+                <!-- BEGIN CHAT TOGGLER -->
+                <div class="pull-right">
+                    <div class="chat-toggler">
+                        <a href="#">
+                            <div class="user-details">
+                                <div class="username">
+                                    John <span class="bold">Smith</span>
+                                    <span class="badge badge-default">Project Admin</span>
+                                </div>
+                            </div>
                         </a>
-                        <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                           <li><a href="my-acct.html"> My Account</a>
-                           </li>
-                           <li class="divider"></li>
-                           <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
-                        </ul>
-                     </li>
-                  </ul>
-               </div>
-               <!-- END CHAT TOGGLER -->
-               <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt="" data-src="assets/img/nhs.gif" width="auto" height="40" /></a>
-               <h4 class="text-left m-t-15 semi-bold">MRI PANCREATITIS</h4>
-               <!-- END TOP NAVIGATION MENU -->
+                    </div>
+                    <ul class="nav quick-section ">
+                        <li class="quicklinks">
+                            <a data-toggle="dropdown" class="dropdown-toggle  pull-right " href="#" id="user-options">
+                                <div class="iconset top-settings-dark "></div>
+                            </a>
+                            <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
+                                <li><a href="my-acct.html"> My Account</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li><a href="login.html"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END CHAT TOGGLER -->
+                <!-- BEGIN TOP NAVIGATION MENU -->
+                <a href="index.html" class="pull-left"><img src="assets/img/nhs.gif" class="logo" alt="" data-src="assets/img/nhs.gif" width="auto" height="40" /></a>
+                <h4 class="text-left m-t-15 semi-bold">MRI PANCREATITIS</h4>
+                <!-- END TOP NAVIGATION MENU -->
+                
             </div>
             <!-- END CHAT TOGGLER -->
-         </div>
-         <!-- END TOP NAVIGATION MENU -->
-      </div>
-      <!-- END TOP NAVIGATION BAR -->
-      </div>
-      <!-- END HEADER -->
-      <!-- BEGIN CONTAINER -->
-      <div class="page-container row-fluid">
-         <!-- BEGIN PAGE CONTAINER-->
-         <div class="page-content">
+        </div>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+    </div>
+    <!-- END HEADER -->
+    <!-- BEGIN CONTAINER -->
+    <div class="page-container row-fluid">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="page-content">
             <div class="bar">
-               <div class="container">
-                  <div class="bar-inner">
-                     <ul>
-                        <li>
-                           <a href="dashboard.html">
-                           <span> <i class="fa fa-tachometer"></i> Dashboard </span>
-                           </a>
-                        </li>
-                        <li>
-                           <a href="patients.html">
-                           <span><i class="fa fa-wheelchair"></i> Patients</span>
-                           </a>
-                        </li>
-                        <li class="active-item">
-                           <a href="submissions.html">
-                           <span><i class="fa fa-list-alt"></i> Submissions</span>
-                           </a>
-                        </li>
-                        <!--  <li>
+                <div class="container">
+                    <div class="bar-inner">
+                        <ul>
+                            <li>
+                                <a href="dashboard.html">
+                                    <span> <i class="fa fa-tachometer"></i> Dashboard </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="patients.html">
+                                    <span><i class="fa fa-wheelchair"></i> Patients</span>
+                                </a>
+                            </li>
+                            <li class="active-item">
+                                <a href="submissions.html">
+                                    <span><i class="fa fa-list-alt"></i> Submissions</span>
+                                </a>
+                            </li>
+                            <!--  <li>
                            <a href="users.html">
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
-                           </li> -->
+                        </li> -->
+                            <li>
+                                <a href="flags.html">
+                                    <span><i class="fa fa-flag"></i> Flags </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="reports.html">
+                                    <span><i class="fa fa-bar-chart"></i> Reports </span>
+                                </a>
+                            </li>
+                            <li class="classic">
+                        <a href="javascript:;">
+                          <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="classic">
                         <li>
-                           <a href="flags.html">
-                           <span><i class="fa fa-flag"></i> Flags </span>
-                           </a>
+                          <a href="questionnaire.html">Questionnaire</a>
                         </li>
-                        <li>
-                           <a href="reports.html">
-                           <span><i class="fa fa-bar-chart"></i> Reports </span>
-                           </a>
+                            <li>
+                          <a href="setting.html">Questionnaire Setting</a>
                         </li>
-                        <li class="classic">
-                           <a href="javascript:;">
-                           <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
-                           </a>
-                           <ul class="classic">
-                              <li>
-                                 <a href="questionnaire.html">Questionnaire</a>
-                              </li>
-                              <li>
-                                 <a href="setting.html">Questionnaire Setting</a>
-                              </li>
-                              <!--  <li>
-                                 <a href="index.html">Message & Notifications
-                                   <span class="description">
-                                     Alerts help to gain user attention and 
-                                     give...
-                                   </spam>
-                                 </a>
-                                 </li> -->
-                           </ul>
-                        </li>
-                     </ul>
-                  </div>
-               </div>
+                        <!--  <li>
+                            <a href="index.html">Message & Notifications
+                              <span class="description">
+                                Alerts help to gain user attention and 
+                                give...
+                              </spam>
+                            </a>
+                          </li> -->
+                        </ul>
+                      </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
             <div id="portlet-config" class="modal hide">
-               <div class="modal-header">
-                  <button data-dismiss="modal" class="close" type="button"></button>
-                  <h3>Widget Settings</h3>
-               </div>
-               <div class="modal-body"> Widget settings form goes here </div>
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"></button>
+                    <h3>Widget Settings</h3>
+                </div>
+                <div class="modal-body"> Widget settings form goes here </div>
             </div>
             <div class="clearfix"></div>
             <div class="container m-b-50">
-               <div class="content">
-                  <p>
-                  <ul class="breadcrumb">
-                     <li>
-                        <a href="dashboard.html">HOME</a>
-                     </li>
-                     <li><a href="#" class="active">Submissions</a> </li>
-                  </ul>
-                  </p>
-                  <div class="page-title">
-                     <h3><span class="semi-bold">Submissions</span></h3>
-                     <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
-                  </div>
-                  <div class="grid simple">
-                     <div class="grid-body no-border table-data">
-                        <br>
-                        <div class="row">
-                           <!-- <div class="col-sm-6"> <h3 class="bold m-0">Submissions</h3></div> -->
-                           <div class="col-sm-2">
-                           </div>
-                           <div class="col-sm-4 pull-right">
-                              <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                 <span></span> <b class="caret"></b>
-                              </div>
-                           </div>
-                        </div>
-                        <hr>
-                        <div class="row ">
-                           <div class="col-md-4">
-                              <div class="tiles white added-margin">
-                                 <div class="tiles-body">
-                                    <div id="piechart"></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="col-md-5 m-t-40 b-r">
-                              <div class="col-md-4 text-center ">
-                                 <h3 class="no-margin bold">80%</h3>
-                                 <p class=" text-underline">6 Submissions Completed</p>
-                              </div>
-                              <div class="col-md-4 text-center">
-                                 <h3 class="no-margin bold">10%</h3>
-                                 <p class="">2 Submissions Late</p>
-                              </div>
-                              <div class="col-md-4 text-center">
-                                 <h3 class="no-margin bold">10%</h3>
-                                 <p class="">2 Submissions Missed</p>
-                              </div>
-                           </div>
-                           <div class="col-md-3">
-                              <div class="tiles white added-margin " style="zoom: 1;">
-                                 <div class="tiles-body">
-                                    <div class="tiles-title"> Avg Review Time </div>
-                                    <div class="__web-inspector-hide-shortcut__">
-                                       <h1 class="text-error bold inline no-margin"> 3 hrs</h1>
+                <div class="content">
+                    <p>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="dashboard.html">HOME</a>
+                            </li>
+                            <li><a href="#" class="active">Submissions</a> </li>
+                        </ul>
+                    </p>
+                    <div class="page-title">
+                        <h3><span class="semi-bold">Submissions</span></h3>
+                        <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
+                    </div>
+                    <div class="grid simple">
+                        <div class="grid-body no-border table-data">
+                            <br>
+                            <div class="row">
+                                <!-- <div class="col-sm-6"> <h3 class="bold m-0">Submissions</h3></div> -->
+                                <div class="col-sm-2">
+                                </div>
+                                <div class="col-sm-4 pull-right">
+                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                        <span></span> <b class="caret"></b>
                                     </div>
-                                    <p class="text-black">Average time taken for a submission  to <br>be reviewed after it has been submitted.</p>
-                                 </div>
-                              </div>
-                           </div>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="row ">
+                                
+                                <div class="col-md-4">
+                                    <div class="tiles white added-margin">
+                                  <div class="tiles-body">
+
+                                     <div id="piechart"></div>  
+                                     
+                             
+                                   
+                                        </div>
+                                     </div>
+                                </div>
+                                 <div class="col-md-5 m-t-40 b-r">                                     
+                                          
+                                             <div class="col-md-4 text-center ">
+                                                
+                                                <h3 class="no-margin bold">80%</h3>
+                                                <p class=" text-underline">6 Submissions Completed</p> 
+                                                                              
+                                             </div>
+                                             <div class="col-md-4 text-center">
+                                                
+                                                                                        
+                                                <h3 class="no-margin bold">10%</h3>
+                                                <p class="">2 Submissions Late</p>                                                          
+                                             </div>
+                                             <div class="col-md-4 text-center">
+                                                
+                                                                                        
+                                                <h3 class="no-margin bold">10%</h3>
+                                                <p class="">2 Submissions Missed</p>                                                          
+                                             </div>
+                                              
+                                          </div> 
+
+                                    <div class="col-md-3">
+                                        <div class="tiles white added-margin " style="zoom: 1;">
+                                            <div class="tiles-body">
+                                                <div class="tiles-title"> Avg Review Time </div>
+                                                <div class="__web-inspector-hide-shortcut__"> 
+                                                    <h1 class="text-error bold inline no-margin"> 3 hrs</h1>
+                                                </div>
+                                                <p class="text-black">Average time taken for a submission  to <br>be reviewed after it has been submitted.</p>
+                                     </div>
+                                </div>
+                            </div>
                         </div>
-                        <hr>
-                        <!-- Chart - Added -->
-                        <div class="row">
-                           <div class="col-md-7"></div>
-                           <div class="col-md-2 text-right">
-                              <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
-                                 <option value="2">Filter By</option>
-                                 <option value="2">Review</option>
+                                <hr>
+                                <!-- Chart - Added -->
+                                
+                                  
+                     <div class="row">
+                        <div class="col-md-7"></div>
+                              <div class="col-md-2 text-right">
+                      <select name="role" id="role" class="pull-right select2 m-t-5 form-control inline filterby pull-right">
+                                <option value="2">Filter By</option>
+                                <option value="2">Review</option>
                                  <option value="2">Unreviewed</option>
                                  <option value="2">Late</option>
-                              </select>
-                           </div>
-                           <div class="col-md-3 text-right">
-                              <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
-                           </div>
+                     </select>
                         </div>
-                        <div class="alert alert-info alert-black">
-                           Submission Summary
-                           <sm class="light">( This are scores & flags for current submissions )</sm>
+                        <div class="col-md-3 text-right">
+                   <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;">
                         </div>
-                        <table class="table table-flip-scroll table-hover dashboard-tbl">
-                           <thead class="cf">
-                              <tr>
-                                 <th class="sorting" width="16%">Patient ID <br><br></th>
-                                 <th class="sorting"># Submission <i class="fa fa-angle-down" style="cursor:pointer;"></i><br><br></th>
-                                 <th class="sorting">
-                                    Total Score
-                                    <br> 
-                                    <sm>Base <i class="iconset top-down-arrow"></i></sm>
-                                    <sm>Prev <i class="iconset top-down-arrow"></i></sm>
-                                    <sm>Current <i class="iconset top-down-arrow"></i></sm>
-                                 </th>
-                                 <th class="sorting">
-                                    Change
-                                    <br> 
-                                    <sm>δ Base  <i class="iconset top-down-arrow"></i></sm>
-                                    <sm>δ Prev  <i class="iconset top-down-arrow"></i></sm>
-                                 </th>
-                                 <th class="sorting">
-                                    Previous
-                                    <br> 
-                                    <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                 </th>
-                                 <th class="sorting">
-                                    Baseline
-                                    <br> 
-                                    <sm><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    <sm><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                    <sm><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm>
-                                 </th>
-                                 <th class="sorting">Review Status<br><br>
-                                 </th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr onclick="window.document.location='p1-submission1.html';">
-                                 <td class="text-center">10000001</td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
-                                    <sm><b>#12</b></sm>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span>10</span>
-                                    <span>12</span>
-                                    <span>10</span>
-                                 </td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold margin-none flagcount">
-                                       <b class="text-success">0</b> / <b class="f-w text-success">2</b>
-                                    </h4>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class=" text-error">04</span>
-                                    <span class="text-warning">03</span>
-                                    <span class="text-success">04</span>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">24</span>
-                                    <span class="text-warning">13</span>
-                                    <span class=" text-success">14</span>
-                                 </td>
-                                 <td class="text-center text-success">Reviewed</td>
-                              </tr>
-                              <tr onclick="window.document.location='p1-submission1.html';">
-                                 <td class="text-center">10000002</td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold m-0 flagcount">13th Dec</h4>
-                                    <sm><b>#13</b></sm>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span>09</span>
-                                    <span>11</span>
-                                    <span>12</span>
-                                 </td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold margin-none flagcount">
-                                       <b class="text-error">-3</b> / <b class="f-w text-error">-1</b>
-                                    </h4>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">14</span>
-                                    <span class=" text-warning">13</span>
-                                    <span class=" text-success">14</span>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">04</span>
-                                    <span class="text-warning">03</span>
-                                    <span class="text-success">14</span>
-                                 </td>
-                                 <td class="text-center text-success">Reviewed</td>
-                              </tr>
-                              <tr  onclick="window.document.location='p1-submission1.html';">
-                                 <td class="text-center">10000003</td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
-                                    <sm><b>#10</b></sm>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span>15</span>
-                                    <span>07</span>
-                                    <span>07</span>
-                                 </td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold margin-none flagcount">
-                                       <b class="text-success">8</b> / <b class="f-w text-success">0</b>
-                                    </h4>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">04</span>
-                                    <span class="text-warning">03</span>
-                                    <span class="text-success">04</span>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">24</span>
-                                    <span class="text-warning">13</span>
-                                    <span class="text-success">14</span>
-                                 </td>
-                                 <td class="text-center text-warning">Unreviewed</td>
-                              </tr>
-                              <tr  onclick="window.document.location='p1-submission1.html';">
-                                 <td class="text-center">10000004</td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
-                                    <sm><b>#13</b></sm>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span>10</span>
-                                    <span>12</span>
-                                    <span>14</span>
-                                 </td>
-                                 <td class="text-center">
-                                    <h4 class="semi-bold margin-none flagcount">
-                                       <b class="text-error">-4</b> / <b class="f-w text-error">-2</b>
-                                    </h4>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">04</span>
-                                    <span class="text-warning">03</span>
-                                    <span class="text-success">04</span>
-                                 </td>
-                                 <td class="text-center sorting">
-                                    <span class="text-error">24</span>
-                                    <span class="text-warning">13</span>
-                                    <span class="text-success">14</span>
-                                 </td>
-                                 <td class="text-center text-success">Reviewed</td>
-                              </tr>
-                           </tbody>
-                        </table>
-                        <hr style="    margin: 0px 0px 10px 0px;">
-                     </div>
-                  </div>
-               </div>
-               <div class="footer">
-                  <div class="container">
-                     <div class="footer-content text-center">
-                        <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
-                     </div>
-                  </div>
-               </div>
+                   
+                              </div>
+                                <div class="alert alert-info alert-black">
+                                    Submission Summary
+                                    <sm class="light">( This are scores & flags for current submissions )</sm>
+                                </div>
+         <div class="grid-body no-border" style="display: block;">
+                              <table id="sort" class=" sort table table-flip-scroll table-hover dashboard-tbl table-condensed" id="example">
+                                 <thead class="cf">
+                                    <tr>
+                                       <th class="no-sort" width="16%">Patient ID </th>
+                                       <th class="no-sort"># Submission </th>
+                                       <th class="sort-header">base </th>
+                                          <th class="sort-header">Prev </th>
+                                       <th class="sort-header">Prev </th>
+                                       <th class="sort-header">Current </th>
+                                       <th   class="no-sort"> δ Base </th>
+                                         <th   class="no-sort">δ Prev   </th>
+                                       <th  class="no-sort">
+                                        <i class="fa fa-flag text-error"></i>  
+                                       </th>
+                                        <th  class="no-sort">
+                                       <i class="fa fa-flag text-warning"></i>  
+                                       </th>
+                                        <th  class="no-sort">
+                                        <i class="fa fa-flag text-success"></i>  
+                                       </th>
+                                        <th  class="no-sort">
+                                    <i class="fa fa-flag text-error"></i> 
+                                       </th>
+                                       <th  class="no-sort">
+                                       <i class="fa fa-flag text-warning"></i> 
+                                       </th>
+                                       <th  class="no-sort">
+                                      <i class="fa fa-flag text-success"></i>
+                                       </th>
+                                       
+                                       <th class="no-sort">Review Status<br><br>
+                                       </th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    <tr onclick="window.document.location='p1-submission1.html';">
+                                       <td class="no-sort">10000001</td>
+                                       <td class="no-sort">
+                                          <h4 class="semi-bold m-0 flagcount">6th Dec</h4>
+                                          <sm><b>#12</b></sm>
+                                       </td>                                       
+                                       <td class="text-right sorting p-h-0">10</td>
+                                       <td class="text-center sorting p-h-0">12</td>
+                                       <td class="text-left sorting p-h-0">10</td>                                       
+                                       <td class=" no-sort text-right semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="text-success">0</b> </h4>
+                                       </td>
+                                       <td class=" no-sort text-center semi-bold margin-none flagcount p-h-0">
+                                          <h4><b>/</b> </h4>
+                                       </td>
+                                       <td class=" no-sort text-left semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="f-w text-success">2</b></h4>
+                                       </td>                                       
+                                       <td width="5%" class=" no-sort text-right sorting text-error p-h-0">04</td>
+                                       <td width="5%" class="no-sort text-center sorting text-warning p-h-0">03</td>
+                                       <td width="5%" class="no-sort text-left sorting text-success p-h-0">04</td>
+
+                                       <td width="5%" class=" no-sort text-right sorting text-error p-h-0">24</td>
+                                       <td width="5%" class="no-sort text-center sorting text-warning p-h-0">13</td>
+                                       <td width="5%" class="no-sort text-left sorting text-success p-h-0">14</td>
+                                    
+                                       <td class="no-sort text-center text-success">Reviewed</td>
+                                    </tr>
+                                    <tr onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center no-sort">10000002</td>
+                                       <td class="text-center no-sort">
+                                          <h4 class="semi-bold m-0 flagcount no-sort">13th Dec</h4>
+                                          <sm><b>#13</b></sm>
+                                       </td>                                       
+                                       <td class="text-right  no-sort p-h-0">09</td>
+                                       <td class="text-center no-sort  p-h-0">11</td>
+                                       <td class="text-left  no-sort p-h-0">12</td>
+                                       
+                                       <td class=" no-sort text-right semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="text-error">-3</b> </h4>
+                                       </td>
+                                       <td class="no-sort text-center semi-bold margin-none flagcount p-h-0">
+                                          <h4><b>/</b></h4>
+                                       </td>
+                                       <td class="no-sort text-left semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="f-w text-error">-1</b></h4>
+                                       </td>
+                                       
+                                       <td class="no-sort text-right sorting text-error p-h-0">14</td>
+                                       <td class="no-sort text-center sorting text-warning p-h-0">13</td>
+                                       <td class="no-sort ext-left sorting text-success p-h-0">14</td>
+                                       
+                                       <td class="no-sort text-right sorting text-error p-h-0">04</td>
+                                       <td class="no-sort text-center sorting text-warning p-h-0">03</td>
+                                       <td class="no-sort text-left sorting text-success p-h-0">14</td>
+                                       
+                                       
+                                       <td class="no-sort text-center text-success">Reviewed</td>
+                                    </tr>
+                                    <tr  onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center no-sort">10000003</td>
+                                       <td class="text-center no-sort">
+                                          <h4 class="semi-bold m-0 flagcount">10th Dec</h4>
+                                          <sm><b>#10</b></sm>
+                                       </td>
+                                       
+                                          <td class="text-right   p-h-0">15</td>
+                                          <td class="text-center   p-h-0">07</td>
+                                          <td class="text-left   p-h-0">07</td>
+                                       
+                                       <td class="text-right no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="text-success">8</b></h4>
+                                       </td>
+                                       <td class="text-center no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b>/</b></h4>
+                                       </td>
+                                       <td class="text-left no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="f-w text-success">0</b></h4>
+                                       </td>
+                                       
+                                          <td class="text-right  no-sort text-error p-h-0">04</td>
+                                          <td class="text-center no-sort text-warning p-h-0">03</td>
+                                          <td class="text-left no-sort text-success p-h-0">04</td>
+                                       
+                                          <td class="text-right no-sort text-error p-h-0">24</td>
+                                          <td class="text-center no-sort text-warning p-h-0">13</td>
+                                          <td class="text-left no-sort text-success p-h-0">14</td>
+                                       
+                                       
+                                       <td class="text-center text-warning no-sort">Unreviewed</td>
+                                    </tr>
+                                    <tr  onclick="window.document.location='p1-submission1.html';">
+                                       <td class="text-center no-sort">10000004</td>
+                                       <td class="text-center no-sort">
+                                          <h4 class="semi-bold m-0 flagcount">12th Dec</h4>
+                                          <sm><b>#13</b></sm>
+                                       </td>
+                                       
+                                          <td class="text-right sorting p-h-0">10</td>
+                                          <td class="text-center sorting p-h-0">12</td>
+                                          <td class="text-left sorting p-h-0">14</td>
+                                       
+                                       <td class="text-right no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="text-error">-4</b></h4>
+                                       </td>
+                                       <td class="text-center no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b>/</b></h4>
+                                       </td>
+
+                                       <td class="text-left no-sort semi-bold margin-none flagcount p-h-0">
+                                          <h4><b class="f-w text-error">-2</b></h4>
+                                       </td>
+                                       
+                                          <td class="text-right no-sort text-error p-h-0">04</td>
+                                          <td class="text-center no-sort text-warning p-h-0">03</td>
+                                          <td class="text-left no-sort text-success p-h-0">04</td>
+                                       
+                                          <td class="text-right no-sort text-error p-h-0">24</td>
+                                          <td class="text-center no-sort text-warning p-h-0">13</td>
+                                          <td class="text-left no-sort text-success p-h-0">14</td>
+                                       
+                                       
+                                       <td class="text-center text-success no-sort">Reviewed</td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                              <div class="text-right">
+                                 <a href="submissions.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                              </div>
+                           </div>
+                    <table id="sort" class="sort">
+      <thead>
+        <tr>
+          <th class="sort-header">#</th>
+          <th class=" no-sort" >Name</th>
+          <th class=" no-sort">Birthday</th>
+          <th class="sort-header">Grocery item</th>
+          <th class="sort-header">Price</th>
+          <th class="sort-header">Version</th>
+          <th class="sort-header">Filesize</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td >1</td>
+          <td  class="no-sort" >Gonzo the Great</td>
+          <td  class="no-sort">12-2-70</td>
+          <td>Radishes</td>
+          <td>$0.63</td>
+          <td>31.0.1650.57</td>
+          <td>124k</td>
+        </tr>
+        <tr >
+          <td  class="no-sort">Ernie</td>
+          <td  class="no-sort">10/11/69</td>
+          <td>Fish</td>
+          <td>$12.09</td>
+          <td>11.0.1</td>
+          <td>134.56 GB</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td  class="no-sort">Bert</td>
+          <td  class="no-sort">10/11/1969</td>
+          <td>Broccoli</td>
+          <td>$0.79</td>
+          <td>18.0.1284.49</td>
+          <td>134 B</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td  class="no-sort">Cookie Monster</td>
+          <td  class="no-sort">1/09/1966</td>
+          <td>Oreo cookies</td>
+          <td>$2.78</td>
+          <td>3.0.0</td>
+          <td>4.13 TiB</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td  class="no-sort">Kermit</td>
+          <td  class="no-sort">12-05-1955</td>
+          <td>Granola</td>
+          <td>$4.73</td>
+          <td>3.0.9</td>
+          <td>12 YB</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td  class="no-sort">Sam the Eagle</td>
+          <td  class="no-sort">04/07/75</td>
+          <td>Corn dog</td>
+          <td>$5.50</td>
+          <td>3.1.2</td>
+          <td>19.4 K</td>
+        </tr>
+      </tbody>
+    </table>
+                    <div class="footer">
+                        <div class="container">
+                            <div class="footer-content text-center">
+                                <span>Copyright © 2015 NHS Hospital. All rights reserved.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-         <!-- BEGIN CHAT -->
-         <!-- END CHAT -->
-      </div>
-      <!-- END CONTAINER -->
-      <!-- BEGIN CORE JS FRAMEWORK-->
-      <script src="assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/breakpoints.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
-      <!-- END CORE JS FRAMEWORK -->
-      <!-- BEGIN PAGE LEVEL JS -->
-      <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
-      <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript"></script>
-      <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript"></script>
-      <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
-      <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-      <script src="assets/plugins/date-range-picker/moment.js"></script>
+            <!-- BEGIN CHAT -->
+            <!-- END CHAT -->
+        </div>
+        <!-- END CONTAINER -->
+        <!-- BEGIN CORE JS FRAMEWORK-->
+        <script src="assets/plugins/jquery-1.8.3.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/breakpoints.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+        <!-- END CORE JS FRAMEWORK -->
+        <!-- BEGIN PAGE LEVEL JS -->
+        <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-block-ui/jqueryblockui.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap-select2/select2.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery-datatable/extra/js/dataTables.tableTools.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="assets/plugins/datatables-responsive/js/datatables.responsive.js"></script>
+        <script type="text/javascript" src="assets/plugins/datatables-responsive/js/lodash.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+        <script src="assets/plugins/date-range-picker/moment.js"></script>
       <script type="text/javascript" src="assets/plugins/date-range-picker/daterangepicker.js"></script>
-      <!-- END PAGE LEVEL PLUGINS -->
-      <script src="assets/js/datatables.js" type="text/javascript"></script>
-      <!-- BEGIN CORE TEMPLATE JS -->
-      <script src="assets/js/core.js" type="text/javascript"></script>
-      <script src="assets/js/demo.js" type="text/javascript"></script>
-      <script src="assets/js/tabs_accordian.js" type="text/javascript"></script>
-      <!-- END CORE TEMPLATE JS -->
-      <!-- Chart -->
-      <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+        <!-- END PAGE LEVEL PLUGINS -->
+    <!--     <script src="assets/js/datatables.js" type="text/javascript"></script> -->
+    <script src='assets/js/tablesort.min.js'></script>
+        <!-- BEGIN CORE TEMPLATE JS -->
+        <script src="assets/js/core.js" type="text/javascript"></script>
+        <script src="assets/js/demo.js" type="text/javascript"></script>
+        <script src="assets/js/tabs_accordian.js" type="text/javascript"></script>
+        <!-- END CORE TEMPLATE JS -->
+        <!-- Chart -->
+           <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
       <script src="https://www.amcharts.com/lib/3/serial.js"></script>
       <script src="https://www.amcharts.com/lib/3/pie.js"></script>
-      <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-      <!-- End Chart -->
-      <!--<style type="text/css">
-         #chartdiv {
-             width: 106%;
-             height: 300px;
-         }
-         
-         .demo {
-             position: relative;
-         }
-         
-         .demo i {
-             position: absolute;
-             bottom: 10px;
-             right: 24px;
-             top: auto;
-             cursor: pointer;
-         }
-         </style>-->
-      <script type="text/javascript">
-         $(document).ready(function() {
-             $('.input-daterange input').datepicker({
-                 startDate: '-3d',
-                 endDate: '0d'
-             });
-             var chart = AmCharts.makeChart("chartdiv", {
-                 "type": "serial",
-                 "theme": "light",
-                 "marginRight": 80,
-                 "autoMarginOffset": 20,
-                 "dataDateFormat": "YYYY-MM-DD HH:NN",
-                 "dataProvider": [{
-                     "date": "2012-01-01",
-                     "value": 8
-                 }, {
-                     "date": "2012-01-01",
-                     "value": 8
-                 }, {
-                     "date": "2012-01-03",
-                     "value": 12
-                 }, {
-                     "date": "2012-01-04",
-                     "value": 14
-                 }, {
-                     "date": "2012-01-05",
-                     "value": 11
-                 }, {
-                     "date": "2012-01-06",
-                     "value": 6
-                 }, {
-                     "date": "2012-01-07",
-                     "value": 7
-                 }, {
-                     "date": "2012-01-08",
-                     "value": 9
-                 }, {
-                     "date": "2012-01-09",
-                     "value": 13
-                 }, {
-                     "date": "2012-01-10",
-                     "value": 15
-                 }, {
-                     "date": "2012-01-12",
-                     "value": 5
-                 }, {
-                     "date": "2012-01-13",
-                     "value": 12
-                 }, {
-                     "date": "2012-01-14",
-                     "value": 14
-                 }, {
-                     "date": "2012-01-15",
-                     "value": 18
-                 }, {
-                     "date": "2012-01-16",
-                     "value": 14
-                 }, {
-                     "date": "2012-01-18",
-                     "value": 18
-                 }, {
-                     "date": "2012-01-19",
-                     "value": 17
-                 }, {
-                     "date": "2012-01-20",
-                     "value": 15
-                 }, {
-                     "date": "2012-01-21",
-                     "value": 12
-                 }, {
-                     "date": "2012-01-23",
-                     "value": 8
-                 }],
-                 "valueAxes": [{
-                     "axisAlpha": 0,
-                     "guides": [{
-                         "fillAlpha": 0.1,
-                         "fillColor": "#888888",
-                         "lineAlpha": 0,
-                         "toValue": 16,
-                         "value": 10
-                     }],
-                     "position": "left",
-                     "tickLength": 0
-                 }],
-                 "graphs": [{
-                     "balloonText": "[[category]]<br><b><span style='font-size:14px;'>value:[[value]]</span></b>",
-                     "bullet": "round",
-                     "dashLength": 3,
-                     "colorField": "color",
-                     "valueField": "value"
-                 }],
-                 // "trendLines": [{
-                 //     "finalDate": "2012-01-11 12",
-                 //     "finalValue": 19,
-                 //     "initialDate": "2012-01-02 12",
-                 //     "initialValue": 10,
-                 //     "lineColor": "#CC0000"
-                 // }, {
-                 //     "finalDate": "2012-01-22 12",
-                 //     "finalValue": 10,
-                 //     "initialDate": "2012-01-17 12",
-                 //     "initialValue": 16,
-                 //     "lineColor": "#CC0000"
-                 // }],
-                 "chartScrollbar": {
-                     "scrollbarHeight": 2,
-                     "offset": -1,
-                     "backgroundAlpha": 0.1,
-                     "backgroundColor": "#888888",
-                     "selectedBackgroundColor": "#67b7dc",
-                     "selectedBackgroundAlpha": 1
-                 },
-                 "chartCursor": {
-                     "fullWidth": true,
-                     "valueLineEabled": true,
-                     "valueLineBalloonEnabled": true,
-                     "valueLineAlpha": 0.5,
-                     "cursorAlpha": 0
-                 },
-                 "categoryField": "date",
-                 "categoryAxis": {
-                     "parseDates": true,
-                     "axisAlpha": 0,
-                     "gridAlpha": 0.1,
-                     "minorGridAlpha": 0.1,
-                     "minorGridEnabled": true
-                 },
-                 "export": {
-                     "enabled": true
-                 }
-             });
-         
-             chart.addListener("dataUpdated", zoomChart);
-         
-             function zoomChart() {
-                 chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
-             }
-         });
-         /***DATETIME PICKER***/
-         $(function() {
-          
-          function cb(start, end) {
-            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-          }
-          cb(moment().subtract(29, 'days'), moment());
-          
-          $('#reportrange').daterangepicker({
-            ranges: {
-             'This Month': [moment(), moment()],
-             'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-               'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-               'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-               
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+        <!-- End Chart -->
+        <!--<style type="text/css">
+        #chartdiv {
+            width: 106%;
+            height: 300px;
+        }
+        
+        .demo {
+            position: relative;
+        }
+        
+        .demo i {
+            position: absolute;
+            bottom: 10px;
+            right: 24px;
+            top: auto;
+            cursor: pointer;
+        }
+        </style>-->
+
+<script>
+  new Tablesort(document.getElementById('sort'));
+</script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('.input-daterange input').datepicker({
+                startDate: '-3d',
+                endDate: '0d'
+            });
+            var chart = AmCharts.makeChart("chartdiv", {
+                "type": "serial",
+                "theme": "light",
+                "marginRight": 80,
+                "autoMarginOffset": 20,
+                "dataDateFormat": "YYYY-MM-DD HH:NN",
+                "dataProvider": [{
+                    "date": "2012-01-01",
+                    "value": 8
+                }, {
+                    "date": "2012-01-01",
+                    "value": 8
+                }, {
+                    "date": "2012-01-03",
+                    "value": 12
+                }, {
+                    "date": "2012-01-04",
+                    "value": 14
+                }, {
+                    "date": "2012-01-05",
+                    "value": 11
+                }, {
+                    "date": "2012-01-06",
+                    "value": 6
+                }, {
+                    "date": "2012-01-07",
+                    "value": 7
+                }, {
+                    "date": "2012-01-08",
+                    "value": 9
+                }, {
+                    "date": "2012-01-09",
+                    "value": 13
+                }, {
+                    "date": "2012-01-10",
+                    "value": 15
+                }, {
+                    "date": "2012-01-12",
+                    "value": 5
+                }, {
+                    "date": "2012-01-13",
+                    "value": 12
+                }, {
+                    "date": "2012-01-14",
+                    "value": 14
+                }, {
+                    "date": "2012-01-15",
+                    "value": 18
+                }, {
+                    "date": "2012-01-16",
+                    "value": 14
+                }, {
+                    "date": "2012-01-18",
+                    "value": 18
+                }, {
+                    "date": "2012-01-19",
+                    "value": 17
+                }, {
+                    "date": "2012-01-20",
+                    "value": 15
+                }, {
+                    "date": "2012-01-21",
+                    "value": 12
+                }, {
+                    "date": "2012-01-23",
+                    "value": 8
+                }],
+                "valueAxes": [{
+                    "axisAlpha": 0,
+                    "guides": [{
+                        "fillAlpha": 0.1,
+                        "fillColor": "#888888",
+                        "lineAlpha": 0,
+                        "toValue": 16,
+                        "value": 10
+                    }],
+                    "position": "left",
+                    "tickLength": 0
+                }],
+                "graphs": [{
+                    "balloonText": "[[category]]<br><b><span style='font-size:14px;'>value:[[value]]</span></b>",
+                    "bullet": "round",
+                    "dashLength": 3,
+                    "colorField": "color",
+                    "valueField": "value"
+                }],
+                // "trendLines": [{
+                //     "finalDate": "2012-01-11 12",
+                //     "finalValue": 19,
+                //     "initialDate": "2012-01-02 12",
+                //     "initialValue": 10,
+                //     "lineColor": "#CC0000"
+                // }, {
+                //     "finalDate": "2012-01-22 12",
+                //     "finalValue": 10,
+                //     "initialDate": "2012-01-17 12",
+                //     "initialValue": 16,
+                //     "lineColor": "#CC0000"
+                // }],
+                "chartScrollbar": {
+                    "scrollbarHeight": 2,
+                    "offset": -1,
+                    "backgroundAlpha": 0.1,
+                    "backgroundColor": "#888888",
+                    "selectedBackgroundColor": "#67b7dc",
+                    "selectedBackgroundAlpha": 1
+                },
+                "chartCursor": {
+                    "fullWidth": true,
+                    "valueLineEabled": true,
+                    "valueLineBalloonEnabled": true,
+                    "valueLineAlpha": 0.5,
+                    "cursorAlpha": 0
+                },
+                "categoryField": "date",
+                "categoryAxis": {
+                    "parseDates": true,
+                    "axisAlpha": 0,
+                    "gridAlpha": 0.1,
+                    "minorGridAlpha": 0.1,
+                    "minorGridEnabled": true
+                },
+                "export": {
+                    "enabled": true
+                }
+            });
+
+            chart.addListener("dataUpdated", zoomChart);
+
+            function zoomChart() {
+                chart.zoomToDates(new Date(2012, 0, 2), new Date(2012, 0, 13));
             }
-          }, cb);
-          
-          });
-         var chart = AmCharts.makeChart( "piechart", {
-         "type": "pie",
-         "theme": "light",
-         "dataProvider": [ {
-                "title": "# Missed",
-                "value": 10
-              }, {
-                "title": "# Completed",
-                "value": 80
-              } 
-              , {
-                "title": "# late",
-                "value": 10
-              } ],
-              "titleField": "title",
-              "valueField": "value",
-              "labelRadius": 5,
+        });
+/***DATETIME PICKER***/
+$(function() {
          
-              "radius": "42%",
-              "innerRadius": "60%",
-              "labelText": "[[title]]",
-              "export": {
-                "enabled": true
-              }
-         } );
-      </script>
-   </body>
+         function cb(start, end) {
+           $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+         }
+         cb(moment().subtract(29, 'days'), moment());
+         
+         $('#reportrange').daterangepicker({
+           ranges: {
+            'This Month': [moment(), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+              'Last 6 Months': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              'All Time': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+              
+           }
+         }, cb);
+         
+         });
+var chart = AmCharts.makeChart( "piechart", {
+  "type": "pie",
+  "theme": "light",
+     "dataProvider": [ {
+               "title": "# Missed",
+               "value": 10
+             }, {
+               "title": "# Completed",
+               "value": 80
+             } 
+             , {
+               "title": "# late",
+               "value": 10
+             } ],
+             "titleField": "title",
+             "valueField": "value",
+             "labelRadius": 5,
+
+             "radius": "42%",
+             "innerRadius": "60%",
+             "labelText": "[[title]]",
+             "export": {
+               "enabled": true
+             }
+} );
+        </script>
+</body>
+
 </html>

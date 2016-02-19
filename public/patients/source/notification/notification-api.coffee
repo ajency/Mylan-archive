@@ -6,15 +6,6 @@ angular.module 'angularApp.notification'
 
 	notifyAPI.getNotification = (param)->
 
-		# defer = $q.defer()		
-		# App.SendParseRequest('getAllNotifications', param)
-		# .then (data)->
-		# 	defer.resolve data
-		# , (error)=>
-		# 	defer.reject error
-			
-		# defer.promise
-
 		defer = $q.defer()		
 		App.SendParseRequest('getPatientNotifications', param)
 		.then (data)->
@@ -51,6 +42,16 @@ angular.module 'angularApp.notification'
 
 		defer = $q.defer()		
 		App.SendParseRequest('clearAllNotifications', param)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
+	notifyAPI.getNotificationCount = (param)->
+		defer = $q.defer()		
+		App.SendParseRequest('getPatientNotificationCount', param)
 		.then (data)->
 			defer.resolve data
 		, (error)=>
