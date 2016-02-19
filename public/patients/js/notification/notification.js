@@ -1,13 +1,15 @@
 angular.module('angularApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', function($scope, App, $routeParams, notifyAPI, $location) {
+  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope', function($scope, App, $routeParams, notifyAPI, $location, $rootScope) {
     return $scope.view = {
       data: [],
       display: 'loader',
       page: 0,
       noNotification: null,
       limit: 10,
+      gotAllRequests: false,
       init: function() {
         var param;
+        $rootScope.$broadcast('notification:count');
         param = {
           "patientId": RefCode,
           "page": this.page,
@@ -30,6 +32,9 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
               }
             } else {
               _this.canLoadMore = false;
+            }
+            if (!_this.canLoadMore) {
+              _this.gotAllRequests = true;
             }
             _this.data = _this.data.concat(data);
             return _.each(_this.data, function(value) {
@@ -55,19 +60,30 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "notificationId": id
         };
-        return notifyAPI.deleteNotification(param).then(function(data) {
-          var spliceIndex;
-          console.log('sucess notification seen data');
-          console.log(data);
-          spliceIndex = _.findIndex($scope.view.data, function(request) {
-            return request.id === id;
-          });
-          console.log('spliceeIndexx');
-          console.log(spliceIndex);
-          if (spliceIndex !== -1) {
-            return $scope.view.data.splice(spliceIndex, 1);
-          }
-        }, function(error) {
+        return notifyAPI.deleteNotification(param).then((function(_this) {
+          return function(data) {
+            var idObject, spliceIndex;
+            console.log('sucess notification seen data');
+            console.log(data);
+            idObject = _.findWhere(_this.data, {
+              id: id
+            });
+            if (idObject.hasSeen === false) {
+              $rootScope.$broadcast('decrement:notification:count');
+            }
+            spliceIndex = _.findIndex($scope.view.data, function(request) {
+              return request.id === id;
+            });
+            console.log('spliceeIndexx');
+            console.log(spliceIndex);
+            if (spliceIndex !== -1) {
+              $scope.view.data.splice(spliceIndex, 1);
+            }
+            if (_this.data.length < 5) {
+              return _this.init();
+            }
+          };
+        })(this), function(error) {
           return console.log('error data');
         });
       },
@@ -88,6 +104,8 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
+        this.gotAllRequests = false;
+        this.page = 0;
         return this.init();
       },
       deleteNotifcation: function(id) {
@@ -102,10 +120,16 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "patientId": RefCode
         };
-        return notifyAPI.deleteAllNotification(param).then(function(data) {
-          console.log('sucess notification seen data');
-          return console.log(data);
-        }, function(error) {
+        return notifyAPI.deleteAllNotification(param).then((function(_this) {
+          return function(data) {
+            $rootScope.$broadcast('delete:all:count');
+            _this.gotAllRequests = true;
+            _this.canLoadMore = false;
+            _this.data = [];
+            console.log('sucess notification seen data');
+            return console.log(data);
+          };
+        })(this), function(error) {
           return console.log('error data');
         });
       }

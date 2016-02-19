@@ -6,12 +6,19 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
       hideButton: null,
       responseId: '',
       init: function() {
-        var param, summaryData;
+        var param, questionnaireData, summaryData;
         console.log('summaryyyy');
         summaryData = Storage.summary('get');
         console.log(summaryData);
         if (!_.isEmpty(summaryData)) {
           this.responseId = summaryData.responseId;
+          if (summaryData.previousState === 'questionnaire') {
+            questionnaireData = {
+              respStatus: 'lastQuestion',
+              responseId: this.responseId
+            };
+            Storage.questionnaire('set', questionnaireData);
+          }
           this.hideButton = summaryData.previousState === 'questionnaire' ? true : false;
           console.log('hide');
           console.log(this.hideButton);

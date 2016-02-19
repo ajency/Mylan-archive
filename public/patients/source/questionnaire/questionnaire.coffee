@@ -90,6 +90,9 @@ angular.module 'angularApp.questionnaire'
 
 			getQuestion :() ->
 
+				startQuestData = {}
+				Storage.startQuestionnaire 'set', startQuestData
+
 				questionnaireData = Storage.questionnaire 'get'
 				console.log '**************getQuestion**************'
 				console.log questionnaireData

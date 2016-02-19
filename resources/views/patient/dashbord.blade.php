@@ -42,14 +42,22 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="#"><img src="<?php echo $hospital['logo'] ?>" width="auto" height="45px"></a>
-        <!-- <div ng-include src="'patients/views/i.html'"></div> -->
+       
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <ul class="nav navbar-nav navbar-right">
           <li><a href="#"><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
-         <li><a href="#notification"><div class="notification">2</div><i class="fa fa-bell"></i>&nbsp;&nbsp;<span class="text-muted">Notifications</span></a></li>
+          <li ng-controller="headerCtrl" ng-include src="'patients/views/notificationcount.html'">
+           <!--  <div ng-include src="'patients/views/notificationcount.html'"> -->
+          <!--   <a href="#notification" ng-init="view.init()">
+              <div ng-include src="'patients/views/notificationcount.html'" class="notification" ></div>
+              <i class="fa fa-bell"></i>&nbsp;&nbsp;
+              <span class="text-muted">Notifications</span>
+            </a> -->
+        <!--   </div> -->
+          </li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -96,7 +96,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       getQuestion: function() {
-        var options, param, questionnaireData, responseId;
+        var options, param, questionnaireData, responseId, startQuestData;
+        startQuestData = {};
+        Storage.startQuestionnaire('set', startQuestData);
         questionnaireData = Storage.questionnaire('get');
         console.log('**************getQuestion**************');
         console.log(questionnaireData);

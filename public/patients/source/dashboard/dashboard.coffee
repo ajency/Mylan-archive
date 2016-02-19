@@ -11,6 +11,14 @@ angular.module 'angularApp.dashboard',[]
 			limitTo: 5
 
 			init :() -> 
+				questionnaireData = {}
+				Storage.questionnaire 'set', questionnaireData
+
+				startQuestData = {}
+				Storage.startQuestionnaire 'set', startQuestData
+
+				summaryData = {}
+				Storage.summary 'set', summaryData
 
 				@display = 'loader'
 				id = RefCode
@@ -36,6 +44,8 @@ angular.module 'angularApp.dashboard',[]
 				$location.path('summary')
 
 			startQuiz :() ->
+				startQuestData = 'start'
+				Storage.startQuestionnaire 'set', startQuestData
 				$location.path 'start-questionnaire'
 
 			resumeQuiz : (id)->
@@ -69,8 +79,47 @@ angular.module 'angularApp.dashboard',[]
 	setTime()
 ]
 
-.controller 'headerCtrl', ['$scope', '$location', ($scope, $location)->
-	console.log 'header ctrl'
-	$scope.notifyIocn = '23'
+.controller 'headerCtrl', ['$scope', '$location', 'App', 'notifyAPI', '$rootScope'
+	, ($scope, $location, App, notifyAPI, $rootScope)->
+	
+		
+		$scope.view =
+				notificationCount : 0
+				badge : false 
+
+				getNotificationCount :->
+					console.log 'inside getNotificationCount'
+					param =
+	  					"patientId" : RefCode
+
+				  	notifyAPI.getNotificationCount param
+				  	.then (data)=>
+				  		if data > 0 
+				  			@notificationCount = data
+				  			@badge = true
+				  			
+
+				decrement : ->
+					@notificationCount = @notificationCount - 1
+					@badge = false if @notificationCount <= 0
+
+				init :->
+					console.log 'init'
+					@getNotificationCount()
+
+				deleteAllNotification : ->
+					@notificationCount = 0
+					@badge = false
+
+
+		$rootScope.$on 'notification:count', ->
+			$scope.view.getNotificationCount()
+
+		$rootScope.$on 'delete:all:count', ->
+			$scope.view.deleteAllNotification()
+
+		$rootScope.$on 'decrement:notification:count', ->
+			$scope.view.decrement()
+
 		
 ]
