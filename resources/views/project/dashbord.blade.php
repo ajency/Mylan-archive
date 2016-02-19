@@ -256,7 +256,7 @@
                                       <td class="text-center">{{ $submission['patient'] }}</td>
                                        <td class="text-center">
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
-                                         <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
+                                         <sm class="text-center"><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
                                       
                                        <td class="text-center sorting">-</td>
