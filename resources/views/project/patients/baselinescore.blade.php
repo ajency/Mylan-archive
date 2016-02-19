@@ -3,15 +3,9 @@
 <!-- BEGIN BREADCRUMBS -->
 <p>
       <ul class="breadcrumb">
-         <li>
-            <a href="#" class="active" > HOME</a>
-         </li>
-         <li>
-            <a href="#"> Patients</a>
-         </li>
-         <li>
-            <a href="#"> Baseline Score</a>
-         </li> 
+         <li><a href="#">Patients</a></li>
+        <li><a href="#">{{ $patient['reference_code']}}</a> </li>
+        <li><a href="#" class="active">Baseline Score</a> </li>
       </ul>
       </p>
        

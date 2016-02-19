@@ -4,9 +4,7 @@
 <!-- BEGIN BREADCRUMBS -->
       <p>
       <ul class="breadcrumb">
-        <li>
-          <a href="projects.html">Patients</a>
-        </li>
+        <li><a href="#">Patients</a></li>
         <li><a href="#">{{ $patient['reference_code']}}</a> </li>
         <li><a href="#" class="active">Summary</a> </li>
       </ul>
