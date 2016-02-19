@@ -1188,7 +1188,7 @@ class PatientController extends Controller
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->skip($page * $displayLimit);
         $responseQry->limit($displayLimit);
-        $responseQry->descending("createdAt");
+        $responseQry->descending("createdAt","sequenceNumber");
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
 
@@ -1212,7 +1212,7 @@ class PatientController extends Controller
         $responseQry->containedIn("patient",$patients);
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
-        $responseQry->descending("createdAt");
+        $responseQry->descending("createdAt","sequenceNumber");
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
 
