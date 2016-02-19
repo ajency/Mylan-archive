@@ -90,7 +90,7 @@
                                  <h5 class="bold m-b-20 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p>Lorem ipsum dolor </p> -->
                                  <h2 class="bold">
-                                 <a href="#"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></a></h2>
+                                  <b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></h2>
                               </div>
                            </div>
                         </a>
