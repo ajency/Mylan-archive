@@ -90,7 +90,7 @@
                                     </tr>
                                     <tr class="md-size">
                                        <!-- <th width="10%" ></th> -->
-                                       <th width="15%"></th>
+                                       <th width="15%" class="no-sort"></th>
                                        <th  class="text-right ">
                                              Base
                                        </th>
@@ -105,36 +105,36 @@
                                        <th  class="text-right">
                                           δ Base  
                                        </th>
-                                       <th ></th>
+                                       <th class="no-sort"></th>
                                        <th  class="text-left">
                                          δ Prev  
                                         </th>
-                                       <th class="text-center">
+                                       <th class="text-center th-flag-outer">
                                           <i class="fa fa-flag text-error"></i>  
                                        </th>
-                                         <th  class="text-center">
+                                         <th  class="text-center th-flag-outer">
                                           <i class="fa fa-flag text-warning"></i>  
                                        </th>
-                                        <th  class="text-center">
+                                        <th  class="text-center th-flag-outer">
                                         <i class="fa fa-flag text-success"></i> 
                                        </th>
-                                       <th  class="text-center">
+                                       <th  class="text-center th-flag-outer">
                                          
                                          <i class="fa fa-flag text-error"></i> 
                                          
                                        </th>
-                                       <th class="text-center">
+                                       <th class="text-center th-flag-outer">
                                          
                                           <i class="fa fa-flag text-warning"></i>  
                                       
                                        </th>
-                                       <th class="text-center">
+                                       <th class="text-center th-flag-outer">
                 
                                           <i class="fa fa-flag text-success"></i> 
                                        </th>
-                                       <th >
+                                       <th class="no-sort">
                                        </th>
-                                       <th></th>
+                                       <th class="no-sort"></th>
                                     </tr>
                                  </thead>
                           <tbody>
