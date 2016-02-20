@@ -60,7 +60,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           ObjId = _.findWhere(this.data.options, {
             id: this.data.hasAnswer.option[0]
           });
-          return this.val_answerValue[ObjId.option] = parseInt(this.data.hasAnswer.value);
+          return this.val_answerValue[ObjId.option] = Number(this.data.hasAnswer.value);
         }
       },
       pastAnswer: function() {
@@ -243,13 +243,16 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             error = 1;
           } else {
             _.each(this.val_answerValue, function(value) {
-              if (value === null) {
+              var valid;
+              value = value.toString();
+              valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+              if (value === null || valid === null) {
                 return error = 1;
               }
             });
           }
           if (error === 1) {
-            CToast.show('Please enter the values');
+            CToast.show('Please enter numbers');
           } else {
             valueInput = [];
             optionId = [];

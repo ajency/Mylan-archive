@@ -94,11 +94,12 @@
                       <!-- input -->
                   <form class="row" ng-if='view.data.questionType == "input"'>
                       <div 
+                        text-select
                         class="col-xs-8"
                         ng-repeat ="answerValue in view.data.options">
                           <div class="form-group">
                           <input 
-                              type="text"
+                              type="number"
                               class="form-control input-lg"
                               ng-model="view.val_answerValue[answerValue.option]"
                               id="Kgs" placeholder="{{answerValue.option}}"
