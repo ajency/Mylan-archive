@@ -61,7 +61,7 @@ angular.module 'angularApp.questionnaire'
 
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = parseInt(@data.hasAnswer.value)
+					@val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
 
 
 			pastAnswer:()->
@@ -238,11 +238,14 @@ angular.module 'angularApp.questionnaire'
 						error = 1
 					else
 						_.each @val_answerValue, (value)->
-							if value == null
+							value = value.toString()
+							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
+
+							if value == null || valid == null
 								error = 1
 
 					if error == 1
-						CToast.show 'Please enter the values'
+						CToast.show 'Please enter numbers'
 					else
 						valueInput = []
 						optionId = []
