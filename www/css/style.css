@@ -1061,6 +1061,7 @@ ul .mcq_active div span {
     font-size: 35px;
   }
 }
+
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
   /***MCQS***/
   ul .item.item-checkbox.mcq div span {
