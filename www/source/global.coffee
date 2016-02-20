@@ -1,4 +1,4 @@
-### test ####
+## test ####
 
 AUTH_URL = 'http://mylantest.ajency.in/api/v1'
 
@@ -27,7 +27,7 @@ PARSE_HEADERS =
 		"X-Parse-REST-API-KeY" : REST_API_KEY
 
 
-### production ####
+## production ####
 # AUTH_URL = 'http://mylanproduction.ajency.in/api/v1'
 
 

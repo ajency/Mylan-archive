@@ -15,10 +15,10 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       },
       completesetup: function() {
         var boolPassword, boolRePassword, passtext, reg, repasstext;
-        passtext = document.getElementById("password").value;
+        passtext = $('.password').val();
         reg = new RegExp('^[0-9]+$');
         boolPassword = reg.test(passtext);
-        repasstext = document.getElementById("repassword").value;
+        repasstext = $('.repassword').val();
         boolRePassword = reg.test(repasstext);
         console.log('--');
         console.log(boolPassword);

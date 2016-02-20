@@ -171,7 +171,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             error = 1;
           } else {
             _.each(this.val_answerValue, function(value) {
-              if (value === null) {
+              var valid;
+              value = value.toString();
+              valid = value.match(/^-?\d*(\.\d+)?$/);
+              console.log('***ppppp');
+              console.log(valid);
+              if (value === null || valid === null) {
                 return error = 1;
               }
             });
@@ -221,7 +226,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {
-            return CToast.show('Please Fill in the following');
+            return CToast.show('Please fill in the following');
           } else {
             options = {
               "questionId": this.data.questionId,
@@ -408,7 +413,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           ObjId = _.findWhere(this.data.options, {
             id: this.data.hasAnswer.option[0]
           });
-          return this.val_answerValue[ObjId.option] = this.data.hasAnswer.value;
+          return this.val_answerValue[ObjId.option] = Number(this.data.hasAnswer.value);
         }
       },
       navigateOnDevice: function() {

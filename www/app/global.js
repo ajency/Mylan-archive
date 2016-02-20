@@ -1,5 +1,3 @@
-
-/* test */
 var APP_ID, AUTH_HEADERS, AUTH_URL, JS_KEY, PARSE_HEADERS, PARSE_URL, REST_API_KEY;
 
 AUTH_URL = 'http://mylantest.ajency.in/api/v1';
@@ -26,6 +24,3 @@ PARSE_HEADERS = {
     "X-Parse-REST-API-KeY": REST_API_KEY
   }
 };
-
-
-/* production */

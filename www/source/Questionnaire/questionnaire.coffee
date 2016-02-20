@@ -179,8 +179,13 @@ angular.module 'PatientApp.Quest',[]
 					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
+
 						_.each @val_answerValue, (value)->
-							if value == null
+							value = value.toString()
+							valid = (value.match(/^-?\d*(\.\d+)?$/));
+							console.log '***ppppp'
+							console.log valid
+							if value == null || valid == null
 								error = 1
 
 					if error == 1
@@ -228,7 +233,7 @@ angular.module 'PatientApp.Quest',[]
 				if @data.questionType == 'descriptive'
 
 					if (@descriptiveAnswer == '')
-						CToast.show 'Please Fill in the following'
+						CToast.show 'Please fill in the following'
 					else
 						options =
 							"questionId" : @data.questionId
@@ -397,7 +402,7 @@ angular.module 'PatientApp.Quest',[]
 						
 				if @data.questionType == 'input'
 					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = @data.hasAnswer.value
+					@val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
 					
 
 			navigateOnDevice:()->
