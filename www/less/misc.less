@@ -1036,6 +1036,13 @@ ul{
     }
 	
 }
+.prev-answers 
+{
+	small
+	{
+		font-size: 100%;
+	}
+}
 .item.item-radio .item-content span{
 	width: 35px;
 height: 35px;
@@ -1118,6 +1125,34 @@ line-height: 38px;
 			left: 6px;
 		}
 	}
+
+
+
+
+	li.item.item-checkbox.mcq
+	{
+		position: relative;
+		.checkbox input
+		{
+			height: 100%;
+			width: 100%;
+		}
+		div span
+		{
+			line-height: 15px;
+			z-index: 1;
+		}
+	}
+	.item.item-checkbox .checkbox
+	{		
+		height: 100%;
+	}
+
+
+
+
+
+
 	.no-list .no{
 		width: 30px;
 		height: 30px;
@@ -1232,6 +1267,7 @@ line-height: 38px;
 		.button.clear-notification 
 		{
 			height: 57px;
+			margin: 0 -4px 0 0;
 		}
 	}
 	.bar.bar-header
@@ -1251,6 +1287,7 @@ line-height: 38px;
 	{
 		min-height: 32px;
 		margin-top: 0;
+		padding-bottom: 3px;
 	}
 	.item.item-radio .item-content span
 	{
@@ -1267,6 +1304,7 @@ line-height: 38px;
 		div span
 		{
 			line-height: 15px;
+			z-index: 1;
 		}
 	}
 	.item.item-checkbox .checkbox
@@ -1305,3 +1343,68 @@ margin-bottom:0;
 
 
 	/***FOOTER***/
+
+@media (min-width:600px) and (orientation:landscape)
+{
+	.bar.bar-footer 
+	{
+		.button
+		{
+			height: 45px;
+		}
+		&.submission
+		{
+			.button
+			{
+				height: 57px;
+			}
+		}	
+		.button.clear-notification 
+		{
+			height: 57px;
+			margin: 0 -4px 0 0;
+		}
+	}
+	.bar.bar-header
+	{
+		button
+		{
+			height: 45px;
+			font-size: 14px;
+		}
+		.button.update .badge
+		{
+			padding: 2px 6px;		    
+		    height: 19px;
+		}
+	}
+	.button.delete-btn
+	{
+		min-height: 32px;
+		margin-top: 0;
+		padding-bottom: 3px;
+	}
+	.item.item-radio .item-content span
+	{
+		line-height: 35px;
+	}
+	li.item.item-checkbox.mcq
+	{
+		position: relative;
+		.checkbox input
+		{
+			height: 100%;
+			width: 100%;
+		}
+		div span
+		{
+			line-height: 15px;
+			z-index: 1;
+		}
+	}
+	.item.item-checkbox .checkbox
+	{
+		top: 20px;
+		height: 100%;
+	}
+}
