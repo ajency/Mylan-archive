@@ -3,10 +3,11 @@ app = angular.module 'PatientApp.Global'
 .directive 'textSelect', ['$timeout', ($timeout)->
 
   link: (scope, element, attr)->
-    $(':number').keyup (e) ->
+    $('input').keyup (e) ->
+      console.log 'onkey uppp'
       if $(this).val() != ''
-        $(':text').not(this).attr 'disabled', 'disabled'
+        $('input').not(this).attr 'disabled', 'disabled'
       else
-        $(':text').removeAttr 'disabled'
+        $('input').removeAttr 'disabled'
 
 ]

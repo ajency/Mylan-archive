@@ -4,11 +4,12 @@ app = angular.module('PatientApp.Global').directive('textSelect', [
   '$timeout', function($timeout) {
     return {
       link: function(scope, element, attr) {
-        return $(':number').keyup(function(e) {
+        return $('input').keyup(function(e) {
+          console.log('onkey uppp');
           if ($(this).val() !== '') {
-            return $(':text').not(this).attr('disabled', 'disabled');
+            return $('input').not(this).attr('disabled', 'disabled');
           } else {
-            return $(':text').removeAttr('disabled');
+            return $('input').removeAttr('disabled');
           }
         });
       }
