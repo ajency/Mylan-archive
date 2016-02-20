@@ -1043,6 +1043,13 @@ ul{
 		font-size: 100%;
 	}
 }
+.notification-screen
+{
+	.notification-msg
+	{
+		font-size: 18px;
+	}
+}
 .item.item-radio .item-content span{
 	width: 35px;
 height: 35px;
@@ -1061,7 +1068,8 @@ line-height: 38px;
 		}
 		button{
 			margin:0 0 0 10px;
-			height: 45px;			
+			height: 45px;	
+			font-size: 17px;		
 		}
 		.right-buttons{
 			top:3px;
@@ -1165,13 +1173,16 @@ line-height: 38px;
 			width: 60px;
 			height: 60px;
 			border-radius: 50%;
-    		top: -11px;
+    		top: -10px;
     		margin-right: 18px;
     		line-height: 49px;
     		font-size: 25px;
 		}
 	}	
-
+.prev-answers small
+{
+	font-size: 110%;
+}
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9){
 	/***MCQS***/
@@ -1370,7 +1381,7 @@ margin-bottom:0;
 		button
 		{
 			height: 45px;
-			font-size: 15px;
+			font-size: 17px;
 		}
 		.button.update .badge
 		{
@@ -1400,6 +1411,7 @@ margin-bottom:0;
 		{
 			/*line-height: 15px;*/
 			z-index: 1;
+			top: 28%;
 		}
 	}
 	.item.item-checkbox .checkbox
@@ -1411,14 +1423,18 @@ margin-bottom:0;
 	{
 		small
 		{
-			font-size: 100%;
+			font-size: 110%;
 		}
 	}
 	.notification-screen
 	{
 		.notification-msg
 		{
-			font-size: 16px;
+			font-size: 18px;
 		}
+	}
+	.q-title .badge
+	{
+		top: -9px;
 	}
 }

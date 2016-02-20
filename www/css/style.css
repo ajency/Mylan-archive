@@ -934,6 +934,9 @@ ul .mcq_active div span {
   .prev-answers small {
     font-size: 100%;
   }
+  .notification-screen .notification-msg {
+    font-size: 18px;
+  }
   .item.item-radio .item-content span {
     width: 35px;
     height: 35px;
@@ -953,6 +956,7 @@ ul .mcq_active div span {
   .bar.bar-header button {
     margin: 0 0 0 10px;
     height: 45px;
+    font-size: 17px;
   }
   .bar.bar-header .right-buttons {
     top: 3px;
@@ -1031,10 +1035,13 @@ ul .mcq_active div span {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    top: -11px;
+    top: -10px;
     margin-right: 18px;
     line-height: 49px;
     font-size: 25px;
+  }
+  .prev-answers small {
+    font-size: 110%;
   }
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
@@ -1153,7 +1160,7 @@ ul .mcq_active div span {
   }
   .bar.bar-header button {
     height: 45px;
-    font-size: 15px;
+    font-size: 17px;
   }
   .bar.bar-header .button.update .badge {
     padding: 2px 6px;
@@ -1177,16 +1184,20 @@ ul .mcq_active div span {
   li.item.item-checkbox.mcq div span {
     /*line-height: 15px;*/
     z-index: 1;
+    top: 28%;
   }
   .item.item-checkbox .checkbox {
     /*top: 20px;*/
     height: 100%;
   }
   .prev-answers small {
-    font-size: 100%;
+    font-size: 110%;
   }
   .notification-screen .notification-msg {
-    font-size: 16px;
+    font-size: 18px;
+  }
+  .q-title .badge {
+    top: -9px;
   }
 }
 /*# sourceMappingURL=style.css.map */
