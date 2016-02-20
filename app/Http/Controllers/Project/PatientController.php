@@ -1601,6 +1601,7 @@ class PatientController extends Controller
 
 
         $bulkAnswerInstances = [];
+        $totalScore = 0;
         foreach ($questions as $questionId=> $answers) {
 
             $questionObj = array('__type' => 'Pointer', 'className' => 'Questions', 'objectId' => $questionId);
@@ -1622,6 +1623,8 @@ class PatientController extends Controller
                 $answer->set("project", $projectId);
                 // $answer->save();
                 $bulkAnswerInstances[] = $answer;
+
+                $totalScore +=$score;
             }
             elseif($questionType[$questionId]=='descriptive')
             {
@@ -1681,6 +1684,9 @@ class PatientController extends Controller
                 }
             }
         }
+
+        $response->set("totalScore", $totalScore);
+        $response->save();
 
         ParseObject::saveAll($bulkAnswerInstances);
         

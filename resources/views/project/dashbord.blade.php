@@ -225,16 +225,16 @@
                                 <th colspan="3" class="sorting">
                                    Total Score
                                    <br>
-                                   @if($sortBy=='comparedToBaseLine-desc')
-                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-asc#submissionSummary"><sm>Base <i class="iconset top-down-arrow"></i></sm></a>
+                                   @if($sortBy=='baseLineScore-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineScore-asc#submissionSummary"><sm>Base <i class="iconset top-down-arrow"></i></sm></a>
                                   @else
-                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-desc#submissionSummary"><sm>Base <i class="iconset top-up-arrow"></i></sm></a>
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineScore-desc#submissionSummary"><sm>Base <i class="iconset top-up-arrow"></i></sm></a>
                                    @endif 
 
-                                   @if($sortBy=='comparedToPrevious-desc')
-                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-asc#submissionSummary"><sm>Prev <i class="iconset top-down-arrow"></i></sm></a>
+                                   @if($sortBy=='previousScore-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousScore-asc#submissionSummary"><sm>Prev <i class="iconset top-down-arrow"></i></sm></a>
                                   @else
-                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-desc#submissionSummary"><sm>Prev <i class="iconset top-up-arrow"></i></sm></a>
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousScore-desc#submissionSummary"><sm>Prev <i class="iconset top-up-arrow"></i></sm></a>
                                    @endif 
 
 

@@ -24,7 +24,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+         
     }
 
     /**
@@ -55,7 +55,9 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($hospitalSlug,$projectSlug)
-    {
+    { 
+        
+
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -111,7 +113,7 @@ class ProjectController extends Controller
             }
             
         }
-        
+         
         $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
@@ -210,6 +212,7 @@ class ProjectController extends Controller
         {
             $responseQry->descending("createdAt","sequenceNumber");
         }
+
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
          
