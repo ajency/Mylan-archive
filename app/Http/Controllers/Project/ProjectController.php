@@ -57,7 +57,6 @@ class ProjectController extends Controller
     public function show($hospitalSlug,$projectSlug)
     { 
         
-
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -121,8 +120,9 @@ class ProjectController extends Controller
         // //red flags,amber flags ,unreviwed submission , submission
          $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
 
-         //patient submissions
+         //patient completed  and late submissions 
         $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+
         $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
 
         $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
@@ -149,6 +149,99 @@ class ProjectController extends Controller
                                         ->with('logoUrl', $logoUrl)
                                         ->with('sortBy', $sortBy);
 
+    }
+
+    public function getLastFiveSubmission($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                     );
+
+        $responseQry = new ParseQuery("Response");
+        $responseQry->containedIn("status",["completed","late"]);  //["completed","late","missed"]        
+        $responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+
+        $responseQry->limit(5);
+
+        if(isset($inputs['sort']))
+        {
+            $sortBy = $inputs['sort'];
+            $sortData = explode('-', $inputs['sort']); 
+            if($sortData[1]=='asc')
+                $responseQry->ascending($sortData[0]);
+            else
+                $responseQry->descending($sortData[0]);
+            
+            
+        }
+        else
+            $responseQry->descending("createdAt","sequenceNumber");
+    
+     $responses = $responseQry->find();
+
+     $submissionsSummary = $this->getSubmissionsSummary($responses);
+      $str = '';
+      foreach($submissionsSummary as $responseId=> $submission)
+      {
+            $str .='<tr onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/submissions/'.$responseId.' \';">
+            <td class="text-center">'.$submission['patient'].'</td>
+            <td class="text-center">
+              <h4 class="semi-bold m-0 flagcount">'.$submission['occurrenceDate'].'</h4>
+              <sm><b># '.$submission['sequenceNumber'].' </b></sm>
+           </td>
+           
+              <td class="text-right sorting">'. $submission['baseLineScore'].'</td>
+              <td class="text-center sorting">'. $submission['previousScore'].'</td>
+              <td class="text-left sorting">'. $submission['totalScore'] .'</td>
+           
+             <td class="text-right semi-bold margin-none flagcount p-h-0">
+                <h4><b class="text-'.$submission['totalBaseLineFlag'] .'">'. $submission['comparedToBaslineScore'].'</b></h4>
+             </td>
+             <td  class="text-center semi-bold margin-none flagcount p-h-0">
+               <h4><b>/</b></h4>
+             </td>
+             <td  class="text-left semi-bold margin-none flagcount p-h-0">
+                <h4><b class="f-w text-'.$submission['totalPreviousFlag'].'">'.$submission['comparedToPrevious'] .'</b></h4>
+             </td>
+
+             <td class="text-right sorting text-error"> '.$submission['previousFlag']['red'] .'</td>
+             <td class="text-center sorting text-warning">'.$submission['previousFlag']['amber'] .'</td>
+             <td class="text-left sorting text-success"> '.$submission['previousFlag']['green'] .'</td>
+        
+             <td class="text-right sorting text-error">'. $submission['baseLineFlag']['red'] .'</td>
+             <td class="text-center sorting text-warning">'. $submission['baseLineFlag']['amber'].'</td>
+             <td class="text-left sorting text-success">'. $submission['baseLineFlag']['green'] .'</td>
+          
+           <td class="text-center text-success">'. ucfirst($submission['status']) .'</td>
+           <td class="text-center text-success">'. ucfirst($submission['reviewed']) .'</td>
+        </tr>';
+      }
+        
+
+        return response()->json([
+                    'code' => 'data',
+                    'data' => $str,
+                        ], 200);
+   
+         
     }
 
     public function getProjectAnwersByDate($projectId,$page=0,$anwsersData,$startDate,$endDate)

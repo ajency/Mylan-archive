@@ -108,5 +108,7 @@ Route::get( 'patients/{id}/submissions', 'Project\PatientController@getPatientSu
 Route::get( 'patients/{id}/flags', 'Project\PatientController@getPatientFlags' );
 Route::get( 'patients/{id}/patient-reports', 'Project\PatientController@getPatientReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@validateRefernceCode' );
+
+Route::get( '/getlastfivesubmission', 'Project\ProjectController@getLastFiveSubmission' );
 });
 

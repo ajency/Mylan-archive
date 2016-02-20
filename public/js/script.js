@@ -69,6 +69,47 @@ $('.validateRefernceCode').change(function (event) {
 
     });
 
+$('.sortSubmission').click(function (event) { 
+      var sortObject = $(this);
+       var sort_type = sortObject.attr('sort-type'); 
+       var sort = sortObject.attr('sort'); 
+
+       // $("#statusLoader").removeClass('hidden');
+       $.ajax({
+        url: BASEURL+"/getlastfivesubmission",
+        type: "GET",
+        data: {
+            sort: sort+'-'+sort_type 
+        },
+        dataType: "JSON",
+        success: function (response) {
+            
+            console.log(sort_type);  
+           if(sort_type=='asc')
+            { 
+              console.log('desc');  
+              sortObject.attr('sort-type','desc');
+              
+              sortObject.find('.sortCol').removeClass('fa-angle-down');
+              sortObject.find('.sortCol').addClass('fa-angle-up');
+            }
+            else
+            {  
+              console.log('asc');  
+              sortObject.attr('sort-type','asc');
+              sortObject.find('.sortCol').addClass('fa-angle-down');
+              sortObject.find('.sortCol').removeClass('fa-angle-up');
+
+            } 
+            $("#submissionData").html(response.data);
+             
+
+            // $(".cf-loader").addClass('hidden');
+        }
+      });
+
+    });
+
 var uploader = new plupload.Uploader({
     runtimes : 'html5,flash,silverlight,html4',
      
