@@ -168,4 +168,15 @@ input {
   overflow: hidden;
   text-overflow: initial;
 }
+/*tablesort specific styling*/
+.md-size th {
+  font-size: 10px !important;
+  font-weight: 100;
+}
+.table-border-none {
+  border: none !important;
+}
+.no-sort span {
+  display: none;
+}
 /*# sourceMappingURL=dashboard-ver2.css.map */
