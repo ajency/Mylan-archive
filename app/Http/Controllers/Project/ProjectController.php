@@ -195,7 +195,7 @@ class ProjectController extends Controller
 
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
-        
+
         if(!empty($sort))
         {
             foreach ($sort as $key => $value) {
@@ -216,7 +216,7 @@ class ProjectController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond=[],$sort=[]);
+            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond,$sort);
         }  
         
         return $responseData;
