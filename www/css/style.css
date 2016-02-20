@@ -1061,7 +1061,6 @@ ul .mcq_active div span {
     font-size: 35px;
   }
 }
-
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
   /***MCQS***/
   ul .item.item-checkbox.mcq div span {
@@ -1205,7 +1204,7 @@ ul .mcq_active div span {
     top: 28%;
     height: 35px;
     width: 35px;
-    line-height: 32px;
+    line-height: 35px;
   }
   .item.item-checkbox .checkbox {
     top: 20px;
@@ -1231,6 +1230,9 @@ ul .mcq_active div span {
   }
   .q-title .badge {
     top: -9px;
+  }
+  .summary-header {
+    font-size: 25px;
   }
 }
 /*# sourceMappingURL=style.css.map */
