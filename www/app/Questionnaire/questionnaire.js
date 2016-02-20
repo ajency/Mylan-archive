@@ -173,7 +173,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             _.each(this.val_answerValue, function(value) {
               var valid;
               value = value.toString();
-              valid = value.match(/^-?\d*(\.\d+)?$/);
+              valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
               console.log('***ppppp');
               console.log(valid);
               if (value === null || valid === null) {

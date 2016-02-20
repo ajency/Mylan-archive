@@ -182,7 +182,7 @@ angular.module 'PatientApp.Quest',[]
 
 						_.each @val_answerValue, (value)->
 							value = value.toString()
-							valid = (value.match(/^-?\d*(\.\d+)?$/));
+							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
 							console.log '***ppppp'
 							console.log valid
 							if value == null || valid == null
