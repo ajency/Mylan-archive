@@ -1004,6 +1004,20 @@ ul .mcq_active div span {
   .item.item-checkbox .checkbox-icon {
     left: 6px;
   }
+  li.item.item-checkbox.mcq {
+    position: relative;
+  }
+  li.item.item-checkbox.mcq .checkbox input {
+    height: 100%;
+    width: 100%;
+  }
+  li.item.item-checkbox.mcq div span {
+    line-height: 15px;
+    z-index: 1;
+  }
+  .item.item-checkbox .checkbox {
+    height: 100%;
+  }
   .no-list .no {
     width: 30px;
     height: 30px;
