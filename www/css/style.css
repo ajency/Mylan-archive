@@ -1058,7 +1058,7 @@ ul .mcq_active div span {
     font-size: 15px;
   }
   .start-questionnaire h4 {
-    /*font-size: 1.3em;*/
+    font-size: 35px;
   }
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
@@ -1220,7 +1220,7 @@ ul .mcq_active div span {
     font-size: 17px;
   }
   .start-questionnaire h4 {
-    /*font-size: 1.4em;*/
+    font-size: 35px;
   }
   .notification-screen .notification-msg {
     font-size: 20px;
