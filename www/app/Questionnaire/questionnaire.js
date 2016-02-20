@@ -137,7 +137,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return _this.display = 'noError';
             }, function(error) {
               if (error === 'offline') {
-                return CToast.showLongBottom('Check net connection,answer not saved');
+                return CToast.showLongBottom('Please check your internet connection');
               } else if (error === 'server_error') {
                 return CToast.show('Error in saving answer,Server error');
               } else {

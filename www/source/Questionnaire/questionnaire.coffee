@@ -147,7 +147,7 @@ angular.module 'PatientApp.Quest',[]
 						@display = 'noError'					
 					,(error)=>
 						if error == 'offline'
-							CToast.showLongBottom 'Check net connection,answer not saved'
+							CToast.showLongBottom 'Please check your internet connection'
 						else if error == 'server_error'
 							CToast.show 'Error in saving answer,Server error'
 						else

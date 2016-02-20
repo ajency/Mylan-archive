@@ -1213,6 +1213,69 @@ line-height: 38px;
 //     	}
 // 	}
 // }
+
+@media (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape)
+{
+	.bar.bar-footer 
+	{
+		.button
+		{
+			height: 45px;
+		}
+		&.submission
+		{
+			.button
+			{
+				height: 57px;
+			}
+		}	
+		.button.clear-notification 
+		{
+			height: 57px;
+		}
+	}
+	.bar.bar-header
+	{
+		button
+		{
+			height: 45px;
+			font-size: 14px;
+		}
+		.button.update .badge
+		{
+			padding: 2px 6px;		    
+		    height: 19px;
+		}
+	}
+	.button.delete-btn
+	{
+		min-height: 32px;
+		margin-top: 0;
+	}
+	.item.item-radio .item-content span
+	{
+		line-height: 35px;
+	}
+	li.item.item-checkbox.mcq
+	{
+		position: relative;
+		.checkbox input
+		{
+			height: 100%;
+			width: 100%;
+		}
+		div span
+		{
+			line-height: 15px;
+		}
+	}
+	.item.item-checkbox .checkbox
+	{
+		top: 20px;
+		height: 100%;
+	}
+}
+
 @media (min-width:600px) and (max-aspect-ratio: 13/9){
 	/***NAVBAR***/
   	.bar{
