@@ -846,6 +846,10 @@ ul .mcq_active div span {
   .button.button-small {
     min-height: 40px;
   }
+  .button.delete-btn {
+    min-height: 32px;
+    margin-top: 0;
+  }
   .item-input input {
     height: 53px;
     font-size: 20px;
@@ -945,16 +949,18 @@ ul .mcq_active div span {
   }
   .bar.bar-header button {
     margin: 0 0 0 10px;
+    height: 45px;
   }
   .bar.bar-header .right-buttons {
     top: 3px;
     right: 6px;
   }
-  .bar.bar-header .right-buttons .button {
-    height: 45px;
-  }
   .bar.bar-header.bar-balanced .right-buttons {
     top: 3px;
+  }
+  .bar.bar-header .button.update .badge {
+    padding: 2px 6px;
+    height: 19px;
   }
   .bar.bar-footer {
     height: 55px;
@@ -968,6 +974,12 @@ ul .mcq_active div span {
   }
   .bar.bar-footer .button.button-icon .icon:before {
     font-size: 40px;
+  }
+  .bar.bar-footer.submission .button {
+    height: 57px;
+  }
+  .bar.bar-footer .button.clear-notification {
+    height: 57px;
   }
   .item.item-radio .item-content {
     padding: 28px 16px 28px 69px;
@@ -987,7 +999,7 @@ ul .mcq_active div span {
   }
   .item.item-checkbox .checkbox input,
   .item.item-checkbox .checkbox-icon {
-    left: 15px;
+    left: 6px;
   }
   .no-list .no {
     width: 30px;

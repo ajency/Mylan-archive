@@ -946,6 +946,11 @@ ul{
 		&.button-small{
 			min-height: 40px;
 		}
+		&.delete-btn
+		{
+			min-height: 32px;
+			margin-top: 0;
+		}
 	}
 
 	.item-input input{
@@ -1049,18 +1054,21 @@ line-height: 38px;
 		}
 		button{
 			margin:0 0 0 10px;
+			height: 45px;			
 		}
 		.right-buttons{
 			top:3px;
 			right: 6px;
-			.button
-			{
-				height: 45px;
-			}
+			
 			
 		}
 		&.bar-balanced .right-buttons{
 			top:3px;
+		}
+		.button.update .badge
+		{
+			padding: 2px 6px;		    
+		    height: 19px;
 		}
 	}
 	&.bar-footer{
@@ -1075,6 +1083,17 @@ line-height: 38px;
 				font-size: 40px;
 			}
 		}
+	&.submission
+	{
+		.button
+		{
+			height: 57px;
+		}
+	}	
+	.button.clear-notification 
+	{
+		height: 57px;
+	}
 	}
 }
 
@@ -1096,7 +1115,7 @@ line-height: 38px;
 			padding: 10px;
 		}
 		.checkbox input, .checkbox-icon{
-			left: 15px;
+			left: 6px;
 		}
 	}
 	.no-list .no{
@@ -1117,6 +1136,7 @@ line-height: 38px;
     		font-size: 25px;
 		}
 	}	
+
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9){
 	/***MCQS***/
