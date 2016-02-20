@@ -1011,6 +1011,9 @@ ul .mcq_active div span {
   .item.item-checkbox .checkbox-icon {
     left: 6px;
   }
+  .item.item-checkbox .checkbox input {
+    opacity: 0;
+  }
   li.item.item-checkbox.mcq {
     position: relative
     /*.checkbox input
@@ -1055,7 +1058,7 @@ ul .mcq_active div span {
     font-size: 15px;
   }
   .start-questionnaire h4 {
-    font-size: 20px;
+    font-size: 1.3em;
   }
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
@@ -1208,16 +1211,16 @@ ul .mcq_active div span {
     height: 100%;
   }
   .prev-answers h6 {
-    font-size: 17px;
+    font-size: 20px;
   }
   .prev-answers small {
-    font-size: 14px;
+    font-size: 16px;
   }
   .prev-ques-ans p {
-    font-size: 15px;
+    font-size: 17px;
   }
   .start-questionnaire h4 {
-    font-size: 20px;
+    font-size: 1.3em;
   }
   .notification-screen .notification-msg {
     font-size: 20px;
