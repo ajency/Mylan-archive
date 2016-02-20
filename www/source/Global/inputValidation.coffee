@@ -10,4 +10,16 @@ app = angular.module 'PatientApp.Global'
       else
         $('input').removeAttr 'disabled'
 
+    # $('#numberType').keyup (e) ->
+    #  	console.log 'onkeyupp'
+
+   	# $('#numberType input[type=text]').each ->
+   	# 	aw
+   	# 	a = $(this).val()
+   	# 	console.log '***'
+   	# 	console.log a
+
+	  
+    
+
 ]
