@@ -89,6 +89,7 @@ class ProjectController extends Controller
         $patientReferenceCode = [];
         $cond = [];
         $sort = [];
+        $sortBy='';
         foreach ($patients as  $patient) {
             
             if($patient['account_status']=='active')
