@@ -935,7 +935,10 @@ ul .mcq_active div span {
     font-size: 100%;
   }
   .notification-screen .notification-msg {
-    font-size: 18px;
+    font-size: 20px;
+  }
+  .notification-screen .notification-time {
+    font-size: 16px;
   }
   .item.item-radio .item-content span {
     width: 35px;
@@ -1009,19 +1012,21 @@ ul .mcq_active div span {
     left: 6px;
   }
   li.item.item-checkbox.mcq {
-    position: relative;
-  }
-  li.item.item-checkbox.mcq .checkbox input {
-    height: 100%;
-    width: 100%;
+    position: relative
+    /*.checkbox input
+		{
+			height: 100%;
+			width: 100%;
+		}*/
   }
   li.item.item-checkbox.mcq div span {
-    line-height: 15px;
+    /*line-height: 15px;*/
     z-index: 1;
   }
-  .item.item-checkbox .checkbox {
-    height: 100%;
-  }
+  /*.item.item-checkbox .checkbox
+	{		
+		height: 100%;
+	}*/
   .no-list .no {
     width: 30px;
     height: 30px;
@@ -1040,8 +1045,17 @@ ul .mcq_active div span {
     line-height: 49px;
     font-size: 25px;
   }
+  .prev-answers h6 {
+    font-size: 17px;
+  }
   .prev-answers small {
-    font-size: 110%;
+    font-size: 14px;
+  }
+  .prev-ques-ans p {
+    font-size: 15px;
+  }
+  .start-questionnaire h4 {
+    font-size: 20px;
   }
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (min-aspect-ratio: 13/9) {
@@ -1185,16 +1199,31 @@ ul .mcq_active div span {
     /*line-height: 15px;*/
     z-index: 1;
     top: 28%;
+    height: 35px;
+    width: 35px;
+    line-height: 32px;
   }
   .item.item-checkbox .checkbox {
-    /*top: 20px;*/
+    top: 20px;
     height: 100%;
   }
+  .prev-answers h6 {
+    font-size: 17px;
+  }
   .prev-answers small {
-    font-size: 110%;
+    font-size: 14px;
+  }
+  .prev-ques-ans p {
+    font-size: 15px;
+  }
+  .start-questionnaire h4 {
+    font-size: 20px;
   }
   .notification-screen .notification-msg {
-    font-size: 18px;
+    font-size: 20px;
+  }
+  .notification-screen .notification-time {
+    font-size: 16px;
   }
   .q-title .badge {
     top: -9px;
