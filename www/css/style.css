@@ -931,6 +931,9 @@ ul .mcq_active div span {
     line-height: 19px;
     padding: 10px;
   }
+  .prev-answers small {
+    font-size: 100%;
+  }
   .item.item-radio .item-content span {
     width: 35px;
     height: 35px;
@@ -1070,6 +1073,7 @@ ul .mcq_active div span {
   }
   .bar.bar-footer .button.clear-notification {
     height: 57px;
+    margin: 0 -4px 0 0;
   }
   .bar.bar-header button {
     height: 45px;
@@ -1082,6 +1086,7 @@ ul .mcq_active div span {
   .button.delete-btn {
     min-height: 32px;
     margin-top: 0;
+    padding-bottom: 3px;
   }
   .item.item-radio .item-content span {
     line-height: 35px;
@@ -1095,6 +1100,7 @@ ul .mcq_active div span {
   }
   li.item.item-checkbox.mcq div span {
     line-height: 15px;
+    z-index: 1;
   }
   .item.item-checkbox .checkbox {
     top: 20px;
@@ -1120,4 +1126,47 @@ ul .mcq_active div span {
   background: rgba(37, 150, 149, 0.61);
 }
 /***FOOTER***/
+@media (min-width: 600px) and (orientation: landscape) {
+  .bar.bar-footer .button {
+    height: 45px;
+  }
+  .bar.bar-footer.submission .button {
+    height: 57px;
+  }
+  .bar.bar-footer .button.clear-notification {
+    height: 57px;
+    margin: 0 -4px 0 0;
+  }
+  .bar.bar-header button {
+    height: 45px;
+    font-size: 14px;
+  }
+  .bar.bar-header .button.update .badge {
+    padding: 2px 6px;
+    height: 19px;
+  }
+  .button.delete-btn {
+    min-height: 32px;
+    margin-top: 0;
+    padding-bottom: 3px;
+  }
+  .item.item-radio .item-content span {
+    line-height: 35px;
+  }
+  li.item.item-checkbox.mcq {
+    position: relative;
+  }
+  li.item.item-checkbox.mcq .checkbox input {
+    height: 100%;
+    width: 100%;
+  }
+  li.item.item-checkbox.mcq div span {
+    line-height: 15px;
+    z-index: 1;
+  }
+  .item.item-checkbox .checkbox {
+    top: 20px;
+    height: 100%;
+  }
+}
 /*# sourceMappingURL=style.css.map */
