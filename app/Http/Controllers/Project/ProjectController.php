@@ -192,8 +192,10 @@ class ProjectController extends Controller
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
+        
         if(!empty($sort))
         {
             foreach ($sort as $key => $value) {
@@ -202,6 +204,7 @@ class ProjectController extends Controller
                 else
                     $responseQry->descending($value);
             }
+
         }
         else
         {
@@ -213,7 +216,7 @@ class ProjectController extends Controller
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status);
+            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond=[],$sort=[]);
         }  
         
         return $responseData;
