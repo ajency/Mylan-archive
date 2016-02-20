@@ -87,6 +87,8 @@ class ProjectController extends Controller
         //dd($patients);
         $activepatients = [];
         $patientReferenceCode = [];
+        $cond = [];
+        $sort = [];
         foreach ($patients as  $patient) {
             
             if($patient['account_status']=='active')
@@ -97,7 +99,19 @@ class ProjectController extends Controller
 
 
         $responseStatus = ["completed","late","missed"];
-        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus);
+        
+        if(isset($inputs['sort']))
+        {
+            $sortBy = $inputs['sort'];
+            $sortData = explode('-', $inputs['sort']);
+            if(count($sortData)==2)
+            {
+                $sort = [$sortData[1]=>$sortData[0]];
+            }
+            
+        }
+        
+        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
          $responseCount = $this->getProjectResponseCounts($projectResponses);
@@ -129,7 +143,8 @@ class ProjectController extends Controller
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
-                                        ->with('logoUrl', $logoUrl);
+                                        ->with('logoUrl', $logoUrl)
+                                        ->with('sortBy', $sortBy);
 
     }
 
@@ -159,19 +174,38 @@ class ProjectController extends Controller
      
     }
 
-    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status,$reviewStatus=['reviewed','unreviewed'])
+    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[])
     {
         $displayLimit = 90; 
 
         $responseQry = new ParseQuery("Response");
         $responseQry->containedIn("status",$status);  //["completed","late","missed"]
-        $responseQry->containedIn("reviewed",$reviewStatus);
+        if(!empty($cond))
+        {
+            foreach ($cond as $key => $value) {
+                $responseQry->equalTo($key,$value);
+            }
+        }
+        
+        
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->limit($displayLimit);
         $responseQry->skip($page * $displayLimit);
-        $responseQry->descending("createdAt","sequenceNumber");
+        if(!empty($sort))
+        {
+            foreach ($sort as $key => $value) {
+                if($key=='asc')
+                    $responseQry->ascending($value);
+                else
+                    $responseQry->descending($value);
+            }
+        }
+        else
+        {
+            $responseQry->descending("createdAt","sequenceNumber");
+        }
         $responses = $responseQry->find();
         $responseData = array_merge($responses,$responseData); 
          

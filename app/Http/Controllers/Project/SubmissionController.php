@@ -49,7 +49,9 @@ class SubmissionController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
 
-        $responseRate = [];   
+        $responseRate = [];  
+        $cond=[];
+        $sort =[]; 
          // get missed count
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("status","missed");
@@ -95,7 +97,8 @@ class SubmissionController extends Controller
             elseif($submissionStatus=='unreviewed')
             {
               //$responseRate['missedCount'] =0;
-             $reviewStatus=[$inputs['submissionStatus']];
+              $cond = ['reviewed'=>'unreviewed'];
+             
             }
         }
 
@@ -105,10 +108,20 @@ class SubmissionController extends Controller
         //   $reviewStatus=[$inputs['reviewStatus']];
         // }
         
+        if(isset($inputs['sort']))
+        {
+            $sortBy = $inputs['sort'];
+            $sortData = explode('-', $inputs['sort']);
+            if(count($sortData)==2)
+            {
+                $sort = [$sortData[1]=>$sortData[0]];
+            }
+            
+        }
 
         $projectController = new ProjectController();
         
-        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$reviewStatus);  
+        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond,$sort);  
                 
         $timeDifference = [];
         $completedResponses = [];

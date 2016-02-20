@@ -198,9 +198,10 @@
                                  </div>
                               </div>
                               <div id="chartdiv" style="width:100%;"></div>
+                              <div id="submissionSummary"></div>
                            </div>
                         </div>
-                  <div class="grid simple grid-table">
+                  <div class="grid simple grid-table" >
                            <div class="grid-title no-border">
 
                               <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i> --><sm class="light">(These are scores & flags for current submissions)</sm></h4>
@@ -214,33 +215,97 @@
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
-                                <th class="sorting"># Submission <!-- <i class="fa fa-angle-down" style="cursor:pointer;"></i> --><br><br></th>
+                                <th class="sorting">
+                                @if($sortBy=='sequenceNumber-desc')
+                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=sequenceNumber-asc#submissionSummary"># Submission <i class="fa fa-angle-down"></i></a>
+                                @else
+                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=sequenceNumber-desc#submissionSummary"># Submission <i class="fa fa-angle-up"></i></a>
+                                  @endif
+                                <br><br></th>
                                 <th colspan="3" class="sorting">
                                    Total Score
-                                   <br> 
-                                   <sm>Base <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm>Prev <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm>Current <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <br>
+                                   @if($sortBy=='comparedToBaseLine-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-asc#submissionSummary"><sm>Base <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-desc#submissionSummary"><sm>Base <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+
+                                   @if($sortBy=='comparedToPrevious-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-asc#submissionSummary"><sm>Prev <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-desc#submissionSummary"><sm>Prev <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+
+
+                                   @if($sortBy=='totalScore-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=totalScore-asc#submissionSummary"><sm>Current <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=totalScore-desc#submissionSummary"><sm>Current <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+                                
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Change
                                    <br> 
-                                   <sm>δ Base  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm>δ Prev  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   @if($sortBy=='comparedToBaseLine-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-asc#submissionSummary"><sm>δ Base  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToBaseLine-desc#submissionSummary"><sm>δ Base  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+
+                                   @if($sortBy=='comparedToPrevious-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-asc#submissionSummary"><sm>δ Prev  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=comparedToPrevious-desc#submissionSummary"><sm>δ Prev  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+                                   
+                                   
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Previous
-                                   <br> 
-                                   <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   <br>
+                                   @if($sortBy=='previousTotalRedFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalRedFlags-asc#submissionSummary"><sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalRedFlags-desc#submissionSummary"><sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif
+
+                                   @if($sortBy=='previousTotalAmberFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalAmberFlags-asc#submissionSummary"><sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalAmberFlags-desc#submissionSummary"><sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif
+
+                                   @if($sortBy=='previousTotalGreenFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalGreenFlags-asc#submissionSummary"><sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=previousTotalGreenFlags-desc#submissionSummary"><sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif 
+                                   
+                                   
+                                   
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                                   <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                                   @if($sortBy=='baseLineTotalRedFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalRedFlags-asc#submissionSummary"><sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalRedFlags-desc#submissionSummary"><sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif
+
+                                   @if($sortBy=='baseLineTotalAmberFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalAmberFlags-asc#submissionSummary"><sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalAmberFlags-desc#submissionSummary"><sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif
+
+                                   @if($sortBy=='baseLineTotalGreenFlags-desc')
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalGreenFlags-asc#submissionSummary"><sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="iconset top-down-arrow"></i></sm></a>
+                                  @else
+                                    <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/dashboard?sort=baseLineTotalGreenFlags-desc#submissionSummary"><sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="iconset top-up-arrow"></i></sm></a>
+                                   @endif
                                 </th>
                                 <th class="sorting">Status<br><br>
                                 </th>
