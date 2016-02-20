@@ -950,6 +950,9 @@ ul .mcq_active div span {
     top: 3px;
     right: 6px;
   }
+  .bar.bar-header .right-buttons .button {
+    height: 45px;
+  }
   .bar.bar-header.bar-balanced .right-buttons {
     top: 3px;
   }
@@ -961,6 +964,7 @@ ul .mcq_active div span {
     font-size: 18px;
     position: relative;
     top: 0;
+    height: 45px;
   }
   .bar.bar-footer .button.button-icon .icon:before {
     font-size: 40px;
