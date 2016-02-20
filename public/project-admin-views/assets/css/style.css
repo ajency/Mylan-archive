@@ -8738,4 +8738,30 @@ select option {
 .sort-table thead tr.md-size th.no-sort .tableSortArrow {
   display: none;
 }
+.grid-body {
+  position: relative;
+}
+.grid-body .loader-outer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 99;
+}
+.grid-body .loader-outer span.cf-loader {
+  height: 50px;
+  width: 50px;
+  left: 50%;
+  top: 50%;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: absolute;
+}
+.grid-body .loader-outer span.cf-loader:after {
+  width: 50px;
+  height: 50px;
+}
 /*# sourceMappingURL=style.css.map */
