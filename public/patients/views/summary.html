@@ -18,7 +18,7 @@
 
     <div ng-switch-when="noError">
           <br>
-          <h2>Sequence Number 4 </h2>
+          <h2>Sequence Number {{ view.data.sequenceNumber }} </h2>
           <br>
         <div class="alert alert-success" role="alert">
            Submitted on : {{view.data.submissionDate}}
@@ -28,7 +28,7 @@
         <div class="timeline">
 
           <br>
-          <div ng-repeat ="summary in view.data track by $index">
+          <div ng-repeat ="summary in view.data.answerObjects track by $index">
           <div class="list-item">
               <div class="no">
                   <span>{{$index + 1}}</span>
