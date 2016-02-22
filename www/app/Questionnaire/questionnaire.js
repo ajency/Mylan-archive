@@ -106,7 +106,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             CSpinner.show('', 'Please wait..');
             param.responseId = responseId;
             return QuestionAPI.saveAnswer(param).then(function(data) {
-              App.resize();
               if (_this.readonly === true) {
                 CToast.show('Your answer is saved');
               }
@@ -128,6 +127,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.variables();
               _this.data = [];
               _this.data = data;
+              App.resize();
+              App.scrollTop();
               _this.readonly = true;
               if (!_.isEmpty(_this.data.hasAnswer)) {
                 _this.hasAnswerShow();
@@ -257,6 +258,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.variables();
               _this.data = [];
               _this.data = data;
+              App.resize();
+              App.scrollTop();
               _this.readonly = _this.data.editable;
               _this.pastAnswer();
               if (!_.isEmpty(_this.data.hasAnswer)) {

@@ -117,7 +117,6 @@ angular.module 'PatientApp.Quest',[]
 					param.responseId = responseId
 					QuestionAPI.saveAnswer param
 					.then (data)=>
-						App.resize()
 						if @readonly == true then CToast.show 'Your answer is saved'
 						console.log '******next question******'
 						console.log data
@@ -135,6 +134,9 @@ angular.module 'PatientApp.Quest',[]
 						@variables()
 						@data = []
 						@data = data
+						App.resize()
+						App.scrollTop()
+						
 						@readonly = true
 
 						if !_.isEmpty(@data.hasAnswer)
@@ -264,8 +266,8 @@ angular.module 'PatientApp.Quest',[]
 						@variables()
 						@data = []
 						@data = data
-						
-
+						App.resize()
+						App.scrollTop()
 						@readonly = @data.editable
 						@pastAnswer()
 						if !_.isEmpty(@data.hasAnswer)
