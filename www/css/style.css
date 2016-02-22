@@ -573,6 +573,11 @@ ul .mcq_active div span {
 .notification-row .notification-time a.delete-btn:before {
   font-size: 18px;
 }
+.descriptive-text {
+  height: 90px;
+  font-size: 18px;
+  line-height: 1.2;
+}
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;
@@ -942,7 +947,7 @@ ul .mcq_active div span {
     width: 35px;
     height: 35px;
     top: 18px;
-    line-height: 19px;
+    line-height: 17px;
     padding: 10px;
   }
   .prev-answers small {
