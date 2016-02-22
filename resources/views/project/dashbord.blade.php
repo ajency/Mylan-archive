@@ -251,6 +251,9 @@
                              </tr>
                           </thead>
                           <tbody id="submissionData" limit="5">
+                          <div class="loader-outer hidden">
+                            <span class="cf-loader"></span>
+                         </div>
                           @if(!empty($submissionsSummary))   
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed')
@@ -374,6 +377,9 @@
                         </tr>
                      </thead>
                      <tbody id="patientSummaryData" limit="5">
+                      <div class="loader-outer hidden">
+                            <span class="cf-loader"></span>
+                         </div>
                      <?php 
                           $i=1;
                         ?>

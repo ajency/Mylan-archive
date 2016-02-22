@@ -804,7 +804,7 @@ $('.sortSubmission').click(function (event) {
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#submissionData").attr('limit');
-       // $("#statusLoader").removeClass('hidden');
+       sortObject.closest('.grid-body').find(".loader-outer").removeClass('hidden');
        $.ajax({
         url: BASEURL+"/getsubmissionlist",
         type: "GET",
@@ -835,7 +835,7 @@ $('.sortSubmission').click(function (event) {
             $("#submissionData").html(response.data);
              
 
-            // $(".cf-loader").addClass('hidden');
+           sortObject.closest('.grid-body').find(".loader-outer").addClass('hidden');
         }
       });
 
@@ -847,7 +847,7 @@ $( document ).on("click", ".sortPatientSummary", function() {
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#patientSummaryData").attr('limit');
-       // $("#statusLoader").removeClass('hidden');
+       sortObject.closest('.grid-body').find(".loader-outer").removeClass('hidden');
        $.ajax({
         url: BASEURL+"/getpatientsummarylist",
         type: "GET",
@@ -885,7 +885,7 @@ $( document ).on("click", ".sortPatientSummary", function() {
 
            }); 
 
-          
+          sortObject.closest('.grid-body').find(".loader-outer").addClass('hidden');
         }
       });
 
