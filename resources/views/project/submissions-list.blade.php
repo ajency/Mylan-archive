@@ -42,14 +42,14 @@
                         </div>
                         <hr>
                         <div class="row ">
-                           <div class="col-md-5">
+                           <div class="col-md-4">
                               <div class="tiles white added-margin">
                                  <div class="tiles-body">
                                     <div id="submissionschart"></div>
                                  </div>
                               </div>
                            </div>
-                           <div class="col-md-7 m-t-40 "><!-- b-r -->
+                           <div class="col-md-5 m-t-40 "><!-- b-r -->
                               <div class="col-md-4 text-center ">
                                  <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
                                  <p class=" text-underline">{{  $responseRate['completedCount'] }} Submissions Completed</p>
@@ -63,17 +63,17 @@
                                  <p class="">{{  $responseRate['missedCount'] }} Submissions Missed</p>
                               </div>
                            </div>
-                           <!-- <div class="col-md-3">
+                           <div class="col-md-3">
                               <div class="tiles white added-margin " style="zoom: 1;">
                                  <div class="tiles-body">
                                     <div class="tiles-title"> Avg Review Time </div>
                                     <div class="__web-inspector-hide-shortcut__">
-                                       <h1 class="text-error bold inline no-margin"> {{ $avgReviewTime }} hrs</h1>
+                                       <h1 class="text-error bold inline no-margin"> {{ round($avgReviewTime) }} hrs</h1>
                                     </div>
                                     <p class="text-black">Average time taken for a submission  to <br>be reviewed after it has been submitted.</p>
                                  </div>
                               </div>
-                           </div> -->
+                           </div>
                         </div>
                         <hr>
                         <!-- Chart - Added -->
