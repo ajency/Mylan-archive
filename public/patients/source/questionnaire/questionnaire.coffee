@@ -111,9 +111,9 @@ angular.module 'angularApp.questionnaire'
 							"value": ""
 							"responseId" : questionnaireData.responseId 
 
-
 						QuestionAPI.getPrevQuest param
 						.then (data)=>
+							@checkQuestinarieStatus(data)
 							console.log 'previous data'
 							console.log @data	
 							@variables()
@@ -124,7 +124,6 @@ angular.module 'angularApp.questionnaire'
 							if !_.isEmpty(@data.hasAnswer)
 								@hasAnswerShow()	
 							@display = 'noError'
-							@checkQuestinarieStatus(data)
 						,(error)=>
 							@display = 'error'
 							console.log error
@@ -166,12 +165,13 @@ angular.module 'angularApp.questionnaire'
 
 						QuestionAPI.getQuestion options
 						.then (data)=>
+							@checkQuestinarieStatus(data)
 							console.log 'inside then'
 							console.log data
 							@data = data
 							@pastAnswer()
 							@display = 'noError'
-							@checkQuestinarieStatus(data)
+							
 						,(error)=>
 							@display = 'error'
 							@errorType = error
@@ -188,8 +188,7 @@ angular.module 'angularApp.questionnaire'
 					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
 					console.log data
-					
-
+					@checkQuestinarieStatus(data)
 					@variables()
 					@data = []
 					@data = data
@@ -198,10 +197,8 @@ angular.module 'angularApp.questionnaire'
 					if !_.isEmpty(@data.hasAnswer)
 						@hasAnswerShow()
 						@readonly = @data.editable
-					@pastAnswer()
-					
+					@pastAnswer()	
 					@display = 'noError'
-					@checkQuestinarieStatus(data)
 				,(error)=>
 					if error == 'offline'
 						CToast.show 'Check net connection,answer not saved'
@@ -302,7 +299,7 @@ angular.module 'angularApp.questionnaire'
 				@CSpinnerShow()
 				QuestionAPI.getPrevQuest param
 				.then (data)=>
-					
+					@checkQuestinarieStatus(data)
 					console.log 'previous data'
 					console.log @data	
 					@variables()
@@ -313,7 +310,7 @@ angular.module 'angularApp.questionnaire'
 					if !_.isEmpty(@data.hasAnswer)
 						@hasAnswerShow()	
 					console.log @data
-					@checkQuestinarieStatus(data)
+					
 				,(error)=>
 					console.log error
 					if error == 'offline'
