@@ -37,7 +37,7 @@
 <div class="tiles white">
    <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $activepatients }} </b> </h4>
+                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
                          </div>
    </a>                      
                          </div>
@@ -46,7 +46,7 @@
                      <div class="tiles white">
          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=active') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $allpatientscount }} </b></h4>
+                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $activepatients }} </b></h4>
                            </div>
          </a>
                          </div>

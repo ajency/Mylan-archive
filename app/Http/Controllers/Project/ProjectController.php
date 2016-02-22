@@ -526,13 +526,13 @@ class ProjectController extends Controller
         $data['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $data['completed'] =  round($completed,2);
+        $data['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $data['missed'] =  round($missed,2);
+        $data['missed'] =  round($missed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $data['late'] =  round($late,2);
+        $data['late'] =  round($late);
 
         $data['redBaseLine'] = (isset($redFlags['baseLine']))?array_sum($redFlags['baseLine']):0;
         $data['redPrevious'] = (isset($redFlags['previous']))?array_sum($redFlags['previous']):0;
@@ -1022,13 +1022,13 @@ class ProjectController extends Controller
         $responseRate['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed,2);
+        $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed,2);
+        $responseRate['missed'] =  round($missed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late,2);  
+        $responseRate['late'] =  round($late);  
 
         $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
         $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);

@@ -352,13 +352,13 @@ class PatientController extends Controller
         $responseRate['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed,2);
+        $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed,2);
+        $responseRate['missed'] =  round($missed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late,2);
+        $responseRate['late'] =  round($late);
 
         $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
 
@@ -1111,7 +1111,7 @@ class PatientController extends Controller
             $previousTotalRedFlagsCount[$patient] =0;
             $previousTotalAmberFlagsCount[$patient] =0;
             $previousTotalGreenFlagsCount[$patient] =0;
-        
+
             $missedResponses[] = $missedCount;
         }
 
@@ -1210,13 +1210,13 @@ class PatientController extends Controller
         $totalResponses = count($responses) + array_sum($missedResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $completed =  round($completed,2);
+        $completed =  round($completed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $late =  round($late,2);
+        $late =  round($late);
 
         $missed = ($totalResponses) ? (array_sum($missedResponses)/$totalResponses) * 100 :0;
-        $missed =  round($missed,2);
+        $missed =  round($missed);
 
         $patientMiniGraphData = $this->patientsMiniGraph($responses);
         
