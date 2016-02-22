@@ -85,7 +85,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
-                _this.checkQuestinarieStatus(_this.data);
+                _this.checkQuestinarieStatus(data);
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
                 return _this.display = 'noError';

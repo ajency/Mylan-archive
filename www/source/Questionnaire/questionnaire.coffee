@@ -91,7 +91,7 @@ angular.module 'PatientApp.Quest',[]
 							console.log 'inside then'
 							console.log data
 							@data = data
-							@checkQuestinarieStatus(@data)
+							@checkQuestinarieStatus(data)
 							# if !_.isUndefined(@data.status)
 							# 	if @data.status == 'saved_successfully'
 							# 		CToast.show 'This questionnaire was already answer'
