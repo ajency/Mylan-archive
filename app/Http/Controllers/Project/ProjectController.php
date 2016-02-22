@@ -560,7 +560,7 @@ class ProjectController extends Controller
                 $missedResponses[]= $responseId;
             }
 
-            if($reviewed=='unreviewed')
+            if($reviewed=='unreviewed' && $responseStatus!='missed')
             {
                 $unreviewed []= $responseId;
             }
