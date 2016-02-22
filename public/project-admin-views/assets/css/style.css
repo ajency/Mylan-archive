@@ -8378,7 +8378,7 @@ div.upload .img-div img {
   width: 100%;
   height: 150px;
   font-size: 11px;
-  margin-left: -40px;
+  margin-left: 0px;
 }
 .amcharts-chart-div a {
   display: none !important;

@@ -104,11 +104,13 @@
                            <div class="tiles-body">
                            <br>
                               <div class="row">
-                                 <div class="col-sm-5">
-                                    <div id="piechart"></div>
+                                 <div class="col-sm-6">
+                                    <div class="row"><div id="piechart"></div></div>
                                  </div>
-                                 <div class="col-sm-7">
+                                 <div class="col-sm-6">
+                                 <div class="row">
                                           <div class="col-sm-12 m-t-30">
+                                          <div class="row">
                                              <div class="col-sm-4 text-center">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['completed'] }}%</h2>
                                                 <p> # Completed</p>
@@ -121,9 +123,9 @@
                                                 <h2 class="bold m-0 inline">{{ $responseCount['missed'] }}%</h2>
                                                 <p> # Missed</p>
                                              </div>
-                                             
+                                             </div>
                                           </div>
-                                       
+                                    </div>   
                                  </div>
                               </div>
                               <br>
