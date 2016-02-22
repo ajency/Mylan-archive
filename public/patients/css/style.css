@@ -827,6 +827,9 @@ div.q-tabs .active:hover {
 .sidebar p a {
   font-size: 18px;
 }
+.sidebar .descriptive-ans {
+  line-height: 20px;
+}
 .instr-list {
   list-style-type: none;
   padding-left: 20px;
