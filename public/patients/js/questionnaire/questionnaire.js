@@ -410,8 +410,12 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       onTapToRetry: function() {
-        this.display = 'loader';
-        return this.getQuestion();
+        if (this.respStatus === 'noValue') {
+          return $location.path('dashboard');
+        } else {
+          this.display = 'loader';
+          return this.getQuestion();
+        }
       },
       init: function() {
         console.log('insie questionnaire');

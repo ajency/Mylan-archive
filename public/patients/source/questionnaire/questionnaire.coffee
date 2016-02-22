@@ -209,9 +209,6 @@ angular.module 'angularApp.questionnaire'
 						
 
 			nextQuestion : ->
-
-				
-		
 				if @data.questionType == 'single-choice'
 
 					if @singleChoiceValue == ''
@@ -392,9 +389,11 @@ angular.module 'angularApp.questionnaire'
 					@loadPrevQuestion(options)
 
 			onTapToRetry : ->
-				
-				@display = 'loader'
-				@getQuestion()
+				if @respStatus == 'noValue'
+					 $location.path 'dashboard'
+				else
+					@display = 'loader'
+					@getQuestion()
 
 
 			init : ->
