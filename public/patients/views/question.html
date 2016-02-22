@@ -54,8 +54,11 @@
                       </h4>
                       <br class="hidden-xs">
                         <p class="text-danger"
-                          ng-if='view.data.questionType != "descriptive"'
-                          ><strong>Note : </strong>Click the answer you want to select  </p>
+                          ng-if = 'view.data.questionType == "single-choice"'
+                          ><strong>Note : </strong>Choose your answer from {{view.data.options.length}} options</p>
+                        <p class="text-danger"
+                          ng-if = 'view.data.questionType == "multi-choice"'
+                          ><strong>Note : </strong>Choose your answers from {{view.data.options.length}} options</p>
                          <p class="text-danger"
                           ng-if='view.data.questionType == "descriptive"'>
                           <strong>Note : </strong>write a short description </p>
