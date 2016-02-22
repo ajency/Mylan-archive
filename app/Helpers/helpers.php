@@ -111,7 +111,7 @@ function hospitalImageExist($hospital)
     if($hospital['logo']!='' && file_exists($filepath))
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
     else
-        $logo = '<h3 class="inline">'.$hospital['name'].' <span class="text-muted"> | </span></h3>';
+        $logo = '<h3 class="inline hospital-name">'.$hospital['name'].' <span class="text-muted"> | </span></h3>';
 
     echo $logo;  
 }

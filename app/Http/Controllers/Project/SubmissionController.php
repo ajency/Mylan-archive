@@ -140,11 +140,13 @@ class SubmissionController extends Controller
             }
 
             if ($reviewed=='reviewed') {
-                $datediff = strtotime($updatedAt) - strtotime($createdAt);
-                $timeDifference[] = ceil($datediff/(60*60*24));
+                $datediff = abs( strtotime( $createdAt ) - strtotime( $updatedAt ) );
+                $timeDifference[] = intval( ( $datediff % 86400 ) / 3600);
             }
              
         }
+        
+
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
@@ -162,6 +164,7 @@ class SubmissionController extends Controller
 
 
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
+
 
         $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
