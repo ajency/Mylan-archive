@@ -118,23 +118,52 @@ p{
   }
   .notification{
     position: absolute;
-    width: 17px;
+    /*width: 17px;*/
+        max-width: 50px;
     height: 17px;
-    background: @color-danger;
+   /* background: @color-danger;*/
     color: @color-white;
     border-radius: 15px;
     font-size: 11px;
     text-align: center;
-    top: 9px;
+    top: 5px;
     right: 11px;
     line-height: 16px;
     left:23px;
+    overflow: hidden;
+
     @media(max-width:767px){
-      left:auto;
-      width: 28px;
-      height: 28px;
+      left: auto;
+      width: 70px;
+      height: 22px;
       line-height: 27px;
       font-size: 14px;
+      text-align: center;
+      top: 12px;
+    }
+
+    span.notifacation-count
+    {
+      float: left;
+      width: auto;
+      display: inline-block;
+      background: @color-danger;
+      border-radius: 15px;
+      padding: 0px 5px;
+      line-height: 1.5;
+      height: 17px;
+      max-width: 50px;
+
+
+      @media(max-width:767px){
+        float: right;
+        width: auto;
+        display: block;        
+        border-radius: 15px;
+        padding: 2px 8px;        
+        height: 22px;
+        font-size: 12px;
+      }
     }
   }
   .navbar-nav>li>.dropdown-menu{
@@ -646,7 +675,7 @@ h4.line-title,h3.line-title {
 }
 form{
       .form-control{
-      line-height: 15px;
+      line-height: 16px;
       border: none;
       box-shadow: none;
       background: transparent;
