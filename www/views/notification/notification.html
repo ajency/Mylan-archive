@@ -19,13 +19,13 @@
       <div ng-switch-when="noError" class="notification-screen">
          <div ng-repeat ="notify in view.data">
           
-            <div class="row" 
+            <div class="row notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
                   <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                       <div>
                         
-                          <p class="f-w-400 notification-msg">Questionnaire is due on </p>
-                          <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                          <p class="f-w-400 notification-msg">Questionnaire is due on 
+                          <span class="text-green">{{notify.occurrenceDateDisplay}} </span></p>
                       </div>
                   </div>
                   <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
@@ -33,13 +33,13 @@
                   </div>
             </div>
 
-            <div class="row" 
+            <div class="row notification-row" 
                 ng-if = "notify.type === 'missedOccurrence'">
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
                       
-                      <p class="f-w-400 notification-msg">You have missed the questionnaire due on </p>
-                          <p class="text-green">{{notify.occurrenceDateDisplay}}</p>
+                      <p class="f-w-400 notification-msg">You have missed the questionnaire due on 
+                          <span class="text-green">{{notify.occurrenceDateDisplay}} </span></p>
 
                        <!--  <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
                           Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p> -->
@@ -50,14 +50,14 @@
                 </div>
             </div>
 
-            <div class="row" 
+            <div class="row notification-row" 
                 ng-if = "notify.type === 'beforeGracePeriod'" >
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
                         
                         <p class="f-w-400 notification-msg">
                           Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p>
+                          Please submit it by <span class="text-green"> {{notify.graceDateDisplay}} </span></p>
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
