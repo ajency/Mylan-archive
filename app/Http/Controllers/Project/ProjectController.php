@@ -284,8 +284,8 @@ class ProjectController extends Controller
         // else
         // {
             $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
-        // 
-        }
+         
+        // }
 
         $patientIds = [];
         foreach ($patients as  $patient) {
