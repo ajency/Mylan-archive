@@ -117,25 +117,51 @@ p {
 }
 .navbar.navbar-default .notification {
   position: absolute;
-  width: 17px;
+  /*width: 17px;*/
+  max-width: 50px;
   height: 17px;
-  background: #ee5235;
+  /* background: @color-danger;*/
   color: #ffffff;
   border-radius: 15px;
   font-size: 11px;
   text-align: center;
-  top: 9px;
+  top: 5px;
   right: 11px;
   line-height: 16px;
   left: 23px;
+  overflow: hidden;
 }
 @media (max-width: 767px) {
   .navbar.navbar-default .notification {
     left: auto;
-    width: 28px;
-    height: 28px;
+    width: 70px;
+    height: 22px;
     line-height: 27px;
     font-size: 14px;
+    text-align: center;
+    top: 12px;
+  }
+}
+.navbar.navbar-default .notification span.notifacation-count {
+  float: left;
+  width: auto;
+  display: inline-block;
+  background: #ee5235;
+  border-radius: 15px;
+  padding: 0px 5px;
+  line-height: 1.5;
+  height: 17px;
+  max-width: 50px;
+}
+@media (max-width: 767px) {
+  .navbar.navbar-default .notification span.notifacation-count {
+    float: right;
+    width: auto;
+    display: block;
+    border-radius: 15px;
+    padding: 2px 8px;
+    height: 22px;
+    font-size: 12px;
   }
 }
 .navbar.navbar-default .navbar-nav > li > .dropdown-menu {
@@ -622,7 +648,7 @@ h3.line-title span {
   padding: 14px 16px;
 }
 form .form-control {
-  line-height: 15px;
+  line-height: 16px;
   border: none;
   box-shadow: none;
   background: transparent;
