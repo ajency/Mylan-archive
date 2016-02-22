@@ -353,7 +353,7 @@
                      <thead class="cf">
                         <tr>
                            <th width="12%">Patient ID</th>
-                           <th width="31%">Total Submissions</th>
+                           <th width="35%">Total Submissions</th>
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 

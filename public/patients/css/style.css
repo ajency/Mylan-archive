@@ -196,6 +196,8 @@ p {
 }
 .badge-round.green .fa-phone {
   font-size: 14px;
+  display: block;
+  margin-top: 5px;
 }
 .notification-list li {
   background: transparent;
@@ -370,7 +372,7 @@ h3.line-title span {
 }
 .timeline .list-item .no span {
   position: relative;
-  top: 3px;
+  top: 5px;
   font-size: 18px;
   font-weight: bold;
 }
