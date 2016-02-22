@@ -88,6 +88,7 @@ class AuthController extends Controller
            $remember = 0;
             
         $newpassword = getPassword($referenceCode , $password);
+
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         {   
             if(Auth::user()->account_status=='active')
@@ -311,7 +312,7 @@ class AuthController extends Controller
         Auth::logout();
         Session::put('referenceCode',''); 
  
-        return redirect('patient/login');
+        return redirect('/login');
          
 
     }
