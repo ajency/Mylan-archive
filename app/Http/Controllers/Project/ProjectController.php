@@ -276,14 +276,15 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
-        if(isset($inputs['limit']) && $inputs['limit']!='')
-        {
-             $limit=$inputs['limit'];
-            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->limit($limit)->orderBy('created_at')->get()->toArray();
-        }
-        else
-        {
+        // if(isset($inputs['limit']) && $inputs['limit']!='')
+        // {
+        //      $limit=$inputs['limit'];
+        //     $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->limit($limit)->orderBy('created_at')->get()->toArray();
+        // }
+        // else
+        // {
             $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        // 
         }
 
         $patientIds = [];
@@ -316,6 +317,7 @@ class ProjectController extends Controller
       $str = '';
 
      $miniChartData = [];
+     $patientSortedData = array_slice($patientSortedData, 0, 5, true);
      foreach($patientSortedData as $referenceCode => $data)
      {
         $patientId = $patientIds[$referenceCode];    
