@@ -1060,7 +1060,7 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function patientsSummary($patients,$startDate,$endDate)
+    public function patientsSummary($patients,$startDate,$endDate,$cond=[],$sort=[])
     {
         $scheduleQry = new ParseQuery("Schedule");
         $scheduleQry->containedIn("patient",$patients);
@@ -1073,6 +1073,13 @@ class PatientController extends Controller
         $completedResponses = [];
         $lateResponses = [];
         $missedResponses = [];
+
+        $baseLineTotalRedFlagsCount = [];
+        $baseLineTotalAmberFlagsCount = [];
+        $baseLineTotalGreenFlagsCount = [];
+        $previousTotalRedFlagsCount = [];
+        $previousTotalAmberFlagsCount = [];
+        $previousTotalGreenFlagsCount = [];
 
          foreach ($patients as $patient) {
             $missedCount = 0;
@@ -1097,6 +1104,14 @@ class PatientController extends Controller
             $patientResponses[$patient]['previousFlag']['amber'] =0;
 
             $patientResponses[$patient]['missed']=$missedCount;
+
+            $baseLineTotalRedFlagsCount[$patient] =0;
+            $baseLineTotalAmberFlagsCount[$patient] =0;
+            $baseLineTotalGreenFlagsCount[$patient] =0;
+            $previousTotalRedFlagsCount[$patient] =0;
+            $previousTotalAmberFlagsCount[$patient] =0;
+            $previousTotalGreenFlagsCount[$patient] =0;
+        
             $missedResponses[] = $missedCount;
         }
 
@@ -1109,8 +1124,10 @@ class PatientController extends Controller
         }
 
         $responseStatus = ["completed","late"]; 
-        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus);  
-         
+        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,$sort);  
+
+        $patientSortedData =[];
+
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
             $patient = $response->get("patient");
@@ -1152,10 +1169,43 @@ class PatientController extends Controller
             $patientResponses[$patient]['previousFlag']['amber'] +=$previousTotalAmberFlags;
             $patientResponses[$patient]['previousFlag']['green'] +=$previousTotalGreenFlags;
 
- 
+
+            $baseLineTotalRedFlagsCount[$patient] = $patientResponses[$patient]['baseLineFlag']['red'];
+            $baseLineTotalAmberFlagsCount[$patient] = $patientResponses[$patient]['baseLineFlag']['amber'];
+            $baseLineTotalGreenFlagsCount[$patient] = $patientResponses[$patient]['baseLineFlag']['green'];
+            $previousTotalRedFlagsCount[$patient] = $patientResponses[$patient]['previousFlag']['red'];
+            $previousTotalAmberFlagsCount[$patient] = $patientResponses[$patient]['previousFlag']['amber'];
+            $previousTotalGreenFlagsCount[$patient] = $patientResponses[$patient]['previousFlag']['green'];
+
+           
         }
 
+        if(!empty($sort))
+        {
+            foreach ($sort as $key => $value) {
+                
+                if($value=='baseLineTotalRedFlags')
+                    $patientSortedData = $baseLineTotalRedFlagsCount;
+                elseif($value=='baseLineTotalAmberFlags')
+                    $patientSortedData = $baseLineTotalAmberFlagsCount;
+                elseif($value=='baseLineTotalGreenFlags')
+                    $patientSortedData = $baseLineTotalGreenFlagsCount;
+                elseif($value=='previousTotalRedFlags')
+                    $patientSortedData = $previousTotalRedFlagsCount;
+                elseif($value=='previousTotalAmberFlags')
+                    $patientSortedData = $previousTotalAmberFlagsCount;
+                elseif($value=='previousTotalGreenFlags')
+                    $patientSortedData = $previousTotalGreenFlagsCount;
+               
+                if($key=='asc')
+                    asort($patientSortedData);
+                else
+                    arsort($patientSortedData);
+            }
+
+        }
         
+       
        
         $totalResponses = count($responses) + array_sum($missedResponses);
 
@@ -1173,6 +1223,7 @@ class PatientController extends Controller
          
  
         $data['patientResponses']=$patientResponses;
+        $data['patientSortedData']=$patientSortedData;
         $data['completed']=$completed; 
         $data['late']=$late; 
         $data['missed']=$missed; 
@@ -1236,7 +1287,7 @@ class PatientController extends Controller
         return $patientGraphData;
     }
 
-    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status)  
+    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[])  
     {
         $displayLimit = 90; 
 
@@ -1245,16 +1296,37 @@ class PatientController extends Controller
         $responseQry->containedIn("patient",$patients);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+        if(!empty($cond))
+        {
+            foreach ($cond as $key => $value) {
+                $responseQry->equalTo($key,$value);
+            }
+        }
         $responseQry->skip($page * $displayLimit);
         $responseQry->limit($displayLimit);
-        $responseQry->descending("createdAt","sequenceNumber");
+        
+        if(!empty($sort))
+        {
+            foreach ($sort as $key => $value) {
+                if($key=='asc')
+                    $responseQry->ascending($value);
+                else
+                    $responseQry->descending($value);
+            }
+
+        }
+        else
+        {
+            $responseQry->descending("createdAt","sequenceNumber");
+        }
+
         $responses = $responseQry->find();  
         $responseData = array_merge($responses,$responseData); 
 
         if(!empty($responses))
         {
             $page++;
-            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate,$status);  
+            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate,$status,$cond,$sort); 
         }  
         
         return $responseData;
