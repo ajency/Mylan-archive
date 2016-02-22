@@ -17,6 +17,8 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         this.display = 'loader';
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
+            console.log('****name***');
+            console.log(data);
             _this.data = data;
             _.each(_this.data, function(value) {
               var a;

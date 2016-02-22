@@ -360,8 +360,12 @@ angular.module 'PatientApp.Quest',[]
 				@display = 'loader'
 
 			onTapToRetry : ->
-				@display = 'loader'
-				@getQuestion()
+				if @respStatus == 'noValue'
+					App.navigate 'dashboard', {}, {animate: false, back: false}
+				else
+					@display = 'loader'
+					@getQuestion()
+				
 
 			isEmpty :(pastAnswerObject)->
 				_.isEmpty(pastAnswerObject)

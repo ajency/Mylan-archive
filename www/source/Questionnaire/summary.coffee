@@ -19,6 +19,8 @@ angular.module 'PatientApp.Quest'
 				@display = 'loader'
 				QuestionAPI.getSummary param
 				.then (data)=>
+					console.log '****name***'
+					console.log data
 					@data = data
 					_.each @data, (value)->
 						a = value.input

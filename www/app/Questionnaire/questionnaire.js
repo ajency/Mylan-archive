@@ -357,8 +357,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.display = 'loader';
       },
       onTapToRetry: function() {
-        this.display = 'loader';
-        return this.getQuestion();
+        if (this.respStatus === 'noValue') {
+          return App.navigate('dashboard', {}, {
+            animate: false,
+            back: false
+          });
+        } else {
+          this.display = 'loader';
+          return this.getQuestion();
+        }
       },
       isEmpty: function(pastAnswerObject) {
         return _.isEmpty(pastAnswerObject);
