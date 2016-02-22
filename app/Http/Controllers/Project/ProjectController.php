@@ -135,7 +135,7 @@ class ProjectController extends Controller
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
-                                        ->with('allpatientscount', count($patientReferenceCode))
+                                        ->with('allpatientscount', count($patients))
                                         ->with('responseCount', $responseCount)
                                         ->with('submissionsSummary', $submissionsSummary)
                                         ->with('patientResponses', $patientResponses['patientResponses'])
@@ -151,7 +151,7 @@ class ProjectController extends Controller
 
     }
 
-    public function getLastFiveSubmission($hospitalSlug,$projectSlug)
+    public function getSubmissionList($hospitalSlug,$projectSlug)
     {
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
@@ -179,7 +179,13 @@ class ProjectController extends Controller
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
 
-        $responseQry->limit(5);
+        
+        if(isset($inputs['limit']) && $inputs['limit']!='')
+        {
+            $limit=$inputs['limit'];
+            $responseQry->limit($limit);
+        }
+        
 
         if(isset($inputs['sort']))
         {
@@ -242,6 +248,151 @@ class ProjectController extends Controller
                         ], 200);
    
          
+    }
+
+    public function getPatientSummaryList($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $inputs = Input::get(); 
+
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                     );
+
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
+
+        // if(isset($inputs['limit']) && $inputs['limit']!='')
+        // {
+        //      $limit=$inputs['limit'];
+        //     $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->limit($limit)->orderBy('created_at')->get()->toArray();
+        // }
+        // else
+        // {
+            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+         
+        // }
+
+        $patientIds = [];
+        foreach ($patients as  $patient) {
+            $patientReferenceCode[] = $patient['reference_code'];
+            $patientIds[$patient['reference_code']] = $patient['id'];
+        }
+
+        $sort=[];
+        $cond=[];
+
+        if(isset($inputs['sort']))
+        {
+            $sortBy = $inputs['sort'];
+            $sortData = explode('-', $inputs['sort']);
+            if(count($sortData)==2)
+            {
+                $sort = [$sortData[1]=>$sortData[0]];
+            }
+            
+        }
+
+
+        $patientController = new PatientController();
+        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,$cond,$sort); 
+        $patientResponses = $patientsSummary['patientResponses'];
+        $patientSortedData = $patientsSummary['patientSortedData'];
+        $patientMiniGraphData = $patientsSummary['patientMiniGraphData'];
+ 
+      $str = '';
+
+     $miniChartData = [];
+     $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+     foreach($patientSortedData as $referenceCode => $data)
+     {
+        $patientId = $patientIds[$referenceCode];    
+        $status_class='';
+        if(!isset($patientResponses[$referenceCode])) //inactive patient data
+        {
+            $patientsSummary[$referenceCode]['lastSubmission'] = '-';
+            $patientsSummary[$referenceCode]['nextSubmission'] = '-';
+            $patientsSummary[$referenceCode]['completed'] = [];
+            $patientsSummary[$referenceCode]['missed'] = 0;
+            $patientsSummary[$referenceCode]['late'] = [];
+       
+        }
+
+        $miniChartData[$referenceCode] = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
+        
+        $patientSummary = $patientResponses[$referenceCode];
+
+        $str.= '<tr><td onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">'. $referenceCode .'</td>
+           <td  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              <div class="lst-sub">
+                 <h2 class="bold pull-left">
+                    '. count($patientSummary['completed']) .'<br>
+                    <sm class="text-success">Completed</sm>
+                 </h2>
+                 <h2 class="bold pull-left">
+                    '. count($patientSummary['late']) .'<br>
+                    <sm class="text-warning">Late</sm>
+                 </h2>
+                 <h2 class="bold pull-left">
+                    '. $patientSummary['missed'] .'<br>
+                    <sm class="text-danger">Missed</sm>
+                 </h2>
+                 <div class="pull-left p-t-20">
+                    <span class="sm-font">Last Submission  <b>'. $patientSummary['lastSubmission'] .'</b></span><br>
+                    <span class="sm-font">Next Submission  <b>'. $patientSummary['nextSubmission'] .'</b></span>
+                 </div>
+              </div>
+           </td>
+           <td class="text-right sorting text-error"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">                              
+              '. $patientSummary['previousFlag']['red'] .'
+           </td>
+           <td class="text-center sorting text-warning"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">                              
+              '. $patientSummary['previousFlag']['amber'] .'
+           </td>
+           <td class="text-left sorting text-success"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              '. $patientSummary['previousFlag']['green'] .'
+           </td>
+
+           <td class="text-right sorting text-error"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              '. $patientSummary['baseLineFlag']['red'] .'
+           </td>
+           <td class="text-center sorting text-warning"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              '. $patientSummary['baseLineFlag']['amber'] .'
+           </td>
+           <td class="text-left sorting text-success"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              '. $patientSummary['baseLineFlag']['green'] .'
+           </td>
+           <td   onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
+              <div class="chart-block" style="padding:28px">
+                 <div id="chart_mini_'. $patientId .'" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
+              </div>
+           </td>
+           
+        </tr>';
+
+        }
+        
+
+        return response()->json([
+                    'code' => 'data',
+                    'data' => $str,
+                    'patientIds' => $patientIds,
+                    'miniChartData' => $miniChartData,
+                        ], 200); 
     }
 
     public function getProjectAnwersByDate($projectId,$page=0,$anwsersData,$startDate,$endDate)
@@ -377,13 +528,13 @@ class ProjectController extends Controller
         $data['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $data['completed'] =  round($completed,2);
+        $data['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $data['missed'] =  round($missed,2);
+        $data['missed'] =  round($missed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $data['late'] =  round($late,2);
+        $data['late'] =  round($late);
 
         $data['redBaseLine'] = (isset($redFlags['baseLine']))?array_sum($redFlags['baseLine']):0;
         $data['redPrevious'] = (isset($redFlags['previous']))?array_sum($redFlags['previous']):0;
@@ -873,13 +1024,13 @@ class ProjectController extends Controller
         $responseRate['lateCount'] = count($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed,2);
+        $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed,2);
+        $responseRate['missed'] =  round($missed);
 
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late,2);  
+        $responseRate['late'] =  round($late);  
 
         $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
         $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);

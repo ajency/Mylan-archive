@@ -37,7 +37,7 @@
 <div class="tiles white">
    <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $activepatients }} </b> </h4>
+                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
                          </div>
    </a>                      
                          </div>
@@ -46,7 +46,7 @@
                      <div class="tiles white">
          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=active') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $allpatientscount }} </b></h4>
+                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $activepatients }} </b></h4>
                            </div>
          </a>
                          </div>
@@ -248,7 +248,7 @@
                                 </th>
                              </tr>
                           </thead>
-                          <tbody id="submissionData">
+                          <tbody id="submissionData" limit="5">
                           @if(!empty($submissionsSummary))   
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed')
@@ -352,16 +352,16 @@
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
-                              <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i> <!--  <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm class="pull-left sortPatientSummary" sort="previousTotalRedFlags" sort-type="asc"  style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="sortPatientSummary" sort="previousTotalAmberFlags" sort-type="asc" style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="pull-right sortPatientSummary" sort="previousTotalGreenFlags" sort-type="asc"  style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                            </th>
                            <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
-                              <sm class="pull-left" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm class="pull-right" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm class="pull-left sortPatientSummary" sort="baseLineTotalRedFlags" sort-type="asc"  style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="sortPatientSummary" sort="baseLineTotalAmberFlags" sort-type="asc" style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="pull-right sortPatientSummary" sort="baseLineTotalGreenFlags" sort-type="asc"  style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                            </th>
                            <th class="sorting">Graph <br> 
                                <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
@@ -371,7 +371,7 @@
                            </th> -->
                         </tr>
                      </thead>
-                     <tbody>
+                     <tbody id="patientSummaryData" limit="5">
                      <?php 
                           $i=1;
                         ?>
@@ -528,6 +528,7 @@
       <script type="text/javascript">
       
    $(document).ready(function() {
+      AmCharts.ready(function() {
       <?php 
     foreach($patients as $patient)
     {
@@ -540,6 +541,8 @@
       <?php 
     } 
   ?>
+
+  });
 
    });
         

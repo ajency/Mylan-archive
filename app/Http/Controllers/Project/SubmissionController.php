@@ -151,13 +151,13 @@ class SubmissionController extends Controller
         $responseRate['completedCount'] = count($completedResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed,2);
+        $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed,2);
+        $responseRate['missed'] =  round($missed);
 
         $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late,2);
+        $responseRate['late'] =  round($late);
 
 
 
