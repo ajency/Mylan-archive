@@ -173,12 +173,23 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
+         
+        if($inputs['object_type']=="submission")
+            $status=["completed","late"];
+        else
+            $status=["completed","late","missed"];
+
         $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",["completed","late"]);  //["completed","late","missed"]        
+        $responseQry->containedIn("status",$status);  //["completed","late","missed"]        
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
 
+        if($inputs['object_type']=="patient-submission")
+        {
+            $responseQry->equalTo("patient",$inputs['object_id']);
+        }
+        
         
         if(isset($inputs['limit']) && $inputs['limit']!='')
         {
@@ -207,38 +218,82 @@ class ProjectController extends Controller
       $str = '';
       foreach($submissionsSummary as $responseId=> $submission)
       {
-            $str .='<tr onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/submissions/'.$responseId.' \';">
-            <td class="text-center">'.$submission['patient'].'</td>
-            <td class="text-center">
-              <h4 class="semi-bold m-0 flagcount">'.$submission['occurrenceDate'].'</h4>
-              <sm><b># '.$submission['sequenceNumber'].' </b></sm>
-           </td>
-           
-              <td class="text-right sorting">'. $submission['baseLineScore'].'</td>
-              <td class="text-center sorting">'. $submission['previousScore'].'</td>
-              <td class="text-left sorting">'. $submission['totalScore'] .'</td>
-           
-             <td class="text-right semi-bold margin-none flagcount p-h-0">
-                <h4><b class="text-'.$submission['totalBaseLineFlag'] .'">'. $submission['comparedToBaslineScore'].'</b></h4>
-             </td>
-             <td  class="text-center semi-bold margin-none flagcount p-h-0">
-               <h4><b>/</b></h4>
-             </td>
-             <td  class="text-left semi-bold margin-none flagcount p-h-0">
-                <h4><b class="f-w text-'.$submission['totalPreviousFlag'].'">'.$submission['comparedToPrevious'] .'</b></h4>
-             </td>
+            if($submission['status']=='missed')
+            {
+                $str .='<tr >';
+                if($inputs['object_type']=="submission")
+                {
+                    $str .='<td class="text-center">'.$submission['patient'].'</td>';
+                }
+                $str.='<td class="text-center">
+                  <h4 class="semi-bold m-0 flagcount">'.$submission['occurrenceDate'].'</h4>
+                  <sm><b># '.$submission['sequenceNumber'].' </b></sm>
+               </td>
+               
+                  <td class="text-right sorting">0</td>
+                  <td class="text-center sorting">0</td>
+                  <td class="text-left sorting">0</td>
+               
+                 <td class="text-right semi-bold margin-none flagcount p-h-0">
+                    <h4><b class="text">-</b></h4>
+                 </td>
+                 <td  class="text-center semi-bold margin-none flagcount p-h-0">
+                   <h4><b>/</b></h4>
+                 </td>
+                 <td  class="text-left semi-bold margin-none flagcount p-h-0">
+                    <h4><b class="f-w text-">-</b></h4>
+                 </td>
 
-             <td class="text-right sorting text-error"> '.$submission['previousFlag']['red'] .'</td>
-             <td class="text-center sorting text-warning">'.$submission['previousFlag']['amber'] .'</td>
-             <td class="text-left sorting text-success"> '.$submission['previousFlag']['green'] .'</td>
-        
-             <td class="text-right sorting text-error">'. $submission['baseLineFlag']['red'] .'</td>
-             <td class="text-center sorting text-warning">'. $submission['baseLineFlag']['amber'].'</td>
-             <td class="text-left sorting text-success">'. $submission['baseLineFlag']['green'] .'</td>
-          
-           <td class="text-center text-success">'. ucfirst($submission['status']) .'</td>
-           <td class="text-center text-success">'. ucfirst($submission['reviewed']) .'</td>
-        </tr>';
+                 <td class="text-right sorting text-error"> 0</td>
+                 <td class="text-center sorting text-warning">0</td>
+                 <td class="text-left sorting text-success"> 0</td>
+            
+                 <td class="text-right sorting text-error">0</td>
+                 <td class="text-center sorting text-warning">0</td>
+                 <td class="text-left sorting text-success">0</td>
+              
+               <td class="text-center text-success">-</td>
+               <td class="text-center text-success">-</td>
+            </tr>';
+            }
+            else
+            {
+                $str .='<tr onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/submissions/'.$responseId.' \';">';
+                if($inputs['object_type']=="submission")
+                { 
+                    $str .='<td class="text-center">'.$submission['patient'].'</td>';
+                }
+                $str.='<td class="text-center">
+                  <h4 class="semi-bold m-0 flagcount">'.$submission['occurrenceDate'].'</h4>
+                  <sm><b># '.$submission['sequenceNumber'].' </b></sm>
+               </td>
+               
+                  <td class="text-right sorting">'. $submission['baseLineScore'].'</td>
+                  <td class="text-center sorting">'. $submission['previousScore'].'</td>
+                  <td class="text-left sorting">'. $submission['totalScore'] .'</td>
+               
+                 <td class="text-right semi-bold margin-none flagcount p-h-0">
+                    <h4><b class="text-'.$submission['totalBaseLineFlag'] .'">'. $submission['comparedToBaslineScore'].'</b></h4>
+                 </td>
+                 <td  class="text-center semi-bold margin-none flagcount p-h-0">
+                   <h4><b>/</b></h4>
+                 </td>
+                 <td  class="text-left semi-bold margin-none flagcount p-h-0">
+                    <h4><b class="f-w text-'.$submission['totalPreviousFlag'].'">'.$submission['comparedToPrevious'] .'</b></h4>
+                 </td>
+
+                 <td class="text-right sorting text-error"> '.$submission['previousFlag']['red'] .'</td>
+                 <td class="text-center sorting text-warning">'.$submission['previousFlag']['amber'] .'</td>
+                 <td class="text-left sorting text-success"> '.$submission['previousFlag']['green'] .'</td>
+            
+                 <td class="text-right sorting text-error">'. $submission['baseLineFlag']['red'] .'</td>
+                 <td class="text-center sorting text-warning">'. $submission['baseLineFlag']['amber'].'</td>
+                 <td class="text-left sorting text-success">'. $submission['baseLineFlag']['green'] .'</td>
+              
+               <td class="text-center text-success">'. ucfirst($submission['status']) .'</td>
+               <td class="text-center text-success">'. ucfirst($submission['reviewed']) .'</td>
+            </tr>';
+        }
       }
         
 

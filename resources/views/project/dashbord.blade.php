@@ -250,7 +250,7 @@
                                 </th>
                              </tr>
                           </thead>
-                          <tbody id="submissionData" limit="5">
+                          <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
                           <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>

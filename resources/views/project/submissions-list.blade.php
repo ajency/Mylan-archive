@@ -141,7 +141,7 @@
                                 </th>
                              </tr>
                           </thead>
-                          <tbody id="submissionData" limit="">
+                          <tbody id="submissionData" limit="" object-type="submission" object-id="0">
                           <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>

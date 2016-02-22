@@ -804,13 +804,17 @@ $('.sortSubmission').click(function (event) {
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#submissionData").attr('limit');
+       var object_type = $("#submissionData").attr('object-type');
+       var object_id = $("#submissionData").attr('object-id');
        sortObject.closest('.grid-body').find(".loader-outer").removeClass('hidden');
        $.ajax({
         url: BASEURL+"/getsubmissionlist",
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
-            limit:limit 
+            limit:limit ,
+            object_type:object_type,
+            object_id:object_id  
         },
         dataType: "JSON",
         success: function (response) {

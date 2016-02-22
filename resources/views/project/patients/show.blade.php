@@ -181,87 +181,51 @@
                     <div class="grid-title no-border">
                        <h4>
                           Submissions <span class="semi-bold">Summary</span> 
-                          <sm class="light">(This are scores & flags for current submissions)</sm>
+                          <sm class="light">(These are scores & flags for current submissions)</sm>
                        </h4>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
-                       <table class="table table-flip-scroll table-hover dashboard-tbl sort-table class='sortable'">
+                       <table class="table table-flip-scroll table-hover dashboard-tbl">
                           <thead class="cf">
-                                       <tr class="table-border-none">
-                                       <!-- <th width="5%"> Patient Id</th> -->
-                                       <th width="15%" class="text-left"> # Submissions</th>
-                                       <th width="20%" class="text-center " colspan="3">
-                                             Total Score
-                                       </th>
-                                     
-                                       <th width="20%"  colspan="3" class="text-center">
-                                          Change
-                                        
-                                       </th>
-                                       <th width="14%" colspan="3" class="text-center">
-                                          Previous
-                                         
-                                       </th>
-                                       <th width="14%" colspan="3" class="text-center">
-                                          Baseline
-                                          
-                                       </th>
-                                       
-                                       <th width="15%" class="text-center"> Status
-                                       </th>
-                                       <th width="15%" class="text-center"> Review Status
-                                       </th>
-                                    </tr>
-                                    <tr class="md-size">
-                                       <!-- <th width="10%" ></th> -->
-                                       <th width="15%" class="no-sort"></th>
-                                       <th  class="text-right ">
-                                             Base
-                                       </th>
-                                        
-                                       <th  class="text-center ">
-                                            Prev
-                                       </th>
-                                       <th  class="text-left ">
-                                    
-                                         Current 
-                                       </th>
-                                       <th  class="text-right">
-                                          δ Base  
-                                       </th>
-                                       <th class="no-sort"></th>
-                                       <th  class="text-left">
-                                         δ Prev  
-                                        </th>
-                                       <th class="text-center th-flag-outer">
-                                          <i class="fa fa-flag text-error"></i>  
-                                       </th>
-                                         <th  class="text-center th-flag-outer">
-                                          <i class="fa fa-flag text-warning"></i>  
-                                       </th>
-                                        <th  class="text-center th-flag-outer">
-                                        <i class="fa fa-flag text-success"></i> 
-                                       </th>
-                                       <th  class="text-center th-flag-outer">
-                                         
-                                         <i class="fa fa-flag text-error"></i> 
-                                         
-                                       </th>
-                                       <th class="text-center th-flag-outer">
-                                         
-                                          <i class="fa fa-flag text-warning"></i>  
-                                      
-                                       </th>
-                                       <th class="text-center th-flag-outer">
-                
-                                          <i class="fa fa-flag text-success"></i> 
-                                       </th>
-                                       <th class="no-sort">
-                                       </th>
-                                       <th class="no-sort"></th>
-                                    </tr>
-                                 </thead>
-                          <tbody>
+                             <tr>
+                                <th class="sorting sortSubmission" sort="sequenceNumber" sort-type="asc"  style="cursor:pointer;"># Submission <i class="fa fa-angle-down sortCol"></i><br><br></th>
+                                <th colspan="3" class="sorting">
+                                   Total Score
+                                   <br> 
+                                   <sm class="sortSubmission" sort="baseLineScore" sort-type="asc">Base <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="sortSubmission" sort="previousScore" sort-type="asc">Prev <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="sortSubmission" sort="totalScore" sort-type="asc">Current <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th colspan="3" class="sorting">
+                                   Change
+                                   <br> 
+                                   <sm class="sortSubmission" sort="comparedToBaseLine" sort-type="asc">δ Base  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="sortSubmission" sort="comparedToPrevious" sort-type="asc">δ Prev  <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th colspan="3" class="sorting">
+                                   Previous
+                                   <br> 
+                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm style="position: relative; bottom: 2px;" class="sortSubmission" sort="previousTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th colspan="3" class="sorting">
+                                   Baseline
+                                   <br> 
+                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm style="position: relative; bottom: 2px;"  class="sortSubmission" sort="baseLineTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th class="sorting">Status<br><br>
+                                </th>
+                                <th class="sorting">Review Status<br><br>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody id="submissionData" limit="5" object-type="patient-submission" object-id="{{ $patient['reference_code']}}">
+                          <div class="loader-outer hidden">
+                            <span class="cf-loader"></span>
+                         </div>
                            @if(!empty($submissionsSummary))      
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed')
@@ -271,27 +235,27 @@
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
                                      
-                                     <td class="text-right">-</td>
-                                     <td class="text-center">-</td>
-                                     <td class="text-left">-</td>
+                                     <td class="text-right">0</td>
+                                     <td class="text-center">0</td>
+                                     <td class="text-left">0</td>
                                       
                                       <td class="text-right semi-bold margin-none flagcount p-h-0">
                                          <h4>-</h4>
                                       </td>
                                       <td class="text-center semi-bold margin-none flagcount p-h-0">
-                                         <h4>-</h4>
+                                         <h4>/</h4>
                                       </td>
                                       <td class="text-left semi-bold margin-none flagcount p-h-0">
                                          <h4>-</h4>
                                       </td>
                                     
-                                      <td class="text-right  text-error">-</td>
-                                      <td class="text-center  text-warning">-</td>
-                                      <td class="text-left   text-success">-</td>
+                                      <td class="text-right  text-error">0</td>
+                                      <td class="text-center  text-warning">0</td>
+                                      <td class="text-left   text-success">0</td>
                                 
-                                      <td class="text-right text-error">-</td>
-                                      <td class="text-center text-warning">-</td>
-                                      <td class="text-left  text-success">-</td>
+                                      <td class="text-right text-error">0</td>
+                                      <td class="text-center text-warning">0</td>
+                                      <td class="text-left  text-success">0</td>
 
                                       <td class="text-center text-success">-</td>
                                       <td class="text-center text-success">-</td>

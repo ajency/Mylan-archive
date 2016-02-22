@@ -123,34 +123,37 @@
                   <!-- </div> -->
                </div>
                <div class="grid-body no-border" style="display: block;">
-                  <table class="table table-flip-scroll table-hover">
+                 <table class="table table-flip-scroll table-hover">
                      <thead class="cf">
                         <tr>
                            <th width="12%">Patient ID</th>
-                           <th width="31%">Total Submissions</th>
+                           <th width="35%">Total Submissions</th>
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
-                              <sm class="pull-left" style="margin-left: 26px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm class="pull-right" style="margin-right: 35px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm class="pull-left sortPatientSummary" sort="previousTotalRedFlags" sort-type="asc"  style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="sortPatientSummary" sort="previousTotalAmberFlags" sort-type="asc" style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="pull-right sortPatientSummary" sort="previousTotalGreenFlags" sort-type="asc"  style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                            </th>
                            <th colspan="3" class="sorting">
                               Compared To Baseline
                               <br> 
-                              <sm class="pull-left" style="margin-left: 26px"><i class="fa fa-flag text-error"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
-                              <sm class="pull-right" style="margin-right: 35px"><i class="fa fa-flag text-success"></i>  <!-- <i class="iconset top-down-arrow"></i> --></sm>
+                              <sm class="pull-left sortPatientSummary" sort="baseLineTotalRedFlags" sort-type="asc"  style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="sortPatientSummary" sort="baseLineTotalAmberFlags" sort-type="asc" style="position: relative; bottom: 2px;"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                              <sm class="pull-right sortPatientSummary" sort="baseLineTotalGreenFlags" sort-type="asc"  style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                            </th>
                            <th class="sorting">Graph <br> 
                                <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
                                        </th>
-                           <!-- <th>
+                       <!--     <th>
                               Action
                            </th> -->
                         </tr>
                      </thead>
-                     <tbody>
+                     <tbody id="patientSummaryData" limit="5">
+                      <div class="loader-outer hidden">
+                            <span class="cf-loader"></span>
+                         </div>
                    @if(!empty($patients))   
                      @foreach($patients as $patient)
                       <?php
