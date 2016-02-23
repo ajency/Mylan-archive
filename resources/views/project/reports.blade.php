@@ -182,7 +182,7 @@
          </div>
          <br>
          <HR>
-         <div class="row">
+         <!-- <div class="row">
             <div class="col-sm-12">
                <div class="pull-left">
                   <h4 class="bold">Submission Graph</h4>
@@ -197,7 +197,7 @@
             </div>
          </div>
          <br>
-         <HR>
+         <HR> -->
          
          <h4 class="bold">Question score per submission graph</h4>
                                <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
@@ -231,8 +231,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
     $(document).ready(function() {
 
-    var legends = {score: "Total Score"};
-    lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
+    //var legends = {score: "Total Score"};
+    //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
 
       //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
@@ -279,31 +279,31 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
     });
 
-      $('select[name="generateChart"]').change(function (event) { 
-      if($(this).val()=='total_score')
-      { 
-       var legends = {score: "Total Score"};
-        lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
-      }
-      else if($(this).val()=='red_flags')
-      { 
-        legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
-      }
-      else if($(this).val()=='amber_flags')
-      {
-        legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
+    //   $('select[name="generateChart"]').change(function (event) { 
+    //   if($(this).val()=='total_score')
+    //   { 
+    //    var legends = {score: "Total Score"};
+    //     lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
+    //   }
+    //   else if($(this).val()=='red_flags')
+    //   { 
+    //     legends = {Baseline: "Baseline",Previous: "Previous"};
+    //     lineChartWithOutBaseLine(<?php echo $flagsCount['redFlags'];?>,legends,"chartdiv",'Submissions','Total Red Flags');
+    //   }
+    //   else if($(this).val()=='amber_flags')
+    //   {
+    //     legends = {Baseline: "Baseline",Previous: "Previous"};
+    //     lineChartWithOutBaseLine(<?php echo $flagsCount['amberFlags'];?>,legends,"chartdiv",'Submissions','Total Amber Flags');
 
-      }
-      else if($(this).val()=='green_flags')
-      {
-        legends = {Baseline: "Baseline",Previous: "Previous"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv",'Submissions','Total Green Flags');
+    //   }
+    //   else if($(this).val()=='green_flags')
+    //   {
+    //     legends = {Baseline: "Baseline",Previous: "Previous"};
+    //     lineChartWithOutBaseLine(<?php echo $flagsCount['greenFlags'];?>,legends,"chartdiv",'Submissions','Total Green Flags');
 
-      } 
+    //   } 
 
-    });
+    // });
 
          
          var chart = AmCharts.makeChart( "submissionschart", {
