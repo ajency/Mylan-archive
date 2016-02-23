@@ -34,11 +34,14 @@ angular.module 'PatientApp.dashboard',[]
 						"patientId": refcode
 					DashboardAPI.get param
 					.then (data)=>
+
 						console.log 'dashoard data'
 						console.log data
 						@data = data
-						if @data.length < 6
-							@showMoreButton = false
+						# arr = _.reject(@data, function(d){ return d.status === 'base_line'; })
+						arr = _.reject(@data, (d) -> d.status == 'base_line')
+						if arr.length <= 6
+							@showMoreButton = true
 						arr = []
 						if !_.isEmpty(_.where(@data, {status: "due"})) 
 							 arr.push _.where(@data, {status: "due"})

@@ -140,7 +140,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               if (error === 'offline') {
                 return CToast.showLongBottom('Please check your internet connection');
               } else if (error === 'server_error') {
-                return CToast.show('Error in saving answer,Server error');
+                return CToast.show('Error in saving answer,server error');
               } else {
                 return CToast.show('Error in saving answer,try again');
               }
@@ -269,7 +269,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               if (error === 'offline') {
                 return CToast.show('Check net connection');
               } else if (error === 'server_error') {
-                return CToast.showLongBottom('Error in dispalying previous,Server error');
+                return CToast.showLongBottom('Error in dispalying previous,server error');
               } else {
                 return CToast.showLongBottom('Error in dispalying previous,try again');
               }
