@@ -19,6 +19,16 @@
 <div class="page-title">
                      <h3><span class="semi-bold">Submissions</span></h3>
                      <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
+
+                     <div class="patient-search pull-right">
+                       <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
+                         <option>Patient 1</option>
+                         <option>Patient 2</option>
+                         <option>Patient 3</option>
+                         <option>Patient 4</option>
+                         <option>Id</option>
+                       </select>
+                    </div>
                   </div>
                   <div class="grid simple">
                      <div class="grid-body no-border table-data">

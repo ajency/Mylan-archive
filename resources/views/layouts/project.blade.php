@@ -13,6 +13,7 @@
 <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
+
 <!-- END CORE CSS FRAMEWORK -->
 <!-- BEGIN CSS TEMPLATE -->
 <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
@@ -31,6 +32,7 @@
 <script src="{{ asset('project-admin-views/assets/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('project-admin-views/assets/pace/pace.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('project-admin-views/assets/jquery-validation/js/jquery.validate.min.js') }}" type="text/javascript"></script>
+
  
 <!-- BEGIN CORE TEMPLATE JS -->
 <!-- END CORE TEMPLATE JS -->

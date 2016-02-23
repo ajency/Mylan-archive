@@ -8764,4 +8764,23 @@ select option {
   width: 50px;
   height: 50px;
 }
+.patient-search .btn,
+.patient-search .btn-group.open .btn-info.dropdown-toggle {
+  background: none !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 7px;
+}
+.patient-search .btn:focus,
+.patient-search .btn-group.open .btn-info.dropdown-toggle:focus {
+  outline: none;
+}
+.patient-search .bootstrap-select .dropdown-toggle:focus {
+  outline: none !important;
+}
+.patient-search .bootstrap-select.btn-group .no-results {
+  margin-bottom: 10px;
+}
 /*# sourceMappingURL=style.css.map */

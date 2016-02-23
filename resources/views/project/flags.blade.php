@@ -16,14 +16,29 @@
 @section('content')
 
 <div class="col-md-6">
+  <div class="row">
    <div class="page-title">
       <h3><span class="semi-bold">Flags</span></h3>
       <!-- <p>(Showing administrators within Royal Hospital)</p> -->
    </div>
+  </div>
 </div>
 <div class="col-md-6 m-t-10 text-right">
+  <div class="row">
+
    <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
    <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
+
+   <div class="patient-search pull-right m-r-15">
+       <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
+         <option>Patient 1</option>
+         <option>Patient 2</option>
+         <option>Patient 3</option>
+         <option>Patient 4</option>
+         <option>Id</option>
+       </select>
+    </div>
+  </div>
 </div>
 <div class="tabbable tabs-left">
    <div class="grid simple">
@@ -34,7 +49,7 @@
   <input type="hidden" class="form-control" name="startDate"  >
   <input type="hidden" class="form-control" name="endDate"  >
  
-   <div id="reportrange" style="background: #fff; cursor: pointer;      padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;margin-right:10px;">
+   <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;margin-right:10px;">
           <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
           <span></span> <b class="caret"></b>
       </div>

@@ -12,10 +12,14 @@
 @endsection
 @section('content')
 <div class="col-sm-8">
+<div class="row">
                      <h1>Dashboard</h1>
+                </div>
                   </div>
                   <div class="col-sm-4">
+                  <div class="row">
                      <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create') }}" class="btn btn-primary pull-right m-t-10"><i class="fa fa-plus"></i> Add Patient</a>
+                  </div>
                   </div>
                   <div class="grid simple ">
                      <div class="grid-body no-border table-data grid-data-table">

@@ -21,6 +21,7 @@
       <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.css') }}" />
       <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/date-range-picker/daterangepicker.css') }}" />
       <link href="{{ asset('project-admin-views/assets/plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('project-admin-views/assets/css/bootstrap-select.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
@@ -239,7 +240,7 @@
       <!-- END CORE JS FRAMEWORK -->
       <!-- BEGIN PAGE LEVEL JS -->
       
- 
+      <script src="{{ asset('project-admin-views/assets/js/bootstrap-select.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
