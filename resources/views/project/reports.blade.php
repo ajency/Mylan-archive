@@ -17,15 +17,17 @@
   
    
    <div class="row">
-     <div class="col-sm-4">
+     <div class="col-sm-7">
         <div class="page-title">
           <h3><span class="semi-bold">Patient</span>  Report Highlights</h3>
         </div>
      </div>
-     <div class="col-sm-8 pull-right">
+     <div class="col-sm-5 pull-right">
        <div class="row m-t-10">
-       
-       <div class="col-sm-5 text-right pull-right">
+       <div class="col-sm-4 text-right">
+        
+       </div>
+       <div class="col-sm-8 text-right">
        <form name="searchData" method="GET"> 
       
        <input type="hidden" class="form-control" name="startDate"  >
@@ -37,16 +39,6 @@
 
        </form>
        <input type="hidden" name="flag" value="0">
-      </div>
-
-      <div class="patient-search pull-right">
-         <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
-           <option>Patient 1</option>
-           <option>Patient 2</option>
-           <option>Patient 3</option>
-           <option>Patient 4</option>
-           <option>Id</option>
-         </select>
       </div>
        
      
@@ -228,7 +220,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     $(document).ready(function() {
 
     var legends = {score: "Total Score"};
-    lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+    // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+    lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
 
       //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
@@ -279,7 +272,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       if($(this).val()=='total_score')
       { 
        var legends = {score: "Total Score"};
-        lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+        // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+        lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
       }
       else if($(this).val()=='red_flags')
       { 
