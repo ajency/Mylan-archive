@@ -137,11 +137,7 @@ Question score chart</h4>
                 
 
                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-                            <div class="submission-chart-wt">
-                              <span class="previous">12</span>
-                              <span class="baseline">15</span>
-                              <span class="current">18</span>
-                           </div>
+                            
                         </div>
                      </div>
                      </div>

@@ -28,11 +28,14 @@
                            <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
                            <!-- <p>(Showing Submission details)</p> -->
                            <br>
-                  <div id="chartdiv" style="width:100%; Height:500px;"></div> <br>
-                  <br>    
-                           <div>
+                  <div id="chartdiv" style="width:100%; Height:500px;"></div>
+                  <div class="submission-chart-wt">
+                              <span class="previous">12</span>
+                              <span class="baseline">15</span>
+                              <span class="current">18</span>
                            </div>
-
+                  <br> <br>   
+                           
                            <div class="user-description-box">
                            <div class="row">
                               <div class="col-md-6">

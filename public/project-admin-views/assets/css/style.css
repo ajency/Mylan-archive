@@ -8773,7 +8773,7 @@ select option {
 }
 .patient-search .btn,
 .patient-search .btn-group.open .btn-info.dropdown-toggle {
-  background: none !important;
+  background: #fff !important;
   color: #333 !important;
   border: 1px solid #ccc !important;
   box-shadow: none !important;
@@ -8793,16 +8793,18 @@ select option {
 .submission-chart-wt {
   float: left;
   width: 100%;
-  margin-top: 20px;
+  /*margin-top: 20px;*/
   margin-bottom: 20px;
   padding-left: 45px;
 }
 .submission-chart-wt span {
-  padding: 1px 10px;
+  padding: 4px 10px 3px;
   margin-right: 10px;
+  font-size: 12px;
   text-align: center;
   color: #fff;
   display: inline-block;
+  line-height: 1;
 }
 .submission-chart-wt span.previous {
   background: #76BEDF;
