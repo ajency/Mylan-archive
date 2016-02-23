@@ -51,6 +51,8 @@ class SubmissionController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->lists('reference_code')->toArray();
+
         $responseRate = [];  
         $cond=[];
         $sort =[]; 
@@ -176,6 +178,7 @@ class SubmissionController extends Controller
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
+                                                 ->with('allPatients', $allPatients)
                                                  ->with('avgReviewTime', $avgReviewTime)
                                                  ->with('responseRate', $responseRate)
                                                  ->with('submissionStatus', $submissionStatus)
@@ -225,6 +228,7 @@ class SubmissionController extends Controller
         $answersList = $data['answers'];
         $response = $data['response'];
         $currentChartData = $data['chartData'];
+        $currentInputValues = $data['inputValues'];
         $previousSubmissionId = $data['previousSubmission'];
         $baseLineId = $data['baseLine'];
         
@@ -261,6 +265,7 @@ class SubmissionController extends Controller
             $previousData =  $this->getSubmissionData($previousSubmissionId,false);
             $previousAnswersList = $previousData['answers'];
             $previousChartData = $previousData['chartData'];
+            $previousInputValues = $data['inputValues'];
         }
 
         $baseLineAnswersList =[];
@@ -270,6 +275,7 @@ class SubmissionController extends Controller
             $baseLineData =  $this->getSubmissionData($baseLineId,false);
             $baseLineAnswersList = $baseLineData['answers'];
             $baseChartData = $baseLineData['chartData'];
+            $baseInputValues = $data['inputValues'];
         }
        
         // get patient submissions
@@ -293,6 +299,16 @@ class SubmissionController extends Controller
              
         }
 
+        $inputValueChart = [];
+        foreach ($baseInputValues as $questionId => $inputValues) {
+            $currentInputValue = (isset($currentInputValues[$questionId]['score']))?$currentInputValues[$questionId]['score']:0;
+            $baseInputValue = $chartData['score'];
+            $previousInputValue = (isset($previousInputValues[$questionId]['score']))?$previousInputValues[$questionId]['score']:0;
+            $question = $chartData['question'];
+            $inputValueChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+             
+        }
+
         $submissionJson = json_encode($submissionChart);
 
         
@@ -312,6 +328,7 @@ class SubmissionController extends Controller
                                                 ->with('responseData', $responseData)
                                                 ->with('allSubmissions', $allSubmissions)
                                                 ->with('submissionJson', $submissionJson)
+                                                ->with('inputValueChart', $inputValueChart)
                                                 ->with('previousAnswersList', $previousAnswersList)
                                                 ->with('baseLineAnswersList', $baseLineAnswersList);
     }
@@ -354,6 +371,7 @@ class SubmissionController extends Controller
 
  
          $questions = []; 
+         $inputValues = []; 
         foreach($answers as $answers)
         {  
            $question =  $answers->get("question");
@@ -403,6 +421,10 @@ class SubmissionController extends Controller
                 $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("score")];
            // elseif($questionType == 'input')
            //      $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
+
+          if($questionType == 'input')
+              $inputValues[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
+                
            
         }
 
@@ -424,7 +446,7 @@ class SubmissionController extends Controller
 
 
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$sequentialanswersList, 'response'=>$response,'chartData'=>$sortedChartData] ;
+        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$sequentialanswersList, 'response'=>$response,'chartData'=>$sortedChartData,'inputValues'=>$inputValues] ;
         return $data;
     }
 
