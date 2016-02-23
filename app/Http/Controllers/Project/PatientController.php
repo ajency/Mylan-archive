@@ -2130,7 +2130,7 @@ class PatientController extends Controller
              $i++;
         }
        
-
+       krsort($submissions);
        $result['submissionChart'] = $submissionChart;
        $result['submissions'] = $submissions;
 
