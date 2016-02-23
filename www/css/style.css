@@ -566,12 +566,14 @@ ul .mcq_active div span {
   margin-bottom: 0;
 }
 .notification-row .notification-time a.delete-btn {
-  padding: 2px;
-  min-height: 8px;
-  line-height: 12px;
-}
-.notification-row .notification-time a.delete-btn:before {
-  font-size: 18px;
+  /*padding: 2px;		    
+		    min-height: 8px;
+		    line-height: 12px;*/
+  /*
+		    &:before
+		    {
+		    	font-size: 18px;
+		    }*/
 }
 .descriptive-text {
   height: 90px;
@@ -947,7 +949,7 @@ ul .mcq_active div span {
     width: 35px;
     height: 35px;
     top: 18px;
-    line-height: 17px;
+    line-height: 14px;
     padding: 10px;
   }
   .prev-answers small {
@@ -1015,7 +1017,7 @@ ul .mcq_active div span {
     height: 57px;
   }
   .item.item-radio .item-content {
-    padding: 28px 16px 28px 69px;
+    padding: 30px 16px 28px 69px;
   }
   .item.item-radio .item-content span {
     top: 23px;
@@ -1210,6 +1212,10 @@ ul .mcq_active div span {
     min-height: 32px;
     margin: 4px 0 0 0;
     padding-bottom: 3px;
+  }
+  .item.item-radio .item-content,
+  .item.item-checkbox {
+    padding-top: 30px;
   }
   .item.item-radio .item-content span {
     line-height: 35px;
