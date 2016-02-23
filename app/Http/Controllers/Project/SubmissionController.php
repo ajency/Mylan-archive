@@ -401,8 +401,8 @@ class SubmissionController extends Controller
 
            if($questionType == 'single-choice')
                 $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("score")];
-           elseif($questionType == 'input')
-                $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
+           // elseif($questionType == 'input')
+           //      $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
            
         }
 

@@ -636,8 +636,6 @@ class ProjectController extends Controller
             $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
             $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
 
-            $submissionsNumberByDate[$occurrenceDate]=$sequenceNumber;
-            
              
            if ($responseStatus=='completed' || $responseStatus=='late') {
                 $redFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalRedFlags;
@@ -665,7 +663,7 @@ class ProjectController extends Controller
         $i=0;
         foreach($redFlagsByDate as $date => $value)
         { 
-            $redFlagData[$i]["Date"] = date('d M',$date). ' ('.$submissionsNumberByDate[$date].')';
+            $redFlagData[$i]["Date"] = date('d M',$date);
             $redFlagData[$i]["Baseline"] = array_sum($value['baseLine']);
             $redFlagData[$i]["Previous"] = array_sum($value['previous']) ;
  
@@ -676,7 +674,7 @@ class ProjectController extends Controller
         $i=0;
         foreach($amberFlagsByDate as $date => $value)
         { 
-            $amberFlagData[$i]["Date"] =  date('d M',$date). ' ('.$submissionsNumberByDate[$date].')';
+            $amberFlagData[$i]["Date"] =  date('d M',$date);
             $amberFlagData[$i]["Baseline"] = array_sum($value['baseLine']);
             $amberFlagData[$i]["Previous"] = array_sum($value['previous']) ;
  
@@ -699,7 +697,7 @@ class ProjectController extends Controller
         $i=0;
         foreach($unreviewedSubmissionByDate as $date => $value)
         { 
-            $unreviewedData[$i]["Date"] =  date('d M',$date). ' ('.$submissionsNumberByDate[$date].')';
+            $unreviewedData[$i]["Date"] =  date('d M',$date);
             $unreviewedData[$i]["score"] = count($value);
  
             $i++;
@@ -708,7 +706,7 @@ class ProjectController extends Controller
         $i=0;
         foreach($unreviewedSubmissionByDate as $date => $value)
         { 
-            $submissionByDate[$i]["Date"] =  date('d M',$date). ' ('.$submissionsNumberByDate[$date].')';
+            $submissionByDate[$i]["Date"] =  date('d M',$date);
             $submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
             $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
             $submissionByDate[$i]["missed"] = (isset($missedByDate[$date]))?count($missedByDate[$date]):0;
