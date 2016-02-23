@@ -70,6 +70,9 @@ class ProjectController extends Controller
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
+
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
@@ -81,7 +84,7 @@ class ProjectController extends Controller
                      );
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
 
         $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
 
@@ -90,7 +93,6 @@ class ProjectController extends Controller
         $patientReferenceCode = [];
         $cond = [];
         $sort = [];
-        $sortBy='';
         foreach ($patients as  $patient) {
             
             if($patient['account_status']=='active')
@@ -101,17 +103,6 @@ class ProjectController extends Controller
 
 
         $responseStatus = ["completed","late","missed"];
-        
-        if(isset($inputs['sort']))
-        {
-            $sortBy = $inputs['sort'];
-            $sortData = explode('-', $inputs['sort']);
-            if(count($sortData)==2)
-            {
-                $sort = [$sortData[1]=>$sortData[0]];
-            }
-            
-        }
          
         $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
@@ -146,8 +137,7 @@ class ProjectController extends Controller
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
-                                        ->with('logoUrl', $logoUrl)
-                                        ->with('sortBy', $sortBy);
+                                        ->with('logoUrl', $logoUrl);
 
     }
 
@@ -173,46 +163,35 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-         
+        $cond = [];
         if($inputs['object_type']=="submission")
             $status=["completed","late"];
         else
             $status=["completed","late","missed"];
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->containedIn("status",$status);  //["completed","late","missed"]        
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-
-        if($inputs['object_type']=="patient-submission")
-        {
-            $responseQry->equalTo("patient",$inputs['object_id']);
-        }
-        
-        
-        if(isset($inputs['limit']) && $inputs['limit']!='')
-        {
-            $limit=$inputs['limit'];
-            $responseQry->limit($limit);
-        }
-        
-
+ 
         if(isset($inputs['sort']))
         {
             $sortBy = $inputs['sort'];
-            $sortData = explode('-', $inputs['sort']); 
-            if($sortData[1]=='asc')
-                $responseQry->ascending($sortData[0]);
-            else
-                $responseQry->descending($sortData[0]);
-            
+            $sortData = explode('-', $inputs['sort']);
+            if(count($sortData)==2)
+            {
+                $sort = [$sortData[1]=>$sortData[0]];
+            }
             
         }
+
+        if($inputs['object_type']=="patient-submission")
+        {
+            $patients[] =$inputs['object_id'];
+            $patientController = new PatientController();
+            $responses = $patientController->getPatientsResponseByDate($patients,0,[] ,$startDateObj,$endDateObj,$status,$cond,$sort,$inputs['limit']);
+        }
         else
-            $responseQry->descending("createdAt","sequenceNumber");
-    
-     $responses = $responseQry->find();
+        {
+            $responses = $this->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$status,$cond,$sort,$inputs['limit']);
+        }
+ 
 
      $submissionsSummary = $this->getSubmissionsSummary($responses);
       $str = '';
@@ -476,7 +455,7 @@ class ProjectController extends Controller
      
     }
 
-    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[])
+    public function getProjectResponsesByDate($projectId,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[],$limit="")
     {
         $displayLimit = 90; 
 
@@ -489,14 +468,20 @@ class ProjectController extends Controller
             }
         }
         
-        
         $responseQry->equalTo("project",$projectId);
         $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
 
-        $responseQry->limit($displayLimit);
-        $responseQry->skip($page * $displayLimit);
-
+        if($limit!="")
+        {
+            $responseQry->limit($limit);
+        }
+        else
+        {
+            $responseQry->limit($displayLimit);
+            $responseQry->skip($page * $displayLimit);
+        }
+        
         if(!empty($sort))
         {
             foreach ($sort as $key => $value) {
@@ -513,12 +498,13 @@ class ProjectController extends Controller
         }
 
         $responses = $responseQry->find();
-        $responseData = array_merge($responses,$responseData); 
+
+        $responseData = array_merge($responseData,$responses); 
          
-        if(!empty($responses))
-        {
+        if(!empty($responses) && $limit=="")
+        { 
             $page++;
-            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond,$sort);
+            $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond,$sort,$limit);
         }  
         
         return $responseData;

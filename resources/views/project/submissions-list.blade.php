@@ -155,9 +155,9 @@
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
                                       </td>
                                         
-                                       <td class="text-center sorting">-</td>
-                                       <td class="text-center sorting">-</td>
-                                       <td class="text-center sorting">-</td>
+                                       <td class="text-center sorting">0</td>
+                                       <td class="text-center sorting">0</td>
+                                       <td class="text-center sorting">0</td>
                                         
                                         <td class="text-center semi-bold margin-none flagcount p-h-0">
                                            <h4>
@@ -166,22 +166,22 @@
                                         </td>
                                         <td class="text-center semi-bold margin-none flagcount p-h-0">
                                            <h4>
-                                              -
+                                             /
                                            </h4>
                                         </td>
                                         <td class="text-center semi-bold margin-none flagcount p-h-0">
                                            <h4>
-                                              -
+                                             -
                                            </h4>
                                         </td>
                       
-                                        <td class="text-right sorting text-error">-</td>
-                                        <td class="text-center sorting text-warning">-</td>
-                                        <td class="text-left sorting  text-success">-</td>
+                                        <td class="text-right sorting text-error">0</td>
+                                        <td class="text-center sorting text-warning">0</td>
+                                        <td class="text-left sorting  text-success">0</td>
                         
-                                        <td class="text-right sorting text-error">-</td>
-                                        <td class="text-center sorting text-warning">-</td>
-                                        <td class="text-left sorting  text-success">-</td>
+                                        <td class="text-right sorting text-error">0</td>
+                                        <td class="text-center sorting text-warning">0</td>
+                                        <td class="text-left sorting  text-success">0</td>
                           
                                       <td class="text-center text-success">-</td>
                                       <td class="text-center text-success">-</td>
