@@ -60,6 +60,7 @@
             
              <input type="hidden" class="form-control" name="startDate"  >
              <input type="hidden" class="form-control" name="endDate"  >
+             <input type="hidden" class="form-control" name="referenceCode"  id="patientRefCode" value="{{ $referenceCode }}" >
                 <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                    <span></span> <b class="caret"></b>
@@ -231,6 +232,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
 
       $('select[name="referenceCode"]').change(function (event) { 
+        $("#patientRefCode").val($(this).val());
          $(this).closest('form').submit();
       });
 
