@@ -796,6 +796,29 @@
     });
   });
 
+  Parse.Cloud.define("clearNotificationByIds", function(request, response) {
+    var notificationIds, notificationQuery;
+    notificationIds = request.params.notificationIds;
+    notificationQuery = new Parse.Query('Notification');
+    notificationQuery.containedIn('objectId', notificationIds);
+    notificationQuery.equalTo('cleared', false);
+    return notificationQuery.find().then(function(notifications) {
+      var notificationSaveArr;
+      notificationSaveArr = [];
+      _.each(notifications, function(notification) {
+        notification.set('cleared', true);
+        return notificationSaveArr.push(notification);
+      });
+      return Parse.Object.saveAll(notificationSaveArr).then(function(notificationObjs) {
+        return response.success(notificationObjs);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
 
   /*
   createMissedResponse = () ->
@@ -1681,7 +1704,12 @@
     responseQuery.equalTo("objectId", responseId);
     return responseQuery.first().then(function(responseObj) {
       return getSummary(responseObj).then(function(answerObjects) {
-        return response.success(answerObjects);
+        var result;
+        result = {};
+        result['answerObjects'] = answerObjects;
+        result['submissionDate'] = responseObj.updatedAt;
+        result['sequenceNumber'] = responseObj.get('sequenceNumber');
+        return response.success(result);
       }, function(error) {
         return response.error(error);
       });
@@ -2622,6 +2650,8 @@
           responseObj.set("status", status);
           responseObj.set("totalScore", BaseLine['totalScore']);
           responseObj.set("baseLine", BaseLine['baseLine']);
+          responseObj.set("baseLineScore", BaseLine['baseLineScore']);
+          responseObj.set("previousScore", previous['previousScore']);
           if (previous['previousSubmission'] !== '') {
             responseObj.set("previousSubmission", previous['previousSubmission']);
           }
@@ -2726,6 +2756,7 @@
             previous['previousTotalRedFlags'] = totalRedFlags;
             previous['previousTotalAmberFlags'] = totalAmberFlags;
             previous['previousTotalGreenFlags'] = totalGreenFlags;
+            previous['previousScore'] = totalPreviousScore;
             return promise.resolve(previous);
           }, function(error) {
             return promise.reject(error);
@@ -2800,6 +2831,7 @@
           BaseLine['baseLineTotalRedFlags'] = totalRedFlags;
           BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags;
           BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags;
+          BaseLine['baseLineScore'] = totalBaseLineScore;
           return promise.resolve(BaseLine);
         }, function(error) {
           return promise.reject(error);

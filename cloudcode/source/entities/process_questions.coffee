@@ -670,12 +670,12 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 	.then (responseObj) ->
 		getSummary responseObj
 		.then (answerObjects) ->
-			#result = {}
-			#result['answerObjects'] = answerObjects
-			#result['submissionDate'] = responseObj.updatedAt
-			#result['sequenceNumber'] = responseObj.get('sequenceNumber')
-			#response.success result
-			response.success answerObjects
+			result = {}
+			result['answerObjects'] = answerObjects
+			result['submissionDate'] = responseObj.updatedAt
+			result['sequenceNumber'] = responseObj.get('sequenceNumber')
+			response.success result
+			# response.success answerObjects
 		, (error) ->
 			response.error error
 	, (error) ->
@@ -1747,6 +1747,8 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 				responseObj.set "status", status
 				responseObj.set "totalScore", BaseLine['totalScore']
 				responseObj.set "baseLine", BaseLine['baseLine']
+				responseObj.set "baseLineScore", BaseLine['baseLineScore']
+				responseObj.set "previousScore", previous['previousScore']
 				if previous['previousSubmission'] !=''
 					responseObj.set "previousSubmission", previous['previousSubmission']
 				responseObj.save()
@@ -1885,6 +1887,7 @@ getPreviousScores = (responseObj) ->
 					previous['previousTotalRedFlags'] = totalRedFlags
 					previous['previousTotalAmberFlags'] = totalAmberFlags
 					previous['previousTotalGreenFlags'] = totalGreenFlags
+					previous['previousScore'] = totalPreviousScore
 
 		
 					promise.resolve(previous)
@@ -1971,6 +1974,7 @@ getBaseLineScores = (responseObj) ->
 				BaseLine['baseLineTotalRedFlags'] = totalRedFlags
 				BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags
 				BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags
+				BaseLine['baseLineScore'] = totalBaseLineScore
 
 				promise.resolve(BaseLine)
 			, (error) ->

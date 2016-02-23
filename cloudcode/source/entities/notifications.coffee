@@ -743,6 +743,28 @@ Parse.Cloud.define "clearAllNotifications", (request, response) ->
 	, (error) ->
 		response.error error
 
+
+Parse.Cloud.define "clearNotificationByIds", (request, response) ->
+	notificationIds = request.params.notificationIds
+	notificationQuery = new Parse.Query('Notification')
+	notificationQuery.containedIn('objectId', notificationIds)
+	notificationQuery.equalTo('cleared', false)
+	notificationQuery.find()
+	.then (notifications) ->
+		notificationSaveArr =[]
+		_.each notifications, (notification) ->
+			notification.set 'cleared', true
+			notificationSaveArr.push(notification)
+		
+		Parse.Object.saveAll notificationSaveArr
+            .then (notificationObjs) ->
+                response.success notificationObjs
+            , (error) ->
+                response.error (error) 
+		
+	, (error) ->
+		response.error error
+
  
 
 
