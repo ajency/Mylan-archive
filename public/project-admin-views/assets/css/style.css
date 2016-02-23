@@ -8580,6 +8580,13 @@ ul.parsley-errors-list li {
   width: 97%;
   margin-left: 3%;
 }
+.tableOuter .compared-to span {
+  display: block;
+}
+.tableOuter .compared-to span i {
+  float: left;
+  margin: 3px 10px 0 0;
+}
 .tableOuter .x-axis-text {
   width: 100%;
   text-align: center;
@@ -8782,5 +8789,28 @@ select option {
 }
 .patient-search .bootstrap-select.btn-group .no-results {
   margin-bottom: 10px;
+}
+.submission-chart-wt {
+  float: left;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding-left: 45px;
+}
+.submission-chart-wt span {
+  padding: 1px 10px;
+  margin-right: 10px;
+  text-align: center;
+  color: #fff;
+  display: inline-block;
+}
+.submission-chart-wt span.previous {
+  background: #76BEDF;
+}
+.submission-chart-wt span.baseline {
+  background: #FDD81A;
+}
+.submission-chart-wt span.current {
+  background: #90BE71;
 }
 /*# sourceMappingURL=style.css.map */

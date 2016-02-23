@@ -51,6 +51,12 @@ White-Indicates current score is same as baseline score.
 Flag is not displayed if the current score is same as previous score</p>
                              <br><br>
                           <div class="tableOuter">
+                          <div class="compared-to">
+                            <span><i class="fa fa-stop"></i> Compared to Baseline</span> 
+                            <br>
+                            <span><i class="fa fa-flag"></i> Compared to Previous</span>               
+                          </div>
+                          <br>
                         <div class="x-axis-text">Submissions</div>
                        <div class="y-axis-text">Questions</div>
                        <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
@@ -131,7 +137,11 @@ Question score chart</h4>
                 
 
                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-
+                            <div class="submission-chart-wt">
+                              <span class="previous">12</span>
+                              <span class="baseline">15</span>
+                              <span class="current">18</span>
+                           </div>
                         </div>
                      </div>
                      </div>

@@ -629,6 +629,19 @@ ul.parsley-errors-list li {
 	width: 97%;
 	margin-left: 3%;
 
+	.compared-to
+	{
+		span
+		{
+			display: block;
+			i
+			{
+				float: left;
+				margin: 3px 10px 0 0;
+			}
+		}
+	}
+
 	.x-axis-text
 	{
 		width: 100%;
@@ -877,5 +890,34 @@ select, select option
 	.bootstrap-select.btn-group .no-results
 	{
 		margin-bottom: 10px;
+	}
+}
+.submission-chart-wt
+{
+	float: left;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-left: 45px;
+	span
+	{
+		padding: 1px 10px;
+		margin-right: 10px;
+		text-align: center;
+		color: #fff;
+		display: inline-block;
+
+		&.previous
+		{
+			background: #76BEDF;
+		}
+		&.baseline
+		{
+			background: #FDD81A;
+		}
+		&.current
+		{
+			background: #90BE71;
+		}
 	}
 }

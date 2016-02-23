@@ -121,6 +121,12 @@
            </p>
            <br><br>
             <div class="tableOuter">
+            <div class="compared-to">
+              <span><i class="fa fa-stop"></i> Compared to Baseline</span> 
+              <br>
+              <span><i class="fa fa-flag"></i> Compared to Previous</span>               
+            </div>
+            <br>
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
            <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
