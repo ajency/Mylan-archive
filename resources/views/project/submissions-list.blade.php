@@ -21,13 +21,14 @@
                      <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
 
                      <div class="patient-search pull-right">
-                       <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
-                         <option>Patient 1</option>
-                         <option>Patient 2</option>
-                         <option>Patient 3</option>
-                         <option>Patient 4</option>
-                         <option>Id</option>
-                       </select>
+                       <form name="searchData" method="GET"> 
+                       <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+                          <option value="">-select patient-</option>
+                           @foreach($allPatients as $patient)
+                             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+                           @endforeach
+                          </select> 
+                     </form>
                     </div>
                   </div>
                   <div class="grid simple">
@@ -283,6 +284,12 @@ $(document).ready(function() {
       $('select[name="submissionStatus"]').change(function (event) { 
          $(".submissionFilter").removeClass('hidden');
          $('form').submit();
+      });
+
+      $('select[name="referenceCode"]').change(function (event) { 
+        var referenceCode = $(this).val();
+        if(referenceCode!='')
+            window.location.href = BASEURL+"/patients/"+referenceCode; 
       });
 
    });

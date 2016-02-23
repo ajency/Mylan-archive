@@ -51,7 +51,7 @@ class SubmissionController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->lists('reference_code')->toArray();
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         $responseRate = [];  
         $cond=[];
@@ -478,6 +478,8 @@ class SubmissionController extends Controller
                       "__type" => "Date",
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
                      );
+        
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         $filterType = (isset($inputs['type']))?$inputs['type']:'';
         $activeTab = (isset($inputs['active']))?$inputs['active']:'all';
@@ -497,6 +499,7 @@ class SubmissionController extends Controller
                                                ->with('startDate', $startDate)
                                                ->with('filterType', $filterType)
                                                ->with('activeTab', $activeTab)
+                                               ->with('allPatients', $allPatients)
                                                ->with('submissionFlags', $submissionFlags);
     }
 

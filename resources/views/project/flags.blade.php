@@ -30,13 +30,14 @@
    <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
 
    <div class="patient-search pull-right m-r-15">
-       <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
-         <option>Patient 1</option>
-         <option>Patient 2</option>
-         <option>Patient 3</option>
-         <option>Patient 4</option>
-         <option>Id</option>
-       </select>
+       <form name="searchData" method="GET"> 
+         <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+             <option value="">-select patient-</option>
+             @foreach($allPatients as $patient)
+               <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+             @endforeach
+            </select> 
+         </form>
     </div>
   </div>
 </div>
@@ -236,6 +237,12 @@
       $('select[name="type"]').change(function (event) { 
         $(".flagsFilter").removeClass('hidden');
          $('form').submit();
+      });
+
+      $('select[name="referenceCode"]').change(function (event) { 
+        var referenceCode = $(this).val();
+        if(referenceCode!='')
+            window.location.href = BASEURL+"/patients/"+referenceCode; 
       });
 
    });

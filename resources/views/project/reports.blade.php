@@ -26,11 +26,11 @@
        <div class="m-t-10">
        <div class="patient-search pull-right">
         <form name="searchData" method="GET"> 
-               <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
-                   @foreach($allPatients as $patient)
-                     <option {{ ($referenceCode==$patient)?'selected':''}} value="{{ $patient }}">{{ $patient }}</option>
-                   @endforeach
-                  </select> 
+         <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+             @foreach($allPatients as $patient)
+               <option {{ ($referenceCode==$patient)?'selected':''}} value="{{ $patient }}">{{ $patient }}</option>
+             @endforeach
+            </select> 
          </form>
  
               </div>
