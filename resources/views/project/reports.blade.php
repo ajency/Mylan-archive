@@ -53,17 +53,7 @@
          <div class="col-sm-8">
            <h3 class="m-b-25">Patient Id<span class="semi-bold"> {{ $referenceCode }}</span></h3>
        </div>
-       <!-- <div class="col-sm-4 m-t-10">
-         <form name="searchData" method="GET"> 
-               <select class="pull-right" name="referenceCode">
-                   @foreach($allPatients as $patient)
-                     <option {{ ($referenceCode==$patient)?'selected':''}} value="{{ $patient }}">{{ $patient }}</option>
-                   @endforeach
-                  </select> 
-         </form>
  
-
-          </div> -->
 
           <div class=" text-right pull-right m-r-15 m-t-10">
              <form name="searchData" method="GET"> 
@@ -241,8 +231,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
 
       $('select[name="referenceCode"]').change(function (event) { 
-         $('form').submit();
-    });
+         $(this).closest('form').submit();
+      });
 
       $('select[name="generateQuestionChart"]').change(function (event) { 
       <?php 
