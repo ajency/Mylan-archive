@@ -29,11 +29,14 @@
                            <!-- <p>(Showing Submission details)</p> -->
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
+                  @foreach($inputValueChart as $inputValue)
+                  <span>{{ $inputValue['question'] }}</span>
                   <div class="submission-chart-wt">
-                              <span class="previous">12</span>
-                              <span class="baseline">15</span>
-                              <span class="current">18</span>
+                              <span class="previous">{{ $inputValue['prev'] }}</span>
+                              <span class="baseline">{{ $inputValue['base'] }}</span>
+                              <span class="current">{{ $inputValue['current'] }}</span>
                            </div>
+                  @endforeach
                   <br> <br>   
                            
                            <div class="user-description-box">
