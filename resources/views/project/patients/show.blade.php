@@ -400,9 +400,9 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
    $(document).ready(function() {
 
     // submission chart
-    var legends = {score: "Total Score",baseLine: "Base Line"};
-    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
-    //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
+    var legends = {score: "Total Score"};
+    // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+    lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
 
     //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
@@ -438,10 +438,10 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     $('select[name="generateChart"]').change(function (event) { 
       if($(this).val()=='total_score')
       { 
-       // legends = {score: "Total Score"};
-       //  lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,<?php echo $flagsCount['baslineScore'];?>,"chartdiv")
-       var legends = {score: "Total Score",baseLine: "Base Line"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+       legends = {score: "Total Score"};
+        lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
+       // var legends = {score: "Total Score"};
+       //  lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
       }
       else if($(this).val()=='red_flags')
       { 
