@@ -23,37 +23,25 @@
         </div>
      </div>
      <div class="col-sm-8 pull-right">
-       <div class="row m-t-10">
+       <div class="m-t-10">
+       <div class="patient-search pull-right">
+                 <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
+                   <option>Patient 1</option>
+                   <option>Patient 2</option>
+                   <option>Patient 3</option>
+                   <option>Patient 4</option>
+                   <option>Id</option>
+                 </select>
+              </div>
        
-       <div class="col-sm-5 text-right pull-right">
-       <form name="searchData" method="GET"> 
-      
-       <input type="hidden" class="form-control" name="startDate"  >
-       <input type="hidden" class="form-control" name="endDate"  >
-          <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-             <span></span> <b class="caret"></b>
-          </div>
 
-       </form>
-       <input type="hidden" name="flag" value="0">
-      </div>
-
-      <div class="patient-search pull-right">
-         <select id="lunch" class="selectpicker pull-right" data-live-search="true" title="Patient">
-           <option>Patient 1</option>
-           <option>Patient 2</option>
-           <option>Patient 3</option>
-           <option>Patient 4</option>
-           <option>Id</option>
-         </select>
-      </div>
+     
        
      
    </div>
      </div>
    </div>
-</div>
+
                   <div class="grid simple">
                         <div class="grid-body no-border table-data">
                                 
@@ -64,7 +52,7 @@
          <div class="col-sm-8">
            <h3 class="m-b-25">Patient Id<span class="semi-bold"> {{ $referenceCode }}</span></h3>
        </div>
-       <div class="col-sm-4 m-t-10">
+       <!-- <div class="col-sm-4 m-t-10">
          <form name="searchData" method="GET"> 
                <select class="pull-right" name="referenceCode">
                    @foreach($allPatients as $patient)
@@ -73,7 +61,22 @@
                   </select> 
          </form>
  
-          </div>
+
+          </div> -->
+
+          <div class=" text-right pull-right m-r-15 m-t-10">
+             <form name="searchData" method="GET"> 
+            
+             <input type="hidden" class="form-control" name="startDate"  >
+             <input type="hidden" class="form-control" name="endDate"  >
+                <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                   <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                   <span></span> <b class="caret"></b>
+                </div>
+
+             </form>
+             <input type="hidden" name="flag" value="0">
+            </div>
       </div>
          
          <div class="grid simple ">

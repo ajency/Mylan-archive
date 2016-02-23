@@ -20,15 +20,21 @@
    
    
    <div class="row">
-     <div class="col-sm-7">
+     <div class="col-sm-4">
         <div class="page-title">
           <h3><span class="semi-bold">Patients</span></h3>
           <p>(Click on any Patient ID to see Profile Details)</p>
         </div>
      </div>
-     <div class="col-sm-5 pull-right">
-       <div class="row m-t-10">
-       <div class="col-sm-8 text-right">
+     <div class="col-sm-8 pull-right">
+       <div class="m-t-10">
+       
+       <div class="pull-right">
+       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
+          
+       <input type="hidden" name="flag" value="0">
+       </div>
+      <div class="pull-right m-r-15">
        <form name="searchData" method="GET"> 
       
        <input type="hidden" class="form-control" name="startDate"  >
@@ -40,12 +46,6 @@
 
        </form>
       </div>
-       <div class="col-sm-4 text-right">
-       <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
-          
-       <input type="hidden" name="flag" value="0">
-       </div>
-     
    </div>
      </div>
    </div>
