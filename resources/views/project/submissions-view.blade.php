@@ -29,15 +29,18 @@
                            <!-- <p>(Showing Submission details)</p> -->
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
+                 <div class="row">
                   @foreach($inputValueChart as $inputValue)
-                  <span>{{ $inputValue['question'] }}</span>
+                  
                   <div class="submission-chart-wt">
+                  <span>{{ $inputValue['question'] }}</span>
                               <span class="previous {{ ($responseData['previousFlag']=='')?'hidden':'' }}">{{ $inputValue['prev'] }}</span>
                               <span class="baseline">{{ $inputValue['base'] }}</span>
                               <span class="current">{{ $inputValue['current'] }}</span>
                            </div>
                   @endforeach
-                  <br> <br>   
+                  </div>
+                  <br> <br>
                            
                            <div class="user-description-box">
                            <div class="row">
