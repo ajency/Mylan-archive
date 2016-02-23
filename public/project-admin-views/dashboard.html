@@ -887,17 +887,18 @@
         "title": "Total Score"
     }],
      "valueAxes": [{
-        "logarithmic": true,
-        "dashLength": 1,
+        "logarithmic": false,
+        "dashLength": 0,
         
          }],
 
     "graphs": [{
         "balloonText": "Baseline in [[category]]: [[value]]",
+        "type":"step",
         "lineThickness": 2,
         "title": "Baseline",
-        "valueField": "Baseline"
-        
+        "valueField": "Baseline",
+        "bullet": "square",
     
     }, {
         "balloonText": " Previous in [[category]]: [[value]]",

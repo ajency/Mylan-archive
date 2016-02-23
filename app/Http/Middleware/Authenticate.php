@@ -51,12 +51,9 @@ class Authenticate
         {
             Auth::logout();
            $routePrefix = $request->route()->getPrefix(); 
+
             if(str_contains($routePrefix, 'admin'))
                 return redirect()->guest('admin/login');
-            elseif(str_contains($routePrefix, 'patient'))
-            {
-                return redirect()->guest('/');
-            }
             elseif(str_contains($routePrefix, '{hospitalslug}/{projectslug}'))
             {
                 $hospitalslug= $request->hospitalslug;
@@ -68,6 +65,10 @@ class Authenticate
             {
                 $hospitalslug= $request->hospitalslug;
                 return redirect()->guest($hospitalslug.'/login');
+            }
+            else
+            {
+                return redirect()->guest('auth/login');
             }
         }
 
