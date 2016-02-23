@@ -609,7 +609,7 @@ class PatientController extends Controller
         foreach($redFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $redFlagData[$i]["Date"] = date('d M',$occurrenceDate);
+            $redFlagData[$i]["Date"] = date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
             $redFlagData[$i]["Baseline"] = $value['baseLine'];
             $redFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -621,7 +621,7 @@ class PatientController extends Controller
         foreach($amberFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $amberFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
+            $amberFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
             $amberFlagData[$i]["Baseline"] = $value['baseLine'];
             $amberFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -633,7 +633,7 @@ class PatientController extends Controller
         foreach($greenFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $greenFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
+            $greenFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
             $greenFlagData[$i]["Baseline"] = $value['baseLine'];
             $greenFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -647,7 +647,7 @@ class PatientController extends Controller
         {
             $occurrenceDate = $submissionDates[$sequenceNumber];  
             $baseLineScore =  $baseLineBySubmission[$sequenceNumber];
-            $totalFlagData[$i]["Date"] =  date('d M',$occurrenceDate);
+            $totalFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
             $totalFlagData[$i]["score"] = $value;
             $totalFlagData[$i]["baseLine"] = $baseLineScore;
  
@@ -1933,6 +1933,7 @@ class PatientController extends Controller
         $allScore =[];
         $submissionArr =[];
         $singleChoiceQuestion = [];
+        $submissionsNumberByDate = [];
 
         foreach ($patientAnswers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
@@ -1954,6 +1955,9 @@ class PatientController extends Controller
             $baseLineObj = $answer->get("response")->get("baseLine");
             $questionObj =$answer->get("question");
             $questionObjs[$questionId] =$questionObj;
+
+            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+            $submissionsNumberByDate[$sequenceNumber]=$answerDate;
             
             if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
@@ -1975,8 +1979,8 @@ class PatientController extends Controller
                 $questionLabels[$questionId] = $questionLabel;
                 $allScore[$questionId][] = $optionValue;
 
-                $baseLineArr[$questionId][$answerDate] =$baseLineScore;
-                $inputScores[$questionId][$answerDate] = $optionValue ;
+                $baseLineArr[$questionId][$sequenceNumber] =$baseLineScore;
+                $inputScores[$questionId][$sequenceNumber] = $optionValue ;
 
                 continue;
             }
@@ -1991,8 +1995,9 @@ class PatientController extends Controller
                 $singleChoiceQuestion[$questionId] = $questionLabel;
 
 
-               $baseLineArr[$questionId][$answerDate] =$baseLineScore;
-               $inputScores[$questionId][$answerDate] = $optionScore ;
+               $baseLineArr[$questionId][$sequenceNumber] =$baseLineScore;
+               $inputScores[$questionId][$sequenceNumber] = $optionScore ;
+
                $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
                $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
 
@@ -2005,10 +2010,11 @@ class PatientController extends Controller
         foreach ($inputScores as $questionId => $data) {
             ksort($data);
             $i=0;
-            foreach($data as $date => $value)
+            foreach($data as $sequenceNumber => $value)
             { 
-                $baslineScore = $baseLineArr[$questionId][$date];
-                $chartData[$questionId][$i]['Date'] = date('d M',$date);
+                $date = $submissionsNumberByDate[$sequenceNumber];
+                $baslineScore = $baseLineArr[$questionId][$sequenceNumber];
+                $chartData[$questionId][$i]['Date'] = date('d M',$date). ' ('.$sequenceNumber.')';
                 $chartData[$questionId][$i]['score'] = intval($value);
                 $chartData[$questionId][$i]['baseLine'] = intval($baslineScore);
                
@@ -2124,7 +2130,7 @@ class PatientController extends Controller
              $i++;
         }
        
-
+       krsort($submissions);
        $result['submissionChart'] = $submissionChart;
        $result['submissions'] = $submissions;
 

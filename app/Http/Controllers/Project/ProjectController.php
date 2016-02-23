@@ -600,6 +600,7 @@ class ProjectController extends Controller
         $missedByDate = [];
         $completedByDate = [];
         $lateByDate = [];
+        $submissionsNumberByDate=[];
        
         foreach ($patientResponses as $response) {
             $responseId = $response->getObjectId();
@@ -635,7 +636,6 @@ class ProjectController extends Controller
             $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
             $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
 
-            
              
            if ($responseStatus=='completed' || $responseStatus=='late') {
                 $redFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalRedFlags;
