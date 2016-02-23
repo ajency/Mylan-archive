@@ -111,17 +111,17 @@
                                        <td class="text-center sorting">0</td>
                                        <td class="text-left sorting">0</td>
                                       
-                                      <td class="text-center semi-bold margin-none flagcount p-h-0">
+                                      <td class="text-right semi-bold margin-none flagcount p-h-0">
                                          <h4>
                                             -
                                          </h4>
                                       </td>
                                       <td class="text-center semi-bold margin-none flagcount p-h-0">
                                          <h4>
-                                            /
+                                            <b>/</b>
                                          </h4>
                                       </td>
-                                      <td class="text-center semi-bold margin-none flagcount p-h-0">
+                                      <td class="text-left semi-bold margin-none flagcount p-h-0">
                                          <h4>
                                             -
                                          </h4>

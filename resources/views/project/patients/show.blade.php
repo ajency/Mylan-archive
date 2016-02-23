@@ -119,11 +119,10 @@
               White-Indicates current score is same as baseline score.
               Flag is not displayed if the current score is same as previous score
            </p>
-           <br><br>
+          
             <div class="tableOuter">
             <div class="compared-to">
-              <span><i class="fa fa-stop"></i> Compared to Baseline</span> 
-              <br>
+              <span><i class="fa fa-stop"></i> Compared to Baseline</span>               
               <span><i class="fa fa-flag"></i> Compared to Previous</span>               
             </div>
             <br>

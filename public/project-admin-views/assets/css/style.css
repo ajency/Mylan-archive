@@ -8580,8 +8580,13 @@ ul.parsley-errors-list li {
   width: 97%;
   margin-left: 3%;
 }
+.tableOuter .compared-to {
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
 .tableOuter .compared-to span {
-  display: block;
+  display: inline-block;
+  margin-right: 30px;
 }
 .tableOuter .compared-to span i {
   float: left;
@@ -8798,13 +8803,16 @@ select option {
   padding-left: 45px;
 }
 .submission-chart-wt span {
-  padding: 4px 10px 3px;
-  margin-right: 10px;
+  padding: 0;
+  margin-right: 20px;
   font-size: 12px;
   text-align: center;
   color: #fff;
   display: inline-block;
-  line-height: 1;
+  line-height: 3.5;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
 }
 .submission-chart-wt span.previous {
   background: #76BEDF;
