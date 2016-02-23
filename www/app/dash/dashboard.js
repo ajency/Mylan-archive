@@ -34,8 +34,11 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               console.log('dashoard data');
               console.log(data);
               _this.data = data;
-              if (_this.data.length < 6) {
-                _this.showMoreButton = false;
+              arr = _.reject(_this.data, function(d) {
+                return d.status === 'base_line';
+              });
+              if (arr.length <= 6) {
+                _this.showMoreButton = true;
               }
               arr = [];
               if (!_.isEmpty(_.where(_this.data, {
