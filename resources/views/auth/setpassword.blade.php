@@ -35,7 +35,7 @@
           </div>
 					@endif
                 <form id="login-form" class="login-form" role="form" method="POST" action="{{ url('/dosetup') }}" data-parsley-validate>
-                <div class="has-feedback b-b">  
+                <div class="has-feedback input">  
                 <?php
                 $referenceCode = Session::get('referenceCode');
                 ?>
@@ -44,7 +44,9 @@
  
                 <!--  <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span> -->
                 </div>
+                <div class="input">
                 <input type="password" data-parsley-equalto="#password" name="retypepassword" class="form-control input-lg"  placeholder="Re-enter your Password" data-parsley-required  />
+                </div>
                 <br class="hidden-xs">
  
                 
