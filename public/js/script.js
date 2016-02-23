@@ -490,6 +490,8 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
               //     "value": baselineScore,
          
               // }],
+              "position": "left",
+              "title": yaxisLabel
                }],
          
           "graphs": graphs,
