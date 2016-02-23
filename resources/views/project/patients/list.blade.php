@@ -150,7 +150,7 @@
                            </th> -->
                         </tr>
                      </thead>
-                     <tbody id="patientSummaryData" limit="5">
+                     <tbody id="patientSummaryData" limit="">
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>

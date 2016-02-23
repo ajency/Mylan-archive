@@ -36,9 +36,11 @@ class SubmissionController extends Controller
         $inputs = Input::get(); 
 
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
- 
-  
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
+
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
@@ -46,7 +48,7 @@ class SubmissionController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
         $responseRate = [];  

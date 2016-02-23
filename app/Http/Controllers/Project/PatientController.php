@@ -1287,7 +1287,7 @@ class PatientController extends Controller
         return $patientGraphData;
     }
 
-    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[])  
+    public function getPatientsResponseByDate($patients,$page=0,$responseData,$startDate,$endDate,$status,$cond=[],$sort=[],$limit="")  
     {
         $displayLimit = 90; 
 
@@ -1302,8 +1302,16 @@ class PatientController extends Controller
                 $responseQry->equalTo($key,$value);
             }
         }
-        $responseQry->skip($page * $displayLimit);
-        $responseQry->limit($displayLimit);
+
+        if($limit!="")
+        {
+            $responseQry->limit($limit);
+        }
+        else
+        {
+            $responseQry->limit($displayLimit);
+            $responseQry->skip($page * $displayLimit);
+        }
         
         if(!empty($sort))
         {
@@ -1321,12 +1329,12 @@ class PatientController extends Controller
         }
 
         $responses = $responseQry->find();  
-        $responseData = array_merge($responses,$responseData); 
+        $responseData = array_merge($responseData,$responses); 
 
-        if(!empty($responses))
+        if(!empty($responses) && $limit=="")
         {
             $page++;
-            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate,$status,$cond,$sort); 
+            $responseData = $this->getPatientsResponseByDate($patients,$page,$responseData,$startDate,$endDate,$status,$cond,$sort,$limit);
         }  
         
         return $responseData;
