@@ -451,7 +451,18 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
 
         return graphObj;
     })
-   
+
+    var baseLineObj = {
+        "balloonText": "Baseline in [[category]]: [[value]]",
+        "type":"step",
+        "lineThickness": 1,
+        "title": "Baseline",
+        "valueField": "baseLine",
+        "bullet": "square",
+    
+    }
+   graphs.push(baseLineObj); 
+
      var chart = AmCharts.makeChart(container, {
           "type": "serial",
           "theme": "light",
@@ -469,16 +480,16 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
               "title": yaxisLabel
           }],
            "valueAxes": [{
-              "logarithmic": true,
-              "dashLength": 1,
-              "guides": [{
-                  "dashLength": 6,
-                  "inside": true,
-                  "label": "Baseline",
-                  "lineAlpha": 1,
-                  "value": baselineScore,
+              "logarithmic": false,
+              "dashLength": 0,
+              // "guides": [{
+              //     "dashLength": 6,
+              //     "inside": true,
+              //     "label": "Baseline",
+              //     "lineAlpha": 1,
+              //     "value": baselineScore,
          
-              }],
+              // }],
                }],
          
           "graphs": graphs,
@@ -544,9 +555,10 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          },
          {
              "balloonText": "[[category]]: [[value]]",
-             "bullet": "round",
+             "type":"step",
+             "bullet": "square",
              "title": "Baseline",
-             "lineColor": "#000",
+             "lineColor": "#333",
              "valueField": "baseLine",
               "dashLength": 2,
               "hidden":false,

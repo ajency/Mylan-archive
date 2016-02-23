@@ -227,8 +227,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
     $(document).ready(function() {
 
-    var legends = {score: "Total Score",baseLine: "Base Line"};
-    lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+    var legends = {score: "Total Score"};
+    lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
 
       //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
@@ -278,8 +278,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       $('select[name="generateChart"]').change(function (event) { 
       if($(this).val()=='total_score')
       { 
-       var legends = {score: "Total Score",baseLine: "Base Line"};
-        lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
+       var legends = {score: "Total Score"};
+        lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
       }
       else if($(this).val()=='red_flags')
       { 
