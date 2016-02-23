@@ -252,7 +252,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             });
           }
           if (error === 1) {
-            CToast.show('Please enter numbers upto 2 decimal places');
+            CToast.show('Please enter numbers');
           } else {
             valueInput = [];
             optionId = [];

@@ -239,7 +239,7 @@ angular.module 'angularApp.questionnaire'
 								error = 1
 
 					if error == 1
-						CToast.show 'Please enter numbers upto 2 decimal places'
+						CToast.show 'Please enter numbers'
 					else
 						valueInput = []
 						optionId = []
