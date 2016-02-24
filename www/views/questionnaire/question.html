@@ -77,21 +77,22 @@
       <div class="row" ng-if='view.data.questionType == "input"'>
         <div
           text-select 
-          class="col label-outer"
+          class="col "
           ng-repeat ="answerValue in view.data.options">
-     <!--      <label class="item-input  item-icon-right">
+
+          <label class="item-input  input-lable  item-icon-right">
+
            <input class="b-b b-t b-l b-r"
               id = "numberType"
               type="tel" 
-              placeholder=""
+              placeholder="{{answerValue.option}}"
               ng-model="view.val_answerValue[answerValue.option]"
               ng-readonly = "!view.readonly"/>
 
-            <span>{{answerValue.option}}</span>
+            <!-- <span></span>
             
           </label> -->
-          <input type="text" id="yourText" disabled />
-<input type="checkbox" id="yourBox" />
+     
         </div>
       </div>
 
