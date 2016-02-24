@@ -52,6 +52,9 @@ html,html * {
     background-color: #008380;
     box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
 }
+.project-name{
+	color: #00aaa7;
+}
 	.m-b-20{
 		margin-bottom: 20px;
 	}
@@ -63,6 +66,9 @@ html,html * {
 	}
 	.f-w-400{
 		font-weight: 400;
+	}
+	.f-w-500{
+		font-weight: 500;
 	}
 	.inline{
 		display: inline;
@@ -170,7 +176,7 @@ html,html * {
 			}
 		}
 		.title{
-			color: @color-black;
+			color: @color-white;
 			font-size: 1.071em;
 			left: 0!important;
 			right: 0!important;
@@ -261,6 +267,7 @@ html,html * {
 			background: @color-white;
 		}
 	}
+
 	/***MESSAGES***/
 	.info-msg{
 		i{
@@ -271,8 +278,8 @@ html,html * {
 		}
 		
 		&.bg-balanced{
-			background: @color-green-sea;
-			color: @color-white;
+			 background: #FFF4CB;
+    color: #040404;
 			i{
 				top: 3px;
 			}
@@ -855,10 +862,7 @@ ul{
 		margin:0;
 	}
 }
-.info-msg.bg-balanced {
-    background: #FFF4CB;
-    color: #040404;
-}
+
 /***NAVBAR***/
   	.bar{
 	&.bar-header{
@@ -1004,13 +1008,13 @@ ul{
 		margin-bottom: 20px;
 	}
 	h4{
-		font-size: 40px;
+		font-size: 36px;
 		font-weight: 200;
 	}
 	h5{
 		font-size: 25px;
 		margin-top: 20px;
-		margin-bottom: 0px;
+		
 	}
 	h6{
 		font-size: 19px;
@@ -1150,6 +1154,7 @@ ul{
 	{
 		font-size: 20px;
 		margin-bottom: 0;
+		line-height: 24px;
 	}
 	.notification-time
 	{
