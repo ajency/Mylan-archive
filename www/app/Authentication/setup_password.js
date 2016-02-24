@@ -23,7 +23,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         console.log('--');
         console.log(boolPassword);
         if ((this.New_password === '' || this.Re_password === '') || ((_.isUndefined(this.New_password) && _.isUndefined(this.New_password)) || (boolPassword === false) || (boolRePassword === false))) {
-          return this.passwordmissmatch = "Please Enter Valid 4 digit password";
+          return this.passwordmissmatch = "Please Enter valid 4 digit password";
         } else {
           if (angular.equals(this.New_password, this.Re_password)) {
             CSpinner.show('', 'Please wait..');
