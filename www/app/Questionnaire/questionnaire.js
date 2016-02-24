@@ -462,7 +462,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         if (!_.isUndefined(data.status)) {
           if (data.status === 'saved_successfully') {
             return App.navigate('summary', {
-              summary: responseId
+              summary: $stateParams.respStatus
             });
           } else if (data.status === 'completed') {
             this.title = 'This questionnaire was Completed';

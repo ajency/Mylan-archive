@@ -73,6 +73,9 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       reset: function() {
         this.loginerror = '';
         return this.password = '';
+      },
+      call: function() {
+        return App.callUs(MYLANPHONE);
       }
     };
     onDeviceBack = function() {

@@ -60,10 +60,13 @@ angular.module 'PatientApp.init'
 					hideOnStateChange: true
 
 			hide:->
-				$ionicLoading.hide();
+				$ionicLoading.hide()
 			      
 			clear:->
 				@emptyfield="" 
+
+			call:()->
+				App.callUs(MYLANPHONE)
 				
 ]
 	

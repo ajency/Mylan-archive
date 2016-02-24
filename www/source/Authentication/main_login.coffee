@@ -66,6 +66,9 @@ angular.module 'PatientApp.Auth'
 				@loginerror = ''
 				@password = ''
 
+			call:()->
+				App.callUs(MYLANPHONE)
+
 		onDeviceBack = ->
 			if App.previousState == 'setup_password'
 				App.navigate "setup", {}, {animate: false, back: false}

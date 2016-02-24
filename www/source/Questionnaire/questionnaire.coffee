@@ -434,7 +434,7 @@ angular.module 'PatientApp.Quest',[]
 			checkQuestinarieStatus:(data)->
 				if !_.isUndefined(data.status)
 					if data.status == 'saved_successfully'
-						App.navigate 'summary', summary:responseId
+						App.navigate 'summary', summary: $stateParams.respStatus
 					else if data.status == 'completed'
 						@title = 'This questionnaire was Completed'
 						@showConfirm()
