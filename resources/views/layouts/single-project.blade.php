@@ -83,7 +83,7 @@
                <!-- BEGIN TOP NAVIGATION MENU -->
                <div class="pull-right">
                   <div class="chat-toggler">
-                     <a href="#">
+                     <a href="#" class="pull-right">
                         <div class="user-details">
                            <div class="username">
                               {{ Auth::user()->name }}    

@@ -41,7 +41,7 @@
 <div class="tiles white">
    <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                          <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
+                          <h4> <i class="fa fa-users text-success m-r-5"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
                          </div>
    </a>                      
                          </div>
@@ -50,7 +50,7 @@
                      <div class="tiles white">
          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=active') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                            <h4> <i class="fa fa-users"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $activepatients }} </b></h4>
+                            <h4> <i class="fa  fa-check-square-o text-success m-r-5"></i> Total Active Patients:  <b class="bigger text-success pull-right">{{ $activepatients }} </b></h4>
                            </div>
          </a>
                          </div>
@@ -67,7 +67,7 @@
                               <div class="tiles-body">
                                  <h5 class="bold m-0"> Red <i class="fa fa-flag text-error" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Red Flags generated across submissions"></i></h5>
 
-                                 <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
+                                 <p class="p-t-10 m-0 text-muted prev-base">Previous / Baseline </p>
                                  <h2 class="m-0"><a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red&type=previous"><b class="grey">{{ $responseCount['redPrevious'] }} </b></a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=red&type=baseline"><b class="f-w grey"> {{ $responseCount['redBaseLine'] }}</b></a></h2>
                               </div>
                            </div>
@@ -80,7 +80,7 @@
                                  <h5 class="bold m-0"> Amber <i class="fa fa-flag text-warning" ></i>&nbsp;  <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Total number of Amber Flags generated across submissions"></i></h5>
 
 
-                                 <p class="p-t-10 m-0 text-muted">Previous / Baseline </p>
+                                 <p class="p-t-10 m-0 text-muted prev-base">Previous / Baseline </p>
                                  <h2 class="m-0"><a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=amber&type=previous"><b class="grey">{{ $responseCount['amberPrevious'] }} </b></a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/flags?active=amber&type=baseline"><b class="f-w grey"> {{ $responseCount['amberBaseLine'] }}</b></a></h2>
 
                               </div>
@@ -91,8 +91,8 @@
                         <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed">
                            <div class="tiles white added-margin">
                               <div class="tiles-body p-17">
-                                 <h5 class="bold m-b-20 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
-                                 <!-- <p>Lorem ipsum dolor </p> -->
+                                 <h5 class="bold m-b-30 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
+                                 <!-- <p class="prev-base">&nbsp;</p> -->
                                  <h2 class="bold">
                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}</b></a></h2>
                               </div>
@@ -141,10 +141,11 @@
          </div>
          <div class="col-sm-4">
             <div class=" simple grid-table m-t-20">
-                           <div class="grid-title no-border">
+                           <div class="grid-title no-border text-center">
                               <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activity"></i></h4>
                         
                            </div>
+
                            <div class="grid-body no-border" style="display: block;">
                            @if(!empty($prejectAlerts['alertMsg']))
                             @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
@@ -164,6 +165,7 @@
                               No New Notification
                           @endif
 <!--                             <div class="notification-messages info">
+ 
                              
       <div class="message-wrapper">
          <div class="heading"> New Patient ID Generated </div>
@@ -203,20 +205,22 @@
 
                   <br>
                   <div class="grid simple ">
-                           <div class="grid-body no-border table-data ">
-                              <div class="row">
-                                 <div class="col-sm-6"><h4 class="m-t-25">Health <span class="semi-bold">Tracker</span></h4></div>
-                                 <div class="col-sm-6">
-                                 <select class="m-t-20 pull-right" name="generateChart">
-                                   
-                                   <option value="red_flags" selected> Red Flags</option>
-                                   <option value="amber_flags">  Amber Flags</option>
-                                   <option value="unreviewed" >Unreviewed Submissions</option>
-                                   <option value="submissions">Submissions</option>
-                                </select>
-                           
-                                 </div>
-                              </div>
+                          <div class="grid-title no-border">
+                            <div class="row health-tracker-grid">
+                               <div class="col-sm-6"><h4 class="m-t-25">Health <span class="semi-bold">Tracker</span></h4></div>
+                               <div class="col-sm-6">
+                               <select class="m-t-20 pull-right" name="generateChart">
+                                 
+                                 <option value="red_flags" selected> Red Flags</option>
+                                 <option value="amber_flags">  Amber Flags</option>
+                                 <option value="unreviewed" >Unreviewed Submissions</option>
+                                 <option value="submissions">Submissions</option>
+                              </select>
+                         
+                               </div>
+                            </div>
+                          </div>
+                           <div class="grid-body no-border table-data ">                              
                               <div id="chartdiv" style="width:100%;"></div>
                            </div>
                         </div>
