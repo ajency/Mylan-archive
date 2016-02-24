@@ -39,6 +39,10 @@ p {
 .l-h-20 {
   line-height: 20px;
 }
+.summary-ans-label {
+  margin-top: 10px;
+  display: block;
+}
 .question-label {
   float: left;
   color: white;
@@ -55,6 +59,9 @@ p {
 }
 .project-name {
   color: #00aaa7;
+}
+.op-4 {
+  opacity: .4;
 }
 .m-b-20 {
   margin-bottom: 20px;
@@ -1028,7 +1035,7 @@ ul .mcq_active div span {
   .item.item-radio .item-content span {
     width: 35px;
     height: 35px;
-    line-height: 38px;
+    line-height: 34px;
   }
   /***NAVBAR***/
   .bar.bar-header {
