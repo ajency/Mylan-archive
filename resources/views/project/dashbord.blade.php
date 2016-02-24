@@ -540,7 +540,7 @@
       <script type="text/javascript">
       
    $(document).ready(function() {
-      AmCharts.ready(function() {
+ 
       <?php 
     foreach($patients as $patient)
     {
@@ -553,9 +553,7 @@
       <?php 
     } 
   ?>
-
-  });
-
+ 
    });
         
          
