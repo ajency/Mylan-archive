@@ -105,7 +105,7 @@
                <div class="grid-title no-border">
                   <h4>
                      Patient <span class="semi-bold">Summary</span> 
-                     <sm class="light">(These is for the Cumulative Submissions)</sm>
+                     <sm class="light">(These are for the Cumulative Submissions)</sm>
                   </h4>
                   <!-- <div class="tools">
                   <label class="filter-label">Filter</label>
