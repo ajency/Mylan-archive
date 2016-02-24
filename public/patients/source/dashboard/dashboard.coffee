@@ -29,8 +29,9 @@ angular.module 'angularApp.dashboard',[]
 				.then (data)=>
 					@data = data
 					@display = 'noError'
-					if @data.length < 6
-						@showMoreButton = false
+					arr = _.reject(@data, (d) -> d.status == 'base_line')
+					if arr.length <= 6
+						@showMoreButton = true
 				,(error)=>
 					@display = 'error'
 					@errorType = error
