@@ -767,50 +767,88 @@ function submissionBarChart(chartData,container)
 
 }
 
+
 function miniGraph(chartData,container)
-{
-    // line chart, with different line color below zero         
-    var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
-    chart.dataProvider = chartData;
-    chart.categoryField = "submission";
-    chart.autoMargins = false;
-    chart.marginLeft = 0;
-    chart.marginRight = 5;
-    chart.marginTop = 0;
-    chart.marginBottom = 0;
-
-    var graph = new AmCharts.AmGraph();
-    graph.valueField = "score";
-    graph.showBalloon = false;
-    graph.lineColor = "#ffbf63";
-    graph.negativeLineColor = "#289eaf";
-    chart.addGraph(graph);
-
-    var baseLine = new AmCharts.AmGraph();
-    baseLine.valueField = "baseLine";
-    baseLine.showBalloon = false;
-    baseLine.lineColor = "#000";
-    baseLine.negativeLineColor = "#84B761";
-    chart.addGraph(baseLine);
-
-    var valueAxis = new AmCharts.ValueAxis();
-    valueAxis.gridAlpha = 0;
-    valueAxis.axisAlpha = 0;
-    chart.addValueAxis(valueAxis);
-
-    var categoryAxis = chart.categoryAxis;
-    categoryAxis.gridAlpha = 0;
-    categoryAxis.axisAlpha = 0;
-    categoryAxis.startOnAxis = true;
-
-    // using guide to show 0 grid
-    // var guide = new AmCharts.Guide();
-    // guide.value = 0;
-    // guide.lineAlpha = 0.1;
-    // valueAxis.addGuide(guide);
-    chart.write(container);
+{  
+    AmCharts.makeChart(container, {
+    "type": "serial",
+    "dataProvider": chartData,
+    "valueAxes": [{
+        "axisAlpha": 0,
+        "gridAlpha": 0
+    }],
+    "graphs": [{
+        "dashLength": 2,
+        "inside": true,
+         "title": "score",
+         "lineColor": "#ffbf63",
+        "valueField": "score"
+    },
+     {
+        "type":"step",
+        "lineThickness": 1,
+        "title": "Baseline",
+        "lineColor": "#000",
+        "valueField": "baseLine"
+    }         ],
+    "marginTop": 0,
+    "marginRight": 0,
+    "marginLeft": 0,
+    "marginBottom": 0,
+    "autoMargins": false,
+    "categoryField": "day",
+    "categoryAxis": {
+        "axisAlpha": 0,
+        "gridAlpha": 0
+    }
+});
  
 }
+
+// function miniGraph(chartData,container)
+// {
+//     // line chart, with different line color below zero         
+//     var chart = new AmCharts.AmSerialChart(AmCharts.themes.none);
+//     chart.dataProvider = chartData;
+//     chart.categoryField = "submission";
+//     chart.autoMargins = false;
+//     chart.marginLeft = 0;
+//     chart.marginRight = 5;
+//     chart.marginTop = 0;
+//     chart.marginBottom = 0;
+
+//     var graph = new AmCharts.AmGraph();
+//     graph.valueField = "score";
+//     graph.showBalloon = false;
+//     graph.lineColor = "#ffbf63";
+//     graph.negativeLineColor = "#289eaf";
+//     chart.addGraph(graph);
+
+//     var baseLine = new AmCharts.AmGraph();
+//     baseLine.valueField = "baseLine";
+//     baseLine.showBalloon = false;
+//     baseLine.lineColor = "#000";
+//     baseLine.negativeLineColor = "#84B761";
+//     chart.addGraph(baseLine);
+
+//     var valueAxis = new AmCharts.ValueAxis();
+//     valueAxis.gridAlpha = 0;
+//     valueAxis.axisAlpha = 0;
+//     chart.addValueAxis(valueAxis);
+
+//     var categoryAxis = chart.categoryAxis;
+//     categoryAxis.gridAlpha = 0;
+//     categoryAxis.axisAlpha = 0;
+//     categoryAxis.startOnAxis = true;
+
+//     // using guide to show 0 grid
+//     // var guide = new AmCharts.Guide();
+//     // guide.value = 0;
+//     // guide.lineAlpha = 0.1;
+//     // valueAxis.addGuide(guide);
+//     chart.write(container);
+ 
+// }
 
 
 $('.sortSubmission').click(function (event) { 
