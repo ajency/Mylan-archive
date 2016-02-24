@@ -28,10 +28,16 @@
                               <h3 class="">Analytics</h3>
                            </div>
                            <div class="col-sm-4 m-t-10">
-                              <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
-                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                                 <span></span> <b class="caret"></b>
-                              </div>
+                              <form name="searchData" method="GET"> 
+                               <input type="hidden" class="form-control" name="startDate"  >
+                               <input type="hidden" class="form-control" name="endDate"  >
+                                  <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                     <span></span> <b class="caret"></b>
+                                  </div>
+
+                               </form>
+                               <input type="hidden" name="flag" value="0">
                            </div>
                         </div>
                      </div>
@@ -159,7 +165,7 @@
                               </div>
                             @endforeach
                             <div class="text-right">
-                                 <a href="#" class="text-success {{ ($prejectAlerts['alertCount']>5) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>5) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                           @else 
                               No New Notification

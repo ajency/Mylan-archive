@@ -111,5 +111,6 @@ Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@va
 
 Route::get( '/getsubmissionlist', 'Project\ProjectController@getSubmissionList' );
 Route::get( '/getpatientsummarylist', 'Project\ProjectController@getPatientSummaryList' );
+Route::get( '/notifications', 'Project\ProjectController@getNotifications' );
 });
 
