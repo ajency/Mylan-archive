@@ -36,7 +36,7 @@ angular.module 'PatientApp.Auth',[]
 					console.log boolPassword
 
 					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)) || (boolPassword == false) ||(boolRePassword == false))
-						@passwordmissmatch = "Please Enter Valid 4 digit password"		
+						@passwordmissmatch = "Please Enter valid 4 digit password"		
 					else			
 						if angular.equals(@New_password, @Re_password)
                         	CSpinner.show '', 'Please wait..'
