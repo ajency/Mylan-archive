@@ -1,3 +1,5 @@
+MYLANPHONE = '1234567891'
+
 ## test ####
 
 AUTH_URL = 'http://mylantest.ajency.in/api/v1'

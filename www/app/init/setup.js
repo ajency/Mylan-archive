@@ -74,6 +74,9 @@ angular.module('PatientApp.init').controller('setupCtr', [
       },
       clear: function() {
         return this.emptyfield = "";
+      },
+      call: function() {
+        return App.callUs(MYLANPHONE);
       }
     };
   }
