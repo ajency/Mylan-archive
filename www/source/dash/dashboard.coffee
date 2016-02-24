@@ -95,6 +95,8 @@ angular.module 'PatientApp.dashboard',[]
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.data = []
+			$scope.view.limitTo = 5
+			$scope.view.showMoreButton = true
 
 ]
 

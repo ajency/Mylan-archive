@@ -107,7 +107,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       });
     });
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      return $scope.view.data = [];
+      $scope.view.data = [];
+      $scope.view.limitTo = 5;
+      return $scope.view.showMoreButton = true;
     });
   }
 ]).config([
