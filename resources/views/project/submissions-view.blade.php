@@ -33,10 +33,14 @@
                  <div class="row">
                   @foreach($inputValueChart as $inputValue)
                   <div class="submission-chart-wt">
-                  <span class="input-text">{{ $inputValue['question'] }}</span>
-                    <span class="previous {{ ($responseData['previousFlag']=='')?'hidden':'' }}">{{ $inputValue['prev'] }}</span>
-                    <span class="baseline">{{ $inputValue['base'] }}</span>
-                    <span class="current">{{ $inputValue['current'] }}</span>
+                    <div class="input-text-outer">
+                      <span class="input-text">{{ $inputValue['question'] }}</span>
+                    </div>
+                    <div class="input-values p-b-10">  
+                      <span class="previous {{ ($responseData['previousFlag']=='')?'hidden':'' }}">{{ $inputValue['prev'] }}</span>
+                      <span class="baseline">{{ $inputValue['base'] }}</span>
+                      <span class="current">{{ $inputValue['current'] }}</span>
+                    </div>
                  </div>
                   @endforeach
                   </div>
