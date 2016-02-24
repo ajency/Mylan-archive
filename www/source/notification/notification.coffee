@@ -1,7 +1,7 @@
 angular.module 'PatientApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount'
-	, ($scope, App, Storage, notifyAPI, $rootScope, NotifyCount)->
+.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner'
+	, ($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner)->
 
 		$scope.view =
 			data : []
@@ -44,6 +44,7 @@ angular.module 'PatientApp.notification',[]
 						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
 					@onScrollComplete()	
 				, (error)=>
+					@data = []
 					@display = 'error'
 					@errorType = error
 				.finally =>
@@ -81,14 +82,27 @@ angular.module 'PatientApp.notification',[]
 				$scope.$broadcast 'scroll.infiniteScrollComplete'
 
 			DeleteAll:()->
+				# param = 
+				# 	"patientId": @refcode 
+				CSpinner.show '', 'Please wait..'
+				objIds = _.pluck(@data, 'id')  
 				param = 
-					"patientId": @refcode 
+				 	"notificationIds": objIds
+
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
+					App.notification.count = App.notification.count - objIds.length
+					App.notification.badge = false if App.notification.count <= 0
+					# @badge = false if @count <= 0
 					@data = []
+					App.scrollTop()
+					App.resize()
 					@page = 0
-					App.notification.count = 0
-					App.notification.badge = false
+					@canLoadMore = true
+					@display = 'loader'
+					@init()
+					# App.notification.count = 0
+					# App.notification.badge = false
 				,(error)->
 					if error == 'offline'
 							CToast.show 'Check net connection'
@@ -96,6 +110,8 @@ angular.module 'PatientApp.notification',[]
 							CToast.showLongBottom 'Error in clearing Notification ,Server error'
 						else
 							CToast.showLongBottom 'Error in clearing Notification ,Server error'
+				.finally ->
+					CSpinner.hide()
 
 			onPullToRefresh : ->
 				@gotAllRequests = false

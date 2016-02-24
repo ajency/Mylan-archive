@@ -35,8 +35,9 @@ angular.module 'PatientApp.notification'
 		defer.promise
 
 	notifyAPI.deleteAllNotification = (param)->
+		#clearAllNotifications
 		defer = $q.defer()		
-		App.SendParseRequest('clearAllNotifications', param)
+		App.SendParseRequest('clearNotificationByIds', param)
 		.then (data)->
 			defer.resolve data
 		, (error)=>

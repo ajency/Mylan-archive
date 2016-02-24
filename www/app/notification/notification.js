@@ -1,5 +1,5 @@
 angular.module('PatientApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', function($scope, App, Storage, notifyAPI, $rootScope, NotifyCount) {
+  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner', function($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner) {
     $scope.view = {
       data: [],
       display: 'noError',
@@ -48,6 +48,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
           };
         })(this), (function(_this) {
           return function(error) {
+            _this.data = [];
             _this.display = 'error';
             return _this.errorType = error;
           };
@@ -98,16 +99,25 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         return $scope.$broadcast('scroll.infiniteScrollComplete');
       },
       DeleteAll: function() {
-        var param;
+        var objIds, param;
+        CSpinner.show('', 'Please wait..');
+        objIds = _.pluck(this.data, 'id');
         param = {
-          "patientId": this.refcode
+          "notificationIds": objIds
         };
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
+            App.notification.count = App.notification.count - objIds.length;
+            if (App.notification.count <= 0) {
+              App.notification.badge = false;
+            }
             _this.data = [];
+            App.scrollTop();
+            App.resize();
             _this.page = 0;
-            App.notification.count = 0;
-            return App.notification.badge = false;
+            _this.canLoadMore = true;
+            _this.display = 'loader';
+            return _this.init();
           };
         })(this), function(error) {
           if (error === 'offline') {
@@ -117,6 +127,8 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
           } else {
             return CToast.showLongBottom('Error in clearing Notification ,Server error');
           }
+        })["finally"](function() {
+          return CSpinner.hide();
         });
       },
       onPullToRefresh: function() {

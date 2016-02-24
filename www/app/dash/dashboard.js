@@ -37,8 +37,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               arr = _.reject(_this.data, function(d) {
                 return d.status === 'base_line';
               });
-              if (arr.length <= 6) {
-                _this.showMoreButton = true;
+              if (arr.length < 6) {
+                _this.showMoreButton = false;
               }
               arr = [];
               if (!_.isEmpty(_.where(_this.data, {
@@ -75,7 +75,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         })(this));
       },
       displaydata: function() {
-        this.data = [];
         return this.getSubmission();
       },
       summary: function(id) {
@@ -100,12 +99,15 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         }
       }
     };
-    return $scope.$on('$ionicView.enter', function(event, viewData) {
+    $scope.$on('$ionicView.enter', function(event, viewData) {
       console.log('view enter');
       $scope.view.displaydata();
       return Storage.setData('refcode', 'get').then(function(refcode) {
         return NotifyCount.getCount(refcode);
       });
+    });
+    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      return $scope.view.data = [];
     });
   }
 ]).config([

@@ -41,7 +41,7 @@ angular.module('PatientApp.notification').factory('notifyAPI', [
     notifyAPI.deleteAllNotification = function(param) {
       var defer;
       defer = $q.defer();
-      App.SendParseRequest('clearAllNotifications', param).then(function(data) {
+      App.SendParseRequest('clearNotificationByIds', param).then(function(data) {
         return defer.resolve(data);
       }, (function(_this) {
         return function(error) {

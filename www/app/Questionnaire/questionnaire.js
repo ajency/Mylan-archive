@@ -140,9 +140,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               if (error === 'offline') {
                 return CToast.showLongBottom('Please check your internet connection');
               } else if (error === 'server_error') {
-                return CToast.show('Error in saving answer,server error');
+                return CToast.show('Server error. Try again!');
               } else {
-                return CToast.show('Error in saving answer,try again');
+                return CToast.show('Server error. Try again!');
               }
             })["finally"](function() {
               return CSpinner.hide();
@@ -267,11 +267,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               }
             }, function(error) {
               if (error === 'offline') {
-                return CToast.show('Check net connection');
+                return CToast.show('Please check your internet connection');
               } else if (error === 'server_error') {
-                return CToast.showLongBottom('Error in dispalying previous,server error');
+                return CToast.showLongBottom('Server error. Try again!');
               } else {
-                return CToast.showLongBottom('Error in dispalying previous,try again');
+                return CToast.showLongBottom('Server error. Try again!');
               }
             })["finally"](function() {
               return CSpinner.hide();

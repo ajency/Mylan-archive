@@ -151,9 +151,9 @@ angular.module 'PatientApp.Quest',[]
 						if error == 'offline'
 							CToast.showLongBottom 'Please check your internet connection'
 						else if error == 'server_error'
-							CToast.show 'Error in saving answer,server error'
+							CToast.show 'Server error. Try again!'
 						else
-							CToast.show 'Error in saving answer,try again'
+							CToast.show 'Server error. Try again!'
 					.finally ->
 						CSpinner.hide()
 
@@ -274,11 +274,11 @@ angular.module 'PatientApp.Quest',[]
 							@hasAnswerShow()	
 					,(error)=>
 						if error == 'offline'
-							CToast.show 'Check net connection'
+							CToast.show 'Please check your internet connection'
 						else if error == 'server_error'
-							CToast.showLongBottom 'Error in dispalying previous,server error'
+							CToast.showLongBottom 'Server error. Try again!'
 						else
-							CToast.showLongBottom 'Error in dispalying previous,try again'
+							CToast.showLongBottom 'Server error. Try again!'
 					.finally ->
 						CSpinner.hide()
 

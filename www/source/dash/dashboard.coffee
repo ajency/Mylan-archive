@@ -40,8 +40,9 @@ angular.module 'PatientApp.dashboard',[]
 						@data = data
 						# arr = _.reject(@data, function(d){ return d.status === 'base_line'; })
 						arr = _.reject(@data, (d) -> d.status == 'base_line')
-						if arr.length <= 6
-							@showMoreButton = true
+						if arr.length < 6
+							@showMoreButton = false
+						
 						arr = []
 						if !_.isEmpty(_.where(@data, {status: "due"})) 
 							 arr.push _.where(@data, {status: "due"})
@@ -65,7 +66,7 @@ angular.module 'PatientApp.dashboard',[]
 						App.resize()
 
 			displaydata : ->
-				@data = []
+				# @data = []
 				@getSubmission()	
 				
 
@@ -91,6 +92,9 @@ angular.module 'PatientApp.dashboard',[]
 			Storage.setData 'refcode','get'
 				.then (refcode)->
 					NotifyCount.getCount(refcode)
+
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.data = []
 
 ]
 
