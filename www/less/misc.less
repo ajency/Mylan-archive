@@ -29,8 +29,28 @@ html,html * {
 		font-weight: 200;
 		color: @color-text-gray;
 	}
+	.margin-none{
+		margin:0px;
+	}
+	.ion-android-arrow-dropdown:before {
+    margin-right: 13px;
+}
 	.l-h-20{
   line-height: 20px;
+}
+.question-label{
+	float: left;
+	color:white;
+}
+.prev-answers{
+	padding: 5px 10px !important;
+    font-size: 12px;
+    line-height: 18px;
+}
+.bar-light .button.activated {
+    border-color: #ccc;
+    background-color: #008380;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 	.m-b-20{
 		margin-bottom: 20px;
@@ -80,6 +100,9 @@ html,html * {
 			border: 0.500em solid @color-light-gray;
 		}
 	}
+	.view-more{
+		    color: #00AAA7 !important;
+	}
 	.text-primary{
 		color: @color-primary!important;
 	}
@@ -115,10 +138,14 @@ html,html * {
 	}
 	/***HEADER & FOOTER STYLES***/
 	.bar{
+		button{
+			color:#fff !important;
+		}
 	&.bar-header{
 		-webkit-box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
 		-moz-box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
 		box-shadow: 0 1px 4px 0px rgba(90, 90, 90, 0.51);
+		background: #00AAA7;
 		.button.update{
 		margin-left: 5px;
 			.badge{
@@ -126,8 +153,17 @@ html,html * {
 				font-size: 11px;
 			}
 		}
+		.ion-ios-telephone{
+			font-size: 20px;
+		}
+		button{
+			border-color: rgba(255, 255, 255, 0.5);
+		    background-color: #00AAA7;
+		    color: #FFF;
+		    font-weight: bold;
+		}
 		.button-outline.button-balanced{
-			border:1px solid @color-green-sea;
+			border:1px solid rgba(255, 255, 255, 0.5);
 			color: @color-green-sea;
 			&.activated{
 				background: #fff;
@@ -485,7 +521,7 @@ ul{
 }
 	
 	.clm-list{
-		border-bottom: 1px solid #eee;
+		// border-bottom: 1px solid #eee;
 
 		.button{
 			margin: 0.286em;
@@ -552,7 +588,6 @@ ul{
   }
   .q-title{
 		font-weight: 500;
-		margin-bottom: 20px;
 		.badge{
 			width: 25px;
 			height: 25px;
@@ -820,10 +855,15 @@ ul{
 		margin:0;
 	}
 }
+.info-msg.bg-balanced {
+    background: #FFF4CB;
+    color: #040404;
+}
 /***NAVBAR***/
   	.bar{
 	&.bar-header{
 		height: 55px;
+		
 		img{
 			height: 42px!important;
 		}
@@ -833,6 +873,7 @@ ul{
 		}
 		button{
 			margin:0 0 0 10px;
+	
 		}
 		.right-buttons{
 			top:3px;
@@ -926,6 +967,10 @@ ul{
 
 
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation:portrait){
+		.prev-answers{
+    font-size: 20px;
+    line-height: 24px;
+}
   	.centering{
   		padding-top: 10%;
   	}
@@ -965,7 +1010,7 @@ ul{
 	h5{
 		font-size: 25px;
 		margin-top: 20px;
-		margin-bottom: 20px;
+		margin-bottom: 0px;
 	}
 	h6{
 		font-size: 19px;
@@ -1354,6 +1399,14 @@ line-height: 38px;
 
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (orientation:landscape)
 {
+	.q-title{
+		.margin-none;
+	}
+
+		.prev-answers{
+    font-size: 18px;
+    line-height: 24px;
+}
 	.bar.bar-footer 
 	{
 		.button
@@ -1427,6 +1480,7 @@ line-height: 38px;
 	&.bar-header{
 		button{
 			margin:0 8px 0 10px;
+			padding:0px 15px;
 		}
 		.right-buttons{
 			top:8px;
@@ -1482,6 +1536,7 @@ margin-bottom:0;
 		{
 			height: 45px;
 			font-size: 17px;
+
 		}
 		.button.update .badge
 		{
