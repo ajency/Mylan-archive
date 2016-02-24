@@ -165,7 +165,7 @@ hr.broad {
   background: #fff;
 }
 .bar.bar-header .title {
-  color: #000000;
+  color: #ffffff;
   font-size: 1.071em;
   left: 0!important;
   right: 0!important;
@@ -263,8 +263,8 @@ h3.line-title span {
   top: -3px;
 }
 .info-msg.bg-balanced {
-  background: #00aaa7;
-  color: #ffffff;
+  background: #FFF4CB;
+  color: #040404;
 }
 .info-msg.bg-balanced i {
   top: 3px;
@@ -769,10 +769,6 @@ ul .mcq_active div span {
   .bg-yellow h5,
   .bg-yellow .col {
     margin: 0;
-  }
-  .info-msg.bg-balanced {
-    background: #FFF4CB;
-    color: #040404;
   }
   /***NAVBAR***/
   .bar.bar-header {
