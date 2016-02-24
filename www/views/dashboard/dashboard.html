@@ -32,8 +32,8 @@
       </div>
       <!--  <div class="scroll-down"><i class="icon ion-chevron-down"></i></div> -->
       <div class="padding">
-         <h5 class="f-w-400">Questionnaire Summary</h5>
-         <h6>It's time to complete your Questionnaire </h6>
+         <h5 class="f-w-400 margin-none">Questionnaire Summary</h5>
+         <h6 >It's time to complete your Questionnaire </h6>
       </div>
 
        <div>
@@ -158,12 +158,13 @@
 
         <!--  <hr> -->
       </label>
-          <button 
+         <!--  <button 
               ng-if = "view.showMoreButton"
               class="button button-block button-dark show-more"
               ng-click="view.showMore()">
               View More
-          </button>
+          </button> -->
+          <button ng-if = "view.showMoreButton" ng-click="view.showMore()"class="button button-clear ion-android-arrow-dropdown button-block button-stable view-more">View More</button>
       </div>
       <aj-error class="errors"
             error-type="view.errorType"
@@ -176,7 +177,7 @@
           <P class="padding 
            l-h-20">
             <span>
-              If you feel unwell or would like to chat to someone at the hospital about your illness, you don't need to wait for your next
+              <b class="assertive">Note : </b>If you feel unwell or would like to chat to someone at the hospital about your illness, you don't need to wait for your next
               appoinment, just select the contact us button at the top of the screen.
             </span>
           </P>
