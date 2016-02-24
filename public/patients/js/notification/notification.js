@@ -116,16 +116,17 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         return this.init();
       },
       DeleteAll: function() {
-        var param;
+        var objIds, param;
+        objIds = _.pluck(this.data, 'id');
         param = {
-          "patientId": RefCode
+          "notificationIds": objIds
         };
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            $rootScope.$broadcast('delete:all:count');
-            _this.gotAllRequests = true;
+            _this.display = 'loader';
             _this.canLoadMore = false;
             _this.data = [];
+            _this.init();
             console.log('sucess notification seen data');
             return console.log(data);
           };

@@ -41,7 +41,7 @@ angular.module 'angularApp.notification'
 	notifyAPI.deleteAllNotification = (param)->
 
 		defer = $q.defer()		
-		App.SendParseRequest('clearAllNotifications', param)
+		App.SendParseRequest('clearNotificationByIds', param)
 		.then (data)->
 			defer.resolve data
 		, (error)=>
