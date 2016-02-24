@@ -540,6 +540,14 @@ ul .mcq_active div span {
 .label-outer label input[disabled] + span {
   color: #999;
 }
+.input-lable {
+  padding: 0 !important;
+}
+.input-lable input {
+  padding: 10px;
+  height: 45px;
+  border: 1px solid #ccc;
+}
 .delete-btn {
   padding: 5px;
   min-width: 20px;
