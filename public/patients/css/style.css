@@ -995,11 +995,19 @@ div.q-tabs .active:hover {
   position: relative;
 }
 .input input {
-  width: 100%;
+  width: 88%;
   border: none;
-  border-bottom: 1px solid #ccc;
+  /*border-bottom: 1px solid #ccc;*/
   padding: 10px;
   font-size: 16px;
+}
+.input input[type="password"] {
+  position: relative;
+  z-index: 9999;
+  border-bottom: none !important;
+}
+.input input[type="text"] {
+  border-bottom: none !important;
 }
 .input input[data-placeholder] {
   color: #AAA;
@@ -1021,9 +1029,16 @@ div.q-tabs .active:hover {
   text-align: left;
   font-size: 12px;
 }
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset;
+}
+form .placeholderWrap .form-control:focus {
+  box-shadow: 0 0 0px 1000px white inset;
+}
 .input .placeholderWrap {
   position: relative;
   display: block;
+  border-bottom: 1px solid #ccc;
 }
 .input .placeholderWrap label {
   color: #555;

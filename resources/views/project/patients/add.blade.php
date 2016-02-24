@@ -64,16 +64,16 @@
                     <div class="row form-row">
                
                     <div class="col-sm-6">
-                      <label>Is Alcoholic</label>
+                      <!-- <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option> 
-                        </select>
+                        </select> -->
                     </div>
                     <div class="col-sm-6 ">
-                      <label>If yes, units per week</label>
-                        <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
+                     <!--  <label>If yes, units per week</label>
+                        <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" > -->
                     </div>
                     </div>
                     </div>
