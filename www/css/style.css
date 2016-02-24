@@ -505,6 +505,9 @@ ul .mcq_active div span {
   text-align: center;
   padding-top: 54%;
 }
+.loader.dashboard-loader {
+  padding-top: 0;
+}
 .buttons .button-light.button-outline {
   width: auto;
 }
@@ -583,6 +586,9 @@ ul .mcq_active div span {
 @media screen and (max-width: 767px) and (orientation: landscape) {
   .loader {
     padding-top: 21%;
+  }
+  .loader.dashboard-loader {
+    padding-top: 0;
   }
   .info-msg.bg-balanced i.ion-ios-information-outline {
     top: -6px;
@@ -797,6 +803,9 @@ ul .mcq_active div span {
     width: 35px;
     height: 35px;
     line-height: 38px;
+  }
+  .loader.dashboard-loader {
+    padding-top: 0;
   }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
@@ -1055,6 +1064,9 @@ ul .mcq_active div span {
 	{		
 		height: 100%;
 	}*/
+  .loader.dashboard-loader {
+    padding-top: 0;
+  }
   .no-list .no {
     width: 30px;
     height: 30px;
@@ -1098,6 +1110,9 @@ ul .mcq_active div span {
   }
   .loader {
     padding-top: 20%;
+  }
+  .loader.dashboard-loader {
+    padding-top: 0;
   }
   .errors {
     text-align: center;
@@ -1170,6 +1185,9 @@ ul .mcq_active div span {
     top: 20px;
     height: 100%;
   }
+  .loader.dashboard-loader {
+    padding-top: 0;
+  }
 }
 @media (min-width: 600px) and (max-aspect-ratio: 13/9) {
   /***NAVBAR***/
@@ -1179,6 +1197,9 @@ ul .mcq_active div span {
   .bar.bar-header .right-buttons {
     top: 8px;
     right: 6px;
+  }
+  .loader.dashboard-loader {
+    padding-top: 0;
   }
 }
 .button.button-block.show-more {
@@ -1268,6 +1289,9 @@ ul .mcq_active div span {
   }
   .summary-header {
     font-size: 25px;
+  }
+  .loader.dashboard-loader {
+    padding-top: 0;
   }
 }
 /*# sourceMappingURL=style.css.map */
