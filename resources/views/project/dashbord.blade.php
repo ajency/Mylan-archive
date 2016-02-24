@@ -146,8 +146,24 @@
                         
                            </div>
                            <div class="grid-body no-border" style="display: block;">
-                           No New Notification
-  <!--                           <div class="notification-messages info">
+                           @if(!empty($prejectAlerts['alertMsg']))
+                            @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
+                              <div class="notification-messages {{ $prejectAlert['class'] }}">
+                                <div class="message-wrapper">
+                                     <div class="heading">Patient ID {{ $prejectAlert['patient'] }}   </div>
+                                     <div class="description"> {{ sprintf($prejectAlert['msg'], $prejectAlert['sequenceNumber'] ) }} </div>
+                                  </div>
+                                  <!-- <div class="date pull-right"> Yesterday </div> -->
+                                  <div class="clearfix"></div>
+                              </div>
+                            @endforeach
+                            <div class="text-right">
+                                 <a href="#" class="text-success {{ ($prejectAlerts['alertCount']>5) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                              </div>
+                          @else 
+                              No New Notification
+                          @endif
+<!--                             <div class="notification-messages info">
                              
       <div class="message-wrapper">
          <div class="heading"> New Patient ID Generated </div>
@@ -173,12 +189,10 @@
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
-   </div>
+   </div> -->
 
                               
-                              <div class="text-right">
-                                 <a href="notification.html" class="text-success">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
-                              </div> -->
+                              
                            </div>
                         </div>
          </div>

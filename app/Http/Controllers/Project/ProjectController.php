@@ -120,7 +120,7 @@ class ProjectController extends Controller
         $patientController = new PatientController();
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
         
- 
+        $prejectAlerts = $this->getProjectAlerts($projectId,5);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -134,11 +134,60 @@ class ProjectController extends Controller
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
+                                        ->with('prejectAlerts', $prejectAlerts)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl);
 
+    }
+
+    public function getProjectAlerts($projectId,$limit)
+    {
+        $alertQry = new ParseQuery("Alerts");
+        $alertQry->equalTo("project",$projectId);
+        $alertQry->equalTo("cleared",false);
+        $alertCount = $alertQry->count();
+
+        $alertQry = new ParseQuery("Alerts");
+        $alertQry->equalTo("project",$projectId);
+        $alertQry->equalTo("cleared",false);
+        if($limit!='')
+             $alertQry->limit($limit);
+        $alerts = $alertQry->find();
+
+        $alertMsg = [];
+        $alertTypes = [
+        'compared_to_previous_red_flags'=>"More Than 2 red flags raised for submmsion number %d in comparison with previous submission",
+        'new_patient'=>"New Patient Created"
+        ];
+
+        $alertClases = [
+        'compared_to_previous_red_flags'=>"danger",
+        'new_patient'=>"info"
+        ];
+
+        foreach ($alerts as $alert) {
+            $alertType = $alert->get("alertType");
+            $patient = $alert->get("patient");
+            $referenceId = $alert->get("referenceId");
+
+            if(isset($alertTypes[$alertType]))
+            {
+                $responseQry = new ParseQuery("Response");
+                $responseQry->equalTo("objectId", $referenceId); 
+                $response = $responseQry->first();
+                $sequenceNumber = $response->get("sequenceNumber");
+                $alertMsg[] = ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+            }
+           
+            
+        }
+
+        $data['alertMsg']=$alertMsg;
+        $data['alertCount']=$alertCount;
+
+        return $data;
     }
 
     public function getSubmissionList($hospitalSlug,$projectSlug)
