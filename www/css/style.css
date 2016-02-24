@@ -894,7 +894,6 @@ ul .mcq_active div span {
   h5 {
     font-size: 25px;
     margin-top: 20px;
-    margin-bottom: 0px;
   }
   h6 {
     font-size: 19px;
@@ -1019,6 +1018,7 @@ ul .mcq_active div span {
   .notification-screen .notification-msg {
     font-size: 20px;
     margin-bottom: 0;
+    line-height: 24px;
   }
   .notification-screen .notification-time {
     font-size: 16px;
