@@ -6,10 +6,10 @@
    </ion-nav-title>
    <ion-content ng-switch="view.display">
       
-     <!--  <div class="loader" ng-switch-when="loader">
+      <div class="loader" ng-switch-when="loader">
           <ion-spinner>
           </ion-spinner>
-      </div> -->
+      </div>
 
       <ion-refresher
         on-refresh="view.onPullToRefresh();"
@@ -108,7 +108,7 @@
         ng-disabled="view.data.length === 0"
         class="button clear-notification button-block button-balanced"
         ng-click="view.DeleteAll();">
-        Clear all Notifications
+        Clear displayed notifications
       </div>
 
    </ion-footer-bar>
