@@ -543,6 +543,13 @@ class SubmissionController extends Controller
             $response->set('reviewed',$reviewStatus);
             $response->save(); 
 
+            $alertQry = new ParseQuery("Alerts");
+            $alertQry->equalTo("referenceId",$responseId);
+            $alertObj= $alertQry->first();
+
+            $alertObj->set('cleared',true);
+            $alertObj->save();
+
             $json_resp = array(
               'code' => 'success' , 
               'message' => 'successfully updated'
