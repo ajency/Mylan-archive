@@ -120,7 +120,8 @@ class ProjectController extends Controller
         $patientController = new PatientController();
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
         
-        $prejectAlerts = $this->getProjectAlerts($projectId,5);
+        $cond=['cleared'=>false];
+        $prejectAlerts = $this->getProjectAlerts($projectId,5,0,[],$cond);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -142,18 +143,39 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjectAlerts($projectId,$limit)
+    public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[])
     {
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
-        $alertQry->equalTo("cleared",false);
+        if(!empty($cond))
+        {
+            foreach ($cond as $key => $value) {
+                $alertQry->equalTo($key,$value);
+            }
+        }
         $alertCount = $alertQry->count();
 
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
-        $alertQry->equalTo("cleared",false);
         if($limit!='')
-             $alertQry->limit($limit);
+        {
+            $alertQry->limit($limit);
+            $alertQry->skip($page * $limit); 
+        }
+        
+        if(!empty($dateCond))
+        {
+            $alertQry->greaterThanOrEqualTo("createdAt",$dateCond['startDate']);
+            $alertQry->lessThanOrEqualTo("createdAt",$dateCond['endDate']);
+        }
+
+        if(!empty($cond))
+        {
+            foreach ($cond as $key => $value) {
+                $alertQry->equalTo($key,$value);
+            }
+        }
+        $alertQry->descending("createdAt","cleared");
         $alerts = $alertQry->find();
 
         $alertMsg = [];
@@ -1167,7 +1189,46 @@ class ProjectController extends Controller
 
     }
 
-    
+    public function getNotifications($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $inputs = Input::get();
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate));
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                     );
+
+        $dateCond=['startDate'=>$startDateObj,'endDate'=>$endDateObj];
+
+        $prejectAlerts = $this->getProjectAlerts($projectId,"",0,$dateCond);
+
+        return view('project.notifications')->with('active_menu', '')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('prejectAlerts', $prejectAlerts)
+                                        
+                                        ->with('endDate', $endDate)
+                                        ->with('startDate', $startDate);
+        
+    }
 
 
     /**
