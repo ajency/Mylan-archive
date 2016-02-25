@@ -1469,17 +1469,16 @@ class PatientController extends Controller
 
         $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions) :[];
         // dd($firstQuestionId);
-
+        $optionScore = [];
         foreach ($options as   $option) {
             $questionId = $option->get('question')->getObjectId();
             $optionId = $option->getObjectId();
             $label = $option->get('label');
             $score = $option->get('score');
-            $optionsList[$questionId][$score] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
+            $optionScore[$questionId][$optionId]=$score;
+            $optionsList[$questionId][$optionId] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
         }
-
-        ksort($optionsList);
-
+ 
         if(!empty($response))
         {
             $baseLineResponseId = $response->getObjectId();
@@ -1521,6 +1520,7 @@ class PatientController extends Controller
         $data['questionnaireName'] = $questionnaireName; 
         $data['questionsList'] = $questionsList; 
         $data['optionsList'] = $optionsList; 
+        $data['optionScore'] = $optionScore; 
         $data['answersList'] = $answersList; 
         $data['baseLineResponseId'] = $baseLineResponseId; 
 
@@ -1598,6 +1598,7 @@ class PatientController extends Controller
         $questionnaireId = $baseLineData['questionnaireId']; 
         $questionsList = $baseLineData['questionsList'];  
         $optionsList = $baseLineData['optionsList']; 
+        $optionScore = $baseLineData['optionScore'];
         $answersList = $baseLineData['answersList']; 
         //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         
@@ -1608,7 +1609,7 @@ class PatientController extends Controller
                                         ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
-                                        
+                                        ->with('optionScore', $optionScore)
                                         ->with('questionnaireId', $questionnaireId)
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)

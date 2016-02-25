@@ -180,7 +180,7 @@ class ProjectController extends Controller
 
         $alertMsg = [];
         $alertTypes = [
-        'compared_to_previous_red_flags'=>"More Than 2 red flags raised for submmsion number %d in comparison with previous submission",
+        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submmsion number %d in comparison with previous submission",
         'new_patient'=>"New Patient Created"
         ];
 

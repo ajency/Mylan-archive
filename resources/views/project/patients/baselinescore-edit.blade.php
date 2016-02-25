@@ -40,6 +40,11 @@
         $x = 1;
         ?>
         @foreach($questionsList as $questionId => $questions)
+        <?php 
+          $questionOptions = $optionScore[$questionId];
+          asort($questionOptions);
+  
+         ?>
             <input type="hidden" name="questionType[{{ $questionId }}]" value="{{ $questions['type'] }}">
             <div class="grid simple">
                <div class="grid-body">
@@ -48,9 +53,11 @@
                     @if($questions['type']=='input')
                     <div class="row">
                     <?php $i=1;?>
-                      @foreach($optionsList[$questionId] as $option)
+                      @foreach($questionOptions as $optionId=>$score)
                         <?php 
                           $value = '';
+                          $option = $optionsList[$questionId][$optionId];
+
                           if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']))
                               $value = $answersList[$questionId]['value'];
                         ?>
@@ -66,11 +73,15 @@
                      
                       
                     @elseif($questions['type']=='single-choice')
+
                       <select name="question[{{ $questionId }}]" id="question_{{ $questionId }}" class="select2 form-control" data-parsley-required>
                        <option value="">Select option for Baseline</option>
-                       @foreach($optionsList[$questionId] as $option)
+
+                       @foreach($questionOptions as $optionId=>$score)
                           <?php 
                           $selected = '';
+                          $option = $optionsList[$questionId][$optionId];
+
                           if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']))
                               $selected = 'selected';
                           ?>
@@ -80,10 +91,12 @@
                        
                     @elseif($questions['type']=='multi-choice')
                       <select name="question[{{ $questionId }}][]" id="question_{{ $questionId }}" class="multiselect select2 form-control" multiple="multiple"  data-parsley-mincheck="1" data-parsley-required>
-                  
-                       @foreach($optionsList[$questionId] as $option)
+                     
+                      @foreach($questionOptions as $optionId=>$score)
                        <?php 
                           $selected = '';
+                          $option = $optionsList[$questionId][$optionId];
+
                           if(isset($answersList[$questionId][$option['id']]))
                               $selected = 'selected';
                           ?>
