@@ -111,7 +111,7 @@
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $allSubmissionFlag['date'] }}</h4>
-                              <sm>submission # {{ $allSubmissionFlag['sequenceNumber'] }}</sm>
+                              <sm>#{{ $allSubmissionFlag['sequenceNumber'] }}</sm>
                            </div>
                         </td>
                         <td>{{ $allSubmissionFlag['reason'] }}</td>
@@ -144,7 +144,7 @@
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
-                              <sm>submission # {{ $submissionFlag['sequenceNumber'] }}</sm>
+                              <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                            </div>
                         </td>
                         <td>{{ $submissionFlag['reason'] }}</td>
@@ -178,7 +178,7 @@
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
-                              <sm>submission # {{ $submissionFlag['sequenceNumber'] }}</sm>
+                              <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                            </div>
                         </td>
                         <td>{{ $submissionFlag['reason'] }}</td>
@@ -211,7 +211,7 @@
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
-                              <sm>submission # {{ $submissionFlag['sequenceNumber'] }}</sm>
+                              <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                            </div>
                         </td>
                         <td>{{ $submissionFlag['reason'] }}</td>
