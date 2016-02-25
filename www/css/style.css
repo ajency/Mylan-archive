@@ -60,7 +60,7 @@ p {
 .login-header {
   background: #fff !important;
 }
-.login-header .button {
+.login-header .header-item {
   color: #444 !important;
 }
 .project-name {
