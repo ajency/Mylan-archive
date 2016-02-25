@@ -16,8 +16,8 @@
         class="aj-refresher">
       </ion-refresher>
 
-      <div ng-switch-when="noError" class="notification-screen">
-         <div ng-repeat ="notify in view.data">
+      <div ng-switch-when="noError" class="notification-screen"   >
+         <div ng-repeat ="notify in view.data" ng-click="clicker(notify)" > 
           
             <div class="row notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
@@ -29,7 +29,7 @@
                       </div>
                   </div>
                   <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
-                      <a class="button icon ion-minus-circled delete-btn"></a>
+                      <a class="button icon ion-ios-close delete-btn"></a>
                   </div>
             </div>
 
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
-                    <a class="button icon ion-ios-minus-outline delete-btn"></a>
+                    <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
-                    <a class="button icon ion-minus-circled delete-btn"></a>
+                    <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
             </div>
 
