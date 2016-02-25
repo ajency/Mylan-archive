@@ -273,7 +273,7 @@ h3.line-title span {
   float: left;
   margin-right: 7px;
   position: relative;
-  top: -3px;
+  font-size: 20px;
 }
 .info-msg.bg-balanced {
   background: #FFF4CB;
@@ -428,7 +428,7 @@ input[id=password] {
 .item.item-radio .item-content span,
 .item.item-checkbox .item-content span {
   position: absolute;
-  left: 20px;
+  left: 10px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
