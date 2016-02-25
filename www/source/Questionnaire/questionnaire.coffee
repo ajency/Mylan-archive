@@ -163,7 +163,7 @@ angular.module 'PatientApp.Quest',[]
 				if @data.questionType == 'single-choice'
 
 					if @singleChoiceValue == ''
-						CToast.show 'Please select atleast one answer'
+						CToast.show 'Please select your answer'
 					else
 						options =
 							"questionId" : @data.questionId
@@ -189,23 +189,34 @@ angular.module 'PatientApp.Quest',[]
 							console.log valid
 							if value == null || valid == null
 								error = 1
-
+					# ***temp**
 					if error == 1
 						CToast.show 'Please enter the values'
 					else
 						valueInput = []
 						optionId = []
-
+						arryObj = []
 						_.each @data.options, (opt)=>
+							obj={}
 							a = @val_answerValue[opt.option]
 							if !_.isUndefined(a) && a !=''
-								valueInput.push(a)
-								optionId.push(opt.id)
+								# valueInput.push(a)
+								# optionId.push(opt.id)
+
+								obj['id'] = opt.id
+								obj['value'] = a.toString()
+								arryObj.push(obj)
+
+						options =
+							# "questionId" : @data.questionId
+							# "options": [optionId[0]]
+							# "value": valueInput[0].toString()
 
 						options =
 							"questionId" : @data.questionId
-							"options": [optionId[0]]
-							"value": valueInput[0].toString()
+							"options": arryObj
+							
+
 
 						@loadNextQuestion(options)
 
@@ -215,7 +226,7 @@ angular.module 'PatientApp.Quest',[]
 					
 					
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
-						CToast.show 'Please select your answer'
+						CToast.show 'Please select atleast one answer'
 					else
 						selectedvalue = []
 						
@@ -320,12 +331,18 @@ angular.module 'PatientApp.Quest',[]
 
 					valueInput = []
 					optionId = []
+					arryObj = []
+
 
 					_.each @data.options, (opt)=>
 						a = @val_answerValue[opt.option]
 						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
 							valueInput.push(a)
 							optionId.push(opt.id)
+							# temp
+							obj['id'] = opt.id
+							obj['value'] = a
+							arryObj.push(obj)
 
 					console.log '***'
 					console.log optionId
@@ -341,9 +358,14 @@ angular.module 'PatientApp.Quest',[]
 					else
 					 	value = valueInput[0].toString()
 					options =
+						# "questionId" : @data.questionId
+						# "options": optionId
+						# "value": value.toString()
+
 						"questionId" : @data.questionId
-						"options": optionId
-						"value": value.toString()
+						"options": arryObj
+						
+
 
 					@loadPrevQuestion(options)
 
@@ -376,10 +398,11 @@ angular.module 'PatientApp.Quest',[]
 				if !_.isEmpty(previousAns)
 
 					if @data.questionType == 'input'
-						if !_.isEmpty previousAns.optionId[0] 
-							ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
-							ObjId.option
-							@data.previousQuestionnaireAnswer['label'] = ObjId.option
+						console.log '1'
+						# if !_.isEmpty previousAns.optionId[0] 
+						# 	ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
+						# 	ObjId.option
+						# 	@data.previousQuestionnaireAnswer['label'] = ObjId.option
 
 					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
 						optionSelectedArray = []
@@ -407,8 +430,16 @@ angular.module 'PatientApp.Quest',[]
 							value['checked'] = true
 						
 				if @data.questionType == 'input'
-					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
+					_.each @data.hasAnswer.option, (val) =>
+						@val_answerValue[val.label] = Number(val.value)
+
+					console.log @val_answerValue
+
+
+						
+
+					# ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
+					# @val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
 					
 
 			navigateOnDevice:()->

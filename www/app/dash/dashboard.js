@@ -39,6 +39,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               });
               if (arr.length < 6) {
                 _this.showMoreButton = false;
+              } else {
+                _this.showMoreButton = true;
               }
               arr = [];
               if (!_.isEmpty(_.where(_this.data, {
@@ -109,7 +111,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       $scope.view.data = [];
       $scope.view.limitTo = 5;
-      return $scope.view.showMoreButton = true;
+      return $scope.view.showMoreButton = false;
     });
   }
 ]).config([

@@ -151,10 +151,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
+        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
-            CToast.show('Please select atleast one answer');
+            CToast.show('Please select your answer');
           } else {
             options = {
               "questionId": this.data.questionId,
@@ -187,27 +187,29 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else {
             valueInput = [];
             optionId = [];
+            arryObj = [];
             _.each(this.data.options, (function(_this) {
               return function(opt) {
-                var a;
+                var a, obj;
+                obj = {};
                 a = _this.val_answerValue[opt.option];
                 if (!_.isUndefined(a) && a !== '') {
-                  valueInput.push(a);
-                  return optionId.push(opt.id);
+                  obj['id'] = opt.id;
+                  obj['value'] = a.toString();
+                  return arryObj.push(obj);
                 }
               };
             })(this));
-            options = {
+            options = options = {
               "questionId": this.data.questionId,
-              "options": [optionId[0]],
-              "value": valueInput[0].toString()
+              "options": arryObj
             };
             this.loadNextQuestion(options);
           }
         }
         if (this.data.questionType === 'multi-choice') {
           if (!_.contains(_.pluck(this.data.options, 'checked'), true)) {
-            CToast.show('Please select your answer');
+            CToast.show('Please select atleast one answer');
           } else {
             selectedvalue = [];
             _.each(this.data.options, function(opt) {
@@ -280,7 +282,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       prevQuestion: function() {
-        var optionId, options, selectedvalue, value, valueInput;
+        var arryObj, optionId, options, selectedvalue, value, valueInput;
         if (this.data.questionType === 'single-choice') {
           options = {
             "questionId": this.data.questionId,
@@ -314,13 +316,17 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         if (this.data.questionType === 'input') {
           valueInput = [];
           optionId = [];
+          arryObj = [];
           _.each(this.data.options, (function(_this) {
             return function(opt) {
               var a;
               a = _this.val_answerValue[opt.option];
               if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
                 valueInput.push(a);
-                return optionId.push(opt.id);
+                optionId.push(opt.id);
+                obj['id'] = opt.id;
+                obj['value'] = a;
+                return arryObj.push(obj);
               }
             };
           })(this));
@@ -338,8 +344,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
           options = {
             "questionId": this.data.questionId,
-            "options": optionId,
-            "value": value.toString()
+            "options": arryObj
           };
           return this.loadPrevQuestion(options);
         }
@@ -371,17 +376,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return _.isEmpty(pastAnswerObject);
       },
       pastAnswer: function() {
-        var ObjId, optionSelectedArray, pluckId, previousAns, sortedArray;
+        var optionSelectedArray, pluckId, previousAns, sortedArray;
         previousAns = this.data.previousQuestionnaireAnswer;
         if (!_.isEmpty(previousAns)) {
           if (this.data.questionType === 'input') {
-            if (!_.isEmpty(previousAns.optionId[0])) {
-              ObjId = _.findWhere(this.data.options, {
-                id: previousAns.optionId[0]
-              });
-              ObjId.option;
-              this.data.previousQuestionnaireAnswer['label'] = ObjId.option;
-            }
+            console.log('1');
           }
           if (this.data.questionType === 'single-choice' || this.data.questionType === 'multi-choice') {
             optionSelectedArray = [];
@@ -403,7 +402,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       hasAnswerShow: function() {
-        var ObjId;
         if (this.data.questionType === 'descriptive') {
           this.descriptiveAnswer = this.data.hasAnswer.value;
         }
@@ -420,10 +418,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           })(this));
         }
         if (this.data.questionType === 'input') {
-          ObjId = _.findWhere(this.data.options, {
-            id: this.data.hasAnswer.option[0]
-          });
-          return this.val_answerValue[ObjId.option] = Number(this.data.hasAnswer.value);
+          _.each(this.data.hasAnswer.option, (function(_this) {
+            return function(val) {
+              return _this.val_answerValue[val.label] = Number(val.value);
+            };
+          })(this));
+          return console.log(this.val_answerValue);
         }
       },
       navigateOnDevice: function() {
