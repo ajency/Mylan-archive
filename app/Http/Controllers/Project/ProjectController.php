@@ -56,7 +56,7 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
-        
+       
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
