@@ -200,7 +200,8 @@ class ProjectController extends Controller
                 $responseQry->equalTo("objectId", $referenceId); 
                 $response = $responseQry->first();
                 $sequenceNumber = $response->get("sequenceNumber");
-                $alertMsg[] = ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                $responseId = $response->getObjectId();
+                $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
             }
            
             

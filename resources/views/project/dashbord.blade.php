@@ -155,7 +155,7 @@
                            <div class="grid-body no-border" style="display: block;">
                            @if(!empty($prejectAlerts['alertMsg']))
                             @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
-                              <div class="notification-messages {{ $prejectAlert['class'] }}">
+                              <div class="notification-messages {{ $prejectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $prejectAlert['responseId'] }}';">
                                 <div class="message-wrapper">
                                      <div class="heading">Patient ID {{ $prejectAlert['patient'] }}   </div>
                                      <div class="description"> {{ sprintf($prejectAlert['msg'], $prejectAlert['sequenceNumber'] ) }} </div>
