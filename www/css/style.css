@@ -63,7 +63,7 @@ p {
 .login-header .header-item {
   color: #444 !important;
 }
-.item-input-type input {
+.item-input-type .question {
   position: relative;
   left: inherit;
   float: left;
