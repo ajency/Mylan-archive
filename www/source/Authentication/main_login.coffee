@@ -38,6 +38,8 @@ angular.module 'PatientApp.Auth'
 								, (error)->
 									console.log 'in error'
 									console.log error
+							else if data.code == 'password_not_set'
+								@loginerror = 'No password set for the reference code'
 							else
 								CToast.show 'Please check credentials'
 								@loginerror = "Password entered is incorrect, Please try again"

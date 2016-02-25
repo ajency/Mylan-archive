@@ -16,6 +16,7 @@ angular.module 'PatientApp.Global', []
 			previousState: ''
 			currentState: ''
 			questinnarieButton : ''
+			menuClass : false
 
 			navigate : (state, params={}, opts={})->
 				if !_.isEmpty(opts)

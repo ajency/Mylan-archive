@@ -35,6 +35,8 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                     console.log('in error');
                     return console.log(error);
                   });
+                } else if (data.code === 'password_not_set') {
+                  return _this.loginerror = 'No password set for the reference code';
                 } else {
                   CToast.show('Please check credentials');
                   return _this.loginerror = "Password entered is incorrect, Please try again";
