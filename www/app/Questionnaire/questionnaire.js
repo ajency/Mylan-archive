@@ -151,7 +151,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
+        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select atleast one answer');
@@ -187,9 +187,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else {
             valueInput = [];
             optionId = [];
+            arryObj = [];
             _.each(this.data.options, (function(_this) {
               return function(opt) {
-                var a;
+                var a, obj;
+                obj = {};
                 a = _this.val_answerValue[opt.option];
                 if (!_.isUndefined(a) && a !== '') {
                   valueInput.push(a);

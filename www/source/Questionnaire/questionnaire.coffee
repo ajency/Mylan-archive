@@ -195,17 +195,28 @@ angular.module 'PatientApp.Quest',[]
 					else
 						valueInput = []
 						optionId = []
-
+						arryObj = []
 						_.each @data.options, (opt)=>
+							obj={}
 							a = @val_answerValue[opt.option]
 							if !_.isUndefined(a) && a !=''
+								# obj['id'] = opt.id
+								# obj['value'] = a
+								# arryObj.push(obj)
+								
 								valueInput.push(a)
 								optionId.push(opt.id)
+
 
 						options =
 							"questionId" : @data.questionId
 							"options": [optionId[0]]
 							"value": valueInput[0].toString()
+						# options =
+						# 	"questionId" : @data.questionId
+						# 	"options": arryObj
+							
+
 
 						@loadNextQuestion(options)
 
