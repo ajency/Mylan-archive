@@ -20,20 +20,22 @@
 
     <div ng-switch-when="noError">
     <div ng-repeat ="summary in view.data.answerObjects">
+
+
         <div class="padding">
 
-            <h5 class="f-w-400">
-                {{summary.question}}
+            <h5 class="f-w-400 margin-none">
+               <b class="assertive"> Q:</b> {{summary.question}}
             </h5>
 
             <span 
-              class="text-green f-w-400" 
+              class="text-green f-w-400 m-t-10 summary-ans-label" 
               ng-if="summary.type ==='option'"
               ng-repeat = "answer in summary.optionSelected track by $index">
                 {{answer}} <br>   
             </span>
             <span 
-              class="text-green f-w-400" 
+              class="text-green f-w-400 summary-ans-label" 
               ng-if="summary.type !=='option'">
                 {{summary.input}} {{summary.optionSelected[0]}}
             <span>
@@ -41,6 +43,7 @@
         </div>
         <hr>
     </div>
+    <h4 class="text-center f-w-400 m-t-20"> <i class="ion-flag"></i> End of list</h4>
   </div>
   <aj-error class="errors"
             error-type="view.errorType"
@@ -51,7 +54,7 @@
     <br>
   </ion-content>
 
-  <div class="bar bar-footer submission" ng-if="view.display === 'noError'" >
+<!--   <div class="bar bar-footer submission" ng-if="view.display === 'noError'" >
       <div class="button-bar">
          <button 
             class="button button-balanced"
@@ -66,6 +69,6 @@
          Submit
          </button>
       </div>
-   </div>
+   </div> -->
 
 </ion-view>

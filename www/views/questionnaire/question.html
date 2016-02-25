@@ -50,26 +50,26 @@
 
       <div ng-if="view.isEmpty(view.data.previousQuestionnaireAnswer) == false">
         <div class="bg-gray">
-          <div class="prev-answers row">
-            <div class="col col-50">
-              <h6 class="f-w-400 text-green">
-                Previous Answers &nbsp;&nbsp;
-              </h6>
-            </div>
-            <div class="col col-50 text-right">
-              <small>
-                {{ view.data.previousQuestionnaireAnswer.dateDisplay }}
-              </small>
-            </div>
-          </div>
-          <div class="padding prev-ques-ans">
-            <p class="f-w-400 text-green">
-              {{view.data.previousQuestionnaireAnswer.value}}
+       <div class="prev-answers row">
+            <div class="col">
+                             Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive"> {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
-              {{view.data.previousQuestionnaireAnswer.label}}
-            </p>
-          </div>
+              {{view.data.previousQuestionnaireAnswer.label}}</b>
+ 
+             </div>
+
         </div>
+       
+        </div>
+                                         <div 
+        class="info-msg padding ">
+          <span  
+           ng-if = 'view.data.questionType == "input" ||
+          view.data.questionType == "descriptive"'>
+          <i class="ion-ios-information-outline"> </i>  please input your value
+          </span>
+      
+      </div>
       </div>
 
 
@@ -142,26 +142,8 @@
           <div class="prev-answers row">
             <div class="col">
                              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive">{{ view.data.previousQuestionnaireAnswer.label }}</b>
-                               <div 
-        class="info-msg ">
-          <span  
-            ng-if = 'view.data.questionType == "single-choice"'>
-            Choose your answer from {{view.data.options.length}} options
-          </span>
-          <span  
-            ng-if = 'view.data.questionType == "multi-choice"'>
-            Choose your answer from {{view.data.options.length}} options
-          </span>
-          <span  
-            ng-if = 'view.data.questionType == "input"'>
-            Please complete EITHER Kg OR stones and lbs box
-          </span>
-          <span
-            ng-if = 'view.data.questionType == "descriptive"'
-           >Enter a short description 
-        </span>
-      </div> 
-                          </div>
+ 
+             </div>
        <!--      <div class="col col-50">  
               <h6 class="f-w-400 text-green">
               Previous Answers &nbsp;&nbsp;
@@ -180,6 +162,26 @@
             </p>
           </div> -->
         </div>
+
+      </div>
+                                         <div 
+        class="info-msg padding ">
+          <span  
+            ng-if = 'view.data.questionType == "single-choice"'>
+          <i class="ion-ios-information-outline"> </i>  Choose your answer from {{view.data.options.length}} options
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "multi-choice"'>
+            <i class="ion-ios-information-outline"> </i> Choose your answer from {{view.data.options.length}} options
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "input"'>
+             <i class="ion-ios-information-outline"> </i> Please complete EITHER Kg OR stones and lbs box
+          </span>
+          <span
+            ng-if = 'view.data.questionType == "descriptive"'
+           > <i class="ion-ios-information-outline"> </i> Enter a short description 
+        </span>
       </div>
  </div>
 
