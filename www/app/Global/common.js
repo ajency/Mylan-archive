@@ -12,7 +12,7 @@ angular.module('PatientApp.Global', []).factory('App', [
       previousState: '',
       currentState: '',
       questinnarieButton: '',
-      menuClass: false,
+      menuClass: true,
       navigate: function(state, params, opts) {
         var animate, back;
         if (params == null) {

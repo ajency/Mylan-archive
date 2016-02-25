@@ -1,5 +1,14 @@
-<ion-view class="login-header">   
-  
+<ion-view class="login-header">  
+
+  <ion-nav-bar class="bar-light login-header">
+    <ion-nav-back-button
+      ng-click="view.onDeviceBack()">
+    </ion-nav-back-button>
+  </ion-nav-bar>
+
+  <ion-nav-title class="summary-header">
+    Enter your password
+  </ion-nav-title>
 <ion-content>
     <div class="row" ng-init="view.init()">
           <div class="col">

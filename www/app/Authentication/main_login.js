@@ -78,10 +78,24 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       },
       call: function() {
         return App.callUs(MYLANPHONE);
+      },
+      onDeviceBack: function() {
+        var count;
+        console.log('ondevice backk');
+        if (App.previousState === 'setup_password') {
+          return App.navigate("setup", {}, {
+            animate: false,
+            back: false
+          });
+        } else {
+          count = -1;
+          return App.goBack(count);
+        }
       }
     };
     onDeviceBack = function() {
       var count;
+      console.log('ondevice backk');
       if (App.previousState === 'setup_password') {
         return App.navigate("setup", {}, {
           animate: false,

@@ -71,7 +71,18 @@ angular.module 'PatientApp.Auth'
 			call:()->
 				App.callUs(MYLANPHONE)
 
+			onDeviceBack:->
+				console.log 'ondevice backk'
+				if App.previousState == 'setup_password'
+					App.navigate "setup", {}, {animate: false, back: false}
+				else
+					count = -1
+					App.goBack count
+
+
+
 		onDeviceBack = ->
+			console.log 'ondevice backk'
 			if App.previousState == 'setup_password'
 				App.navigate "setup", {}, {animate: false, back: false}
 			else
