@@ -51,7 +51,16 @@
       <div ng-if="view.isEmpty(view.data.previousQuestionnaireAnswer) == false">
         <div class="bg-gray">
        <div class="prev-answers row">
-            <div class="col">
+            <div class="col"
+              ng-if = 'view.data.questionType == "input"'>
+              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId"> 
+              {{inpt.value}} {{inpt.label}}
+              &nbsp; 
+              </b>
+ 
+             </div>
+             <div class="col"
+             ng-if = 'view.data.questionType == "descriptive"'>
                              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive"> {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}</b>
@@ -63,9 +72,15 @@
         </div>
       <div  class="info-msg padding ">
           <span  
-           ng-if = 'view.data.questionType == "input" ||
-          view.data.questionType == "descriptive"'>
-          <i class="ion-ios-information-outline"> </i>  please input your value
+           ng-if = 'view.data.questionType == "input"'>
+          <i class="ion-ios-information-outline"> </i>  Please input your value
+          </span>
+      
+      </div>
+      <div  class="info-msg padding ">
+          <span  
+           ng-if = 'view.data.questionType == "descriptive"'>
+          <i class="ion-ios-information-outline"> </i>  Enter short description
           </span>
       
       </div>
@@ -73,7 +88,9 @@
 
 
 
-      <div class="row" ng-if='view.data.questionType == "input"'>
+      <div class="row" 
+      ng-if='view.data.questionType == "input" && view.data.options[0].id !== "FJQBaKmxpR" '>
+      
         <div
           text-select 
           class="col "
@@ -84,7 +101,7 @@
            <input class="b-b b-t b-l b-r"
               id = "numberType"
               type="tel" 
-              placeholder="{{answerValue.option}}"
+               placeholder="{{answerValue.option}}"
               ng-model="view.val_answerValue[answerValue.option]"
               ng-readonly = "!view.readonly"/>
 
@@ -93,6 +110,55 @@
           </label> -->
      
         </div>
+      </div>
+
+      <div class="row" 
+          ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"'>
+       
+        <div
+          text-select
+          class="col ">
+
+          <label class="item-input  input-lable  item-icon-right">
+
+           <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="Kg"
+              ng-model="view.val_answerValue['Kg']"
+              ng-readonly = "!view.readonly"/>
+        </div>
+
+       
+        <div
+          text-select
+          class="col ">
+           <label class="item-input  input-lable  item-icon-right">
+          <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="St"
+              ng-model="view.val_answerValue['ST']"
+              ng-readonly = "!view.readonly"/>
+        </div>
+
+        <div
+          text-select
+          class="col ">
+           <label class="item-input  input-lable  item-icon-right">
+          <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="Lbs"
+              ng-model="view.val_answerValue['lbs']"
+              ng-readonly = "!view.readonly"/>
+
+            <!-- <span></span>
+            
+          </label> -->
+     
+        </div>
+
       </div>
 
       <div class="row" ng-if='view.data.questionType == "descriptive"'>
@@ -172,7 +238,7 @@
           <span  
             ng-if = 'view.data.questionType == "multi-choice"'>
             <i class="ion-ios-information-outline"> </i> 
-            You can choose more than one options
+            You can choose more than one option from {{view.data.options.length}} options
             <!-- Choose your answer from {{view.data.options.length}} options -->
           </span>
           <span  

@@ -30,15 +30,26 @@
 
             <span 
               class="text-green f-w-400 m-t-10 summary-ans-label" 
-              ng-if="summary.type ==='option'"
+              ng-if="summary.val ==='single-choice' || summary.val ==='multi-choice'"
               ng-repeat = "answer in summary.optionSelected track by $index">
                 {{answer}} <br>   
             </span>
             <span 
               class="text-green f-w-400 summary-ans-label" 
-              ng-if="summary.type !=='option'">
-                {{summary.input}} {{summary.optionSelected[0]}}
-            <span>
+              ng-if="summary.val ==='descriptive'">
+                {{summary.input}} 
+            </span>
+            <!-- <span 
+              class="text-green f-w-400 summary-ans-label" 
+              ng-if="summary.val 
+              !=='single-choice' || summary.val !=='multi-choice' || summary.val !=='descriptive' "> -->
+              <span 
+              class="text-green f-w-400 summary-ans-label" 
+              ng-if="summary.val == 'input'"
+              ng-repeat = "answer in summary.optionSelected track by $index">
+                {{answer.value}} {{answer.label}} <br>
+            </span>
+              
 
         </div>
         <hr>
