@@ -32,7 +32,7 @@
                   <br>
                  <div class="row">
                   @foreach($inputValueChart as $inputValue)
-                  <div class="submission-chart-wt">
+                  <div class="submission-chart-wt text-center">
                     <div class="input-text-outer">
                       <span class="input-text">{{ $inputValue['question'] }}</span>
                     </div>
