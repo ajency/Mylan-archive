@@ -46,11 +46,11 @@ class PatientController extends Controller
         if(isset($inputs['patients']))
         {
             $patientsStatus = $inputs['patients'];
-            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         }
         else
         {
-            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         }
         
          
@@ -1478,7 +1478,7 @@ class PatientController extends Controller
             $optionScore[$questionId][$optionId]=$score;
             $optionsList[$questionId][$optionId] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
         }
- 
+
         if(!empty($response))
         {
             $baseLineResponseId = $response->getObjectId();

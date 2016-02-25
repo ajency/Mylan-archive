@@ -86,7 +86,7 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         //dd($patients);
         $activepatients = [];
@@ -382,7 +382,7 @@ class ProjectController extends Controller
         $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         $patientIds = [];
         foreach ($patients as  $patient) {
