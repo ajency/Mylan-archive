@@ -34,6 +34,14 @@
           
        <input type="hidden" name="flag" value="0">
        </div>
+       <div class="pull-right m-r-15 patient-search">
+          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+          <option value="">-select patient-</option>
+           @foreach($allPatients as $patient)
+             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+           @endforeach
+          </select>
+       </div>
       <div class="pull-right m-r-15">
        <form name="searchData" method="GET"> 
       
@@ -44,12 +52,7 @@
              <span></span> <b class="caret"></b>
             
           </div>
-            <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
-          <option value="">-select patient-</option>
-           @foreach($allPatients as $patient)
-             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
-           @endforeach
-          </select>
+           
        </form>
       </div>
    </div>
