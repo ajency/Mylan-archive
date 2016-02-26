@@ -72,6 +72,9 @@ p {
   width: 37%;
   padding: 5px;
 }
+.item-input-type span {
+  top: 20px !important;
+}
 .project-name {
   color: #00aaa7;
 }
