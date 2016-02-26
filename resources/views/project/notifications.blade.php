@@ -23,7 +23,7 @@
                    <form name="searchData" method="GET"> 
                                <input type="hidden" class="form-control" name="startDate"  >
                                <input type="hidden" class="form-control" name="endDate"  >
-                                  <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
+                                  <div id="reportrange" class="pull-right m-t-10" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
                                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                      <span></span> <b class="caret"></b>
                                   </div>
@@ -32,8 +32,8 @@
                                <input type="hidden" name="flag" value="0">
                   </div>
              </div>
-             <hr>
-<br>
+             <hr class="margin-none">
+
  @if(!empty($prejectAlerts['alertMsg']))
   @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
  
@@ -42,7 +42,7 @@
       <div class="post overlap-left-10">
          <div class="user-profile-pic-wrapper">
             <div class="user-profile-pic-2x tiles grey white-border">
-               <div class="text-grey inherit-size p-t-10 p-l-10"> <i class="fa fa-clock-o fa-lg"></i> </div>
+               <div class="text-grey inherit-size p-t-10 p-l-13"> <i class="fa fa-clock-o fa-lg"></i> </div>
             </div>
          </div>
          <div class="info-wrapper small-width">
@@ -63,7 +63,7 @@
       <p class="text-center"> <a href="javascript:;" class="text-black semi-bold  small-text">Load More</a></p>
   </div> -->
 @else 
-    No New Notification
+ <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
 @endif
 
  

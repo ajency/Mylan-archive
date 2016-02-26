@@ -5356,6 +5356,12 @@ form legend,
   position: absolute;
   right: 20px;
 }
+.p-l-13 {
+  padding-left: 13px;
+}
+.margin-none {
+  margin: 0px;
+}
 .tiles-container {
   margin-left: 0px;
   margin-right: 0px;
