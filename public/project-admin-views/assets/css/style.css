@@ -5351,6 +5351,7 @@ form legend,
   overflow: visible !important;
   white-space: normal !important;
   line-height: 14px !important;
+  word-break: normal !important;
 }
 .msg-card .date {
   position: absolute;
