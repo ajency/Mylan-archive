@@ -2022,9 +2022,14 @@ class PatientController extends Controller
             $i=0;
             foreach($data as $sequenceNumber => $value)
             { 
-                $baslineScore = getInputValues($baseLineArr[$questionId][$sequenceNumber],false);
-                $value = getInputValues($value,false);
-                
+                $baslineScore = $baseLineArr[$questionId][$sequenceNumber];
+
+                if(is_array($value))
+                {
+                    $baslineScore = getInputValues($baseLineArr[$questionId][$sequenceNumber],false);
+                    $value = getInputValues($value,false);
+                }
+            
 
                 $date = $submissionsNumberByDate[$sequenceNumber];
                 
