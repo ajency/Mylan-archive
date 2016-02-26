@@ -173,7 +173,7 @@
                             <div class="notification-messages info">
  
                              
-<!--       <div class="message-wrapper msg-card">
+      <div class="message-wrapper msg-card">
          <div class="heading"> New Patient ID Generated </div>
          <div class="description"> These are scores & flags for current submissions These are scores & flags for current submissions </div>
       </div>
@@ -197,7 +197,7 @@
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
-   </div> -->
+   </div>
 
                               
                               

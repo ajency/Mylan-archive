@@ -5345,11 +5345,16 @@ form legend,
 }
 .msg-card {
   height: auto !important;
+  width: 100% !important;
 }
 .msg-card .description {
   overflow: visible !important;
   white-space: normal !important;
   line-height: 14px !important;
+}
+.msg-card .date {
+  position: absolute;
+  right: 20px;
 }
 .tiles-container {
   margin-left: 0px;
