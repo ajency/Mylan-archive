@@ -45,7 +45,7 @@ angular.module 'PatientApp.Quest'
 					responseId : $stateParams.summary
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					CToast.show 'Submitted Successfully'
+					CToast.show 'Successfully submitted'
 					App.navigate 'exit-questionnaire'
 					# deregister()
 				,(error)=>

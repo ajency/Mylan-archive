@@ -49,7 +49,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            CToast.show('Submitted Successfully');
+            CToast.show('Successfully submitted');
             return App.navigate('exit-questionnaire');
           };
         })(this), (function(_this) {
