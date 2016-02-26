@@ -107,10 +107,10 @@
    </ion-content>
 
    <ion-footer-bar
-    class="notification-footer">
-   
+
+    class="notification-footer" ng-if="view.data.length">
       <div
-        ng-disabled="view.data.length === 0"
+        
         class="button clear-notification button-block button-balanced"
         ng-click="view.DeleteAll();">
         Clear displayed notifications
@@ -118,3 +118,4 @@
 
    </ion-footer-bar>
 </ion-view>
+<!-- ng-class="{'hide':!view.data.length}" -->
