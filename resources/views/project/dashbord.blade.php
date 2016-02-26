@@ -147,7 +147,7 @@
          </div>
          <div class="col-sm-4">
             <div class=" simple grid-table m-t-20">
-                           <div class="grid-title no-border text-center">
+                           <div class="grid-title no-border text-left">
                               <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activity"></i></h4>
                         
                            </div>
@@ -168,14 +168,14 @@
                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>5) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                           @else 
-                              No New Notification
+                             <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
                           @endif
-<!--                             <div class="notification-messages info">
+                            <div class="notification-messages info">
  
                              
-      <div class="message-wrapper">
+<!--       <div class="message-wrapper msg-card">
          <div class="heading"> New Patient ID Generated </div>
-         <div class="description"> 1000001 </div>
+         <div class="description"> These are scores & flags for current submissions These are scores & flags for current submissions </div>
       </div>
       <div class="date pull-right"> Just now </div>
       <div class="clearfix"></div>

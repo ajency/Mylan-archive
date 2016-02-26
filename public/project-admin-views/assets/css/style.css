@@ -5343,6 +5343,14 @@ form legend,
   right: 0;
   left: auto;
 }
+.msg-card {
+  height: auto !important;
+}
+.msg-card .description {
+  overflow: visible !important;
+  white-space: normal !important;
+  line-height: 14px !important;
+}
 .tiles-container {
   margin-left: 0px;
   margin-right: 0px;
@@ -8846,5 +8854,8 @@ select option {
 .health-tracker-grid select {
   margin-top: -5px;
   margin-bottom: 9px;
+}
+.msg-card {
+  overflow: visible;
 }
 /*# sourceMappingURL=style.css.map */
