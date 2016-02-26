@@ -33,7 +33,7 @@ function convertStonePoundsToKgs($stones,$pounds)
 
     $pounds = $stones * 14; 
 
-    $value2 = round($pounds) / 2.2; 
+    $value2 = $pounds / 2.2; 
 
     $result = round($value1) + round($value2);     
 
@@ -57,7 +57,7 @@ function getInputValues($values,$withLabel=true)
         if(isset($values['St']) && isset($values['lbs']))
         {
             $result = convertStonePoundsToKgs($values['St'],$values['lbs']) ;
-            $result .= ($withLabel)? 'Kgs' :'';
+            $result .= ($withLabel)? 'Kg' :'';
         }
         else
         {
