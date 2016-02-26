@@ -72,7 +72,7 @@
                         </select> 
                     </div>-->
                     <div class="col-sm-6 ">
-                      <label>Alcoholic consumption units per week</label>
+                      <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
                     </div>
                     </div>
