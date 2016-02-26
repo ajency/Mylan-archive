@@ -35,9 +35,9 @@ function convertStonePoundsToKgs($stones,$pounds)
 
     $value2 = $pounds / 2.2; 
 
-    $result = round($value1) + round($value2);     
+    $result = $value1 + $value2;     
 
-    return $result;   
+    return round($result);   
 }
 
 function getInputValues($values,$withLabel=true)
