@@ -5351,10 +5351,17 @@ form legend,
   overflow: visible !important;
   white-space: normal !important;
   line-height: 14px !important;
+  word-break: normal !important;
 }
 .msg-card .date {
   position: absolute;
   right: 20px;
+}
+.p-l-13 {
+  padding-left: 13px;
+}
+.margin-none {
+  margin: 0px;
 }
 .tiles-container {
   margin-left: 0px;
