@@ -54,8 +54,17 @@ function getInputValues($values,$withLabel=true)
     }
     else
     {
-        $result = convertStonePoundsToKgs($values['St'],$values['lbs']) ;
-        $result .= ($withLabel)? 'Kgs' :'';
+        if(isset($values['St']) && isset($values['lbs']))
+        {
+            $result = convertStonePoundsToKgs($values['St'],$values['lbs']) ;
+            $result .= ($withLabel)? 'Kgs' :'';
+        }
+        else
+        {
+            $result = current($values);
+            $result .= ($withLabel)? key($values) :'';
+        }
+        
     }
 
     return $result;
