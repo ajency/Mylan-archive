@@ -145,14 +145,14 @@ class SubmissionController extends Controller
             }
 
             if ($reviewed=='reviewed') {
-                echo $sequenceNumber.'<br>';
+                // echo $sequenceNumber.'<br>';
                 $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
                 $timeDifference[] = intval( $datediff);
             }
              
         }
-        dd($timeDifference);
+        // dd($timeDifference);
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
