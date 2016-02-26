@@ -71,7 +71,7 @@
                         </select> 
                     </div>-->
                     <div class="col-sm-6">
-                      <label>If yes, units per week</label>
+                      <label>Alcoholic units per week</label>
                         <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
                     </div>
                     </div>
