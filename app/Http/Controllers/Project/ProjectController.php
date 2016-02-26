@@ -56,6 +56,7 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
+  
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -120,7 +121,7 @@ class ProjectController extends Controller
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
         
         $cond=['cleared'=>false];
-        $prejectAlerts = $this->getProjectAlerts($projectId,5,0,[],$cond);
+        $prejectAlerts = $this->getProjectAlerts($projectId,3,0,[],$cond);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -179,7 +180,7 @@ class ProjectController extends Controller
 
         $alertMsg = [];
         $alertTypes = [
-        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submmsion number %d in comparison with previous submission",
+        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submission number %d in comparison with previous submission",
         'new_patient'=>"New Patient Created"
         ];
 

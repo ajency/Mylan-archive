@@ -156,7 +156,7 @@
                            @if(!empty($prejectAlerts['alertMsg']))
                             @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
                               <div class="notification-messages {{ $prejectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $prejectAlert['responseId'] }}';">
-                                <div class="message-wrapper">
+                                <div class="message-wrapper msg-card">
                                      <div class="heading">Patient ID {{ $prejectAlert['patient'] }}   </div>
                                      <div class="description"> {{ sprintf($prejectAlert['msg'], $prejectAlert['sequenceNumber'] ) }} </div>
                                   </div>
@@ -165,15 +165,16 @@
                               </div>
                             @endforeach
                             <div class="text-right">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>5) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>3) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                           @else 
                              <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
                           @endif
-                            <div class="notification-messages info">
+<!--                            <div class="notification-messages info">
  
                              
-      <div class="message-wrapper msg-card">
+
+       <div class="message-wrapper msg-card">
          <div class="heading"> New Patient ID Generated </div>
          <div class="description"> These are scores & flags for current submissions These are scores & flags for current submissions </div>
       </div>
@@ -197,7 +198,7 @@
       </div>
       <div class="date pull-right"> Yesterday </div>
       <div class="clearfix"></div>
-   </div>
+   </div> -->
 
                               
                               
@@ -233,7 +234,7 @@
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
 
-                              <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i> --><sm class="light">(These are scores & flags for current submissions)</sm></h4>
+                              <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i><sm class="light">(These are scores & flags for current submissions)</sm></h4>
 
                               <!-- <div class="tools">
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
