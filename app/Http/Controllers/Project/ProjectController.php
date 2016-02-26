@@ -120,7 +120,7 @@ class ProjectController extends Controller
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
         
         $cond=['cleared'=>false];
-        $prejectAlerts = $this->getProjectAlerts($projectId,5,0,[],$cond);
+        $prejectAlerts = $this->getProjectAlerts($projectId,3,0,[],$cond);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
