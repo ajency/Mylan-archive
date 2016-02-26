@@ -116,41 +116,47 @@
         </label> 
       </div> -->
 
-       <div class="list">
-  
+      <div class="list"
+      ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"' >
 
-   <label class="item item-radio item-input-type" >
-      <input type="radio" name="group1">
-      <div class="item-content">
-      <span>1</span> 
-          <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="Kgs" class="question"
-              />
-      </div>
-      
-   </label>
+         <label class="item item-radio item-input-type"
+            ng-click ="view.firstRow()" >
+            <input type="radio" name="group1">
+            <div class="item-content">
+            <span>1</span> 
+                <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="Kgs" class="question"
+                    ng-disable="view.firstRowStatus"
+                    ng-model="view.val_answerValue['Kg']"
+                    />
+            </div>
+         </label>
 
-   <label class="item item-radio item-input-type">
-      <input type="radio" name="group1">
-      <div class="item-content">
-       <span>2 </span> 
-          <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="ST" class="question"
-              />
-              
-             <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="LBS" class="question"
-              />
-      </div>
-     
-   </label>
- </div>
+         <label class="item item-radio item-input-type"
+            ng-click="view.secondRow()">
+            <input type="radio" name="group1">
+            <div class="item-content">
+             <span>2 </span> 
+                <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="ST" class="question"
+                    ng-model="view.val_answerValue['ST']"
+                    ng-disable="view.secondRowStatus"
+                    />
+                    
+                   <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="LBS" class="question"
+                    ng-model="view.val_answerValue['lbs']"
+                    ng-disable="view.secondRowStatus"
+                    />
+            </div>
+         </label>
+       </div>
 
       <div class="row" 
       ng-if='view.data.questionType == "input" && view.data.options[0].id !== "FJQBaKmxpR" '>
@@ -176,7 +182,7 @@
         </div>
       </div>
 
-      <div class="row" 
+      <!-- <div class="row" 
           ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"'>
        
         <div
@@ -216,14 +222,9 @@
               placeholder="Lbs"
               ng-model="view.val_answerValue['lbs']"
               ng-readonly = "!view.readonly"/>
-
-            <!-- <span></span>
-            
-          </label> -->
-     
         </div>
 
-      </div>
+      </div> -->
 
       <div class="row" ng-if='view.data.questionType == "descriptive"'>
         <div 

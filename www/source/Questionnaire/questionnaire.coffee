@@ -26,6 +26,7 @@ angular.module 'PatientApp.Quest',[]
 				@singleChoiceValue = ''
 				@val_answerValue = {}
 
+
 			getQuestion :() ->
 				@display = 'loader'
 				Storage.setData 'refcode','get'
@@ -173,7 +174,8 @@ angular.module 'PatientApp.Quest',[]
 						@loadNextQuestion(options)
 
 				if @data.questionType == 'input'
-
+					valueArr = []
+					validArr = []
 					error = 0
 					sizeOfField = _.size(@data.options)
 					sizeOfTestboxAns = _.size(@val_answerValue)
@@ -181,16 +183,39 @@ angular.module 'PatientApp.Quest',[]
 					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
-
+						console.log @val_answerValue
 						_.each @val_answerValue, (value)->
 							value = value.toString()
-							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
-							console.log '***ppppp'
-							console.log valid
-							if value == null || valid == null
-								error = 1
+							console.log value
+							if value == null || value == ''
+								console.log 'empty'
+								valueArr.push 1
+							else
+								valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								if valid == null
+									validArr.push 1
+
+
+						# 	value = value.toString()
+						# 	valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
+						# 	console.log '***ppppp'
+						# 	console.log valid
+						# 	if value == null || value == ''
+						# 		valueArr.push 1
+
+						# 	if value != null || !_.isEmpty(value) 
+						# 		valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+						# 		if valid == null
+						# 			validArr.push 1
+
+							
+						if valueArr.length == _.size(@val_answerValue)
+							error = 1
+
+				
+							
 					# ***temp**
-					if error == 1
+					if error == 1 || validArr.length > 0
 						CToast.show 'Please enter the values'
 					else
 						valueInput = []
@@ -435,6 +460,12 @@ angular.module 'PatientApp.Quest',[]
 
 					console.log @val_answerValue
 
+					@firstRowStatus =  true
+					@secondRowStatus = true
+				else
+					@firstRowStatus =  false
+					@secondRowStatus = false
+
 
 						
 
@@ -472,6 +503,26 @@ angular.module 'PatientApp.Quest',[]
 					else if data.status == 'missed'
 						@title = 'This questionnaire was Missed'
 						@showConfirm()
+
+			firstRow:()->
+				if _.isEmpty(@data.hasAnswer)
+					console.log 'first row'
+					@firstRowStatus =  true
+					@secondRowStatus = false
+					@val_answerValue['ST'] = ''
+					@val_answerValue['lbs'] = ''
+				
+
+			secondRow:()->
+				if _.isEmpty(@data.hasAnswer)
+					console.log 'second row'
+					@firstRowStatus =  false
+					@secondRowStatus = true
+					@val_answerValue['Kg'] = ''
+
+
+
+
 				    
 
 

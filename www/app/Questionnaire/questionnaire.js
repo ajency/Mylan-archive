@@ -151,7 +151,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
+        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, validArr, valueArr, valueInput;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select your answer');
@@ -165,24 +165,34 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'input') {
+          valueArr = [];
+          validArr = [];
           error = 0;
           sizeOfField = _.size(this.data.options);
           sizeOfTestboxAns = _.size(this.val_answerValue);
           if (sizeOfTestboxAns === 0) {
             error = 1;
           } else {
+            console.log(this.val_answerValue);
             _.each(this.val_answerValue, function(value) {
               var valid;
               value = value.toString();
-              valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-              console.log('***ppppp');
-              console.log(valid);
-              if (value === null || valid === null) {
-                return error = 1;
+              console.log(value);
+              if (value === null || value === '') {
+                console.log('empty');
+                return valueArr.push(1);
+              } else {
+                valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                if (valid === null) {
+                  return validArr.push(1);
+                }
               }
             });
+            if (valueArr.length === _.size(this.val_answerValue)) {
+              error = 1;
+            }
           }
-          if (error === 1) {
+          if (error === 1 || validArr.length > 0) {
             CToast.show('Please enter the values');
           } else {
             valueInput = [];
@@ -423,7 +433,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return _this.val_answerValue[val.label] = Number(val.value);
             };
           })(this));
-          return console.log(this.val_answerValue);
+          console.log(this.val_answerValue);
+          this.firstRowStatus = true;
+          return this.secondRowStatus = true;
+        } else {
+          this.firstRowStatus = false;
+          return this.secondRowStatus = false;
         }
       },
       navigateOnDevice: function() {
@@ -471,6 +486,23 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             this.title = 'This questionnaire was Missed';
             return this.showConfirm();
           }
+        }
+      },
+      firstRow: function() {
+        if (_.isEmpty(this.data.hasAnswer)) {
+          console.log('first row');
+          this.firstRowStatus = true;
+          this.secondRowStatus = false;
+          this.val_answerValue['ST'] = '';
+          return this.val_answerValue['lbs'] = '';
+        }
+      },
+      secondRow: function() {
+        if (_.isEmpty(this.data.hasAnswer)) {
+          console.log('second row');
+          this.firstRowStatus = false;
+          this.secondRowStatus = true;
+          return this.val_answerValue['Kg'] = '';
         }
       }
     };
