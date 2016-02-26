@@ -170,10 +170,10 @@
                           @else 
                              <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
                           @endif
-                            <div class="notification-messages info">
+                         <!--   <div class="notification-messages info">
  
                              
-<!--       <div class="message-wrapper msg-card">
+       <div class="message-wrapper msg-card">
          <div class="heading"> New Patient ID Generated </div>
          <div class="description"> These are scores & flags for current submissions These are scores & flags for current submissions </div>
       </div>
