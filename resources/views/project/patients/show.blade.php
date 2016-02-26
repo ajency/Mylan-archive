@@ -62,8 +62,8 @@
                  <dt>If yes, how many per week</dt>
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
                  @endif
-                 <dt>Alcoholic</dt>
-                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd>
+                <!--  <dt>Alcoholic</dt>
+                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd> -->
                  @if($patient['patient_is_alcoholic']=='yes')
                  <dt>Alcohol(units per week)</dt>
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
