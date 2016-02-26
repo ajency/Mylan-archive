@@ -22,8 +22,8 @@
        <form name="searchData" method="GET"> 
        <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option value="">-select patient-</option>
-           @foreach($allPatients as $patient)
-             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+           @foreach($allPatients as $patientData)
+             <option   value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
            @endforeach
           </select> 
      </form>
