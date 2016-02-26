@@ -184,7 +184,7 @@ class PatientController extends Controller
         $is_smoker = $request->input('is_smoker');
         $smoke_per_week = $request->input('smoke_per_week');
         // $is_alcoholic = $request->input('is_alcoholic');
-        // $units_per_week = $request->input('units_per_week');
+        $units_per_week = $request->input('units_per_week');
 
         $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
         if(!empty($validateRefernceCode))
@@ -206,7 +206,7 @@ class PatientController extends Controller
         $user->patient_is_smoker = $is_smoker;
         $user->patient_smoker_per_week = $smoke_per_week;
         // $user->patient_is_alcoholic = $is_alcoholic;
-        // $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
         $userId = $user->id;
 
@@ -818,7 +818,7 @@ class PatientController extends Controller
         $is_smoker = $request->input('is_smoker');
         $smoke_per_week = $request->input('smoke_per_week');
         // $is_alcoholic = $request->input('is_alcoholic');
-        // $units_per_week = $request->input('units_per_week');
+         $units_per_week = $request->input('units_per_week');
         
         $user = User::find($id);
         if($user->account_status=='created')
@@ -833,7 +833,7 @@ class PatientController extends Controller
         $user->patient_is_smoker = $is_smoker;
         $user->patient_smoker_per_week = $smoke_per_week;
         // $user->patient_is_alcoholic = $is_alcoholic;
-        // $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
 
         $medications = $request->input('medications');

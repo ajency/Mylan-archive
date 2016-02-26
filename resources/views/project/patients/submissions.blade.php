@@ -17,13 +17,6 @@
 <div class="pull-right">
   <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
   <form name="searchData" method="GET"> 
-  <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
-      <option value="">-select patient-</option>
-       @foreach($allPatients as $patientData)
-         <option {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
-       @endforeach
-      </select> 
-
    <input type="hidden" class="form-control" name="startDate"  >
    <input type="hidden" class="form-control" name="endDate"  >
    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
@@ -33,6 +26,14 @@
 
 </form>
  <input type="hidden" name="flag" value="0">
+</div>
+<div class="m-r-15 pull-right patient-search">
+<select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
+      <option value="">-select patient-</option>
+       @foreach($allPatients as $patientData)
+         <option {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+       @endforeach
+      </select> 
 </div>
 <div class="page-title">
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>

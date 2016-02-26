@@ -18,16 +18,14 @@
 
 <div class="page-title">
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
-     <div class="patient-search pull-right">
-       <form name="searchData" method="GET"> 
-       <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
-        <option value="">-select patient-</option>
-         @foreach($allPatients as $patientData)
-           <option {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
-         @endforeach
-        </select> 
-     </form>
-    </div>
+     <div class="pull-right m-r-15 patient-search">
+          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+          <option value="">-select patient-</option>
+           @foreach($allPatients as $patient)
+             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+           @endforeach
+          </select>
+       </div>
      
   </div>
  <div class="tabbable tabs-left">

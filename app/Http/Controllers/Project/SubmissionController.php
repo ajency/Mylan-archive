@@ -133,6 +133,7 @@ class SubmissionController extends Controller
         foreach ($patientSubmissions as $key => $response) {
             $reviewed = $response->get("reviewed");
             $status = $response->get("status");
+            $sequenceNumber = $response->get("sequenceNumber");
       
             $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
             $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
@@ -144,15 +145,14 @@ class SubmissionController extends Controller
             }
 
             if ($reviewed=='reviewed') {
-
-
- 
+                echo $sequenceNumber.'<br>';
+                $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
                 $timeDifference[] = intval( $datediff);
             }
              
         }
-        
+        dd($timeDifference);
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 

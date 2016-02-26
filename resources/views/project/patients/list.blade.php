@@ -32,7 +32,7 @@
        <div class="pull-right">
        <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
           
-       <input type="hidden" name="flag" value="0">
+       
        </div>
        <div class="pull-right m-r-15 patient-search">
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
@@ -54,6 +54,7 @@
           </div>
            
        </form>
+       <input type="hidden" name="flag" value="0">
       </div>
    </div>
      </div>
