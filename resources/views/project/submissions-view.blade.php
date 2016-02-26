@@ -17,6 +17,17 @@
 
 <div class="page-title">
      <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+
+     <div class="patient-search pull-right">
+       <form name="searchData" method="GET"> 
+       <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+          <option value="">-select patient-</option>
+           @foreach($allPatients as $patient)
+             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+           @endforeach
+          </select> 
+     </form>
+    </div>
   </div>
  <div class="tabbable tabs-left">
                       @include('project.patients.side-menu')
@@ -219,6 +230,12 @@
 
       $('select[name="patientSubmission"]').change(function (event) { 
          window.location="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/"+$(this).val();
+      });
+
+      $('select[name="referenceCode"]').change(function (event) { 
+        var referenceCode = $(this).val();
+        if(referenceCode!='')
+            window.location.href = BASEURL+"/patients/"+referenceCode; 
       });
 
    });

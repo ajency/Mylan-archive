@@ -87,7 +87,7 @@ class PatientController extends Controller
         $lateCount = $patientResponses['lateCount'];
         $missedCount = $patientResponses['missedCount'];
         $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
-         
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray(); 
       
 
         return view('project.patients.list')->with('hospital', $hospital)
@@ -96,6 +96,7 @@ class PatientController extends Controller
                                           ->with('active_menu', 'patients')
                                           ->with('activepatients', count($activepatients))
                                           ->with('patients', $patients)
+                                          ->with('allPatients', $allPatients)
                                           ->with('completed', $completed)
                                           ->with('late', $late)
                                           ->with('missed', $missed)
@@ -283,6 +284,7 @@ class PatientController extends Controller
                      );
 
         $patient = User::find($patientId);
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
 
         // // get completed count
         // $responseQry = new ParseQuery("Response");
@@ -400,6 +402,7 @@ class PatientController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
+                                        ->with('allPatients', $allPatients)
                                         ->with('questionChartData', $questionChartData)
                                         ->with('questionLabels', $questionLabels)
                                         //->with('questionBaseLine', $questionBaseLine)
@@ -900,7 +903,7 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-        
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
         // $responseStatus = ["completed"];
         // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
@@ -925,6 +928,7 @@ class PatientController extends Controller
                                                 ->with('active_tab', 'submissions')
                                                 ->with('tab', '02')
                                                 ->with('patient', $patient)
+                                                ->with('allPatients', $allPatients)
                                                 ->with('hospital', $hospital)
                                                  ->with('project', $project)
                                                  ->with('logoUrl', $logoUrl)
@@ -967,11 +971,12 @@ class PatientController extends Controller
         $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
-
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
                                                 ->with('tab', '03')
                                                 ->with('patient', $patient)
+                                                ->with('allPatients', $allPatients)
                                                 ->with('hospital', $hospital)
                                                 ->with('project', $project)
                                                 ->with('logoUrl', $logoUrl)
@@ -1010,13 +1015,14 @@ class PatientController extends Controller
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
         $isQuestionnaireSet = $questionnaireQry->count();  
-      
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         return view('project.patients.baseline-list')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'base_line')
                                                 ->with('tab', '03')                            
                                                 ->with('hospital', $hospital)
                                                 ->with('project', $project) 
+                                                ->with('allPatients', $allPatients) 
                                                 ->with('patient', $patient) 
                                                 ->with('isQuestionnaireSet', $isQuestionnaireSet) 
                                                 ->with('baseLines', $baseLines); 
@@ -1803,7 +1809,7 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
         $patients[] = $patient['reference_code'];
         $responseArr=[];
         $patientSubmissions=[];
@@ -1857,6 +1863,7 @@ class PatientController extends Controller
                                         ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
+                                        ->with('allPatients', $allPatients)
                                         ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('questionArr', $questionArr)
                                         // ->with('questionBaseLine', $questionBaseLine)

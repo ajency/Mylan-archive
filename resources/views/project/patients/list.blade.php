@@ -42,8 +42,14 @@
           <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
              <span></span> <b class="caret"></b>
+            
           </div>
-
+            <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+          <option value="">-select patient-</option>
+           @foreach($allPatients as $patient)
+             <option   value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+           @endforeach
+          </select>
        </form>
       </div>
    </div>
@@ -316,6 +322,12 @@ var chart = AmCharts.makeChart( "piechart", {
     } 
   ?>
 
+  $('select[name="referenceCode"]').change(function (event) { 
+        var referenceCode = $(this).val();
+        if(referenceCode!='')
+            window.location.href = BASEURL+"/patients/"+referenceCode; 
+      });
+  
    });
    </script>
          <style type="text/css">

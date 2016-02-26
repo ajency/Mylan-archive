@@ -144,13 +144,15 @@ class SubmissionController extends Controller
             }
 
             if ($reviewed=='reviewed') {
-                $datediff = abs( strtotime( $createdAt ) - strtotime( $updatedAt ) );
-                $timeDifference[] = intval( ( $datediff % 86400 ) / 3600);
+
+
+ 
+                $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
+                $timeDifference[] = intval( $datediff);
             }
              
         }
         
-
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
@@ -243,6 +245,7 @@ class SubmissionController extends Controller
         $sequenceNumber = $response->get("sequenceNumber");
 
         $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         // $oldResponseQry = new ParseQuery("Response");
         // $oldResponseQry->notEqualTo("objectId", $submissionId);
@@ -321,6 +324,7 @@ class SubmissionController extends Controller
                                                 ->with('active_tab', 'submissions')
                                                 ->with('tab', '02')
                                                 ->with('patient', $patient)
+                                                ->with('allPatients', $allPatients)
                                                 ->with('referenceCode', $referenceCode)
                                                 ->with('sequenceNumber', $sequenceNumber)
                                                 ->with('hospital', $hospital)

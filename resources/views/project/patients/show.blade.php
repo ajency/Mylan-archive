@@ -17,6 +17,13 @@
 <div class="pull-right m-t-10">
    <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
     <form name="searchData" method="GET"> 
+    <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+      <option value="">-select patient-</option>
+       @foreach($allPatients as $patientData)
+         <option {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+       @endforeach
+      </select> 
+
   <input type="hidden" class="form-control" name="startDate"  >
   <input type="hidden" class="form-control" name="endDate"  >
     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
@@ -484,6 +491,13 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       ?>
 
     });
+
+      $('select[name="referenceCode"]').change(function (event) { 
+        var referenceCode = $(this).val();
+        if(referenceCode!='')
+            window.location.href = BASEURL+"/patients/"+referenceCode; 
+      });
+
  
 });
  
