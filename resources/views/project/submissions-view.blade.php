@@ -135,6 +135,10 @@
                                       <h5 class="text-success semi-bold">{{ $x }} : {{ $option }}</h5>
                                       <?php $x++;?>
                                       @endforeach
+                                    @elseif($answer['questionType']=='input')
+                                 
+                                      <span class="text-success"><b>{{ getInputValues($answer['optionValues']) }}</b> </span>
+                                       
                                     @else
                                       <h5 class="text-success semi-bold">A: {{ $answer['value']}} {{ $answer['option']}}</h5>
                                     @endif
@@ -154,6 +158,14 @@
                                             @endforeach
                                           
            
+                                        @elseif($previousAnswersList[$answer['questionId']]['questionType']=='input')
+                                     
+                                          <!-- @foreach($previousAnswersList[$answer['questionId']]['optionValues'] as $optionLabel=> $optionValue)
+                                          <span class="text-info"><b>{{ $optionValue }} {{ $optionLabel }}</b> </span>   
+                                           
+                                          @endforeach -->
+                                          <span class="text-info"><b>{{ getInputValues($previousAnswersList[$answer['questionId']]['optionValues']) }}</b> </span>
+                                          
                                         @else
                                           <span class="text-info">{{ $previousAnswersList[$answer['questionId']]['value']}} {{ $previousAnswersList[$answer['questionId']]['option']}}</span>
                                         @endif
@@ -171,8 +183,14 @@
                                           <span class="text-info"><b>{{ $x }}</b>: {{ $option }}</span>  <br>
                                           <?php $x++;?>
                                           @endforeach
-                               
-           
+                                        @elseif($baseLineAnswersList[$answer['questionId']]['questionType']=='input')
+                                     
+                                   
+                                         <span class="text-info"><b>{{ getInputValues($baseLineAnswersList[$answer['questionId']]['optionValues']) }} </b></span>   
+                                           
+                                         
+
+                                                 
                                         @else
                                           <span class="text-info">{{ $baseLineAnswersList[$answer['questionId']]['value']}} {{ $baseLineAnswersList[$answer['questionId']]['option']}}</span>
                                         @endif

@@ -46,11 +46,11 @@ class PatientController extends Controller
         if(isset($inputs['patients']))
         {
             $patientsStatus = $inputs['patients'];
-            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         }
         else
         {
-            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         }
         
          
@@ -1469,16 +1469,15 @@ class PatientController extends Controller
 
         $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions) :[];
         // dd($firstQuestionId);
-
+        $optionScore = [];
         foreach ($options as   $option) {
             $questionId = $option->get('question')->getObjectId();
             $optionId = $option->getObjectId();
             $label = $option->get('label');
             $score = $option->get('score');
-            $optionsList[$questionId][$score] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
+            $optionScore[$questionId][$optionId]=$score;
+            $optionsList[$questionId][$optionId] = ['id'=>$optionId,'score'=>$score,'label'=>$label];
         }
-
-        ksort($optionsList);
 
         if(!empty($response))
         {
@@ -1521,6 +1520,7 @@ class PatientController extends Controller
         $data['questionnaireName'] = $questionnaireName; 
         $data['questionsList'] = $questionsList; 
         $data['optionsList'] = $optionsList; 
+        $data['optionScore'] = $optionScore; 
         $data['answersList'] = $answersList; 
         $data['baseLineResponseId'] = $baseLineResponseId; 
 
@@ -1598,6 +1598,7 @@ class PatientController extends Controller
         $questionnaireId = $baseLineData['questionnaireId']; 
         $questionsList = $baseLineData['questionsList'];  
         $optionsList = $baseLineData['optionsList']; 
+        $optionScore = $baseLineData['optionScore'];
         $answersList = $baseLineData['answersList']; 
         //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         
@@ -1608,7 +1609,7 @@ class PatientController extends Controller
                                         ->with('project', $project)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
-                                        
+                                        ->with('optionScore', $optionScore)
                                         ->with('questionnaireId', $questionnaireId)
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)
@@ -1925,9 +1926,11 @@ class PatientController extends Controller
     {
         $questionLabels = [];
         $questionList =[];
+        $questionTypes =[];
         $questionObjs =[];
 
         $baseLineArr= []; 
+        $inputBaseLineArr= []; 
         $chartData = [];
         $inputScores = [];
         $allScore =[];
@@ -1958,6 +1961,7 @@ class PatientController extends Controller
 
             $sequenceNumber = $answer->get("response")->get("sequenceNumber");
             $submissionsNumberByDate[$sequenceNumber]=$answerDate;
+            $questionTypes[$questionId] =$questionType;
             
             if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
                 continue;
@@ -1970,18 +1974,24 @@ class PatientController extends Controller
                 $baseLineAnswerQry = new ParseQuery("Answer");
                 $baseLineAnswerQry->equalTo("response", $baseLineObj); 
                 $baseLineAnswerQry->equalTo("question", $questionObj); 
-                $baseLineAnswerQry->equalTo("patient", $patientId); 
-                $baseLineAnswer = $baseLineAnswerQry->first();
-                $baseLineScore = $baseLineAnswer->get("value");
-                 
+                $baseLineAnswerQry->equalTo("patient", $patientId);
+                $baseLineAnswerQry->includeKey("option"); 
+                $baseLineAnswers = $baseLineAnswerQry->find();
+                // $baseLineAnswer = $baseLineAnswerQry->first();
+
+                // $baseLineScore = $baseLineAnswer->get("value");
+
+                foreach ($baseLineAnswers as $key => $baseLineAnswer) {
+                    $inputBaseLineArr[$baseLineAnswer->get("option")->get("label")] = $baseLineAnswer->get("value");
+                }               
                 
                 $inputBaseQuestionId = $questionId;
                 $questionLabels[$questionId] = $questionLabel;
                 $allScore[$questionId][] = $optionValue;
 
-                $baseLineArr[$questionId][$sequenceNumber] =$baseLineScore;
-                $inputScores[$questionId][$sequenceNumber] = $optionValue ;
-
+                $baseLineArr[$questionId][$sequenceNumber] =$inputBaseLineArr;
+                $inputScores[$questionId][$sequenceNumber][$answer->get("option")->get("label")] = $optionValue ;
+                // $inputScores[$questionId][$sequenceNumber] = $optionValue;
                 continue;
             }
             elseif ($questionType=='multi-choice') {        //if multichoise sum up scores
@@ -2012,8 +2022,17 @@ class PatientController extends Controller
             $i=0;
             foreach($data as $sequenceNumber => $value)
             { 
-                $date = $submissionsNumberByDate[$sequenceNumber];
                 $baslineScore = $baseLineArr[$questionId][$sequenceNumber];
+
+                if(is_array($value))
+                {
+                    $baslineScore = getInputValues($baseLineArr[$questionId][$sequenceNumber],false);
+                    $value = getInputValues($value,false);
+                }
+            
+
+                $date = $submissionsNumberByDate[$sequenceNumber];
+                
                 $chartData[$questionId][$i]['Date'] = date('d M',$date). ' ('.$sequenceNumber.')';
                 $chartData[$questionId][$i]['score'] = intval($value);
                 $chartData[$questionId][$i]['baseLine'] = intval($baslineScore);
@@ -2023,6 +2042,7 @@ class PatientController extends Controller
             
             
         }
+
 
         $sequentialQuestion = (!empty($questionObjs))?$this->getSequenceQuestions($questionObjs):[];//used ly to get question in rt order
          

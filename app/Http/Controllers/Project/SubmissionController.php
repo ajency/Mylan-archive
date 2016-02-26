@@ -225,10 +225,10 @@ class SubmissionController extends Controller
         $data =  $this->getSubmissionData($submissionId,true);
         $questionnaire = $data['questionnaire'];
         $date = $data['date']; 
-        $answersList = $data['answers'];
+        $answersList = $data['answers'];//dd($answersList);
         $response = $data['response'];
         $currentChartData = $data['chartData'];
-        $currentInputValues = $data['inputValues'];
+        $currentInputValues = $data['inputValues'];//dd($currentInputValues);
         $previousSubmissionId = $data['previousSubmission'];
         $baseLineId = $data['baseLine'];
         
@@ -297,15 +297,20 @@ class SubmissionController extends Controller
             $question = $chartData['question'];
             $submissionChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
              
-        }
+        }       
 
         $inputValueChart = [];
+        
         foreach ($baseInputValues as $questionId => $inputValues) {
-            $currentInputValue = (isset($currentInputValues[$questionId]['score']))?$currentInputValues[$questionId]['score']:0;
-            $baseInputValue = $chartData['score'];
-            $previousInputValue = (isset($previousInputValues[$questionId]['score']))?$previousInputValues[$questionId]['score']:0;
-            $question = $chartData['question'];
-            $inputValueChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+            $questionLabel = $inputValues['question'];
+
+            $currentInputValue = (isset($answersList[$questionId]['optionValues']))? getInputValues($answersList[$questionId]['optionValues']) :0;
+
+            $baseInputValue = getInputValues($baseLineAnswersList[$questionId]['optionValues']);
+
+            $previousInputValue = (isset($previousAnswersList[$questionId]['optionValues']))?getInputValues($previousAnswersList[$questionId]['optionValues']):0;
+
+            $inputValueChart[] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
              
         }
 
@@ -400,6 +405,34 @@ class SubmissionController extends Controller
                 }
                 
            }
+           elseif($questionType == 'input')
+           {
+                if(!isset($answersList[$questionId]))
+                {
+                   $answersList[$questionId]= [ 'id' => $answers->getObjectId(),
+                                        'questionId' => $answers->get("question")->getObjectId(),
+                                        'question' => $answers->get("question")->get("question"), 
+                                        'questionType' => $questionType, 
+                                        'optionValues' => [],  
+                                        'value' => $answers->get("value"),   
+                                        'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
+                          ]; 
+                  $answersList[$questionId]['optionValues'][$answers->get("option")->get("label")] =$answers->get("value");
+
+                  $inputValues[$questionId]['question'] =$answers->get("question")->get("title");
+                  
+                }
+                else
+                {
+
+                   $answersList[$questionId]['optionValues'][$answers->get("option")->get("label")] = $answers->get("value");
+                   
+                }
+
+                
+               
+                
+           }
            else
            {
                 $option = ($answers->get("option") !='')?$answers->get("option")->get("label"):'';
@@ -421,10 +454,7 @@ class SubmissionController extends Controller
                 $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("score")];
            // elseif($questionType == 'input')
            //      $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
-
-          if($questionType == 'input')
-              $inputValues[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
-                
+ 
            
         }
 

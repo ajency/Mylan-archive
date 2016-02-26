@@ -37,7 +37,7 @@
  @if(!empty($prejectAlerts['alertMsg']))
   @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
  
-    <div class="tiles white m-t-10">
+    <div class="tiles white m-t-10" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $prejectAlert['responseId'] }}';">
    <div class="p-t-20 p-b-15 ">
       <div class="post overlap-left-10">
          <div class="user-profile-pic-wrapper">

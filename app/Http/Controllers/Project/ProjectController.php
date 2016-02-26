@@ -56,7 +56,6 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
-        
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -86,7 +85,7 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         //dd($patients);
         $activepatients = [];
@@ -180,7 +179,7 @@ class ProjectController extends Controller
 
         $alertMsg = [];
         $alertTypes = [
-        'compared_to_previous_red_flags'=>"More Than 2 red flags raised for submmsion number %d in comparison with previous submission",
+        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submmsion number %d in comparison with previous submission",
         'new_patient'=>"New Patient Created"
         ];
 
@@ -200,7 +199,8 @@ class ProjectController extends Controller
                 $responseQry->equalTo("objectId", $referenceId); 
                 $response = $responseQry->first();
                 $sequenceNumber = $response->get("sequenceNumber");
-                $alertMsg[] = ['patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                $responseId = $response->getObjectId();
+                $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
             }
            
             
@@ -382,7 +382,7 @@ class ProjectController extends Controller
         $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         $patientIds = [];
         foreach ($patients as  $patient) {

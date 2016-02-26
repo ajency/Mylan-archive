@@ -26,6 +26,50 @@ function getUserApiKey( $userId ) {
     return $key[0];
 }    
 
+
+function convertStonePoundsToKgs($stones,$pounds)
+{
+    $value1 = $pounds / 2.2; 
+
+    $pounds = $stones * 14; 
+
+    $value2 = round($pounds) / 2.2; 
+
+    $result = round($value1) + round($value2);     
+
+    return $result;   
+}
+
+function getInputValues($values,$withLabel=true)
+{
+    /*********
+    $array['kgs']=50
+    $array=['ST'=>50,'lbs'=>30];
+
+    /******/
+    if(count($values)==1)
+    {
+        $result = current($values);
+        $result .= ($withLabel)? key($values) :'';
+    }
+    else
+    {
+        if(isset($values['St']) && isset($values['lbs']))
+        {
+            $result = convertStonePoundsToKgs($values['St'],$values['lbs']) ;
+            $result .= ($withLabel)? 'Kgs' :'';
+        }
+        else
+        {
+            $result = current($values);
+            $result .= ($withLabel)? key($values) :'';
+        }
+        
+    }
+
+    return $result;
+} 
+
 function getPassword($referenceCode , $password)
 {
 	$referenceCodePart1 = mb_substr($referenceCode, 0, 4);
