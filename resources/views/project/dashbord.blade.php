@@ -148,7 +148,7 @@
          <div class="col-sm-4">
             <div class=" simple grid-table m-t-20">
                            <div class="grid-title no-border text-left">
-                              <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Activity"></i></h4>
+                              <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Alerts Generated For Patients"></i></h4>
                         
                            </div>
 
