@@ -38,16 +38,24 @@
 
                 <h4 class="text-success">
                   <span 
-                    ng-if="summary.type ==='option'"
+                    ng-if="summary.val ==='single-choice' || summary.val ==='multi-choice'"
                     ng-repeat = "answer in summary.optionSelected track by $index">
                     {{answer}} <br> 
                   </span>
                 </h4>
 
                 <h4 class="text-success"
-                   ng-if="summary.type !=='option'">
-                  <span ng-if="summary.input != ''"> {{summary.input}} 
-                 {{summary.optionSelected[0]}}  </span>
+                   ng-if="summary.val ==='descriptive'">
+                  <span> {{summary.input}} 
+                  </span>
+                </h4>
+
+                <h4 class="text-success"
+                   ng-if="summary.val == 'input'"
+                   ng-repeat = "answer in summary.optionSelected track by $index">
+                  <span> 
+                    {{answer.value}} {{answer.label}} 
+                  </span>
                 </h4>
 
             </div>
