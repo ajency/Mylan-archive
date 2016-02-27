@@ -60,8 +60,10 @@ angular.module 'angularApp.questionnaire'
 						
 
 				if @data.questionType == 'input'
-					ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					@val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
+					_.each @data.hasAnswer.option, (val) =>
+						@val_answerValue[val.label] = Number(val.value)
+					# ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
+					# @val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
 
 
 			pastAnswer:()->
@@ -70,10 +72,11 @@ angular.module 'angularApp.questionnaire'
 				if !_.isEmpty(previousAns)
 
 					if @data.questionType == 'input'
-						if !_.isEmpty previousAns.optionId[0] 
-							ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
-							ObjId.option
-							@data.previousQuestionnaireAnswer['label'] = ObjId.option
+						console.log '1'
+						# if !_.isEmpty previousAns.optionId[0] 
+						# 	ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
+						# 	ObjId.option
+						# 	@data.previousQuestionnaireAnswer['label'] = ObjId.option
 
 					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
 						optionSelectedArray = []
@@ -223,6 +226,8 @@ angular.module 'angularApp.questionnaire'
 						@loadNextQuestion(options)
 
 				if @data.questionType == 'input'
+					valueArr = []
+					validArr = []
 
 					error = 0
 					sizeOfField = _.size(@data.options)
@@ -231,30 +236,64 @@ angular.module 'angularApp.questionnaire'
 					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
+						console.log @val_answerValue
 						_.each @val_answerValue, (value)->
 							value = value.toString()
-							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
+							console.log value
+							if value == null || value == ''
+								console.log 'empty'
+								valueArr.push 1
+							else
+								valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								if valid == null
+									validArr.push 1
 
-							if value == null || valid == null
-								error = 1
+						if valueArr.length == _.size(@val_answerValue)
+							error = 1
 
-					if error == 1
-						CToast.show 'Please enter numbers'
+					# ***temp**
+					if error == 1 || validArr.length > 0
+						CToast.show 'Please enter the values'
 					else
 						valueInput = []
 						optionId = []
-
+						arryObj = []
 						_.each @data.options, (opt)=>
+							obj={}
 							a = @val_answerValue[opt.option]
 							if !_.isUndefined(a) && a !=''
-								valueInput.push(a)
-								optionId.push(opt.id)
+								# valueInput.push(a)
+								# optionId.push(opt.id)
 
+								obj['id'] = opt.id
+								obj['value'] = a.toString()
+								arryObj.push(obj)
+
+						
 						options =
 							"questionId" : @data.questionId
-							"options": [optionId[0]]
-							"value": valueInput[0].toString()
+							"options": arryObj
 							"responseId" : @data.responseId
+							
+
+
+					# if error == 1
+					# 	CToast.show 'Please enter numbers'
+					# else
+					# 	valueInput = []
+					# 	optionId = []
+
+					# 	_.each @data.options, (opt)=>
+					# 		a = @val_answerValue[opt.option]
+					# 		if !_.isUndefined(a) && a !=''
+					# 			valueInput.push(a)
+					# 			optionId.push(opt.id)
+
+					# 	options =
+					# 		"questionId" : @data.questionId
+					# 		"options": [optionId[0]]
+					# 		"value": valueInput[0].toString()
+					# 		"responseId" : @data.responseId
 
 						@loadNextQuestion(options)
 
@@ -357,21 +396,23 @@ angular.module 'angularApp.questionnaire'
 					@loadPrevQuestion(options)
 
 				if @data.questionType == 'input'
-
 					valueInput = []
 					optionId = []
+					arryObj = []
 
 					_.each @data.options, (opt)=>
 						a = @val_answerValue[opt.option]
 						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
 							valueInput.push(a)
 							optionId.push(opt.id)
+							# temp
+							obj['id'] = opt.id
+							obj['value'] = a
+							arryObj.push(obj)
 
 					console.log '***'
 					console.log optionId
 
-					# aa = if _.isEmpty(optionId) then [] else [optionId[0]] 
-					# bb = if  _.isEmpty(valueInput) then [] else value = valueInput[0]	
 					if  _.isEmpty(optionId)
 						optionId = []
 					else
@@ -383,8 +424,35 @@ angular.module 'angularApp.questionnaire'
 					options =
 						"responseId" : @data.responseId
 						"questionId" : @data.questionId
-						"options": optionId
-						"value": value.toString()
+						"options": arryObj
+						
+
+
+					# valueInput = []
+					# optionId = []
+
+					# _.each @data.options, (opt)=>
+					# 	a = @val_answerValue[opt.option]
+					# 	if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
+					# 		valueInput.push(a)
+					# 		optionId.push(opt.id)
+
+					# console.log '***'
+					# console.log optionId
+
+					# if  _.isEmpty(optionId)
+					# 	optionId = []
+					# else
+					#  	optionId = [optionId[0]] 	
+					# if  _.isEmpty(valueInput)
+					# 	value = []
+					# else
+					#  	value = valueInput[0].toString()
+					# options =
+					# 	"responseId" : @data.responseId
+					# 	"questionId" : @data.questionId
+					# 	"options": optionId
+					# 	"value": value.toString()
 
 					@loadPrevQuestion(options)
 
