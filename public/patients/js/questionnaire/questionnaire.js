@@ -109,6 +109,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             return QuestionAPI.getPrevQuest(param).then((function(_this) {
               return function(data) {
+                _this.display = 'noError';
                 _this.checkQuestinarieStatus(data);
                 console.log('previous data');
                 console.log(_this.data);
@@ -118,9 +119,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 _this.readonly = _this.data.editable;
                 _this.pastAnswer();
                 if (!_.isEmpty(_this.data.hasAnswer)) {
-                  _this.hasAnswerShow();
+                  return _this.hasAnswerShow();
                 }
-                return _this.display = 'noError';
               };
             })(this), (function(_this) {
               return function(error) {
@@ -163,12 +163,12 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             return QuestionAPI.getQuestion(options).then((function(_this) {
               return function(data) {
+                _this.display = 'noError';
                 _this.checkQuestinarieStatus(data);
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
-                _this.pastAnswer();
-                return _this.display = 'noError';
+                return _this.pastAnswer();
               };
             })(this), (function(_this) {
               return function(error) {
@@ -186,6 +186,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         this.CSpinnerShow();
         return QuestionAPI.saveAnswer(param).then((function(_this) {
           return function(data) {
+            _this.display = 'noError';
             console.log('******next question******');
             console.log(data);
             _this.checkQuestinarieStatus(data);
@@ -197,8 +198,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.hasAnswerShow();
               _this.readonly = _this.data.editable;
             }
-            _this.pastAnswer();
-            return _this.display = 'noError';
+            return _this.pastAnswer();
           };
         })(this), (function(_this) {
           return function(error) {

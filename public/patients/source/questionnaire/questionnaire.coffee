@@ -116,6 +116,7 @@ angular.module 'angularApp.questionnaire'
 
 						QuestionAPI.getPrevQuest param
 						.then (data)=>
+							@display = 'noError'
 							@checkQuestinarieStatus(data)
 							console.log 'previous data'
 							console.log @data	
@@ -126,7 +127,7 @@ angular.module 'angularApp.questionnaire'
 							@pastAnswer()
 							if !_.isEmpty(@data.hasAnswer)
 								@hasAnswerShow()	
-							@display = 'noError'
+							
 						,(error)=>
 							@display = 'error'
 							console.log error
@@ -168,13 +169,12 @@ angular.module 'angularApp.questionnaire'
 
 						QuestionAPI.getQuestion options
 						.then (data)=>
+							@display = 'noError'
 							@checkQuestinarieStatus(data)
 							console.log 'inside then'
 							console.log data
 							@data = data
-							@pastAnswer()
-							@display = 'noError'
-							
+							@pastAnswer()	
 						,(error)=>
 							@display = 'error'
 							@errorType = error
@@ -187,6 +187,7 @@ angular.module 'angularApp.questionnaire'
 				@CSpinnerShow()
 				QuestionAPI.saveAnswer param
 				.then (data)=>
+					@display = 'noError'
 					# App.resize()
 					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
@@ -201,7 +202,7 @@ angular.module 'angularApp.questionnaire'
 						@hasAnswerShow()
 						@readonly = @data.editable
 					@pastAnswer()	
-					@display = 'noError'
+					
 				,(error)=>
 					if error == 'offline'
 						CToast.show 'Check net connection,answer not saved'
