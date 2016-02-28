@@ -28,6 +28,8 @@ angular.module 'PatientApp.dashboard',[]
 
 			getSubmission : ->
 				@display = 'loader'
+				@showMoreButton = false
+				
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
 					param = 
@@ -96,6 +98,7 @@ angular.module 'PatientApp.dashboard',[]
 					NotifyCount.getCount(refcode)
 
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.display = 'loader'
 			$scope.view.data = []
 			$scope.view.limitTo = 5
 			$scope.view.showMoreButton = false

@@ -23,6 +23,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       getSubmission: function() {
         this.display = 'loader';
+        this.showMoreButton = false;
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
             var param;
@@ -109,6 +110,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       });
     });
     return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      $scope.view.display = 'loader';
       $scope.view.data = [];
       $scope.view.limitTo = 5;
       return $scope.view.showMoreButton = false;

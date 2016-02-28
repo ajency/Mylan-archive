@@ -372,8 +372,6 @@ angular.module 'PatientApp.Quest',[]
 					console.log '***'
 					console.log optionId
 
-					# aa = if _.isEmpty(optionId) then [] else [optionId[0]] 
-					# bb = if  _.isEmpty(valueInput) then [] else value = valueInput[0]	
 					if  _.isEmpty(optionId)
 						optionId = []
 					else
