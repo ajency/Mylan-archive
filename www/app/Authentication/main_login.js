@@ -8,7 +8,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       readonly: '',
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
-          return this.loginerror = "Please Enter the credentials ";
+          return this.loginerror = "Please enter the credentials ";
         } else {
           if (_.isUndefined(this.refrencecode) || _.isUndefined(this.password)) {
             return this.loginerror = "Please Enter valid credentials ";

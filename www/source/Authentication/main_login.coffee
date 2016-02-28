@@ -14,7 +14,7 @@ angular.module 'PatientApp.Auth'
 
 			mainlogin : ->
 				if @refrencecode =='' || @password ==''
-					@loginerror = "Please Enter the credentials "
+					@loginerror = "Please enter the credentials "
 				else	
 					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
 						@loginerror = "Please Enter valid credentials "
