@@ -810,14 +810,14 @@ function miniGraph(chartData,container)
         "dashLength": 2,
         "inside": true,
          "title": "score",
-         "lineColor": "#ffbf63",
+         "lineColor": "#05A8A5",
         "valueField": "score"
     },
      {
         "type":"step",
-        "lineThickness": 1,
+        "lineThickness": 0.5,
         "title": "Baseline",
-        "lineColor": "#000",
+        "lineColor": "#888",
         "valueField": "baseLine"
     }         ],
     "marginTop": 0,
