@@ -8870,4 +8870,19 @@ select option {
 .msg-card {
   overflow: visible;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+}
+.blue-previous {
+  color: #76BEDF;
+}
+.yellow-baseline {
+  color: #FDD81A;
+}
+.green-current {
+  color: #90BE71;
+}
 /*# sourceMappingURL=style.css.map */
