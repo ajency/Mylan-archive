@@ -45,6 +45,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   _this.variables();
                   _this.data = [];
                   _this.data = data;
+                  _this.questionLabel();
                   _this.readonly = _this.data.editable;
                   _this.pastAnswer();
                   if (!_.isEmpty(_this.data.hasAnswer)) {
@@ -85,6 +86,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
+                _this.questionLabel();
                 _this.checkQuestinarieStatus(data);
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
@@ -127,6 +129,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.variables();
               _this.data = [];
               _this.data = data;
+              _this.questionLabel();
               App.resize();
               App.scrollTop();
               _this.readonly = true;
@@ -270,6 +273,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               _this.variables();
               _this.data = [];
               _this.data = data;
+              _this.questionLabel();
               App.resize();
               App.scrollTop();
               _this.readonly = _this.data.editable;
@@ -490,20 +494,44 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       firstRow: function() {
-        if (_.isEmpty(this.data.hasAnswer)) {
-          console.log('first row');
-          this.firstRowStatus = true;
-          this.secondRowStatus = false;
-          this.val_answerValue['ST'] = '';
-          return this.val_answerValue['lbs'] = '';
-        }
+        $('.myids').each(function() {
+          return $(this).val('');
+        });
       },
       secondRow: function() {
-        if (_.isEmpty(this.data.hasAnswer)) {
-          console.log('second row');
-          this.firstRowStatus = false;
-          this.secondRowStatus = true;
-          return this.val_answerValue['Kg'] = '';
+        return document.getElementById("firstRow").value = '';
+      },
+      questionLabel: function() {
+        var arr, kg;
+        if (this.data.questionType === 'input') {
+          arr = [];
+          this.data.withoutkg = {};
+          this.data.withkg = {};
+          kg = {};
+          _.each(this.data.options, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.option;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool) {
+                arr.push(1);
+                return kg = value;
+              }
+            };
+          })(this));
+          if (arr.length > 0) {
+            this.data.optionsLabel = true;
+            this.data.withoutkg = _.without(this.data.options, kg);
+            this.data.withkg = kg;
+          } else {
+            this.data.optionsLabel = false;
+          }
+          console.log('optionn label--------');
+          console.log(this.data.optionsLabel);
+          console.log(this.data.withkg);
+          return console.log(this.data.withoutkg);
         }
       }
     };

@@ -1,229 +1,387 @@
 <ion-view
   ng-init="view.init();"
   hide-back-button="true">
+  <ion-nav-title class="summary-header question-label">
+       {{view.data.questionTitle}}
+  </ion-nav-title>
 
+<ion-content  class="has-footer" ng-switch="view.display" >
+  <div class="loader" ng-switch-when="loader">
+    <ion-spinner>
+    </ion-spinner>
+  </div>
+  <div
+    ng-switch-when="noError">
 
-   <ion-content  class="has-footer" ng-switch="view.display" >
+ <!--      <div 
+        class="info-msg padding bg-balanced">
+          <span  
+            ng-if = 'view.data.questionType == "single-choice"'>
+            Choose your answer from {{view.data.options.length}} options
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "multi-choice"'>
+            Choose your answers from {{view.data.options.length}} options
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "input"'>
+            Please complete EITHER Kg OR stones and lbs box
+          </span>
+          <span
+            ng-if = 'view.data.questionType == "descriptive"'
+           >Enter a short description 
+        </span>
+      </div>  -->
 
-    <div >
-      <div class="loader" ng-switch-when="loader">
-        <ion-spinner>
-        </ion-spinner>
+      <!--descrp-->
+      <div ng-if = 'view.data.questionType == "input" ||
+          view.data.questionType == "descriptive"' >
+
+      <div 
+        class="padding">
+        <div class="col">
+          <h5 class="q-title">
+             <b class="assertive">Q :</b>
+             {{view.data.question}}
+          </h5>
+   
+        </div>
       </div>
-      <div
-        ng-switch-when="noError">
 
-        <div class="info-msg padding bg-balanced" ng-if='view.data.questionType !== "descriptive"'>
-            <span  
-              ng-if = 'view.data.questionType == "single-choice"'>
-                Touch the answer you would like to select
-            </span>
-            <span  
-              ng-if = 'view.data.questionType == "multi-choice"'>
-              Touch the answers you would like to select
-            </span>
-            <span  
+      <div ng-if="view.isEmpty(view.data.previousQuestionnaireAnswer) == false">
+        <div class="bg-gray">
+       <div class="prev-answers row">
+            <div class="col"
               ng-if = 'view.data.questionType == "input"'>
-              Please complete EITHER Kg OR stones and lbs box
-            </span>
-        </div> 
+              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId"> 
+              {{inpt.value}} {{inpt.label}}
+              &nbsp; 
+              </b>
+ 
+             </div>
+             <div class="col"
+             ng-if = 'view.data.questionType == "descriptive"'>
+                             Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive"> {{view.data.previousQuestionnaireAnswer.value}}
+              &nbsp; 
+              {{view.data.previousQuestionnaireAnswer.label}}</b>
+ 
+             </div>
 
-          <!--descrp-->
-          <div ng-if = 'view.data.questionType == "input" ||
-            view.data.questionType == "descriptive"' >
-
-              <div 
-                class="padding">
-                    <div class="col">
-                        <h4 class="q-title">
-                        <span class="badge badge-assertive badge-round">1</span>
-                        {{view.data.questionTitle}}
-                      </h4>
-                        <h5 class="f-w-400">  
-                         {{view.data.question}}
-                        </h5>
-                        
-                  </div>
-              </div>
-
-              <div ng-if="view.isEmpty(view.data.previousQuestionnaireAnswer) == false">
-              <div class="bg-gray">
-                <div class="prev-answers row">
-                               <div class="col col-50">
-                               <h6 class="f-w-400 text-green">
-                                      Previous Answers &nbsp;&nbsp;
-                                    </h6>
-                                        
-                                    </div>
-                                    <div class="col col-50 text-right">
-                                      <small>{{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}</small> 
-                                    </div>
-                                  
-                             </div>
-                             <div class="padding prev-ques-ans">
-                              <p class="f-w-400 text-green">
-                                {{view.data.previousQuestionnaireAnswer.value}}
-                                &nbsp; 
-                              {{view.pastAnswerLabel(view.data.previousQuestionnaireAnswer.optionId[0])}}
-                              </p>
-                                  </div>
-              </div>
-              </div>
-     
-               
-
-             <div class="row" ng-if='view.data.questionType == "input"'>
-                  <div 
-                    class="col"
-                    ng-repeat ="answerValue in view.data.options">
-                    <label class="item-input  item-icon-right b-b b-t b-l b-r">
-                    <input 
-                      type="number" 
-                      placeholder="{{answerValue.option}}"
-                      ng-model="view.val_answerValue[answerValue.option]">
-                    </label>
-                  </div>
-              </div>
-
-              <div class="row" ng-if='view.data.questionType == "descriptive"'>
-                  <div 
-                    class="col">
-
-                    <label class="item-input item-icon-right b-b">
-                    <input 
-                      type="text" 
-                      ng-model="view.descriptiveAnswer">
-                    </label>
-                  </div>
-              </div>
-
-
-              
-         </div>
-          <!--descrp-->
-          
-        
-          <div>
-
-              <div 
-                class="padding"
-                ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"'>
-                    <div class="col">
-                      <h4 class="q-title">
-                        <span class="badge badge-assertive badge-round">1</span>
-                        {{view.data.questionTitle}}
-                      </h4>
-                        <h5 class="f-w-400"
-                          ng-if = 'view.data.questionType == "single-choice"'>
-                          {{view.data.question}}</h5>
-                        <h5 class="f-w-400"
-                         ng-if = 'view.data.questionType == "multi-choice"'>  
-                         {{view.data.question}}
-                        </h5>
-                        
-                  </div>
-              </div>
-              <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
-              <div class="bg-gray"
-                ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
-                <div class="prev-answers row">
-                          
-                               <div class="col col-50">  
-                                  <h6 class="f-w-400 text-green">
-                                      Previous Answers &nbsp;&nbsp;
-                                    </h6>
-                                          </div>
-                                   
-                                   
-                                        <div class="col col-50 text-right">  
-                                        
-                                        <small>
-                                        {{ view.pastDate(view.data.previousQuestionnaireAnswer.date.iso)}}
-                                        </div>
-                                        
-                                        </small>
-                                        
-                                  
-                                 
-                                      </div>
-                                       <div class="padding"><p class="f-w-400 text-green">
-                                          Last time you answered option: &nbsp;
-                                         {{ view.pastAnswer(view.data.previousQuestionnaireAnswer.optionId[0], view.data.options)}}
-                                        </p>
-                             </div>
-              </div>
-            </div>
-     
-               
-
-              <!-- single choice  -->
-              <div 
-                class="list"
-                ng-if = 'view.data.questionType == "single-choice"'>
-                <label class="item item-radio"
-                  ng-repeat ="answerValue in view.data.options  | orderBy:'score' track by $index">
-                    <input type="radio" name="group" ng-model="view.singleChoiceValue" 
-                      ng-value="answerValue.id" >
-                      <div class="item-content">
-                        <span>{{$index + 1}} </span>  {{answerValue.option}} 
-                      </div>
-                  <!-- <i class="radio-icon ion-checkmark"></i>   -->
-                </label> 
-              </div>
-
-              <!-- multi choice  -->
-              <ul 
-                mcq-select
-                class="list"
-                ng-if = 'view.data.questionType == "multi-choice"'>
-                <li 
-                  class="item item-checkbox mcq"
-                  ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index">
-                  <label class="checkbox" >
-                      <input type="checkbox" ng-model="answerValue.checked" 
-                      ng-checked="answerValue.checked">
-                  </label>
-                  <div>
-                      <span>{{$index + 1}}</span> {{answerValue.option}}
-                  </div >
-                </li>
-              </ul>
-         </div>
-
+        </div>
        
         </div>
+      <div  class="info-msg padding ">
+          <span  
+           ng-if = 'view.data.questionType == "input"'>
+          <i class="ion-ios-information-outline"> </i>  Please input your value
+          </span>
+      
+      </div>
+      <div  class="info-msg padding ">
+          <span  
+           ng-if = 'view.data.questionType == "descriptive"'>
+          <i class="ion-ios-information-outline"> </i>  Enter short description
+          </span>
+      
+      </div>
+      </div>
 
-        <aj-error class="errors"
-            error-type="view.errorType"
-            ng-switch-when="error"
-            tap-to-retry="view.onTapToRetry();">
-        </aj-error>
+<!--  <div class="list">
+        <label class="item item-radio item-input-type">
+            <div class="item-content">
+              <span>1</span>            
+            <input 
+              id = "numberType"
+              type="tel" 
+              placeholder="Kgs"
+              />
+               </div>
+          
+        </label> 
+        <label class="item item-radio item-input-type">
+            <div class="item-content">
+              <span>2</span>            
+            <input 
+              id = "numberType"
+              type="tel" 
+              placeholder="ST"
+              />
+              
+             <input 
+              id = "numberType"
+              type="tel" 
+              placeholder="LBS"
+              />
+               </div>
+        </label> 
+      </div> -->
+
+      <div class="list"
+      ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"' >
+ 
+         <label class="item item-radio item-input-type"
+            ng-click ="view.firstRow()" >
+            <input type="radio" name="group1">
+            <div class="item-content">
+            <span>1</span> 
+                <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="Kg" class="question"
+                    ng-disable="view.firstRowStatus"
+                    ng-model="view.val_answerValue['Kg']"
+                    />
+            </div>
+         </label>
+
+         <label class="item item-radio item-input-type"
+            ng-click="view.secondRow()">
+            <input type="radio" name="group1">
+            <div class="item-content">
+             <span>2 </span> 
+                <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="St" class="question"
+                    ng-model="view.val_answerValue['ST']"
+                    ng-disable="view.secondRowStatus"
+                    />
+                    
+                   <input 
+                    id = "numberType"
+                    type="tel" 
+                    placeholder="lbs" class="question"
+                    ng-model="view.val_answerValue['lbs']"
+                    ng-disable="view.secondRowStatus"
+                    />
+            </div>
+         </label>
+       </div>
+
+      <div class="row" 
+      ng-if='view.data.questionType == "input" && view.data.options[0].id !== "FJQBaKmxpR" '>
+      
+        <div
+          text-select 
+          class="col "
+          ng-repeat ="answerValue in view.data.options">
+
+          <label class="item-input  input-lable  item-icon-right">
+
+           <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+               placeholder="{{answerValue.option}}"
+              ng-model="view.val_answerValue[answerValue.option]"
+              ng-readonly = "!view.readonly"/>
+
+            <!-- <span></span>
+            
+          </label> -->
+     
+        </div>
+      </div>
+
+      <!-- <div class="row" 
+          ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"'>
+       
+        <div
+          text-select
+          class="col ">
+
+          <label class="item-input  input-lable  item-icon-right">
+
+           <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="Kg"
+              ng-model="view.val_answerValue['Kg']"
+              ng-readonly = "!view.readonly"/>
+        </div>
+
+       
+        <div
+          text-select
+          class="col ">
+           <label class="item-input  input-lable  item-icon-right">
+          <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="St"
+              ng-model="view.val_answerValue['ST']"
+              ng-readonly = "!view.readonly"/>
+        </div>
+
+        <div
+          text-select
+          class="col ">
+           <label class="item-input  input-lable  item-icon-right">
+          <input class="b-b b-t b-l b-r"
+              id = "numberType"
+              type="tel" 
+              placeholder="Lbs"
+              ng-model="view.val_answerValue['lbs']"
+              ng-readonly = "!view.readonly"/>
+        </div>
+
+      </div> -->
+
+      <div class="row" ng-if='view.data.questionType == "descriptive"'>
+        <div 
+        class="col">
+          <label class="item-input item-icon-right b-b b-t b-l b-r">
+            <textarea class="descriptive-text" 
+              type="text" 
+              ng-model="view.descriptiveAnswer"
+              ng-readonly = "!view.readonly"
+              > </textarea>
+          </label>
+        </div>
+      </div>
+
+      </div>
+      <!--descrp-->
+
+      <!--mcq,scq-->
+      <div
+          ng-if = 'view.data.questionType == "single-choice" 
+          || view.data.questionType == "multi-choice"'>
+
+      <div 
+        class="padding row">
+          <div class="col">
+         <!--      <h4 class="q-title">
+                <span class="badge badge-assertive badge-round">Q</span>&nbsp;
+                {{view.data.questionTitle}}
+              </h4> -->
+              <h5 class="q-title"
+                ng-if = 'view.data.questionType == "single-choice"'>
+                <b class="assertive">Q :</b>&nbsp; {{view.data.question}}
+              </h5>
+              <h5 class="q-title"
+              ng-if = 'view.data.questionType == "multi-choice"'>  
+              <b class="assertive">Q :</b>&nbsp; {{view.data.question}}
+              </h5>
+          </div>
+      </div>
+
+
+      <div ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
+        <div class="bg-gray"
+            ng-if = 'view.data.questionType == "single-choice" || view.data.questionType == "multi-choice"' >
+          <div class="prev-answers row">
+            <div class="col">
+                             Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive">{{ view.data.previousQuestionnaireAnswer.label }}</b>
+ 
+             </div>
+       <!--      <div class="col col-50">  
+              <h6 class="f-w-400 text-green">
+              Previous Answers &nbsp;&nbsp;
+              </h6>
+            </div>
+            <div class="col col-50 text-right">  
+              <small>
+                {{ view.data.previousQuestionnaireAnswer.dateDisplay }}
+              </small>
+            </div>
+          </div>
+          <div class="padding prev-ques-ans">
+            <p class="f-w-400 text-green">
+              Last time you answered option: &nbsp;
+                {{ view.data.previousQuestionnaireAnswer.label }}
+            </p>
+          </div> -->
+        </div>
+
+      </div>
+        <div 
+        class="info-msg padding ">
+          <span  
+            ng-if = 'view.data.questionType == "single-choice"'>
+          <i class="ion-ios-information-outline"> </i>  Choose your answer from {{view.data.options.length}} options
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "multi-choice"'>
+            <i class="ion-ios-information-outline"> </i> 
+            You can choose more than one option from {{view.data.options.length}} options
+            <!-- Choose your answer from {{view.data.options.length}} options -->
+          </span>
+          <span  
+            ng-if = 'view.data.questionType == "input"'>
+             <i class="ion-ios-information-outline"> </i>
+             Please input value
+              <!-- Please complete EITHER Kg OR stones and lbs box -->
+          </span>
+          <span
+            ng-if = 'view.data.questionType == "descriptive"'
+           > <i class="ion-ios-information-outline"> </i> Enter a short description 
+        </span>
+      </div>
+ </div>
+
+
+      <!-- single choice  -->
+      <div 
+        class="list"
+        ng-if = 'view.data.questionType == "single-choice"'>
+        <label class="item item-radio"
+          ng-repeat ="answerValue in view.data.options  | orderBy:'score' track by $index">
+            <input type="radio" name="group" ng-model="view.singleChoiceValue" 
+            ng-value="answerValue.id" ng-disabled="!view.readonly">
+            <div class="item-content">
+              <span>{{$index + 1}} </span>  {{answerValue.option}} 
+            </div>
+          <!-- <i class="radio-icon ion-checkmark"></i>   -->
+        </label> 
+      </div>
+
+      <!-- multi choice  -->
+      <ul 
+        class="list"
+        ng-if = 'view.data.questionType == "multi-choice"'>
+        <div ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index"  >
+          <li 
+          class="item item-checkbox mcq" ng-class="{mcq_active : answerValue.checked == true }">
+          <label class="checkbox" >
+            <input type="checkbox" ng-model="answerValue.checked" 
+            ng-checked="answerValue.checked" ng-disabled="!view.readonly">
+          </label>
+          <div>
+            <span>{{$index + 1}}</span> {{answerValue.option}} 
+          </div >
+          </li>
+        </div>
+      </ul>
 
       </div>
 
-    </ion-content>
+      <!--mcq,scq-->
+  </div>
+
+  <aj-error class="errors"
+    error-type="view.errorType"
+    ng-switch-when="error"
+    tap-to-retry="view.onTapToRetry();">
+  </aj-error>
+
+
+</ion-content>
     
      <div 
       class="bar bar-footer bar-light"
       ng-if = "view.display == 'noError'">
             <button 
-               ng-if = "view.data.previous == true"
+               ng-show = "view.data.previous == true"
                class="button button-balanced pull-left"
                ng-click="view.prevQuestion()">
                <span class="ion-arrow-left-b"></span> Previous
              </button>
             <button 
-                ng-if = "view.data.next == true"
                 class="button button-balanced pull-right"
-                ng-click="view.nextQuestion()">Next <span class="ion-arrow-right-b"></span>
-                
+                ng-click="view.nextQuestion()">Next 
+                <span class="ion-arrow-right-b"></span>
             </button>
-            <button 
-                ng-if = "view.data.next == false"
-                class="button button-balanced pull-right"
-                ng-click="view.nextQuestion()">Finish <span class="ion-arrow-right-b"></span>
-                
-            </button>
+
       </div>
 
 </ion-view>

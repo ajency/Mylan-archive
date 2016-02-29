@@ -50,6 +50,7 @@ angular.module 'PatientApp.Quest',[]
 								@variables()
 								@data = []
 								@data = data
+								@questionLabel()
 								@readonly = @data.editable
 								@pastAnswer()
 								if !_.isEmpty(@data.hasAnswer)
@@ -92,6 +93,7 @@ angular.module 'PatientApp.Quest',[]
 							console.log 'inside then'
 							console.log data
 							@data = data
+							@questionLabel()
 							@checkQuestinarieStatus(data)
 							# if !_.isUndefined(@data.status)
 							# 	if @data.status == 'saved_successfully'
@@ -132,9 +134,13 @@ angular.module 'PatientApp.Quest',[]
 								@title = 'This questionnaire was Missed'
 								@showConfirm()
 
+
+
 						@variables()
+						
 						@data = []
 						@data = data
+						@questionLabel()
 						App.resize()
 						App.scrollTop()
 						
@@ -302,6 +308,7 @@ angular.module 'PatientApp.Quest',[]
 						@variables()
 						@data = []
 						@data = data
+						@questionLabel()
 						App.resize()
 						App.scrollTop()
 						@readonly = @data.editable
@@ -506,24 +513,71 @@ angular.module 'PatientApp.Quest',[]
 						@showConfirm()
 
 			firstRow:()->
-				if _.isEmpty(@data.hasAnswer)
-					console.log 'first row'
-					@firstRowStatus =  true
-					@secondRowStatus = false
-					@val_answerValue['ST'] = ''
-					@val_answerValue['lbs'] = ''
+				$('.myids').each ->
+				  	$(this).val ''
+
+				return 
+
+				# document.getElementById('#secondRow')[0].value = 's'
+				# document.getElementById('#secondRow')[0].value = 't'
+				# x = document.getElementById('#secondRow')
+				# i = 0
+				# console.log x
+				# while i < x.length
+				#   x[i].value = ''
+				#   i++
+				# document.getElementById("secondRow").value = ''
+				# if _.isEmpty(@data.hasAnswer)
+				# 	console.log 'first row'
+				# 	@firstRowStatus =  true
+				# 	@secondRowStatus = false
+				# 	@val_answerValue['ST'] = ''
+				# 	@val_answerValue['lbs'] = ''
 				
 
 			secondRow:()->
-				if _.isEmpty(@data.hasAnswer)
-					console.log 'second row'
-					@firstRowStatus =  false
-					@secondRowStatus = true
-					@val_answerValue['Kg'] = ''
+				document.getElementById("firstRow").value = ''
+				
+
+				# if _.isEmpty(@data.hasAnswer)
+				# 	console.log 'second row'
+				# 	@firstRowStatus =  false
+				# 	@secondRowStatus = true
+				# 	@val_answerValue['Kg'] = ''
 
 
 
+			questionLabel:()->
+				if @data.questionType == 'input'
+					arr = []
+					@data.withoutkg = {}
+					@data.withkg = {}
+					kg = {}
 
+
+
+					_.each @data.options, (value)=>
+						str = value.option
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	
+						  arr.push 1
+						  kg = value
+						 
+					if arr.length > 0
+
+						@data.optionsLabel = true
+						@data.withoutkg = _.without(@data.options, kg)
+						@data.withkg = kg
+					else
+						@data.optionsLabel = false
+
+					console.log 'optionn label--------'
+					console.log @data.optionsLabel
+					console.log @data.withkg
+					console.log @data.withoutkg
 				    
 
 

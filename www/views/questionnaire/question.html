@@ -53,7 +53,8 @@
        <div class="prev-answers row">
             <div class="col"
               ng-if = 'view.data.questionType == "input"'>
-              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId"> 
+              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  
+              <b class="assertive" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId | orderBy:'score' track by $index"> 
               {{inpt.value}} {{inpt.label}}
               &nbsp; 
               </b>
@@ -117,49 +118,55 @@
       </div> -->
 
       <div class="list"
-      ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"' >
+      ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
          <label class="item item-radio item-input-type"
+           
             ng-click ="view.firstRow()" >
             <input type="radio" name="group1">
             <div class="item-content">
             <span>1</span> 
                 <input 
-                    id = "numberType"
+                    id = "firstRow"
                     type="tel" 
-                    placeholder="Kg" class="question"
+                    placeholder="{{view.data.withkg.option}}" class="question"
                     ng-disable="view.firstRowStatus"
-                    ng-model="view.val_answerValue['Kg']"
+                    ng-model="view.val_answerValue[view.data.withkg.option]"
+                    ng-readonly = "!view.readonly"
                     />
             </div>
          </label>
 
          <label class="item item-radio item-input-type"
+
             ng-click="view.secondRow()">
             <input type="radio" name="group1">
             <div class="item-content">
              <span>2 </span> 
-                <input 
-                    id = "numberType"
+                <input
+                    ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index"
+                    
                     type="tel" 
-                    placeholder="St" class="question"
-                    ng-model="view.val_answerValue['ST']"
+                    placeholder="{{kgLabel.option}}"
+                    ng-model="view.val_answerValue[kgLabel.option]"
                     ng-disable="view.secondRowStatus"
+                    ng-readonly = "!view.readonly"
+                    class="question myids"
                     />
                     
-                   <input 
+                  <!--  <input 
                     id = "numberType"
                     type="tel" 
                     placeholder="lbs" class="question"
                     ng-model="view.val_answerValue['lbs']"
                     ng-disable="view.secondRowStatus"
-                    />
+                    /> -->
             </div>
          </label>
        </div>
 
       <div class="row" 
-      ng-if='view.data.questionType == "input" && view.data.options[0].id !== "FJQBaKmxpR" '>
+      ng-if='view.data.questionType == "input" && view.data.optionsLabel === false'>
       
         <div
           text-select 

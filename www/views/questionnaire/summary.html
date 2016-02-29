@@ -47,7 +47,7 @@
               <span 
               class="text-green f-w-400 summary-ans-label" 
               ng-if="summary.val == 'input'"
-              ng-repeat = "answer in summary.optionSelected track by $index">
+              ng-repeat = "answer in summary.optionSelected | orderBy:'score' track by $index">
                 {{answer.value}} {{answer.label}} 
             </span>
               
