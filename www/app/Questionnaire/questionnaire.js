@@ -406,6 +406,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 }
               };
             })(this));
+            optionSelectedArray.sort();
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
           return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');

@@ -436,6 +436,9 @@ angular.module 'PatientApp.Quest',[]
 							if a != -1
 								a++
 								optionSelectedArray.push(a)
+								
+						optionSelectedArray.sort()
+
 						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
 					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
