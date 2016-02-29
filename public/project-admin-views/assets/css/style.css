@@ -8351,9 +8351,6 @@ div.upload .img-div img {
   /*color: #05A8A5;*/
   cursor: pointer;
 }
-.sorting sm:hover i {
-  color: #05A8A5;
-}
 .sorting sm i {
   display: inline-block;
 }
@@ -8884,5 +8881,11 @@ table {
 }
 .green-current {
   color: #90BE71;
+}
+.legend-base {
+  color: #cccccc;
+}
+.legend-prev {
+  color: #05A8A5;
 }
 /*# sourceMappingURL=style.css.map */
