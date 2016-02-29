@@ -563,13 +563,55 @@ class SubmissionController extends Controller
     }
 
   
+    // AJAX REQUEST
+    // public function updateSubmissionStatus(Request $request, $hospitalSlug ,$projectSlug, $responseId)
+    // {
+       
+    //     try{
+    //         $data = $request->all();  
+    //         $reviewStatus = $data['status'];
+
+    //         $responseObj = new ParseQuery("Response");
+    //         $response = $responseObj->get($responseId);
+
+    //         $response->set('reviewed',$reviewStatus);
+    //         $response->save(); 
+
+    //         if($reviewStatus=='reviewed')
+    //         {
+    //             $alertQry = new ParseQuery("Alerts");
+    //             $alertQry->equalTo("referenceId",$responseId);
+    //             $alertObj= $alertQry->first();
+
+    //             $alertObj->set('cleared',true);
+    //             $alertObj->save();
+    //         }
+            
+
+    //         $json_resp = array(
+    //           'code' => 'success' , 
+    //           'message' => 'successfully updated'
+    //         );
+    //          $status_code = 200; 
+
+    //     }
+    //     catch (Exception $ex) {
+
+    //         $json_resp = array(
+    //           'code' => 'Failed' , 
+    //           'message' => 'Error in update'
+    //         );
+    //         $status_code = 404;        
+    //     }
+
+    //     return response()->json( $json_resp, $status_code); 
+    // }
 
     public function updateSubmissionStatus(Request $request, $hospitalSlug ,$projectSlug, $responseId)
     {
        
-        try{
             $data = $request->all();  
-            $reviewStatus = $data['status'];
+            $reviewStatus = $data['updateSubmissionStatus'];
 
             $responseObj = new ParseQuery("Response");
             $response = $responseObj->get($responseId);
@@ -577,30 +619,21 @@ class SubmissionController extends Controller
             $response->set('reviewed',$reviewStatus);
             $response->save(); 
 
-            $alertQry = new ParseQuery("Alerts");
-            $alertQry->equalTo("referenceId",$responseId);
-            $alertObj= $alertQry->first();
-
-            $alertObj->set('cleared',true);
-            $alertObj->save();
-
-            $json_resp = array(
-              'code' => 'success' , 
-              'message' => 'successfully updated'
-            );
-             $status_code = 200; 
-
-        }
-        catch (Exception $ex) {
-
-            $json_resp = array(
-              'code' => 'Failed' , 
-              'message' => 'Error in update'
-            );
-            $status_code = 404;        
-        }
-
-        return response()->json( $json_resp, $status_code); 
+            if($reviewStatus=='reviewed')
+            {
+                $alertQry = new ParseQuery("Alerts");
+                $alertQry->equalTo("referenceId",$responseId);
+                $alertObj= $alertQry->first();
+                if(!empty($alertObj))
+                {
+                    $alertObj->set('cleared',true);
+                    $alertObj->save();
+                }
+               
+            }
+            
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/submissions/' . $responseId));
+ 
     }
     /**
      * Show the form for editing the specified resource.

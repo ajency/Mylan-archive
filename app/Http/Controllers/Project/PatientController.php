@@ -43,15 +43,9 @@ class PatientController extends Controller
         $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
         $patientsStatus ='';
-        if(isset($inputs['patients']))
-        {
-            $patientsStatus = $inputs['patients'];
-            $patients = User::where('type','patient')->where('account_status',$patientsStatus)->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
-        }
-        else
-        {
-            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
-        }
+        
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+        
         
          
         $activepatients = [];
@@ -61,8 +55,13 @@ class PatientController extends Controller
             if($patient['account_status']=='active')
                 $activepatients[]= $patient['reference_code'];
             
-            $patientReferenceCode[] = $patient['reference_code'];
+            if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
+                $patientReferenceCode[] = $patient['reference_code'];
+            else
+                $patientReferenceCode[] = $patient['reference_code'];
         }
+
+
         
 
         $startDateObj = array(
@@ -1560,6 +1559,7 @@ class PatientController extends Controller
 
     public function getSequenceQuestions($questions)
     {
+
         $questionsList = [];
         $sequenceQuestions = [];
         foreach ($questions as   $question) {

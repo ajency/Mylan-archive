@@ -48,24 +48,25 @@ $('.validateRefernceCode').change(function (event) {
        var status = $(this).val();
        var responseId = $(this).attr('object-id');
        $("#statusLoader").removeClass('hidden');
-       $.ajax({
-        url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
-        type: "POST",
-        data: {
-            status: status
-        },
-        dataType: "JSON",
-        success: function (response) {
-          $("#statusLoader").addClass('hidden');
-            // if (!response.data)
-            // {   
-            //     alert('Reference Code Already Taken');
-            //     $("#reference_code").val('');
-            // }
+       $(this).closest('form').submit();
+      //  $.ajax({
+      //   url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
+      //   type: "POST",
+      //   data: {
+      //       status: status
+      //   },
+      //   dataType: "JSON",
+      //   success: function (response) {
+      //     $("#statusLoader").addClass('hidden');
+      //       // if (!response.data)
+      //       // {   
+      //       //     alert('Reference Code Already Taken');
+      //       //     $("#reference_code").val('');
+      //       // }
 
-            // $(".cf-loader").addClass('hidden');
-        }
-      });
+      //       // $(".cf-loader").addClass('hidden');
+      //   }
+      // });
 
     });
 
@@ -907,7 +908,6 @@ $('.sortSubmission').click(function (event) {
             console.log(sort_type);  
            if(sort_type=='asc')
             { 
-              console.log('desc');  
               sortObject.attr('sort-type','desc');
               
               sortObject.find('.sortCol').removeClass('fa-angle-down');
@@ -915,7 +915,6 @@ $('.sortSubmission').click(function (event) {
             }
             else
             {  
-              console.log('asc');  
               sortObject.attr('sort-type','asc');
               sortObject.find('.sortCol').addClass('fa-angle-down');
               sortObject.find('.sortCol').removeClass('fa-angle-up');

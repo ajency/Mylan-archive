@@ -80,7 +80,7 @@
                                     <div class="col-md-2">
                                       
                                     </div>
-
+                                    <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
                                     <div class="col-md-8"> 
                                       <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
@@ -89,6 +89,8 @@
                                        </select>
                                       
                                     </div>
+                                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+                                    </form>
                                     <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
