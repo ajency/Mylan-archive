@@ -253,8 +253,8 @@
       <script src="{{ asset('project-admin-views/assets/plugins/bootstrap-datetime-picker/bootstrap-datetimepicker.js') }}" type="text/javascript"></script>
    
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/common.js') }}"></script>
-        <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/css.js') }}"></script>
-        <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/standardista-table-sorting.js') }}"></script>
+      <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/css.js') }}"></script>
+ 
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>

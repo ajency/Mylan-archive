@@ -236,7 +236,11 @@ h3.line-title span {
   background: #ffffff;
 }
 .panel {
-  box-shadow: 0 6px 1px rgba(0, 0, 0, 0.07);
+  /*box-shadow: 0 6px 1px rgba(0,0,0,0.07);*/
+  border: none;
+}
+.panel ul {
+  margin: none;
 }
 .site-wrapper {
   display: table;

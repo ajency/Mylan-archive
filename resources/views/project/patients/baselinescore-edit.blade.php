@@ -41,8 +41,13 @@
         ?>
         @foreach($questionsList as $questionId => $questions)
         <?php 
-          $questionOptions = $optionScore[$questionId];
-          asort($questionOptions);
+          $questionOptions=[];
+          if($questions['type']!='descriptive')
+          {
+            $questionOptions = $optionScore[$questionId];
+            asort($questionOptions);
+          }
+          
   
          ?>
             <input type="hidden" name="questionType[{{ $questionId }}]" value="{{ $questions['type'] }}">
