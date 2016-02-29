@@ -444,11 +444,11 @@ class ProjectController extends Controller
            <td  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
               <div class="lst-sub">
                  <h2 class="bold pull-left">
-                    '. count($patientSummary['completed']) .'<br>
+                    '. $patientSummary['completed'] .'<br>
                     <sm class="text-success">Completed</sm>
                  </h2>
                  <h2 class="bold pull-left">
-                    '. count($patientSummary['late']) .'<br>
+                    '. $patientSummary['late'] .'<br>
                     <sm class="text-warning">Late</sm>
                  </h2>
                  <h2 class="bold pull-left">

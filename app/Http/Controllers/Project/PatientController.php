@@ -723,9 +723,9 @@ class PatientController extends Controller
                 
                 if($filterType=='previous' || $filterType=='')
                 { 
-                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
 
-                    $patientsFlags[$responsePreviousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responsePreviousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
                 }
             }
 
@@ -1097,9 +1097,9 @@ class PatientController extends Controller
             //
             $patientResponses[$patient]['lastSubmission'] = '-' ;
             $patientResponses[$patient]['nextSubmission'] = '-';
-            $patientResponses[$patient]['missed'] =[];
-            $patientResponses[$patient]['late'] =[];
-            $patientResponses[$patient]['completed'] =[];
+            $patientResponses[$patient]['missed'] =0;
+            $patientResponses[$patient]['late'] =0;
+            $patientResponses[$patient]['completed'] =0;
 
             $patientResponses[$patient]['baseLineFlag']['red'] =0;
             $patientResponses[$patient]['baseLineFlag']['green'] =0;
@@ -1117,6 +1117,9 @@ class PatientController extends Controller
             $previousTotalRedFlagsCount[$patient] =0;
             $previousTotalAmberFlagsCount[$patient] =0;
             $previousTotalGreenFlagsCount[$patient] =0;
+            $patientCompletedCount[$patient] = 0;
+            $patientLateCount[$patient] = 0;
+            $patientMissedCount[$patient] = 0;
 
             $missedResponses[] = $missedCount;
         }
@@ -1148,13 +1151,13 @@ class PatientController extends Controller
 
             if($status=='late')
             {
-                $patientResponses[$patient]['late'][]=$responseId;
+                $patientResponses[$patient]['late']+=1;
                 $lateResponses[]=$response;
                 
             }
             elseif($status=='completed')
             {
-                $patientResponses[$patient]['completed'][]=$responseId;
+                $patientResponses[$patient]['completed']+=1;
                 $completedResponses[]=$response;
                 
             }
@@ -1183,7 +1186,9 @@ class PatientController extends Controller
             $previousTotalAmberFlagsCount[$patient] = $patientResponses[$patient]['previousFlag']['amber'];
             $previousTotalGreenFlagsCount[$patient] = $patientResponses[$patient]['previousFlag']['green'];
 
-           
+            $patientCompletedCount[$patient] = $patientResponses[$patient]['completed'];
+            $patientLateCount[$patient] = $patientResponses[$patient]['late'];
+            $patientMissedCount[$patient] = $patientResponses[$patient]['missed'];
         }
 
         if(!empty($sort))
@@ -1200,8 +1205,12 @@ class PatientController extends Controller
                     $patientSortedData = $previousTotalRedFlagsCount;
                 elseif($value=='previousTotalAmberFlags')
                     $patientSortedData = $previousTotalAmberFlagsCount;
-                elseif($value=='previousTotalGreenFlags')
-                    $patientSortedData = $previousTotalGreenFlagsCount;
+                elseif($value=='completed')
+                    $patientSortedData = $patientCompletedCount;
+                elseif($value=='late')
+                    $patientSortedData = $patientLateCount;
+                elseif($value=='missed')
+                    $patientSortedData = $patientMissedCount;
                
                 if($key=='asc')
                     asort($patientSortedData);
