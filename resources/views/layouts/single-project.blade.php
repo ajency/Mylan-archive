@@ -210,13 +210,13 @@
             $('input[name="flag"]').val(1)
          }
  
-         // cb(moment(STARTDATE), moment(ENDDATE));
-         cb(moment().month(-1), moment());
+         cb(moment(STARTDATE), moment(ENDDATE));
+         // cb(moment().month(-1), moment());
 
          $('#reportrange').daterangepicker({
             ranges: {
             'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last 30 Days': [moment().month(-1), moment()],
+            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
             'Last 6 Months': [moment().month(-6), moment()],
             'Last 12 Months': [moment().month(-12), moment().subtract(1, 'days')],
               
