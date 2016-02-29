@@ -40,7 +40,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         return this.val_answerValue = {};
       },
       hasAnswerShow: function() {
-        var ObjId;
         if (this.data.questionType === 'descriptive') {
           this.descriptiveAnswer = this.data.hasAnswer.value;
         }
@@ -57,24 +56,19 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           })(this));
         }
         if (this.data.questionType === 'input') {
-          ObjId = _.findWhere(this.data.options, {
-            id: this.data.hasAnswer.option[0]
-          });
-          return this.val_answerValue[ObjId.option] = Number(this.data.hasAnswer.value);
+          return _.each(this.data.hasAnswer.option, (function(_this) {
+            return function(val) {
+              return _this.val_answerValue[val.label] = Number(val.value);
+            };
+          })(this));
         }
       },
       pastAnswer: function() {
-        var ObjId, optionSelectedArray, pluckId, previousAns, sortedArray;
+        var optionSelectedArray, pluckId, previousAns, sortedArray;
         previousAns = this.data.previousQuestionnaireAnswer;
         if (!_.isEmpty(previousAns)) {
           if (this.data.questionType === 'input') {
-            if (!_.isEmpty(previousAns.optionId[0])) {
-              ObjId = _.findWhere(this.data.options, {
-                id: previousAns.optionId[0]
-              });
-              ObjId.option;
-              this.data.previousQuestionnaireAnswer['label'] = ObjId.option;
-            }
+            console.log('1');
           }
           if (this.data.questionType === 'single-choice' || this.data.questionType === 'multi-choice') {
             optionSelectedArray = [];
@@ -115,6 +109,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             return QuestionAPI.getPrevQuest(param).then((function(_this) {
               return function(data) {
+                _this.display = 'noError';
                 _this.checkQuestinarieStatus(data);
                 console.log('previous data');
                 console.log(_this.data);
@@ -124,9 +119,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 _this.readonly = _this.data.editable;
                 _this.pastAnswer();
                 if (!_.isEmpty(_this.data.hasAnswer)) {
-                  _this.hasAnswerShow();
+                  return _this.hasAnswerShow();
                 }
-                return _this.display = 'noError';
               };
             })(this), (function(_this) {
               return function(error) {
@@ -169,12 +163,12 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             return QuestionAPI.getQuestion(options).then((function(_this) {
               return function(data) {
+                _this.display = 'noError';
                 _this.checkQuestinarieStatus(data);
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
-                _this.pastAnswer();
-                return _this.display = 'noError';
+                return _this.pastAnswer();
               };
             })(this), (function(_this) {
               return function(error) {
@@ -192,6 +186,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         this.CSpinnerShow();
         return QuestionAPI.saveAnswer(param).then((function(_this) {
           return function(data) {
+            _this.display = 'noError';
             console.log('******next question******');
             console.log(data);
             _this.checkQuestinarieStatus(data);
@@ -203,8 +198,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               _this.hasAnswerShow();
               _this.readonly = _this.data.editable;
             }
-            _this.pastAnswer();
-            return _this.display = 'noError';
+            return _this.pastAnswer();
           };
         })(this), (function(_this) {
           return function(error) {
@@ -221,7 +215,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, valueInput;
+        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, validArr, valueArr, valueInput;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select atleast one answer');
@@ -236,40 +230,54 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'input') {
+          valueArr = [];
+          validArr = [];
           error = 0;
           sizeOfField = _.size(this.data.options);
           sizeOfTestboxAns = _.size(this.val_answerValue);
           if (sizeOfTestboxAns === 0) {
             error = 1;
           } else {
+            console.log(this.val_answerValue);
             _.each(this.val_answerValue, function(value) {
               var valid;
               value = value.toString();
-              valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-              if (value === null || valid === null) {
-                return error = 1;
+              console.log(value);
+              if (value === null || value === '') {
+                console.log('empty');
+                return valueArr.push(1);
+              } else {
+                valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                if (valid === null) {
+                  return validArr.push(1);
+                }
               }
             });
+            if (valueArr.length === _.size(this.val_answerValue)) {
+              error = 1;
+            }
           }
-          if (error === 1) {
-            CToast.show('Please enter numbers upto 2 decimal places');
+          if (error === 1 || validArr.length > 0) {
+            CToast.show('Please enter the values');
           } else {
             valueInput = [];
             optionId = [];
+            arryObj = [];
             _.each(this.data.options, (function(_this) {
               return function(opt) {
-                var a;
+                var a, obj;
+                obj = {};
                 a = _this.val_answerValue[opt.option];
                 if (!_.isUndefined(a) && a !== '') {
-                  valueInput.push(a);
-                  return optionId.push(opt.id);
+                  obj['id'] = opt.id;
+                  obj['value'] = a.toString();
+                  return arryObj.push(obj);
                 }
               };
             })(this));
             options = {
               "questionId": this.data.questionId,
-              "options": [optionId[0]],
-              "value": valueInput[0].toString(),
+              "options": arryObj,
               "responseId": this.data.responseId
             };
             this.loadNextQuestion(options);
@@ -341,7 +349,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         })(this));
       },
       prevQuestion: function() {
-        var optionId, options, selectedvalue, value, valueInput;
+        var arryObj, optionId, options, selectedvalue, value, valueInput;
         if (this.data.questionType === 'single-choice') {
           options = {
             "responseId": this.data.responseId,
@@ -378,13 +386,17 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         if (this.data.questionType === 'input') {
           valueInput = [];
           optionId = [];
+          arryObj = [];
           _.each(this.data.options, (function(_this) {
             return function(opt) {
               var a;
               a = _this.val_answerValue[opt.option];
               if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
                 valueInput.push(a);
-                return optionId.push(opt.id);
+                optionId.push(opt.id);
+                obj['id'] = opt.id;
+                obj['value'] = a;
+                return arryObj.push(obj);
               }
             };
           })(this));
@@ -403,8 +415,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           options = {
             "responseId": this.data.responseId,
             "questionId": this.data.questionId,
-            "options": optionId,
-            "value": value.toString()
+            "options": arryObj
           };
           return this.loadPrevQuestion(options);
         }

@@ -109,15 +109,20 @@ angular.module 'angularApp.notification',[]
 				@init()
 
 			DeleteAll:()->
+				# param = 
+				# 	"patientId": RefCode 
+
+				objIds = _.pluck(@data, 'id')  
 				param = 
-					"patientId": RefCode 
+				 	"notificationIds": objIds
+
 
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
-					$rootScope.$broadcast 'delete:all:count'
-					@gotAllRequests = true
+					@display = 'loader'
 					@canLoadMore = false
 					@data = []
+					@init()
 					console.log 'sucess notification seen data'
 					console.log data
 				,(error)->

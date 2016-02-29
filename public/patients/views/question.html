@@ -201,13 +201,23 @@
 
           <p class="text-muted text-left">
              <div 
-              class="text-left descriptive-ans" 
-              ng-if = 'view.data.questionType === "input" || view.data.questionType === "descriptive"'>
+              class="text-left" 
+              ng-if = 'view.data.questionType === "descriptive"'>
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}
              </div>
           </p>
+          <p class="text-muted text-left"
+              ng-if = 'view.data.questionType === "input"'>
+             <div 
+              class="text-left"
+              ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" 
+              >
+              {{inpt.value}} {{inpt.label}} 
+             </div>
+          </p>
+
 
           <div class="text-success text-left">
             <p>

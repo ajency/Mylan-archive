@@ -21,10 +21,14 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         };
         return DashboardAPI.get(param).then((function(_this) {
           return function(data) {
+            var arr;
             _this.data = data;
             _this.display = 'noError';
-            if (_this.data.length < 6) {
-              return _this.showMoreButton = false;
+            arr = _.reject(_this.data, function(d) {
+              return d.status === 'base_line';
+            });
+            if (arr.length <= 6) {
+              return _this.showMoreButton = true;
             }
           };
         })(this), (function(_this) {
