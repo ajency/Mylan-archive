@@ -368,7 +368,7 @@
                                   <sm>#{{ $allSubmissionFlag['sequenceNumber'] }}</sm>
                                </div>
                             </td>
-                            <td>{{ $allSubmissionFlag['reason'] }}</td>
+                            <td><?php echo $allSubmissionFlag['reason'] ?></td>
                             <td><i class="fa fa-flag text-{{ $allSubmissionFlag['flag'] }}"></i></td>
                          </tr>
                          <?php 

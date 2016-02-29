@@ -41,7 +41,37 @@
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
                   <br>
-                 <div class="row">
+                  <table class="table table-flip-scroll cf">
+                 <thead class="cf">
+                    <tr>
+                      <th  class="text-left"></th>
+                      @foreach($inputValueChart as $inputValue)
+                        <th class="text-center">{{ $inputValue['question'] }}</th>
+                      @endforeach
+                    </tr>
+                 </thead>
+                 <tbody>
+                    <tr>
+                       <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                       @foreach($inputValueChart as $inputValue)
+                        <td class="bg-gray">{{ $inputValue['prev'] }}</td>
+                       @endforeach
+                    </tr>
+                      <tr>
+                       <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+                       @foreach($inputValueChart as $inputValue)
+                        <td class="bg-gray">{{ $inputValue['base'] }}</td>
+                       @endforeach
+                    </tr>
+                       <tr>
+                       <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
+                       @foreach($inputValueChart as $inputValue)
+                        <td class="bg-gray">{{ $inputValue['current'] }}</td>
+                       @endforeach
+                    </tr>
+                 </tbody>
+              </table>
+<!--                  <div class="row">
                   @foreach($inputValueChart as $inputValue)
                   <div class="submission-chart-wt text-center">
                     <div class="input-text-outer">
@@ -54,7 +84,7 @@
                     </div>
                  </div>
                   @endforeach
-                  </div>
+                  </div> -->
                   <br> <br>
                            
                            <div class="user-description-box">

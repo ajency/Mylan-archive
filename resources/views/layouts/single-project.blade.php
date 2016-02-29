@@ -194,25 +194,29 @@
 
       $(function() {
 
-         function cb(start, end) {
+         function cb(start, end ,label) {
+
+            console.log(label);
+
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $('input[name="startDate"]').val(start.format('DD-MM-YYYY'));
             $('input[name="endDate"]').val(end.format('DD-MM-YYYY'));
             
             if($('input[name="flag"]').val()==1)
             {
+               $('#reportrange').append('<span class="cf-loader"></span>');
                $('#reportrange span').closest('form').submit();
             }
             $('input[name="flag"]').val(1)
          }
  
-         cb(moment(STARTDATE), moment(ENDDATE));
-
+         // cb(moment(STARTDATE), moment(ENDDATE));
+         cb(moment().month(-1), moment());
 
          $('#reportrange').daterangepicker({
             ranges: {
             'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+            'Last 30 Days': [moment().month(-1), moment()],
             'Last 6 Months': [moment().month(-6), moment()],
             'Last 12 Months': [moment().month(-12), moment().subtract(1, 'days')],
               

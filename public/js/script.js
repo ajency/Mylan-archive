@@ -818,7 +818,7 @@ function miniGraph(chartData,container)
         "type":"step",
         "lineThickness": 0.5,
         "title": "Baseline",
-        "lineColor": "#888",
+        "lineColor": "#ccc",
         "valueField": "baseLine"
     }         ],
     "marginTop": 0,

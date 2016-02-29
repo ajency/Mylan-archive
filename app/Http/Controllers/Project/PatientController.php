@@ -715,32 +715,32 @@ class PatientController extends Controller
 
                 if($filterType=='baseline' || $filterType=='')
                 {
-                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>"Compared to <u>base line</u> total score set for questionnaire", 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
 
-                    $patientsFlags[$responseBaseLineFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responseBaseLineFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>base line</u> total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
                 }
                 
                 if($filterType=='previous' || $filterType=='')
                 { 
-                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
 
-                    $patientsFlags[$responsePreviousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
+                    $patientsFlags[$responsePreviousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
                 }
             }
 
             if($filterType=='baseline' || $filterType=='')
             {
-                $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+                $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>base line</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
 
-                $patientsFlags[$baseLineFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to base line score of '.$questionLabel, 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
+                $patientsFlags[$baseLineFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>base line</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
             }  
                 
  
             if($filterType=='previous' || $filterType=='')
             {
-                $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
+                $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$previousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
 
-                $patientsFlags[$previousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to previous score of '.$questionLabel, 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
+                $patientsFlags[$previousFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$previousFlag, 'date'=>$occurrenceDate];
             } 
                 
 
