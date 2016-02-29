@@ -513,30 +513,28 @@ angular.module 'PatientApp.Quest',[]
 						@showConfirm()
 
 			firstRow:()->
-				$('.myids').each ->
-				  	$(this).val ''
-
-				return 
-
-				# document.getElementById('#secondRow')[0].value = 's'
-				# document.getElementById('#secondRow')[0].value = 't'
-				# x = document.getElementById('#secondRow')
-				# i = 0
-				# console.log x
-				# while i < x.length
-				#   x[i].value = ''
-				#   i++
-				# document.getElementById("secondRow").value = ''
-				# if _.isEmpty(@data.hasAnswer)
-				# 	console.log 'first row'
-				# 	@firstRowStatus =  true
-				# 	@secondRowStatus = false
-				# 	@val_answerValue['ST'] = ''
-				# 	@val_answerValue['lbs'] = ''
-				
+				console.log 'first row'
+				a = {}
+				_.each @val_answerValue, (val,key) =>
+					a[key] = ''
+				@val_answerValue = a					
 
 			secondRow:()->
-				document.getElementById("firstRow").value = ''
+				console.log 'second row'
+				_.each @data.options, (value)=>
+						str = value.option
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	
+						  
+						  @val_answerValue[value.option] = ''
+
+				# a = {}
+				# _.each @val_answerValue, (val,key) =>
+				# 	a[key] = ''
+				# @val_answerValue = a	
 				
 
 				# if _.isEmpty(@data.hasAnswer)

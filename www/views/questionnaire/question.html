@@ -121,29 +121,31 @@
       ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
          <label class="item item-radio item-input-type"
-           
-            ng-click ="view.firstRow()" >
+            ng-click ="view.firstRow()">
             <input type="radio" name="group1">
             <div class="item-content">
             <span>1</span> 
                 <input 
+                    
                     id = "firstRow"
                     type="tel" 
                     placeholder="{{view.data.withkg.option}}" class="question"
                     ng-disable="view.firstRowStatus"
                     ng-model="view.val_answerValue[view.data.withkg.option]"
                     ng-readonly = "!view.readonly"
+                    
                     />
             </div>
          </label>
 
          <label class="item item-radio item-input-type"
-
-            ng-click="view.secondRow()">
+            ng-click="view.secondRow()"
+            >
             <input type="radio" name="group1">
             <div class="item-content">
              <span>2 </span> 
                 <input
+                    
                     ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index"
                     
                     type="tel" 
@@ -152,6 +154,7 @@
                     ng-disable="view.secondRowStatus"
                     ng-readonly = "!view.readonly"
                     class="question myids"
+                    
                     />
                     
                   <!--  <input 
