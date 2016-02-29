@@ -48,7 +48,7 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
        <ul class="nav navbar-nav navbar-right">
-          <li><a href=""><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> CALL US</span>&nbsp;&nbsp;0161 123 1234</a></li>
+          <li><a href=""><span class="badge-round green"><i class="fa fa-phone"></i></span>&nbsp;&nbsp;<span class="text-muted"> Call Us</span>&nbsp;&nbsp;0161 123 1234</a></li>
           <li ng-controller="headerCtrl" ng-include src="'patients/views/notificationcount.html'">
            <!--  <div ng-include src="'patients/views/notificationcount.html'"> -->
           <!--   <a href="#notification" ng-init="view.init()">
