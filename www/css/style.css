@@ -1387,4 +1387,7 @@ ul .mcq_active div span {
     padding-top: 0;
   }
 }
+.item-radio span i {
+  color: #fff;
+}
 /*# sourceMappingURL=style.css.map */
