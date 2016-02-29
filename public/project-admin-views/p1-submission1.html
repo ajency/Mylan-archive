@@ -24,6 +24,7 @@
       <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>
       <link href="assets/css/custom-icon-set.css" rel="stylesheet" type="text/css"/>
+      <link href="assets/css/dashboard-ver2.css" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
    </head>
    <!-- END HEAD -->
@@ -381,38 +382,37 @@
                            <!-- <p>(Showing Submission details)</p> -->
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div> <br>
-<div class="row">
-                  <div class="submission-chart-wt text-center">
-                     <div class="input-text-outer">
-                        <span class="input-text">dia</span>
-                     </div>
-                     <div class="input-values p-b-10">
-                        <span class="previous">20</span>
-                        <span class="baseline">30</span>
-                        <span class="current">40</span>
-                     </div>
-                  </div>
-                  <div class="submission-chart-wt text-center">
-                     <div class="input-text-outer">
-                        <span class="input-text">dia</span>
-                     </div>
-                     <div class="input-values p-b-10">
-                        <span class="previous">20</span>
-                        <span class="baseline">30</span>
-                        <span class="current">40</span>
-                     </div>
-                  </div>
-                  <div class="submission-chart-wt text-center">
-                     <div class="input-text-outer">
-                        <span class="input-text">dia</span>
-                     </div>
-                     <div class="input-values p-b-10">
-                        <span class="previous">20</span>
-                        <span class="baseline">30</span>
-                        <span class="current">40</span>
-                     </div>
-                  </div>
-                           </div>
+                  <table class="table table-flip-scroll cf">
+   <thead class="cf">
+      <tr>
+         <th width="15%" class="text-left"></th>
+         <th class="text-center">Pain</th>
+         <th class="text-center">Bowel Habits</th>
+         <th class="text-center">Weight</th>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+         <td class="bg-gray">20</td>
+         <td class="bg-gray">40</td>
+         <td class="bg-gray">30</td>
+      </tr>
+        <tr>
+         <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+         <td class="bg-gray">20</td>
+         <td class="bg-gray" >40</td>
+         <td  class="bg-gray">30</td>
+      </tr>
+         <tr>
+         <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
+         <td class="bg-gray">20</td>
+         <td  class="bg-gray">40</td>
+         <td class="bg-gray" >30</td>
+      </tr>
+   </tbody>
+</table>
+
                   <br>    
                   <br><br>
                            <div>
@@ -676,5 +676,15 @@
 });
 
       </script>
+      <style type="text/css">
+table{
+    width: 100%;
+    border-collapse:collapse;
+    table-layout: fixed;
+    text-align: center;
+}
+
+
+      </style>
    </body>
 </html>
