@@ -1079,4 +1079,11 @@ form .placeholderWrap .form-control:focus {
 .input .showHidePw:checked + i {
   color: #00bae5;
 }
+.notify-panel .notification-list li:hover {
+  background: #EBEBEB;
+  cursor: pointer;
+}
+.notify-panel .notification-list li p {
+  margin-bottom: 0;
+}
 /*# sourceMappingURL=style.css.map */

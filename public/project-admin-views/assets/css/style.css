@@ -8888,6 +8888,7 @@ select option {
 .legend-prev {
   color: #05A8A5;
 }
-
-
+.notify-panel {
+  color: red;
+}
 /*# sourceMappingURL=style.css.map */
