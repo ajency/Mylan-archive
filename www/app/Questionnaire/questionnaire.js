@@ -495,29 +495,31 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       },
       firstRow: function() {
         var a;
-        console.log('first row');
-        a = {};
-        _.each(this.val_answerValue, (function(_this) {
-          return function(val, key) {
-            return a[key] = '';
-          };
-        })(this));
-        return this.val_answerValue = a;
+        if (this.data.editable = true) {
+          a = {};
+          _.each(this.val_answerValue, (function(_this) {
+            return function(val, key) {
+              return a[key] = '';
+            };
+          })(this));
+          return this.val_answerValue = a;
+        }
       },
       secondRow: function() {
-        console.log('second row');
-        return _.each(this.data.options, (function(_this) {
-          return function(value) {
-            var bool, labelKg, str;
-            str = value.option;
-            str = str.toLowerCase();
-            labelKg = ['kg', 'kgs'];
-            bool = _.contains(labelKg, str);
-            if (bool) {
-              return _this.val_answerValue[value.option] = '';
-            }
-          };
-        })(this));
+        if (this.data.editable = true) {
+          return _.each(this.data.options, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.option;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool) {
+                return _this.val_answerValue[value.option] = '';
+              }
+            };
+          })(this));
+        }
       },
       questionLabel: function() {
         var arr, kg;

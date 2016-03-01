@@ -128,13 +128,13 @@
                     
                     id = "firstRow"
                     type="tel" 
-                    placeholder="{{view.data.withkg.option}}" class="question"
+                    class="question"
                     ng-disable="view.firstRowStatus"
                     ng-model="view.val_answerValue[view.data.withkg.option]"
                     ng-readonly = "!view.readonly"
                     
                     />
-                       <B>Kgs</B>
+                       <B>{{view.data.withkg.option}}</B>
             </div>
          </label>
 
@@ -144,19 +144,17 @@
             <input type="radio" name="group1">
             <div class="item-content">
              <span><i class="ion-checkmark"></i></span> 
+             <sm ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">
                 <input
-                    
-                    ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index"
-                    
                     type="tel" 
-                    placeholder="{{kgLabel.option}}"
                     ng-model="view.val_answerValue[kgLabel.option]"
                     ng-disable="view.secondRowStatus"
                     ng-readonly = "!view.readonly"
                     class="question myids"
                     
                     />
-                    <B>Ibs</B>
+                    <B>{{kgLabel.option}}</B>
+              </sm>
                   <!--  <input 
                     id = "numberType"
                     type="tel" 
