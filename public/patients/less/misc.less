@@ -1117,6 +1117,12 @@ form .placeholderWrap .form-control:focus
 {
    box-shadow: 0 0 0px 1000px white inset;
 }
+
+.input .placeholderWrap .hide-label{
+  opacity: 0;
+}
+
+
 .input .placeholderWrap{
     position: relative; 
     display: block;
@@ -1130,6 +1136,7 @@ form .placeholderWrap .form-control:focus
     pointer-events: none;
     display: block;
     font-weight: 400;
+    transition: all .3s ease;
 }
 
 .input .placeholder-focus label{color: #999;}

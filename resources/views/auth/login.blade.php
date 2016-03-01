@@ -126,6 +126,17 @@
                 }
             })
         };
+
+          // Hiding label when focus
+
+        $('#inputSuccess2').focusin(function(){
+          $('label[for="inputSuccess2"]').addClass('hide-label');
+        });
+
+          $('#inputSuccess2').focusout(function(){
+          $('label[for="inputSuccess2"]').removeClass('hide-label');
+        });
+
     }(jQuery));
 
     //Here how to call above plugin from everywhere in your application document body
