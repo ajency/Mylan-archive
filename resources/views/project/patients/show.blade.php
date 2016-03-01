@@ -90,7 +90,11 @@
            <div class="row">
               <div class="col-sm-5 b-r">
                  <div class="">
+                @if(!$totalResponses)
+                    <div class="text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                @else
                     <div id="submissionschart"></div>
+                @endif
                     <div class="row p-t-20">
                        <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
@@ -116,7 +120,11 @@
                     <option value="amber_flags">  Amber Flags</option>
                     <option value="green_flags">Green Flags</option>
                  </select>
-                 <div id="chartdiv"></div>
+                  @if(!$totalResponses)
+                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                  @else
+                    <div id="chartdiv"></div>
+                  @endif
               </div>
            </div>
            <h4>Patient health chart</h4>
@@ -137,9 +145,14 @@
             </div>           
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
-           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
+           <div class="table-responsive {{(!empty($responseArr))?'sticky-table-outer-div':''}} {{(count($responseArr)!=0 && count($responseArr)>10)?'sticky-tableWidth':''}}"> 
            
-         <table class="table">
+                   <table class="table">
+                   @if(empty($responseArr))
+                       <tbody>
+                      <tr><td class="no-data-found"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                      </tbody>
+                    @else
                         <thead class="cf">
                            <tr>
                               <th class="headcol th-headcol"></th>
@@ -173,6 +186,7 @@
                         @endforeach
                            
                         </tbody>
+                @endif
                      </table>
                      </div>
            </div>             
@@ -188,7 +202,11 @@
                     <option value="{{ $questionId }}" >{{ $question }}</option>
                     @endforeach
                  </select>
-              <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+               @if(!$totalResponses)
+                <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+              @else
+                <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+              @endif
               <br><br> 
               <div>
                  <div class="grid simple grid-table">
@@ -376,7 +394,7 @@
                           ?>
                         @endforeach 
                        @else 
-                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="3"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif 
                     </table>
                     <hr style="margin: 0px 0px 10px 0px;">
