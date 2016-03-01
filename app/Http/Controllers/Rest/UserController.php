@@ -188,9 +188,17 @@ class UserController extends Controller
         $hospital = Hospital::find($hospitalId)->toArray();  
         $project = Projects::find($projectId)->toArray(); 
         
+        $logoUrl = ($hospital['logo']=='')?'':url() . "/mylan/hospitals/".$hospital['logo'];
+        $filepath = public_path(). "/mylan/hospitals/".$hospital['logo'];
+
+        if (!file_exists($filepath)) {
+            $logoUrl = '';
+        } 
+
         $data = $hospitalData = $questionnareData = [];
         $hospitalData['id'] = $hospital['id'];
         $hospitalData['name'] = $hospital['name'];
+        $hospitalData['logoUrl'] = $logoUrl;
         $hospitalData['logo'] = $hospital['logo'];
         $hospitalData['phone'] = $hospital['phone'];
         $hospitalData['project_id'] = $project['id'];
