@@ -26,6 +26,11 @@
       <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CSS TEMPLATE -->
+      <script>
+         var HOSPITAL_ID = 0;
+         var PATIENT_ID = 0;
+         var BASEURL = '{{ url() }}/admin';
+      </script>
    </head>
    <!-- END HEAD -->
    <!-- BEGIN BODY -->

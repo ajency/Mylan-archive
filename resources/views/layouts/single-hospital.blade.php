@@ -21,7 +21,7 @@
       <link href="{{ asset('hospital/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
       <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
-      <link href="{{ asset('plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+      
       <link href="{{ asset('plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('hospital/css/style.css') }}" rel="stylesheet" type="text/css"/>
@@ -198,7 +198,7 @@
       <!-- END CORE JS FRAMEWORK -->
       <!-- BEGIN PAGE LEVEL JS -->
        <script src="{{ asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}" type="text/javascript"></script> 
-        <script src="{{ asset('plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script> 
+ 
       <script src="{{ asset('plugins/pace/pace.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-scrollbar/jquery.scrollbar.min.js') }}" type="text/javascript"></script>    
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
