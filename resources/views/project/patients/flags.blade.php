@@ -99,7 +99,7 @@
                                   <sm>#{{ $allSubmissionFlag['sequenceNumber'] }}</sm>
                                </div>
                             </td>
-                            <td>{{ $allSubmissionFlag['reason'] }}</td>
+                            <td><?php echo  $allSubmissionFlag['reason'] ?></td>
                             <td><i class="fa fa-flag text-{{ $allSubmissionFlag['flag'] }}"></i></td>
                          </tr>
                         @endforeach 
@@ -132,7 +132,7 @@
                                 <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                              </div>
                           </td>
-                          <td>{{ $submissionFlag['reason'] }}</td>
+                          <td><?php echo $submissionFlag['reason'] ?></td>
                           <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                        </tr>
                       @endforeach 
@@ -164,7 +164,7 @@
                                               <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                                            </div>
                                         </td>
-                                        <td>{{ $submissionFlag['reason'] }}</td>
+                                        <td><?php echo $submissionFlag['reason'] ?></td>
                                         <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                                      </tr>
                                     @endforeach 
@@ -196,7 +196,7 @@
                                               <sm>#{{ $submissionFlag['sequenceNumber'] }}</sm>
                                            </div>
                                         </td>
-                                        <td>{{ $submissionFlag['reason'] }}</td>
+                                        <td><?php echo $submissionFlag['reason'] ?></td>
                                         <td><i class="fa fa-flag text-{{ $submissionFlag['flag'] }}"></i></td>
                                      </tr>
                                     @endforeach 
