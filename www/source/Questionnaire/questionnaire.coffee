@@ -513,37 +513,23 @@ angular.module 'PatientApp.Quest',[]
 						@showConfirm()
 
 			firstRow:()->
-				console.log 'first row'
-				a = {}
-				_.each @val_answerValue, (val,key) =>
-					a[key] = ''
-				@val_answerValue = a					
+				if @data.editable = true
+					a = {}
+					_.each @val_answerValue, (val,key) =>
+						a[key] = ''
+					@val_answerValue = a					
 
 			secondRow:()->
-				console.log 'second row'
-				_.each @data.options, (value)=>
-						str = value.option
-						str = str.toLowerCase()	
-						labelKg = ['kg', 'kgs']
-						bool = _.contains(labelKg, str)
-						
-						if bool	
-						  
-						  @val_answerValue[value.option] = ''
-
-				# a = {}
-				# _.each @val_answerValue, (val,key) =>
-				# 	a[key] = ''
-				# @val_answerValue = a	
-				
-
-				# if _.isEmpty(@data.hasAnswer)
-				# 	console.log 'second row'
-				# 	@firstRowStatus =  false
-				# 	@secondRowStatus = true
-				# 	@val_answerValue['Kg'] = ''
-
-
+				if @data.editable = true
+					_.each @data.options, (value)=>
+							str = value.option
+							str = str.toLowerCase()	
+							labelKg = ['kg', 'kgs']
+							bool = _.contains(labelKg, str)
+							
+							if bool	
+							  
+							  @val_answerValue[value.option] = ''
 
 			questionLabel:()->
 				if @data.questionType == 'input'
