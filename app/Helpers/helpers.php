@@ -57,7 +57,7 @@ function getInputValues($values,$withLabel=true)
         if(isset($values['ST']) && isset($values['lbs']))
         {
             $result = convertStonePoundsToKgs($values['ST'],$values['lbs']) ;
-            $result .= ($withLabel)? 'Kg' :'';
+            $result .= ($withLabel)? 'Kgs' :'';
         }
         else
         {
@@ -156,7 +156,7 @@ function hospitalImageExist($hospital)
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
     else
         $logo = '<h3 class="inline hospital-name">'.$hospital['name'].' <span class="text-muted"> | </span></h3>';
-        
+
     echo $logo;  
 }
 
