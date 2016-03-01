@@ -12,7 +12,7 @@ angular.module 'PatientApp.init'
 
 			verifyRefCode : ->
 				if @refcode =='' || _.isUndefined(@refcode)
-					@emptyfield = "Please Enter Valid Reference Code"	
+					@emptyfield = "Please enter Valid Reference Code"	
 				else
 					@deviceUUID = App.deviceUUID()
 					if App.isAndroid() 
@@ -34,7 +34,7 @@ angular.module 'PatientApp.init'
 						else if @data.code == 'limit_exceeded'
 							@emptyfield = 'Cannot do setup more then 5 times'
 						else 
-							@emptyfield = 'Please check reference code'
+							@emptyfield = 'Please check your reference code'
 					, (error)=>
 						if error == 'offline'
 							@emptyfield = 'Please check internet connection'

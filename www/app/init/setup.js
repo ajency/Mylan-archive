@@ -7,7 +7,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
       deviceUUID: '',
       verifyRefCode: function() {
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
-          return this.emptyfield = "Please Enter Valid Reference Code";
+          return this.emptyfield = "Please enter Valid Reference Code";
         } else {
           this.deviceUUID = App.deviceUUID();
           if (App.isAndroid()) {
@@ -35,7 +35,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
               } else if (_this.data.code === 'limit_exceeded') {
                 return _this.emptyfield = 'Cannot do setup more then 5 times';
               } else {
-                return _this.emptyfield = 'Please check reference code';
+                return _this.emptyfield = 'Please check your reference code';
               }
             };
           })(this), (function(_this) {
