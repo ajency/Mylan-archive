@@ -71,9 +71,9 @@
         </div>
        
         </div>
-      <div  class="info-msg padding ">
+      <div  class="info-msg padding " ng-if = 'view.data.questionType == "input"'>
           <span  
-           ng-if = 'view.data.questionType == "input"'>
+           >
           <i class="ion-ios-information-outline"> </i>  Please input your value
           </span>
       
@@ -135,6 +135,7 @@
                     ng-readonly = "!view.readonly"
                     
                     />
+                       <B>Kgs</B>
             </div>
          </label>
 
@@ -156,7 +157,7 @@
                     class="question myids"
                     
                     />
-                    
+                    <B>Ibs</B>
                   <!--  <input 
                     id = "numberType"
                     type="tel" 
