@@ -57,11 +57,11 @@ function getInputValues($values,$withLabel=true)
         if(isset($values['ST']) && isset($values['lbs']))
         {
             $result = convertStonePoundsToKgs($values['ST'],$values['lbs']) ;
-            $result .= ($withLabel)? 'Kgs' :'';
+            $result .= ($withLabel)? ' Kgs' :'';
         }
         else
         {
-            $result = current($values);
+            $result = current($values).' ';
             $result .= ($withLabel)? key($values) :'';
         }
         
