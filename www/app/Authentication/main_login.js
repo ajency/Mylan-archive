@@ -11,7 +11,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
           return this.loginerror = "Please enter the credentials ";
         } else {
           if (_.isUndefined(this.refrencecode) || _.isUndefined(this.password)) {
-            return this.loginerror = "Please Enter valid credentials ";
+            return this.loginerror = "Please enter valid credentials ";
           } else {
             CSpinner.show('', 'Checking credentials please wait');
             return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {

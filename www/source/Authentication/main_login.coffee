@@ -17,7 +17,7 @@ angular.module 'PatientApp.Auth'
 					@loginerror = "Please enter the credentials "
 				else	
 					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
-						@loginerror = "Please Enter valid credentials "
+						@loginerror = "Please enter valid credentials "
 					else
 						CSpinner.show '', 'Checking credentials please wait'
 						AuthAPI.validateUser(@refrencecode,@password )
