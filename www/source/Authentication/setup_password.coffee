@@ -34,10 +34,17 @@ angular.module 'PatientApp.Auth',[]
 
 					console.log '--'
 					console.log boolPassword
+					console.log boolRePassword
+					console.log passtext.length <= 4 
+					console.log @Re_password
 
-					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)) || (boolPassword == false) ||(boolRePassword == false))
-						@passwordmissmatch = "Please Enter valid 4 digit password"		
-					else			
+					
+
+
+					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)) || (boolPassword == false) ||(boolRePassword == false) || passtext.length < 4 || repasstext.length < 4 )
+						@passwordmissmatch = "Please enter valid 4 digit password"		
+					else	
+						
 						if angular.equals(@New_password, @Re_password)
                         	CSpinner.show '', 'Please wait..'
                         	Storage.setData 'refcode', 'get'

@@ -22,8 +22,11 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         boolRePassword = reg.test(repasstext);
         console.log('--');
         console.log(boolPassword);
-        if ((this.New_password === '' || this.Re_password === '') || ((_.isUndefined(this.New_password) && _.isUndefined(this.New_password)) || (boolPassword === false) || (boolRePassword === false))) {
-          return this.passwordmissmatch = "Please Enter valid 4 digit password";
+        console.log(boolRePassword);
+        console.log(passtext.length <= 4);
+        console.log(this.Re_password);
+        if ((this.New_password === '' || this.Re_password === '') || ((_.isUndefined(this.New_password) && _.isUndefined(this.New_password)) || (boolPassword === false) || (boolRePassword === false) || passtext.length < 4 || repasstext.length < 4)) {
+          return this.passwordmissmatch = "Please enter valid 4 digit password";
         } else {
           if (angular.equals(this.New_password, this.Re_password)) {
             CSpinner.show('', 'Please wait..');
