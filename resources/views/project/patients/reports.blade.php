@@ -69,42 +69,48 @@ Flag is not displayed if the current score is same as previous score</p>
                           <br>
                         <div class="x-axis-text">Submissions</div>
                        <div class="y-axis-text">Questions</div>
-                       <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
+                       <div class="table-responsive {{(!empty($responseArr))?'sticky-table-outer-div':''}} {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
                            <table class="table">
-                                          <thead class="cf">
-                                             <tr>
-                                                <th class="headcol th-headcol"></th>
-                                                @foreach($responseArr as $response)
-                                                <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
-                                                @endforeach
-                                             </tr>
-                                          </thead>
-                                          <tbody>
-                                             @foreach($questionArr as $questionId => $question)
-                                             <tr>
-                                                <td class="headcol">{{ $question }}</td>
-                                                @foreach($responseArr as $responseId => $response)
-                                                <?php
-                                                if(isset($submissionArr[$responseId][$questionId]))
-                                                {
-                                                  $class='bg-'.$submissionArr[$responseId][$questionId]['baslineFlag'];
-                                                  $flag= ($submissionArr[$responseId][$questionId]['previousFlag']=='no_colour'|| $submissionArr[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionArr[$responseId][$questionId]['previousFlag'];
-                                                }
-                                                else
-                                                {
-                                                  $class='bg-gray';
-                                                  $flag = 'hidden';
-                                                }
-                                                ?>
-                                                <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
-                                     
-                                                @endforeach
-                                                
-                                             </tr>
-                                          @endforeach
-                                             
-                                          </tbody>
-                                       </table>
+                           @if(empty($responseArr))
+                             <tbody>
+                            <tr><td class="no-data-found"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                            </tbody>
+                          @else
+                            <thead class="cf">
+                               <tr>
+                                  <th class="headcol th-headcol"></th>
+                                  @foreach($responseArr as $response)
+                                  <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
+                                  @endforeach
+                               </tr>
+                            </thead>
+                            <tbody>
+                               @foreach($questionArr as $questionId => $question)
+                               <tr>
+                                  <td class="headcol">{{ $question }}</td>
+                                  @foreach($responseArr as $responseId => $response)
+                                  <?php
+                                  if(isset($submissionArr[$responseId][$questionId]))
+                                  {
+                                    $class='bg-'.$submissionArr[$responseId][$questionId]['baslineFlag'];
+                                    $flag= ($submissionArr[$responseId][$questionId]['previousFlag']=='no_colour'|| $submissionArr[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionArr[$responseId][$questionId]['previousFlag'];
+                                  }
+                                  else
+                                  {
+                                    $class='bg-gray';
+                                    $flag = 'hidden';
+                                  }
+                                  ?>
+                                  <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+                       
+                                  @endforeach
+                                  
+                               </tr>
+                            @endforeach
+                               
+                            </tbody>
+                          @endif
+                         </table>
                        </div>   
                        </div>
                            
@@ -127,9 +133,11 @@ Question score chart</h4>
                                   @endforeach
                                 </select>
                               </label> 
-
+                              @if(!$totalResponses)
+                                <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                              @else
                                <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
-
+                              @endif
                                              <hr>
                              
                               <h4 class="bold">Question score per submission graph</h4>
@@ -145,9 +153,11 @@ Question score chart</h4>
                         </select> 
                       </label>
                 
-
+                      @if(!$totalResponses)
+                        <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                      @else
                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-                            
+                      @endif      
                         </div>
                      </div>
                      </div>

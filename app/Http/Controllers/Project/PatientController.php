@@ -390,12 +390,13 @@ class PatientController extends Controller
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
         //$questionBaseLine = $questionsChartData['questionBaseLine'];
- 
+       
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
                                         ->with('tab', '01')
                                         ->with('responseRate', $responseRate)
                                         ->with('submissionsSummary', $submissionsSummary)
+                                        ->with('totalResponses', $totalResponses)
                                         ->with('flagsCount', $flagsCount)
                                         ->with('hospital', $hospital)
                                         ->with('hospital', $hospital)
@@ -1826,6 +1827,7 @@ class PatientController extends Controller
         
         $responseStatus = ["completed","late","missed"]; 
         $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+        $totalResponses = count($responses);
         foreach ($responses as  $response) {
             $responseId = $response->getObjectId();
             $sequenceNumber = $response->get("sequenceNumber");
@@ -1873,6 +1875,7 @@ class PatientController extends Controller
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient)
                                         ->with('allPatients', $allPatients)
+                                        ->with('totalResponses', $totalResponses)
                                         ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('questionArr', $questionArr)
                                         // ->with('questionBaseLine', $questionBaseLine)

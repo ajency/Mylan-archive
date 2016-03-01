@@ -199,11 +199,11 @@
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="lst-sub">
                                  <h2 class="bold pull-left">
-                                    {{ count($patientSummary['completed']) }}<br>
+                                    {{ $patientSummary['completed'] }}<br>
                                     <sm class="text-success">Completed</sm>
                                  </h2>
                                  <h2 class="bold pull-left">
-                                    {{ count($patientSummary['late']) }}<br>
+                                    {{ $patientSummary['late'] }}<br>
                                     <sm class="text-warning">Late</sm>
                                  </h2>
                                  <h2 class="bold pull-left">
