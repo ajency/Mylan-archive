@@ -19,7 +19,7 @@
       <div ng-switch-when="noError" class="notification-screen"   >
          <div ng-repeat ="notify in view.data" ng-click="clicker(notify)" > 
           
-            <div class="row notification-row" 
+            <div class="row item notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
                   <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                       <div>
@@ -33,7 +33,7 @@
                   </div>
             </div>
 
-            <div class="row notification-row" 
+            <div class="row item notification-row" 
                 ng-if = "notify.type === 'missedOccurrence'">
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
@@ -50,7 +50,7 @@
                 </div>
             </div>
 
-            <div class="row notification-row" 
+            <div class="row item notification-row" 
                 ng-if = "notify.type === 'beforeGracePeriod'" >
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
@@ -68,7 +68,7 @@
             
         </div>
 
-        <div class="row" ng-if="view.gotAllRequests && view.data.length == 0 ">
+        <div class="row item" ng-if="view.gotAllRequests && view.data.length == 0 ">
           <div class="col"></div>
             <div class="col col-80 "> 
             <br>
