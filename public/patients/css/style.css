@@ -482,6 +482,7 @@ h3.line-title span {
   font-size: 17px;
   color: #555555;
   width: 100%;
+  cursor: pointer;
 }
 .item.item-radio input {
   visibility: hidden;
