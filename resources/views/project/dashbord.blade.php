@@ -1,13 +1,13 @@
 @extends('layouts.single-project')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
-      <!-- <p>
+      <p>
       <ul class="breadcrumb">
          <li>
             <a href="#" class="active" > HOME</a>
          </li>
       </ul>
-      </p> -->
+      </p>
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')

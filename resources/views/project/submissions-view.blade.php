@@ -3,11 +3,11 @@
 <!-- BEGIN BREADCRUMBS -->
       <p>
       <ul class="breadcrumb">
+         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}">{{ $patient['reference_code']}}</a> </li>
          <li>
-            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
-         </li>
-         <li>
-            <a href="#" class="active">Submissions</a>
+            <a href="#" class="active">Submission</a>
          </li>
       </ul>
       </p>
