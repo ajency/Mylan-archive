@@ -49,7 +49,7 @@ function getInputValues($values,$withLabel=true)
     /******/
     if(count($values)==1)
     {
-        $result = current($values);
+        $result = current($values).' ';
         $result .= ($withLabel)? key($values) :'';
     }
     else
