@@ -1,0 +1,191 @@
+.top-data .col-md-2 {
+  width: 20% !important;
+}
+.top-data .col-md-2 span {
+  font-size: 19px;
+}
+.top-data .col-md-6 {
+  width: 39% !important;
+}
+.top-data .col-md-6 span {
+  font-size: 26px;
+}
+.top-data .tiles {
+  height: 120px;
+  border-bottom: 2px solid #e6e6e6;
+}
+.flagcount sm {
+  font-size: 12px;
+  font-weight: 400;
+}
+.sorting {
+  text-align: center;
+  padding: 0px !important;
+}
+.sorting sm {
+  font-weight: 100;
+  font-size: 9px;
+  padding: 0px 3px;
+}
+.sorting sm:hover {
+  color: #05A8A5;
+  cursor: pointer;
+}
+.sorting sm:hover i {
+  color: #05A8A5;
+}
+.sorting sm i {
+  display: inline-block;
+}
+.sorting b {
+  font-weight: 100;
+  font-size: 12px;
+  padding: 0px 7px;
+}
+.sorting span {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.sm-font {
+  font-size: 12px;
+  float: left;
+  margin-left: 10px;
+}
+.lst-sub h2 {
+  font-size: 27px;
+  margin-right: 10px;
+  text-align: center;
+}
+.lst-sub h2 sm {
+  display: block;
+  font-size: 11px;
+  line-height: 12px;
+}
+#chartdiv {
+  width: 100%;
+  height: 300px;
+}
+#chartdiv2,
+#submissionrange {
+  width: 100%;
+  height: 500px;
+  font-size: 11px;
+}
+#trendline {
+  width: 120%;
+  height: 300px;
+}
+#piechart {
+  width: 100%;
+  height: 150px;
+  margin-left: 10px;
+  font-size: 11px;
+}
+.amcharts-chart-div a {
+  display: none !important;
+}
+.grid-data-table {
+  padding-bottom: 5px !important;
+  background: #D1DADE !important;
+}
+.grid.simple .grid-title {
+  padding: 14px 15px 0px 15px;
+  background: #D1DADE;
+}
+.grid-table .grid-body {
+  padding: 10px 0px!important;
+}
+.grid-table thead {
+  color: #000;
+  border-bottom: 2px solid #ccc;
+}
+select,
+input {
+  border: 1px solid #A7A3A3!important;
+}
+.input-append .add-on .arrow {
+  background-color: transparent !important;
+  position: absolute;
+  left: -6px;
+  color: #0AA699;
+  z-index: 100;
+  font-size: 26px;
+}
+.input-append .add-on,
+.input-prepend .add-on {
+  position: absolute;
+  background-color: #0AA699;
+  color: #FFFFFF;
+  text-shadow: none;
+  border: #0AA699;
+  border-radius: 0 2px 2px 0;
+  height: 37px;
+  min-width: 34px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 6px;
+}
+.tiles .tiles-title {
+  font-size: 15.5px;
+}
+.progress-bar-error {
+  background: #f35958 !important;
+}
+.grid-table-sort .sorting sm {
+  padding: 0px 11px;
+}
+.grid-table-sort .sorting span {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+#submissionschart {
+  width: 100%;
+  height: 180px;
+  font-size: 11px;
+}
+#submissionschart canvas {
+  margin-left: 80px;
+  margin-top: 20px;
+}
+.filter2 {
+  margin-top: -8px;
+}
+.filterby {
+  float: right;
+  width: 100px;
+  margin-top: 6px;
+  margin-right: 10px;
+}
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+.-m-5 {
+  margin-top: -5px;
+}
+.grid-title h4 {
+  width: 62% !important;
+  white-space: inherit;
+  overflow: hidden;
+  text-overflow: initial;
+}
+/*tablesort specific styling*/
+.md-size th {
+  font-size: 10px !important;
+  font-weight: 100;
+}
+.table-border-none {
+  border: none !important;
+}
+.no-sort span {
+  display: none;
+}
+.blue-previous {
+  color: #76BEDF;
+}
+.yellow-baseline {
+  color: #FDD81A;
+}
+.green-current {
+  color: #90BE71;
+}
+/*# sourceMappingURL=dashboard-ver2.css.map */

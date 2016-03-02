@@ -1238,6 +1238,9 @@ ul .mcq_active div span {
   }
 }
 @media (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  .loader {
+    padding-top: 32%;
+  }
   .q-title {
     margin: 0px;
   }
