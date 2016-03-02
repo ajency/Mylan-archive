@@ -8891,4 +8891,8 @@ select option {
 .notify-panel {
   color: red;
 }
+.table-flip-scroll.table-center{
+    width: auto;
+    text-align: center;
+}
 /*# sourceMappingURL=style.css.map */

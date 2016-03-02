@@ -41,7 +41,7 @@
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
                   <br>
-                  <table class="table table-flip-scroll cf">
+                  <table class="table table-flip-scroll cf table-center">
                  <thead class="cf">
                     <tr>
                       <th  class="text-left"></th>
