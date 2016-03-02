@@ -395,6 +395,9 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
     var chart = AmCharts.makeChart(container, {
         "type": "serial",
         "theme": "light",
+        "marginRight": 40,
+        "marginLeft": 40,
+        "autoMarginOffset": 20,
         "legend": {
             "useGraphSettings": true
         },
@@ -421,9 +424,9 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
             "cursorAlpha": 0,
             "zoomable": false
         },
-        "chartScrollbar": {
+        // "chartScrollbar": {
           
-         },
+        //  },
         "categoryField": "Date",
         "categoryAxis": {
             "gridPosition": "start",
@@ -438,12 +441,12 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
             "position": "bottom-right"
          }
     });
-    chart.addListener("dataUpdated", zoomChart);
-    function zoomChart() {
-    if (chart.zoomToIndexes) {
-        chart.zoomToIndexes(130, chartData.length - 1);
-    }
-  }
+  //   chart.addListener("dataUpdated", zoomChart);
+  //   function zoomChart() {
+  //   if (chart.zoomToIndexes) {
+  //       chart.zoomToIndexes(130, chartData.length - 1);
+  //   }
+  // }
 }
 
 function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLable,yaxisLabel)
@@ -475,6 +478,9 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
      var chart = AmCharts.makeChart(container, {
           "type": "serial",
           "theme": "light",
+          "marginRight": 40,
+          "marginLeft": 40,
+          "autoMarginOffset": 20,
           "legend": {
               "useGraphSettings": true
           },
@@ -508,9 +514,9 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
               "cursorAlpha": 0,
               "zoomable": false
           },
-          "chartScrollbar": {
+         //  "chartScrollbar": {
           
-         },
+         // },
           "categoryField": "Date",
           "categoryAxis": {
               "gridPosition": "start",
@@ -526,13 +532,13 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
            }
          });
 
-     chart.addListener("dataUpdated", zoomChart);
-     function zoomChart() {
-        if (chart.zoomToIndexes) {
-          console.log(chartData.length);
-            chart.zoomToIndexes(130, chartData.length - 1);
-        }
-      }
+     // chart.addListener("dataUpdated", zoomChart);
+     // function zoomChart() {
+     //    if (chart.zoomToIndexes) {
+     //      console.log(chartData.length);
+     //        chart.zoomToIndexes(130, chartData.length - 1);
+     //    }
+     //  }
 }
 
 function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLable,yaxisLabel)
@@ -540,6 +546,9 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
     var chart = AmCharts.makeChart(container, {
          "type": "serial",
          "theme": "light",
+         "marginRight": 40,
+          "marginLeft": 40,
+          "autoMarginOffset": 20,
          "legend": {
              "useGraphSettings": true
          },
@@ -593,9 +602,9 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
              "cursorAlpha": 0,
              "zoomable": false
          },
-          "chartScrollbar": {
+         //  "chartScrollbar": {
           
-         },
+         // },
          "categoryField": "Date",
          "categoryAxis": {
              "gridPosition": "start",
@@ -611,12 +620,12 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
           }
          });
 
-    chart.addListener("dataUpdated", zoomChart);
-    function zoomChart() {
-    if (chart.zoomToIndexes) {
-        chart.zoomToIndexes(20, chartData.length - 1);
-    }
-  }
+  //   chart.addListener("dataUpdated", zoomChart);
+  //   function zoomChart() {
+  //   if (chart.zoomToIndexes) {
+  //       chart.zoomToIndexes(20, chartData.length - 1);
+  //   }
+  // }
 }
 
 function patientFlagsChart(chartData)
