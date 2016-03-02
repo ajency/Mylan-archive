@@ -1523,6 +1523,23 @@ class PatientController extends Controller
                 {
                     $answersList[$questionId][$optionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
                 }
+                elseif($questionType == 'input')
+               {
+                    if(!isset($answersList[$questionId]))
+                    {
+                       $answersList[$questionId]= ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
+                       $answersList[$questionId]['optionValues'][$label] =$value;
+                    }
+                    else
+                    {
+                       $answersList[$questionId]['optionValues'][$label] =$value;
+                       
+                    }
+
+                    
+                   
+                    
+               }
                 else
                 {
                     $answersList[$questionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];

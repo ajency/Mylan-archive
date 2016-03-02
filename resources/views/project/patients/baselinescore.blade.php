@@ -47,7 +47,7 @@
                                     <label class="semi-bold">Q{{ $x }}) {{ $questions['question'] }}?</label>
                                     @if(isset($answersList[$questionId]))
                                       @if($questions['type']=='input')
-                                        <h5 class="text-success semi-bold">{{ $answersList[$questionId]['value']}} </h5>
+                                        <h5 class="text-success semi-bold">{{ getInputValues($answersList[$questionId]['optionValues']) }} </h5>
                                       @elseif($questions['type']=='single-choice')
                                        
                                         <h5 class="text-success semi-bold">{{ $answersList[$questionId]['label'] }}</h5>
