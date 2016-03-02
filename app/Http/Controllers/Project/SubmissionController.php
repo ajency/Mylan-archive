@@ -421,7 +421,7 @@ class SubmissionController extends Controller
                                         'value' => $answers->get("value"),   
                                         'updatedAt' => $answers->getUpdatedAt()->format('d-m-Y'),    
                           ]; 
-                  $answersList[$questionId]['optionValues'][$answers->get("option")->get("label")] =$answers->get("value");
+                  $answersList[$questionId]['optionValues'][strtolower($answers->get("option")->get("label"))] =$answers->get("value");
 
                   $inputValues[$questionId]['question'] =$answers->get("question")->get("title");
                   
@@ -429,7 +429,7 @@ class SubmissionController extends Controller
                 else
                 {
 
-                   $answersList[$questionId]['optionValues'][$answers->get("option")->get("label")] = $answers->get("value");
+                   $answersList[$questionId]['optionValues'][strtolower($answers->get("option")->get("label"))] = $answers->get("value");
                    
                 }
 

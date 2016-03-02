@@ -43,8 +43,8 @@ function convertStonePoundsToKgs($stones,$pounds)
 function getInputValues($values,$withLabel=true)
 {
     /*********
-    $array['kgs']=50
-    $array=['ST'=>50,'lbs'=>30];
+    $array['kg']=50
+    $array=['st'=>50,'lbs'=>30];
 
     /******/
     if(count($values)==1)
@@ -54,10 +54,10 @@ function getInputValues($values,$withLabel=true)
     }
     else
     {
-        if(isset($values['ST']) && isset($values['lbs']))
+        if(isset($values['st']) && isset($values['lbs']))
         {
-            $result = convertStonePoundsToKgs($values['ST'],$values['lbs']) ;
-            $result .= ($withLabel)? ' Kgs' :'';
+            $result = convertStonePoundsToKgs($values['st'],$values['lbs']) ;
+            $result .= ($withLabel)? ' kg' :'';
         }
         else
         {
