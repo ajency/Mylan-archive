@@ -8891,8 +8891,20 @@ select option {
 .notify-panel {
   color: red;
 }
-.table-flip-scroll.table-center{
-    width: auto;
-    text-align: center;
+.table-flip-scroll.table-center {
+  width: auto;
+  text-align: center;
+}
+.mri-form .side-label {
+  margin: 10px 0;
+  line-height: 1.1;
+}
+.mri-form .seconds {
+  font-size: 14px;
+  color: #05A8A5;
+  text-transform: capitalize;
+}
+.mri-form .mri-submit {
+  margin: 10px 0;
 }
 /*# sourceMappingURL=style.css.map */
