@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -1222,6 +1222,26 @@
       }, function(error) {
         return promise.reject(error);
       });
+    } else if (questionObj.get('type') === 'input') {
+      answerQuery.find().then(function(answerObjs) {
+        options = [];
+        _.each(answerObjs, function(answerObj) {
+          return options.push({
+            id: answerObj.get('option').id,
+            label: answerObj.get('option').get('label'),
+            value: answerObj.get('value'),
+            score: answerObj.get('option').get('score')
+          });
+        });
+        if (!_.isUndefined(answerObjs[0])) {
+          hasAnswer['value'] = answerObjs[0].get('value');
+          hasAnswer['date'] = answerObjs[0].get('updatedAt');
+          hasAnswer['option'] = options;
+        }
+        return promise.resolve(hasAnswer);
+      }, function(error) {
+        return promise.reject(error);
+      });
     } else {
       answerQuery.first().then(function(answerObj) {
         if (!_.isUndefined(answerObj)) {
@@ -1757,7 +1777,8 @@
         input: answerObj['answer'],
         question: answerObj['question'].get('question'),
         optionSelected: answerObj['optionsSelected'],
-        val: answerObj['temp']
+        val: answerObj['temp'],
+        val: answerObj['type']
       };
     };
     answers = [];
@@ -1798,9 +1819,18 @@
         })())[0];
         answer["question"] = currentQuestion;
         answer["answer"] = answerObj.get('value');
+        answer["type"] = currentQuestion.get('type');
         if (currentQuestion.get('type') === 'multi-choice') {
           answer['optionsSelected'] = [];
           answer['optionsSelected'].push(answerObj.get('option').get('label'));
+        } else if (currentQuestion.get('type') === 'input') {
+          answer['optionsSelected'] = [];
+          answer['optionsSelected'].push({
+            id: answerObj.get('option').id,
+            label: answerObj.get('option').get('label'),
+            value: answerObj.get('value'),
+            score: answerObj.get('option').get('score')
+          });
         } else {
           answer['optionsSelected'] = [];
           if (!_.isUndefined(answerObj.get('option'))) {
@@ -1821,6 +1851,24 @@
           return results1;
         })())[0];
         return answers[index]['optionsSelected'].push(answerObj.get('option').get('label'));
+      } else if (currentQuestion.get('type') === 'input') {
+        index = ((function() {
+          var j, len, results1;
+          results1 = [];
+          for (i = j = 0, len = questions.length; j < len; i = ++j) {
+            q = questions[i];
+            if (currentQuestion.id === q.id) {
+              results1.push(i);
+            }
+          }
+          return results1;
+        })())[0];
+        return answers[index]['optionsSelected'].push({
+          id: answerObj.get('option').id,
+          label: answerObj.get('option').get('label'),
+          value: answerObj.get('value'),
+          score: answerObj.get('option').get('score')
+        });
       }
     };
     for (j = 0, len = answerObjects.length; j < len; j++) {
@@ -2202,23 +2250,34 @@
       responseQuery.descending('createdAt');
       responseQuery.notEqualTo('status', 'base_line');
       return responseQuery.first().then(function(responseObj_prev) {
-        var responseObj;
-        responseObj = new Parse.Object("Response");
-        responseObj.set('patient', patientId);
-        responseObj.set('hospital', questionnaireObj.get('hospital'));
-        responseObj.set('project', questionnaireObj.get('project'));
-        responseObj.set('questionnaire', questionnaireObj);
-        responseObj.set('answeredQuestions', []);
-        responseObj.set('schedule', scheduleObj);
-        responseObj.set('baseLineFlagStatus', 'open');
-        responseObj.set('previousFlagStatus', 'open');
-        if (_.isUndefined(responseObj_prev)) {
-          responseObj.set('sequenceNumber', 1.);
-        } else {
-          responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
-        }
-        return responseObj.save().then(function(responseObj) {
-          return promise.resolve(responseObj);
+        var baseLineQuery;
+        baseLineQuery = new Parse.Query('Response');
+        baseLineQuery.equalTo('patient', patientId);
+        baseLineQuery.descending('createdAt');
+        baseLineQuery.equalTo('status', 'base_line');
+        return baseLineQuery.first().then(function(baseLineObj) {
+          var responseObj;
+          responseObj = new Parse.Object("Response");
+          responseObj.set('patient', patientId);
+          responseObj.set('hospital', questionnaireObj.get('hospital'));
+          responseObj.set('project', questionnaireObj.get('project'));
+          responseObj.set('questionnaire', questionnaireObj);
+          responseObj.set('answeredQuestions', []);
+          responseObj.set('schedule', scheduleObj);
+          responseObj.set('baseLineFlagStatus', 'open');
+          responseObj.set('previousFlagStatus', 'open');
+          responseObj.set('baseLine', baseLineObj);
+          if (_.isUndefined(responseObj_prev)) {
+            responseObj.set('sequenceNumber', 1.);
+          } else {
+            responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
+            responseObj.set("previousSubmission", responseObj_prev);
+          }
+          return responseObj.save().then(function(responseObj) {
+            return promise.resolve(responseObj);
+          }, function(error) {
+            return promise.reject(error);
+          });
         }, function(error) {
           return promise.reject(error);
         });
@@ -2487,7 +2546,7 @@
         return promise.reject(error);
       });
     } else if (questionsObj.get('type') === 'input') {
-      saveInput(responseObj, questionsObj, options, value).then(function(answerObj) {
+      saveInputAnwers(responseObj, questionsObj, options).then(function(answerObj) {
         var answeredQuestions, ref;
         answeredQuestions = responseObj.get('answeredQuestions');
         if (ref = questionsObj.id, indexOf.call(answeredQuestions, ref) < 0) {
@@ -2519,6 +2578,90 @@
         return promise.reject(error);
       });
     }
+    return promise;
+  };
+
+  saveInputAnwers = function(responseObj, questionsObj, options) {
+    var deleteInputAnswers, getInputAnswers, promise, promiseArr;
+    promiseArr = [];
+    promise = new Parse.Promise();
+    getInputAnswers = function() {
+      var promise1;
+      promise1 = Parse.Promise.as();
+      _.each(options, function(option) {
+        return promise1 = promise1.then(function() {
+          var optionsQuery;
+          optionsQuery = new Parse.Query('Options');
+          return optionsQuery.get(option['id']).then(function(optionsObj) {
+            var answer;
+            answer = new Parse.Object('Answer');
+            answer.set("response", responseObj);
+            answer.set("patient", responseObj.get('patient'));
+            answer.set("question", questionsObj);
+            answer.set("option", optionsObj);
+            answer.set("value", option['value']);
+            answer.set('project', responseObj.get('project'));
+            answer.set('occurrenceDate', responseObj.get('occurrenceDate'));
+            return answer.save();
+          }, function(error) {
+            return promise.reject(error);
+          });
+        }, function(error) {
+          return promise.reject(error);
+        });
+      });
+      return promise1;
+    };
+    deleteInputAnswers = function(answers) {
+      var promise1;
+      promise1 = Parse.Promise.as();
+      _.each(answers, function(answerObj) {
+        return promise1 = promise1.then(function() {
+          return answerObj.destroy();
+        }, function(error) {
+          return promise.reject(error);
+        });
+      });
+      return promise1;
+    };
+    getCurrentAnswer(questionsObj, responseObj).then(function(hasAnswer) {
+      var questionnaireQuery;
+      questionnaireQuery = new Parse.Query('Questionnaire');
+      return questionnaireQuery.get(responseObj.get('questionnaire').id).then(function(questionnaire) {
+        var answerQuery, isEditable;
+        isEditable = questionnaire.get('editable');
+        if (!isEditable && !_.isEmpty(hasAnswer)) {
+          return promise.resolve("notEditable");
+        } else if (isEditable && !_.isEmpty(hasAnswer)) {
+          answerQuery = new Parse.Query('Answer');
+          answerQuery.equalTo('question', questionsObj);
+          answerQuery.equalTo('response', responseObj);
+          return answerQuery.find().then(function(answers) {
+            return deleteInputAnswers(answers).then(function() {
+              return getInputAnswers().then(function() {
+                return promise.resolve("saved");
+              }, function(error) {
+                return promise.reject(error);
+              });
+            }, function(error) {
+              return promise.reject(error);
+            });
+          }, function(error) {
+            return promise.reject(error);
+          });
+        } else {
+          return getInputAnswers().then(function() {
+            return promise.resolve("saved");
+          }, function(error) {
+            return promise.reject("someError");
+          });
+        }
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
     return promise;
   };
 
@@ -2656,7 +2799,19 @@
             responseObj.set("previousSubmission", previous['previousSubmission']);
           }
           return responseObj.save().then(function(responseObj) {
-            return response.success("submitted_successfully");
+            var alertType, patientId, project;
+            if (previous['previousTotalRedFlags'] >= 2) {
+              patientId = responseObj.get("patient");
+              project = responseObj.get("project");
+              alertType = "compared_to_previous_red_flags";
+              return createAlerts(patientId, project, alertType, responseId).then(function(BaseLine) {
+                return response.success("submitted_successfully");
+              }, function(error) {
+                return response.error(error);
+              });
+            } else {
+              return response.success("submitted_successfully");
+            }
           }, function(error) {
             return response.error(error);
           });
@@ -2670,6 +2825,23 @@
       return response.error(error);
     });
   });
+
+  createAlerts = function(patientId, project, alertType, referenceId) {
+    var alerts, promise;
+    promise = new Parse.Promise();
+    alerts = new Parse.Object('Alerts');
+    alerts.set("patient", patientId);
+    alerts.set("project", project);
+    alerts.set("alertType", alertType);
+    alerts.set("referenceId", referenceId);
+    alerts.set('cleared', false);
+    alerts.save().then(function(alertObj) {
+      return promise.resolve(alertObj);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
 
   isLateSubmission = function(questionnaireObj, occurrenceDate) {
     var currentDateTime, graceDate, gracePeriod, result;
@@ -2846,33 +3018,24 @@
   };
 
   getBaseLineValues = function(responseObj, questionsObj, optionsObj) {
-    var promise, responseQuery;
+    var answerQuery, promise, responseBaseLine;
     promise = new Parse.Promise();
-    responseQuery = new Parse.Query('Response');
-    responseQuery.equalTo('patient', responseObj.get('patient'));
-    responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'));
-    responseQuery.descending('updatedAt');
-    responseQuery.equalTo('status', 'base_line');
-    responseQuery.first().then(function(responseBaseLine) {
-      var answerQuery;
-      console.log("responseBaseLine");
-      console.log(responseBaseLine);
-      answerQuery = new Parse.Query('Answer');
-      answerQuery.equalTo('response', responseBaseLine);
-      answerQuery.equalTo('question', questionsObj);
-      return answerQuery.first().then(function(BaseLineAnswer) {
-        var BaseLine, BaseLineValue;
-        console.log("BaseLineAnswer");
-        console.log(BaseLineAnswer);
-        BaseLineValue = BaseLineAnswer.get('score');
-        BaseLineValue = BaseLineValue - optionsObj.get('score');
-        BaseLine = {};
-        BaseLine['comparedToBaseLine'] = BaseLineValue;
-        BaseLine['baseLineFlag'] = getFlag(BaseLineValue);
-        return promise.resolve(BaseLine);
-      }, function(error) {
-        return promise.reject(error);
-      });
+    responseBaseLine = responseObj.get('baseLine');
+    console.log("responseBaseLine");
+    console.log(responseBaseLine);
+    answerQuery = new Parse.Query('Answer');
+    answerQuery.equalTo('response', responseBaseLine);
+    answerQuery.equalTo('question', questionsObj);
+    answerQuery.first().then(function(BaseLineAnswer) {
+      var BaseLine, BaseLineValue;
+      console.log("BaseLineAnswer");
+      console.log(BaseLineAnswer);
+      BaseLineValue = BaseLineAnswer.get('score');
+      BaseLineValue = BaseLineValue - optionsObj.get('score');
+      BaseLine = {};
+      BaseLine['comparedToBaseLine'] = BaseLineValue;
+      BaseLine['baseLineFlag'] = getFlag(BaseLineValue);
+      return promise.resolve(BaseLine);
     }, function(error) {
       return promise.reject(error);
     });
@@ -2880,13 +3043,13 @@
   };
 
   getPreviousQuestionnaireAnswer = function(questionObject, responseObj, patientId) {
-    var answerQuery, promise;
+    var answerQuery, previousSubmission, promise;
     promise = new Parse.Promise();
+    previousSubmission = responseObj.get('previousSubmission');
     answerQuery = new Parse.Query('Answer');
-    answerQuery.equalTo("question", questionObject);
     answerQuery.include('response');
-    answerQuery.equalTo("patient", patientId);
-    answerQuery.notEqualTo("response", responseObj);
+    answerQuery.include('option');
+    answerQuery.equalTo("response", previousSubmission);
     answerQuery.descending('updatedAt');
     answerQuery.find().then(function(answerObjects) {
       var answerObj, first, optionIds, result;
@@ -2913,6 +3076,24 @@
               answerObj = answerObjects[j];
               if (answerObj.get('response').id === first) {
                 results1.push(answerObj.get('option').id);
+              }
+            }
+            return results1;
+          })();
+        } else if (questionObject.get('type') === 'input') {
+          first = answerObjects[0].get('response').id;
+          optionIds = (function() {
+            var j, len, results1;
+            results1 = [];
+            for (j = 0, len = answerObjects.length; j < len; j++) {
+              answerObj = answerObjects[j];
+              if (answerObj.get('response').id === first) {
+                results1.push({
+                  id: answerObj.get('option').id,
+                  label: answerObj.get('option').get('label'),
+                  value: answerObj.get('value'),
+                  score: answerObj.get('option').get('score')
+                });
               }
             }
             return results1;
