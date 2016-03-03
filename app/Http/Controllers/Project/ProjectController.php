@@ -1304,6 +1304,20 @@ class ProjectController extends Controller
         $questionnaire->set('type',$type);
         $questionnaire->save();
 
+        $scheduleQry = new ParseQuery("Schedule");
+        $scheduleQry->equalTo("questionnaire",$questionnaire);
+        $scheduleQry->doesNotExist("patient");
+        $schedule = $scheduleQry->first();
+
+        if(empty($schedule))
+        {
+          $schedule = new ParseObject("Schedule");
+          $schedule->set("questionnaire", $questionnaire);
+        }
+
+        $schedule->set("frequency", $frequency);
+        $schedule->save();
+
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
     }
 
