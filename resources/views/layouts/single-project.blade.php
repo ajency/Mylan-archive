@@ -154,7 +154,27 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
- 
+                        <li class="classic {{ ( $active_menu == 'settings')? 'active-item' : ''}}">
+                        <a href="javascript:;">
+                          <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="classic">
+                        <!-- <li>
+                          <a href="questionnaire.html">Questionnaire</a>
+                        </li> -->
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">Questionnaire Setting</a>
+                        </li>
+                        <!--  <li>
+                            <a href="index.html">Message & Notifications
+                              <span class="description">
+                                Alerts help to gain user attention and 
+                                give...
+                              </spam>
+                            </a>
+                          </li> -->
+                        </ul>
+                      </li>
                      </ul>
                   </div>
                </div>
