@@ -41,6 +41,7 @@
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
                   <br>
+                  @if(!empty($inputValueChart))
                   <table class="table table-flip-scroll cf table-center">
                  <thead class="cf">
                     <tr>
@@ -71,6 +72,7 @@
                     </tr>
                  </tbody>
               </table>
+              @endif
 <!--                  <div class="row">
                   @foreach($inputValueChart as $inputValue)
                   <div class="submission-chart-wt text-center">

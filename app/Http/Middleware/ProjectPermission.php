@@ -37,8 +37,8 @@ class ProjectPermission
                         '{hospitalslug}.{projectslug}.users.edit'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.users.update'=>['edit'],
 
-                        '{hospitalslug}.{projectslug}.submissions.index'=>['view'],
-                        '{hospitalslug}.{projectslug}.submissions.show'=>['view'],
+                        '{hospitalslug}.{projectslug}.submissions.index'=>['view','edit'],
+                        '{hospitalslug}.{projectslug}.submissions.show'=>['view','edit'],
 
                         '{hospitalslug}.{projectslug}.user-access.destroy'=>['edit'],
 
