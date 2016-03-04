@@ -228,7 +228,7 @@
                             </div>
                           </div>
                            <div class="grid-body no-border table-data ">                              
-                              <div id="chartdiv" style="width:100%;"></div>
+                              <div id="chartdiv" style="width:100%; height: 400px;"></div>
                            </div>
                         </div>
                   <div class="grid simple grid-table">
