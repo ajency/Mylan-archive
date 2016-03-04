@@ -147,6 +147,48 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 }
 
 
+function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
+{  
+    $userId =  Auth::user()->id;
+    $user = App\User::find($userId); 
+    $hasAccess = $user->has_all_access; 
+    $userType =  $user->type; 
+
+    
+    $flag = false;
+    
+    $permissions =[];
+    $userAccess = [];
+
+    $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+    $hospital = $hospitalProjectData['hospital'];
+    $project = $hospitalProjectData['project']; 
+    
+
+    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user')
+    {
+        if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
+        {
+            if($userType=='hospital_user')
+            {
+                $userAccess = $user->access()->where(['object_type'=>'hospital', 'object_id'=>$hospital['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+            }
+            elseif($userType=='project_user')
+            {
+                $userAccess = $user->access()->where(['object_type'=>'project', 'object_id'=>$project['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+            }
+            
+            if(!empty($userAccess))
+                $flag = true;
+        }
+        else
+            $flag = true;
+    }
+    
+    return $flag;
+}
+
 function hospitalImageExist($hospital)
 { 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];

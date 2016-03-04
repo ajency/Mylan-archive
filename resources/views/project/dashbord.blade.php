@@ -18,7 +18,9 @@
                   </div>
                   <div class="col-sm-4">
                   <div class="row">
+                  @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                      <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create') }}" class="btn btn-primary pull-right m-t-10"><i class="fa fa-plus"></i> Add Patient</a>
+                  @endif
                   </div>
                   </div>
                   <div class="grid simple ">
