@@ -84,6 +84,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 }
               };
             })(this));
+            optionSelectedArray.sort();
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
           return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');
@@ -189,16 +190,19 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             _this.display = 'noError';
             console.log('******next question******');
             console.log(data);
-            _this.checkQuestinarieStatus(data);
-            _this.variables();
-            _this.data = [];
-            _this.data = data;
-            _this.readonly = true;
-            if (!_.isEmpty(_this.data.hasAnswer)) {
-              _this.hasAnswerShow();
-              _this.readonly = _this.data.editable;
+            if (!_.isUndefined(data.status)) {
+              return _this.checkQuestinarieStatus(data);
+            } else {
+              _this.variables();
+              _this.data = [];
+              _this.data = data;
+              _this.readonly = true;
+              if (!_.isEmpty(_this.data.hasAnswer)) {
+                _this.hasAnswerShow();
+                _this.readonly = _this.data.editable;
+              }
+              return _this.pastAnswer();
             }
-            return _this.pastAnswer();
           };
         })(this), (function(_this) {
           return function(error) {
