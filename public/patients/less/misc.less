@@ -1181,3 +1181,27 @@ form .placeholderWrap .form-control:focus
     }
   } 
 }
+
+// IE Edge placeholder issue fixed
+
+input::-ms-input-placeholder{
+  opacity: 0;
+}
+
+// custom Questionnaire remaining styles 
+
+.questionnaire-text-field{
+    visibility: visible !important;
+    position: relative !important;
+    background: #F2F2F2;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    height: 40px;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px;
+    margin: 0 10px;
+    &:focus{
+      outline: none;
+    }
+}
