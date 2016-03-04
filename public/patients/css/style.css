@@ -240,7 +240,7 @@ h3.line-title span {
   border: none;
 }
 .panel ul {
-  margin: none;
+  margin: 0;
 }
 .site-wrapper {
   display: table;
