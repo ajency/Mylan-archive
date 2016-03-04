@@ -161,6 +161,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $userAccess = [];
 
     $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+     
 
     $hospital = $hospitalProjectData['hospital'];
     $project = $hospitalProjectData['project']; 
@@ -173,6 +174,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
             if($userType=='hospital_user')
             {
                 $userAccess = $user->access()->where(['object_type'=>'hospital', 'object_id'=>$hospital['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+
             }
             elseif($userType=='project_user')
             {
@@ -185,7 +187,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
         else
             $flag = true;
     }
-    
+ 
     return $flag;
 }
 

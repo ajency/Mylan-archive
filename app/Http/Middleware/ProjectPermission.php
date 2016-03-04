@@ -70,6 +70,7 @@ class ProjectPermission
         $resourceName = $request->route()->getName(); 
         $uriPath =$request->route()->getPath();  
 
+        $hospitalSlug = \Illuminate\Support\Facades\Route::input('hospitalslug'); 
         $projectSlug = \Illuminate\Support\Facades\Route::input('projectslug'); 
 
         if($resourceName!='' && isset($resources[$resourceName]))
@@ -80,8 +81,8 @@ class ProjectPermission
             abort(403);
 
         
-        // if(!hasProjectPermission($hospitalSlug ,$permission))
-        //     abort(403);
+        if(!hasProjectPermission($hospitalSlug ,$projectSlug,$permission))
+            abort(403);
 
         return $next($request);
     }
