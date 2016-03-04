@@ -198,7 +198,8 @@ class UserController extends Controller
         $data = $hospitalData = $questionnareData = [];
         $hospitalData['id'] = $hospital['id'];
         $hospitalData['name'] = $hospital['name'];
-        $hospitalData['logo'] = $logoUrl;
+        $hospitalData['logoUrl'] = $logoUrl;
+        $hospitalData['logo'] = $hospital['logo'];
         $hospitalData['phone'] = $hospital['phone'];
         $hospitalData['project_id'] = $project['id'];
         $hospitalData['project'] = $project['name'];

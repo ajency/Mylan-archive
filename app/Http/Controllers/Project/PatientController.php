@@ -1523,6 +1523,23 @@ class PatientController extends Controller
                 {
                     $answersList[$questionId][$optionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
                 }
+                elseif($questionType == 'input')
+               {
+                    if(!isset($answersList[$questionId]))
+                    {
+                       $answersList[$questionId]= ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
+                       $answersList[$questionId]['optionValues'][strtolower($label)] =$value;
+                    }
+                    else
+                    {
+                       $answersList[$questionId]['optionValues'][strtolower($label)] =$value;
+                       
+                    }
+
+                    
+                   
+                    
+               }
                 else
                 {
                     $answersList[$questionId] = ['optionId'=>$optionId,'label'=>$label,'value'=>$value,'score'=>$score];
@@ -2001,15 +2018,15 @@ class PatientController extends Controller
                 // $baseLineScore = $baseLineAnswer->get("value");
 
                 foreach ($baseLineAnswers as $key => $baseLineAnswer) {
-                    $inputBaseLineArr[$baseLineAnswer->get("option")->get("label")] = $baseLineAnswer->get("value");
+                    $inputBaseLineArr[strtolower($baseLineAnswer->get("option")->get("label"))] = $baseLineAnswer->get("value");
                 }               
                 
                 $inputBaseQuestionId = $questionId;
                 $questionLabels[$questionId] = $questionLabel;
                 $allScore[$questionId][] = $optionValue;
 
-                $baseLineArr[$questionId][$sequenceNumber] =$inputBaseLineArr;
-                $inputScores[$questionId][$sequenceNumber][$answer->get("option")->get("label")] = $optionValue ;
+                $baseLineArr[$questionId][$sequenceNumber] =$inputBaseLineArr; 
+                $inputScores[$questionId][$sequenceNumber][strtolower($answer->get("option")->get("label"))] = $optionValue ;
                 // $inputScores[$questionId][$sequenceNumber] = $optionValue;
                 continue;
             }

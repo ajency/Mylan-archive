@@ -1231,6 +1231,96 @@ class ProjectController extends Controller
         
     }
 
+    public function questionnaireSetting($hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project",$projectId);
+        $questionnaire = $questionnaireQry->first();
+
+        $settings =[];
+        $settings['gracePeriod'] = '';
+        $settings['reminderTime'] = '';
+        $settings['editable'] = '';
+        $settings['type'] = ''; 
+        $settings['frequency'] = ''; 
+
+        if(!empty($questionnaire))
+        {
+          $settings['gracePeriod'] = $questionnaire->get('gracePeriod');
+          $settings['reminderTime'] = $questionnaire->get('reminderTime');
+          $settings['editable'] = $questionnaire->get('editable');
+          $settings['type'] = $questionnaire->get('type');
+
+          $scheduleQry = new ParseQuery("Schedule");
+          $scheduleQry->equalTo("questionnaire",$questionnaire);
+          $scheduleQry->doesNotExist("patient");
+          $schedule = $scheduleQry->first();
+          
+          if(!empty($schedule))
+          {
+            $settings['frequency'] = $schedule->get('frequency');
+          }
+          
+        }
+       
+
+        return view('project.questionnaire-setting')->with('active_menu', 'settings')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('settings', $settings);
+    }
+
+    public function saveQuestionnaireSetting(Request $request,$hospitalSlug,$projectSlug)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $frequency = $request->input('frequency');   
+        $gracePeriod = intval($request->input('gracePeriod'));
+        $reminderTime = intval($request->input('reminderTime'));
+        $editable = ($request->input('editable')=='yes')?true:false;
+        $type = $request->input('type');
+
+        $questionnaireQry = new ParseQuery("Questionnaire");
+        $questionnaireQry->equalTo("project",$projectId);
+        $questionnaire = $questionnaireQry->first();
+
+        $questionnaire->set('gracePeriod',$gracePeriod);
+        $questionnaire->set('reminderTime',$reminderTime);
+        $questionnaire->set('editable',$editable);
+        $questionnaire->set('type',$type);
+        $questionnaire->save();
+
+        $scheduleQry = new ParseQuery("Schedule");
+        $scheduleQry->equalTo("questionnaire",$questionnaire);
+        $scheduleQry->doesNotExist("patient");
+        $schedule = $scheduleQry->first();
+
+        if(empty($schedule))
+        {
+          $schedule = new ParseObject("Schedule");
+          $schedule->set("questionnaire", $questionnaire);
+        }
+
+        $schedule->set("frequency", $frequency);
+        $schedule->save();
+
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -3,11 +3,11 @@
 <!-- BEGIN BREADCRUMBS -->
       <p>
       <ul class="breadcrumb">
+         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}">{{ $patient['reference_code']}}</a> </li>
          <li>
-            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
-         </li>
-         <li>
-            <a href="#" class="active">Submissions</a>
+            <a href="#" class="active">Submission</a>
          </li>
       </ul>
       </p>
@@ -41,7 +41,7 @@
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
                   <br>
-                  <table class="table table-flip-scroll cf">
+                  <table class="table table-flip-scroll cf table-center">
                  <thead class="cf">
                     <tr>
                       <th  class="text-left"></th>

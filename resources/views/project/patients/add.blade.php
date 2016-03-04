@@ -4,10 +4,9 @@
 <!-- BEGIN BREADCRUMBS -->
       <p>
       <ul class="breadcrumb">
-        <li>
-          <a href="projects.html">Patients</a>
-        </li>
-        <li><a href="#" class="active">New</a> </li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
+        <li><a href="#" class="active">add</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->

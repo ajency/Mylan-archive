@@ -4,10 +4,10 @@
       <p>
       <ul class="breadcrumb">
          <li>
-            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
+            <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a>
          </li>
          <li>
-            <a href="#" class="active">Users</a>
+            <a href="#" class="active">Reports</a>
          </li>
       </ul>
       </p>

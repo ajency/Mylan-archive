@@ -944,43 +944,24 @@
          var chart = AmCharts.makeChart("chartdiv", {
           "type": "serial",
           "theme": "light",
+       "marginRight": 40,
+    "marginLeft": 40,
+    "autoMarginOffset": 20,
+
           "legend": {
               "useGraphSettings": true
           },
-          "dataProvider": [{
-              "Date":'1 Jan',
-              "score": 1
-          }, {
-              "Date": '2 Jan',
-              "score": 4
-          }, {
-              "Date": '11 Jan',
-              "score": 10
-          }, {
-              "Date": '12 Jan',
-              "score": 3
-          }, {
-              "Date": '14 Jan',
-              "score": 11
-          }, {
-              "Date": '18 Jan',
-              "score": 3
-          }, {
-              "Date": '19 Jan',
-              "score": 5
-          }, {
-              "Date": '22 Jan',
-              "score": 9
-          }],
+          "dataProvider": [{"Date":"17 Feb (1)","score":9,"baseLine":0},{"Date":"18 Feb (3)","score":12,"baseLine":0},{"Date":"18 Feb (4)","score":12,"baseLine":7},{"Date":"18 Feb (5)","score":18,"baseLine":7},{"Date":"19 Feb (7)","score":15,"baseLine":7},{"Date":"19 Feb (8)","score":13,"baseLine":7},{"Date":"19 Feb (9)","score":13,"baseLine":7},{"Date":"22 Feb (19)","score":7,"baseLine":7},{"Date":"23 Feb (23)","score":8,"baseLine":7}],
           "valueAxes": [{
               "integersOnly": true,
-              "maximum": 6,
-              "minimum": 1,
-              "axisAlpha": 0,
+              "maximum": 18,
+              "minimum": 0,
+               "axisAlpha": 0,
               "dashLength": 5,
               "position": "right",
               "title": "Total Score"
           }],
+
            "valueAxes": [{
               "logarithmic": true,
               "dashLength": 1,
@@ -1016,11 +997,18 @@
                 "position": "bottom",
               "title": "Date"
           },
+
+
           "export": {
             "enabled": true,
               "position": "bottom-right"
            }
          });
+  chart.addListener("dataUpdated", zoomChart);
+
+function zoomChart(){
+    chart.zoomToDates(new Date('17 Feb (1)', 0, 2), new Date('23 Feb (23)', 0, 13));
+}
           var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
                  "theme": "light",

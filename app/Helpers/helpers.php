@@ -43,25 +43,25 @@ function convertStonePoundsToKgs($stones,$pounds)
 function getInputValues($values,$withLabel=true)
 {
     /*********
-    $array['kgs']=50
-    $array=['ST'=>50,'lbs'=>30];
+    $array['kg']=50
+    $array=['st'=>50,'lbs'=>30];
 
     /******/
     if(count($values)==1)
     {
-        $result = current($values);
+        $result = current($values).' ';
         $result .= ($withLabel)? key($values) :'';
     }
     else
     {
-        if(isset($values['ST']) && isset($values['lbs']))
+        if(isset($values['st']) && isset($values['lbs']))
         {
-            $result = convertStonePoundsToKgs($values['ST'],$values['lbs']) ;
-            $result .= ($withLabel)? 'Kg' :'';
+            $result = convertStonePoundsToKgs($values['st'],$values['lbs']) ;
+            $result .= ($withLabel)? ' kg' :'';
         }
         else
         {
-            $result = current($values);
+            $result = current($values).' ';
             $result .= ($withLabel)? key($values) :'';
         }
         
@@ -150,7 +150,7 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 function hospitalImageExist($hospital)
 { 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-    $filepath = public_path(). "/mylan/hospitals/".$hospital['logo'];
+    $filepath = public_path(). "/mylan/hospitals/".$hospital['logo']; 
 
     if($hospital['logo']!='' && file_exists($filepath))
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';

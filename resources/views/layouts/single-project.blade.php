@@ -154,7 +154,27 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
- 
+                        <li class="classic {{ ( $active_menu == 'settings')? 'active-item' : ''}}">
+                        <a href="javascript:;">
+                          <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="classic">
+                        <!-- <li>
+                          <a href="questionnaire.html">Questionnaire</a>
+                        </li> -->
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">Questionnaire Setting</a>
+                        </li>
+                        <!--  <li>
+                            <a href="index.html">Message & Notifications
+                              <span class="description">
+                                Alerts help to gain user attention and 
+                                give...
+                              </spam>
+                            </a>
+                          </li> -->
+                        </ul>
+                      </li>
                      </ul>
                   </div>
                </div>
@@ -194,9 +214,7 @@
 
       $(function() {
 
-         function cb(start, end ,label) {
-
-            console.log(label);
+         function cb(start, end) {
 
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             $('input[name="startDate"]').val(start.format('DD-MM-YYYY'));
@@ -210,18 +228,21 @@
             $('input[name="flag"]').val(1)
          }
  
-         cb(moment(STARTDATE), moment(ENDDATE));
-         // cb(moment().month(-1), moment());
+          cb(moment(STARTDATE), moment(ENDDATE));
+ 
 
-         $('#reportrange').daterangepicker({
-            ranges: {
-            'This Month': [moment().startOf('month'), moment().endOf('month')],
-            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-            'Last 6 Months': [moment().month(-6), moment()],
-            'Last 12 Months': [moment().month(-12), moment().subtract(1, 'days')],
-              
-           }
-         }, cb);
+         
+      $('#reportrange').daterangepicker({
+         "ranges": {
+                  'This Month': [moment().startOf('month'), moment().endOf('month')],
+                  'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                  'Last 6 Months': [moment().month(-6), moment()],
+                  'Last 12 Months': [moment().month(-12), moment().subtract(1, 'days')],
+                    
+                 },
+         "startDate": moment(STARTDATE),
+         "endDate":  moment(ENDDATE)
+      }, cb);
  
       });
    </script>
