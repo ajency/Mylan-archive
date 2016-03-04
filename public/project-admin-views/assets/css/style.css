@@ -8683,7 +8683,7 @@ ul.parsley-errors-list li {
   font-size: 28px;
   background: #f1f1f1;
   padding: 70px 0 !important;
-  text-align: center;//center
+  text-align: center;
 }
 .adminlogin {
   background: #fff;
@@ -8734,6 +8734,9 @@ select option {
 }
 .m-t-3 {
   margin-top: 3px;
+}
+.m-r-15 {
+  margin-top: 15px;
 }
 .filter-label {
   float: left;
