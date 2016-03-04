@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-       $users = User::where('type','mylan_admin')->orderBy('created_at')->get()->toArray();
+       $users = User::where('type','hospital_user')->orderBy('created_at')->get()->toArray();
        
 
         return view('admin.users-list')->with('active_menu', 'users')
@@ -40,6 +40,7 @@ class UserController extends Controller
      */
     public function create()
     {  
+ 
         $roles = getRoles();
         $hospitals = Hospital:: all()->toArray(); 
         return view('admin.user-add')->with('active_menu', 'users')
@@ -59,51 +60,57 @@ class UserController extends Controller
 
         $user = new User;
         $name =  ucfirst($request->input('name'));
+        $email = $request->input('email');
         $user->name = $name;
-        $user->email = $request->input('email');
+        $user->email = $email;
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
-        $user->type = 'mylan_admin'; 
+        $user->type = 'hospital_user'; 
         $user->account_status = 'active'; 
-        $user->project_access = ($request->has('has_access'))?'yes':'no';
-        $user->mylan_access = ($request->has('had_mylan_access'))?'yes':'no';
+        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
         $user->save(); 
         $userId = $user->id;
 
-        if(!$request->has('had_mylan_access'))
-        {
-            $access = $request->input('mylan_access');
-            $userAccess = new UserAccess;
-            $userAccess->object_type = 'mylan' ; 
-            $userAccess->object_id = 0; 
-            $userAccess->user_id = $userId; 
-            $userAccess->access_type = $access; 
-            $userAccess->save();
-        }
+        $hospitalIds = $request->input('hospital');
+        $hospitalUrlStr = '';
 
-        $hospitals = $request->input('hospital');
-        if(!empty($hospitals))
+        if(!empty($hospitalIds))
         {
-            foreach ($hospitals as $key => $hospital) {
-                 if($hospital=='')
+            foreach ($hospitalIds as $key => $hospitalId) {
+                 if($hospitalId=='')
                     continue;
 
                 $access = $request->input('access_'.$key);
 
                 $userAccess = new UserAccess;
                 $userAccess->object_type = 'hospital' ; 
-                $userAccess->object_id = $hospital; 
+                $userAccess->object_id = $hospitalId; 
                 $userAccess->user_id = $userId; 
                 $userAccess->access_type = $access; 
                 $userAccess->save();
             }
+ 
+
+          $hospitals = Hospital:: whereIn('id',$hospitalIds)->get()->toArray(); 
+
+
+          foreach ($hospitals as $hospital) {
+              $hospitalName = $hospital['name'];
+              $urlSlug = $hospital['url_slug'];
+
+              $hospitalUrlStr .= $hospitalName .' : '.url().'/'.$urlSlug . ' <br>';
+          }
             
         }
+
+        
+        
         
         $data =[];
         $data['name'] = $name;
-        $data['email'] = $user->email;
+        $data['email'] = $email;
         $data['password'] = $password;
+        $data['loginUrls'] = $hospitalUrlStr;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -140,11 +147,8 @@ class UserController extends Controller
         
         $mylanUserAccess['access_type'] = 'view';
         $mylanUserAccess['id'] = '';
-        if($user['mylan_access']=='no')
-            $mylanUserAccess = UserAccess::where(['user_id'=>$id,'object_type'=>'mylan'])->first()->toArray();  
  
-         
-         
+
         return view('admin.user-edit')->with('active_menu', 'users')
                                           ->with('hospitals', $hospitals)
                                           ->with('userAccess', $userAccess)
@@ -166,33 +170,8 @@ class UserController extends Controller
         $user->name = $name;
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');     
-        $user->project_access = ($request->has('has_access'))?'yes':'no';
-        $user->mylan_access = ($request->has('had_mylan_access'))?'yes':'no';
+        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
         $user->save(); 
-
-        $mylanAccessId = $request->input('mylan_access_id');
-        if(!$request->has('had_mylan_access'))
-        {   
-            $access = $request->input('mylan_access');
-            if($mylanAccessId)
-            {
-                $userAccess = UserAccess::find($mylanAccessId);
-                $userAccess->access_type = $access; 
-                $userAccess->save();
-            }
-            else
-            {
-                
-                $userAccess = new UserAccess;
-                $userAccess->object_type = 'mylan' ; 
-                $userAccess->object_id = 0; 
-                $userAccess->user_id = $userId; 
-                $userAccess->access_type = $access; 
-                $userAccess->save();  
-            }
-            
-        }
-        
 
         $hospitals = $request->input('hospital');
         if(!empty($hospitals))

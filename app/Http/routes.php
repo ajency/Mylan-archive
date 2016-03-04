@@ -69,8 +69,8 @@ Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteL
 });
 
 
-/*****Hospital***/ //,'hospital.permission'
-Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth']], function() {
+/*****Hospital***/ //
+Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
  Route::get( '/', 'Hospital\HospitalController@show' );
 // Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );

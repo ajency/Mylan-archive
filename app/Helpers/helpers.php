@@ -118,7 +118,7 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 {  
     $userId =  Auth::user()->id;
     $user = App\User::find($userId); 
-    $hasAccess = $user->project_access; 
+    $hasAccess = $user->has_all_access; 
     $userType =  $user->type; 
 
     

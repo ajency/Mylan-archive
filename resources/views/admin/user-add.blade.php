@@ -50,7 +50,7 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
-         <div class="user-description-box">
+         <!-- <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Mylan</div>
                <div class="col-md-3">
@@ -77,14 +77,14 @@
             </div>
 
          </div>
-         <br>
+         <br> -->
              <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Hospital</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
-                  <input id="has_access" type="checkbox" name="has_access" value="yes" >
-                  <label for="has_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
+                  <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" >
+                  <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
                </div>
                   Access  (Individual)
                </div>

@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function index($hospitalSlug)
     {
-       $users = User::where('type','hospital_user')->orderBy('created_at')->get()->toArray();
+       $users = User::where('type','project_user')->orderBy('created_at')->get()->toArray();
        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
@@ -66,21 +66,14 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
-        $user->type = 'hospital_user'; 
+        $user->type = 'project_user'; 
         $user->account_status = 'active'; 
-        $user->project_access = ($request->has('has_access'))?'yes':'no';
+        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
         $user->save(); 
         $userId = $user->id;
 
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         
-        $userAccess = new UserAccess;
-        $userAccess->object_type = 'hospital' ; 
-        $userAccess->object_id = $hospital['id']; 
-        $userAccess->user_id = $userId; 
-        $userAccess->access_type = 'view'; 
-        $userAccess->save();
-
         $projects = $request->input('projects');
         if(!empty($projects))
         {
@@ -104,6 +97,7 @@ class UserController extends Controller
         $data['name'] = $name;
         $data['email'] = $user->email;
         $data['password'] = $password;
+
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -164,7 +158,7 @@ class UserController extends Controller
  
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');     
-        $user->project_access = ($request->has('has_access'))?'yes':'no';
+        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
         $user->save(); 
 
         $projects = $request->input('projects');
