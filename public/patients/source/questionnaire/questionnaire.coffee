@@ -87,6 +87,9 @@ angular.module 'angularApp.questionnaire'
 							if a != -1
 								a++
 								optionSelectedArray.push(a)
+
+						optionSelectedArray.sort()
+						
 						@data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString()
 
 					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
@@ -192,16 +195,18 @@ angular.module 'angularApp.questionnaire'
 					# if @readonly == true then CToast.show 'Your answer is saved'
 					console.log '******next question******'
 					console.log data
-					@checkQuestinarieStatus(data)
-					@variables()
-					@data = []
-					@data = data
-					@readonly = true
+					if !_.isUndefined(data.status)
+						@checkQuestinarieStatus(data)
+					else
+						@variables()
+						@data = []
+						@data = data
+						@readonly = true
 
-					if !_.isEmpty(@data.hasAnswer)
-						@hasAnswerShow()
-						@readonly = @data.editable
-					@pastAnswer()	
+						if !_.isEmpty(@data.hasAnswer)
+							@hasAnswerShow()
+							@readonly = @data.editable
+						@pastAnswer()	
 					
 				,(error)=>
 					if error == 'offline'
