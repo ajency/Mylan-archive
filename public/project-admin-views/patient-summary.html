@@ -947,15 +947,16 @@
        "marginRight": 40,
     "marginLeft": 40,
     "autoMarginOffset": 20,
+
           "legend": {
               "useGraphSettings": true
           },
-          "dataProvider": [{"Date":"17 Feb (1)","score":9,"baseLine":0},{"Date":"18 Feb (3)","score":12,"baseLine":0},{"Date":"18 Feb (4)","score":12,"baseLine":7},{"Date":"18 Feb (5)","score":18,"baseLine":7},{"Date":"19 Feb (7)","score":15,"baseLine":7},{"Date":"19 Feb (8)","score":13,"baseLine":7},{"Date":"19 Feb (9)","score":13,"baseLine":7},{"Date":"22 Feb (19)","score":7,"baseLine":7},{"Date":"23 Feb (23)","score":8,"baseLine":7},{"Date":"23 Feb (25)","score":7,"baseLine":7},{"Date":"24 Feb (28)","score":16,"baseLine":7},{"Date":"25 Feb (31)","score":11,"baseLine":7},{"Date":"25 Feb (32)","score":16,"baseLine":7},{"Date":"25 Feb (33)","score":6,"baseLine":7},{"Date":"28 Feb (43)","score":11,"baseLine":7},{"Date":"01 Mar (51)","score":6,"baseLine":7},{"Date":"01 Mar (53)","score":1,"baseLine":7}],
+          "dataProvider": [{"Date":"17 Feb (1)","score":9,"baseLine":0},{"Date":"18 Feb (3)","score":12,"baseLine":0},{"Date":"18 Feb (4)","score":12,"baseLine":7},{"Date":"18 Feb (5)","score":18,"baseLine":7},{"Date":"19 Feb (7)","score":15,"baseLine":7},{"Date":"19 Feb (8)","score":13,"baseLine":7},{"Date":"19 Feb (9)","score":13,"baseLine":7},{"Date":"22 Feb (19)","score":7,"baseLine":7},{"Date":"23 Feb (23)","score":8,"baseLine":7}],
           "valueAxes": [{
               "integersOnly": true,
-              "maximum": 6,
-              "minimum": 1,
-              "axisAlpha": 0,
+              "maximum": 18,
+              "minimum": 0,
+               "axisAlpha": 0,
               "dashLength": 5,
               "position": "right",
               "title": "Total Score"
@@ -1003,6 +1004,11 @@
               "position": "bottom-right"
            }
          });
+  chart.addListener("dataUpdated", zoomChart);
+
+function zoomChart(){
+    chart.zoomToDates(new Date('17 Feb (1)', 0, 2), new Date('23 Feb (23)', 0, 13));
+}
           var chart = AmCharts.makeChart( "submissionschart", {
                  "type": "pie",
                  "theme": "light",
