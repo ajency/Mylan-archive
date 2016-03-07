@@ -2722,6 +2722,7 @@ span.iconset {
 }
 .inline {
   display: inline-block !important;
+  vertical-align: middle;
 }
 .b-blank {
   border-color: #000;
@@ -8907,5 +8908,12 @@ select option {
 }
 .mri-form .mri-submit {
   margin: 10px 0;
+}
+ul.ui-multiselect-checkboxes li label.ui-corner-all span {
+  vertical-align: middle;
+  padding-left: 5px;
+}
+.breadcrumb li.active {
+  text-transform: capitalize;
 }
 /*# sourceMappingURL=style.css.map */
