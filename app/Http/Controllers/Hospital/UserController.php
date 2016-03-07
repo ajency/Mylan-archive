@@ -132,7 +132,17 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $data =[];
+        $data['name'] = 'PRAJAY';
+        $data['email'] = 'prajay@ajency.in';
+        $data['password'] = '';
+        $data['loginUrls'] = '';
+
+ 
+        Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
+        {  
+            $message->to($data['email'], $data['name'])->subject('Welcome to Mylan!');
+        });
     }
 
     /**
