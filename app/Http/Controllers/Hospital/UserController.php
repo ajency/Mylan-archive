@@ -113,7 +113,7 @@ class UserController extends Controller
         $data['name'] = $name;
         $data['email'] = $email;
         $data['password'] = $password;
-        $data['loginUrls'] = $projectUrlStr;
+        $data['loginUrls'] = '';//$projectUrlStr;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -132,16 +132,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data =[];
-        $data['name'] = "JAY";
-        $data['email'] = "prajay@ajency.in";
-        $data['password'] = '12354';
-        $data['loginUrls'] = "asdasdsad/sadasdsad/sdad <br> dasdasdsad/asda";
- 
-        Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
-        {  
-            $message->to($data['email'], $data['name'])->subject('Welcome to TEst Mylan!');
-        });
+        //
     }
 
     /**
