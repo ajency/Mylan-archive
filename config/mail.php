@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'host' => config('constants.host'),
+    'host' => 'smtp.sendgrid.net',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'username' => config('constants.username'),
+    'username' => 'shradha',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'password' => config('constants.password'),
+    'password' => 'ajency#123',
 
     /*
     |--------------------------------------------------------------------------
