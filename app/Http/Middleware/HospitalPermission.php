@@ -16,39 +16,26 @@ class HospitalPermission
     public function handle($request, Closure $next)
     {
         $resources =[
-                        '{hospitalslug}.patients.index'=>['view'],
-                        '{hospitalslug}.patients.create'=>['edit'],
-                        '{hospitalslug}.patients.store'=>['edit'],
-                        '{hospitalslug}.patients.show'=>['view'],
-                        '{hospitalslug}.patients.edit'=>['edit'],
-                        '{hospitalslug}.patients.update'=>['edit'],
 
-                        '{hospitalslug}.projects.index'=>['view'],
-                        '{hospitalslug}.projects.create'=>['edit'],
+                        '{hospitalslug}.projects.index'=>['view','edit'],
+                        '{hospitalslug}.projects.create'=>['view','edit'],
                         '{hospitalslug}.projects.store'=>['edit'],
-                        '{hospitalslug}.projects.show'=>['view'],
-                        '{hospitalslug}.projects.edit'=>['edit'],
+                        '{hospitalslug}.projects.show'=>['view','edit'],
+                        '{hospitalslug}.projects.edit'=>['view','edit'],
                         '{hospitalslug}.projects.update'=>['edit'],
 
-                        '{hospitalslug}.users.index'=>['view'],
-                        '{hospitalslug}.users.create'=>['edit'],
+                        '{hospitalslug}.users.index'=>['view','edit'],
+                        '{hospitalslug}.users.create'=>['view','edit'],
                         '{hospitalslug}.users.store'=>['edit'],
-                        '{hospitalslug}.users.show'=>['view'],
-                        '{hospitalslug}.users.edit'=>['edit'],
+                        '{hospitalslug}.users.show'=>['view','edit'],
+                        '{hospitalslug}.users.edit'=>['view','edit'],
                         '{hospitalslug}.users.update'=>['edit'],
-
-                        '{hospitalslug}.submissions.index'=>['view'],
-                        '{hospitalslug}.submissions.show'=>['view'],
 
                         '{hospitalslug}.user-access.destroy'=>['edit'],
 
                     ]; 
-        $uri        =[  '{hospitalslug}'=>['view'],
-                        '{hospitalslug}/dashboard'=>['view'],
-                        '{hospitalslug}/patients/{id}/submission-reports'=>['view'],
-                        '{hospitalslug}/patients/{id}/submissions'=>['view'],
-                        '{hospitalslug}/patients/{id}/base-line-score'=>['view','edit'],
-                        '{hospitalslug}/patients/{id}/base-line-score-edit'=>['edit'],
+        $uri        =[  '{hospitalslug}'=>['view','edit'],
+                        '{hospitalslug}/dashboard'=>['view','edit'],
                         '{hospitalslug}/patients/{id}/validatereferncecode'=>['edit'],
                         ]; 
 

@@ -213,7 +213,7 @@ class AuthController extends Controller
         
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
-            if(Auth::user()->account_status=='active')
+            if(Auth::user()->account_status=='active' || Auth::user()->type=='mylan_admin' || Auth::user()->type=='hospital_user')
             {
                 return redirect()->intended($hospitalSlug.'/projects');
             }
@@ -259,7 +259,7 @@ class AuthController extends Controller
         
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
-            if(Auth::user()->account_status=='active')
+            if(Auth::user()->account_status=='active' || Auth::user()->type=='mylan_admin' || Auth::user()->type=='hospital_user' || Auth::user()->type=='project_user')
             {
                 return redirect()->intended($hospitalSlug.'/'.$projectSlug.'/dashboard');
             }

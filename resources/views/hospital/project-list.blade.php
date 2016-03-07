@@ -17,7 +17,9 @@
 
 
     <div class="pull-right m-t-10">
+                     @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                      <a href="{{ url( $hospital['url_slug'].'/projects/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Project</a>
+                     @endif
                   </div>
                   <div class="page-title">
                      <h3 class="m-b-0"><span class="semi-bold">Projects</span></h3>

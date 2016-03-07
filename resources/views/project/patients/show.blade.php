@@ -72,10 +72,12 @@
               </dl>
               </div>
               <div class="col-sm-4">
+                @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                  <div class="text-right">
                     <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
                     <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                  </div>
+                @endif
               </div>
            </div>
            <br>

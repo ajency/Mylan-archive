@@ -131,11 +131,11 @@
                            <span><i class="fa fa-users"></i> Users </span>
                            </a>
                         </li>
-                        <li>
+                        <!-- <li>
                            <a href="javascript:;">
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
-                        </li>
+                        </li> -->
           
                      </ul>
                   </div>
