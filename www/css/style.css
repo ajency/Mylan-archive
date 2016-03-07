@@ -1404,4 +1404,11 @@ ul .mcq_active div span {
 .item-radio span i {
   color: #fff;
 }
+.activeLabel .item-content {
+  background: #f8fad1;
+}
+.activeLabel .item-content span {
+  background: #7bc67a !important;
+  color: #fff;
+}
 /*# sourceMappingURL=style.css.map */
