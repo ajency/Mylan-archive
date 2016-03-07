@@ -576,7 +576,7 @@ class ProjectController extends Controller
             $page++;
             $responseData = $this->getProjectResponsesByDate($projectId,$page,$responseData ,$startDate,$endDate,$status,$cond,$sort,$limit);
         }  
-        
+
         return $responseData;
      
     }
