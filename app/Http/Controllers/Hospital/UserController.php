@@ -113,7 +113,7 @@ class UserController extends Controller
         $data['name'] = $name;
         $data['email'] = $email;
         $data['password'] = $password;
-        $data['loginUrls'] = '';//$projectUrlStr;
+        $data['loginUrls'] = $projectUrlStr;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
