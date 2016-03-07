@@ -15,6 +15,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       flag: true,
       readonly: true,
       alertPopup: '',
+      weightValue: 'selected',
+      firstText: '',
+      secondText: '',
       variables: function() {
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
@@ -226,8 +229,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else {
             selectedvalue = [];
             _.each(this.data.options, function(opt) {
-              console.log('************');
-              console.log(opt);
               if (opt.checked === true) {
                 return selectedvalue.push(opt.id);
               }
@@ -417,6 +418,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       hasAnswerShow: function() {
+        var kgsSelected;
         if (this.data.questionType === 'descriptive') {
           this.descriptiveAnswer = this.data.hasAnswer.value;
         }
@@ -433,17 +435,32 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           })(this));
         }
         if (this.data.questionType === 'input') {
+          kgsSelected = [];
+          _.each(this.data.hasAnswer.option, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.label;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool === true) {
+                return kgsSelected.push(1);
+              }
+            };
+          })(this));
+          if (kgsSelected.length === 0) {
+            this.firstText = 'notSelected';
+            this.secondText = 'selected';
+          } else {
+            this.firstText = 'selected';
+            this.secondText = 'notSelected';
+          }
           _.each(this.data.hasAnswer.option, (function(_this) {
             return function(val) {
               return _this.val_answerValue[val.label] = Number(val.value);
             };
           })(this));
-          console.log(this.val_answerValue);
-          this.firstRowStatus = true;
-          return this.secondRowStatus = true;
-        } else {
-          this.firstRowStatus = false;
-          return this.secondRowStatus = false;
+          return console.log(this.val_answerValue);
         }
       },
       navigateOnDevice: function() {
@@ -494,8 +511,16 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       firstRow: function() {
-        var a;
-        if (this.data.editable = true) {
+        var a, edit;
+        if (this.readonly === false && !_.isEmpty(this.data.hasAnswer)) {
+          edit = true;
+        } else {
+          edit = false;
+        }
+        if (edit === false) {
+          console.log('inside firstrow click');
+          this.firstText = 'selected';
+          this.secondText = 'notSelected';
           a = {};
           _.each(this.val_answerValue, (function(_this) {
             return function(val, key) {
@@ -506,7 +531,16 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
       },
       secondRow: function() {
-        if (this.data.editable = true) {
+        var edit;
+        if (this.readonly === false && !_.isEmpty(this.data.hasAnswer)) {
+          edit = true;
+        } else {
+          edit = false;
+        }
+        if (edit === false) {
+          console.log('inside second row click');
+          this.firstText = 'notSelected ';
+          this.secondText = 'selected';
           return _.each(this.data.options, (function(_this) {
             return function(value) {
               var bool, labelKg, str;
@@ -544,14 +578,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           if (arr.length > 0) {
             this.data.optionsLabel = true;
             this.data.withoutkg = _.without(this.data.options, kg);
-            this.data.withkg = kg;
+            return this.data.withkg = kg;
           } else {
-            this.data.optionsLabel = false;
+            return this.data.optionsLabel = false;
           }
-          console.log('optionn label--------');
-          console.log(this.data.optionsLabel);
-          console.log(this.data.withkg);
-          return console.log(this.data.withoutkg);
         }
       }
     };

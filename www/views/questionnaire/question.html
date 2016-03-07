@@ -120,8 +120,14 @@
       ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
          <label class="item item-radio item-input-type"
-            ng-click ="view.firstRow()">
-            <input type="radio" name="group1">
+            ng-disabled="!view.readonly"
+            ng-click="view.firstRow()" ng-class="{higlight : view.firstText == 'selected' }"
+            > <!-- ng-click ="view.firstRow()" -->
+            <!-- <input type="radio" name="group1"
+              ng-disabled="!view.readonly"
+              ng-click ="view.firstRow()"
+              ng-value="view.firstText"
+              ng-model="view.weightValue" > -->
             <div class="item-content">
             <span><i class="ion-checkmark"></i></span> 
                 <input 
@@ -135,13 +141,20 @@
                     
                     />
                        <B>{{view.data.withkg.option}}</B>
+                       <p style="display:none">firstText: {{view.firstText}} secondText: {{view.secondText}}</p>
             </div>
          </label>
 
          <label class="item item-radio item-input-type"
+            ng-disabled="!view.readonly"
             ng-click="view.secondRow()"
-            >
-            <input type="radio" name="group1">
+            ng-class="{higlight : view.secondText == 'selected' }"
+            >  <!-- ng-click="view.secondRow()" -->
+            <!-- <input type="radio" name="group1"
+              ng-value="view.secondText"
+              ng-model="view.weightValue"
+              ng-disabled="!view.readonly"
+              ng-click="view.secondRow()"> -->
             <div class="item-content">
              <span><i class="ion-checkmark"></i></span> 
              <sm ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">

@@ -20,6 +20,9 @@ angular.module 'PatientApp.Quest',[]
 			flag : true
 			readonly : true
 			alertPopup : ''
+			weightValue : 'selected'
+			firstText : ''
+			secondText : ''
 
 			variables :()->
 				@descriptiveAnswer = ''
@@ -133,9 +136,6 @@ angular.module 'PatientApp.Quest',[]
 							else if data.status == 'missed'
 								@title = 'This questionnaire was Missed'
 								@showConfirm()
-
-
-
 						@variables()
 						
 						@data = []
@@ -150,8 +150,6 @@ angular.module 'PatientApp.Quest',[]
 							@hasAnswerShow()
 							@readonly = @data.editable
 						@pastAnswer()
-
-		
 
 						@display = 'noError'					
 					,(error)=>
@@ -168,7 +166,6 @@ angular.module 'PatientApp.Quest',[]
 			nextQuestion : ->
 		
 				if @data.questionType == 'single-choice'
-
 					if @singleChoiceValue == ''
 						CToast.show 'Please select your answer'
 					else
@@ -201,20 +198,6 @@ angular.module 'PatientApp.Quest',[]
 								if valid == null
 									validArr.push 1
 
-
-						# 	value = value.toString()
-						# 	valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm));
-						# 	console.log '***ppppp'
-						# 	console.log valid
-						# 	if value == null || value == ''
-						# 		valueArr.push 1
-
-						# 	if value != null || !_.isEmpty(value) 
-						# 		valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-						# 		if valid == null
-						# 			validArr.push 1
-
-							
 						if valueArr.length == _.size(@val_answerValue)
 							error = 1
 
@@ -253,17 +236,12 @@ angular.module 'PatientApp.Quest',[]
 
 			
 				if @data.questionType == 'multi-choice'
-
-					
-					
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select atleast one answer'
 					else
 						selectedvalue = []
 						
 						_.each @data.options, (opt)->
-							console.log '************'
-							console.log opt
 							if opt.checked == true
 								selectedvalue.push opt.id		
 
@@ -388,14 +366,8 @@ angular.module 'PatientApp.Quest',[]
 					else
 					 	value = valueInput[0].toString()
 					options =
-						# "questionId" : @data.questionId
-						# "options": optionId
-						# "value": value.toString()
-
 						"questionId" : @data.questionId
 						"options": arryObj
-						
-
 
 					@loadPrevQuestion(options)
 
@@ -429,10 +401,6 @@ angular.module 'PatientApp.Quest',[]
 
 					if @data.questionType == 'input'
 						console.log '1'
-						# if !_.isEmpty previousAns.optionId[0] 
-						# 	ObjId = _.findWhere(@data.options, {id: previousAns.optionId[0]})
-						# 	ObjId.option
-						# 	@data.previousQuestionnaireAnswer['label'] = ObjId.option
 
 					if @data.questionType == 'single-choice' || @data.questionType == 'multi-choice'
 						optionSelectedArray = []
@@ -463,24 +431,29 @@ angular.module 'PatientApp.Quest',[]
 							value['checked'] = true
 						
 				if @data.questionType == 'input'
+					kgsSelected = []
+					_.each @data.hasAnswer.option, (value)=>
+						str = value.label
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	== true
+							kgsSelected.push(1)
+
+
+					if kgsSelected.length == 0
+						@firstText = 'notSelected'
+						@secondText = 'selected'
+					else
+						@firstText = 'selected'
+						@secondText = 'notSelected'
+
 					_.each @data.hasAnswer.option, (val) =>
 						@val_answerValue[val.label] = Number(val.value)
 
 					console.log @val_answerValue
-
-					@firstRowStatus =  true
-					@secondRowStatus = true
-				else
-					@firstRowStatus =  false
-					@secondRowStatus = false
-
-
-						
-
-					# ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					# @val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
 					
-
 			navigateOnDevice:()->
 				if $('.popup-container').hasClass('active')
 					@alertPopup.close()
@@ -513,23 +486,37 @@ angular.module 'PatientApp.Quest',[]
 						@showConfirm()
 
 			firstRow:()->
-				if @data.editable = true
+				if @readonly == false && !_.isEmpty @data.hasAnswer
+					edit = true
+				else
+					edit = false
+				if edit == false
+					console.log 'inside firstrow click'
+					@firstText = 'selected'
+					@secondText = 'notSelected'
+					
 					a = {}
 					_.each @val_answerValue, (val,key) =>
 						a[key] = ''
 					@val_answerValue = a					
 
 			secondRow:()->
-				if @data.editable = true
+				if @readonly == false && !_.isEmpty @data.hasAnswer
+					edit = true
+				else
+					edit = false
+				if edit == false
+					console.log 'inside second row click'
+					@firstText = 'notSelected '
+					@secondText = 'selected'
+					
 					_.each @data.options, (value)=>
-							str = value.option
-							str = str.toLowerCase()	
-							labelKg = ['kg', 'kgs']
-							bool = _.contains(labelKg, str)
-							
-							if bool	
-							  
-							  @val_answerValue[value.option] = ''
+						str = value.option
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)	
+						if bool	
+						  @val_answerValue[value.option] = ''
 
 			questionLabel:()->
 				if @data.questionType == 'input'
@@ -537,8 +524,6 @@ angular.module 'PatientApp.Quest',[]
 					@data.withoutkg = {}
 					@data.withkg = {}
 					kg = {}
-
-
 
 					_.each @data.options, (value)=>
 						str = value.option
@@ -551,45 +536,28 @@ angular.module 'PatientApp.Quest',[]
 						  kg = value
 						 
 					if arr.length > 0
-
 						@data.optionsLabel = true
 						@data.withoutkg = _.without(@data.options, kg)
 						@data.withkg = kg
 					else
 						@data.optionsLabel = false
 
-					console.log 'optionn label--------'
-					console.log @data.optionsLabel
-					console.log @data.withkg
-					console.log @data.withoutkg
-				    
-
-
 		onDeviceBack = ->
 			$scope.view.navigateOnDevice() 
-			
-
-					
+								
 		onHardwareBackButton1 = null 
 			
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reInit()
 			
-
-
 		$scope.$on '$ionicView.enter', ->
 			console.log '$ionicView.enter questionarie'
-			#Device hardware back button for android
-			# $ionicPlatform.onHardwareBackButton onDeviceBack
 			onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
 		
 
 		$scope.$on '$ionicView.leave', ->
 			console.log '$ionicView.leave'
-			# onHardwareBackButton1()
-			# console.log onHardwareBackButton1
 			if onHardwareBackButton1 then onHardwareBackButton1()
-			# $ionicPlatform.offHardwareBackButton onDeviceBack
 
 ]
 
