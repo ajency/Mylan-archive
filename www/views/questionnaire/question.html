@@ -121,7 +121,7 @@
  
          <label class="item item-radio item-input-type"
             ng-disabled="!view.readonly"
-            ng-click="view.firstRow()" ng-class="{higlight : view.firstText == 'selected' }"
+            ng-click="view.firstRow()" ng-class="{activeLabel : view.firstText == 'selected' }"
             > <!-- ng-click ="view.firstRow()" -->
             <!-- <input type="radio" name="group1"
               ng-disabled="!view.readonly"
@@ -148,7 +148,7 @@
          <label class="item item-radio item-input-type"
             ng-disabled="!view.readonly"
             ng-click="view.secondRow()"
-            ng-class="{higlight : view.secondText == 'selected' }"
+            ng-class="{activeLabel : view.secondText == 'selected' }"
             >  <!-- ng-click="view.secondRow()" -->
             <!-- <input type="radio" name="group1"
               ng-value="view.secondText"
