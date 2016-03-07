@@ -62,8 +62,9 @@ class UserController extends Controller
 
         $user = new User;
         $name =  ucfirst($request->input('name'));
+        $email = $request->input('email');
         $user->name = $name;
-        $user->email = $request->input('email');
+        $user->email = $email;
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
         $user->type = 'project_user'; 
@@ -110,10 +111,9 @@ class UserController extends Controller
         
         $data =[];
         $data['name'] = $name;
-        $data['email'] = $user->email;
+        $data['email'] = $email;
         $data['password'] = $password;
         $data['loginUrls'] = $projectUrlStr;
-
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -132,17 +132,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $data =[];
-        $data['name'] = 'PRAJAY';
-        $data['email'] = 'prajay@ajency.in';
-        $data['password'] = '';
-        $data['loginUrls'] = '';
-
- 
-        Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
-        {  
-            $message->to($data['email'], $data['name'])->subject('Welcome to Mylan!');
-        });
+        //
     }
 
     /**
