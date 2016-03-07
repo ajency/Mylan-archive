@@ -1113,4 +1113,7 @@ input::-ms-input-placeholder {
 .questionnaire-text-field:focus {
   outline: none;
 }
+::ms-reveal {
+  display: none;
+}
 /*# sourceMappingURL=style.css.map */
