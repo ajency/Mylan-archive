@@ -42,7 +42,7 @@ class UserController extends Controller
         
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-        $projects = Projects:: all()->toArray(); 
+        $projects = Projects:: where('hospital_id',$hospital['id'])->get()->toArray(); 
 
         return view('hospital.user-add')->with('active_menu', 'users')
                                     ->with('projects', $projects)
@@ -62,8 +62,9 @@ class UserController extends Controller
 
         $user = new User;
         $name =  ucfirst($request->input('name'));
+        $email = $request->input('email');
         $user->name = $name;
-        $user->email = $request->input('email');
+        $user->email = $email;
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
         $user->type = 'project_user'; 
@@ -73,6 +74,8 @@ class UserController extends Controller
         $userId = $user->id;
 
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
+        $hospitalName = $hospital['name'];
+        $projectUrlStr = '';
         
         $projects = $request->input('projects');
         if(!empty($projects))
@@ -90,14 +93,27 @@ class UserController extends Controller
                 $userAccess->access_type = $access; 
                 $userAccess->save();
             }
+
+
+            $projectsData = Projects::whereIn('id',$projects)->get()->toArray();
+            
+            foreach ($projectsData as $key => $projectData) {
+                
+                $projectName = $projectData['name'];
+                $urlSlug = $projectData['project_slug'];
+                $projectUrlStr .= $hospitalName  .' ('.$projectName.') : '.url().'/'.$hospitalSlug .'/'.$urlSlug. ' <br>';
+                 
+            }
+
+            
             
         }
         
         $data =[];
         $data['name'] = $name;
-        $data['email'] = $user->email;
+        $data['email'] = $email;
         $data['password'] = $password;
-
+        $data['loginUrls'] = $projectUrlStr;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -130,7 +146,7 @@ class UserController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $projects = Projects:: all()->toArray(); 
+        $projects = Projects:: where('hospital_id',$hospital['id'])->get()->toArray(); 
         $user = User::find($id)->toArray();
         $userAccess = UserAccess::where(['user_id'=>$id,'object_type'=>'project'])->get()->toArray();  
         
