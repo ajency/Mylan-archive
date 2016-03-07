@@ -39,7 +39,7 @@ class SubmissionController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",

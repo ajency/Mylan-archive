@@ -71,7 +71,7 @@ class ProjectController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -84,7 +84,7 @@ class ProjectController extends Controller
                      );
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
@@ -1070,7 +1070,7 @@ class ProjectController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -1205,7 +1205,7 @@ class ProjectController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",
