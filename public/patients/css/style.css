@@ -111,6 +111,7 @@ p {
 }
 .navbar.navbar-default .navbar-brand {
   padding: 3px 10px;
+  padding-top: 6px;
 }
 .navbar.navbar-default .navbar-brand .hospital-name {
   display: inline-block;

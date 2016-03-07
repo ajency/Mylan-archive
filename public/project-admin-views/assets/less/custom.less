@@ -1035,18 +1035,13 @@ ul.ui-multiselect-checkboxes{
 }
 
 
+// Breadcrum first letter caps
 
-
-
-
-// .breadcrumb{
-// 	li{
-// 		a{
-// 		text-transform: lowercase;
-// 			&:first-letter{
-// 				text-transform: inherit;
-// 			}
-// 		}
-// 	}
-// }
+.breadcrumb{
+	li{
+		&.active{
+			text-transform: capitalize;
+		}
+	}
+}
 
