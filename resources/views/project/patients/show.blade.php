@@ -292,7 +292,7 @@
                                       <td class="text-center text-warning">0</td>
                                       <td class="text-left  text-success">0</td>
 
-                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
