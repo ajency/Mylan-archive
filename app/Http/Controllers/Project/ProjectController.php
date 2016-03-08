@@ -1112,7 +1112,7 @@ class ProjectController extends Controller
             }
             elseif ($responseStatus=='late') {
                 $lateResponses[]= $response;
-                $patientSubmissions[] = $response;
+                //$patientSubmissions[] = $response;
             }
             elseif ($responseStatus=='missed') {
                 $missedResponses[]= $response;

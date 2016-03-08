@@ -328,7 +328,7 @@ class PatientController extends Controller
             }
             elseif ($responseStatus=='late') {
                 $lateResponses[]= $response;
-                $patientSubmissions[] = $response;
+                // $patientSubmissions[] = $response;
             }
             elseif ($responseStatus=='missed') {
                 $missedResponses[]= $response;
@@ -538,8 +538,6 @@ class PatientController extends Controller
 
         }
 
-        
- 
         return $baseLineAnswers;
     }
 
@@ -564,6 +562,9 @@ class PatientController extends Controller
             $comparedToBaseLine = $response->get("comparedToBaseLine");
             $sequenceNumber = $response->get("sequenceNumber");
 
+            $baseLineScore = $response->get("baseLineScore");
+            $previousScore = $response->get("previousScore");
+
 
             $baseLineTotalRedFlags = $response->get("baseLineTotalRedFlags");
             $baseLineTotalAmberFlags = $response->get("baseLineTotalAmberFlags");
@@ -584,7 +585,7 @@ class PatientController extends Controller
             $greenFlagsBySubmission[$sequenceNumber]['previous']=$previousTotalGreenFlags;
 
             $totalFlagsBySubmission[$sequenceNumber] = $totalScore;
-            $baseLineBySubmission[$sequenceNumber] = $totalScore + $comparedToBaseLine;
+            $baseLineBySubmission[$sequenceNumber] = $baseLineScore;
             
         }
 
@@ -967,7 +968,7 @@ class PatientController extends Controller
 
         $filterType = (isset($inputs['type']))?$inputs['type']:'';
 
-        $responseStatus = ["completed","late"];
+        $responseStatus = ["completed"]; //,"late"
         $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
         $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
@@ -1132,7 +1133,7 @@ class PatientController extends Controller
 
         }
 
-        $responseStatus = ["completed","late"]; 
+        $responseStatus = ["completed"]; //,"late"
         $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,$sort);  
 
         $patientSortedData =[];
