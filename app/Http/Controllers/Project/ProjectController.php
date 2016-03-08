@@ -1173,6 +1173,7 @@ class ProjectController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('project', $project)
                                         ->with('referenceCode', $referenceCode)
+                                        ->with('totalResponses', $totalResponses)
                                         ->with('responseRate', $responseRate)
                                         ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('flagsQuestions', $flagsQuestions)

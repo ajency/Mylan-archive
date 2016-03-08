@@ -117,7 +117,11 @@
                            <br>
                               <div class="row">
                                  <div class="col-sm-6">
+                                @if(!empty($submissionsSummary))
                                     <div class="row"><div id="piechart"></div></div>
+                                @else 
+                                    <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                @endif
                                  </div>
                                  <div class="col-sm-6">
                                  <div class="row">
@@ -229,8 +233,12 @@
                                </div>
                             </div>
                           </div>
-                           <div class="grid-body no-border table-data ">                              
+                           <div class="grid-body no-border table-data ">
+                            @if(!empty($submissionsSummary))                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
+                            @else 
+                              <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                            @endif
                            </div>
                         </div>
                   <div class="grid simple grid-table">
@@ -287,7 +295,7 @@
                          </div>
                           @if(!empty($submissionsSummary))   
                               @foreach($submissionsSummary as $responseId=> $submission)
-                                 @if($submission['status']=='missed')
+                                 @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
                                       <td class="text-center">{{ $submission['patient'] }}</td>
                                        <td class="text-center">

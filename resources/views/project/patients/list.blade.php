@@ -86,7 +86,11 @@
          <div class="col-md-5">
             <div class="tiles white added-margin">
                <div class="tiles-body">
+                @if(!empty($patients))   
                   <div id="piechart"></div>
+                @else 
+                <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                @endif
                </div>
             </div>
          </div>

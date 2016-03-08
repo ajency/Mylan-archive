@@ -56,7 +56,11 @@
                            <div class="col-md-4">
                               <div class="tiles white added-margin">
                                  <div class="tiles-body">
+                                  @if(!empty($submissionsSummary))     
                                     <div id="submissionschart"></div>
+                                  @else 
+                                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                  @endif
                                  </div>
                               </div>
                            </div>
@@ -158,7 +162,7 @@
                          </div>
                           @if(!empty($submissionsSummary))     
                               @foreach($submissionsSummary as $responseId=> $submission)
-                                 @if($submission['status']=='missed')
+                                 @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
                                       <td class="text-center">{{ $submission['patient'] }}</td>
                                        <td>
