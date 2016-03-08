@@ -269,7 +269,7 @@ class ProjectController extends Controller
       $str = '';
       foreach($submissionsSummary as $responseId=> $submission)
       {
-            if($submission['status']=='missed')
+            if($submission['status']=='missed' || $submission['status']=='late')
             {
                 $str .='<tr >';
                 if($inputs['object_type']=="submission")
@@ -610,7 +610,7 @@ class ProjectController extends Controller
             }
             elseif ($responseStatus=='late') {
                 $lateResponses[]= $responseId;
-                $patientSubmissions[]=$response;
+                // $patientSubmissions[]=$response;
             }
             elseif ($responseStatus=='missed') {
                 $missedResponses[]= $responseId;
