@@ -37,6 +37,7 @@ class HospitalPermission
         $uri        =[  '{hospitalslug}'=>['view','edit'],
                         '{hospitalslug}/dashboard'=>['view','edit'],
                         '{hospitalslug}/patients/{id}/validatereferncecode'=>['edit'],
+                        '{hospitalslug}/users/{id}/authuseremail'=>['edit'],
                         ]; 
 
         $resourceName = $request->route()->getName(); 

@@ -23,6 +23,7 @@ $.ajaxSetup({
  
 $('.validateRefernceCode').change(function (event) { 
     // $(".cf-loader").removeClass('hidden');
+    $(".reference_code").closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
         type: "POST",
@@ -33,8 +34,41 @@ $('.validateRefernceCode').change(function (event) {
         success: function (response) {
             if (!response.data)
             {   
-                alert('Reference Code Already Taken');
+ 
+                $("#reference_code").closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference Code Already Taken</li>')
                 $("#reference_code").val('');
+            }
+
+            // $(".cf-loader").addClass('hidden');
+        }
+    });
+    
+ 
+});
+
+
+$('.authUserEmail').change(function (event) { 
+    // $(".cf-loader").removeClass('hidden');
+    
+    $(".authUserEmail").closest('.form-row').find('.parsley-errors-list').find('.emailError').remove();
+    var USER_ID = $(this).attr('objectId');
+    if($(this).attr('objectType')=='hospital')
+      var URL = BASEURL+"/admin/users/"+USER_ID+"/authuseremail";
+    else
+      var URL = BASEURL+"/users/"+USER_ID+"/authuseremail";
+
+    $.ajax({
+        url: URL ,
+        type: "POST",
+        data: {
+            email: $(this).val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            if (!response.data)
+            {   
+                $(".authUserEmail").closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required emailError">Email Already Taken</li>');
+                $(".authUserEmail").val('');
             }
 
             // $(".cf-loader").addClass('hidden');

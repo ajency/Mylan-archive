@@ -65,7 +65,7 @@ Route::resource( 'user-access', 'Admin\UserAccessController' );
 
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
-
+Route::post( 'users/{id}/authuseremail', 'Admin\UserController@authUserEmail' );
 });
 
 
@@ -75,6 +75,7 @@ Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital
 // Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
+Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
 // Route::resource( 'patients', 'Hospital\PatientController' );
 // Route::resource( 'submissions', 'Hospital\SubmissionController' );
 

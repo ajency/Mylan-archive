@@ -39,6 +39,11 @@
          var STARTDATE = '';
          var ENDDATE = '';
       </script>
+
+      <!-- BEGIN TRACKJS -->
+      <script type="text/javascript">window._trackJs = { token: '21aaf9c6cfae433389d70210a39dabaf' };</script>
+      <script type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"></script>
+      <!-- END TRACKJS -->
    </head>
    <!-- END HEAD -->
    <!-- BEGIN BODY -->

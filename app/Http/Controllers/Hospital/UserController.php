@@ -212,6 +212,35 @@ class UserController extends Controller
         return redirect(url($hospitalSlug . '/users/' . $userId . '/edit'));
     }
 
+    public function authUserEmail(Request $request, $hospitalSlug,$userId) {
+        $email = $request->input('email');
+        
+        $msg = '';
+        $flag = true;
+
+
+        if ($userId)
+            $patientData = User::where('email', $email)->where('type','!=', 'patient')->where('id', '!=', $userId)->get()->toArray();
+        else
+            $patientData = User::where('email', $email)->where('type','!=', 'patient')->get()->toArray();
+
+
+        
+        $status = 201;
+        if (!empty($patientData)) {
+            $msg = 'Emai Already Taken';
+            $flag = false;
+            $status = 200;
+        }
+
+
+        return response()->json([
+                    'code' => 'reference_validation',
+                    'message' => $msg,
+                    'data' => $flag,
+                        ], $status);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
