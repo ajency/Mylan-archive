@@ -23,7 +23,11 @@ $.ajaxSetup({
  
 $('.validateRefernceCode').change(function (event) { 
     // $(".cf-loader").removeClass('hidden');
-    $(".reference_code").closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
+    var controlObj = $(".reference_code");
+    controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
+    controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
+    controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
+
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
         type: "POST",
@@ -35,8 +39,10 @@ $('.validateRefernceCode').change(function (event) {
             if (!response.data)
             {   
  
-                $("#reference_code").closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference Code Already Taken</li>')
-                $("#reference_code").val('');
+                controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference code already taken</li>')
+                controlObj.val('');
+                controlObj.closest('.form-row').find('.cf-loader').remove();
+                controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
             }
 
             // $(".cf-loader").addClass('hidden');
@@ -48,9 +54,10 @@ $('.validateRefernceCode').change(function (event) {
 
 
 $('.authUserEmail').change(function (event) { 
-    // $(".cf-loader").removeClass('hidden');
-    
-    $(".authUserEmail").closest('.form-row').find('.parsley-errors-list').find('.emailError').remove();
+  var controlObj = $(".authUserEmail");
+    controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
+    controlObj.closest('.form-row').find('.parsley-errors-list').find('.emailError').remove();
+    controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
     var USER_ID = $(this).attr('objectId');
     if($(this).attr('objectType')=='hospital')
       var URL = BASEURL+"/admin/users/"+USER_ID+"/authuseremail";
@@ -67,8 +74,10 @@ $('.authUserEmail').change(function (event) {
         success: function (response) {
             if (!response.data)
             {   
-                $(".authUserEmail").closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required emailError">Email Already Taken</li>');
-                $(".authUserEmail").val('');
+                controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required emailError">Email already taken</li>');
+                controlObj.val('');
+                controlObj.closest('.form-row').find('.cf-loader').remove();
+                controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
             }
 
             // $(".cf-loader").addClass('hidden');
