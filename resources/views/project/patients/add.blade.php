@@ -6,7 +6,7 @@
       <ul class="breadcrumb">
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
-        <li><a href="#" class="active">add</a> </li>
+        <li><a href="#" class="active">Add</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->
