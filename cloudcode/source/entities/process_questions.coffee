@@ -1842,6 +1842,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
 	responseQuery.include('questionnaire')
+	responseQuery.include('schedule')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
 		getBaseLineScores(responseObj) 
@@ -1850,11 +1851,14 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 			.then (previous) ->
 				questionnaireObj = responseObj.get "questionnaire"
 				occurrenceDate = responseObj.get "occurrenceDate"
+				scheduleObj = responseObj.get "schedule"
 
-				if isLateSubmission(questionnaireObj,occurrenceDate)
-					status = "late"
-				else
-					status = "completed"
+				# if isLateSubmission(questionnaireObj,occurrenceDate)
+				# 	status = "late"
+				# else
+				# 	status = "completed"
+
+				status = "completed"
 
 				responseObj.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
 				responseObj.set "baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']
@@ -1868,7 +1872,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 				responseObj.set "previousFlag", previous['previousFlag']
 				responseObj.set "status", status
 				responseObj.set "totalScore", BaseLine['totalScore']
-				responseObj.set "baseLine", BaseLine['baseLine']
+				# responseObj.set "baseLine", BaseLine['baseLine']
 				responseObj.set "baseLineScore", BaseLine['baseLineScore']
 				responseObj.set "previousScore", previous['previousScore']
 				if previous['previousSubmission'] !=''
@@ -1878,6 +1882,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 					if previous['previousTotalRedFlags'] >= 2
 						patientId = responseObj.get("patient")
 						project = responseObj.get("project")
+						sequenceNumber = responseObj.get("sequenceNumber")
 						alertType = "compared_to_previous_red_flags"
 						createAlerts(patientId, project, alertType, responseId) 
 						.then (BaseLine) ->
@@ -2076,62 +2081,55 @@ getPreviousScores = (responseObj) ->
 
 
 
-getBaseLineScores = (responseObj) -> 
-	promise = new Parse.Promise()
-	responseQuery = new Parse.Query('Response')
-	responseQuery.equalTo('patient', responseObj.get('patient'))
-	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
-	responseQuery.equalTo('status', 'base_line')
-	responseQuery.descending('createdAt')
-	responseQuery.first()
-	.then (responseBaseLine) ->
+getBaseLineScores = (responseObj) ->
+	responseBaseLine = responseObj.get('baseLine') 
+	
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.equalTo('response', responseBaseLine)
+	answerQuery.include('question')
+	answerQuery.find()
+	.then (answersBaseLine) ->
 		answerQuery = new Parse.Query('Answer')
-		answerQuery.equalTo('response', responseBaseLine)
 		answerQuery.include('question')
+		answerQuery.equalTo('response', responseObj)
 		answerQuery.find()
-		.then (answersBaseLine) ->
-			answerQuery = new Parse.Query('Answer')
-			answerQuery.include('question')
-			answerQuery.equalTo('response', responseObj)
-			answerQuery.find()
-			.then (answers) ->
-				totalBaseLineScore = 0
-				totalAnswerScore = 0
-				totalRedFlags = 0
-				totalAmberFlags = 0
-				totalGreenFlags = 0
+		.then (answers) ->
+			totalBaseLineScore = 0
+			totalAnswerScore = 0
+			totalRedFlags = 0
+			totalAmberFlags = 0
+			totalGreenFlags = 0
 
-				for answer in answers
-					if answer.get('baseLineFlag') == 'red'
-						totalRedFlags = parseInt(totalRedFlags) + 1
-					else if answer.get('baseLineFlag') == 'amber'
-						totalAmberFlags = parseInt(totalAmberFlags) + 1
-					else if answer.get('baseLineFlag') == 'green'
-						totalGreenFlags = parseInt(totalGreenFlags) + 1
+			for answer in answers
+				if answer.get('baseLineFlag') == 'red'
+					totalRedFlags = parseInt(totalRedFlags) + 1
+				else if answer.get('baseLineFlag') == 'amber'
+					totalAmberFlags = parseInt(totalAmberFlags) + 1
+				else if answer.get('baseLineFlag') == 'green'
+					totalGreenFlags = parseInt(totalGreenFlags) + 1
 
-					if answer.get('question').get('type') == 'single-choice'
-						totalAnswerScore += answer.get('score')
+				if answer.get('question').get('type') == 'single-choice'
+					totalAnswerScore += answer.get('score')
 
-				for answer in answersBaseLine
-					if answer.get('question').get('type') == 'single-choice'
-						totalBaseLineScore += answer.get('score')
-				BaseLine = {}
-				BaseLine['baseLine'] = responseBaseLine
-				BaseLine['totalScore'] = totalAnswerScore
-				BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore
-				BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore)
-				BaseLine['baseLineTotalRedFlags'] = totalRedFlags
-				BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags
-				BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags
-				BaseLine['baseLineScore'] = totalBaseLineScore
+			for answer in answersBaseLine
+				if answer.get('question').get('type') == 'single-choice'
+					totalBaseLineScore += answer.get('score')
+			BaseLine = {}
+			BaseLine['baseLine'] = responseBaseLine
+			BaseLine['totalScore'] = totalAnswerScore
+			BaseLine['comparedToBaseLine'] = totalBaseLineScore - totalAnswerScore
+			BaseLine['baseLineFlag'] = getFlag(totalBaseLineScore - totalAnswerScore)
+			BaseLine['baseLineTotalRedFlags'] = totalRedFlags
+			BaseLine['baseLineTotalAmberFlags'] = totalAmberFlags
+			BaseLine['baseLineTotalGreenFlags'] = totalGreenFlags
+			BaseLine['baseLineScore'] = totalBaseLineScore
 
-				promise.resolve(BaseLine)
-			, (error) ->
-				promise.reject error
+			promise.resolve(BaseLine)
 		, (error) ->
 			promise.reject error
 	, (error) ->
 		promise.reject error
+
 	promise	
 
 
@@ -2197,12 +2195,12 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 	promise = new Parse.Promise()
 
-	previousSubmission = responseObj.get('previousSubmission')
-
 	answerQuery = new Parse.Query('Answer')
+	answerQuery.equalTo("question", questionObject)
 	answerQuery.include('response')
 	answerQuery.include('option')
-	answerQuery.equalTo("response", previousSubmission)
+	answerQuery.equalTo("patient", patientId)
+	answerQuery.notEqualTo("response", responseObj)
 	answerQuery.descending('updatedAt');
 	answerQuery.find()
 	.then (answerObjects) ->
@@ -2232,45 +2230,6 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 		promise.reject error
 
 	promise
-# OLD SCRIPT
-# getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
-# 	promise = new Parse.Promise()
-
-# 	answerQuery = new Parse.Query('Answer')
-# 	answerQuery.equalTo("question", questionObject)
-# 	answerQuery.include('response')
-# 	answerQuery.include('option')
-# 	answerQuery.equalTo("patient", patientId)
-# 	answerQuery.notEqualTo("response", responseObj)
-# 	answerQuery.descending('updatedAt');
-# 	answerQuery.find()
-# 	.then (answerObjects) ->
-# 		result = {}
-# 		answerObjects = (answerObj for answerObj in answerObjects when (answerObj.get('response').get('status') == 'completed' || answerObj.get('response').get('status') == 'late'))
-# 		if !_.isEmpty answerObjects
-
-# 				optionIds = []
-# 				if questionObject.get('type') == 'multi-choice'
-# 					first = answerObjects[0].get('response').id
-# 					optionIds = (answerObj.get('option').id  for answerObj in answerObjects when answerObj.get('response').id == first)
-# 				else if questionObject.get('type') == 'input'
-# 					first = answerObjects[0].get('response').id
-# 					optionIds = ({id:answerObj.get('option').id, label:answerObj.get('option').get('label'), value:answerObj.get('value'), score:answerObj.get('option').get('score')}  for answerObj in answerObjects when answerObj.get('response').id == first)
-# 				else 
-# 					if !_.isUndefined(answerObjects[0])
-# 						optionIds = [answerObjects[0].get('option').id] if !_.isUndefined(answerObjects[0].get('option')) 
-
-# 				result = 
-# 					"optionId" : optionIds
-# 					"value" : answerObjects[0].get('value')
-# 					"date" : answerObjects[0].updatedAt
-# 					"answerId": answerObjects[0].id
-
-# 		promise.resolve result
-# 	, (error) ->
-# 		promise.reject error
-
-# 	promise
 
 # getPatientPreviousResponse =  (responseObj, patientId) ->
 # 	promise = new Parse.Promise()
