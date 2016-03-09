@@ -66,7 +66,7 @@
     <br>
   </ion-content>
 
-  <div class="bar bar-footer submission" ng-if="view.display === 'noError'" >
+  <div class="bar bar-footer submission">
       <div class="button-bar">
          <button 
             class="button button-balanced"
@@ -76,7 +76,7 @@
          </button>
          <button 
             class="button button-assertive"
-            ng-if = "view.hideButton === false"
+            ng-if = "view.hideButton === false && view.display === 'noError'"
             ng-click="view.submitSummary()">
          Submit
          </button>
