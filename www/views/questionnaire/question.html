@@ -157,7 +157,7 @@
               ng-click="view.secondRow()"> -->
             <div class="item-content">
              <span><i class="ion-checkmark"></i></span> 
-             <sm ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">
+             <sm class="label-option" ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">
                 <input
                     type="tel" 
                     ng-model="view.val_answerValue[kgLabel.option]"

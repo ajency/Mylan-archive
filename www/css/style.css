@@ -1411,4 +1411,10 @@ ul .mcq_active div span {
   background: #7bc67a !important;
   color: #fff;
 }
+.label-option {
+  display: block;
+  width: auto;
+  height: 40px;
+  float: left;
+}
 /*# sourceMappingURL=style.css.map */
