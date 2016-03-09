@@ -118,7 +118,7 @@
                               <div class="row">
                                  <div class="col-sm-6">
                                 @if(!empty($submissionsSummary))
-                                    <div class="row"><div id="piechart"></div></div>
+                                    <div class="row"><div id="piechart" class="piechart-height"></div></div>
                                 @else 
                                     <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
                                 @endif
@@ -577,6 +577,7 @@
          .demo i {
          position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
          }
+
       </style>
       <script type="text/javascript">
       
