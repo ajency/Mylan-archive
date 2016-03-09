@@ -26,7 +26,7 @@ PARSE_URL = 'https://api.parse.com/1/functions'
 PARSE_HEADERS =
 	headers:
 		"X-Parse-Application-Id" : APP_ID
- 		"X-Parse-REST-API-KeY" : REST_API_KEY
+		"X-Parse-REST-API-KeY" : REST_API_KEY
 
 
 ## production ####

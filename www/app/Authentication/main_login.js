@@ -37,7 +37,10 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   });
                 }
                 if (data.code === 'limit_exceeded') {
-                  return _this.loginerror = 'Cannot do setup more then 5 times';
+                  _this.loginerror = 'Cannot do setup more then 5 times';
+                }
+                if (data.code === 'invalid_login') {
+                  return _this.loginerror = 'Credentials entered are invalid';
                 } else if (data.code === 'password_not_set') {
                   return _this.loginerror = 'No password set for the reference code';
                 } else {

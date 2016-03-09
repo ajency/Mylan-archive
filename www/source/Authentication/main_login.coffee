@@ -40,6 +40,8 @@ angular.module 'PatientApp.Auth'
 									console.log error
 							if data.code == 'limit_exceeded'
 								@loginerror = 'Cannot do setup more then 5 times'
+							if data.code == 'invalid_login'
+								@loginerror = 'Credentials entered are invalid'
 							else if data.code == 'password_not_set'
 								@loginerror = 'No password set for the reference code'
 							else
