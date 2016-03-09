@@ -250,6 +250,22 @@ class ProjectController extends Controller
             
         }
 
+        if(isset($inputs['cond']))
+        { 
+            $filterBy = $inputs['cond'];
+            $filterData = explode('-', $inputs['cond']);
+            if(count($filterData)==2 && $filterData[0]!='')
+            {
+                if($filterData[0]=='unreviewed')
+                    $cond = ['reviewed'=>'unreviewed'];
+                else
+                    $cond = [$filterData[1]=>$filterData[0]];
+            }
+            
+        }
+
+        
+
         if($inputs['object_type']=="patient-submission")
         {
             $patients[] =$inputs['object_id'];
