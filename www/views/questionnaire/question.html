@@ -86,36 +86,6 @@
       </div>
       </div>
 
-<!--  <div class="list">
-        <label class="item item-radio item-input-type">
-            <div class="item-content">
-              <span>1</span>            
-            <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="Kgs"
-              />
-               </div>
-          
-        </label> 
-        <label class="item item-radio item-input-type">
-            <div class="item-content">
-              <span>2</span>            
-            <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="ST"
-              />
-              
-             <input 
-              id = "numberType"
-              type="tel" 
-              placeholder="LBS"
-              />
-               </div>
-        </label> 
-      </div> -->
-
       <div class="list"
       ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
@@ -150,11 +120,7 @@
             ng-click="view.secondRow()"
             ng-class="{activeLabel : view.secondText == 'selected' }"
             >  <!-- ng-click="view.secondRow()" -->
-            <!-- <input type="radio" name="group1"
-              ng-value="view.secondText"
-              ng-model="view.weightValue"
-              ng-disabled="!view.readonly"
-              ng-click="view.secondRow()"> -->
+
             <div class="item-content">
              <span><i class="ion-checkmark"></i></span> 
              <sm class="label-option" ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">
@@ -168,13 +134,7 @@
                     />
                     <B>{{kgLabel.option}}</B>
               </sm>
-                  <!--  <input 
-                    id = "numberType"
-                    type="tel" 
-                    placeholder="lbs" class="question"
-                    ng-model="view.val_answerValue['lbs']"
-                    ng-disable="view.secondRowStatus"
-                    /> -->
+                 
             </div>
          </div>
        </div>
@@ -203,49 +163,7 @@
         </div>
       </div>
 
-      <!-- <div class="row" 
-          ng-if='view.data.questionType == "input" && view.data.options[0].id === "FJQBaKmxpR"'>
-       
-        <div
-          text-select
-          class="col ">
-
-          <label class="item-input  input-lable  item-icon-right">
-
-           <input class="b-b b-t b-l b-r"
-              id = "numberType"
-              type="tel" 
-              placeholder="Kg"
-              ng-model="view.val_answerValue['Kg']"
-              ng-readonly = "!view.readonly"/>
-        </div>
-
-       
-        <div
-          text-select
-          class="col ">
-           <label class="item-input  input-lable  item-icon-right">
-          <input class="b-b b-t b-l b-r"
-              id = "numberType"
-              type="tel" 
-              placeholder="St"
-              ng-model="view.val_answerValue['ST']"
-              ng-readonly = "!view.readonly"/>
-        </div>
-
-        <div
-          text-select
-          class="col ">
-           <label class="item-input  input-lable  item-icon-right">
-          <input class="b-b b-t b-l b-r"
-              id = "numberType"
-              type="tel" 
-              placeholder="Lbs"
-              ng-model="view.val_answerValue['lbs']"
-              ng-readonly = "!view.readonly"/>
-        </div>
-
-      </div> -->
+    
 
       <div class="row" ng-if='view.data.questionType == "descriptive"'>
         <div 
@@ -271,10 +189,7 @@
       <div 
         class="padding row">
           <div class="col">
-         <!--      <h4 class="q-title">
-                <span class="badge badge-assertive badge-round">Q</span>&nbsp;
-                {{view.data.questionTitle}}
-              </h4> -->
+
               <h5 class="q-title"
                 ng-if = 'view.data.questionType == "single-choice"'>
                 <b class="assertive">Q :</b>&nbsp; {{view.data.question}}
@@ -295,23 +210,7 @@
                              Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  <b class="assertive">{{ view.data.previousQuestionnaireAnswer.label }}</b>
  
              </div>
-       <!--      <div class="col col-50">  
-              <h6 class="f-w-400 text-green">
-              Previous Answers &nbsp;&nbsp;
-              </h6>
-            </div>
-            <div class="col col-50 text-right">  
-              <small>
-                {{ view.data.previousQuestionnaireAnswer.dateDisplay }}
-              </small>
-            </div>
-          </div>
-          <div class="padding prev-ques-ans">
-            <p class="f-w-400 text-green">
-              Last time you answered option: &nbsp;
-                {{ view.data.previousQuestionnaireAnswer.label }}
-            </p>
-          </div> -->
+
         </div>
 
       </div>
