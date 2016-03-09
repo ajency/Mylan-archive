@@ -617,7 +617,7 @@
              "valueField": "value",
              "labelRadius": 5,
 
-             "radius": "42%",
+             "radius": "36%",
              "innerRadius": "60%",
              "labelText": "[[title]]",
              "export": {
