@@ -1411,4 +1411,7 @@ ul .mcq_active div span {
   background: #7bc67a !important;
   color: #fff;
 }
+.list label:last-child {
+  border-bottom: 0px;
+}
 /*# sourceMappingURL=style.css.map */
