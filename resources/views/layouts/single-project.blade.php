@@ -244,7 +244,7 @@
                   'This Month': [moment().startOf('month'), moment().endOf('month')],
                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                   'Last 6 Months': [moment().subtract(6, 'months'), moment()],
-                  'Last 12 Months': [moment().subtract(12, 'months'), moment().subtract(1, 'days')],
+                  'Last 12 Months': [moment().subtract(12, 'months'), moment()],
                     
                  },
          "startDate": moment(STARTDATE),

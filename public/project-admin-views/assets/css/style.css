@@ -8916,4 +8916,10 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .breadcrumb li.active {
   text-transform: capitalize;
 }
+.theme-color {
+  color: #05A8A5;
+}
+.baseline-color {
+  color: #576475;
+}
 /*# sourceMappingURL=style.css.map */
