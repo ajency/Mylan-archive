@@ -1133,7 +1133,7 @@ class PatientController extends Controller
 
         }
 
-        $responseStatus = ["completed"]; //,"late"
+        $responseStatus = ["completed","late"]; //
         $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,$sort);  
 
         $patientSortedData =[];
