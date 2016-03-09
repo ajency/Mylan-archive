@@ -43,7 +43,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
                   }
                 }, function(error) {
                   if (error === 'offline') {
-                    return _this.passwordmissmatch = 'Check net connection';
+                    return _this.passwordmissmatch = 'Please check your internet connection';
                   } else if (error === 'server_error') {
                     return _this.passwordmissmatch = 'Error in setting password,server error';
                   } else {
@@ -55,7 +55,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
               };
             })(this));
           } else {
-            return this.passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.';
+            return this.passwordmissmatch = 'Passwords do not match, please enter again';
           }
         }
       },

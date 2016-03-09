@@ -57,7 +57,7 @@ angular.module 'PatientApp.Auth',[]
 		                        	if App.previousState == 'setup' then  App.navigate "main_login" else CToast.show 'Your password is updated '
 		                        , (error)=>
 		                        	if error == 'offline'
-		                        		@passwordmissmatch ='Check net connection'
+		                        		@passwordmissmatch ='Please check your internet connection'
 		                        	else if error == 'server_error'
 		                        		@passwordmissmatch = 'Error in setting password,server error'
 		                        	else
@@ -65,7 +65,7 @@ angular.module 'PatientApp.Auth',[]
 		                        .finally ()->
 		                        	CSpinner.hide()
 						else	
-							@passwordmissmatch = 'Passwords Do Not Match, Please Enter Again.'
+							@passwordmissmatch = 'Passwords do not match, please enter again'
 
 			clear:->
 				@passwordmissmatch= ""	
