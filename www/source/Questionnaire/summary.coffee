@@ -50,7 +50,7 @@ angular.module 'PatientApp.Quest'
 					# deregister()
 				,(error)=>
 					if error == 'offline'
-						CToast.showLongBottom 'Check internet connection,The questionnaire has not been submitted'
+						CToast.showLongBottom 'Please check your internet connection'
 					else if error == 'server_error'
 						CToast.showLongBottom 'Error in submitting questionnaire,Server error'
 					else

@@ -55,7 +55,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this), (function(_this) {
           return function(error) {
             if (error === 'offline') {
-              return CToast.showLongBottom('Check internet connection,The questionnaire has not been submitted');
+              return CToast.showLongBottom('Please check your internet connection');
             } else if (error === 'server_error') {
               return CToast.showLongBottom('Error in submitting questionnaire,Server error');
             } else {
