@@ -1,9 +1,10 @@
 angular.module('PatientApp.dashboard').controller('StartQuestionnaireCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', function($scope, App, Storage, QuestionAPI, DashboardAPI) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', '$stateParams', function($scope, App, Storage, QuestionAPI, DashboardAPI, $stateParams) {
     return $scope.view = {
-      startQuiz: function(quizID) {
+      startQuiz: function() {
+        console.log($stateParams.responseId);
         return App.navigate('questionnaire', {
-          respStatus: 'noValue'
+          respStatus: $stateParams.responseId
         });
       }
     };
@@ -11,7 +12,7 @@ angular.module('PatientApp.dashboard').controller('StartQuestionnaireCtrl', [
 ]).config([
   '$stateProvider', function($stateProvider) {
     return $stateProvider.state('start-questionnaire', {
-      url: '/start-questionnaire',
+      url: '/start-questionnaire:responseId',
       parent: 'main',
       views: {
         "appContent": {

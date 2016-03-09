@@ -23,8 +23,8 @@ angular.module 'PatientApp.dashboard',[]
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
 
-			startQuiz :() ->
-				App.navigate 'start-questionnaire'
+			startQuiz :(val) ->
+				App.navigate 'start-questionnaire', responseId:val
 
 			getSubmission : ->
 				@display = 'loader'
@@ -53,6 +53,10 @@ angular.module 'PatientApp.dashboard',[]
 						
 						if !_.isEmpty(_.where(@data, {status: "started"})) 
 							 arr.push _.where(@data, {status: "started"})
+
+						if !_.isEmpty(_.where(@data, {status: "late"})) 
+							 arr.push _.where(@data, {status: "late"})
+
 						if arr.length == 0 
 							@infoMsg = true
 						else

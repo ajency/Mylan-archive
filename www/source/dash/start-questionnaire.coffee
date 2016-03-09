@@ -1,11 +1,12 @@
 angular.module 'PatientApp.dashboard'
 
-.controller 'StartQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI)->
+.controller 'StartQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', '$stateParams'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, $stateParams)->
 
 		$scope.view =
-			startQuiz :(quizID) ->
-				App.navigate 'questionnaire', respStatus:'noValue'
+			startQuiz :() ->
+				console.log $stateParams.responseId
+				App.navigate 'questionnaire', respStatus: $stateParams.responseId
 ]
 
 .config ['$stateProvider', ($stateProvider)->
@@ -13,7 +14,7 @@ angular.module 'PatientApp.dashboard'
 	$stateProvider
 
 	.state 'start-questionnaire',
-			url: '/start-questionnaire'
+			url: '/start-questionnaire:responseId'
 			parent: 'main'
 			views: 
 				"appContent":

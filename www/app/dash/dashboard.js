@@ -18,8 +18,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       init: function() {
         return Storage.getNextQuestion('set', 1);
       },
-      startQuiz: function() {
-        return App.navigate('start-questionnaire');
+      startQuiz: function(val) {
+        return App.navigate('start-questionnaire', {
+          responseId: val
+        });
       },
       getSubmission: function() {
         this.display = 'loader';
@@ -56,6 +58,13 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               }))) {
                 arr.push(_.where(_this.data, {
                   status: "started"
+                }));
+              }
+              if (!_.isEmpty(_.where(_this.data, {
+                status: "late"
+              }))) {
+                arr.push(_.where(_this.data, {
+                  status: "late"
                 }));
               }
               if (arr.length === 0) {

@@ -75,7 +75,7 @@
                <div class="col col-20 text-right">
                   <button 
                      class="button button-block button-small button-assertive"
-                     ng-click = "view.startQuiz(submissions.quizId);">
+                     ng-click = "view.startQuiz('noValue');">
                      Start
                    </button>
                </div>
@@ -116,15 +116,15 @@
                   <!-- <button class="button button-block button-small button-balanced"  
                   ng-click = "view.summary(submissions.occurrenceId);">View</button> -->
                   <button 
-                     ng-if="submissions.answeredQuestions === false"
-                     class="button button-block button-small button-assertive"
-                     ng-click = "view.startQuiz(submissions.quizId);">
+                       ng-if="submissions.answeredQuestions === false"
+                       class="button button-block button-small button-assertive"
+                       ng-click = "view.startQuiz(submissions.occurrenceId);">
                      Start
                    </button>
                   <button 
                       ng-if="submissions.answeredQuestions === true"
-                     class="button button-block button-small button-assertive"
-                     ng-click = "view.resumeQuiz(submissions.occurrenceId);">
+                      class="button button-block button-small button-assertive"
+                      ng-click = "view.resumeQuiz(submissions.occurrenceId);">
                      Resume
                    </button>
 
