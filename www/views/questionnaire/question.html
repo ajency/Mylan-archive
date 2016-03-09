@@ -119,7 +119,7 @@
       <div class="list"
       ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
-         <label class="item item-radio item-input-type"
+         <div class="item item-radio item-input-type"
             ng-disabled="!view.readonly"
             ng-click="view.firstRow()" ng-class="{activeLabel : view.firstText == 'selected' }"
             > <!-- ng-click ="view.firstRow()" -->
@@ -143,9 +143,9 @@
                        <B>{{view.data.withkg.option}}</B>
                        <p style="display:none">firstText: {{view.firstText}} secondText: {{view.secondText}}</p>
             </div>
-         </label>
+         </div>
 
-         <label class="item item-radio item-input-type"
+         <div class="item item-radio item-input-type"
             ng-disabled="!view.readonly"
             ng-click="view.secondRow()"
             ng-class="{activeLabel : view.secondText == 'selected' }"
@@ -176,7 +176,7 @@
                     ng-disable="view.secondRowStatus"
                     /> -->
             </div>
-         </label>
+         </div>
        </div>
 
       <div class="row" 
