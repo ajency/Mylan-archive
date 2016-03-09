@@ -44,29 +44,41 @@ function getInputValues($values,$withLabel=true)
 {
     /*********
     $array['kg']=50
-    $array=['st'=>50,'lbs'=>30];
+    $array=['st'=>50,'lb'=>30];
 
     /******/
-    if(count($values)==1)
+    // if(count($values)==1)
+    // {
+    //     $result = current($values).' ';
+    //     $result .= ($withLabel)? key($values) :'';
+    // }
+    // else
+    // {
+    //     if(isset($values['st']) && isset($values['lb']))
+    //     {
+    //         $result = convertStonePoundsToKgs($values['st'],$values['lb']) ;
+    //         $result .= ($withLabel)? ' kg' :'';
+    //     }
+    //     else
+    //     {
+    //         $result = current($values).' ';
+    //         $result .= ($withLabel)? key($values) :'';
+    //     }
+        
+    // }
+
+
+    if(isset($values['st']) && isset($values['lb']))
+    {
+        $result = convertStonePoundsToKgs($values['st'],$values['lb']) ;
+        $result .= ($withLabel)? ' kg' :'';
+    }
+    else
     {
         $result = current($values).' ';
         $result .= ($withLabel)? key($values) :'';
     }
-    else
-    {
-        if(isset($values['st']) && isset($values['lb']))
-        {
-            $result = convertStonePoundsToKgs($values['st'],$values['lb']) ;
-            $result .= ($withLabel)? ' kg' :'';
-        }
-        else
-        {
-            $result = current($values).' ';
-            $result .= ($withLabel)? key($values) :'';
-        }
         
-    }
-
     return $result;
 } 
 

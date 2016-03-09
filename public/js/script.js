@@ -944,12 +944,17 @@ $('.sortSubmission').click(function (event) {
        var limit = $("#submissionData").attr('limit');
        var object_type = $("#submissionData").attr('object-type');
        var object_id = $("#submissionData").attr('object-id');
+
+       var cond_type = sortObject.closest('table').attr('cond-type'); 
+       var cond = sortObject.closest('table').attr('cond'); 
+
        sortObject.closest('.grid-body').find(".loader-outer").removeClass('hidden');
        $.ajax({
         url: BASEURL+"/getsubmissionlist",
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
+            cond: cond+'-'+cond_type,
             startDate:startDate ,
             endDate:endDate ,
             limit:limit ,

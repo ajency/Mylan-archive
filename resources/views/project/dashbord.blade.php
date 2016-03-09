@@ -251,7 +251,7 @@
                               </div> -->
                            </div>
                            <div class="grid-body no-border" style="display: block;">
-                              <table class="table table-flip-scroll table-hover dashboard-tbl">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
