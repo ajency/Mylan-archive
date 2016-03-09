@@ -54,9 +54,9 @@
             <div class="col"
               ng-if = 'view.data.questionType == "input"'>
               Previous answer on {{ view.data.previousQuestionnaireAnswer.dateDisplay }} was  
-              <b class="assertive" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId | orderBy:'score' track by $index"> 
+              <b class="assertive m-r-5" ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId | orderBy:'score' track by $index"> 
               {{inpt.value}} {{inpt.label}}
-              &nbsp; 
+             
               </b>
  
              </div>
@@ -86,7 +86,7 @@
       </div>
       </div>
 
-      <div class="list"
+      <div class="list question-type"
       ng-if='view.data.questionType == "input" && view.data.optionsLabel === true' >
  
          <div class="item item-radio item-input-type"
@@ -242,7 +242,7 @@
 
       <!-- single choice  -->
       <div 
-        class="list"
+        class="list question-type "
         ng-if = 'view.data.questionType == "single-choice"'>
         <label class="item item-radio"
           ng-repeat ="answerValue in view.data.options  | orderBy:'score' track by $index">

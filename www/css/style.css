@@ -33,6 +33,9 @@ p {
 .margin-none {
   margin: 0px;
 }
+.m-r-5 {
+  margin-right: 5px;
+}
 .ion-android-arrow-dropdown:before {
   margin-right: 13px;
 }
@@ -42,7 +45,7 @@ p {
 .summary-ans-label {
   margin-top: 10px;
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 10px;
 }
 .question-label {
   float: left;
@@ -1411,7 +1414,10 @@ ul .mcq_active div span {
   background: #7bc67a !important;
   color: #fff;
 }
-.list label:last-child {
+.question-type label:last-child {
+  border-bottom: 0px;
+}
+.question-type div:last-child {
   border-bottom: 0px;
 }
 /*# sourceMappingURL=style.css.map */
