@@ -67,7 +67,8 @@
   </ion-content>
 
   <div class="bar bar-footer submission">
-      <div class="button-bar">
+      <div class="button-bar"
+          ng-if = "view.display === 'noError' || view.display === 'error'">
          <button 
             class="button button-balanced"
             ng-click="view.back()"
