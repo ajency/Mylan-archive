@@ -935,7 +935,10 @@ function miniGraph(chartData,container)
 
 
 $('.sortSubmission').click(function (event) { 
-      var sortObject = $(this);
+       var startDate = $('input[name="startDate"]').val();
+       var endDate = $('input[name="endDate"]').val();
+
+       var sortObject = $(this);
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#submissionData").attr('limit');
@@ -947,6 +950,8 @@ $('.sortSubmission').click(function (event) {
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
+            startDate:startDate ,
+            endDate:endDate ,
             limit:limit ,
             object_type:object_type,
             object_id:object_id  
@@ -980,7 +985,10 @@ $('.sortSubmission').click(function (event) {
 
  
 $( document ).on("click", ".sortPatientSummary", function() {
-      var sortObject = $(this);
+       var startDate = $('input[name="startDate"]').val();
+       var endDate = $('input[name="endDate"]').val();
+
+       var sortObject = $(this);
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#patientSummaryData").attr('limit');
@@ -990,6 +998,8 @@ $( document ).on("click", ".sortPatientSummary", function() {
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
+            startDate:startDate ,
+            endDate:endDate ,
             limit:limit 
         },
         dataType: "JSON",
