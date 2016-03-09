@@ -70,7 +70,7 @@ p {
   float: left;
   border: 1px solid #ECECEC;
   margin: 0px 4px;
-  width: 30%;
+  z-index: 99999;
   padding: 5px;
 }
 .item-input-type span {
@@ -1410,11 +1410,5 @@ ul .mcq_active div span {
 .activeLabel .item-content span {
   background: #7bc67a !important;
   color: #fff;
-}
-.label-option {
-  display: block;
-  width: auto;
-  height: 40px;
-  float: left;
 }
 /*# sourceMappingURL=style.css.map */
