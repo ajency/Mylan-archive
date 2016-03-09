@@ -1593,7 +1593,7 @@ class PatientController extends Controller
 
         $firstQuestionId = $this->getFirstQuestion($questions);
 
-        $orderQuestions = $this->orderQuestions($questionsList,$firstQuestionId,[]);
+        $orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
  
         return $orderQuestions;
     }
