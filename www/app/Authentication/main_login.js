@@ -18,7 +18,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
               return function(data) {
                 console.log(data);
                 if (data.code === 'successful_login') {
-                  return Parse.User.become(data.user).then(function(user) {
+                  Parse.User.become(data.user).then(function(user) {
                     return Storage.setData('logged', 'set', true);
                   }).then(function() {
                     return Storage.setData('refcode', 'set', _this.refrencecode);
@@ -35,6 +35,9 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                     console.log('in error');
                     return console.log(error);
                   });
+                }
+                if (data.code === 'limit_exceeded') {
+                  return _this.loginerror = 'Cannot do setup more then 5 times';
                 } else if (data.code === 'password_not_set') {
                   return _this.loginerror = 'No password set for the reference code';
                 } else {
