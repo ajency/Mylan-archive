@@ -38,14 +38,12 @@ $('.validateRefernceCode').change(function (event) {
         success: function (response) {
             if (!response.data)
             {   
- 
                 controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference code already taken</li>')
-                controlObj.val('');
-                controlObj.closest('.form-row').find('.cf-loader').remove();
-                controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
+                controlObj.val('');               
             }
+            controlObj.closest('.form-row').find('.cf-loader').remove();
+            controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
 
-            // $(".cf-loader").addClass('hidden');
         }
     });
     
@@ -75,11 +73,10 @@ $('.authUserEmail').change(function (event) {
             if (!response.data)
             {   
                 controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required emailError">Email already taken</li>');
-                controlObj.val('');
-                controlObj.closest('.form-row').find('.cf-loader').remove();
-                controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
+                controlObj.val('');  
             }
-
+            controlObj.closest('.form-row').find('.cf-loader').remove();
+            controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
             // $(".cf-loader").addClass('hidden');
         }
     });
