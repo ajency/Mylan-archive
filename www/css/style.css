@@ -702,6 +702,9 @@ ul .mcq_active div span {
                   TABLET SCREENS
 ---------------------------------------------*/
 @media (min-width: 768px) and (max-width: 1024px) {
+  .hospital-logo {
+    width: 320px !important;
+  }
   .centering {
     padding-top: 0;
   }
@@ -910,6 +913,9 @@ ul .mcq_active div span {
   }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .hospital-logo {
+    width: 320px !important;
+  }
   .prev-answers {
     font-size: 20px;
     line-height: 24px;
