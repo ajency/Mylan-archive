@@ -95,6 +95,14 @@ angular.module 'PatientApp.init', []
 								defer.resolve data
 							defer.promise
 
+						RefcodeData :($q, Storage)->
+							defer = $q.defer()
+							Storage.setData 'refcode', 'get'
+							.then (data)->
+								defer.resolve data
+							defer.promise
+
+
 		
 	
 	# $urlRouterProvider.otherwise '/setup'

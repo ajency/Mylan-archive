@@ -1,5 +1,5 @@
 angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'HospitalData', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, HospitalData) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'HospitalData', 'RefcodeData', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, HospitalData, RefcodeData) {
     $scope.view = {
       New_password: '',
       Re_password: '',
@@ -8,6 +8,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
       projectName: HospitalData.project,
       hospitalLogo: HospitalData.logoUrl,
       hospitalName: HospitalData.name,
+      ReDcodeDispaly: RefcodeData,
       reset: function() {
         this.New_password = '';
         this.Re_password = '';
