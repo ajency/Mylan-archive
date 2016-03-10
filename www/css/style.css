@@ -1443,4 +1443,9 @@ ul .mcq_active div span {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+.or-section {
+  text-align: left;
+  margin: 20px;
+  opacity: .5;
+}
 /*# sourceMappingURL=style.css.map */
