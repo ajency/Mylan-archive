@@ -44,6 +44,14 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
                 return defer.resolve(data);
               });
               return defer.promise;
+            },
+            RefcodeData: function($q, Storage) {
+              var defer;
+              defer = $q.defer();
+              Storage.setData('refcode', 'get').then(function(data) {
+                return defer.resolve(data);
+              });
+              return defer.promise;
             }
           }
         }

@@ -62,6 +62,13 @@ angular.module 'PatientApp.init', []
 							.then (data)->
 								defer.resolve data
 							defer.promise
+							
+						RefcodeData :($q, Storage)->
+							defer = $q.defer()
+							Storage.setData 'refcode', 'get'
+							.then (data)->
+								defer.resolve data
+							defer.promise
 
 		.state 'main_login',
 			url: '/main_login'
