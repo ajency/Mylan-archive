@@ -21,6 +21,8 @@ angular.module 'angularApp.questionnaire'
 			showMoreButton : true
 			popTitle : ''
 			responseId : ''
+			firstText : ''
+			secondText : ''
 
 			overlay : false
 
@@ -42,6 +44,8 @@ angular.module 'angularApp.questionnaire'
 
 
 			variables :()->
+				@firstText = 'notSelected'
+				@secondText = 'notSelected'
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
 				@val_answerValue = {}
@@ -126,6 +130,7 @@ angular.module 'angularApp.questionnaire'
 							@variables()
 							@data = []
 							@data = data
+							@questionLabel()
 							@readonly = @data.editable
 							@pastAnswer()
 							if !_.isEmpty(@data.hasAnswer)
@@ -177,6 +182,7 @@ angular.module 'angularApp.questionnaire'
 							console.log 'inside then'
 							console.log data
 							@data = data
+							@questionLabel()
 							@pastAnswer()	
 						,(error)=>
 							@display = 'error'
@@ -201,6 +207,7 @@ angular.module 'angularApp.questionnaire'
 						@variables()
 						@data = []
 						@data = data
+						@questionLabel()
 						@readonly = true
 
 						if !_.isEmpty(@data.hasAnswer)
@@ -282,25 +289,6 @@ angular.module 'angularApp.questionnaire'
 							"responseId" : @data.responseId
 							
 
-
-					# if error == 1
-					# 	CToast.show 'Please enter numbers'
-					# else
-					# 	valueInput = []
-					# 	optionId = []
-
-					# 	_.each @data.options, (opt)=>
-					# 		a = @val_answerValue[opt.option]
-					# 		if !_.isUndefined(a) && a !=''
-					# 			valueInput.push(a)
-					# 			optionId.push(opt.id)
-
-					# 	options =
-					# 		"questionId" : @data.questionId
-					# 		"options": [optionId[0]]
-					# 		"value": valueInput[0].toString()
-					# 		"responseId" : @data.responseId
-
 						@loadNextQuestion(options)
 
 			
@@ -347,6 +335,7 @@ angular.module 'angularApp.questionnaire'
 					@variables()
 					@data = []
 					@data = data
+					@questionLabel()
 					@readonly = @data.editable
 					@pastAnswer()
 					if !_.isEmpty(@data.hasAnswer)
@@ -407,17 +396,15 @@ angular.module 'angularApp.questionnaire'
 					arryObj = []
 
 					_.each @data.options, (opt)=>
-						a = @val_answerValue[opt.option]
-						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
-							valueInput.push(a)
-							optionId.push(opt.id)
-							# temp
-							obj['id'] = opt.id
-							obj['value'] = a
-							arryObj.push(obj)
-
-					console.log '***'
-					console.log optionId
+						if ! _.isUndefined @val_answerValue
+							a = @val_answerValue[opt.option]
+							if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
+								valueInput.push(a)
+								optionId.push(opt.id)
+								# temp
+								obj['id'] = opt.id
+								obj['value'] = a
+								arryObj.push(obj)
 
 					if  _.isEmpty(optionId)
 						optionId = []
@@ -432,34 +419,6 @@ angular.module 'angularApp.questionnaire'
 						"questionId" : @data.questionId
 						"options": arryObj
 						
-
-
-					# valueInput = []
-					# optionId = []
-
-					# _.each @data.options, (opt)=>
-					# 	a = @val_answerValue[opt.option]
-					# 	if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
-					# 		valueInput.push(a)
-					# 		optionId.push(opt.id)
-
-					# console.log '***'
-					# console.log optionId
-
-					# if  _.isEmpty(optionId)
-					# 	optionId = []
-					# else
-					#  	optionId = [optionId[0]] 	
-					# if  _.isEmpty(valueInput)
-					# 	value = []
-					# else
-					#  	value = valueInput[0].toString()
-					# options =
-					# 	"responseId" : @data.responseId
-					# 	"questionId" : @data.questionId
-					# 	"options": optionId
-					# 	"value": value.toString()
-
 					@loadPrevQuestion(options)
 
 			onTapToRetry : ->
@@ -508,6 +467,64 @@ angular.module 'angularApp.questionnaire'
 
 						Storage.summary 'set', summaryData
 						$location.path('summary')
+
+			questionLabel:()->
+				if @data.questionType == 'input'
+					arr = []
+					@data.withoutkg = {}
+					@data.withkg = {}
+					kg = {}
+
+					_.each @data.options, (value)=>
+						str = value.option
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	
+						  arr.push 1
+						  kg = value
+						 
+					if arr.length > 0
+						@data.optionsLabel = true
+						@data.withoutkg = _.without(@data.options, kg)
+						@data.withkg = kg
+					else
+						@data.optionsLabel = false
+
+
+			firstRow:()->
+				if @readonly == false && !_.isEmpty @data.hasAnswer
+					edit = true
+				else
+					edit = false
+				if edit == false
+					console.log 'inside firstrow click'
+					@firstText = 'selected'
+					@secondText = 'notSelected'
+					
+					a = {}
+					_.each @val_answerValue, (val,key) =>
+						a[key] = ''
+					@val_answerValue = a					
+
+			secondRow:()->
+				if @readonly == false && !_.isEmpty @data.hasAnswer
+					edit = true
+				else
+					edit = false
+				if edit == false
+					console.log 'inside second row click'
+					@firstText = 'notSelected '
+					@secondText = 'selected'
+					
+					_.each @data.options, (value)=>
+						str = value.option
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)	
+						if bool	
+						  @val_answerValue[value.option] = ''
 
 
 

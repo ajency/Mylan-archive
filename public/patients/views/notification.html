@@ -71,11 +71,13 @@
 
                       </div>
 
-                      <div class="" ng-if="view.canLoadMore === true "><br>
-                         <a type="button" class="btn btn-link btn-block btn-warning"
-                          ng-click="view.showMore()">
-                            <span>View More</span>
-                          </a>
+                      <div class="center" ng-if="view.canLoadMore === true ">
+                        <a class="view-more" ng-click="view.showMore()">
+                            <i class="fa fa-plus"></i>
+                               <span>View More</span>
+                        </a>
+
+                        
                       </div>
 
                       <div class="text-center text-success" 
