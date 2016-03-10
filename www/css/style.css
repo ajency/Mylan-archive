@@ -59,7 +59,7 @@ p {
   font-size: 12px;
   line-height: 18px;
 }
-.bar-light .button.activated {
+.nav-bar-block .bar-light .button.activated {
   border-color: #ccc;
   background-color: #008380;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -1439,6 +1439,8 @@ ul .mcq_active div span {
   border-bottom: 0px;
 }
 .hospital-logo {
-  width: 170px;
+  width: 200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 /*# sourceMappingURL=style.css.map */
