@@ -1133,7 +1133,7 @@ class PatientController extends Controller
 
         }
 
-        $responseStatus = ["completed"]; //,"late"
+        $responseStatus = ["completed","late"]; //
         $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,$sort);  
 
         $patientSortedData =[];
@@ -1593,7 +1593,7 @@ class PatientController extends Controller
 
         $firstQuestionId = $this->getFirstQuestion($questions);
 
-        $orderQuestions = $this->orderQuestions($questionsList,$firstQuestionId,[]);
+        $orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
  
         return $orderQuestions;
     }

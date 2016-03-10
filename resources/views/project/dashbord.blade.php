@@ -118,7 +118,7 @@
                               <div class="row">
                                  <div class="col-sm-6">
                                 @if(!empty($submissionsSummary))
-                                    <div class="row"><div id="piechart"></div></div>
+                                    <div class="row"><div id="piechart" class="piechart-height"></div></div>
                                 @else 
                                     <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
                                 @endif
@@ -171,7 +171,7 @@
                               </div>
                             @endforeach
                             <div class="text-right">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>3) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>4) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                           @else 
                              <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
@@ -251,7 +251,7 @@
                               </div> -->
                            </div>
                            <div class="grid-body no-border" style="display: block;">
-                              <table class="table table-flip-scroll table-hover dashboard-tbl">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
@@ -414,7 +414,7 @@
                               <sm class="pull-right sortPatientSummary" sort="baseLineTotalGreenFlags" sort-type="asc"  style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                            </th>
                            <th class="sorting">Graph <br> 
-                               <sm>  <i class="fa fa-circle"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle text-warning"></i> Total Score</sm>
+                               <sm>  <i class="fa fa-circle baseline-color"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle theme-color"></i> Total Score</sm>
                                        </th>
                        <!--     <th>
                               Action
@@ -577,6 +577,7 @@
          .demo i {
          position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
          }
+
       </style>
       <script type="text/javascript">
       
@@ -616,7 +617,7 @@
              "valueField": "value",
              "labelRadius": 5,
 
-             "radius": "42%",
+             "radius": "36%",
              "innerRadius": "60%",
              "labelText": "[[title]]",
              "export": {

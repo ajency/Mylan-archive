@@ -70,9 +70,6 @@ class ProjectController extends Controller
         $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
-
         $startDateObj = array(
                   "__type" => "Date",
                   "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
@@ -121,7 +118,7 @@ class ProjectController extends Controller
         $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
         
         $cond=['cleared'=>false];
-        $prejectAlerts = $this->getProjectAlerts($projectId,3,0,[],$cond);
+        $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -252,6 +249,22 @@ class ProjectController extends Controller
             }
             
         }
+
+        if(isset($inputs['cond']))
+        { 
+            $filterBy = $inputs['cond'];
+            $filterData = explode('-', $inputs['cond']);
+            if(count($filterData)==2 && $filterData[0]!='')
+            {
+                if($filterData[0]=='unreviewed')
+                    $cond = ['reviewed'=>'unreviewed'];
+                else
+                    $cond = [$filterData[1]=>$filterData[0]];
+            }
+            
+        }
+
+        
 
         if($inputs['object_type']=="patient-submission")
         {

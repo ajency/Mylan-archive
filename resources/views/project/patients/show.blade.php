@@ -220,7 +220,7 @@
                        </h4>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
-                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                       <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting sortSubmission" sort="sequenceNumber" sort-type="asc"  style="cursor:pointer;"># Submission <i class="fa fa-angle-down sortCol"></i><br><br></th>

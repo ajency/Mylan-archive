@@ -118,7 +118,7 @@
                            <sm class="light">(These are scores & flags for current submissions)</sm>
                         </div>
                         <div class="grid-body no-border" style="display: block;">
-                          <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="status" cond="{{ $submissionStatus }}">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
@@ -275,7 +275,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
        "valueField": "value",
        "labelRadius": 5,
 
-       "radius": "42%",
+       "radius": "36%",
        "innerRadius": "60%",
        "labelText": "[[title]]",
        "export": {

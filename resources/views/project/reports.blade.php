@@ -83,7 +83,7 @@
          <div class="row">
             <div class="col-sm-4">
               @if($totalResponses)
-               <div id="submissionschart"></div>
+               <div id="submissionschart" class="piechart-height"></div>
               @else 
                 <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
               @endif
@@ -335,8 +335,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                     "valueField": "value",
                     "labelRadius": 5,
          
-                    "radius": "30%",
-                    "innerRadius": "48%",
+                    "radius": "36%",
+                    "innerRadius": "60%",
                     "labelText": "[[title]]",
                     "export": {
                       "enabled": true
