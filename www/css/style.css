@@ -33,6 +33,9 @@ p {
 .margin-none {
   margin: 0px;
 }
+.bold {
+  font-weight: 400;
+}
 .m-r-5 {
   margin-right: 5px;
 }
@@ -56,10 +59,14 @@ p {
   font-size: 12px;
   line-height: 18px;
 }
-.bar-light .button.activated {
+.nav-bar-block .bar-light .button.activated {
   border-color: #ccc;
   background-color: #008380;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.login-header .bar-light .button.activated {
+  border-color: #fff;
+  background-color: #fff !important;
 }
 .login-header {
   background: #fff !important;
@@ -174,11 +181,12 @@ hr.broad {
 }
 .errors {
   text-align: center;
-  padding-top: 30%;
+  padding-top: 10%;
   color: #6B6B6B;
+  padding-bottom: 10%;
 }
 .errors i.ion-sad-outline {
-  font-size: 76px;
+  font-size: 55px;
 }
 /***HEADER & FOOTER STYLES***/
 .bar button {
@@ -209,7 +217,9 @@ hr.broad {
   color: #00aaa7;
 }
 .bar.bar-header .button-outline.button-balanced.activated {
-  background: #fff;
+  /*		 border-color: #ccc;
+				    background-color: #008380;
+				    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);*/
 }
 .bar.bar-header .title {
   color: #ffffff;
@@ -692,6 +702,9 @@ ul .mcq_active div span {
                   TABLET SCREENS
 ---------------------------------------------*/
 @media (min-width: 768px) and (max-width: 1024px) {
+  .hospital-logo {
+    width: 320px !important;
+  }
   .centering {
     padding-top: 0;
   }
@@ -900,6 +913,9 @@ ul .mcq_active div span {
   }
 }
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .hospital-logo {
+    width: 320px !important;
+  }
   .prev-answers {
     font-size: 20px;
     line-height: 24px;
@@ -1018,6 +1034,8 @@ ul .mcq_active div span {
   a,
   a.button-clear.btn-link {
     font-size: 23px;
+    margin-top: 20px;
+    display: block;
   }
   .list.list-inset i.ion-ios-help-outline,
   .question-popup i.ion-ios-help-outline {
@@ -1419,5 +1437,10 @@ ul .mcq_active div span {
 }
 .question-type div:last-child {
   border-bottom: 0px;
+}
+.hospital-logo {
+  width: 200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 /*# sourceMappingURL=style.css.map */
