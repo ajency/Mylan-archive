@@ -19,6 +19,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       firstText: '',
       secondText: '',
       variables: function() {
+        this.firstText = 'notSelected';
+        this.secondText = 'notSelected';
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
         return this.val_answerValue = {};
@@ -335,13 +337,17 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           _.each(this.data.options, (function(_this) {
             return function(opt) {
               var a;
-              a = _this.val_answerValue[opt.option];
-              if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
-                valueInput.push(a);
-                optionId.push(opt.id);
-                obj['id'] = opt.id;
-                obj['value'] = a;
-                return arryObj.push(obj);
+              console.log(_this.data.options);
+              console.log(_this.val_answerValue);
+              if (!_.isUndefined(_this.val_answerValue)) {
+                a = _this.val_answerValue[opt.option];
+                if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
+                  valueInput.push(a);
+                  optionId.push(opt.id);
+                  obj['id'] = opt.id;
+                  obj['value'] = a;
+                  return arryObj.push(obj);
+                }
               }
             };
           })(this));

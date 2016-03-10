@@ -25,6 +25,8 @@ angular.module 'PatientApp.Quest',[]
 			secondText : ''
 
 			variables :()->
+				@firstText = 'notSelected'
+				@secondText = 'notSelected'
 				@descriptiveAnswer = ''
 				@singleChoiceValue = ''
 				@val_answerValue = {}
@@ -345,14 +347,17 @@ angular.module 'PatientApp.Quest',[]
 
 
 					_.each @data.options, (opt)=>
-						a = @val_answerValue[opt.option]
-						if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
-							valueInput.push(a)
-							optionId.push(opt.id)
-							# temp
-							obj['id'] = opt.id
-							obj['value'] = a
-							arryObj.push(obj)
+						console.log @data.options
+						console.log @val_answerValue
+						if ! _.isUndefined @val_answerValue
+							a = @val_answerValue[opt.option]
+							if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
+								valueInput.push(a)
+								optionId.push(opt.id)
+								# temp
+								obj['id'] = opt.id
+								obj['value'] = a
+								arryObj.push(obj)
 
 					console.log '***'
 					console.log optionId
@@ -365,6 +370,7 @@ angular.module 'PatientApp.Quest',[]
 						value = []
 					else
 					 	value = valueInput[0].toString()
+
 					options =
 						"questionId" : @data.questionId
 						"options": arryObj
