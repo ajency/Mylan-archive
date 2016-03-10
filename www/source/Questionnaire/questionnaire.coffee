@@ -347,8 +347,6 @@ angular.module 'PatientApp.Quest',[]
 
 
 					_.each @data.options, (opt)=>
-						console.log @data.options
-						console.log @val_answerValue
 						if ! _.isUndefined @val_answerValue
 							a = @val_answerValue[opt.option]
 							if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)

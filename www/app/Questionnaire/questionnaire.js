@@ -337,8 +337,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           _.each(this.data.options, (function(_this) {
             return function(opt) {
               var a;
-              console.log(_this.data.options);
-              console.log(_this.val_answerValue);
               if (!_.isUndefined(_this.val_answerValue)) {
                 a = _this.val_answerValue[opt.option];
                 if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
