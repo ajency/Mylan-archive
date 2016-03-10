@@ -57,18 +57,24 @@
                  <dd>{{ $patient['patient_weight'] }}</dd>
                  <dt>Height</dt>
                  <dd>{{ $patient['patient_height'] }}</dd>
-                 <dt>Smoker</dt>
+              
+                 @foreach($patient['project_attributes'] as $label => $value)
+                 <dt>{{ $label }}</dt>
+                 <dd>{{ $value }}</dd>
+                 @endforeach
+                 
+                <!--  <dt>Smoker</dt>
                  <dd>{{ $patient['patient_is_smoker'] }}</dd>
                  @if($patient['patient_is_smoker']=='yes')
                  <dt>If yes, how many per week</dt>
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
                  @endif
-                <!--  <dt>Alcoholic</dt>
-                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd> -->
-                 @if($patient['patient_is_alcoholic']=='yes')
+                 <dt>Alcoholic</dt>
+                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd>  
+                  @if($patient['patient_is_alcoholic']=='yes')  
                  <dt>Alcohol(units per week)</dt>
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
-                 @endif
+                  @endif --> 
               </dl>
               </div>
               <div class="col-sm-4">

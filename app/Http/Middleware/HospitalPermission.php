@@ -33,6 +33,8 @@ class HospitalPermission
 
                         '{hospitalslug}.user-access.destroy'=>['edit'],
 
+                        '{hospitalslug}.attributes.destroy'=>['edit'],
+
                     ]; 
         $uri        =[  '{hospitalslug}'=>['view','edit'],
                         '{hospitalslug}/dashboard'=>['view','edit'],

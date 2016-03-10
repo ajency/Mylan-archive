@@ -73,6 +73,10 @@ class User extends Model implements AuthenticatableContract,
             $userAccess =  $this->access()->get()->toArray();
             $data['access'] = $userAccess;
         }
+        else
+        {
+            $data['project_attributes'] = unserialize($data['project_attributes']);
+        }
 
         return $data;
     }

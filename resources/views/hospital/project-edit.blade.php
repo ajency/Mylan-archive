@@ -36,6 +36,79 @@
                                     <textarea name="description" id="description" rows="3" data-parsley-required placeholder="Write a short summary to describe the projects." style="width:100%;">{{ $project['description'] }}</textarea>
                                  </div>
                               </div>
+
+                              <div class="col-md-8 attributes_block">
+                            <h4>Attributes</h4>
+                            <div class="row form-group">
+                                <div class="col-xs-4">
+                                    <label class="form-label">Label</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <label class="form-label">Control Type</label>
+                                </div>
+                                <div class="col-xs-4">
+                                    <label class="form-label">Value</label>
+                                </div>
+                                
+                            </div>
+                           
+                           @foreach($projectAttributes as $attibute)
+                            <div class="row m-b-10 allattributes attributeContainer">
+                                <div class="col-xs-4">
+                                    <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
+                                    <input type="hidden" name="attribute_id[]" class="form-control" value="{{ $attibute['id'] }}">
+                                </div>
+                                <div class="col-xs-4">
+                                    <select name="controltype[]" class="select2-container select2 form-control">
+                                        <option value="">Select Control Type</option>
+                                        <option value="textbox" {{ ($attibute['control_type']=='textbox')?'selected':''}} > Text Box</option>control_type
+                                        <option value="select" {{ ($attibute['control_type']=='select')?'selected':''}} >Select Box</option>
+                                        <option value="multiple" {{ ($attibute['control_type']=='multiple')?'selected':''}} > Multiple Select Box</option>
+                                        <option value="number" {{ ($attibute['control_type']=='number')?'selected':''}} > Number </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-3">
+                                    <input type="text" name="controltypevalues[]" {{ ($attibute['values']=='')?'readonly':'' }} value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags">
+
+                                </div>
+                                <div class="col-xs-1 text-right">
+                                    <a class="text-primary deleteProjectAttributes"><i class="fa fa-close"></i></a>
+                                </div>
+                            </div>
+                           @endforeach
+
+                            <div class="row addAttributeBlock attributeContainer">
+                                <div class="add-unit">
+                            <div class="p-t-8 p-t-10">
+                                <div class="col-xs-4">
+                                    <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
+                                    <input type="hidden" name="attribute_id[]" class="form-control" value="">
+                                </div>
+                                <div class="col-xs-4">
+                                    <select name="controltype[]" class="select2-container select2 form-control">
+                                        <option value="">Select Control Type</option>
+                                        <option value="textbox"> Text Box</option>
+                                        <option value="select">Select Box</option>
+                                        <option value="multiple"> Multiple Select Box</option>
+                                        <option value="number"> Number </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-3">
+                                    <input type="text" name="controltypevalues[]" readonly data-role="tagsinput" class="tags">
+
+                                </div>
+                                <div class="col-xs-1 text-right">
+                                    <a class="text-primary hidden"><i class="fa fa-close"></i></a>
+                                </div>
+                            </div>
+                                <div class="text-right">
+                                    <a tabindex="0" class="btn btn-link addAttributes">Add Attribute</a>
+                                </div>
+                            </div>
+                             </div>
+
+                       
+                        </div>
                               
                            </div>
                            <div class="form-actions">

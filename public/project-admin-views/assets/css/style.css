@@ -8914,7 +8914,7 @@ select option {
 }
 ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   vertical-align: middle;
-  padding-left: 5px;
+  padding-left: 8px;
 }
 .breadcrumb li.active {
   text-transform: capitalize;

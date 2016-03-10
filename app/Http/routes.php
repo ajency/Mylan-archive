@@ -74,6 +74,7 @@ Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital
  Route::get( '/', 'Hospital\HospitalController@show' );
 // Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
+Route::resource( 'attributes', 'Hospital\AttributeController' );
 Route::resource( 'users', 'Hospital\UserController' );
 Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
 // Route::resource( 'patients', 'Hospital\PatientController' );

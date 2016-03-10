@@ -7,8 +7,9 @@
        {{ hospitalImageExist($hospital) }}
     
           </div>
+          <h3 class="inline">Sign in</h3>
           <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
-        <h3 class="inline">Sign in</h3>
+        
          <div>
         </div>
         <br>

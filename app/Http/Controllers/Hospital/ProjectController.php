@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Hospital;
 use App\Projects;
+use App\Attributes;
 
 class ProjectController extends Controller
 {
@@ -55,16 +56,42 @@ class ProjectController extends Controller
     {
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
 
+        $requestData = $request->all();
+        
         $project = new Projects;
-        $name =  ucfirst($request->input('name'));
+        $name =  ucfirst($requestData['name']);
         $project->name = $name;
         $project->hospital_id = $hospital['id'];
-        $project->description = $request->input('description');
+        $project->description = $requestData['description'];
         $project->project_slug = str_slug($name);
         $project->save();
         $projectId = $project->id;
+
+        $attributeNames = $requestData['attribute_name'];
+        $controltypes = $requestData['controltype'];
+        $controltypevalues = $requestData['controltypevalues'];
+
+        $objecttype = 'Project';
+        $attributes = [];
+        if(!empty($attributeNames))
+        {
+
+            foreach ($attributeNames as $key => $attributeName) {
+                 
+                 if($attributeName=='')
+                    continue;
+
+                $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key],'object_type' => $objecttype, 'object_id' => $projectId]);
+            }
+        }
+
+
+        if (!empty($attributes)) {
+            $project->attributes()->saveMany($attributes);
+        }
          
         return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
+         
     }
 
     /**
@@ -89,10 +116,13 @@ class ProjectController extends Controller
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = Projects::find($projectId)->toArray(); 
+        $project = Projects::find($projectId); 
+        $projectAttributes = $project->attributes->toArray();
+
          
         return view('hospital.project-edit')->with('active_menu', 'project')
-                                           ->with('project', $project)
+                                           ->with('project', $project->toArray())
+                                           ->with('projectAttributes', $projectAttributes)
                                            ->with('hospital', $hospital)
                                            ->with('logoUrl', $logoUrl);
     }
@@ -106,12 +136,47 @@ class ProjectController extends Controller
      */
     public function update(Request $request,$hospitalSlug, $projectId)
     {
+        $requestData = $request->all();
+
         $project = Projects::find($projectId);
-        $name =  ucfirst($request->input('name'));
+        $name =  ucfirst($requestData['name']);
         $project->name = $name;
-        $project->description = $request->input('description');
+        $project->description = $requestData['description'];
         $project->project_slug = str_slug($name);
         $project->save();
+
+        $attributeIds = $requestData['attribute_id'];
+        $attributeNames = $requestData['attribute_name'];
+        $controltypes = $requestData['controltype'];
+        $controltypevalues = $requestData['controltypevalues'];
+
+        $objecttype = 'Project';
+        $attributes = [];
+        if(!empty($attributeNames))
+        {
+
+            foreach ($attributeNames as $key => $attributeName) {
+                 
+                if($attributeName=='')
+                    continue;
+
+                if($attributeIds[$key]=='')
+                {
+                    $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key],'object_type' => $objecttype, 'object_id' => $projectId]);
+                }
+                else
+                {
+                    $data = array('label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key]);
+                    Attributes::where('id', $attributeIds[$key])->update($data);
+                }
+            }
+        }
+
+
+        if (!empty($attributes)) {
+            $project->attributes()->saveMany($attributes);
+        }
+
          
         return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
     }

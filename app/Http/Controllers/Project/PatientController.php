@@ -126,9 +126,13 @@ class PatientController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $project = Projects::find($projectId); 
+        $projectAttributes = $project->attributes->toArray();
+
         return view('project.patients.add')->with('active_menu', 'patients')
                                             ->with('hospital', $hospital)
                                             ->with('project', $project)
+                                            ->with('projectAttributes', $projectAttributes)
                                             ->with('logoUrl', $logoUrl);
     }
 
@@ -180,10 +184,13 @@ class PatientController extends Controller
         $weight = $request->input('weight');
         $height = $request->input('height');
         $age = $request->input('age');
-        $is_smoker = $request->input('is_smoker');
-        $smoke_per_week = $request->input('smoke_per_week');
-        // $is_alcoholic = $request->input('is_alcoholic');
-        $units_per_week = $request->input('units_per_week');
+        $attributes = $request->input('attributes');
+        $attributes = serialize($attributes);
+        
+        // $is_smoker = $request->input('is_smoker');
+        // $smoke_per_week = $request->input('smoke_per_week');
+        // // $is_alcoholic = $request->input('is_alcoholic');
+        // $units_per_week = $request->input('units_per_week');
 
         $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
         if(!empty($validateRefernceCode))
@@ -201,11 +208,12 @@ class PatientController extends Controller
         $user->type = 'patient';
         $user->patient_weight = $weight;
         $user->age = $age;
-        $user->patient_height = $height;
-        $user->patient_is_smoker = $is_smoker;
-        $user->patient_smoker_per_week = $smoke_per_week;
-        // $user->patient_is_alcoholic = $is_alcoholic;
-        $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->project_attributes = $attributes;
+        // $user->patient_height = $height;
+        // $user->patient_is_smoker = $is_smoker;
+        // $user->patient_smoker_per_week = $smoke_per_week;
+        // // $user->patient_is_alcoholic = $is_alcoholic;
+        // $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
         $userId = $user->id;
 
@@ -283,6 +291,7 @@ class PatientController extends Controller
                      );
 
         $patient = User::find($patientId);
+        
         $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
 
         // // get completed count
@@ -401,7 +410,7 @@ class PatientController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
-                                        ->with('patient', $patient)
+                                        ->with('patient', $patient->toArray())
                                         ->with('allPatients', $allPatients)
                                         ->with('questionChartData', $questionChartData)
                                         ->with('questionLabels', $questionLabels)
@@ -773,7 +782,7 @@ class PatientController extends Controller
 
         $project = $hospitalProjectData['project'];
 
-        $patient = User::find($patientId);
+        $patient = User::find($patientId); 
         $patientStatus = $patient->account_status;
 
         $disabled = '';
@@ -782,6 +791,9 @@ class PatientController extends Controller
 
         $patientMedications = $patient->medications()->get()->toArray();
         $patientvisits = $patient->clinicVisit()->get()->toArray();
+
+        $project = Projects::find($project['id']); 
+        $projectAttributes = $project->attributes->toArray();  
         
         return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)
@@ -790,6 +802,7 @@ class PatientController extends Controller
                                         ->with('disabled', $disabled)
                                         ->with('patientvisits', $patientvisits)
                                         ->with('patientMedications', $patientMedications)
+                                        ->with('projectAttributes', $projectAttributes)
                                         ->with('project', $project);
     }
 
@@ -816,10 +829,13 @@ class PatientController extends Controller
         $weight = $request->input('weight');
         $height = $request->input('height');
         $age = $request->input('age');
-        $is_smoker = $request->input('is_smoker');
-        $smoke_per_week = $request->input('smoke_per_week');
-        // $is_alcoholic = $request->input('is_alcoholic');
-         $units_per_week = $request->input('units_per_week');
+        // $is_smoker = $request->input('is_smoker');
+        // $smoke_per_week = $request->input('smoke_per_week');
+        // // $is_alcoholic = $request->input('is_alcoholic');
+        //  $units_per_week = $request->input('units_per_week');
+
+        $attributes = $request->input('attributes');
+        $attributes = serialize($attributes);
         
         $user = User::find($id);
         if($user->account_status=='created')
@@ -831,10 +847,12 @@ class PatientController extends Controller
         $user->patient_weight = $weight;
         $user->age = $age;
         $user->patient_height = $height;
-        $user->patient_is_smoker = $is_smoker;
-        $user->patient_smoker_per_week = $smoke_per_week;
-        // $user->patient_is_alcoholic = $is_alcoholic;
-        $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->project_attributes = $attributes;
+
+        // $user->patient_is_smoker = $is_smoker;
+        // $user->patient_smoker_per_week = $smoke_per_week;
+        // // $user->patient_is_alcoholic = $is_alcoholic;
+        // $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
 
         $medications = $request->input('medications');
@@ -872,7 +890,7 @@ class PatientController extends Controller
         $user->clinicVisit()->saveMany($patientVisits);
 
 
-        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $id.'/edit')); 
     }
 
     public function getPatientSubmission($hospitalSlug,$projectSlug ,$patientId)

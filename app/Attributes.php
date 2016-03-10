@@ -1,0 +1,18 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Attributes extends Model
+{
+    protected $fillable = ['label', 'control_type', 'object_type', 'object_id', 'values'];
+     
+    public function object() {
+        return $this->morphTo();
+    }
+   
+    public function getObjectTypeAttribute($value){
+        return 'App\'' . $value;
+    }
+}

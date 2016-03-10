@@ -206,6 +206,101 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
 
 });
 
+$('.addAttributes').click(function (event) { 
+
+    var attribute_name = $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val();
+    var control_type = $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val();
+    var control_type_values = $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').val();
+    var err= 0;
+
+    if(attribute_name=='')
+    {
+        alert('Please enter label');
+        err++;
+    }
+    else if(control_type=='')
+    {
+        alert('Please enter control type')
+        err++;
+    }
+
+    if ((control_type == 'select' || control_type == 'multiple') && control_type_values=='')
+    {
+        alert('Please enter values')
+        err++;
+    }
+
+    if(err==0)
+    {
+        html ='<div class="row m-b-10 allattributes attributeContainer">';
+
+        html +='<div class="col-xs-4">';
+        html +='<input type="text" name="attribute_name[]" class="form-control" value="'+ attribute_name +'" placeholder="Enter Attribute Name"  >';
+        html +='<input type="hidden" name="attribute_id[]" class="form-control" value=""></div>';
+
+        html +='<div class="col-xs-4">';
+        html +='<select name="controltype[]" class="select2-container select2 form-control">';       
+        html +='<option value="">Select Control Type</option>';
+        html +='<option value="textbox"> Text Box</option>';
+        html +='<option value="select">Select Box</option>';
+        html +='<option value="multiple"> Multiple Select Box</option>';
+        html +='<option value="number"> Number </option>';
+        html +='</select>';
+        html +='</div>';
+
+     
+        html +='<div class="col-md-3">';
+        html +='<input type="text" name="controltypevalues[]" value="'+ control_type_values +'" data-role="tagsinput" class="tags">';
+        html +='</div>';
+
+        html +='<div class="col-xs-1 text-right">';
+        html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
+        html +='</div>';
+        html +='</div>';
+
+
+        $(".addAttributeBlock").before(html);
+        $(".allattributes:last").find('select').val(control_type);
+
+
+        $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val('');
+        $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val('');
+        $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').val('');
+    
+    }
+});
+
+$('.attributes_block').on('change', 'select', function(event) {
+    if ($(this).val() == 'select' || $(this).val() == 'multiple') {
+         
+         $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
+    }
+    else
+    {
+        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').attr('readonly','readonly');
+    }
+});
+
+$('.attributes_block').on('click', '.deleteProjectAttributes', function(event) {
+     var attributeId = $(this).closest('.attributeContainer').find('input[name="attribute_id[]"]').val();
+     var obj = $(this);
+     if(attributeId=='')
+        obj.closest('.attributeContainer').remove();
+     else
+     {
+        $.ajax({
+            url: BASEURL+"/attributes/" + attributeId,
+            type: "DELETE",
+            success: function (response) {
+               obj.closest('.attributeContainer').remove();
+            }
+        });
+     }
+
+});
+
+
+
 $('.add-hospital-user').click(function (event) { 
 
     var objectType = $(this).attr('object-type');
@@ -268,6 +363,8 @@ $('.add-mediaction').click(function (event) {
     $(".patient-mediaction:last").after(html);
 
 });
+
+
 
 
 $('.medication-data').on('click', '.delete-madication', function(event) {

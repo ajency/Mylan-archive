@@ -20,7 +20,7 @@
       </div> 
      <div class="grid simple">
            <div class="grid-body">
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate>
+      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate>
               <div class="row form-group">
                 <div class="col-md-3">
                   <div class="form-row">
@@ -40,8 +40,45 @@
                       <label>Height</label>
                         <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
                     </div>
+
+                     @foreach($projectAttributes as $attribute)
+                        <div class="col-md-3">
+                             
+                                <label>{{ $attribute['label'] }} </label>
+                                <?php
+                                $projectAttributes = $patient['project_attributes'];
+                                $value = (isset($projectAttributes[ $attribute['label'] ])) ? $projectAttributes[ $attribute['label'] ] : '';
+                                ?>
+                                @if('textbox' === $attribute['control_type'])
+                                <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]" value="{{ $value }}" placeholder="Enter {{$attribute['label']}}" data-parsley-required>
+                                @elseif('number' === $attribute['control_type'])
+                                <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]" value="{{ $value }}" placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
+                                @elseif('select' == $attribute['control_type'])
+                                <?php
+                                $options = explode(',', $attribute['values']);
+                                ?>
+                                <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" data-parsley-required>
+                                    <option value="">Select {{ $attribute['label'] }}</option>   
+                                    @foreach($options as $option)
+                                    <option @if($value ==  $option ){{'selected'}}@endif  value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                                @elseif('multiple' == $attribute['control_type'])
+                                <?php
+                                $options = explode(',', $attribute['defaults']);   
+                                ?>
+                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="select2 form-control m-b-5" data-parsley-required>
+                                    <option value="">Select {{ $attribute['label'] }}</option>   
+                                    @foreach($options as $option)
+                                    <option {{ (!empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
+                                    @endforeach
+                                </select>
+                                @endif          
+                             
+                        </div>
+                        @endforeach
               </div>
-              <div class="row">
+              <!-- <div class="row">
               <div class="col-sm-6">
               <div class="row form-row">
                
@@ -62,14 +99,14 @@
                     <div class="col-sm-6">
                     <div class="row form-row">
                
-                     <!--<div class="col-sm-6">
+                     <div class="col-sm-6">
                       <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required >
                           <option value="">Select</option>
                           <option {{ ($patient['patient_is_alcoholic']=='yes')?'selected':'' }} value="yes">Yes</option>
                           <option {{ ($patient['patient_is_alcoholic']=='no')?'selected':'' }} value="no">No</option> 
                         </select> 
-                    </div>-->
+                    </div>
                     <div class="col-sm-6">
                       <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
@@ -77,7 +114,7 @@
                     </div>
                     </div>
                   </div>
-               
+                -->
                 
              
                 <hr>
