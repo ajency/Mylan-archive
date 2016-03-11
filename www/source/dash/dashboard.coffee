@@ -19,6 +19,7 @@ angular.module 'PatientApp.dashboard',[]
 				@data =[]
 				@getSubmission()
 				@limitTo = 5
+				@scroll = false
 
 
 			init :() ->
@@ -95,7 +96,7 @@ angular.module 'PatientApp.dashboard',[]
 				if @data.length < @limitTo 
 					@showMoreButton = false
 
-				if @limitTo > 10
+				if @limitTo >= 25
 					@scroll = true
 
 

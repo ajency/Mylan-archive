@@ -14,7 +14,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         this.showMoreButton = true;
         this.data = [];
         this.getSubmission();
-        return this.limitTo = 5;
+        this.limitTo = 5;
+        return this.scroll = false;
       },
       init: function() {
         return Storage.getNextQuestion('set', 1);
@@ -110,7 +111,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         if (this.data.length < this.limitTo) {
           this.showMoreButton = false;
         }
-        if (this.limitTo > 10) {
+        if (this.limitTo >= 25) {
           return this.scroll = true;
         }
       },
