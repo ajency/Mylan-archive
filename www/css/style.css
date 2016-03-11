@@ -1448,4 +1448,15 @@ ul .mcq_active div span {
   margin: 20px;
   opacity: .5;
 }
+.bar-top {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  left: initial;
+  right: 10px;
+  bottom: 10px;
+}
+.bar-top .title {
+  line-height: 55px !important;
+}
 /*# sourceMappingURL=style.css.map */
