@@ -449,10 +449,9 @@
                             $patientsSummary[$referenceCode]['nextSubmission'] = '-';
                             $patientsSummary[$referenceCode]['completed'] = [];
                             $patientsSummary[$referenceCode]['missed'] = 0;
-                            $patientsSummary[$referenceCode]['late'] = [];
+                            $patientsSummary[$referenceCode]['late'] = 0;
                        
                         }
-
                         $patientSummary = $patientResponses[$referenceCode];
                       ?>
                         <tr>
