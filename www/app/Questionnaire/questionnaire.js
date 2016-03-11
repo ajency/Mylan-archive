@@ -159,7 +159,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, validArr, valueArr, valueInput;
+        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, validArr, valueArr, valueInput, weightKeys, weigthValueArray;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select your answer');
@@ -199,6 +199,20 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             if (valueArr.length === _.size(this.val_answerValue)) {
               error = 1;
             }
+          }
+          if (validArr.length > 0) {
+            weightKeys = _.keys(this.val_answerValue);
+            weigthValueArray = _.values(this.val_answerValue);
+            _.each(weightKeys, function(val) {
+              var lowerCase;
+              lowerCase = val.toLowerCase();
+              if (_.contains(['lb', 'lbs'], lowerCase)) {
+                if (weigthValueArray[_.indexOf(weightKeys, val)] === "0") {
+                  console.log('hii');
+                  return validArr = [];
+                }
+              }
+            });
           }
           if (error === 1 || validArr.length > 0) {
             CToast.show('Please enter the values');

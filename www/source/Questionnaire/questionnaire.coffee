@@ -203,7 +203,19 @@ angular.module 'PatientApp.Quest',[]
 						if valueArr.length == _.size(@val_answerValue)
 							error = 1
 
-				
+					if validArr.length > 0
+						weightKeys = _.keys @val_answerValue
+						weigthValueArray = _.values @val_answerValue
+
+						_.each weightKeys, (val)->
+							# weightKeyArray.push val.toLowerCase()
+							lowerCase = val.toLowerCase()
+							if _.contains ['lb','lbs'], lowerCase
+								if weigthValueArray[_.indexOf weightKeys,val] == "0"
+									console.log 'hii'
+									validArr = []
+									
+
 							
 					# ***temp**
 					if error == 1 || validArr.length > 0
