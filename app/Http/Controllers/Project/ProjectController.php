@@ -117,8 +117,12 @@ class ProjectController extends Controller
         //patient summary
         $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
-        $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
-        $patientSortedData = array_slice($patientResponses['patientSortedData'], 0, 5, true);
+        $patientsSummary = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
+        $patientResponses = $patientsSummary['patientResponses'];
+        $patientSortedData = $patientsSummary['patientSortedData'];
+ 
+        $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+         
         $cond=['cleared'=>false];
         $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
 
@@ -130,8 +134,8 @@ class ProjectController extends Controller
                                         ->with('responseCount', $responseCount)
                                         ->with('submissionsSummary', $submissionsSummary)
                                         ->with('patientSortedData', $patientSortedData)
-                                        ->with('patientResponses', $patientResponses['patientResponses'])
-                                        ->with('patientMiniGraphData', $patientResponses['patientMiniGraphData'])
+                                        ->with('patientResponses', $patientResponses)
+                                        ->with('patientMiniGraphData', $patientsSummary['patientMiniGraphData'])
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
@@ -1252,6 +1256,7 @@ class ProjectController extends Controller
 
     public function questionnaireSetting($hospitalSlug,$projectSlug)
     {
+
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -1307,7 +1312,7 @@ class ProjectController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $frequency = $request->input('frequency');   
+        $frequency = intval($request->input('frequency'));   
         $gracePeriod = intval($request->input('gracePeriod'));
         $reminderTime = intval($request->input('reminderTime'));
         $editable = ($request->input('editable')=='yes')?true:false;
