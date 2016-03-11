@@ -1090,6 +1090,10 @@ class PatientController extends Controller
         $previousTotalAmberFlagsCount = [];
         $previousTotalGreenFlagsCount = [];
 
+        $patientCompletedCount = [];
+        $patientLateCount = [];
+        $patientMissedCount = [];
+
          foreach ($patients as $patient) {
             $missedCount = 0;
             $responseQry = new ParseQuery("Response");
