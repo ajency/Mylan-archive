@@ -385,7 +385,7 @@
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
                                <div class="grid-title no-border">
-                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(This is for the Cumulative Submissions)</sm></h4>
+                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(These are for the Cumulative Submissions)</sm></h4>
                               <!-- <div class="tools">
                                
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
