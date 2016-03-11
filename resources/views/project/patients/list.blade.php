@@ -136,9 +136,9 @@
                <div class="grid-body no-border" style="display: block;">
                  <table class="table table-flip-scroll table-hover">
                      <thead class="cf">
-                        <tr>
+                       <tr>
 
-                          <th width="12%">Patient ID</th>
+                          <th width="11%">Patient ID</th>
                           <th width="22%" class="sorting">Total Submissions<br>
                               <sm class="sortPatientSummary" sort="completed" sort-type="asc" >Completed <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="late" sort-type="asc" >Late <i class="fa fa-angle-down sortCol"></i></sm>
