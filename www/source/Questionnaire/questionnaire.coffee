@@ -202,7 +202,7 @@ angular.module 'PatientApp.Quest',[]
 
 						if valueArr.length == _.size(@val_answerValue)
 							error = 1
-
+					#for lbs validation 
 					if validArr.length > 0
 						weightKeys = _.keys @val_answerValue
 						weigthValueArray = _.values @val_answerValue
