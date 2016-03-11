@@ -1270,16 +1270,26 @@ class ProjectController extends Controller
         $questionnaire = $questionnaireQry->first();
 
         $settings =[];
-        $settings['gracePeriod'] = '';
-        $settings['reminderTime'] = '';
+        $settings['frequency']['day'] = ''; 
+        $settings['frequency']['hours'] = ''; 
+        $settings['gracePeriod']['day'] = '';
+        $settings['gracePeriod']['hours'] = '';
+        $settings['reminderTime']['day'] = '';
+        $settings['reminderTime']['hours'] = '';
         $settings['editable'] = '';
         $settings['type'] = ''; 
-        $settings['frequency'] = ''; 
+        
 
         if(!empty($questionnaire))
         {
-          $settings['gracePeriod'] = $questionnaire->get('gracePeriod');
-          $settings['reminderTime'] = $questionnaire->get('reminderTime');
+          $gracePeriod = secondsToTime($questionnaire->get('gracePeriod'));
+          $settings['gracePeriod']['day'] = $gracePeriod['d']; 
+          $settings['gracePeriod']['hours'] = $gracePeriod['h']; 
+
+          $reminderTime = secondsToTime($questionnaire->get('reminderTime'));
+          $settings['reminderTime']['day'] = $reminderTime['d']; 
+          $settings['reminderTime']['hours'] = $reminderTime['h']; 
+
           $settings['editable'] = $questionnaire->get('editable');
           $settings['type'] = $questionnaire->get('type');
 
@@ -1290,7 +1300,10 @@ class ProjectController extends Controller
           
           if(!empty($schedule))
           {
-            $settings['frequency'] = $schedule->get('frequency');
+   
+            $frequency = secondsToTime($schedule->get('frequency'));
+            $settings['frequency']['day'] = $frequency['d']; 
+            $settings['frequency']['hours'] = $frequency['h']; 
           }
           
         }
@@ -1312,9 +1325,17 @@ class ProjectController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $frequency = intval($request->input('frequency'));   
-        $gracePeriod = intval($request->input('gracePeriod'));
-        $reminderTime = intval($request->input('reminderTime'));
+        $frequencyDay = $request->input('frequencyDay');   
+        $frequencyHours = $request->input('frequencyHours');  
+        $gracePeriodDay = $request->input('gracePeriodDay');
+        $gracePeriodHours = $request->input('gracePeriodHours');
+        $reminderTimeDay = $request->input('reminderTimeDay');
+        $reminderTimeHours = $request->input('reminderTimeHours');
+
+        $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
+        $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+        $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
+
         $editable = ($request->input('editable')=='yes')?true:false;
         $type = $request->input('type');
 

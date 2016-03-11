@@ -28,27 +28,37 @@
                        <h3 class="">{{ $project['name'] }}</h3>
                       
                       <hr>
-         <form class="form-horizontal col-sm-6 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">
+         <form class="form-horizontal col-sm-6 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" data-parsley-validate>
   <div class="form-group">
     <label for="frequency" class="col-sm-4 side-label">Frequency</label>
-    <div class="col-sm-6">
-      <input type="text" name="frequency" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency'] }}">
+    <div class="col-sm-4">
+      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}" data-parsley-type="number"> <h6 class="seconds">days</h6>
     </div>
-    <div class="col-sm-2"><h6 class="seconds">seconds</h6></div>
+    
+    <div class="col-sm-4">
+      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+   
   </div>
  <div class="form-group">
     <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" id="gracePeriod" name="gracePeriod" placeholder="Grace Period" value="{{ $settings['gracePeriod'] }}">
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
     </div>
-    <div class="col-sm-2"><h6 class="seconds">seconds</h6></div>
+      <div class="col-sm-4">
+      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Frequency" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
   </div>
    <div class="form-group">
     <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
-    <div class="col-sm-6">
-      <input type="text" class="form-control" name="reminderTime" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime'] }}">
+    <div class="col-sm-4">
+      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
     </div>
-    <div class="col-sm-2"><h6 class="seconds">seconds</h6></div>
+      <div class="col-sm-4">
+      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
   </div>
  <div class="form-group">
     <label for="editable" class="col-sm-4 side-label">Editable</label>
