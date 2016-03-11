@@ -64,7 +64,7 @@
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
                  @endif
     
-                 <dt>Alcohol(units per week)</dt>
+                 <dt>Alcohol (units per week)</dt>
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
            
               </dl>
