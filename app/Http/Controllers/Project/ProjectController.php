@@ -241,7 +241,7 @@ class ProjectController extends Controller
 
         $cond = [];
         if($inputs['object_type']=="submission")
-            $status=["completed","late"];
+            $status=["completed"];
         else
             $status=["completed","late","missed"];
 
@@ -343,7 +343,7 @@ class ProjectController extends Controller
                   <td class="text-center sorting">'. $submission['previousScore'].'</td>
                   <td class="text-left sorting">'. $submission['totalScore'] .'</td>
                
-                 <td class="text-right semi-bold margin-none flagcount p-h-0">
+                 <td class="text-right semi-bold margin-none flagcount p-h-0" width="4%">
                     <h4><b class="text-'.$submission['totalBaseLineFlag'] .'">'. $submission['comparedToBaslineScore'].'</b></h4>
                  </td>
                  <td  class="text-center semi-bold margin-none flagcount p-h-0">

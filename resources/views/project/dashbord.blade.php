@@ -267,7 +267,7 @@
                                    <sm class="sortSubmission" sort="previousScore" sort-type="asc">Prev <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm class="sortSubmission" sort="totalScore" sort-type="asc">Current <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
-                                <th colspan="3" class="sorting">
+                                <th colspan="3" class="sorting" width="11%">
                                    Change
                                    <br> 
                                    <sm class="sortSubmission" sort="comparedToBaseLine" sort-type="asc">δ Base  <i class="fa fa-angle-down sortCol"></i></sm>
@@ -311,7 +311,7 @@
                                        <td class="text-center sorting">0</td>
                                        <td class="text-center sorting">0</td>
                                     
-                                        <td class="text-center semi-bold margin-none flagcount p-h-0">
+                                        <td class="text-center semi-bold margin-none flagcount p-h-0" width="4%">
                                            <h4>-</h4>
                                         </td>
                                         <td class="text-center semi-bold margin-none flagcount p-h-0">
@@ -345,7 +345,7 @@
                                       <td class="text-center sorting">{{ $submission['previousScore'] }}</td>
                                       <td class="text-left sorting">{{ $submission['totalScore'] }}</td>
                                    
-                                     <td class="text-right semi-bold margin-none flagcount p-h-0">
+                                     <td class="text-right semi-bold margin-none flagcount p-h-0" width="4%">
                                         <h4><b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b></h4>
                                      </td>
                                      <td  class="text-center semi-bold margin-none flagcount p-h-0">
