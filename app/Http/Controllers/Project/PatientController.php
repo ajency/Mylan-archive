@@ -74,11 +74,12 @@ class PatientController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
-        $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj);
+        $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
 
         
 
         $patientsSummary = $patientResponses['patientResponses'];
+        $patientSortedData = $patientResponses['patientSortedData'];
         $completed = $patientResponses['completed']; 
         $late = $patientResponses['late']; 
         $missed = $patientResponses['missed']; 
@@ -106,7 +107,8 @@ class PatientController extends Controller
                                           ->with('startDate', $startDate)
                                           ->with('patientsStatus', $patientsStatus)
                                           ->with('patientMiniGraphData', $patientMiniGraphData)
-                                          ->with('patientsSummary', $patientsSummary);
+                                          ->with('patientsSummary', $patientsSummary)
+                                          ->with('patientSortedData', $patientSortedData);
     }
 
 

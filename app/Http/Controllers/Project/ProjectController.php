@@ -113,10 +113,12 @@ class ProjectController extends Controller
 
         $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
 
+
+        //patient summary
         $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
-        $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
-        
+        $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
+        $patientSortedData = array_slice($patientResponses['patientSortedData'], 0, 5, true);
         $cond=['cleared'=>false];
         $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
 
@@ -127,6 +129,7 @@ class ProjectController extends Controller
                                         ->with('allpatientscount', count($patients))
                                         ->with('responseCount', $responseCount)
                                         ->with('submissionsSummary', $submissionsSummary)
+                                        ->with('patientSortedData', $patientSortedData)
                                         ->with('patientResponses', $patientResponses['patientResponses'])
                                         ->with('patientMiniGraphData', $patientResponses['patientMiniGraphData'])
                                         ->with('projectFlagsChart', $projectFlagsChart)
@@ -456,23 +459,25 @@ class ProjectController extends Controller
         $str.= '<tr><td onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">'. $referenceCode .'</td>
            <td  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
               <div class="lst-sub">
-                 <h2 class="bold pull-left">
+                 <h2 class="bold inline">
                     '. $patientSummary['completed'] .'<br>
                     <sm class="text-success">Completed</sm>
                  </h2>
-                 <h2 class="bold pull-left">
+                 <h2 class="bold inline">
                     '. $patientSummary['late'] .'<br>
                     <sm class="text-warning">Late</sm>
                  </h2>
-                 <h2 class="bold pull-left">
+                 <h2 class="bold inline">
                     '. $patientSummary['missed'] .'<br>
                     <sm class="text-danger">Missed</sm>
                  </h2>
-                 <div class="pull-left p-t-20">
+                </div> 
+            </td>
+            <td>
+              <div class="lst-sub text-center p-t-20">
                     <span class="sm-font">Last Submission  <b>'. $patientSummary['lastSubmission'] .'</b></span><br>
                     <span class="sm-font">Next Submission  <b>'. $patientSummary['nextSubmission'] .'</b></span>
                  </div>
-              </div>
            </td>
            <td class="text-right sorting text-error"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">                              
               '. $patientSummary['previousFlag']['red'] .'

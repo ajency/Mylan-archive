@@ -137,12 +137,14 @@
                  <table class="table table-flip-scroll table-hover">
                      <thead class="cf">
                         <tr>
-                           <th width="12%">Patient ID</th>
-                           <th width="31%" class="sorting">Total Submissions<br>
+
+                          <th width="12%">Patient ID</th>
+                          <th width="22%" class="sorting">Total Submissions<br>
                               <sm class="sortPatientSummary" sort="completed" sort-type="asc" >Completed <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="late" sort-type="asc" >Late <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="missed" sort-type="asc" >Missed <i class="fa fa-angle-down sortCol"></i></sm>
                           </th>
+                           <th width="17%"></th>
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
@@ -169,19 +171,21 @@
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>
-                   @if(!empty($patients))   
-                     @foreach($patients as $patient)
-                      <?php
-                        $patientId = $patient['id'];
-                        $status = $patient['account_status'];
-                        $patientStatus = $patient['account_status'];
-                        $referenceCode = $patient['reference_code'];
-
-                        $status_class = 'text-success';
-                        if($patient['account_status']=='suspended')
-                            $status_class = 'text-error';
-                        
-
+                  
+                      <?php 
+    
+                   foreach ($patients as  $patient) {
+                    $patientReferenceCode[] = $patient['reference_code'];
+                    $patientIds[$patient['reference_code']] = $patient['id'];
+                  }
+                     
+                      ?>
+                  @if(!empty($patientSortedData)) 
+                     @foreach($patientSortedData as $referenceCode => $data)
+                     
+                       <?php
+                        $patientId = $patientIds[$referenceCode];    
+                        $status_class='';
                         if(!isset($patientsSummary[$referenceCode])) //inactive patient data
                         {
                             $patientsSummary[$referenceCode]['lastSubmission'] = '-';
@@ -194,31 +198,31 @@
                         
                         $patientSummary = $patientsSummary[$referenceCode];
                       ?>
-                      
                         <tr>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <div class="lst-sub">
-                                 <h2 class="bold pull-left">
+                             <div class="lst-sub">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['completed'] }}<br>
                                     <sm class="text-success">Completed</sm>
                                  </h2>
-                                 <h2 class="bold pull-left">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['late'] }}<br>
                                     <sm class="text-warning">Late</sm>
                                  </h2>
-                                 <h2 class="bold pull-left">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['missed'] }}<br>
                                     <sm class="text-danger">Missed</sm>
                                  </h2>
-                                 <div class="pull-left p-t-20">
+                                 
+                              </div>
+                           </td>
+                           <td>
+                           <div class="lst-sub text-center p-t-20">
                                     <span class="sm-font">Last Submission  <b>{{ $patientSummary['lastSubmission'] }}</b></span><br>
                                     <span class="sm-font">Next Submission  <b>{{ $patientSummary['nextSubmission'] }}</b></span>
                                  </div>
-                              </div>
                            </td>
-                          
-                              
                             <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                              
                             {{ $patientSummary['previousFlag']['red'] }}
@@ -255,9 +259,7 @@
                                  <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
-                          <!--  <td>
-                              <span class="{{ $status_class }}"> {{ $status }}</span>
-                           </td> -->
+                   
                         </tr>
                         @endforeach
                   @else 

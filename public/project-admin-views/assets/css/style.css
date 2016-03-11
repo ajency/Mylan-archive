@@ -8371,7 +8371,7 @@ div.upload .img-div img {
 }
 .lst-sub h2 {
   font-size: 23px!important;
-  margin-right: 5px;
+  padding: 0 12px;
   text-align: center;
 }
 .lst-sub h2 sm {

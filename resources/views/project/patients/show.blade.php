@@ -65,10 +65,10 @@
                  @endif
                 <!--  <dt>Alcoholic</dt>
                  <dd>{{ $patient['patient_is_alcoholic'] }}</dd> -->
-                 @if($patient['patient_is_alcoholic']=='yes')
+                 <!-- @if($patient['patient_is_alcoholic']=='yes') -->
                  <dt>Alcohol(units per week)</dt>
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
-                 @endif
+                 <!-- @endif -->
               </dl>
               </div>
               <div class="col-sm-4">

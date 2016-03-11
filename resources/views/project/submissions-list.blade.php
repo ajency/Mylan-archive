@@ -102,6 +102,7 @@
                                 <option value="all">All</option>
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
+                                <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
                                 <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
