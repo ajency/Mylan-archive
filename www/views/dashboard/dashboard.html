@@ -30,7 +30,7 @@
             </span>
          </div>
       </div>
-      <!--  <div class="scroll-down"><i class="icon ion-chevron-down"></i></div> -->
+
       <div class="padding">
          <h5 class="f-w-400 margin-none">Questionnaire Summary</h5>
          <h6 >It's time to complete your Questionnaire </h6>
@@ -180,7 +180,20 @@
               ng-click="view.showMore()">
               View More
           </button> -->
-          <button ng-if = "view.showMoreButton" ng-click="view.showMore()"class="button button-clear ion-android-arrow-dropdown button-block button-stable view-more">View More</button>
+          <button 
+            ng-if = "view.showMoreButton" 
+            ng-click="view.showMore()"
+            class="button button-clear ion-android-arrow-dropdown button-block button-stable view-more">
+            View More
+          </button>
+          {{view.limitTo}}
+          <div class="" 
+            ng-if ="view.scroll == true"
+            ng-click="view.scrollTop()">
+            <i class="icon ion-chevron-down">
+                topdsd
+            </i>
+          </div>
       </div>
       <aj-error class="errors"
             error-type="view.errorType"

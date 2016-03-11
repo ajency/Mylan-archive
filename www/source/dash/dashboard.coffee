@@ -12,6 +12,7 @@ angular.module 'PatientApp.dashboard',[]
 			infoMsg : null
 			limitTo: 5
 			showMoreButton : true
+			scroll : false
 
 			onPullToRefresh :->
 				@showMoreButton = true
@@ -94,6 +95,15 @@ angular.module 'PatientApp.dashboard',[]
 				if @data.length < @limitTo 
 					@showMoreButton = false
 
+				if @limitTo > 10
+					@scroll = true
+
+
+			scrollTop : ->
+				App.scrollTop()
+				@limitTo = 5
+				@scroll = false
+
 		$scope.$on '$ionicView.enter', (event, viewData)->
 			console.log 'view enter'
 			$scope.view.displaydata()
@@ -106,6 +116,7 @@ angular.module 'PatientApp.dashboard',[]
 			$scope.view.data = []
 			$scope.view.limitTo = 5
 			$scope.view.showMoreButton = false
+			$scope.view.scroll =  false
 
 ]
 

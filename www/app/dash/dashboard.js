@@ -9,6 +9,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       infoMsg: null,
       limitTo: 5,
       showMoreButton: true,
+      scroll: false,
       onPullToRefresh: function() {
         this.showMoreButton = true;
         this.data = [];
@@ -107,8 +108,16 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         this.limitTo = this.limitTo + 5;
         App.resize();
         if (this.data.length < this.limitTo) {
-          return this.showMoreButton = false;
+          this.showMoreButton = false;
         }
+        if (this.limitTo > 10) {
+          return this.scroll = true;
+        }
+      },
+      scrollTop: function() {
+        App.scrollTop();
+        this.limitTo = 5;
+        return this.scroll = false;
       }
     };
     $scope.$on('$ionicView.enter', function(event, viewData) {
@@ -122,7 +131,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       $scope.view.display = 'loader';
       $scope.view.data = [];
       $scope.view.limitTo = 5;
-      return $scope.view.showMoreButton = false;
+      $scope.view.showMoreButton = false;
+      return $scope.view.scroll = false;
     });
   }
 ]).config([
