@@ -8196,6 +8196,8 @@ label {
 }
 .logo {
   margin: 10px 14px;
+  border-right: 1px solid #ccc;
+  padding-right: 15px;
 }
 .m-0 {
   margin: 0!important;
@@ -8455,7 +8457,7 @@ input {
   background: #f35958 !important;
 }
 .grid-table-sort .sorting sm {
-  padding: 0px 11px;
+  padding: 0px 10px;
 }
 .grid-table-sort .sorting span {
   padding-left: 15px;
@@ -8903,6 +8905,11 @@ select option {
 .mri-form .side-label {
   margin: 10px 0;
   line-height: 1.1;
+}
+.mri-form input.form-control {
+  width: 60%;
+  margin: 0 16px 0 0;
+  float: left;
 }
 .mri-form .seconds {
   font-size: 14px;
