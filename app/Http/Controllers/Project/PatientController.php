@@ -1147,7 +1147,7 @@ class PatientController extends Controller
         }
 
         $responseStatus = ["completed"]; //
-        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,$sort);  
+        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,["desc" =>"createdAt"]);  
 
         $patientSortedData =[];
 
@@ -1169,7 +1169,8 @@ class PatientController extends Controller
             //     $lateResponses[]=$response;
                 
             // }
-            elseif($status=='completed')
+            
+            if($status=='completed')
             {
                 $patientResponses[$patient]['completed']+=1;
                 $completedResponses[]=$response;
@@ -1257,7 +1258,7 @@ class PatientController extends Controller
         $data['late']=$late; 
         $data['missed']=$missed; 
         $data['completedCount']=count($completedResponses);
-        $data['lateCount']=count($lateResponses);
+        $data['lateCount']=array_sum($lateResponses);
         $data['missedCount']=array_sum($missedResponses);
         $data['totalResponses']=$totalResponses;
         $data['patientMiniGraphData']=$patientMiniGraphData;
