@@ -15,7 +15,7 @@
    <!--  <h1 class="title">{{view.hospitalName}}</h1> -->
     
    </ion-nav-title>
-   <ion-content  ng-switch="view.display">
+   <ion-content  ng-switch="view.display" on-scroll="view.getScrollPosition()">
 
       <ion-refresher
         on-refresh="view.onPullToRefresh();"
@@ -47,8 +47,9 @@
 
       <label
          ng-repeat ="submissions in view.data | limitTo: view.limitTo ">
+           
         <div ng-if="submissions.status == 'upcoming'">
-
+ 
          <div class="clm-list">
             <div class="row">
                <div class="col">
@@ -215,9 +216,11 @@
              <div id="chartdiv" style="width: 100%; height: 351px;"></div>
           </div> -->
    </ion-content>
+
        <div class="bar bar-footer bar-assertive bar-top"  ng-if ="view.scroll == true"
             ng-click="view.scrollTop()">
           <div class="title" >
+
             <i class="icon ion-chevron-up">
             </i>
           </div>

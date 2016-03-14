@@ -125,6 +125,9 @@ angular.module 'PatientApp.Global', []
 			scrollBottom : ->
 				$ionicScrollDelegate.scrollBottom true
 
+			getScrollPosition : ->
+				$ionicScrollDelegate.getScrollPosition().top
+
 			parseErrorCode :(error)->
 				errType = ''
 				errMsg = error.message

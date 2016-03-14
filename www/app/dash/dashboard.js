@@ -119,6 +119,18 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         App.scrollTop();
         this.limitTo = 5;
         return this.scroll = false;
+      },
+      getScrollPosition: function() {
+        var scrollPosition;
+        console.log('getscroll position');
+        scrollPosition = App.getScrollPosition();
+        console.log(scrollPosition);
+        if (scrollPosition < 200) {
+          $scope.$apply(function() {
+            return $scope.view.scroll = false;
+          });
+          return console.log('hidde scroll');
+        }
       }
     };
     $scope.$on('$ionicView.enter', function(event, viewData) {

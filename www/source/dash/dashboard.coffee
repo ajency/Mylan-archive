@@ -105,6 +105,18 @@ angular.module 'PatientApp.dashboard',[]
 				@limitTo = 5
 				@scroll = false
 
+			getScrollPosition : ->
+				console.log 'getscroll position'
+				scrollPosition = App.getScrollPosition()
+				console.log scrollPosition
+
+				if scrollPosition < 200
+					
+					$scope.$apply ->
+  						$scope.view.scroll = false
+					
+					console.log 'hidde scroll'
+
 		$scope.$on '$ionicView.enter', (event, viewData)->
 			console.log 'view enter'
 			$scope.view.displaydata()

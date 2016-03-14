@@ -138,6 +138,9 @@ angular.module('PatientApp.Global', []).factory('App', [
       scrollBottom: function() {
         return $ionicScrollDelegate.scrollBottom(true);
       },
+      getScrollPosition: function() {
+        return $ionicScrollDelegate.getScrollPosition().top;
+      },
       parseErrorCode: function(error) {
         var errMsg, errType;
         errType = '';
