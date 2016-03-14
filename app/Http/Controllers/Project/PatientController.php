@@ -129,7 +129,7 @@ class PatientController extends Controller
         $project = Projects::find($projectId); 
         $projectAttributes = $project->attributes->toArray();
 
-        $projectAttributes = getProjectAttributes($projectAttributes);
+        // $projectAttributes = getProjectAttributes($projectAttributes);
 
 
         return view('project.patients.add')->with('active_menu', 'patients')
@@ -799,7 +799,7 @@ class PatientController extends Controller
         $project = Projects::find($project['id']); 
         $projectAttributes = $project->attributes->toArray();  
 
-        $projectAttributes = getProjectAttributes($projectAttributes);
+        // $projectAttributes = getProjectAttributes($projectAttributes);
         
         return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)

@@ -98,7 +98,7 @@
 
                                 </div>
                                 <div class="col-xs-1 text-right">
-                                    <a class="text-primary hidden"><i class="fa fa-close"></i></a>
+                                    <a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-close"></i></a>
                                 </div>
                             </div>
                                 <div class="text-right">
