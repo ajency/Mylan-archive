@@ -111,6 +111,7 @@ p {
 }
 .navbar.navbar-default .navbar-brand {
   padding: 3px 10px;
+  padding-top: 6px;
 }
 .navbar.navbar-default .navbar-brand .hospital-name {
   display: inline-block;
@@ -240,7 +241,7 @@ h3.line-title span {
   border: none;
 }
 .panel ul {
-  margin: none;
+  margin: 0;
 }
 .site-wrapper {
   display: table;
@@ -528,12 +529,12 @@ h3.line-title span {
 .item.item-radio .radio-icon span {
   color: #bbb!important;
   position: absolute;
-  right: 8px;
+  right: 9px;
   font-weight: bold;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon span {
   position: absolute;
-  right: 8px;
+  right: 9px;
   font-weight: bold;
   color: #fff!important;
 }
@@ -1090,5 +1091,42 @@ form .placeholderWrap .form-control:focus {
 }
 .notify-panel .notification-list li p {
   margin-bottom: 0;
+}
+.notify-panel .notification-list li p a {
+  text-decoration: none;
+  color: #05A8A5;
+}
+input::-ms-input-placeholder {
+  opacity: 0;
+}
+.questionnaire-text-field {
+  visibility: visible !important;
+  position: relative !important;
+  background: #F2F2F2;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ccc;
+  height: 40px;
+  width: 20%;
+  font-size: 14px;
+  padding: 5px;
+  margin: 0 10px;
+}
+.questionnaire-text-field:focus {
+  outline: none;
+}
+::ms-reveal {
+  display: none;
+}
+.view-more {
+  color: #00aaa7;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  text-align: center;
+}
+.view-more:hover {
+  color: #00c3c0;
+  text-decoration: none;
 }
 /*# sourceMappingURL=style.css.map */

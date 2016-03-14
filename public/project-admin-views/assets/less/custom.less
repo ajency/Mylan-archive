@@ -154,6 +154,8 @@ label{
 }
 .logo{
 	    margin: 10px 14px;
+	    border-right: 1px solid #ccc;
+    	padding-right: 15px;
 }
 .m-0{
 	margin: 0!important;
@@ -350,9 +352,15 @@ color: #fff;
     float: left;
     margin-left: 10px;
 }
+.lst-sub{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .lst-sub h2 {
     font-size: 23px!important;
-    margin-right: 5px;
+    padding: 0 12px;
     text-align: center;
     sm{
     	display: block;
@@ -373,6 +381,12 @@ color: #fff;
 		width		: 120%;
 		height		: 300px;
 }	
+
+//custom pie chart height: 
+.piechart-height{
+	height: 220px !important;
+}
+
 #piechart{
 	width		: 100%;
 	height		: 150px;
@@ -435,7 +449,7 @@ select, input{
 
  .grid-table-sort{
  	.sorting sm {
-    padding: 0px 11px;
+    padding: 0px 10px;
 	}
 	.sorting span {
     padding-left: 15px;
@@ -787,10 +801,7 @@ select, select option
 {
 	margin-top: 3px;
 }
-.m-r-15
-{
-	margin-top: 15px;
-}
+
 
 .filter-label
 {
@@ -1012,6 +1023,11 @@ select, select option
 		margin: 10px 0;
 		line-height: 1.1;
 	}
+	input.form-control{
+		width: 60%;
+	    margin: 0 16px 0 0;
+	    float: left;
+	}
 	.seconds{
 		font-size: 14px;
 	    color: #05A8A5;
@@ -1021,5 +1037,42 @@ select, select option
 		margin: 10px 0;
 	}
 }
+
+
+
+// ui multi-select checkbox fixes
+
+ul.ui-multiselect-checkboxes{
+	li{
+		label.ui-corner-all{
+			span{
+				vertical-align: middle;
+				padding-left: 5px;
+			}
+		}
+	}
+}
+
+
+// Breadcrum first letter caps
+
+.breadcrumb{
+	li{
+		&.active{
+			text-transform: capitalize;
+		}
+	}
+}
+
+
+
+.theme-color{
+	color: #05A8A5;
+}
+
+.baseline-color{
+	color: #576475;
+}
+
 
 

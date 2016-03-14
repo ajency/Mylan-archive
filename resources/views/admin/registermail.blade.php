@@ -17,10 +17,10 @@
                 <br>
                 <br>
 
-                To go back to the Login page, <a href="{{  url() }}/admin">click here</a>
+                To go to Login page kindly use following Url: <br>
+                 <?php echo $user['loginUrls'] ?> 
 
-                 or copy paste the link below in your browser to login to your account:<br>
-                <a href="{{  url() }}/admin">{{  url() }}/admin</a>
+                 or copy paste the link below in your browser to login to your account
 
                 <br/>
 

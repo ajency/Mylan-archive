@@ -82,7 +82,11 @@
          </div>
          <div class="row">
             <div class="col-sm-4">
-               <div id="submissionschart"></div>
+              @if($totalResponses)
+               <div id="submissionschart" class="piechart-height"></div>
+              @else 
+                <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+              @endif
             </div>
             <div class="col-sm-8">
                <div class="row p-t-80">
@@ -117,42 +121,48 @@
             <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
-           <div class="table-responsive sticky-table-outer-div {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
+           <div class="table-responsive {{(!empty($responseArr))?'sticky-table-outer-div':''}} {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
            
          <table class="table">
-                        <thead class="cf">
-                           <tr>
-                              <th class="headcol th-headcol"></th>
-                              @foreach($responseArr as $response)
-                              <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
-                              @endforeach
-                           </tr>
-                        </thead>
-                        <tbody>
-                           @foreach($flagsQuestions as $questionId => $question)
-                           <tr>
-                              <td class="headcol">{{ $question }}</td>
-                              @foreach($responseArr as $responseId => $response)
-                              <?php
-                              if(isset($submissionFlags[$responseId][$questionId]))
-                              {
-                                $class='bg-'.$submissionFlags[$responseId][$questionId]['baslineFlag'];
-                                $flag= ($submissionFlags[$responseId][$questionId]['previousFlag']=='no_colour' || $submissionFlags[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionFlags[$responseId][$questionId]['previousFlag'];
-                              }
-                              else
-                              {
-                                $class='bg-gray';
-                                $flag = 'hidden';
-                              }
-                              ?>
-                              <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
-                   
-                              @endforeach
-                              
-                           </tr>
-                        @endforeach
-                           
-                        </tbody>
+         @if(empty($responseArr))
+           <tbody>
+          <tr><td class="no-data-found"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+          </tbody>
+        @else
+            <thead class="cf">
+               <tr>
+                  <th class="headcol th-headcol"></th>
+                  @foreach($responseArr as $response)
+                  <th>{{ $response['DATE'] }} ({{ $response['SUBMISSIONNO'] }})</th>
+                  @endforeach
+               </tr>
+            </thead>
+            <tbody>
+               @foreach($flagsQuestions as $questionId => $question)
+               <tr>
+                  <td class="headcol">{{ $question }}</td>
+                  @foreach($responseArr as $responseId => $response)
+                  <?php
+                  if(isset($submissionFlags[$responseId][$questionId]))
+                  {
+                    $class='bg-'.$submissionFlags[$responseId][$questionId]['baslineFlag'];
+                    $flag= ($submissionFlags[$responseId][$questionId]['previousFlag']=='no_colour' || $submissionFlags[$responseId][$questionId]['previousFlag']=='')?'hidden':'text-'.$submissionFlags[$responseId][$questionId]['previousFlag'];
+                  }
+                  else
+                  {
+                    $class='bg-gray';
+                    $flag = 'hidden';
+                  }
+                  ?>
+                  <td class="{{ $class }}"><i class="fa fa-flag {{ $flag }}" ></i></td>
+       
+                  @endforeach
+                  
+               </tr>
+            @endforeach
+               
+            </tbody>
+          @endif
                      </table>
                      </div>
            </div>
@@ -168,7 +178,12 @@
                     <option value="{{ $questionId }}" >{{ $question }}</option>
                     @endforeach
                  </select>
-               <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+                 @if(!$totalResponses)
+                  <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                @else
+                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+                @endif
+                
             </div>
          </div>
          <br>
@@ -200,8 +215,12 @@
                       @endforeach
                     </select> 
               
-
-                     <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+                    @if(!$totalResponses)
+                        <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                      @else
+                       <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+                      @endif    
+                     
       </div>
 
 
@@ -316,8 +335,8 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                     "valueField": "value",
                     "labelRadius": 5,
          
-                    "radius": "30%",
-                    "innerRadius": "48%",
+                    "radius": "36%",
+                    "innerRadius": "60%",
                     "labelText": "[[title]]",
                     "export": {
                       "enabled": true

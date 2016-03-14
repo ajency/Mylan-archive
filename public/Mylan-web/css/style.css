@@ -107,8 +107,6 @@ p {
   }
 }
 .navbar.navbar-default {
-  -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.31);
-  -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.31);
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.31);
 }
 .navbar.navbar-default .navbar-brand {
@@ -206,7 +204,7 @@ h3.line-title span {
   background: #ffffff;
 }
 .panel {
-  box-shadow: 0 6px 1px rgba(0, 0, 0, 0.07);
+  border: none;
 }
 .site-wrapper {
   display: table;
@@ -370,7 +368,8 @@ h3.line-title span {
 }
 .btn-hover span {
   position: relative;
-  transition: 0.5s;
+  -webkit-transition: 0.5s;
+          transition: 0.5s;
 }
 .btn-hover span:after {
   content: '\f101';
@@ -379,7 +378,8 @@ h3.line-title span {
   opacity: 0;
   top: -2px;
   right: -20px;
-  transition: 0.5s;
+  -webkit-transition: 0.5s;
+          transition: 0.5s;
 }
 .btn-hover:hover span {
   padding-right: 25px;
@@ -446,6 +446,7 @@ h3.line-title span {
   font-size: 17px;
   color: #555555;
   width: 100%;
+  cursor: pointer;
 }
 .item.item-radio input {
   visibility: hidden;
@@ -502,8 +503,14 @@ h3.line-title span {
 /*** SLIDER STYLING ***/
 .carousel-content {
   color: black;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .carousel-content .panel {
   width: 100%;
@@ -877,12 +884,10 @@ div.q-tabs .active:hover {
   display: inline-block;
   -webkit-box-align: center;
   -webkit-align-items: center;
-  -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
-  -moz-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
   padding-top: 25%;
@@ -893,12 +898,8 @@ div.q-tabs .active:hover {
   width: 40px;
   height: 40px;
   -webkit-animation: rotate 0.6s linear infinite;
-  -moz-animation: rotate 0.6s linear infinite;
   -ms-animation: rotate 0.6s linear infinite;
-  -o-animation: rotate 0.6s linear infinite;
   animation: rotate 0.6s linear infinite;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
   border-radius: 100%;
   border-top: 2px solid #00bae5;
   border-bottom: 2px solid #ffffff;
@@ -921,34 +922,6 @@ div.q-tabs .active:hover {
   }
 }
 @-webkit-keyframes rotate {
-  0% {
-    transform: rotateZ(-360deg);
-    -webkit-transform: rotateZ(-360deg);
-    -moz-transform: rotateZ(-360deg);
-    -o-transform: rotateZ(-360deg);
-  }
-  100% {
-    transform: rotateZ(0deg);
-    -webkit-transform: rotateZ(0deg);
-    -moz-transform: rotateZ(0deg);
-    -o-transform: rotateZ(0deg);
-  }
-}
-@-moz-keyframes rotate {
-  0% {
-    transform: rotateZ(-360deg);
-    -webkit-transform: rotateZ(-360deg);
-    -moz-transform: rotateZ(-360deg);
-    -o-transform: rotateZ(-360deg);
-  }
-  100% {
-    transform: rotateZ(0deg);
-    -webkit-transform: rotateZ(0deg);
-    -moz-transform: rotateZ(0deg);
-    -o-transform: rotateZ(0deg);
-  }
-}
-@-o-keyframes rotate {
   0% {
     transform: rotateZ(-360deg);
     -webkit-transform: rotateZ(-360deg);
@@ -992,3 +965,4 @@ ul.parsley-errors-list {
 ul.parsley-errors-list li {
   color: #f35958!important;
 }
+/*# sourceMappingURL=style.css.map */

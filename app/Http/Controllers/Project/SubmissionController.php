@@ -39,7 +39,7 @@ class SubmissionController extends Controller
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -71,9 +71,16 @@ class SubmissionController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $responseRate['lateCount'] = $responseQry->count();
 
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
+        $responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        $responseRate['completedCount'] = $responseQry->count();
+
         // get completed count
-        $submissionStatus = '';
-        $responseStatus = ["completed","late"];
+        $submissionStatus = 'completed';
+        $responseStatus = ["completed"];
         
         $reviewStatus = ['reviewed','unreviewed'];
         if(isset($inputs['submissionStatus']))
@@ -85,14 +92,14 @@ class SubmissionController extends Controller
             if($submissionStatus=='completed')
             {
               //$responseRate['missedCount'] =0;
-              $responseRate['lateCount']  =0;
+              // $responseRate['lateCount']  =0;
               $responseStatus = [$inputs['submissionStatus']];
             }
-            // elseif($submissionStatus=='missed')
-            // {
-            //   $responseRate['lateCount']  =0;
-            //   $responseStatus = [];
-            // }
+            elseif($submissionStatus=='missed')
+            {
+              // $responseRate['lateCount']  =0;
+              $responseStatus = [$inputs['submissionStatus']];
+            }
             elseif($submissionStatus=='late')
             {
               //$responseRate['missedCount'] =0;
@@ -156,9 +163,9 @@ class SubmissionController extends Controller
 
         $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
 
-        $responseRate['completedCount'] = count($completedResponses);
+        // $responseRate['completedCount'] = count($completedResponses);
 
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+        $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
         $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
@@ -500,8 +507,8 @@ class SubmissionController extends Controller
 
         $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-7 day'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y', strtotime('+1 day'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
                   "__type" => "Date",
@@ -510,8 +517,11 @@ class SubmissionController extends Controller
 
         $endDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
+
+        $startDateYmd = date('Y-m-d', strtotime($startDate));
+        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
         
         $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 

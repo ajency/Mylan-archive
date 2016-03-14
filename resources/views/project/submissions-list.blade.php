@@ -56,7 +56,11 @@
                            <div class="col-md-4">
                               <div class="tiles white added-margin">
                                  <div class="tiles-body">
+                                  @if(!empty($submissionsSummary))     
                                     <div id="submissionschart"></div>
+                                  @else 
+                                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                  @endif
                                  </div>
                               </div>
                            </div>
@@ -98,6 +102,7 @@
                                 <option value="all">All</option>
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
+                                <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
                                 <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
@@ -114,7 +119,7 @@
                            <sm class="light">(These are scores & flags for current submissions)</sm>
                         </div>
                         <div class="grid-body no-border" style="display: block;">
-                          <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="status" cond="{{ $submissionStatus }}">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="16%">Patient ID <br><br></th>
@@ -158,7 +163,7 @@
                          </div>
                           @if(!empty($submissionsSummary))     
                               @foreach($submissionsSummary as $responseId=> $submission)
-                                 @if($submission['status']=='missed')
+                                 @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
                                       <td class="text-center">{{ $submission['patient'] }}</td>
                                        <td>
@@ -194,7 +199,7 @@
                                         <td class="text-center sorting text-warning">0</td>
                                         <td class="text-left sorting  text-success">0</td>
                           
-                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
@@ -239,7 +244,7 @@
                         
                             @endforeach
                            @else 
-                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
@@ -271,7 +276,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
        "valueField": "value",
        "labelRadius": 5,
 
-       "radius": "42%",
+       "radius": "36%",
        "innerRadius": "60%",
        "labelText": "[[title]]",
        "export": {

@@ -26,6 +26,68 @@ function getUserApiKey( $userId ) {
     return $key[0];
 }    
 
+// function secondsToTime($inputSeconds) {
+
+//     $secondsInAMinute = 60;
+//     $secondsInAnHour  = 60 * $secondsInAMinute;
+//     $secondsInADay    = 24 * $secondsInAnHour;
+
+//     // extract days
+//     $days = floor($inputSeconds / $secondsInADay);
+
+//     // extract hours
+//     $hourSeconds = $inputSeconds % $secondsInADay;
+//     $hours = floor($hourSeconds / $secondsInAnHour);
+
+//     // extract minutes
+//     $minuteSeconds = $hourSeconds % $secondsInAnHour;
+//     $minutes = floor($minuteSeconds / $secondsInAMinute);
+
+//     // extract the remaining seconds
+//     $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+//     $seconds = ceil($remainingSeconds);
+
+//     // return the final array
+//     $obj = array(
+//         'd' => (int) $days,
+//         'h' => (int) $hours,
+//         'm' => (int) $minutes,
+//         's' => (int) $seconds,
+//     );
+//     return $obj;
+// }
+
+function secondsToTime($inputSeconds) {
+
+    $secondsInAMinute = 60;
+    $secondsInAnHour  = 60 * $secondsInAMinute;
+    $secondsInADay    = 24 * $secondsInAnHour;
+
+    // extract days
+    $days = floor($inputSeconds / $secondsInADay);
+
+    // extract hours
+    $hourSeconds = $inputSeconds % $secondsInADay;
+    $hours = floor($hourSeconds / $secondsInAnHour);
+ 
+
+    // return the final array
+    $obj = array(
+        'd' => (int) $days,
+        'h' => (int) $hours,
+    
+    );
+    return $obj;
+}
+
+function convertToSeconds($days,$hours)
+{
+    $dayToseconds = $days * 86400;
+    $hoursToseconds = $hours * 3600;
+    $seconds = $dayToseconds + $hoursToseconds;
+    
+    return $seconds;
+}
 
 function convertStonePoundsToKgs($stones,$pounds)
 {
@@ -44,29 +106,44 @@ function getInputValues($values,$withLabel=true)
 {
     /*********
     $array['kg']=50
-    $array=['st'=>50,'lbs'=>30];
+    $array=['st'=>50,'lb'=>30];
 
     /******/
-    if(count($values)==1)
+    // if(count($values)==1)
+    // {
+    //     $result = current($values).' ';
+    //     $result .= ($withLabel)? key($values) :'';
+    // }
+    // else
+    // {
+    //     if(isset($values['st']) && isset($values['lb']))
+    //     {
+    //         $result = convertStonePoundsToKgs($values['st'],$values['lb']) ;
+    //         $result .= ($withLabel)? ' kg' :'';
+    //     }
+    //     else
+    //     {
+    //         $result = current($values).' ';
+    //         $result .= ($withLabel)? key($values) :'';
+    //     }
+        
+    // }
+
+
+    if(isset($values['st']) || isset($values['lb']))
+    {
+        $stones = (isset($values['st'])) ? $values['st']:0;
+        $pounds = (isset($values['lb'])) ? $values['lb']:0;
+
+        $result = convertStonePoundsToKgs($stones,$pounds) ;
+        $result .= ($withLabel)? ' kg' :'';
+    }
+    else
     {
         $result = current($values).' ';
         $result .= ($withLabel)? key($values) :'';
     }
-    else
-    {
-        if(isset($values['st']) && isset($values['lbs']))
-        {
-            $result = convertStonePoundsToKgs($values['st'],$values['lbs']) ;
-            $result .= ($withLabel)? ' kg' :'';
-        }
-        else
-        {
-            $result = current($values).' ';
-            $result .= ($withLabel)? key($values) :'';
-        }
         
-    }
-
     return $result;
 } 
 
@@ -118,7 +195,7 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
 {  
     $userId =  Auth::user()->id;
     $user = App\User::find($userId); 
-    $hasAccess = $user->project_access; 
+    $hasAccess = $user->has_all_access; 
     $userType =  $user->type; 
 
     
@@ -146,6 +223,50 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
     return $flag;
 }
 
+
+function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
+{  
+    $userId =  Auth::user()->id;
+    $user = App\User::find($userId); 
+    $hasAccess = $user->has_all_access; 
+    $userType =  $user->type; 
+
+    
+    $flag = false;
+    
+    $permissions =[];
+    $userAccess = [];
+
+    $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+     
+
+    $hospital = $hospitalProjectData['hospital'];
+    $project = $hospitalProjectData['project']; 
+    
+
+    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user')
+    {
+        if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
+        {
+            if($userType=='hospital_user')
+            {
+                $userAccess = $user->access()->where(['object_type'=>'hospital', 'object_id'=>$hospital['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+
+            }
+            elseif($userType=='project_user')
+            {
+                $userAccess = $user->access()->where(['object_type'=>'project', 'object_id'=>$project['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+            }
+            
+            if(!empty($userAccess))
+                $flag = true;
+        }
+        else
+            $flag = true;
+    }
+ 
+    return $flag;
+}
 
 function hospitalImageExist($hospital)
 { 

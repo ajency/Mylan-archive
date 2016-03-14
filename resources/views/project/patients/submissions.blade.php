@@ -65,7 +65,7 @@
                   </div>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
-                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                       <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="status" cond="{{ $submissionStatus }}">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting sortSubmission" sort="sequenceNumber" sort-type="asc"  style="cursor:pointer;"># Submission <i class="fa fa-angle-down sortCol"></i><br><br></th>
@@ -108,7 +108,7 @@
                          </div>
                             @if(!empty($submissionsSummary))   
                               @foreach($submissionsSummary as $responseId=> $submission)
-                                 @if($submission['status']=='missed')
+                                 @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
                                        <td>
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
@@ -143,7 +143,7 @@
                                       <td class="text-center sorting text-warning">0</td>
                                       <td class="text-left sorting  text-success">0</td>
 
-                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 

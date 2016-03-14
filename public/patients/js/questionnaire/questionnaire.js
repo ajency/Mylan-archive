@@ -17,6 +17,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       showMoreButton: true,
       popTitle: '',
       responseId: '',
+      firstText: '',
+      secondText: '',
       overlay: false,
       showMore: function() {
         this.limitTo = this.limitTo + 5;
@@ -35,6 +37,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         return this.overlay = false;
       },
       variables: function() {
+        this.firstText = 'notSelected';
+        this.secondText = 'notSelected';
         this.descriptiveAnswer = '';
         this.singleChoiceValue = '';
         return this.val_answerValue = {};
@@ -84,6 +88,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 }
               };
             })(this));
+            optionSelectedArray.sort();
             this.data.previousQuestionnaireAnswer['label'] = optionSelectedArray.toString();
           }
           return this.data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY');
@@ -116,6 +121,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 _this.variables();
                 _this.data = [];
                 _this.data = data;
+                _this.questionLabel();
                 _this.readonly = _this.data.editable;
                 _this.pastAnswer();
                 if (!_.isEmpty(_this.data.hasAnswer)) {
@@ -168,6 +174,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
+                _this.questionLabel();
                 return _this.pastAnswer();
               };
             })(this), (function(_this) {
@@ -189,16 +196,20 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             _this.display = 'noError';
             console.log('******next question******');
             console.log(data);
-            _this.checkQuestinarieStatus(data);
-            _this.variables();
-            _this.data = [];
-            _this.data = data;
-            _this.readonly = true;
-            if (!_.isEmpty(_this.data.hasAnswer)) {
-              _this.hasAnswerShow();
-              _this.readonly = _this.data.editable;
+            if (!_.isUndefined(data.status)) {
+              return _this.checkQuestinarieStatus(data);
+            } else {
+              _this.variables();
+              _this.data = [];
+              _this.data = data;
+              _this.questionLabel();
+              _this.readonly = true;
+              if (!_.isEmpty(_this.data.hasAnswer)) {
+                _this.hasAnswerShow();
+                _this.readonly = _this.data.editable;
+              }
+              return _this.pastAnswer();
             }
-            return _this.pastAnswer();
           };
         })(this), (function(_this) {
           return function(error) {
@@ -326,6 +337,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             _this.variables();
             _this.data = [];
             _this.data = data;
+            _this.questionLabel();
             _this.readonly = _this.data.editable;
             _this.pastAnswer();
             if (!_.isEmpty(_this.data.hasAnswer)) {
@@ -390,18 +402,18 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           _.each(this.data.options, (function(_this) {
             return function(opt) {
               var a;
-              a = _this.val_answerValue[opt.option];
-              if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
-                valueInput.push(a);
-                optionId.push(opt.id);
-                obj['id'] = opt.id;
-                obj['value'] = a;
-                return arryObj.push(obj);
+              if (!_.isUndefined(_this.val_answerValue)) {
+                a = _this.val_answerValue[opt.option];
+                if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
+                  valueInput.push(a);
+                  optionId.push(opt.id);
+                  obj['id'] = opt.id;
+                  obj['value'] = a;
+                  return arryObj.push(obj);
+                }
               }
             };
           })(this));
-          console.log('***');
-          console.log(optionId);
           if (_.isEmpty(optionId)) {
             optionId = [];
           } else {
@@ -467,6 +479,80 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             Storage.summary('set', summaryData);
             return $location.path('summary');
           }
+        }
+      },
+      questionLabel: function() {
+        var arr, kg;
+        if (this.data.questionType === 'input') {
+          arr = [];
+          this.data.withoutkg = {};
+          this.data.withkg = {};
+          kg = {};
+          _.each(this.data.options, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.option;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool) {
+                arr.push(1);
+                return kg = value;
+              }
+            };
+          })(this));
+          if (arr.length > 0) {
+            this.data.optionsLabel = true;
+            this.data.withoutkg = _.without(this.data.options, kg);
+            return this.data.withkg = kg;
+          } else {
+            return this.data.optionsLabel = false;
+          }
+        }
+      },
+      firstRow: function() {
+        var a, edit;
+        if (this.readonly === false && !_.isEmpty(this.data.hasAnswer)) {
+          edit = true;
+        } else {
+          edit = false;
+        }
+        if (edit === false) {
+          console.log('inside firstrow click');
+          this.firstText = 'selected';
+          this.secondText = 'notSelected';
+          a = {};
+          _.each(this.val_answerValue, (function(_this) {
+            return function(val, key) {
+              return a[key] = '';
+            };
+          })(this));
+          return this.val_answerValue = a;
+        }
+      },
+      secondRow: function() {
+        var edit;
+        if (this.readonly === false && !_.isEmpty(this.data.hasAnswer)) {
+          edit = true;
+        } else {
+          edit = false;
+        }
+        if (edit === false) {
+          console.log('inside second row click');
+          this.firstText = 'notSelected ';
+          this.secondText = 'selected';
+          return _.each(this.data.options, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.option;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool) {
+                return _this.val_answerValue[value.option] = '';
+              }
+            };
+          })(this));
         }
       }
     };

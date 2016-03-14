@@ -180,6 +180,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
   var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }}'; 
 
  $(document).ready(function() {
+
+ // Always scroll to right 
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
  
  shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
 

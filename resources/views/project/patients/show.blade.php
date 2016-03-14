@@ -63,19 +63,19 @@
                  <dt>If yes, how many per week</dt>
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
                  @endif
-                <!--  <dt>Alcoholic</dt>
-                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd> -->
-                 @if($patient['patient_is_alcoholic']=='yes')
-                 <dt>Alcohol(units per week)</dt>
+    
+                 <dt>Alcohol (units per week)</dt>
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
-                 @endif
+           
               </dl>
               </div>
               <div class="col-sm-4">
+                @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                  <div class="text-right">
                     <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/edit' ) }}" class="btn btn-white text-success"><i class="fa fa-pencil-square-o"></i> Edit</a>
                     <!-- <a href="#" class="btn btn-danger"><i class="fa fa-download"></i> Download CSV</a> -->
                  </div>
+                @endif
               </div>
            </div>
            <br>
@@ -218,7 +218,7 @@
                        </h4>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
-                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                       <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting sortSubmission" sort="sequenceNumber" sort-type="asc"  style="cursor:pointer;"># Submission <i class="fa fa-angle-down sortCol"></i><br><br></th>
@@ -261,7 +261,7 @@
                          </div>
                            @if(!empty($submissionsSummary))      
                               @foreach($submissionsSummary as $responseId=> $submission)
-                                 @if($submission['status']=='missed')
+                                 @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
                                        <td>
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
@@ -290,7 +290,7 @@
                                       <td class="text-center text-warning">0</td>
                                       <td class="text-left  text-success">0</td>
 
-                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
@@ -430,8 +430,12 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
     var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 
-   $(document).ready(function() {
 
+   $(document).ready(function() {
+  
+     // Always scroll to right 
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
+    
     // submission chart
     var legends = {score: "Total Score"};
     // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');

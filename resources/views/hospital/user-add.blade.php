@@ -36,7 +36,7 @@
             <div class="col-sm-3">
                <div class="form-row">
                   <label>Email</label>
-                  <input name="email" id="email" type="email"  class="form-control" data-parsley-required data-parsley-type="email">
+                  <input name="email" id="email" type="email"  objectId="0" objectType="project" class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
                </div>
             </div>
             <div class="col-sm-3">
@@ -103,8 +103,7 @@
             <div class="text-right">
                <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
-               <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button>
-               <button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button>
+               <a href="{{ url($hospital['url_slug'].'/users') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
             </div>
          </div>
       </form>

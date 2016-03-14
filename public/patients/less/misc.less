@@ -112,6 +112,7 @@ p{
       box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.31);
    .navbar-brand{
         padding: 3px 10px;
+        padding-top: 6px;
         .hospital-name
         {
           display: inline-block;
@@ -242,7 +243,7 @@ h4.line-title,h3.line-title {
         /*box-shadow: 0 6px 1px rgba(0,0,0,0.07);*/
             border: none;
             ul{
-              margin:none;
+              margin:0;
             }
 }
 .site-wrapper{
@@ -564,12 +565,12 @@ h4.line-title,h3.line-title {
 .item.item-radio .radio-icon span{
  color: #bbb!important;
  position: absolute;
-   right: 8px;
+   right: 9px;
    font-weight: bold;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon span{
    position: absolute;
-   right: 8px;
+   right: 9px;
    font-weight: bold;
    color: #fff!important;
 }
@@ -1177,7 +1178,59 @@ form .placeholderWrap .form-control:focus
       }
       p{
         margin-bottom: 0;
+        a{
+          text-decoration: none;
+          color: #05A8A5;
+        }
       }
     }
   } 
 }
+
+// IE Edge placeholder issue fixed
+
+input::-ms-input-placeholder{
+  opacity: 0;
+}
+
+// custom Questionnaire remaining styles 
+
+.questionnaire-text-field{
+    visibility: visible !important;
+    position: relative !important;
+    background: #F2F2F2;
+    border: 1px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    height: 40px;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px;
+    margin: 0 10px;
+    &:focus{
+      outline: none;
+    }
+}
+
+
+// Remove default IE password reveal icon
+
+::ms-reveal{
+  display: none;
+}
+
+// View more link styling
+
+.view-more{
+color: #00aaa7;
+   display: inline-block;
+   text-decoration: none;
+   cursor: pointer;
+   padding: 6px 12px;
+   text-align: center;
+   &:hover{
+    color: lighten(#00aaa7,5%);
+    text-decoration: none;
+   }
+}
+
+

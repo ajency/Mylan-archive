@@ -65,16 +65,17 @@ Route::resource( 'user-access', 'Admin\UserAccessController' );
 
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
-
+Route::post( 'users/{id}/authuseremail', 'Admin\UserController@authUserEmail' );
 });
 
 
-/*****Hospital***/ //,'hospital.permission'
-Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth']], function() {
+/*****Hospital***/ //
+Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital.permission']], function() {
  Route::get( '/', 'Hospital\HospitalController@show' );
 // Route::get( '/dashbord', 'Hospital\HospitalController@show' );
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
+Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
 // Route::resource( 'patients', 'Hospital\PatientController' );
 // Route::resource( 'submissions', 'Hospital\SubmissionController' );
 
@@ -88,8 +89,8 @@ Route::resource( 'users', 'Hospital\UserController' );
 // Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
 });
 
-/*****project***/ //,'project.permission'
-Route::group( ['prefix' => '{hospitalslug}/{projectslug}'  , 'middleware' => ['auth']], function() {
+/*****project***/ //
+Route::group( ['prefix' => '{hospitalslug}/{projectslug}'  , 'middleware' => ['auth','project.permission']], function() {
 Route::get( '/', 'Project\ProjectController@show' );
 Route::get( '/dashboard', 'Project\ProjectController@show' );
 Route::resource( 'patients', 'Project\PatientController' );

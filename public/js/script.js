@@ -23,6 +23,11 @@ $.ajaxSetup({
  
 $('.validateRefernceCode').change(function (event) { 
     // $(".cf-loader").removeClass('hidden');
+    var controlObj = $(".reference_code");
+    controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
+    controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
+    controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
+
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
         type: "POST",
@@ -33,10 +38,45 @@ $('.validateRefernceCode').change(function (event) {
         success: function (response) {
             if (!response.data)
             {   
-                alert('Reference Code Already Taken');
-                $("#reference_code").val('');
+                controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference code already taken</li>')
+                controlObj.val('');               
             }
+            controlObj.closest('.form-row').find('.cf-loader').remove();
+            controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
 
+        }
+    });
+    
+ 
+});
+
+
+$('.authUserEmail').change(function (event) { 
+  var controlObj = $(".authUserEmail");
+    controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
+    controlObj.closest('.form-row').find('.parsley-errors-list').find('.emailError').remove();
+    controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
+    var USER_ID = $(this).attr('objectId');
+    if($(this).attr('objectType')=='hospital')
+      var URL = BASEURL+"/admin/users/"+USER_ID+"/authuseremail";
+    else
+      var URL = BASEURL+"/users/"+USER_ID+"/authuseremail";
+
+    $.ajax({
+        url: URL ,
+        type: "POST",
+        data: {
+            email: $(this).val()
+        },
+        dataType: "JSON",
+        success: function (response) {
+            if (!response.data)
+            {   
+                controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required emailError">Email already taken</li>');
+                controlObj.val('');  
+            }
+            controlObj.closest('.form-row').find('.cf-loader').remove();
+            controlObj.closest('form').find('button[type="submit"]').removeAttr('disabled');
             // $(".cf-loader").addClass('hidden');
         }
     });
@@ -827,7 +867,7 @@ function miniGraph(chartData,container)
         "type":"step",
         "lineThickness": 0.5,
         "title": "Baseline",
-        "lineColor": "#ccc",
+        "lineColor": "#576475",
         "valueField": "baseLine"
     }         ],
     "marginTop": 0,
@@ -895,18 +935,28 @@ function miniGraph(chartData,container)
 
 
 $('.sortSubmission').click(function (event) { 
-      var sortObject = $(this);
+       var startDate = $('input[name="startDate"]').val();
+       var endDate = $('input[name="endDate"]').val();
+
+       var sortObject = $(this);
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#submissionData").attr('limit');
        var object_type = $("#submissionData").attr('object-type');
        var object_id = $("#submissionData").attr('object-id');
+
+       var cond_type = sortObject.closest('table').attr('cond-type'); 
+       var cond = sortObject.closest('table').attr('cond'); 
+
        sortObject.closest('.grid-body').find(".loader-outer").removeClass('hidden');
        $.ajax({
         url: BASEURL+"/getsubmissionlist",
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
+            cond: cond+'-'+cond_type,
+            startDate:startDate ,
+            endDate:endDate ,
             limit:limit ,
             object_type:object_type,
             object_id:object_id  
@@ -940,7 +990,10 @@ $('.sortSubmission').click(function (event) {
 
  
 $( document ).on("click", ".sortPatientSummary", function() {
-      var sortObject = $(this);
+       var startDate = $('input[name="startDate"]').val();
+       var endDate = $('input[name="endDate"]').val();
+
+       var sortObject = $(this);
        var sort_type = sortObject.attr('sort-type'); 
        var sort = sortObject.attr('sort'); 
        var limit = $("#patientSummaryData").attr('limit');
@@ -950,6 +1003,8 @@ $( document ).on("click", ".sortPatientSummary", function() {
         type: "GET",
         data: {
             sort: sort+'-'+sort_type,
+            startDate:startDate ,
+            endDate:endDate ,
             limit:limit 
         },
         dataType: "JSON",

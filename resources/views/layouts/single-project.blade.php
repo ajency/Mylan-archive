@@ -39,6 +39,11 @@
          var STARTDATE = '';
          var ENDDATE = '';
       </script>
+
+      <!-- BEGIN TRACKJS -->
+      <script type="text/javascript">window._trackJs = { token: '21aaf9c6cfae433389d70210a39dabaf' };</script>
+      <script type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"></script>
+      <!-- END TRACKJS -->
    </head>
    <!-- END HEAD -->
    <!-- BEGIN BODY -->
@@ -107,7 +112,7 @@
                </div>
                <div class="pull-left">
                <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/' ) }}" class="inline">{{ hospitalImageExist($hospital) }}
-               &nbsp;<h4 class="text-left m-t-15 semi-bold inline" >{{ $project['name']}}</h4></a>
+               &nbsp;<h4 class="text-left semi-bold inline" >{{ $project['name']}}</h4></a>
                </div>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
@@ -154,6 +159,7 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
+                        @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                         <li class="classic {{ ( $active_menu == 'settings')? 'active-item' : ''}}">
                         <a href="javascript:;">
                           <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
@@ -175,6 +181,7 @@
                           </li> -->
                         </ul>
                       </li>
+                      @endif
                      </ul>
                   </div>
                </div>
@@ -236,8 +243,8 @@
          "ranges": {
                   'This Month': [moment().startOf('month'), moment().endOf('month')],
                   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                  'Last 6 Months': [moment().month(-6), moment()],
-                  'Last 12 Months': [moment().month(-12), moment().subtract(1, 'days')],
+                  'Last 6 Months': [moment().subtract(6, 'months'), moment()],
+                  'Last 12 Months': [moment().subtract(12, 'months'), moment()],
                     
                  },
          "startDate": moment(STARTDATE),

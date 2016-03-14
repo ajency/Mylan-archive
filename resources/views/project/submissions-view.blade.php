@@ -41,6 +41,7 @@
                            <br>
                   <div id="chartdiv" style="width:100%; Height:500px;"></div>
                   <br>
+                  @if(!empty($inputValueChart))
                   <table class="table table-flip-scroll cf table-center">
                  <thead class="cf">
                     <tr>
@@ -71,6 +72,7 @@
                     </tr>
                  </tbody>
               </table>
+              @endif
 <!--                  <div class="row">
                   @foreach($inputValueChart as $inputValue)
                   <div class="submission-chart-wt text-center">
@@ -106,6 +108,7 @@
                                  <div>Submitted on {{ $date }}</div>
                               </div>
                               <div class="col-md-3">
+                                @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                                  <div class="row">
                                     <div class="col-md-2">
                                       
@@ -125,7 +128,7 @@
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
                                  </div>
-                                
+                                @endif
                               </div>
                               <div class="col-md-3 m-t-25 text-right ">
                               Previous | Baseline<br>

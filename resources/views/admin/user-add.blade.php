@@ -36,7 +36,8 @@
             <div class="col-sm-3">
                <div class="form-row">
                   <label>Email</label>
-                  <input name="email" id="email" type="email"  class="form-control" data-parsley-required data-parsley-type="email">
+                  <input name="email" id="email" type="email" objectId="0" objectType="hospital"  class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
+
                </div>
             </div>
             <div class="col-sm-3">
@@ -50,7 +51,7 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
-         <div class="user-description-box">
+         <!-- <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Mylan</div>
                <div class="col-md-3">
@@ -77,14 +78,14 @@
             </div>
 
          </div>
-         <br>
+         <br> -->
              <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Hospital</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
-                  <input id="has_access" type="checkbox" name="has_access" value="yes" >
-                  <label for="has_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
+                  <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" >
+                  <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
                </div>
                   Access  (Individual)
                </div>
@@ -130,8 +131,7 @@
             <div class="text-right">
                <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
-               <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button>
-               <button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button>
+               <a href="{{'/admin/users'}}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
             </div>
          </div>
       </form>

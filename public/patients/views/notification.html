@@ -34,7 +34,7 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                           Your Questionnaire is due on {{notify.occurrenceDateDisplay}}
+                           Your Questionnaire is due on <a href="">{{notify.occurrenceDateDisplay}}</a>.
                             </p>
 
                           </li>
@@ -48,8 +48,8 @@
                             </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)">
-                             Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                              Please submit it by {{notify.graceDateDisplay}} 
+                             Questionnairre was due on <a href="">{{notify.occurrenceDateDisplay}}</a>. 
+                              Please submit it by <a href="">{{notify.graceDateDisplay}}</a>. 
                             </p>
                           </li>
 
@@ -64,18 +64,20 @@
                               </a>
                             </span>
                             <p ng-click="view.seenNotify(notify.id)" >
-                            Your Questionnaire is due on {{notify.occurrenceDateDisplay}}</p>
+                            Your Questionnaire is due on <a href="">{{notify.occurrenceDateDisplay}}</a>.</p>
                           </li>
 
 
 
                       </div>
 
-                      <div class="" ng-if="view.canLoadMore === true "><br>
-                         <a type="button" class="btn btn-link btn-block btn-warning"
-                          ng-click="view.showMore()">
-                            <span>View More</span>
-                          </a>
+                      <div class="text-center" ng-if="view.canLoadMore === true ">
+                        <a class="view-more" ng-click="view.showMore()">
+                            <i class="fa fa-plus"></i>
+                               <span>View More</span>
+                        </a>
+
+                        
                       </div>
 
                       <div class="text-center text-success" 
