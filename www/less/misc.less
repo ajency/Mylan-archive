@@ -32,6 +32,9 @@ html,html * {
 	.margin-none{
 		margin:0px;
 	}
+	.border-none{
+		border:0px;
+	}
 	.bold{
 		font-weight:400;
 	}
@@ -212,8 +215,10 @@ html,html * {
 		.button.update{
 		margin-left: 5px;
 			.badge{
-				padding: 1px 6px;
-				font-size: 11px;
+				    padding: 1px 0px;
+				    font-size: 11px;
+				    text-align: center;
+				    line-height: 14px;
 			}
 		}
 		.ion-ios-telephone{
@@ -797,6 +802,15 @@ ul{
 @media (min-width: 768px) and (max-width: 1024px){
 		.hospital-logo {
     width: 320px !important;
+}
+	.question--{
+	margin-bottom:10px
+	}
+	.e-o-l{
+	    margin-top: 10%;
+	}
+.notification-screen h3{
+	font-size:24px;
 }
   	.centering{
   		padding-top: 0;
@@ -1487,6 +1501,7 @@ line-height: 34px;
 		.margin-none;
 	}
 
+
 		.prev-answers{
     font-size: 18px;
     line-height: 24px;
@@ -1696,6 +1711,9 @@ margin-bottom:0;
 		.notification-row
 		{
 			border-bottom: 1px solid #ccc;
+			.col-80{
+				margin-top:10px;
+			}
 		}
 		.notification-msg
 		{
@@ -1740,6 +1758,9 @@ margin-bottom:0;
 	}
 	div:last-child {
 		border-bottom:0px;
+		li{
+		border-bottom:0px !important;
+		}
 	}
 }
 .hospital-logo{
@@ -1762,4 +1783,8 @@ margin-bottom:0;
 	.title{
 		line-height: 55px !important;
 	}
+}
+
+.notification-screen .notify-view:last-child{
+	    padding-bottom: 45px;
 }

@@ -33,6 +33,9 @@ p {
 .margin-none {
   margin: 0px;
 }
+.border-none {
+  border: 0px;
+}
 .bold {
   font-weight: 400;
 }
@@ -200,8 +203,10 @@ hr.broad {
   margin-left: 5px;
 }
 .bar.bar-header .button.update .badge {
-  padding: 1px 6px;
+  padding: 1px 0px;
   font-size: 11px;
+  text-align: center;
+  line-height: 14px;
 }
 .bar.bar-header .ion-ios-telephone {
   font-size: 20px;
@@ -704,6 +709,15 @@ ul .mcq_active div span {
 @media (min-width: 768px) and (max-width: 1024px) {
   .hospital-logo {
     width: 320px !important;
+  }
+  .question-- {
+    margin-bottom: 10px;
+  }
+  .e-o-l {
+    margin-top: 10%;
+  }
+  .notification-screen h3 {
+    font-size: 24px;
   }
   .centering {
     padding-top: 0;
@@ -1405,6 +1419,9 @@ ul .mcq_active div span {
   .notification-screen .notification-row {
     border-bottom: 1px solid #ccc;
   }
+  .notification-screen .notification-row .col-80 {
+    margin-top: 10px;
+  }
   .notification-screen .notification-msg {
     font-size: 20px;
     margin-bottom: 0;
@@ -1438,6 +1455,9 @@ ul .mcq_active div span {
 .question-type div:last-child {
   border-bottom: 0px;
 }
+.question-type div:last-child li {
+  border-bottom: 0px !important;
+}
 .hospital-logo {
   width: 200px;
   margin-top: 20px;
@@ -1458,5 +1478,8 @@ ul .mcq_active div span {
 }
 .bar-top .title {
   line-height: 55px !important;
+}
+.notification-screen .notify-view:last-child {
+  padding-bottom: 45px;
 }
 /*# sourceMappingURL=style.css.map */

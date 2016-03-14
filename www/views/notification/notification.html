@@ -17,7 +17,7 @@
       </ion-refresher>
 
       <div ng-switch-when="noError" class="notification-screen"   >
-         <div ng-repeat ="notify in view.data" ng-click="clicker(notify)" > 
+         <div ng-repeat ="notify in view.data" ng-click="clicker(notify)"  class="notify-view"> 
           
             <div class="row item notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
@@ -68,7 +68,7 @@
             
         </div>
 
-        <div class="row item" ng-if="view.gotAllRequests && view.data.length == 0 ">
+        <div class="row item border-none" ng-if="view.gotAllRequests && view.data.length == 0 ">
           <div class="col"></div>
             <div class="col col-80 "> 
             <br>

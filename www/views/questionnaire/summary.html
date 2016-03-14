@@ -23,9 +23,9 @@
     <div ng-repeat ="summary in view.data.answerObjects">
 
 
-        <div class="padding">
+        <div class="padding ">
 
-            <h5 class="f-w-400 margin-none">
+            <h5 class="f-w-400 margin-none question--">
                <b class="assertive"> Q:</b> {{summary.question}}
             </h5>
 
@@ -54,8 +54,9 @@
 
         </div>
         <hr>
+        
     </div>
-    <h5 class="text-center f-w-400 m-t-20 op-4"> <i class="ion-flag"></i> End of the list</h5>
+    <h5 class="text-center f-w-400 m-t-20 op-4 e-o-l"> <i class="ion-flag"></i> End of the list</h5>
   </div>
   <aj-error class="errors"
             error-type="view.errorType"
