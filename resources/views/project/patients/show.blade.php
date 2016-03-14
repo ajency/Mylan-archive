@@ -60,7 +60,17 @@
               
                  @foreach($patient['project_attributes'] as $label => $value)
                  <dt>{{ $label }}</dt>
-                 <dd>{{ $value }}</dd>
+                 <dd>
+                    @if(is_array($value))
+                        @foreach($value as $default => $val)
+                            @if($val!='')
+                                {{ $val }} {{ $default }} 
+                            @endif
+                        @endforeach
+                    @else 
+                    {{ $value }}
+                    @endif
+                 </dd>
                  @endforeach
                  
                 <!--  <dt>Smoker</dt>

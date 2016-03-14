@@ -255,11 +255,14 @@ $('.addAttributes').click(function (event) {
 
         html +='<div class="deleteProject">';
         html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
+        html +='<div class="col-xs-1 text-right">';
+        html +='<a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-close"></i></a>';
         html +='</div>';
         html +='</div>';
 
 
         $(".addAttributeBlock").before(html);
+        $(".allattributes:last").find('.deleteProjectAttributes').removeClass('hidden');
         $(".allattributes:last").find('select').val(control_type);
 
 
