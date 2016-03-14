@@ -255,7 +255,7 @@
 
       <!-- multi choice  -->
       <ul 
-        class="list"
+        class="list question-type"
         ng-if = 'view.data.questionType == "multi-choice"'>
         <div ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index"  >
           <li 
