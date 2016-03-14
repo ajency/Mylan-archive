@@ -470,7 +470,7 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         "categoryField": "Date",
         "categoryAxis": {
             "gridPosition": "start",
-            "labelRotation": 45,
+            // "labelRotation": 45,
             "axisAlpha": 0,
              "fillColor": "#000000",
             "gridAlpha": 0,
@@ -561,7 +561,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           "categoryField": "Date",
           "categoryAxis": {
               "gridPosition": "start",
-              "labelRotation": 45,
+              // "labelRotation": 45,
               "axisAlpha": 0,
                "fillColor": "#000000",
               "gridAlpha": 0,
