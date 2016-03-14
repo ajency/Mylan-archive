@@ -8239,6 +8239,20 @@ input {
   margin-top: 11%;
   border: 1px solid #ddd;
 }
+.adminlogin .admin-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 .input input[data-placeholder] {
   color: #AAA;
 }
@@ -8258,5 +8272,8 @@ input {
   color: #f00;
   text-align: left;
   font-size: 12px;
+}
+.custom-table-flip-scroll {
+  width: !important;
 }
 /*# sourceMappingURL=style.css.map */

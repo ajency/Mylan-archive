@@ -3,14 +3,14 @@
 @section('content')
 <div class="container">
   <div class=" login-container adminlogin">
+  <div class="admin-header">
     <div class="logo-img inline">
        {{ hospitalImageExist($hospital) }}
     
-          </div>
-          <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
-        <h3 class="inline">Sign in</h3>
-         <div>
-        </div>
+     </div>
+      <h3 class="inline">Sign in</h3>
+      </div>
+        <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
         <br>
         @if (count($errors) > 0)
         <div class="alert alert-danger hidden">
