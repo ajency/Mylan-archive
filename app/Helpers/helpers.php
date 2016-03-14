@@ -24,7 +24,17 @@ function getUserApiKey( $userId ) {
     $key = App\ApiKeys::where('user_id',$userId)->get()->pluck('key');
          
     return $key[0];
-}    
+} 
+
+function getProjectAttributes($attributes)
+{
+    $data = [];
+    foreach ($attributes as $key => $attribute) {
+        $data[$attribute['label']][]= ['control_type'=>$attribute['control_type'], 'values'=>$attribute['values'], 'label'=>$attribute['label']];
+    }
+
+    return $data;
+}   
 
 
 function convertStonePoundsToKgs($stones,$pounds)

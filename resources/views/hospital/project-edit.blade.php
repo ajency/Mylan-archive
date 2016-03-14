@@ -47,7 +47,7 @@
                                     <label class="form-label">Control Type</label>
                                 </div>
                                 <div class="col-xs-4">
-                                    <label class="form-label">Value</label>
+                                    <label class="form-label">Defaults</label>
                                 </div>
                                 
                             </div>
@@ -67,8 +67,8 @@
                                         <option value="number" {{ ($attibute['control_type']=='number')?'selected':''}} > Number </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-3">
-                                    <input type="text" name="controltypevalues[]" {{ ($attibute['values']=='')?'readonly':'' }} value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags">
+                                <div class="col-xs-3"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
+                                    <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags">
 
                                 </div>
                                 <div class="col-xs-1 text-right">
@@ -94,7 +94,7 @@
                                     </select>
                                 </div>
                                 <div class="col-xs-3">
-                                    <input type="text" name="controltypevalues[]" readonly data-role="tagsinput" class="tags">
+                                    <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
                                 <div class="col-xs-1 text-right">

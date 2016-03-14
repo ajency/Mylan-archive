@@ -41,32 +41,42 @@
                         <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
                     </div>
 
-                    @foreach($projectAttributes as $attribute)
+                    @foreach($projectAttributes as $attributeLabel => $attribute)
                         <div class="col-md-3">
                              
-                                <label>{{ $attribute['label'] }} </label>
-                                @if('textbox' === $attribute['control_type'])
-                                <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  
-                                       placeholder="Enter {{ $attribute['label'] }}" data-parsley-required>
-                                @elseif('number' === $attribute['control_type'])
-                                <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  
-                                       placeholder="Enter {{ $attribute['label'] }}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
-                                @elseif('select' === $attribute['control_type'])
+                                <label>{{ $attributeLabel }} </label>
+                                @if(count($attribute) > 1 && 'textbox' === $attribute[0]['control_type'])
+                                    @foreach($attribute as $attributevalue)
+                                        <input type="text"  name="attributes[{{ $attributeLabel }}][{{ $attributevalue['values'] }}]"  
+                                       placeholder="Enter {{ $attributeLabel }}" data-parsley-required> {{ $attributevalue['values'] }}
+                                    @endforeach
+                                @elseif('textbox' === $attribute[0]['control_type'])
+                                <input type="text" class="form-control" name="attributes[{{ $attributeLabel }}]"  
+                                       placeholder="Enter {{ $attributeLabel }}" data-parsley-required> {{ $attribute[0]['values'] }}
+                                @elseif(count($attribute) > 1 && 'number' === $attribute[0]['control_type'])
+                                    @foreach($attribute as $attributevalue)
+                                        <input type="text"  name="attributes[{{ $attributeLabel }}][{{ $attributevalue['values'] }}]"  
+                                       placeholder="Enter {{ $attributeLabel }}" data-parsley-required data-parsley-type="number" data-parsley-min="0"> {{ $attributevalue['values'] }}
+                                    @endforeach
+                                @elseif('number' === $attribute[0]['control_type'])
+                                <input type="text" class="form-control" name="attributes[{{ $attributeLabel }}]"  
+                                       placeholder="Enter {{ $attributeLabel }}" data-parsley-required data-parsley-type="number" data-parsley-min="0">{{ $attribute[0]['values'] }}
+                                @elseif('select' === $attribute[0]['control_type'])
                                 <?php
-                                $options = explode(',', $attribute['values']);
+                                $options = explode(',', $attribute[0]['values']);
                                 ?>
-                                <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control" data-parsley-required>
-                                    <option value="">Select {{ $attribute['label'] }}</option>   
+                                <select name="attributes[{{ $attributeLabel }}]" class="select2 form-control" data-parsley-required>
+                                    <option value="">Select {{ $attributeLabel }}</option>   
                                     @foreach($options as $option)
                                     <option  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
-                                @elseif('multiple' === $attribute['control_type'])
+                                @elseif('multiple' === $attribute[0]['control_type'])
                                 <?php
-                                $options = explode(',', $attribute['values']);
+                                $options = explode(',', $attribute[0]['values']);
                                 ?>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="select2 form-control" data-parsley-required>
-                                    <option value="">Select {{ $attribute['label'] }}</option>   
+                                <select multiple name="attributes[{{ $attributeLabel }}][]" class="select2 form-control" data-parsley-required>
+                                    <option value="">Select {{ $attributeLabel }}</option>   
                                     @foreach($options as $option)
                                     <option   value="{{ $option }}">{{ $option }}</option>
                                     @endforeach

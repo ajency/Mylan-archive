@@ -129,6 +129,9 @@ class PatientController extends Controller
         $project = Projects::find($projectId); 
         $projectAttributes = $project->attributes->toArray();
 
+        $projectAttributes = getProjectAttributes($projectAttributes);
+
+
         return view('project.patients.add')->with('active_menu', 'patients')
                                             ->with('hospital', $hospital)
                                             ->with('project', $project)
@@ -291,6 +294,7 @@ class PatientController extends Controller
                      );
 
         $patient = User::find($patientId);
+        
         
         $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
 
@@ -794,6 +798,8 @@ class PatientController extends Controller
 
         $project = Projects::find($project['id']); 
         $projectAttributes = $project->attributes->toArray();  
+
+        $projectAttributes = getProjectAttributes($projectAttributes);
         
         return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)

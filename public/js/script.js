@@ -270,16 +270,16 @@ $('.addAttributes').click(function (event) {
     }
 });
 
-$('.attributes_block').on('change', 'select', function(event) {
-    if ($(this).val() == 'select' || $(this).val() == 'multiple') {
+// $('.attributes_block').on('change', 'select', function(event) {
+//     if ($(this).val() == 'select' || $(this).val() == 'multiple') {
          
-         $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
-    }
-    else
-    {
-        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').attr('readonly','readonly');
-    }
-});
+//          $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
+//     }
+//     else
+//     {
+//         $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').attr('readonly','readonly');
+//     }
+// });
 
 $('.attributes_block').on('click', '.deleteProjectAttributes', function(event) {
      var attributeId = $(this).closest('.attributeContainer').find('input[name="attribute_id[]"]').val();

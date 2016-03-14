@@ -47,7 +47,7 @@
                                     <label class="form-label">Control Type</label>
                                 </div>
                                 <div class="col-xs-4">
-                                    <label class="form-label">Value</label>
+                                    <label class="form-label">Defaults</label>
                                 </div>
                                 
                             </div>
@@ -70,7 +70,7 @@
                                     </select>
                                 </div>
                                 <div class="col-xs-3">
-                                    <input type="text" name="controltypevalues[]" readonly data-role="tagsinput" class="tags">
+                                    <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
                                 <div class="col-xs-1 text-right">
