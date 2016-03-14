@@ -126,10 +126,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         scrollPosition = App.getScrollPosition();
         console.log(scrollPosition);
         if (scrollPosition < 200) {
-          $scope.$apply(function() {
+          return $scope.$apply(function() {
             return $scope.view.scroll = false;
           });
-          return console.log('hidde scroll');
         }
       }
     };

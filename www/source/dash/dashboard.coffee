@@ -115,7 +115,7 @@ angular.module 'PatientApp.dashboard',[]
 					$scope.$apply ->
   						$scope.view.scroll = false
 					
-					console.log 'hidde scroll'
+					
 
 		$scope.$on '$ionicView.enter', (event, viewData)->
 			console.log 'view enter'
