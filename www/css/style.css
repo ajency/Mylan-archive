@@ -1455,6 +1455,9 @@ ul .mcq_active div span {
 .question-type div:last-child {
   border-bottom: 0px;
 }
+.question-type div:last-child li {
+  border-bottom: 0px !important;
+}
 .hospital-logo {
   width: 200px;
   margin-top: 20px;
