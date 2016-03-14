@@ -384,6 +384,7 @@ angular.module 'PatientApp.Quest',[]
 					options =
 						"questionId" : @data.questionId
 						"options": arryObj
+						"value": ""
 
 					@loadPrevQuestion(options)
 

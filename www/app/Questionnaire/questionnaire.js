@@ -377,7 +377,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
           options = {
             "questionId": this.data.questionId,
-            "options": arryObj
+            "options": arryObj,
+            "value": ""
           };
           return this.loadPrevQuestion(options);
         }
