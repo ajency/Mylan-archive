@@ -25,8 +25,8 @@
 <div class="grid simple">
                      <div class="grid-body">
                         <form class="form-no-horizontal-spacing" id="form-condensed" data-parsley-validate>
-                           <div class="row column-seperation">
-                              <div class="col-md-6">
+                           <div class="row column-seperation projectAdd">
+                              <div class="col-md-5 b-0">
                                  <div class="form-row">
                                     <label>Project Name</label>
                                     <input name="name" id="name" type="text"  class="form-control" data-parsley-required placeholder="Project Name" value="{{ $project['name'] }}">
@@ -37,7 +37,7 @@
                                  </div>
                               </div>
 
-                              <div class="col-md-8 attributes_block">
+                              <div class="col-md-7 attributes_block">
                             <h4>Attributes</h4>
                             <div class="row form-group">
                                 <div class="col-xs-4">
@@ -53,7 +53,7 @@
                             </div>
                            
                            @foreach($projectAttributes as $attibute)
-                            <div class="row m-b-10 allattributes attributeContainer">
+                            <div class="row allattributes attributeContainer">
                                 <div class="col-xs-4">
                                     <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="{{ $attibute['id'] }}">
@@ -67,19 +67,19 @@
                                         <option value="number" {{ ($attibute['control_type']=='number')?'selected':''}} > Number </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-3"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
-                                    <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags">
+                                <div class="col-xs-4"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
+                                    <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
 
                                 </div>
-                                <div class="col-xs-1 text-right">
-                                    <a class="text-primary deleteProjectAttributes"><i class="fa fa-close"></i></a>
+                                <div class="deleteProject">
+                                    <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
                                 </div>
                             </div>
                            @endforeach
 
                             <div class="row addAttributeBlock attributeContainer">
                                 <div class="add-unit">
-                            <div class="p-t-8 p-t-10">
+                            <div class="">
                                 <div class="col-xs-4">
                                     <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="">
@@ -93,16 +93,16 @@
                                         <option value="number"> Number </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-3">
-                                    <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
+                                <div class="col-xs-4">
+                                    <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags text-100">
 
                                 </div>
-                                <div class="col-xs-1 text-right">
-                                    <a class="text-primary hidden"><i class="fa fa-close"></i></a>
+                                <div class="deleteProject">
+                                    <a class="text-primary hidden"><i class="fa fa-trash"></i></a>
                                 </div>
                             </div>
                                 <div class="text-right">
-                                    <a tabindex="0" class="btn btn-link addAttributes">Add Attribute</a>
+                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
                                 </div>
                             </div>
                              </div>

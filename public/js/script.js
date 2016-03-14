@@ -249,11 +249,11 @@ $('.addAttributes').click(function (event) {
         html +='</div>';
 
      
-        html +='<div class="col-md-3">';
-        html +='<input type="text" name="controltypevalues[]" value="'+ control_type_values +'" data-role="tagsinput" class="tags">';
+        html +='<div class="col-md-4">';
+        html +='<input type="text" name="controltypevalues[]" value="'+ control_type_values +'" data-role="tagsinput" class="tags text-100">';
         html +='</div>';
 
-        html +='<div class="col-xs-1 text-right">';
+        html +='<div class="deleteProject">';
         html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
         html +='</div>';
         html +='</div>';

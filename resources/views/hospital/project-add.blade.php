@@ -25,8 +25,8 @@
 <div class="grid simple">
                      <div class="grid-body">
                         <form class="form-no-horizontal-spacing" id="form-condensed" data-parsley-validate>
-                           <div class="row column-seperation">
-                              <div class="col-md-6">
+                           <div class="row column-seperation projectAdd">
+                              <div class="col-md-6 b-0">
                                  <div class="form-row">
                                     <label>Project Name</label>
                                     <input name="name" id="name" type="text"  class="form-control" placeholder="Project Name" data-parsley-required>
@@ -56,7 +56,7 @@
 
                             <div class="row addAttributeBlock attributeContainer">
                                 <div class="add-unit">
-                            <div class="p-t-8 p-t-10">
+                            <div class="">
                                 <div class="col-xs-4">
                                     <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
                                 </div>
@@ -69,16 +69,16 @@
                                         <option value="number"> Number </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-3">
+                                <div class="col-xs-4">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
-                                <div class="col-xs-1 text-right">
-                                    <a class="text-primary hidden"><i class="fa fa-close"></i></a>
+                                <div class="deleteProject">
+                                    <a class="text-primary hidden"><i class="fa fa-Trash"></i></a>
                                 </div>
                             </div>
                                 <div class="text-right">
-                                    <a tabindex="0" class="btn btn-link addAttributes">Add Attribute</a>
+                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
                                 </div>
                             </div>
                              </div>

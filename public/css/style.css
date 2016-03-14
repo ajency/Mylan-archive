@@ -8259,4 +8259,7 @@ input {
   text-align: left;
   font-size: 12px;
 }
+.custom-table-flip-scroll {
+  width: !important;
+}
 /*# sourceMappingURL=style.css.map */
