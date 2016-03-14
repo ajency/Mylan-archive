@@ -430,10 +430,12 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
     var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 
+
    $(document).ready(function() {
-
-   
-
+  
+     // Always scroll to right 
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
+    
     // submission chart
     var legends = {score: "Total Score"};
     // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
