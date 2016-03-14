@@ -78,6 +78,7 @@
 					background: #fff;
 					& > .classic{
 						max-height: 999px;
+						background-color: #05A8A5;
 						& > li{
 							opacity: 1;
 						}
@@ -100,14 +101,17 @@
 					overflow: hidden;
 					.transition( all 0.3s linear 0s);
 					& > li{
-						margin:15px; 
-						padding-bottom: 10px;
+						margin:	0px 10px; 
+						padding: 10px;
 						border-bottom: 1px solid #e5e9ec;
 						color: #22262e;
 						opacity: 0;
+						display: flex;
 						.transition( all 0.1s linear 0.1s);
 						a {
-							color: @color-black;
+							color: @color-white;
+							opacity: 1;
+    						vertical-align: middle;
 							.description{
 								display: block;
 								font-size: 12px;
