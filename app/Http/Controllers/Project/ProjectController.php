@@ -462,7 +462,7 @@ class ProjectController extends Controller
 
         $str.= '<tr><td onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">'. $referenceCode .'</td>
            <td  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
-              <div class="lst-sub">
+              <div class="lst-sub submission-count">
                  <h2 class="bold inline">
                     '. $patientSummary['completed'] .'<br>
                     <sm class="text-success">Completed</sm>

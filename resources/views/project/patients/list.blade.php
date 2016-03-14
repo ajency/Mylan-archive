@@ -201,7 +201,7 @@
                         <tr>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                             <div class="lst-sub">
+                             <div class="lst-sub submission-count">
                                  <h2 class="bold inline">
                                     {{ $patientSummary['completed'] }}<br>
                                     <sm class="text-success">Completed</sm>
