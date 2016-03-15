@@ -115,9 +115,9 @@ class ProjectController extends Controller
 
 
         //patient summary
-        $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
+        // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
-        $patientsSummary = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
+        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData'];
  
