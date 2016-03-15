@@ -3,11 +3,11 @@
 @section('content')
 <div class="container">
   <div class=" login-container adminlogin">
-    <div class="logo-img inline aj">
+    <div class="admin-header">
+    <div class="logo-img inline">
        <img src="{{ $logoUrl }}" alt=""  data-src="{{ $logoUrl }}"  height="50px"/>
           </div>
         <h3 class="inline">Sign in</h3>
-         <div>
         </div>
         <br>
         @if (count($errors) > 0)
