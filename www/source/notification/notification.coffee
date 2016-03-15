@@ -135,10 +135,22 @@ angular.module 'PatientApp.notification',[]
 				if idObject.hasSeen == false 
 					App.notification.decrement()
 
+			autoFetch : ->
+				@gotAllRequests = false
+				@page = 0
+				@refresh = true
+				@canLoadMore = false
+				@init()
+
+
 		$scope.$on '$ionicView.enter', ->
 			Storage.setData 'refcode','get'
 				.then (refcode)->
 					NotifyCount.getCount(refcode)
+
+		$rootScope.$on 'in:app:notification', (e, obj)->
+			$scope.view.autoFetch()
+
 					
 ]
 

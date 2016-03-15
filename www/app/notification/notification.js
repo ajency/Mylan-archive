@@ -161,12 +161,22 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         if (idObject.hasSeen === false) {
           return App.notification.decrement();
         }
+      },
+      autoFetch: function() {
+        this.gotAllRequests = false;
+        this.page = 0;
+        this.refresh = true;
+        this.canLoadMore = false;
+        return this.init();
       }
     };
-    return $scope.$on('$ionicView.enter', function() {
+    $scope.$on('$ionicView.enter', function() {
       return Storage.setData('refcode', 'get').then(function(refcode) {
         return NotifyCount.getCount(refcode);
       });
+    });
+    return $rootScope.$on('in:app:notification', function(e, obj) {
+      return $scope.view.autoFetch();
     });
   }
 ]).config([
