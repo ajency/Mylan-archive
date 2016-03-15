@@ -8,7 +8,7 @@ angular.module 'PatientApp.main', []
 			init : ->
 				console.log 'inittt...'
 				Push.register()
-				@getNotificationCount()
+				
 
 			getNotificationCount :->
 				Storage.setData 'refcode','get'

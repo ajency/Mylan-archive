@@ -3,8 +3,7 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
     $scope.view = {
       init: function() {
         console.log('inittt...');
-        Push.register();
-        return this.getNotificationCount();
+        return Push.register();
       },
       getNotificationCount: function() {
         return Storage.setData('refcode', 'get').then((function(_this) {
