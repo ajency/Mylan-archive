@@ -138,11 +138,11 @@
                 <div class="row form-group">
                   
                   <div class="col-sm-4">
-                    <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"> <h6 class="seconds">days</h6>
+                    <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Days" value="" data-parsley-type="number">
                   </div>
                   
                   <div class="col-sm-4">
-                    <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
+                    <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Hours" value="" data-parsley-type="number"> 
                   </div>
                  
                 </div>
