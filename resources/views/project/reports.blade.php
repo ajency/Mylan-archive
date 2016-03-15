@@ -244,6 +244,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     //var legends = {score: "Total Score"};
     //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
 
+    //scroll div to right
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
+
       //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
 
