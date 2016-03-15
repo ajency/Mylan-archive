@@ -47,7 +47,7 @@
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Frequency" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
     </div>
   </div>
    <div class="form-group">
