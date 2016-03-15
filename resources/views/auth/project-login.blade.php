@@ -5,7 +5,7 @@
   <div class=" login-container adminlogin">
   <div class="admin-header">
     <div class="logo-img inline">
-       {{ hospitalImageExist($hospital) }}
+       {{ hospitalImageExist($hospital,false) }}
     
      </div>
       <h3 class="inline">Sign in</h3>
