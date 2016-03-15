@@ -944,14 +944,10 @@
          var chart = AmCharts.makeChart("chartdiv", {
           "type": "serial",
           "theme": "light",
-       "marginRight": 40,
-    "marginLeft": 40,
-    "autoMarginOffset": 20,
-
           "legend": {
               "useGraphSettings": true
           },
-          "dataProvider": [{"Date":"17 Feb (1)","score":9,"baseLine":0},{"Date":"18 Feb (3)","score":12,"baseLine":0},{"Date":"18 Feb (4)","score":12,"baseLine":7},{"Date":"18 Feb (5)","score":18,"baseLine":7},{"Date":"19 Feb (7)","score":15,"baseLine":7},{"Date":"19 Feb (8)","score":13,"baseLine":7},{"Date":"19 Feb (9)","score":13,"baseLine":7},{"Date":"22 Feb (19)","score":7,"baseLine":7},{"Date":"23 Feb (23)","score":8,"baseLine":7}],
+          "dataProvider": [{"Date":"17 Feb (1)","score":9,"baseLine":0},{"Date":"18 Feb (3)","score":12,"baseLine":0},{"Date":"18 Feb (4)","score":12,"baseLine":7},{"Date":"18 Feb (5)","score":18,"baseLine":7},{"Date":"19 Feb (7)","score":15,"baseLine":7},{"Date":"19 Feb (8)","score":13,"baseLine":7},{"Date":"19 Feb (9)","score":13,"baseLine":7}],
           "valueAxes": [{
               "integersOnly": true,
               "maximum": 18,
@@ -991,7 +987,10 @@
           "categoryField": "Date",
           "categoryAxis": {
               "gridPosition": "start",
-              "labelRotation": 45,
+              "markPeriodChange": false,
+              "minHorizontalGap": 100,
+              
+              // "labelRotation": 45,
               "axisAlpha": 0,
                "fillColor": "#000000",
               "gridAlpha": 0,

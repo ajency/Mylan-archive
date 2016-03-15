@@ -435,9 +435,9 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
     var chart = AmCharts.makeChart(container, {
         "type": "serial",
         "theme": "light",
-        "marginRight": 40,
-        "marginLeft": 40,
-        "autoMarginOffset": 20,
+        // "marginRight": 40,
+        // "marginLeft": 40,
+        // "autoMarginOffset": 20,
         "legend": {
             "useGraphSettings": true
         },
@@ -470,6 +470,8 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         "categoryField": "Date",
         "categoryAxis": {
             "gridPosition": "start",
+            "markPeriodChange": false,
+            "minHorizontalGap": 100,
             // "labelRotation": 45,
             "axisAlpha": 0,
              "fillColor": "#000000",
@@ -519,9 +521,9 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
      var chart = AmCharts.makeChart(container, {
           "type": "serial",
           "theme": "light",
-          "marginRight": 40,
-          "marginLeft": 40,
-          "autoMarginOffset": 20,
+          // "marginRight": 40,
+          // "marginLeft": 40,
+          // "autoMarginOffset": 20,
           "legend": {
               "useGraphSettings": true
           },
@@ -561,6 +563,8 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           "categoryField": "Date",
           "categoryAxis": {
               "gridPosition": "start",
+              "markPeriodChange": false,
+              "minHorizontalGap": 100,
               // "labelRotation": 45,
               "axisAlpha": 0,
                "fillColor": "#000000",
@@ -588,9 +592,9 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
     var chart = AmCharts.makeChart(container, {
          "type": "serial",
          "theme": "light",
-         "marginRight": 40,
-          "marginLeft": 40,
-          "autoMarginOffset": 20,
+         // "marginRight": 40,
+         //  "marginLeft": 40,
+         //  "autoMarginOffset": 20,
          "legend": {
              "useGraphSettings": true
          },
@@ -650,6 +654,8 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          "categoryField": "Date",
          "categoryAxis": {
              "gridPosition": "start",
+             "markPeriodChange": false,
+              "minHorizontalGap": 100,
              "axisAlpha": 0,
               "fillColor": "#000000",
              "gridAlpha": 0,
