@@ -874,7 +874,7 @@ class PatientController extends Controller
         $user->clinicVisit()->saveMany($patientVisits);
 
 
-        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $id.'/edit')); 
     }
 
     public function getPatientSubmission($hospitalSlug,$projectSlug ,$patientId)
