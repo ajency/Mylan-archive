@@ -11,7 +11,8 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		responseQuery = new Parse.Query("Response")
 		responseQuery.get(responseId)
 		.then (responseObj) ->
-			if responseObj.get('status') != 'started'
+			resumeStatus = ['started','late']
+			if !_.contains(resumeStatus, responseObj.get('status'))
 				# response.error "invalidQuestionnaire"
 				result = {}
 				result['status'] = responseObj.get('status')
@@ -312,7 +313,8 @@ Parse.Cloud.define 'getNextQuestion', (request, response) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		if responseObj.get('status') != 'started'
+		resumeStatus = ['started','late']
+		if !_.contains(resumeStatus, responseObj.get('status'))
 			# response.error "invalidQuestionnaire"
 
 			# send the response success with status of response
@@ -462,7 +464,8 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		if responseObj.get('status') != 'started'
+		resumeStatus = ['started','late']
+		if !_.contains(resumeStatus, responseObj.get('status'))
 			# response.error "invalidQuestionnaire."
 			result = {}
 			result['status'] = responseObj.get('status')
@@ -1153,9 +1156,15 @@ Parse.Cloud.define "dashboard", (request, response) ->
 					results.push(upcoming_due)
 					for responseObj in responseObjs
 						result = {}
+
+						answeredQuestions = false
+						if responseObj.get('status')=='late' && !_.isEmpty(responseObj.get('answeredQuestions'))
+							answeredQuestions = true
+
 						result['status'] = responseObj.get('status')
 						result['occurrenceDate'] = responseObj.get('occurrenceDate')
 						result['occurrenceId'] = responseObj.id
+						result['answeredQuestions'] = answeredQuestions
 						results.push result
 					response.success (results)
 				, (error) ->
@@ -1176,7 +1185,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 	promise = new Parse.Promise()
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', patientId)
-	responseQuery.equalTo('status', 'started')
+	responseQuery.containedIn('status', ['started','late'])
 	responseQuery.include('questionnaire')
 	responseQuery.first()
 	.then (responseObj) ->
@@ -1263,6 +1272,7 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 				responseObj.set 'schedule', scheduleObj
 				responseObj.set 'baseLineFlagStatus', 'open'
 				responseObj.set 'previousFlagStatus', 'open'
+				responseObj.set 'reviewed', 'unreviewed'
 				#responseObj.set 'flagStatus', 'open'
 				responseObj.set 'baseLine', baseLineObj
 
@@ -2082,6 +2092,7 @@ getPreviousScores = (responseObj) ->
 
 
 getBaseLineScores = (responseObj) ->
+	promise = new Parse.Promise()
 	responseBaseLine = responseObj.get('baseLine') 
 	
 	answerQuery = new Parse.Query('Answer')

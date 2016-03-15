@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -859,6 +859,60 @@
     });
   });
 
+  Parse.Cloud.define("clearAllPatientNotifications", function(request, response) {
+    var patientId;
+    patientId = request.params.patientId;
+    return getAllPatientNotifications(patientId).then(function(notificationSaveObj) {
+      var notificationSaveArr;
+      notificationSaveArr = [];
+      _.each(notificationSaveObj, function(notification) {
+        notification.set('cleared', true);
+        return notificationSaveArr.push(notification);
+      });
+      return Parse.Object.saveAll(notificationSaveArr).then(function(notificationObjs) {
+        return response.success(notificationObjs);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getAllPatientNotifications = function(patientId) {
+    var limit, notificationObjects, page, promise;
+    promise = new Parse.Promise();
+    notificationObjects = [];
+    page = 0;
+    limit = 100;
+    getAllNotifications = function() {
+      var notificationQuery;
+      notificationQuery = new Parse.Query('Notification');
+      notificationQuery.equalTo('cleared', false);
+      notificationQuery.equalTo('patient', patientId);
+      notificationQuery.limit(limit);
+      notificationQuery.skip(page * limit);
+      notificationQuery.find().then(function(pendingNotifications) {
+        var j, len, pendingNotification;
+        if (_.isEmpty(pendingNotifications)) {
+          return promise.resolve(notificationObjects);
+        } else {
+          for (j = 0, len = pendingNotifications.length; j < len; j++) {
+            pendingNotification = pendingNotifications[j];
+            notificationObjects.push(pendingNotification);
+          }
+          page++;
+          return getAllNotifications();
+        }
+      }, function(error) {
+        return promise.reject(error);
+      });
+      return promise;
+    };
+    getAllNotifications();
+    return promise;
+  };
+
   Parse.Cloud.define("clearNotificationByIds", function(request, response) {
     var notificationIds, notificationQuery;
     notificationIds = request.params.notificationIds;
@@ -885,62 +939,62 @@
 
   /*
   createMissedResponse = () ->
-  	promise = new Parse.Promise()
-  	scheduleQuery = new Parse.Query('Schedule')
-  	scheduleQuery.exists('patient')
-  	scheduleQuery.include('questionnaire')
-  	scheduleQuery.find()
-  	.then (scheduleObjs) ->
-  		updateMissedResponse = ->
-  			promise1 = []
-  			_.each scheduleObjs, (scheduleObj) ->
-  				timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-  				currentDate = new Date()
-  				if currentDate.getTime() > timeObj['upperLimit'].getTime()
-  					createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
-  					#.then (responseObj) ->
-  					responseObj = new Parse.Object "Response"
-  					responseObj.set 'patient', scheduleObj.get('patient')
-  					responseObj.set 'hospital', scheduleObj.get('questionnaire').get('hospital')
-  					responseObj.set 'project', scheduleObj.get('questionnaire').get('project')
-  					responseObj.set 'questionnaire', scheduleObj.get('questionnaire')
-  					responseObj.set 'schedule', scheduleObj
-  					responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-  					responseObj.set 'status', 'missed'
-  					responseObj.save()
-  					.then (responseObj) ->
-  						console.log "-------------------------------"
-  						console.log  responseObj.id
-  						console.log scheduleObj.id
-  						console.log "-----------------------------"
-  						scheduleQuery = new Parse.Query('Schedule')
-  						scheduleQuery.doesNotExist('patient')
-  						scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-  						scheduleQuery.first()
-  						.then (scheduleQuestionnaireObj) ->
-  							newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-  							newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-  							console.log "-------------"
-  							console.log "------#{scheduleObj.get('nextOccurrence')}"
-  							console.log "======#{newNextOccurrence}"
-  							console.log "-------------"
-  							scheduleObj.set 'nextOccurrence', newNextOccurrence
-  							promise1.push(scheduleObj.save())
-  						#, (error) ->
-  							 *	promise1.reject error
-  						#, (error) ->
-  						 *	promise1.reject (error)
-  					#, (error) ->
-  					 *	promise1.reject error
-  			Parse.Promise.when(promise1)
-  		updateMissedResponse()
-  		.then () ->
-  			promise.resolve("done")
-  		, (error) ->
-  			promise.reject error
-  	, (error) ->
-  		promise.reject error
-  	promise
+      promise = new Parse.Promise()
+      scheduleQuery = new Parse.Query('Schedule')
+      scheduleQuery.exists('patient')
+      scheduleQuery.include('questionnaire')
+      scheduleQuery.find()
+      .then (scheduleObjs) ->
+          updateMissedResponse = ->
+              promise1 = []
+              _.each scheduleObjs, (scheduleObj) ->
+                  timeObj = getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+                  currentDate = new Date()
+                  if currentDate.getTime() > timeObj['upperLimit'].getTime()
+                      createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
+                      #.then (responseObj) ->
+                      responseObj = new Parse.Object "Response"
+                      responseObj.set 'patient', scheduleObj.get('patient')
+                      responseObj.set 'hospital', scheduleObj.get('questionnaire').get('hospital')
+                      responseObj.set 'project', scheduleObj.get('questionnaire').get('project')
+                      responseObj.set 'questionnaire', scheduleObj.get('questionnaire')
+                      responseObj.set 'schedule', scheduleObj
+                      responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+                      responseObj.set 'status', 'missed'
+                      responseObj.save()
+                      .then (responseObj) ->
+                          console.log "-------------------------------"
+                          console.log  responseObj.id
+                          console.log scheduleObj.id
+                          console.log "-----------------------------"
+                          scheduleQuery = new Parse.Query('Schedule')
+                          scheduleQuery.doesNotExist('patient')
+                          scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+                          scheduleQuery.first()
+                          .then (scheduleQuestionnaireObj) ->
+                              newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+                              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                              console.log "-------------"
+                              console.log "------#{scheduleObj.get('nextOccurrence')}"
+                              console.log "======#{newNextOccurrence}"
+                              console.log "-------------"
+                              scheduleObj.set 'nextOccurrence', newNextOccurrence
+                              promise1.push(scheduleObj.save())
+                          #, (error) ->
+                               *   promise1.reject error
+                          #, (error) ->
+                           *   promise1.reject (error)
+                      #, (error) ->
+                       *   promise1.reject error
+              Parse.Promise.when(promise1)
+          updateMissedResponse()
+          .then () ->
+              promise.resolve("done")
+          , (error) ->
+              promise.reject error
+      , (error) ->
+          promise.reject error
+      promise
   
   
   
@@ -949,27 +1003,27 @@
   
   
   Parse.Cloud.define "createMissedResponse1", (request, response) ->
-  	getNotifications()
-  	.then (notifications) ->
-  		console.log  "done1"
-  		sendNotifications() 
-  		.then (notifications) ->
-  			console.log  "done2"
-  			checkMissedResponses()
-  			.then (result) ->
-  				console.log  "done3"
-  				createMissedResponse()
-  				.then (responses) ->
-  					console.log  (new Date())
-  					response.success "job_run"
-  				, (error) ->
-  					response.error error
-  			, (error) ->
-  				promise.reject error				
-  		, (error) ->
-  			response.error error
-  	, (error) ->
-  		response.error error
+      getNotifications()
+      .then (notifications) ->
+          console.log  "done1"
+          sendNotifications() 
+          .then (notifications) ->
+              console.log  "done2"
+              checkMissedResponses()
+              .then (result) ->
+                  console.log  "done3"
+                  createMissedResponse()
+                  .then (responses) ->
+                      console.log  (new Date())
+                      response.success "job_run"
+                  , (error) ->
+                      response.error error
+              , (error) ->
+                  promise.reject error                
+          , (error) ->
+              response.error error
+      , (error) ->
+          response.error error
   
   
   
@@ -978,79 +1032,79 @@
   
   
   createMissedResponse1 = () ->
-  	promise = new Parse.Promise()
-  	scheduleQuery = new Parse.Query('Schedule')
-  	scheduleQuery.exists("patient")
-  	scheduleQuery.include("questionnaire")
-  	scheduleQuery.find()
-  	.then (scheduleObjects) ->
-  		result ={}
-  		responseSaveArr =[]
-  		scheduleSaveArr =[]
-  		_.each scheduleObjects, (scheduleObject) ->
-  			questionnaire = scheduleObject.get("questionnaire")
-  			patient = scheduleObject.get("patient")
-  			gracePeriod = questionnaire.get("gracePeriod")
-  			nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
-  			newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
-  			currentDateTime = moment()
-  			diffrence = moment(newDateTime).diff(currentDateTime)
-  			diffrence2 = moment(currentDateTime).diff(newDateTime)
-  			if(parseInt(diffrence2) > 1)
-  				responseQuery = new Parse.Query('Response')
-  				responseQuery.equalTo('questionnaire', scheduleObject.get('questionnaire'))
-  				responseQuery.equalTo('patient', scheduleObject.get('patient'))
-  				responseQuery.descending('occurrenceDate')
-  				responseQuery.notEqualTo('status', 'base_line')
-  				responseQuery.find()
-  				.then (responseObjs) ->
-  					responseData=
-  						patient: patient
-  						questionnaire: questionnaire
-  						status : 'missed'
-  						schedule : scheduleObject
-  						sequenceNumber : responseObjs.length + 1
-  					Response = Parse.Object.extend("Response") 
-  					responseObj = new Response responseData
-  					responseSaveArr.push(responseObj)
-  					getQuestionnaireFrequency(questionnaire)
-  					.then (frequency) ->
-  						frequency = parseInt frequency
-  						newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
-  						date = new Date(newNextOccurrence)
-  						scheduleObject.set('nextOccurrence',date)
-  						scheduleSaveArr.push(scheduleObject)
-  					, (error) ->
-  						promise.reject error
-  				, (error) ->
-  					promise.reject error
-  		 * save all responses
-  		Parse.Object.saveAll responseSaveArr
-  			.then (resObjs) ->
-  				 * update all schedule nextoccurrence
-  				Parse.Object.saveAll scheduleSaveArr
-  					.then (scheduleObjs) ->
-  						promise.resolve scheduleObjs
-  					, (error) ->
-  						promise.reject (error)   
-  			, (error) ->
-  				promise.reject (error)
-  	, (error) ->
-  		promise.reject error
+      promise = new Parse.Promise()
+      scheduleQuery = new Parse.Query('Schedule')
+      scheduleQuery.exists("patient")
+      scheduleQuery.include("questionnaire")
+      scheduleQuery.find()
+      .then (scheduleObjects) ->
+          result ={}
+          responseSaveArr =[]
+          scheduleSaveArr =[]
+          _.each scheduleObjects, (scheduleObject) ->
+              questionnaire = scheduleObject.get("questionnaire")
+              patient = scheduleObject.get("patient")
+              gracePeriod = questionnaire.get("gracePeriod")
+              nextOccurrence =  moment(scheduleObject.get("nextOccurrence"))
+              newDateTime = moment(nextOccurrence).add(gracePeriod, 's')
+              currentDateTime = moment()
+              diffrence = moment(newDateTime).diff(currentDateTime)
+              diffrence2 = moment(currentDateTime).diff(newDateTime)
+              if(parseInt(diffrence2) > 1)
+                  responseQuery = new Parse.Query('Response')
+                  responseQuery.equalTo('questionnaire', scheduleObject.get('questionnaire'))
+                  responseQuery.equalTo('patient', scheduleObject.get('patient'))
+                  responseQuery.descending('occurrenceDate')
+                  responseQuery.notEqualTo('status', 'base_line')
+                  responseQuery.find()
+                  .then (responseObjs) ->
+                      responseData=
+                          patient: patient
+                          questionnaire: questionnaire
+                          status : 'missed'
+                          schedule : scheduleObject
+                          sequenceNumber : responseObjs.length + 1
+                      Response = Parse.Object.extend("Response") 
+                      responseObj = new Response responseData
+                      responseSaveArr.push(responseObj)
+                      getQuestionnaireFrequency(questionnaire)
+                      .then (frequency) ->
+                          frequency = parseInt frequency
+                          newNextOccurrence = moment(nextOccurrence).add(frequency, 's')
+                          date = new Date(newNextOccurrence)
+                          scheduleObject.set('nextOccurrence',date)
+                          scheduleSaveArr.push(scheduleObject)
+                      , (error) ->
+                          promise.reject error
+                  , (error) ->
+                      promise.reject error
+           * save all responses
+          Parse.Object.saveAll responseSaveArr
+              .then (resObjs) ->
+                   * update all schedule nextoccurrence
+                  Parse.Object.saveAll scheduleSaveArr
+                      .then (scheduleObjs) ->
+                          promise.resolve scheduleObjs
+                      , (error) ->
+                          promise.reject (error)   
+              , (error) ->
+                  promise.reject (error)
+      , (error) ->
+          promise.reject error
   
-  	promise
+      promise
    */
 
 
   /*
   console.log "======================================="
-  	console.log "nextOccurrence = #{nextOccurrence}"
-  	console.log "beforeReminder =#{beforeReminder}"
-  	console.log "afterReminder =#{afterReminder}"
-  	console.log "currentDate = #{currentDate}"
-  	console.log "graceDate = #{graceDate}"
-  	console.log "rem = #{reminderTime}"
-  	console.log "=============================================="
+      console.log "nextOccurrence = #{nextOccurrence}"
+      console.log "beforeReminder =#{beforeReminder}"
+      console.log "afterReminder =#{afterReminder}"
+      console.log "currentDate = #{currentDate}"
+      console.log "graceDate = #{graceDate}"
+      console.log "rem = #{reminderTime}"
+      console.log "=============================================="
    */
 
   Parse.Cloud.define("pushNotification", function(request, response) {
@@ -1124,8 +1178,9 @@
     if ((responseId !== "") && (!_.isUndefined(responseId)) && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
-        var answeredQuestions, questionQuery, result;
-        if (responseObj.get('status') !== 'started') {
+        var answeredQuestions, questionQuery, result, resumeStatus;
+        resumeStatus = ['started', 'late'];
+        if (!_.contains(resumeStatus, responseObj.get('status'))) {
           result = {};
           result['status'] = responseObj.get('status');
           return response.success(result);
@@ -1420,8 +1475,9 @@
     value = request.params.value;
     responseQuery = new Parse.Query('Response');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery, result;
-      if (responseObj.get('status') !== 'started') {
+      var questionQuery, result, resumeStatus;
+      resumeStatus = ['started', 'late'];
+      if (!_.contains(resumeStatus, responseObj.get('status'))) {
         result = {};
         result['status'] = responseObj.get('status');
         return response.success(result);
@@ -1559,8 +1615,9 @@
     responseQuery = new Parse.Query('Response');
     responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
-      var questionQuery, result;
-      if (responseObj.get('status') !== 'started') {
+      var questionQuery, result, resumeStatus;
+      resumeStatus = ['started', 'late'];
+      if (!_.contains(resumeStatus, responseObj.get('status'))) {
         result = {};
         result['status'] = responseObj.get('status');
         return response.success(result);
@@ -2200,7 +2257,7 @@
         responseQuery.descending('occurrenceDate');
         return responseQuery.find().then(function(responseObjs) {
           return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
-            var j, len, responseObj, result, status, upcoming_due;
+            var answeredQuestions, j, len, responseObj, result, status, upcoming_due;
             status = "";
             if (isValidTime(timeObj)) {
               status = "due";
@@ -2215,9 +2272,14 @@
             for (j = 0, len = responseObjs.length; j < len; j++) {
               responseObj = responseObjs[j];
               result = {};
+              answeredQuestions = false;
+              if (responseObj.get('status') === 'late' && !_.isEmpty(responseObj.get('answeredQuestions'))) {
+                answeredQuestions = true;
+              }
               result['status'] = responseObj.get('status');
               result['occurrenceDate'] = responseObj.get('occurrenceDate');
               result['occurrenceId'] = responseObj.id;
+              result['answeredQuestions'] = answeredQuestions;
               results.push(result);
             }
             return response.success(results);
@@ -2240,7 +2302,7 @@
     promise = new Parse.Promise();
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo('patient', patientId);
-    responseQuery.equalTo('status', 'started');
+    responseQuery.containedIn('status', ['started', 'late']);
     responseQuery.include('questionnaire');
     responseQuery.first().then(function(responseObj) {
       if (!_.isUndefined(responseObj)) {
@@ -2329,6 +2391,7 @@
           responseObj.set('schedule', scheduleObj);
           responseObj.set('baseLineFlagStatus', 'open');
           responseObj.set('previousFlagStatus', 'open');
+          responseObj.set('reviewed', 'unreviewed');
           responseObj.set('baseLine', baseLineObj);
           if (_.isUndefined(responseObj_prev)) {
             responseObj.set('sequenceNumber', 1.);
@@ -3014,7 +3077,8 @@
   };
 
   getBaseLineScores = function(responseObj) {
-    var answerQuery, responseBaseLine;
+    var answerQuery, promise, responseBaseLine;
+    promise = new Parse.Promise();
     responseBaseLine = responseObj.get('baseLine');
     answerQuery = new Parse.Query('Answer');
     answerQuery.equalTo('response', responseBaseLine);
