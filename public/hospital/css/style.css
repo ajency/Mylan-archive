@@ -8185,7 +8185,8 @@ input {
   width: 100%;
 }
 .attributeContainer select {
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075) !important;
+  border: 1px solid #E5E9EC !important;
+  border-radius: 0;
 }
 .attributeContainer input.form-control,
 .attributeContainer select.form-control {
@@ -8194,6 +8195,8 @@ input {
 }
 .attributes_block {
   border-left: 1px solid #ddd;
+  border-right: 0 !important;
+  padding: 0 20px;
   min-height: 240px;
 }
 .attributes_block > h4 {
@@ -8204,6 +8207,9 @@ input {
 }
 .attributes_block .form-group .form-label {
   margin-bottom: 0px;
+}
+.projectAdd > div:first-child {
+  padding: 0 20px;
 }
 .projectAdd .form-row {
   margin-bottom: 20px;
@@ -8224,5 +8230,9 @@ input {
 }
 .projectAdd .addAttributes i {
   padding-right: 5px;
+}
+.projectAdd .form-actions {
+  background: transparent;
+  padding: 0 30px;
 }
 /*# sourceMappingURL=style.css.map */
