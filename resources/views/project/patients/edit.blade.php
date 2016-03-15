@@ -20,7 +20,7 @@
       </div> 
      <div class="grid simple">
            <div class="grid-body">
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate>
+      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate>
               <div class="row form-group">
                 <div class="col-md-3">
                   <div class="form-row">
