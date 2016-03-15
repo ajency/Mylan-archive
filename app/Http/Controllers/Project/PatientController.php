@@ -76,6 +76,7 @@ class PatientController extends Controller
 
         $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
 
+
         
 
         $patientsSummary = $patientResponses['patientResponses'];
@@ -1237,7 +1238,7 @@ class PatientController extends Controller
         
        
        
-        $totalResponses = count($responses) + array_sum($missedResponses);
+        $totalResponses = count($responses) + array_sum($missedResponses) + array_sum($lateResponses);
 
         $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
         $completed =  round($completed);
