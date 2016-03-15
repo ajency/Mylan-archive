@@ -268,15 +268,24 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     return $flag;
 }
 
-function hospitalImageExist($hospital)
+function hospitalImageExist($hospital,$flag=true)
 { 
     $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
     $filepath = public_path(). "/mylan/hospitals/".$hospital['logo']; 
 
     if($hospital['logo']!='' && file_exists($filepath))
+    {
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
+        if($flag)
+            $logo .= '<span class="text-muted"> | </span>';
+    }
     else
-        $logo = '<h3 class="inline hospital-name">'.$hospital['name'].' <span class="text-muted"> | </span></h3>';
+    {
+        $logo = '<h3 class="inline hospital-name">'.$hospital['name'];
+        if($flag)
+            $logo .= '<span class="text-muted"> | </span>';
+        $logo .= '</h3>';
+    }
 
     echo $logo;  
 }
