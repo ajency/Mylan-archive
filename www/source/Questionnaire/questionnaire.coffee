@@ -185,6 +185,11 @@ angular.module 'PatientApp.Quest',[]
 					sizeOfField = _.size(@data.options)
 					sizeOfTestboxAns = _.size(@val_answerValue)
 
+					kgValid =  true
+					lbValid = true
+					stValid = false
+					weightInput = 0
+
 					if (sizeOfTestboxAns == 0)
 						error = 1
 					else
@@ -203,23 +208,55 @@ angular.module 'PatientApp.Quest',[]
 						if valueArr.length == _.size(@val_answerValue)
 							error = 1
 					#for lbs validation 
-					if validArr.length > 0
+					#for lbs validation 
+					if !_.isEmpty @val_answerValue
 						weightKeys = _.keys @val_answerValue
 						weigthValueArray = _.values @val_answerValue
 
 						_.each weightKeys, (val)->
+
+							lowerCase = val.toLowerCase()
+							if _.contains ['kg','kgs'], lowerCase
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								console.log 'valueee'
+								console.log valid 
+								if valid == null
+									kgValid = false
+
+								
+
 							# weightKeyArray.push val.toLowerCase()
 							lowerCase = val.toLowerCase()
 							if _.contains ['lb','lbs'], lowerCase
-								if weigthValueArray[_.indexOf weightKeys,val] == "0"
-									console.log 'hii'
-									validArr = []
-									
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^-?\d*(\.\d+)?$/))
+								console.log 'valueee'
+								console.log valid 
+								if valid == null
+									lbValid = false
+
+
+							lowerCase = val.toLowerCase()
+							if _.contains ['st','sts'], lowerCase
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								console.log 'valueee'
+								console.log valid 
+								if valid != null 
+									stValid = true
+								else if valid == null
+									stValid = false
+
 
 							
 					# ***temp**
-					if error == 1 || validArr.length > 0
+					if (weightInput == 0) && (error == 1 || validArr.length > 0)
 						CToast.show 'Please enter the values'
+					else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
+						CToast.show 'Please enter non zero weight in kg'
+					else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
+						CToast.show 'Please enter non zero weight in st'
 					else
 						valueInput = []
 						optionId = []
