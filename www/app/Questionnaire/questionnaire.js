@@ -246,9 +246,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
             CToast.show('Please enter the values');
           } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
-            CToast.show('Please enter non zero weight in kg');
+            CToast.showLongBottom('Please enter valid value,kg cannot be zero');
           } else if ((weightInput === 1) && (this.secondText === 'selected' && (stValid === false || lbValid === false))) {
-            CToast.show('Please enter non zero weight in st');
+            CToast.showLongBottom('Please enter valid value,st cannot be zero');
           } else {
             valueInput = [];
             optionId = [];
