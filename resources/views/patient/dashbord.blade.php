@@ -41,7 +41,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#dashboard">{{ hospitalImageExist($hospital) }}</a>
+        <a class="navbar-brand" href="#dashboard">{{ hospitalImageExist($hospital,false) }}</a>
        
       </div>
 
