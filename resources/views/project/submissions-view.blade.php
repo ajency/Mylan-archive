@@ -132,7 +132,7 @@
                               </div>
                               <div class="col-md-3 baselineAllign text-right ">
                               Previous <span class="p-l-r-5">|</span> Baseline
-                                 <span class="text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
+                                 <span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
                               <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
                               </div>
                            </div>
@@ -178,7 +178,7 @@
                                       $x = 'A';
                                     ?>
                                       @foreach($answer['option'] as $option)
-                                      <h5 class="text-success semi-bold">{{ $x }} : {{ $option }}</h5>
+                                      <h5 class="text-success semi-bold">{{ $x }}: {{ $option }}</h5>
                                       <?php $x++;?>
                                       @endforeach
                                     @elseif($answer['questionType']=='input')
@@ -191,7 +191,7 @@
                                     
                                     
                                     @if(isset($previousAnswersList[$answer['questionId']]))
-                                    <h5 class="text-success"><span class="text-muted">Previous Answer:</span>
+                                    <h5 class="text-success g-l-h"><span class="text-muted">Previous Answer:</span>
    
                                         @if($previousAnswersList[$answer['questionId']]['questionType']=='multi-choice')
                                            <?php
@@ -218,7 +218,7 @@
                                      </h5>
                                     @endif
                                     @if(isset($baseLineAnswersList[$answer['questionId']]))
-                                    <h5 class="text-success"><span class="text-muted">Base Line Answer:</span>
+                                    <h5 class="text-success g-l-h"><span class="text-muted">Base Line Answer:</span>
    
                                         @if($baseLineAnswersList[$answer['questionId']]['questionType']=='multi-choice')
                                           <?php
