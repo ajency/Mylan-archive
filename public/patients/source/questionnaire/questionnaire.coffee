@@ -239,12 +239,17 @@ angular.module 'angularApp.questionnaire'
 						@loadNextQuestion(options)
 
 				if @data.questionType == 'input'
+
 					valueArr = []
 					validArr = []
-
 					error = 0
 					sizeOfField = _.size(@data.options)
 					sizeOfTestboxAns = _.size(@val_answerValue)
+
+					kgValid =  true
+					lbValid = true
+					stValid = false
+					weightInput = 0
 
 					if (sizeOfTestboxAns == 0)
 						error = 1
@@ -263,10 +268,55 @@ angular.module 'angularApp.questionnaire'
 
 						if valueArr.length == _.size(@val_answerValue)
 							error = 1
+					#for lbs validation 
+					if !_.isEmpty @val_answerValue
+						weightKeys = _.keys @val_answerValue
+						weigthValueArray = _.values @val_answerValue
 
+						_.each weightKeys, (val)->
+
+							lowerCase = val.toLowerCase()
+							if _.contains ['kg','kgs'], lowerCase
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								console.log 'valueee'
+								console.log valid 
+								if valid == null
+									kgValid = false
+
+								
+
+							# weightKeyArray.push val.toLowerCase()
+							lowerCase = val.toLowerCase()
+							if _.contains ['lb','lbs'], lowerCase
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^-?\d*(\.\d+)?$/))
+								console.log 'valueee'
+								console.log valid 
+								if valid == null
+									lbValid = false
+
+
+							lowerCase = val.toLowerCase()
+							if _.contains ['st','sts'], lowerCase
+								weightInput = 1
+								valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+								console.log 'valueee'
+								console.log valid 
+								if valid != null 
+									stValid = true
+								else if valid == null
+									stValid = false
+
+
+							
 					# ***temp**
-					if error == 1 || validArr.length > 0
+					if (weightInput == 0) && (error == 1 || validArr.length > 0)
 						CToast.show 'Please enter the values'
+					else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
+						CToast.show 'Please enter valid value,kg cannot be zero'
+					else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
+						CToast.show 'Please enter valid value,st cannot be zero'
 					else
 						valueInput = []
 						optionId = []
@@ -282,14 +332,20 @@ angular.module 'angularApp.questionnaire'
 								obj['value'] = a.toString()
 								arryObj.push(obj)
 
-						
+						options =
+							# "questionId" : @data.questionId
+							# "options": [optionId[0]]
+							# "value": valueInput[0].toString()
+
 						options =
 							"questionId" : @data.questionId
 							"options": arryObj
-							"responseId" : @data.responseId
+							"value": ""
 							
 
+
 						@loadNextQuestion(options)
+
 
 			
 				if @data.questionType == 'multi-choice'
