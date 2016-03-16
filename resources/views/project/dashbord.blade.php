@@ -243,7 +243,7 @@
                                </div>
                             </div>
                           </div>
-                           <div class="grid-body no-border table-data ">
+                           <div class="grid-body no-border table-data no-padding">
                             @if(!empty($submissionsSummary))                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
                             @else 
