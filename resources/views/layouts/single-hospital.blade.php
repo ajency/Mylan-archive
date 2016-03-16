@@ -54,7 +54,7 @@
                   </li>
                </ul>
                <!-- BEGIN LOGO --> 
-               <a href="{{ url() }}/{{ $hospital['url_slug'] }}">{{ hospitalImageExist($hospital) }}</a>
+               <a href="{{ url() }}/{{ $hospital['url_slug'] }}">{{ hospitalImageExist($hospital,false) }}</a>
                <!-- END LOGO --> 
                <ul class="nav pull-right notifcation-center">
                   <li class="dropdown" id="header_task_bar">
@@ -78,7 +78,7 @@
             <!-- END RESPONSIVE MENU TOGGLER --> 
             <div class="header-quick-nav container text-center" >
                <!-- BEGIN TOP NAVIGATION MENU -->
-               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left">{{ hospitalImageExist($hospital) }}</a>
+               <a href="{{ url($hospital['url_slug'].'/' ) }}" class="pull-left">{{ hospitalImageExist($hospital,false) }}</a>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->
                <div class="pull-right">
