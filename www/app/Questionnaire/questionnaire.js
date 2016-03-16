@@ -124,10 +124,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                     summary: responseId
                   });
                 } else if (data.status === 'completed') {
-                  _this.title = 'This questionnaire was Completed';
+                  _this.title = 'This questionnaire was completed';
                   _this.showConfirm();
                 } else if (data.status === 'missed') {
-                  _this.title = 'This questionnaire was Missed';
+                  _this.title = 'This questionnaire was missed';
                   _this.showConfirm();
                 }
               }
@@ -313,10 +313,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               console.log(data);
               if (!_.isUndefined(data.status)) {
                 if (data.status === 'completed') {
-                  _this.title = 'This questionnaire was Completed';
+                  _this.title = 'This questionnaire was completed';
                   _this.showConfirm();
                 } else if (data.status === 'missed') {
-                  _this.title = 'This questionnaire was Missed';
+                  _this.title = 'This questionnaire was missed';
                   _this.showConfirm();
                 }
               }
@@ -554,10 +554,10 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               summary: $stateParams.respStatus
             });
           } else if (data.status === 'completed') {
-            this.title = 'This questionnaire was Completed';
+            this.title = 'This questionnaire was completed';
             return this.showConfirm();
           } else if (data.status === 'missed') {
-            this.title = 'This questionnaire was Missed';
+            this.title = 'This questionnaire was missed';
             return this.showConfirm();
           }
         }
