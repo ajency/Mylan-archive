@@ -1137,4 +1137,23 @@ input::-ms-input-placeholder {
   color: #00c3c0;
   text-decoration: none;
 }
+.alternative {
+  margin: 5px 0px 7px 16.5em;
+  text-transform: uppercase;
+  position: relative;
+  font-weight: bold;
+}
+.alternative:after,
+.alternative:before {
+  content: "a";
+  position: absolute;
+  border-top: 1px solid #C8B4B4;
+  top: 10px;
+  color: transparent;
+  left: 25px;
+  width: 7%;
+}
+.alternative:after {
+  left: -44px;
+}
 /*# sourceMappingURL=style.css.map */
