@@ -212,7 +212,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               lowerCase = val.toLowerCase();
               if (_.contains(['kg', 'kgs'], lowerCase)) {
                 weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
                 console.log('valueee');
                 console.log(valid);
                 if (valid === null) {
@@ -222,7 +222,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               lowerCase = val.toLowerCase();
               if (_.contains(['lb', 'lbs'], lowerCase)) {
                 weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^-?\d*(\.\d+)?$/);
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^-?\d*(\.\d+)?$/);
                 console.log('valueee');
                 console.log(valid);
                 if (valid === null) {
@@ -232,7 +232,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               lowerCase = val.toLowerCase();
               if (_.contains(['st', 'sts'], lowerCase)) {
                 weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
                 console.log('valueee');
                 console.log(valid);
                 if (valid !== null) {
