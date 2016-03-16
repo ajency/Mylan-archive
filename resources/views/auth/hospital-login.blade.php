@@ -5,7 +5,7 @@
   <div class=" login-container adminlogin">
     <div class="admin-header">
     <div class="logo-img inline">
-       <img src="{{ $logoUrl }}" alt=""  data-src="{{ $logoUrl }}"  height="50px"/>
+       <a href="{{ url() }}/{{ $hospital['url_slug'] }}">{{ hospitalImageExist($hospital,false) }}</a>
           </div>
         <h3 class="inline">Sign in</h3>
         </div>
