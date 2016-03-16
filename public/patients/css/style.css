@@ -1162,4 +1162,7 @@ input::-ms-input-placeholder {
 .alternative:after {
   left: -44px;
 }
+.g-l-h {
+  line-height: 1.5;
+}
 /*# sourceMappingURL=style.css.map */
