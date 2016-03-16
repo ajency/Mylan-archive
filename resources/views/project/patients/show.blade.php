@@ -92,7 +92,11 @@
               <div class="col-sm-5 b-r">
                  <div class="">
                 @if(!$totalResponses)
-                    <div class="text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                        <tbody>
+                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        </tbody>
+                        </table>
                 @else
                     <div id="submissionschart"></div>
                 @endif
@@ -122,7 +126,11 @@
                     <option value="green_flags">Green Flags</option>
                  </select>
                   @if(!$totalResponses)
-                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                  <tbody>
+                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                  </tbody>
+                  </table>
                   @else
                     <div id="chartdiv"></div>
                   @endif
@@ -204,7 +212,11 @@
                     @endforeach
                  </select>
                @if(!$totalResponses)
-                <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                  <tbody>
+                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                  </tbody>
+                  </table>
               @else
                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
               @endif
