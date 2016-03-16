@@ -203,7 +203,7 @@ hr.broad {
   margin-left: 5px;
 }
 .bar.bar-header .button.update .badge {
-  padding: 1px 0px;
+  padding: 1px 5px;
   font-size: 11px;
   text-align: center;
   line-height: 14px;
@@ -1469,15 +1469,17 @@ ul .mcq_active div span {
   opacity: .5;
 }
 .bar-top {
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border-radius: 100%;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
   left: initial;
   right: 10px;
   bottom: 10px;
 }
 .bar-top .title {
-  line-height: 55px !important;
+  line-height: 45px !important;
 }
 .notification-screen .notify-view:last-child {
   padding-bottom: 45px;
