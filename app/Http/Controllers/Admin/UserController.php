@@ -67,14 +67,15 @@ class UserController extends Controller
         $user->phone = $request->input('phone');     
         $user->type = 'hospital_user'; 
         $user->account_status = 'active'; 
-        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
+        $hasAllAccess = ($request->has('has_all_access'))?'yes':'no';
+        $user->has_all_access = $hasAllAccess;
         $user->save(); 
         $userId = $user->id;
 
         $hospitalIds = $request->input('hospital');
         $hospitalUrlStr = '';
 
-        if(!empty($hospitalIds))
+        if(!empty($hospitalIds) && $hasAllAccess=='no')
         {
             foreach ($hospitalIds as $key => $hospitalId) {
                  if($hospitalId=='')
@@ -101,6 +102,17 @@ class UserController extends Controller
               $hospitalUrlStr .= $hospitalName .' : '.url().'/'.$urlSlug . ' <br>';
           }
             
+        }
+        else
+        {
+          
+          $hospitals = Hospital:: all()->toArray(); 
+          foreach ($hospitals as $hospital) {
+              $hospitalName = $hospital['name'];
+              $urlSlug = $hospital['url_slug'];
+
+              $hospitalUrlStr .= $hospitalName .' : '.url().'/'.$urlSlug . ' <br>';
+          }
         }
 
         

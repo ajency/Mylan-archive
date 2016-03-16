@@ -22,8 +22,9 @@ class UserController extends Controller
      */
     public function index($hospitalSlug)
     {
-       $users = User::where('type','project_user')->orderBy('created_at')->get()->toArray();
+       
        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+       $users = User::where('type','project_user')->where('hospital_id',$hospital['id'])->orderBy('created_at')->get()->toArray();
        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
         return view('hospital.users-list')->with('active_menu', 'users')
@@ -69,7 +70,8 @@ class UserController extends Controller
         $user->phone = $request->input('phone');     
         $user->type = 'project_user'; 
         $user->account_status = 'active'; 
-        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
+        $hasAllAccess = ($request->has('has_all_access'))?'yes':'no';
+        $user->has_all_access = $hasAllAccess;
         $user->save(); 
         $userId = $user->id;
 
@@ -78,7 +80,7 @@ class UserController extends Controller
         $projectUrlStr = '';
         
         $projects = $request->input('projects');
-        if(!empty($projects))
+        if(!empty($projects) && $hasAllAccess=='no')
         {
             foreach ($projects as $key => $project) {
                  if($project=='')
@@ -108,6 +110,20 @@ class UserController extends Controller
             
             
         }
+        else
+        {
+          
+            $projectsData = Projects::all()->toArray();
+            
+            foreach ($projectsData as $key => $projectData) {
+                
+                $projectName = $projectData['name'];
+                $urlSlug = $projectData['project_slug'];
+                $projectUrlStr .= $hospitalName  .' ('.$projectName.') : '.url().'/'.$hospitalSlug .'/'.$urlSlug. ' <br>';
+                 
+            }
+        }
+
         
         $data =[];
         $data['name'] = $name;
