@@ -338,6 +338,7 @@ angular.module 'angularApp.questionnaire'
 							# "value": valueInput[0].toString()
 
 						options =
+							"responseId" : @data.responseId
 							"questionId" : @data.questionId
 							"options": arryObj
 							"value": ""

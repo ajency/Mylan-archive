@@ -334,6 +334,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               };
             })(this));
             options = options = {
+              "responseId": this.data.responseId,
               "questionId": this.data.questionId,
               "options": arryObj,
               "value": ""
