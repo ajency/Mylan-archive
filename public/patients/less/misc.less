@@ -756,6 +756,7 @@ form{
     font-size: 22px;
     }
     }
+
 @media(max-width:767px){
   h3{
         font-size: 19px;
@@ -1170,6 +1171,9 @@ form .placeholderWrap .form-control:focus
 // notification section modification
 
 .notify-panel{
+  .panel-body{
+    padding-bottom: 0px;
+  }
   .notification-list{
     li{
       &:hover{
@@ -1184,6 +1188,9 @@ form .placeholderWrap .form-control:focus
         }
       }
     }
+  }
+  .view-more{
+    margin: 10px 0;
   } 
 }
 
@@ -1249,6 +1256,8 @@ color: #00aaa7;
 }
 
 
+
+
 // questionnaire alternative styling
 
 .alternative{
@@ -1268,4 +1277,11 @@ color: #00aaa7;
     &:after{
       left: -44px;
     }
+}
+
+
+// Global Line height
+
+.g-l-h{
+  line-height: 1.5;
 }
