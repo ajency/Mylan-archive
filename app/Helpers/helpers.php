@@ -277,7 +277,7 @@ function hospitalImageExist($hospital,$flag=true)
     {
         $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
         if($flag)
-            $logo .= '<h3 class="inline"><span class="text-muted side-pipe">|</span></h3>';
+            $logo .='<h3 class="inline"><span class="text-muted side-pipe">|</span></h3>';
     }
     else
     {
