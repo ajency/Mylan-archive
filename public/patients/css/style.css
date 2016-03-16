@@ -1085,6 +1085,9 @@ form .placeholderWrap .form-control:focus {
 .input .showHidePw:checked + i {
   color: #00bae5;
 }
+.notify-panel .panel-body {
+  padding-bottom: 0px;
+}
 .notify-panel .notification-list li:hover {
   background: #EBEBEB;
   cursor: pointer;
@@ -1095,6 +1098,9 @@ form .placeholderWrap .form-control:focus {
 .notify-panel .notification-list li p a {
   text-decoration: none;
   color: #05A8A5;
+}
+.notify-panel .view-more {
+  margin: 10px 0;
 }
 input::-ms-input-placeholder {
   opacity: 0;
