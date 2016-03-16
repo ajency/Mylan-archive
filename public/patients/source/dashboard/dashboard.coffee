@@ -44,8 +44,10 @@ angular.module 'angularApp.dashboard',[]
 				Storage.summary 'set', summaryData
 				$location.path('summary')
 
-			startQuiz :() ->
-				startQuestData = 'start'
+			startQuiz :(val) ->
+				console.log '---startQuiz----'
+				console.log val 
+				startQuestData = val
 				Storage.startQuestionnaire 'set', startQuestData
 				$location.path 'start-questionnaire'
 

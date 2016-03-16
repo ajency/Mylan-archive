@@ -47,9 +47,11 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         Storage.summary('set', summaryData);
         return $location.path('summary');
       },
-      startQuiz: function() {
+      startQuiz: function(val) {
         var startQuestData;
-        startQuestData = 'start';
+        console.log('---startQuiz----');
+        console.log(val);
+        startQuestData = val;
         Storage.startQuestionnaire('set', startQuestData);
         return $location.path('start-questionnaire');
       },
