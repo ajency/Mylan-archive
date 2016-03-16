@@ -1099,6 +1099,14 @@ form .placeholderWrap .form-control:focus {
 input::-ms-input-placeholder {
   opacity: 0;
 }
+.activeLabel i.radio-icon {
+  background: #7bc67a;
+  border-color: #7bc67a;
+}
+.activeLabel i.radio-icon:before {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 .questionnaire-text-field {
   visibility: visible !important;
   position: relative !important;

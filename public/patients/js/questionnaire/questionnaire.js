@@ -226,7 +226,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var arryObj, error, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, validArr, valueArr, valueInput;
+        var arryObj, error, kgValid, lbValid, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, stValid, validArr, valueArr, valueInput, weightInput, weightKeys, weigthValueArray;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select atleast one answer');
@@ -246,6 +246,10 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           error = 0;
           sizeOfField = _.size(this.data.options);
           sizeOfTestboxAns = _.size(this.val_answerValue);
+          kgValid = true;
+          lbValid = true;
+          stValid = false;
+          weightInput = 0;
           if (sizeOfTestboxAns === 0) {
             error = 1;
           } else {
@@ -268,8 +272,51 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               error = 1;
             }
           }
-          if (error === 1 || validArr.length > 0) {
+          if (!_.isEmpty(this.val_answerValue)) {
+            weightKeys = _.keys(this.val_answerValue);
+            weigthValueArray = _.values(this.val_answerValue);
+            _.each(weightKeys, function(val) {
+              var lowerCase, valid;
+              lowerCase = val.toLowerCase();
+              if (_.contains(['kg', 'kgs'], lowerCase)) {
+                weightInput = 1;
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                console.log('valueee');
+                console.log(valid);
+                if (valid === null) {
+                  kgValid = false;
+                }
+              }
+              lowerCase = val.toLowerCase();
+              if (_.contains(['lb', 'lbs'], lowerCase)) {
+                weightInput = 1;
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^-?\d*(\.\d+)?$/);
+                console.log('valueee');
+                console.log(valid);
+                if (valid === null) {
+                  lbValid = false;
+                }
+              }
+              lowerCase = val.toLowerCase();
+              if (_.contains(['st', 'sts'], lowerCase)) {
+                weightInput = 1;
+                valid = weigthValueArray[_.indexOf(weightKeys, val)].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+                console.log('valueee');
+                console.log(valid);
+                if (valid !== null) {
+                  return stValid = true;
+                } else if (valid === null) {
+                  return stValid = false;
+                }
+              }
+            });
+          }
+          if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
             CToast.show('Please enter the values');
+          } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
+            CToast.show('Please enter valid value,kg cannot be zero');
+          } else if ((weightInput === 1) && (this.secondText === 'selected' && (stValid === false || lbValid === false))) {
+            CToast.show('Please enter valid value,st cannot be zero');
           } else {
             valueInput = [];
             optionId = [];
@@ -286,10 +333,11 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 }
               };
             })(this));
-            options = {
+            options = options = {
+              "responseId": this.data.responseId,
               "questionId": this.data.questionId,
               "options": arryObj,
-              "responseId": this.data.responseId
+              "value": ""
             };
             this.loadNextQuestion(options);
           }

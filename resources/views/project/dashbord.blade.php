@@ -120,7 +120,11 @@
                                 @if(!empty($submissionsSummary))
                                     <div class="row"><div id="piechart" class="piechart-height"></div></div>
                                 @else 
-                                    <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                <table class="table table-flip-scroll table-hover dashboard-tbl">
+                                <tbody>
+                                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                                </tbody>
+                                </table>
                                 @endif
                                  </div>
                                  <div class="col-sm-6">
@@ -239,11 +243,15 @@
                                </div>
                             </div>
                           </div>
-                           <div class="grid-body no-border table-data ">
+                           <div class="grid-body no-border table-data no-padding">
                             @if(!empty($submissionsSummary))                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
                             @else 
-                              <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                              <table class="table table-flip-scroll table-hover dashboard-tbl">
+                                <tbody>
+                                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                                </tbody>
+                                </table>
                             @endif
                            </div>
                         </div>
