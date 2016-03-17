@@ -55,7 +55,7 @@ Route::get( '/dashboard', 'Patient\PatientController@index' );
 });
 
 /*****Admin***/
-Route::group( ['prefix' => 'admin', 'middleware' => ['auth']], function() {
+Route::group( ['prefix' => 'admin', 'middleware' => ['auth','permission']], function() {
 Route::get( '/login-links', 'Admin\UserController@loginLinks' );
 });
 
