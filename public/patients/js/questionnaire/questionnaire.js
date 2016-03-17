@@ -44,6 +44,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         return this.val_answerValue = {};
       },
       hasAnswerShow: function() {
+        var kgsSelected;
         if (this.data.questionType === 'descriptive') {
           this.descriptiveAnswer = this.data.hasAnswer.value;
         }
@@ -60,6 +61,26 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           })(this));
         }
         if (this.data.questionType === 'input') {
+          kgsSelected = [];
+          _.each(this.data.hasAnswer.option, (function(_this) {
+            return function(value) {
+              var bool, labelKg, str;
+              str = value.label;
+              str = str.toLowerCase();
+              labelKg = ['kg', 'kgs'];
+              bool = _.contains(labelKg, str);
+              if (bool === true) {
+                return kgsSelected.push(1);
+              }
+            };
+          })(this));
+          if (kgsSelected.length === 0) {
+            this.firstText = 'notSelected';
+            this.secondText = 'selected';
+          } else {
+            this.firstText = 'selected';
+            this.secondText = 'notSelected';
+          }
           return _.each(this.data.hasAnswer.option, (function(_this) {
             return function(val) {
               return _this.val_answerValue[val.label] = Number(val.value);

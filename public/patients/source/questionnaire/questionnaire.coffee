@@ -64,10 +64,27 @@ angular.module 'angularApp.questionnaire'
 						
 
 				if @data.questionType == 'input'
+					kgsSelected = []
+					_.each @data.hasAnswer.option, (value)=>
+						str = value.label
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	== true
+							kgsSelected.push(1)
+
+
+					if kgsSelected.length == 0
+						@firstText = 'notSelected'
+						@secondText = 'selected'
+					else
+						@firstText = 'selected'
+						@secondText = 'notSelected'
+
 					_.each @data.hasAnswer.option, (val) =>
 						@val_answerValue[val.label] = Number(val.value)
-					# ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					# @val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
+
 
 
 			pastAnswer:()->
