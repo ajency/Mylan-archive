@@ -126,6 +126,23 @@
                 
                 
 
+
+
+
+<!-- single  -->
+
+<div class="row add-attribute">
+  <div class="col-md-3">
+    <label>Weight</label>
+    <input type="text" class="m-b-5 col-sm-8" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
+    <h6 class="m-t-15">NO</h6>
+  </div>
+</div>
+
+
+
+<!-- Multiple -->
+
 <div class="row add-attribute">
   <label class="p-l-15">Weight</label>
   <div class="col-md-2">
