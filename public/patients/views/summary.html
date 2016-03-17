@@ -36,7 +36,7 @@
               <div class="list-infotext">
                 <h3> {{summary.question}}</h3>
 
-                <h4 class="text-success">
+                <h4 class="text-success g-l-h">
                   <span 
                     ng-if="summary.val ==='single-choice' || summary.val ==='multi-choice'"
                     ng-repeat = "answer in summary.optionSelected track by $index">
@@ -44,13 +44,13 @@
                   </span>
                 </h4>
 
-                <h4 class="text-success"
+                <h4 class="text-success g-l-h"
                    ng-if="summary.val ==='descriptive'">
                   <span> {{summary.input}} 
                   </span>
                 </h4>
 
-                <h4 class="text-success"
+                <h4 class="text-success g-l-h"
                    ng-if="summary.val == 'input'"
                    ng-repeat = "answer in summary.optionSelected track by $index">
                   <span> 

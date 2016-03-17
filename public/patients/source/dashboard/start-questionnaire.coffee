@@ -5,9 +5,17 @@ angular.module 'angularApp.dashboard'
 
 		$scope.view =
 			startQuiz :(quizID) ->
-				questionnaireData = 
-					respStatus : 'noValue'
-					responseId : ''
+
+				value = Storage.startQuestionnaire 'get'
+				if value == 'noValue'
+
+					questionnaireData = 
+						respStatus : 'noValue'
+						responseId : ''
+				else
+					questionnaireData = 
+						respStatus : 'resume'
+						responseId : value
 
 				Storage.questionnaire 'set', questionnaireData
 				$location.path 'questionnaire'
