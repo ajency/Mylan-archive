@@ -49,10 +49,11 @@
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                  <label class="p-l-15">{{ $attribute['label'] }} </label>
+                               
                                     @foreach($defaults as $default)
                                       
                                       <div class="col-md-2  add-attribute">
+                                         <label>{{ $attribute['label'] }} </label>
                                       <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6> {{ $default }}</h6> 
                                       </div>
                                     @endforeach
@@ -73,7 +74,7 @@
                                 
                                 @elseif('select' == $attribute['control_type'])
                                 <div class="col-md-3">
-                                <label class="m-t-neg">{{ $attribute['label'] }} </label>
+                                <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
