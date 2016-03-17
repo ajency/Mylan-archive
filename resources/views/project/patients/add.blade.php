@@ -52,9 +52,9 @@
                                
                                     @foreach($defaults as $default)
                                       
-                                      <div class="col-md-2  add-attribute">
+                                      <div class="col-md-2 add-attribute">
                                          <label>{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6> {{ $default }}</h6> 
+                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
                                       </div>
                                     @endforeach
                                   @else
