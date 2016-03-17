@@ -55,7 +55,7 @@
                <div class="col-md-3">Projects</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
-                  <input id="checkbox6" type="checkbox" name="has_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
+                  <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
                   <label for="checkbox6">Access to all Projects<small> (This would automatically give access to future projects.)</small></label>
                </div>
                   Access  (Individual)

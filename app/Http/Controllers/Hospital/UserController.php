@@ -59,6 +59,9 @@ class UserController extends Controller
      */
     public function store(Request $request,$hospitalSlug)
     {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
+        $hospitalName = $hospital['name'];
+
         $password = randomPassword();
 
         $user = new User;
@@ -72,15 +75,15 @@ class UserController extends Controller
         $user->account_status = 'active'; 
         $hasAllAccess = ($request->has('has_all_access'))?'yes':'no';
         $user->has_all_access = $hasAllAccess;
+        $user->hospital_id = $hospital['id'];
         $user->save(); 
         $userId = $user->id;
 
-        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
-        $hospitalName = $hospital['name'];
-        $projectUrlStr = '';
+        
+        $loginUrls = url().'/admin/login <br>';
         
         $projects = $request->input('projects');
-        if(!empty($projects) && $hasAllAccess=='no')
+        if(!empty($projects))
         {
             foreach ($projects as $key => $project) {
                  if($project=='')
@@ -94,42 +97,15 @@ class UserController extends Controller
                 $userAccess->user_id = $userId; 
                 $userAccess->access_type = $access; 
                 $userAccess->save();
-            }
-
-
-            $projectsData = Projects::whereIn('id',$projects)->get()->toArray();
-            
-            foreach ($projectsData as $key => $projectData) {
-                
-                $projectName = $projectData['name'];
-                $urlSlug = $projectData['project_slug'];
-                $projectUrlStr .= $hospitalName  .' ('.$projectName.') : '.url().'/'.$hospitalSlug .'/'.$urlSlug. ' <br>';
-                 
-            }
-
-            
+            }         
             
         }
-        else
-        {
-          
-            $projectsData = Projects::all()->toArray();
-            
-            foreach ($projectsData as $key => $projectData) {
-                
-                $projectName = $projectData['name'];
-                $urlSlug = $projectData['project_slug'];
-                $projectUrlStr .= $hospitalName  .' ('.$projectName.') : '.url().'/'.$hospitalSlug .'/'.$urlSlug. ' <br>';
-                 
-            }
-        }
 
-        
         $data =[];
         $data['name'] = $name;
         $data['email'] = $email;
         $data['password'] = $password;
-        $data['loginUrls'] = $projectUrlStr;
+        $data['loginUrls'] = $loginUrls;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
@@ -190,7 +166,8 @@ class UserController extends Controller
  
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');     
-        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
+        $hasAllAccess = ($request->has('has_all_access'))?'yes':'no';
+        $user->has_all_access = $hasAllAccess;
         $user->save(); 
 
         $projects = $request->input('projects');

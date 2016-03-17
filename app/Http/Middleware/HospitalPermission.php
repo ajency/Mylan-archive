@@ -42,7 +42,7 @@ class HospitalPermission
 
         $resourceName = $request->route()->getName(); 
         $uriPath =$request->route()->getPath();  
-
+        
         $hospitalSlug = \Illuminate\Support\Facades\Route::input('hospitalslug'); 
 
         if($resourceName!='' && isset($resources[$resourceName]))

@@ -33,5 +33,6 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\Permission::class,
         'hospital.permission' => \App\Http\Middleware\HospitalPermission::class,
         'project.permission' => \App\Http\Middleware\ProjectPermission::class,
+        'mylan.permission' => \App\Http\Middleware\MylanPermission::class,
     ];
 }

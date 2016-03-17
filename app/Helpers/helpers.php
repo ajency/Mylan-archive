@@ -163,33 +163,33 @@ function randomPassword() {
 	return $password;
 }
 
-function hasMylanPermission($userPermission)
-{  
-    $userId =  Auth::user()->id;
-    $user = App\User::find($userId); 
-    $userType = $user->type; 
-    $hasAccess = $user->mylan_access; 
+// function hasMylanPermission($userPermission)
+// {  
+//     $userId =  Auth::user()->id;
+//     $user = App\User::find($userId); 
+//     $userType = $user->type; 
+//     $hasAccess = $user->mylan_access; 
     
-    $flag = false;
+//     $flag = false;
     
-    $permissions =[];
- 	$userAccess = [];
+//     $permissions =[];
+//  	$userAccess = [];
  	
-    if($userType=='mylan_admin')
-    {
-        if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
-        {
-            $userAccess = $user->access()->where(['object_type'=>'mylan', 'object_id'=>0])->whereIn('access_type',$userPermission)->get()->toArray();
+//     if($userType=='mylan_admin')
+//     {
+//         if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
+//         {
+//             $userAccess = $user->access()->where(['object_type'=>'mylan', 'object_id'=>0])->whereIn('access_type',$userPermission)->get()->toArray();
         	
-        	if(!empty($userAccess))
-    	        $flag = true;
-        }
-        else
-        	$flag = true;
-    }
+//         	if(!empty($userAccess))
+//     	        $flag = true;
+//         }
+//         else
+//         	$flag = true;
+//     }
     
-    return $flag;
-}
+//     return $flag;
+// }
 
 function hasHospitalPermission($hospitalSlug,$userPermission)
 {  
@@ -205,19 +205,35 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
     $userAccess = [];
 
     $hospital = App\Hospital::where('url_slug',$hospitalSlug)->first()->toArray(); 
-    
+     
 
     if($userType=='mylan_admin' || $userType=='hospital_user')
     {
         if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
         {
             $userAccess = $user->access()->where(['object_type'=>'hospital', 'object_id'=>$hospital['id']])->whereIn('access_type',$userPermission)->get()->toArray();
+
             
             if(!empty($userAccess))
                 $flag = true;
         }
         else
             $flag = true;
+    }
+    
+    return $flag;
+}
+
+function hasMylanPermission()
+{  
+    $userId =  Auth::user()->id;
+    $userType = Auth::user()->type; 
+
+    $flag = false;
+    
+    if($userType=='mylan_admin')
+    {
+        $flag = true;
     }
     
     return $flag;

@@ -56,12 +56,15 @@ Route::get( '/dashboard', 'Patient\PatientController@index' );
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth']], function() {
+Route::get( '/login-links', 'Admin\UserController@loginLinks' );
+});
+
+Route::group( ['prefix' => 'admin', 'middleware' => ['auth','mylan.permission']], function() {
 Route::get( '/', 'Admin\UserController@dashboard' );
 Route::get( '/dashboard', 'Admin\UserController@dashboard' );
 Route::resource( 'hospitals', 'Admin\HospitalController' );
 Route::resource( 'users', 'Admin\UserController' );
 Route::resource( 'user-access', 'Admin\UserAccessController' );
-
 
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );

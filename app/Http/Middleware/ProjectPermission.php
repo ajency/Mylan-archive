@@ -44,23 +44,23 @@ class ProjectPermission
 
                     ]; 
                     
-        $uri        =[  '{hospitalslug}/{projectslug}'=>['view'],
-                        '{hospitalslug}/{projectslug}/dashboard'=>['view'],
-                        '{hospitalslug}/{projectslug}/flags'=>['view'],
-                        '{hospitalslug}/{projectslug}/reports'=>['view'],
+        $uri        =[  '{hospitalslug}/{projectslug}'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/dashboard'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/flags'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/reports'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/submissions/{id}/updatesubmissionstatus'=>['edit'],
 
-                        '{hospitalslug}/{projectslug}/getsubmissionlist'=>['view'],
-                        '{hospitalslug}/{projectslug}/getpatientsummarylist'=>['view'],
-                        '{hospitalslug}/{projectslug}/notifications'=>['view'],
+                        '{hospitalslug}/{projectslug}/getsubmissionlist'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/getpatientsummarylist'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/notifications'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view','edit'],
 
 
-                        '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view'],
-                        '{hospitalslug}/{projectslug}/patients/{id}/submissions'=>['view'],
-                        '{hospitalslug}/{projectslug}/patients/{id}/flags'=>['view'],
-                        '{hospitalslug}/{projectslug}/patients/{id}/base-line-score/list'=>['view'],
-                        '{hospitalslug}/{projectslug}/patients/{id}/base-line-score/{responseId}'=>['view'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/submissions'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/flags'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/base-line-score/list'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/base-line-score/{responseId}'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score-edit'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/validatereferncecode'=>['edit'],
@@ -70,6 +70,7 @@ class ProjectPermission
         $resourceName = $request->route()->getName(); 
         $uriPath =$request->route()->getPath();  
 
+         
         $hospitalSlug = \Illuminate\Support\Facades\Route::input('hospitalslug'); 
         $projectSlug = \Illuminate\Support\Facades\Route::input('projectslug'); 
 
