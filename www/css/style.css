@@ -1483,4 +1483,8 @@ ul .mcq_active div span {
 .notification-screen .notify-view:last-child {
   padding-bottom: 45px;
 }
+.info-msg.bg-assertive {
+  background: #FF8181;
+  color: #FFFFFF;
+}
 /*# sourceMappingURL=style.css.map */
