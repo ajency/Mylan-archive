@@ -107,6 +107,101 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       init: function() {
         return this.getQuestion();
       },
+      vlaidateInput: function() {
+        var InputReturn, arryObj, error, kgValid, lbValid, optionId, options, sizeOfField, sizeOfTestboxAns, stValid, validArr, valueArr, valueInput, weightInput, weightKeys, weigthValueArray;
+        InputReturn = true;
+        valueArr = [];
+        validArr = [];
+        error = 0;
+        sizeOfField = _.size(this.data.options);
+        sizeOfTestboxAns = _.size(this.val_answerValue);
+        kgValid = true;
+        lbValid = true;
+        stValid = false;
+        weightInput = 0;
+        if (sizeOfTestboxAns === 0) {
+          error = 1;
+        } else {
+          _.each(this.val_answerValue, function(value) {
+            var valid;
+            value = value.toString();
+            if (value === null || value === '') {
+              return valueArr.push(1);
+            } else {
+              valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+              if (valid === null) {
+                return validArr.push(1);
+              }
+            }
+          });
+          if (valueArr.length === _.size(this.val_answerValue)) {
+            error = 1;
+          }
+        }
+        if (!_.isEmpty(this.val_answerValue)) {
+          weightKeys = _.keys(this.val_answerValue);
+          weigthValueArray = _.values(this.val_answerValue);
+          _.each(weightKeys, function(val) {
+            var lowerCase, valid;
+            lowerCase = val.toLowerCase();
+            if (_.contains(['kg', 'kgs'], lowerCase)) {
+              weightInput = 1;
+              valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+              if (valid === null) {
+                kgValid = false;
+              }
+            }
+            lowerCase = val.toLowerCase();
+            if (_.contains(['lb', 'lbs'], lowerCase)) {
+              weightInput = 1;
+              valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^-?\d*(\.\d+)?$/);
+              if (valid === null) {
+                lbValid = false;
+              }
+            }
+            lowerCase = val.toLowerCase();
+            if (_.contains(['st', 'sts'], lowerCase)) {
+              weightInput = 1;
+              valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
+              if (valid !== null) {
+                return stValid = true;
+              } else if (valid === null) {
+                return stValid = false;
+              }
+            }
+          });
+        }
+        if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
+          CToast.show('Please enter the values');
+        } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
+          CToast.showLongBottom('Please enter valid value,kg cannot be zero');
+        } else if ((weightInput === 1) && (this.secondText === 'selected' && (stValid === false || lbValid === false))) {
+          CToast.showLongBottom('Please enter valid value,st cannot be zero');
+        } else {
+          valueInput = [];
+          optionId = [];
+          arryObj = [];
+          _.each(this.data.options, (function(_this) {
+            return function(opt) {
+              var a, obj;
+              obj = {};
+              a = _this.val_answerValue[opt.option];
+              if (!_.isUndefined(a) && a !== '') {
+                obj['id'] = opt.id;
+                obj['value'] = a.toString();
+                return arryObj.push(obj);
+              }
+            };
+          })(this));
+          options = {
+            "questionId": this.data.questionId,
+            "options": arryObj,
+            "value": ""
+          };
+          InputReturn = options;
+        }
+        return InputReturn;
+      },
       loadNextQuestion: function(param) {
         return Storage.setData('responseId', 'get').then((function(_this) {
           return function(responseId) {
@@ -159,7 +254,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       nextQuestion: function() {
-        var arryObj, error, kgValid, lbValid, optionId, options, selectedvalue, sizeOfField, sizeOfTestboxAns, stValid, validArr, valueArr, valueInput, weightInput, weightKeys, weigthValueArray;
+        var options, param, selectedvalue;
         if (this.data.questionType === 'single-choice') {
           if (this.singleChoiceValue === '') {
             CToast.show('Please select your answer');
@@ -173,103 +268,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           }
         }
         if (this.data.questionType === 'input') {
-          valueArr = [];
-          validArr = [];
-          error = 0;
-          sizeOfField = _.size(this.data.options);
-          sizeOfTestboxAns = _.size(this.val_answerValue);
-          kgValid = true;
-          lbValid = true;
-          stValid = false;
-          weightInput = 0;
-          if (sizeOfTestboxAns === 0) {
-            error = 1;
-          } else {
-            console.log(this.val_answerValue);
-            _.each(this.val_answerValue, function(value) {
-              var valid;
-              value = value.toString();
-              console.log(value);
-              if (value === null || value === '') {
-                console.log('empty');
-                return valueArr.push(1);
-              } else {
-                valid = value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-                if (valid === null) {
-                  return validArr.push(1);
-                }
-              }
-            });
-            if (valueArr.length === _.size(this.val_answerValue)) {
-              error = 1;
-            }
-          }
-          if (!_.isEmpty(this.val_answerValue)) {
-            weightKeys = _.keys(this.val_answerValue);
-            weigthValueArray = _.values(this.val_answerValue);
-            _.each(weightKeys, function(val) {
-              var lowerCase, valid;
-              lowerCase = val.toLowerCase();
-              if (_.contains(['kg', 'kgs'], lowerCase)) {
-                weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-                console.log('valueee');
-                console.log(valid);
-                if (valid === null) {
-                  kgValid = false;
-                }
-              }
-              lowerCase = val.toLowerCase();
-              if (_.contains(['lb', 'lbs'], lowerCase)) {
-                weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^-?\d*(\.\d+)?$/);
-                console.log('valueee');
-                console.log(valid);
-                if (valid === null) {
-                  lbValid = false;
-                }
-              }
-              lowerCase = val.toLowerCase();
-              if (_.contains(['st', 'sts'], lowerCase)) {
-                weightInput = 1;
-                valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-                console.log('valueee');
-                console.log(valid);
-                if (valid !== null) {
-                  return stValid = true;
-                } else if (valid === null) {
-                  return stValid = false;
-                }
-              }
-            });
-          }
-          if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
-            CToast.show('Please enter the values');
-          } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
-            CToast.showLongBottom('Please enter valid value,kg cannot be zero');
-          } else if ((weightInput === 1) && (this.secondText === 'selected' && (stValid === false || lbValid === false))) {
-            CToast.showLongBottom('Please enter valid value,st cannot be zero');
-          } else {
-            valueInput = [];
-            optionId = [];
-            arryObj = [];
-            _.each(this.data.options, (function(_this) {
-              return function(opt) {
-                var a, obj;
-                obj = {};
-                a = _this.val_answerValue[opt.option];
-                if (!_.isUndefined(a) && a !== '') {
-                  obj['id'] = opt.id;
-                  obj['value'] = a.toString();
-                  return arryObj.push(obj);
-                }
-              };
-            })(this));
-            options = options = {
-              "questionId": this.data.questionId,
-              "options": arryObj
-            };
-            this.loadNextQuestion(options);
+          param = this.vlaidateInput();
+          if (param !== true) {
+            this.loadNextQuestion(param);
           }
         }
         if (this.data.questionType === 'multi-choice') {
@@ -346,7 +347,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         })(this));
       },
       prevQuestion: function() {
-        var arryObj, optionId, options, selectedvalue, value, valueInput;
+        var containsString, options, param, selectedvalue;
         if (this.data.questionType === 'single-choice') {
           options = {
             "questionId": this.data.questionId,
@@ -378,42 +379,29 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           this.loadPrevQuestion(options);
         }
         if (this.data.questionType === 'input') {
-          valueInput = [];
-          optionId = [];
-          arryObj = [];
-          _.each(this.data.options, (function(_this) {
-            return function(opt) {
-              var a;
-              if (!_.isUndefined(_this.val_answerValue)) {
-                a = _this.val_answerValue[opt.option];
-                if (!_.isUndefined(a) && !_.isEmpty(a) && !_.isNull(a)) {
-                  valueInput.push(a);
-                  optionId.push(opt.id);
-                  obj['id'] = opt.id;
-                  obj['value'] = a;
-                  return arryObj.push(obj);
-                }
+          containsString = 0;
+          if (_.isEmpty(this.val_answerValue) || _.isUndefined(this.val_answerValue)) {
+            containsString = 0;
+          } else {
+            _.each(this.val_answerValue, function(value) {
+              if (value.toString() !== '') {
+                return containsString = 1;
               }
+            });
+          }
+          if (containsString === 0) {
+            options = {
+              "questionId": this.data.questionId,
+              "options": [],
+              "value": ""
             };
-          })(this));
-          console.log('***');
-          console.log(optionId);
-          if (_.isEmpty(optionId)) {
-            optionId = [];
+            return this.loadPrevQuestion(options);
           } else {
-            optionId = [optionId[0]];
+            param = this.vlaidateInput();
+            if (param !== true) {
+              return this.loadPrevQuestion(param);
+            }
           }
-          if (_.isEmpty(valueInput)) {
-            value = [];
-          } else {
-            value = valueInput[0].toString();
-          }
-          options = {
-            "questionId": this.data.questionId,
-            "options": arryObj,
-            "value": ""
-          };
-          return this.loadPrevQuestion(options);
         }
       },
       showDiv: function() {

@@ -109,6 +109,93 @@ angular.module 'PatientApp.Quest',[]
 					
 			init : ->
 				@getQuestion()	
+
+			vlaidateInput : ->
+
+				InputReturn = true
+				valueArr = []
+				validArr = []
+				error = 0
+				sizeOfField = _.size(@data.options)
+				sizeOfTestboxAns = _.size(@val_answerValue)
+
+				kgValid =  true
+				lbValid = true
+				stValid = false
+				weightInput = 0
+
+				if (sizeOfTestboxAns == 0)
+					error = 1
+				else
+					_.each @val_answerValue, (value)->
+						value = value.toString()
+						if value == null || value == ''
+							valueArr.push 1
+						else
+							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid == null
+								validArr.push 1
+
+					if valueArr.length == _.size(@val_answerValue)
+						error = 1
+				#for lbs validation 
+				if !_.isEmpty @val_answerValue
+					weightKeys = _.keys @val_answerValue
+					weigthValueArray = _.values @val_answerValue
+
+					_.each weightKeys, (val)->
+						lowerCase = val.toLowerCase()
+						if _.contains ['kg','kgs'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid == null
+								kgValid = false
+
+						# weightKeyArray.push val.toLowerCase()
+						lowerCase = val.toLowerCase()
+						if _.contains ['lb','lbs'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^-?\d*(\.\d+)?$/))
+							if valid == null
+								lbValid = false
+
+						lowerCase = val.toLowerCase()
+						if _.contains ['st','sts'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid != null 
+								stValid = true
+							else if valid == null
+								stValid = false
+		
+				# ***temp**
+				if (weightInput == 0) && (error == 1 || validArr.length > 0)
+					CToast.show 'Please enter the values'
+				else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
+					CToast.showLongBottom 'Please enter valid value,kg cannot be zero'
+				else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
+					CToast.showLongBottom 'Please enter valid value,st cannot be zero'
+				else
+					valueInput = []
+					optionId = []
+					arryObj = []
+					_.each @data.options, (opt)=>
+						obj={}
+						a = @val_answerValue[opt.option]
+						if !_.isUndefined(a) && a !=''
+							obj['id'] = opt.id
+							obj['value'] = a.toString()
+							arryObj.push(obj)
+
+					options =
+						"questionId" : @data.questionId
+						"options": arryObj
+						"value": ""
+
+					InputReturn = options
+
+				return InputReturn
+
 					
 			loadNextQuestion :(param)->
 				Storage.setData 'responseId','get'
@@ -166,115 +253,11 @@ angular.module 'PatientApp.Quest',[]
 							"questionId" : @data.questionId
 							"options": [@singleChoiceValue]
 							"value": ""
-
 						@loadNextQuestion(options)
 
 				if @data.questionType == 'input'
-					valueArr = []
-					validArr = []
-					error = 0
-					sizeOfField = _.size(@data.options)
-					sizeOfTestboxAns = _.size(@val_answerValue)
-
-					kgValid =  true
-					lbValid = true
-					stValid = false
-					weightInput = 0
-
-					if (sizeOfTestboxAns == 0)
-						error = 1
-					else
-						console.log @val_answerValue
-						_.each @val_answerValue, (value)->
-							value = value.toString()
-							console.log value
-							if value == null || value == ''
-								console.log 'empty'
-								valueArr.push 1
-							else
-								valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-								if valid == null
-									validArr.push 1
-
-						if valueArr.length == _.size(@val_answerValue)
-							error = 1
-					#for lbs validation 
-					if !_.isEmpty @val_answerValue
-						weightKeys = _.keys @val_answerValue
-						weigthValueArray = _.values @val_answerValue
-
-						_.each weightKeys, (val)->
-
-							lowerCase = val.toLowerCase()
-							if _.contains ['kg','kgs'], lowerCase
-								weightInput = 1
-								valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-								console.log 'valueee'
-								console.log valid 
-								if valid == null
-									kgValid = false
-
-								
-
-							# weightKeyArray.push val.toLowerCase()
-							lowerCase = val.toLowerCase()
-							if _.contains ['lb','lbs'], lowerCase
-								weightInput = 1
-								valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^-?\d*(\.\d+)?$/))
-								console.log 'valueee'
-								console.log valid 
-								if valid == null
-									lbValid = false
-
-
-							lowerCase = val.toLowerCase()
-							if _.contains ['st','sts'], lowerCase
-								weightInput = 1
-								valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-								console.log 'valueee'
-								console.log valid 
-								if valid != null 
-									stValid = true
-								else if valid == null
-									stValid = false
-
-
-							
-					# ***temp**
-					if (weightInput == 0) && (error == 1 || validArr.length > 0)
-						CToast.show 'Please enter the values'
-					else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
-						CToast.showLongBottom 'Please enter valid value,kg cannot be zero'
-					else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
-						CToast.showLongBottom 'Please enter valid value,st cannot be zero'
-					else
-						valueInput = []
-						optionId = []
-						arryObj = []
-						_.each @data.options, (opt)=>
-							obj={}
-							a = @val_answerValue[opt.option]
-							if !_.isUndefined(a) && a !=''
-								# valueInput.push(a)
-								# optionId.push(opt.id)
-
-								obj['id'] = opt.id
-								obj['value'] = a.toString()
-								arryObj.push(obj)
-
-						options =
-							# "questionId" : @data.questionId
-							# "options": [optionId[0]]
-							# "value": valueInput[0].toString()
-
-						options =
-							"questionId" : @data.questionId
-							"options": arryObj
-							
-
-
-						@loadNextQuestion(options)
-
+					param = @vlaidateInput() 
+					if param != true then @loadNextQuestion(param)
 			
 				if @data.questionType == 'multi-choice'
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
@@ -380,41 +363,24 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 
-					valueInput = []
-					optionId = []
-					arryObj = []
-
-
-					_.each @data.options, (opt)=>
-						if ! _.isUndefined @val_answerValue
-							a = @val_answerValue[opt.option]
-							if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
-								valueInput.push(a)
-								optionId.push(opt.id)
-								# temp
-								obj['id'] = opt.id
-								obj['value'] = a
-								arryObj.push(obj)
-
-					console.log '***'
-					console.log optionId
-
-					if  _.isEmpty(optionId)
-						optionId = []
+					containsString  = 0
+					if _.isEmpty(@val_answerValue)|| _.isUndefined(@val_answerValue)
+						containsString = 0	
 					else
-					 	optionId = [optionId[0]] 	
-					if  _.isEmpty(valueInput)
-						value = []
-					else
-					 	value = valueInput[0].toString()
+						_.each @val_answerValue, (value)->
+							if value.toString() != ''
+								containsString = 1
 
-					options =
-						"questionId" : @data.questionId
-						"options": arryObj
-						"value": ""
-
-					@loadPrevQuestion(options)
-
+					if containsString == 0
+						options =
+							"questionId" : @data.questionId
+							"options": []
+							"value": ""
+						@loadPrevQuestion(options)
+					else 
+						param = @vlaidateInput() 
+						if param != true then @loadPrevQuestion(param)
+						
 			showDiv : ->
 				@pastAnswerDiv = 1
 
@@ -585,6 +551,9 @@ angular.module 'PatientApp.Quest',[]
 						@data.withkg = kg
 					else
 						@data.optionsLabel = false
+
+			
+						
 
 		onDeviceBack = ->
 			$scope.view.navigateOnDevice() 
