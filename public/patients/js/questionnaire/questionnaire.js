@@ -213,6 +213,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       },
       getQuestion: function() {
         var options, param, questionnaireData, responseId, startQuestData;
+        Storage.getQuestStatus('set', '');
         startQuestData = {};
         Storage.startQuestionnaire('set', startQuestData);
         questionnaireData = Storage.questionnaire('get');

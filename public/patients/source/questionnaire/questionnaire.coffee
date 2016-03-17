@@ -205,7 +205,7 @@ angular.module 'angularApp.questionnaire'
 
 			
 			getQuestion :() ->
-
+				Storage.getQuestStatus('set','')
 				startQuestData = {}
 				Storage.startQuestionnaire 'set', startQuestData
 
