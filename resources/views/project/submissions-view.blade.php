@@ -199,7 +199,7 @@
                                             ?>
                                             <br>
                                             @foreach($previousAnswersList[$answer['questionId']]['option'] as $option)
-                                            <span class="text-info"><b>{{ $x }}</b> : {{ $option }}</span>  <br>
+                                            <span class="text-info"><b>{{ $x }}</b>: {{ $option }}</span>  <br>
                                             <?php $x++;?>
                                             @endforeach
                                           
