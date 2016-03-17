@@ -273,8 +273,13 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               };
             })(this), (function(_this) {
               return function(error) {
-                _this.display = 'error';
-                return _this.errorType = error;
+                if (error === 'offline') {
+                  Storage.getQuestStatus('set', 'offline');
+                  return $location.path('dashboard');
+                } else {
+                  Storage.getQuestStatus('set', 'questionnarireError');
+                  return $location.path('dashboard');
+                }
               };
             })(this));
           } else {

@@ -270,8 +270,16 @@ angular.module 'angularApp.questionnaire'
 							@display = 'noError'
 						
 						,(error)=>
-							@display = 'error'
-							@errorType = error
+							if error == 'offline'
+								Storage.getQuestStatus('set','offline')
+								$location.path 'dashboard'	
+							else
+								Storage.getQuestStatus('set','questionnarireError')
+								$location.path 'dashboard'	
+
+							
+							# @display = 'error'
+							# @errorType = error
 
 					else 
 						responseId = questionnaireData.responseId 
