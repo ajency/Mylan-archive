@@ -8925,4 +8925,20 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .baseline-color {
   color: #576475;
 }
+.add-attribute input[type="text"] {
+  float: left;
+  margin-right: 15px;
+}
+.add-attribute .m-t-neg {
+  margin-top: -25px;
+}
+.add-attribute h6 {
+  font-size: 14px;
+  color: #05A8A5;
+  text-transform: capitalize;
+  vertical-align: middle;
+}
+.add-attribute ul.parsley-errors-list {
+  float: left;
+}
 /*# sourceMappingURL=style.css.map */

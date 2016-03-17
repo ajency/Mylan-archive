@@ -125,7 +125,31 @@
                      </div> -->
                 
                 
-              
+
+<div class="row add-attribute">
+  <label class="p-l-15">Weight</label>
+  <div class="col-md-2">
+    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
+    <h6>NO</h6>
+  </div>
+   <div class="col-md-2">
+    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
+    <h6>KG</h6>
+  </div>
+   <div class="col-md-2">
+    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
+    <h6>YES</h6>
+  </div>
+     <div class="col-md-2">
+    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
+    <h6>YES</h6>
+  </div>
+</div>
+
+
+
+
+
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               
