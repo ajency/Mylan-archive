@@ -2,11 +2,19 @@ angular.module('angularApp.dashboard').controller('StartQuestionnaireCtrl', [
   '$scope', 'QuestionAPI', '$routeParams', '$location', 'Storage', function($scope, QuestionAPI, $routeParams, $location, Storage) {
     return $scope.view = {
       startQuiz: function(quizID) {
-        var questionnaireData;
-        questionnaireData = {
-          respStatus: 'noValue',
-          responseId: ''
-        };
+        var questionnaireData, value;
+        value = Storage.startQuestionnaire('get');
+        if (value === 'noValue') {
+          questionnaireData = {
+            respStatus: 'noValue',
+            responseId: ''
+          };
+        } else {
+          questionnaireData = {
+            respStatus: 'resume',
+            responseId: value
+          };
+        }
         Storage.questionnaire('set', questionnaireData);
         return $location.path('questionnaire');
       },
