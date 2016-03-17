@@ -17,7 +17,7 @@ class MylanPermission
     {
         $uriPath =$request->route()->getPath();  
 
-        if($uriPath=='admin' && (\Auth::user()->type=='hospital_admin' || \Auth::user()->type=='project_admin' ))
+        if($uriPath=='admin' && (\Auth::user()->type=='hospital_user' || \Auth::user()->type=='project_user' ))
             return redirect(url('/admin/login-links'));
         
 

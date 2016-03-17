@@ -53,9 +53,11 @@ class Permission
         
         // if(!hasMylanPermission($permission))
         //     abort(403);
-
-         if((\Auth::user()->type!='hospital_admin' || \Auth::user()->type!='project_admin' ))
+        
+        
+        if(\Auth::user()->type != 'hospital_user' && \Auth::user()->type != 'project_user' )
             abort(403);
+
 
         return $next($request);
     }
