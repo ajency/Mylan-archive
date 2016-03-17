@@ -79,7 +79,7 @@
 
          </div>
          <br> -->
-             <div class="user-description-box">
+             <div class="user-description-box allHospitalsAccess">
             <div class="row">
                <div class="col-md-3">Hospital</div>
                <div class="col-md-3">

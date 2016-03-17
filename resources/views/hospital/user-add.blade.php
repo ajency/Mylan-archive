@@ -51,7 +51,7 @@
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
           
-             <div class="user-description-box">
+             <div class="user-description-box allProjectsAccess">
             <div class="row">
                <div class="col-md-3">Projects</div>
                <div class="col-md-3">

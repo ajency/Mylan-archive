@@ -50,7 +50,7 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
-             <div class="user-description-box">
+             <div class="user-description-box allProjectsAccess">
             <div class="row">
                <div class="col-md-3">Projects</div>
                <div class="col-md-3">
@@ -70,7 +70,7 @@
             <div class="row project_users">
                <div class="col-md-3">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
-                  <select name="project[]" id="project" class="select2 form-control"  >
+                  <select name="projects[]" id="project" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
                      @foreach($projects as $project)
                      <option {{ ($project['id']==$value['object_id']) ? 'selected':''}} value="{{ $project['id'] }}">{{ $project['name'] }}</option>

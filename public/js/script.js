@@ -206,6 +206,27 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
 
 });
 
+function authHospitalList(Obj ,hospitalObj)
+{
+    var result = true;
+
+    Obj.closest('.allHospitalsAccess').find('select[name="hospital[]"]').each(function () {
+
+        if (hospitalObj.get(0) != $(this).get(0) && $(this).val() == hospitalObj.val()) {
+            alert('Hospital Already Selected');
+            hospitalObj.val('');
+            result = false;
+
+        }
+    });
+    return result;
+} 
+
+$('.allHospitalsAccess').on('change', 'select[name="hospital[]"]', function(event) {
+    authHospitalList($(this) ,$(this));
+});
+
+
 $('.add-hospital-user').click(function (event) { 
 
     var objectType = $(this).attr('object-type');
@@ -215,6 +236,13 @@ $('.add-hospital-user').click(function (event) {
         alert('Please Select '+ objectType);
         return;
     }
+
+    if(!authHospitalList($(this) ,$(".hospital_users:last").find('select')))
+    {
+
+         return;
+    }
+    
 
     var addHospital = $(".hospital_users:last").find('select').html(); 
     var counter = $('input[name="counter"]').val();
@@ -328,6 +356,27 @@ $('.visit-data').on('click', '.delete-visit', function(event) {
     $(this).closest('.patient-visit').remove();
 });
 
+
+function authProjectList(Obj ,projectObj)
+{
+    var result = true;
+
+    Obj.closest('.allProjectsAccess').find('select[name="projects[]"]').each(function () {
+
+        if (projectObj.get(0) != $(this).get(0) && $(this).val() == projectObj.val()) {
+            alert('Project Already Selected');
+            projectObj.val('');
+            result = false;
+
+        }
+    });
+    return result;
+} 
+
+$('.allProjectsAccess').on('change', 'select[name="projects[]"]', function(event) {
+    authProjectList($(this) ,$(this));
+});
+
 $('.add-project-user').click(function (event) { 
 
     var objectType = $(this).attr('object-type');
@@ -336,6 +385,11 @@ $('.add-project-user').click(function (event) {
     {
         alert('Please Select '+ objectType);
         return;
+    }
+
+    if(!authProjectList($(this) ,$(".project_users:last").find('select')))
+    {
+         return;
     }
 
     var addProjects = $(".project_users:last").find('select').html(); 
