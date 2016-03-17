@@ -13,6 +13,8 @@ angular.module 'PatientApp.dashboard',[]
 			limitTo: 5
 			showMoreButton : true
 			scroll : false
+			errorStartQuestion : false
+			errorMsg :''
 
 			onPullToRefresh :->
 				@showMoreButton = true
@@ -76,6 +78,13 @@ angular.module 'PatientApp.dashboard',[]
 						App.resize()
 
 			displaydata : ->
+				if Storage.getQuestStatus('get','questionnarireError') == 'questionnarireError'
+					@errorStartQuestion = true
+					@errorMsg = 'An error occurred while starting questionnaire. Please try again'
+				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
+					@errorStartQuestion = true
+					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
+
 				# @data = []
 				@getSubmission()	
 				
@@ -130,6 +139,7 @@ angular.module 'PatientApp.dashboard',[]
 			$scope.view.limitTo = 5
 			$scope.view.showMoreButton = false
 			$scope.view.scroll =  false
+			$scope.view.errorStartQuestion = false
 
 ]
 

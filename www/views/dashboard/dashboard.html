@@ -31,6 +31,15 @@
          </div>
       </div>
 
+      <div class="info-msg bg-balanced" ng-if="view.errorStartQuestion" >
+         <div class="padding">
+            <i class="icon ion-ios-information-outline"></i> 
+            <span>
+              {{view.errorMsg}}
+            </span>
+         </div>
+      </div>
+
       <div class="padding">
          <h5 class="f-w-400 margin-none">Questionnaire Summary</h5>
          <h6 >It's time to complete your Questionnaire </h6>

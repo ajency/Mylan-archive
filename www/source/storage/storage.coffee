@@ -12,6 +12,8 @@ angular.module 'PatientApp.storage', []
 
   summary = {}
 
+  questStatus = ''
+
 
   Storage.setup = (action)->
     switch action
@@ -131,6 +133,14 @@ angular.module 'PatientApp.storage', []
 
       when 'get'
         summary
+
+  Storage.getQuestStatus = (action,status)->
+    switch action
+      when 'set'
+        questStatus = status
+
+      when 'get'
+        questStatus 
 
 
   Storage

@@ -10,6 +10,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       limitTo: 5,
       showMoreButton: true,
       scroll: false,
+      errorStartQuestion: false,
+      errorMsg: '',
       onPullToRefresh: function() {
         this.showMoreButton = true;
         this.data = [];
@@ -89,6 +91,14 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         })(this));
       },
       displaydata: function() {
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'questionnarireError') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'An error occurred while starting questionnaire. Please try again';
+        }
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'offline') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'Unable to start questionnaire. Please check your internet connection.';
+        }
         return this.getSubmission();
       },
       summary: function(id) {
@@ -144,7 +154,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       $scope.view.data = [];
       $scope.view.limitTo = 5;
       $scope.view.showMoreButton = false;
-      return $scope.view.scroll = false;
+      $scope.view.scroll = false;
+      return $scope.view.errorStartQuestion = false;
     });
   }
 ]).config([

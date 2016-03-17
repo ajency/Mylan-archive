@@ -33,6 +33,7 @@ angular.module 'PatientApp.Quest',[]
 
 
 			getQuestion :() ->
+				Storage.getQuestStatus('set','')
 				@display = 'loader'
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
@@ -82,8 +83,13 @@ angular.module 'PatientApp.Quest',[]
 							Storage.setData 'responseId', 'set', data.responseId
 							@display = 'noError'
 						,(error)=>
-							@display = 'error'
-							@errorType = error
+							if error == 'offline'
+								Storage.getQuestStatus('set','offline')
+							else
+								Storage.getQuestStatus('set','questionnarireError')
+							App.navigate 'dashboard', {}, {animate: false, back: false}
+							# @display = 'error'
+							# @errorType = error
 
 					else 
 						responseId = $stateParams.respStatus

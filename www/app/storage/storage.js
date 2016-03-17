@@ -1,10 +1,11 @@
 angular.module('PatientApp.storage', []).factory('Storage', [
   function() {
-    var Storage, ref, summary, userInfo;
+    var Storage, questStatus, ref, summary, userInfo;
     Storage = {};
     ref = '';
     userInfo = {};
     summary = {};
+    questStatus = '';
     Storage.setup = function(action) {
       switch (action) {
         case 'set':
@@ -121,6 +122,14 @@ angular.module('PatientApp.storage', []).factory('Storage', [
           return summary = data;
         case 'get':
           return summary;
+      }
+    };
+    Storage.getQuestStatus = function(action, status) {
+      switch (action) {
+        case 'set':
+          return questStatus = status;
+        case 'get':
+          return questStatus;
       }
     };
     return Storage;

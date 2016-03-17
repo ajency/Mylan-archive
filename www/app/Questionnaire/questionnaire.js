@@ -26,6 +26,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         return this.val_answerValue = {};
       },
       getQuestion: function() {
+        Storage.getQuestStatus('set', '');
         this.display = 'loader';
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
@@ -77,8 +78,15 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 Storage.setData('responseId', 'set', data.responseId);
                 return _this.display = 'noError';
               }, function(error) {
-                _this.display = 'error';
-                return _this.errorType = error;
+                if (error === 'offline') {
+                  Storage.getQuestStatus('set', 'offline');
+                } else {
+                  Storage.getQuestStatus('set', 'questionnarireError');
+                }
+                return App.navigate('dashboard', {}, {
+                  animate: false,
+                  back: false
+                });
               });
             } else {
               responseId = $stateParams.respStatus;
