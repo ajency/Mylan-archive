@@ -42,49 +42,58 @@
                     </div>
 
                     @foreach($projectAttributes as $attribute)
-                        <div class="col-md-3">
-                             
-                                <label>{{ $attribute['label'] }} </label>
+                        
                                 <?php
                                 $defaults = explode(',', $attribute['values']);   
                                 ?>
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
+                                  <label>{{ $attribute['label'] }} </label>
                                     @foreach($defaults as $default)
-                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> {{ $default }}
+                                      
+                                      <div class="col-md-2  add-attribute">
+                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6> {{ $default }}</h6> 
+                                      </div>
                                     @endforeach
                                   @else
-                                  <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
+                                  <div class="col-md-3 add-attribute">
+                                  <label>{{ $attribute['label'] }} </label>
+                                  <input type="text" class="m-b-5 col-sm-7" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
+                                  </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
                                     @foreach($defaults as $default)
-                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"> {{ $default }}
+                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"><h6 class="m-t-15">{{ $default }}</h6> 
                                     @endforeach
                                   @else
                                   <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                
+                                <div class="col-md-3">
+                                <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
                                     <option  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
+                                </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                
+                                <div class="col-md-3">
+                                <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
                                     <option  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
+                                </div>
                                 @endif          
                              
-                        </div>
+                        
                         @endforeach
                 </div>
                   <!-- <div class="row column-seperator">
