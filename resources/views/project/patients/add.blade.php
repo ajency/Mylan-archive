@@ -49,13 +49,14 @@
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                               
+                                    
+                                    <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      
                                       <div class="col-md-2 add-attribute">
-                                         <label>{{ $attribute['label'] }} </label>
+                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
                                       <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
                                       </div>
+                                    <?php $i++;?>  
                                     @endforeach
                                   @else
                                   <div class="col-md-3 add-attribute">
@@ -65,11 +66,19 @@
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
+                                    <?php $i=1;?>
                                     @foreach($defaults as $default)
+                                      <div class="col-md-2 add-attribute">
+                                      <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
                                       <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"><h6 class="m-t-15">{{ $default }}</h6> 
+                                      </div>
+                                      <?php $i++;?>  
                                     @endforeach
                                   @else
-                                  <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
+                                  <div class="col-md-3 add-attribute">
+                                  <label>{{ $attribute['label'] }} </label>
+                                  <input type="text" class="m-b-5 col-sm-7" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
+                                  </div>
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
@@ -137,46 +146,7 @@
                 
 
 
-
-
-<!-- single  -->
-
-<!-- <div class="row add-attribute">
-  <div class="col-md-3">
-    <label>Weight</label>
-    <input type="text" class="m-b-5 col-sm-8" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
-    <h6 class="m-t-15">NO</h6>
-  </div>
-</div> -->
-
-
-
-<!-- Multiple -->
-
-<!-- <div class="row add-attribute">
-  <label class="p-l-15">Weight</label>
-  <div class="col-md-2">
-    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
-    <h6>NO</h6>
-  </div>
-   <div class="col-md-2">
-    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
-    <h6>KG</h6>
-  </div>
-   <div class="col-md-2">
-    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
-    <h6>YES</h6>
-  </div>
-     <div class="col-md-2">
-    <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
-    <h6>YES</h6>
-  </div>
-</div>
- -->
-
-
-
-
+ 
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               
