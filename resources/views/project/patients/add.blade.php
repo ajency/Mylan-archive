@@ -49,11 +49,11 @@
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                  <label>{{ $attribute['label'] }} </label>
+                                  <label class="p-l-15">{{ $attribute['label'] }} </label>
                                     @foreach($defaults as $default)
                                       
                                       <div class="col-md-2  add-attribute">
-                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6> {{ $default }}</h6> 
+                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6> {{ $default }}</h6> 
                                       </div>
                                     @endforeach
                                   @else
@@ -73,7 +73,7 @@
                                 
                                 @elseif('select' == $attribute['control_type'])
                                 <div class="col-md-3">
-                                <label>{{ $attribute['label'] }} </label>
+                                <label class="m-t-neg">{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
@@ -140,19 +140,19 @@
 
 <!-- single  -->
 
-<div class="row add-attribute">
+<!-- <div class="row add-attribute">
   <div class="col-md-3">
     <label>Weight</label>
     <input type="text" class="m-b-5 col-sm-8" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
     <h6 class="m-t-15">NO</h6>
   </div>
-</div>
+</div> -->
 
 
 
 <!-- Multiple -->
 
-<div class="row add-attribute">
+<!-- <div class="row add-attribute">
   <label class="p-l-15">Weight</label>
   <div class="col-md-2">
     <input type="text" class="m-b-5 col-sm-7" name="attributes[K][4]" placeholder="Enter K" data-parsley-id="1367">
@@ -171,7 +171,7 @@
     <h6>YES</h6>
   </div>
 </div>
-
+ -->
 
 
 

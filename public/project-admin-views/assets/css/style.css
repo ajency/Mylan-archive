@@ -8929,9 +8929,6 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   float: left;
   margin-right: 15px;
 }
-.add-attribute .m-t-neg {
-  margin-top: -25px;
-}
 .add-attribute h6 {
   font-size: 14px;
   color: #05A8A5;
@@ -8940,5 +8937,8 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .add-attribute ul.parsley-errors-list {
   float: left;
+}
+.m-t-neg {
+  margin-top: -25px;
 }
 /*# sourceMappingURL=style.css.map */
