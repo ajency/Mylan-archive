@@ -21,7 +21,7 @@
      @include('hospital.flashmessage')
            <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" data-parsley-validate>
-              <div class="row form-group">
+              <div class="row form-group edit-add">
                 <div class="col-md-3">
                   <div class="form-row">
                      <label>Reference Code</label>
@@ -52,9 +52,9 @@
                                
                                     @foreach($defaults as $default)
                                       
-                                      <div class="col-md-2 add-attribute">
+                                      <div class="col-md-3 add-attribute">
                                          <label>{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
+                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
                                       </div>
                                     @endforeach
                                   @else
