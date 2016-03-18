@@ -20,7 +20,7 @@ class ProjectPermission
                         '{hospitalslug}.{projectslug}.patients.create'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.patients.store'=>['edit'],
                         '{hospitalslug}.{projectslug}.patients.show'=>['view','edit'],
-                        '{hospitalslug}.{projectslug}.patients.edit'=>['view','edit'],
+                        '{hospitalslug}.{projectslug}.patients.edit'=>['edit'],
                         '{hospitalslug}.{projectslug}.patients.update'=>['edit'],
 
                         '{hospitalslug}.{projectslug}.projects.index'=>['view','edit'],

@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Edit User</span></h3>
-   <p>(Update a Hospital under {{ $hospital['name'] }})</p>
+   <p>(Update a user under {{ $hospital['name'] }})</p>
 </div>
 <form onsubmit="return validateHospitalUser();" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users/'.$user['id']) }}" data-parsley-validate>
 <div class="grid simple">
@@ -86,15 +86,19 @@
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
+                @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <div class="col-md-3">
                   <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> delete </a>
                </div>
+               @endif
             </div>
             <hr>
             <?php
                $i++;
             ?>
             @endforeach
+
+            @if(hasHospitalPermission($hospital['url_slug'],['edit']))
             <div class="row project_users">
                <div class="col-md-3">
                   <input type="hidden" name="user_access[]" value="">
@@ -119,6 +123,7 @@
                </div>
             </div>
             <hr>
+            
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="{{ $i }}">
@@ -134,12 +139,17 @@
                  
                </div>
             </div>
+            @endif
          </div>
          <div class="form-actions">
             <div class="text-right">
                <input type="hidden" name="_method" value="PUT">
                <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+
+               @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <button  class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+               @endif
+
                <a href="{{ url($hospital['url_slug'].'/users') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
             </div>
          </div>
