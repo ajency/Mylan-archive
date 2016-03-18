@@ -4,8 +4,15 @@
             You do not have any Questionnaries to be submitted now.
          </div> -->
         
-         <p ng-if="view.errorStartQuestion"> 
-           {{view.errorMsg}}
+         <!-- <p ng-if="view.errorStartQuestion">  -->
+         <p> 
+          
+          <div class="questWarning">
+            <i class="fa fa-2x fa-exclamation-circle"></i>
+            <span>You don not have any questionnaire to be submitted now.</span>
+          </div>
+         
+           <!-- {{view.errorMsg}} -->
          </p>
          <br class="hidden-xs">
          <h3>Questionnaire Summary</h3>
@@ -191,11 +198,11 @@
                 </div> <!-- col-md-16 bg-white  -->
 
 
-                <div class="col-md-16 bg-white" ng-switch-when="error">
+                <div class="col-md-16 bg-white text-center" ng-switch-when="error">
                    <aj-error class="errors"
                       error-type="view.errorType"
                       tap-to-retry="view.onTapToRetry();">
                     </aj-error>
                 </div>
-         </div> <! -- row -->
+         </div> <!-- row -->
 </div> <!-- dashboard -->
