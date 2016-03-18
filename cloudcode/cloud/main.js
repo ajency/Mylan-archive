@@ -676,6 +676,7 @@
     notificationQuery.include('schedule');
     notificationQuery.limit(limit);
     notificationQuery.skip(page * limit);
+    notificationQuery.descending('createdAt');
     notificationQuery.find().then(function(notifications) {
       var getAll, notificationMessages;
       notificationMessages = [];
