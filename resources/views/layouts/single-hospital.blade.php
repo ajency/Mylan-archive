@@ -23,6 +23,8 @@
       <link href="{{ asset('plugins/bootstrap-datepicker/css/datepicker.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       
       <link href="{{ asset('plugins/jquery-multiselect/jquery.multiselect.css') }}" rel="stylesheet" type="text/css"/>
+      <link href="{{ asset('bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet" type="text/css"/>
+
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('hospital/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('hospital/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
@@ -186,7 +188,7 @@
       
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
-
+      <script src="{{ asset('bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}" type="text/javascript"></script>
 
       <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
@@ -226,6 +228,9 @@
       <script src="{{ asset('js/tabs_accordian.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
+
+
+
 
    </body>
 </html>

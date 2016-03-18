@@ -8235,4 +8235,7 @@ input {
   background: transparent;
   padding: 0 30px;
 }
+.bootstrap-tagsinput span.label-info {
+  background: #05A8A5;
+}
 /*# sourceMappingURL=style.css.map */
