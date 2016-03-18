@@ -17,21 +17,21 @@ class ProjectPermission
     {
         $resources =[
                         '{hospitalslug}.{projectslug}.patients.index'=>['view','edit'],
-                        '{hospitalslug}.{projectslug}.patients.create'=>['view','edit'],
+                        '{hospitalslug}.{projectslug}.patients.create'=>['edit'],
                         '{hospitalslug}.{projectslug}.patients.store'=>['edit'],
                         '{hospitalslug}.{projectslug}.patients.show'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.patients.edit'=>['edit'],
                         '{hospitalslug}.{projectslug}.patients.update'=>['edit'],
 
                         '{hospitalslug}.{projectslug}.projects.index'=>['view','edit'],
-                        '{hospitalslug}.{projectslug}.projects.create'=>['view','edit'],
+                        '{hospitalslug}.{projectslug}.projects.create'=>['edit'],
                         '{hospitalslug}.{projectslug}.projects.store'=>['edit'],
                         '{hospitalslug}.{projectslug}.projects.show'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.projects.edit'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.projects.update'=>['edit'],
 
                         '{hospitalslug}.{projectslug}.users.index'=>['view','edit'],
-                        '{hospitalslug}.{projectslug}.users.create'=>['view','edit'],
+                        '{hospitalslug}.{projectslug}.users.create'=>['edit'],
                         '{hospitalslug}.{projectslug}.users.store'=>['edit'],
                         '{hospitalslug}.{projectslug}.users.show'=>['view','edit'],
                         '{hospitalslug}.{projectslug}.users.edit'=>['view','edit'],
