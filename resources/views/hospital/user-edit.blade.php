@@ -119,7 +119,7 @@
                   </div>
                </div>
                <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess hidden" data-id="0"> delete </a>
+                  <a class="deleteUserProjectAccess hidden" data-id="0"> delete </a>
                </div>
             </div>
             <hr>

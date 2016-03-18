@@ -47,7 +47,6 @@ $('.validateRefernceCode').change(function (event) {
         }
     });
     
- 
 });
 
 
@@ -270,7 +269,9 @@ $('.add-hospital-user').click(function (event) {
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".hospital_users:last").find('.deleteUserHospitalAccess').removeClass('hidden');
     $(".hospital_users:last").after(html);
+    
 
 });
 
@@ -413,12 +414,14 @@ $('.add-project-user').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-md-3">';
-    html +='<a class="deleteUserProjAccess hidden"> delete </a>';
+    html +='<a class="deleteUserProjectAccess hidden"> delete </a>';
     html +='</div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".project_users:last").find('.deleteUserProjectAccess').removeClass('hidden');
     $(".project_users:last").after(html);
+
 
 });
 
