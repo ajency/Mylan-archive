@@ -8947,4 +8947,17 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;
 }
+.edit-add .col-sm-3,
+.edit-add .col-md-3 {
+  margin-bottom: 20px;
+}
+.edit-add .form-row input,
+.edit-add .select2-container.select2,
+.edit-add input {
+  margin-bottom: 0px;
+  display: inline-block;
+}
+.edit-add ul.parsley-errors-list {
+  float: left;
+}
 /*# sourceMappingURL=style.css.map */
