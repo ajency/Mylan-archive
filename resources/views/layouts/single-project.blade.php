@@ -25,7 +25,8 @@
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
-  
+
+   
       <!-- END CSS TEMPLATE -->
       <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
       <script src="{{ asset('bower_components/amcharts/dist/amcharts/amcharts.js') }}"></script>
@@ -259,8 +260,7 @@
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/underscore/underscore-min.js') }}" type="text/javascript"></script>
-
-
+      
       
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/boostrapv3/js/bootstrap.min.js') }}" type="text/javascript"></script>
