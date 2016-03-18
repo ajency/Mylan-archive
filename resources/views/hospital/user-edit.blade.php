@@ -88,7 +88,7 @@
                </div>
                 @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> delete </a>
+                  <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> delete </a>
                </div>
                @endif
             </div>

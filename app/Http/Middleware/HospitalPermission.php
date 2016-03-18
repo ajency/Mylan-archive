@@ -18,14 +18,14 @@ class HospitalPermission
         $resources =[
 
                         '{hospitalslug}.projects.index'=>['view','edit'],
-                        '{hospitalslug}.projects.create'=>['view','edit'],
+                        '{hospitalslug}.projects.create'=>['edit'],
                         '{hospitalslug}.projects.store'=>['edit'],
                         '{hospitalslug}.projects.show'=>['view','edit'],
                         '{hospitalslug}.projects.edit'=>['view','edit'],
                         '{hospitalslug}.projects.update'=>['edit'],
 
                         '{hospitalslug}.users.index'=>['view','edit'],
-                        '{hospitalslug}.users.create'=>['view','edit'],
+                        '{hospitalslug}.users.create'=>['edit'],
                         '{hospitalslug}.users.store'=>['edit'],
                         '{hospitalslug}.users.show'=>['view','edit'],
                         '{hospitalslug}.users.edit'=>['view','edit'],
@@ -38,6 +38,7 @@ class HospitalPermission
                         '{hospitalslug}/dashboard'=>['view','edit'],
                         '{hospitalslug}/patients/{id}/validatereferncecode'=>['edit'],
                         '{hospitalslug}/users/{id}/authuseremail'=>['edit'],
+                        '{hospitalslug}/delete-user-access/{id}'=>['edit'],
                         ]; 
 
         $resourceName = $request->route()->getName(); 

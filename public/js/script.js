@@ -469,6 +469,29 @@ $('.deleteUserHospitalAccess').click(function (event) {
  
 });
 
+$('.deleteUserProjectAccess').click(function (event) { 
+    if (confirm('Are you sure you want to delete this record?') === false) {
+        return;
+    }
+
+    var userAccessId = $(this).attr("data-id");
+
+    if(userAccessId)
+    {
+        $.ajax({
+            url: BASEURL + "/delete-user-access/" + userAccessId,
+            type: "DELETE",
+            success: function (response) {
+ 
+            }
+        });
+    }
+
+    $(this).closest('.project_users').remove();
+    
+ 
+});
+
 function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLabel)
 {
     graphs = _.map(legends, function(value, key){ 

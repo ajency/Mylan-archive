@@ -80,6 +80,8 @@ Route::group( ['prefix' => '{hospitalslug}'  , 'middleware' => ['auth','hospital
 Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'users', 'Hospital\UserController' );
 Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
+Route::resource( 'user-access', 'Admin\UserAccessController' );
+Route::delete( 'delete-user-access/{id}', 'Admin\UserAccessController@deleteProjectAccess' );
 // Route::resource( 'patients', 'Hospital\PatientController' );
 // Route::resource( 'submissions', 'Hospital\SubmissionController' );
 

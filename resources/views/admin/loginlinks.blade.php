@@ -23,6 +23,7 @@
                   <div class="grid simple">
                      <div class="grid-body no-border">
                         <br>
+                        @if(isset($accessData['links']))
                         @foreach($accessData['links'] as $data)
                         <div>
                            <div class="pull-right">
@@ -37,6 +38,14 @@
                   
                         <hr>
                         @endforeach
+                        @else 
+                         <div>
+                   
+                            
+                              <h3><span class="semi-bold">No data found</span></h3>
+                            
+                        </div>
+                        @endif
                         
                      </div>
                   </div>
