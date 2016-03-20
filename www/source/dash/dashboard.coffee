@@ -15,6 +15,8 @@ angular.module 'PatientApp.dashboard',[]
 			scroll : false
 			errorStartQuestion : false
 			errorMsg :''
+			showStart : false
+			currentDate : moment().format('MMMM Do YYYY')
 
 			onPullToRefresh :->
 				@showMoreButton = true
@@ -65,6 +67,12 @@ angular.module 'PatientApp.dashboard',[]
 							@infoMsg = true
 						else
 							@infoMsg = false
+
+						if arr.length == 0
+							@showStart = true
+							@infoMsg = false
+
+
 
 
 						_.each @data, (value)->
@@ -140,6 +148,7 @@ angular.module 'PatientApp.dashboard',[]
 			$scope.view.showMoreButton = false
 			$scope.view.scroll =  false
 			$scope.view.errorStartQuestion = false
+			$scope.view.showStart = false
 
 ]
 

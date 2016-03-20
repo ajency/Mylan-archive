@@ -39,24 +39,27 @@ angular.module 'PatientApp.Quest'
 
 			submitSummary : ->
 
-				CSpinner.show '', 'Please wait..'
+				CToast.showLongBottom 'questionnaire not submitted, its a dummy app.'
+				App.navigate 'exit-questionnaire'
+				
+				# CSpinner.show '', 'Please wait..'
 
-				param = 
-					responseId : $stateParams.summary
-				QuestionAPI.submitSummary param
-				.then (data)=>
-					CToast.show 'Successfully submitted'
-					App.navigate 'exit-questionnaire'
-					# deregister()
-				,(error)=>
-					if error == 'offline'
-						CToast.showLongBottom 'Please check your internet connection'
-					else if error == 'server_error'
-						CToast.showLongBottom 'Error in submitting questionnaire,Server error'
-					else
-						CToast.showLongBottom 'Error in submitting questionnaire,try again'
-				.finally ->
-					CSpinner.hide()
+				# param = 
+				# 	responseId : $stateParams.summary
+				# QuestionAPI.submitSummary param
+				# .then (data)=>
+				# 	CToast.show 'Successfully submitted'
+				# 	App.navigate 'exit-questionnaire'
+				# 	# deregister()
+				# ,(error)=>
+				# 	if error == 'offline'
+				# 		CToast.showLongBottom 'Please check your internet connection'
+				# 	else if error == 'server_error'
+				# 		CToast.showLongBottom 'Error in submitting questionnaire,Server error'
+				# 	else
+				# 		CToast.showLongBottom 'Error in submitting questionnaire,try again'
+				# .finally ->
+				# 	CSpinner.hide()
 
 			prevQuestion : ->
 				valueAction = QuestionAPI.setAction 'get'

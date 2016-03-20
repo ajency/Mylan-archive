@@ -54,6 +54,28 @@
       <div
         ng-switch-when="noError">
 
+       <label ng-if="view.showStart">
+        <div>
+         <div class="clm-list" >
+            <div class="row" >
+               <div class="col">
+                  <h6 class="f-w-400">  <i class="icon ion-android-alert text-danger"></i> Due 34 </h6>
+               </div>
+               <div class="col">
+                  <h6>{{ view.currentDate }}</h6>
+               </div>
+               <div class="col col-20 text-right">
+                  <button 
+                     class="button button-block button-small button-assertive"
+                     ng-click = "view.startQuiz('noValue');">
+                     Start
+                   </button>
+               </div>
+            </div>
+         </div>
+       </div>
+     </label>
+
       <label
          ng-repeat ="submissions in view.data | limitTo: view.limitTo ">
            

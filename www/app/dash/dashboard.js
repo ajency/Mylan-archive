@@ -12,6 +12,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       scroll: false,
       errorStartQuestion: false,
       errorMsg: '',
+      showStart: false,
+      currentDate: moment().format('MMMM Do YYYY'),
       onPullToRefresh: function() {
         this.showMoreButton = true;
         this.data = [];
@@ -74,6 +76,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
               if (arr.length === 0) {
                 _this.infoMsg = true;
               } else {
+                _this.infoMsg = false;
+              }
+              if (arr.length === 0) {
+                _this.showStart = true;
                 _this.infoMsg = false;
               }
               _.each(_this.data, function(value) {
@@ -155,7 +161,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       $scope.view.limitTo = 5;
       $scope.view.showMoreButton = false;
       $scope.view.scroll = false;
-      return $scope.view.errorStartQuestion = false;
+      $scope.view.errorStartQuestion = false;
+      return $scope.view.showStart = false;
     });
   }
 ]).config([

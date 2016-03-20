@@ -42,29 +42,8 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       submitSummary: function() {
-        var param;
-        CSpinner.show('', 'Please wait..');
-        param = {
-          responseId: $stateParams.summary
-        };
-        return QuestionAPI.submitSummary(param).then((function(_this) {
-          return function(data) {
-            CToast.show('Successfully submitted');
-            return App.navigate('exit-questionnaire');
-          };
-        })(this), (function(_this) {
-          return function(error) {
-            if (error === 'offline') {
-              return CToast.showLongBottom('Please check your internet connection');
-            } else if (error === 'server_error') {
-              return CToast.showLongBottom('Error in submitting questionnaire,Server error');
-            } else {
-              return CToast.showLongBottom('Error in submitting questionnaire,try again');
-            }
-          };
-        })(this))["finally"](function() {
-          return CSpinner.hide();
-        });
+        CToast.showLongBottom('questionnaire not submitted, its a dummy app.');
+        return App.navigate('exit-questionnaire');
       },
       prevQuestion: function() {
         var action, valueAction;
