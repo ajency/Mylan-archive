@@ -32,14 +32,7 @@
                      <label>Age</label>
                         <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-required >
                     </div>
-                      <div class="col-sm-3">
-                      <label>Weight</label>
-                        <input name="weight" id="weight" type="text"  class="validateRefernceCode  form-control" placeholder="Weight" data-parsley-required >
-                    </div>
-                     <div class="col-sm-3">
-                      <label>Height</label>
-                        <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
-                    </div>
+                
 
                     @foreach($projectAttributes as $attribute)
                         
@@ -50,21 +43,22 @@
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                    <div class="col-md-3 add-attribute1">
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                    <div class="form-inline @if(count($defaults)>1) parent clearfix @endif">
+                                     
+                                    <div class="col-md-3 add-attribute1"> 
+                                    <div class="form-inline">
                                       <div class="form-group">
-                                      <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                        <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
                                         <div class="input-group">
-                                           <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}">
+                                          <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}">
                                           <div class="input-group-addon">{{ $default }}</div>
                                         </div>
                                       </div>
                                     </div>
+                                  </div>
                                     <?php $i++;?>  
                                     @endforeach
-                                    </div>
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
@@ -73,21 +67,24 @@
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                    <div class="col-md-3 add-attribute1">
+                                  
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <div class="form-inline @if(count($defaults)>1) parent clearfix @endif">
+                                   <div class="col-md-3 add-attribute1"> 
+                                    <div class="form-inline">
                                       <div class="form-group">
-                                      <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                        <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
                                         <div class="input-group">
-                                           <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-type="number" data-parsley-min="0">
+                                          <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-type="number" data-parsley-min="0">
                                           <div class="input-group-addon">{{ $default }}</div>
                                         </div>
                                       </div>
                                     </div>
+                                  </div>
+
                                       <?php $i++;?>  
                                     @endforeach
-                                    </div>
+                                     
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
@@ -153,7 +150,18 @@
                         
                         @endforeach
                 </div>
-                  <!-- <div class="row column-seperator">
+                  <!-- 
+
+                        <div class="col-sm-3">
+                      <label>Weight</label>
+                        <input name="weight" id="weight" type="text"  class="validateRefernceCode  form-control" placeholder="Weight" data-parsley-required >
+                    </div>
+                     <div class="col-sm-3">
+                      <label>Height</label>
+                        <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
+                    </div>
+                    
+                  <div class="row column-seperator">
                   <div class="col-sm-6">
                     <div class="row form-row">
                
