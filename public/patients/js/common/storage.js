@@ -1,10 +1,11 @@
 angular.module('angularApp.storage', []).factory('Storage', [
   function() {
-    var Storage, questionnaireData, startQuestion, summaryData;
+    var Storage, questStatus, questionnaireData, startQuestion, summaryData;
     Storage = {};
     summaryData = {};
     questionnaireData = {};
     startQuestion = {};
+    questStatus = '';
     Storage.summary = function(action, data) {
       switch (action) {
         case 'set':
@@ -27,6 +28,14 @@ angular.module('angularApp.storage', []).factory('Storage', [
           return startQuestion = data;
         case 'get':
           return startQuestion;
+      }
+    };
+    Storage.getQuestStatus = function(action, status) {
+      switch (action) {
+        case 'set':
+          return questStatus = status;
+        case 'get':
+          return questStatus;
       }
     };
     return Storage;
