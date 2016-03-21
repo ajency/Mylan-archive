@@ -8979,4 +8979,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add ul.parsley-errors-list {
   float: left;
 }
+.edit-add .select2.form-control {
+  display: inline-block;
+}
 /*# sourceMappingURL=style.css.map */
