@@ -240,6 +240,24 @@ function hasMylanPermission()
 }
 
 
+function userType()
+{  
+    $userType = Auth::user()->type; 
+
+     $type = '';
+
+    if($userType=='mylan_admin')
+        $type = "Mylan Admin";
+    elseif($userType=='hospital_user')
+        $type = "Hospital Admin";
+    elseif($userType=='project_user')
+        $type = "Project Admin";
+ 
+    
+    return $type;
+}
+
+
 function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
 {  
     $userId =  Auth::user()->id;
