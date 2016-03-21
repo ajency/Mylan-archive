@@ -248,23 +248,23 @@ $('.add-hospital-user').click(function (event) {
     var i = parseInt(counter) + 1;
 
     html ='<hr><div class="row hospital_users">';
-    html +='<div class="col-md-3">';
+    html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="hospital[]" id="hospital" class="select2 form-control"  >';
     html += addHospital
     html +='<select>';
     html +='</div>';
                
-    html +='<div class="col-md-3">';
-    html +='<div class="radio radio-primary">';
+    html +='<div class="col-md-4">';
+    html +='<div class="radio radio-primary text-center">';
     html +='<input id="access_view_'+i+'" type="radio" name="access_'+i+'" value="view" checked="checked">';
     html +='<label for="access_view_'+i+'">View</label>';
     html +='<input id="access_edit_'+i+'" type="radio" name="access_'+i+'" value="edit">';
     html +='<label for="access_edit_'+i+'">Edit</label>';
     html +='</div>';
     html +='</div>';
-    html +='<div class="col-md-3">';
-    html +='<a class="deleteUserHospitalAccess hidden"> delete </a>';
+    html +='<div class="col-md-4 text-center">';
+    html +='<a class="deleteUserHospitalAccess hidden"> Delete </a>';
     html +='</div>';
     html +='</div>';
 

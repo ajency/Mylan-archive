@@ -82,8 +82,8 @@
          <br> -->
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
-               <div class="col-md-3">Hospital</div>
-               <div class="col-md-3">
+               <div class="col-md-3 text-center"><h3>Hospital</h3></div>
+               <div class="col-md-6 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
                   <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
@@ -92,13 +92,13 @@
                </div>
 
             </div>
-            <br>
+            <hr>
             <?php
                $i=0;
             ?>
             @foreach($userAccess as $value)
             <div class="row hospital_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
                   <select name="hospital[]" id="hospital" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
@@ -108,25 +108,28 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-center">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" {{ ('view'==$value['access_type']) ? 'checked':''}} >
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit" {{ ('edit'==$value['access_type']) ? 'checked':''}}>
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> delete </a>
+               <div class="col-md-4 text-center">
+                  <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> Delete </a>
+               </div>
+               <div class="col-md-12">
+                  <hr>
                </div>
             </div>
-            <hr>
+            <!-- <hr> -->
             <?php
                $i++;
             ?>
             @endforeach
             <div class="row hospital_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
                   <select name="hospital[]" id="hospital" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
@@ -136,16 +139,16 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-center">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" checked="checked">
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit">
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
-               <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess hidden" data-id="0"> delete </a>
+               <div class="col-md-4 text-center">
+                  <a class="deleteUserHospitalAccess hidden" data-id="0"> Delete </a>
                </div>
             </div>
             <hr>
