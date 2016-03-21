@@ -41,60 +41,103 @@
                         <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
                     </div>
                      
-                      @foreach($projectAttributes as $attribute)
-                        <div class="col-md-3">
-                             
-                                <label>{{ $attribute['label'] }} </label>
+
+                     @foreach($projectAttributes as $attribute)
+                        
                                 <?php
-                                $defaults = explode(',', $attribute['values']);   
-                                 
+                                $defaults = explode(',', $attribute['values']);  
+
                                 $patientProjectAttributes = $patient['project_attributes'];
-                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : '';
+                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : ''; 
                                 ?>
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
+                                    
+                                    <?php $i=1;?>
                                     @foreach($defaults as $default)
                                       <?php
                                         $value = (isset($patientProjectAttributes[ $attribute['label'] ][$default])) ? $patientProjectAttributes[ $attribute['label'] ][$default] : '';
                                         ?>
-                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}" value="{{ $value }}"> {{ $default }}
+                                      <div class="col-md-3 add-attribute">
+                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}" value="{{ $value }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
+                                      </div>
+                                    <?php $i++;?>  
                                     @endforeach
                                   @else
-                                  <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required value="{{ $value }}">
+                                  <div class="col-md-3 add-attribute">
+                                  <label>{{ $attribute['label'] }} </label>
+                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required value="{{ $value }}">
+                                  </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
+                                    <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <?php
-                                        $value = (isset($patientProjectAttributes[ $attribute['label'] ][$default])) ? $patientProjectAttributes[ $attribute['label'] ][$default] : '';
-                                        ?>
-                                      <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0" value="{{ $value }}"> {{ $default }}
+                                      <div class="col-md-3 add-attribute">
+                                      <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0" value="{{ $value }}"><h6 class="m-t-15">{{ $default }}</h6> 
+                                      </div>
+                                      <?php $i++;?>  
                                     @endforeach
                                   @else
-                                  <input type="text" class="form-control m-b-5" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0" value="{{ $value }}">
+                                  <div class="col-md-3 add-attribute">
+                                  <label>{{ $attribute['label'] }} </label>
+                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0" value="{{ $value }}">
+                                  </div>
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                
+                                <div class="col-md-3">
+                                <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
-                                    <option  @if($value ==  $option ){{'selected'}}@endif value="{{ $option }}">{{ $option }}</option>
+                                    <option  @if($value ==  $option ){{'selected'}}@endif  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
+                                </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                
+                                <div class="col-md-3">
+                                <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][]" class="select2 form-control m-b-5" data-parsley-required>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
-                                    <option {{ (!empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  @if($value ==  $option ){{'selected'}}@endif value="{{ $option }}">{{ $option }}</option>
+                                    <option {{ (!empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
-                                @endif          
+                                </div>
+                                @elseif('weight' === $attribute['control_type'])
+                                  <div class="col-md-3 add-attribute">
+                                  <?php
+                                    $value = (isset($patientProjectAttributes[ $attribute['label'] ]['kg'])) ? $patientProjectAttributes[ $attribute['label'] ]['kg'] : '';
+                                    ?>
+                                         <label class="">{{ $attribute['label'] }} </label>
+                                      <input type="text" class="m-b-5 col-sm-10  weightQuestion weight-kg" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="Enter {{ $attribute['label'] }}" value="{{ $value }}"> <h6 class="m-t-15"> kg</h6> 
+                                  </div>
+                                  <div class="col-md-3 add-attribute">
+                                  <?php
+                                    $value = (isset($patientProjectAttributes[ $attribute['label'] ]['st'])) ? $patientProjectAttributes[ $attribute['label'] ]['st'] : '';
+                                    ?>
+                                         <label class="fade-0">{{ $attribute['label'] }} </label>
+                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-st" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="Enter {{ $attribute['label'] }}" value="{{ $value }}"> <h6 class="m-t-15"> st</h6> 
+                                  </div>
+                                  <div class="col-md-3 add-attribute">
+                                  <?php
+                                    $value = (isset($patientProjectAttributes[ $attribute['label'] ]['lb'])) ? $patientProjectAttributes[ $attribute['label'] ]['lb'] : '';
+                                    ?>
+                                         <label class="fade-0">{{ $attribute['label'] }} </label>
+                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-lb" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="Enter {{ $attribute['label'] }}" value="{{ $value }}"> <h6 class="m-t-15"> lb</h6> 
+                                  </div>
+ 
+                                  
+                                @endif            
                              
-                        </div>
+                        
                         @endforeach
+
+                    
                       
             </div>
           <!--     <div class="row">

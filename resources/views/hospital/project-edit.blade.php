@@ -65,10 +65,11 @@
                                         <option value="select" {{ ($attibute['control_type']=='select')?'selected':''}} >Select Box</option>
                                         <option value="multiple" {{ ($attibute['control_type']=='multiple')?'selected':''}} > Multiple Select Box</option>
                                         <option value="number" {{ ($attibute['control_type']=='number')?'selected':''}} > Number </option>
+                                        <option value="weight" {{ ($attibute['control_type']=='weight')?'selected':''}} > Weight </option>
                                     </select>
                                 </div>
                                 <div class="col-xs-4"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
-                                    <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
+                                    <input type="text" {{ ($attibute['control_type']=='weight')?'disabled':''}} name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
 
                                 </div>
                                 <div class="deleteProject">
@@ -91,6 +92,7 @@
                                         <option value="select">Select Box</option>
                                         <option value="multiple"> Multiple Select Box</option>
                                         <option value="number"> Number </option>
+                                        <option value="weight"> Weight </option>
                                     </select>
                                 </div>
                                 <div class="col-xs-4">

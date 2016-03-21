@@ -67,6 +67,7 @@
                                         <option value="select">Select Box</option>
                                         <option value="multiple"> Multiple Select Box</option>
                                         <option value="number"> Number </option>
+                                        <option value="weight"> Weight </option>
                                     </select>
                                 </div>
                                 <div class="col-xs-4">

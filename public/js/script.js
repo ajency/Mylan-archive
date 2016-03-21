@@ -245,6 +245,7 @@ $('.addAttributes').click(function (event) {
         html +='<option value="select">Select Box</option>';
         html +='<option value="multiple"> Multiple Select Box</option>';
         html +='<option value="number"> Number </option>';
+        html +='<option value="weight"> Weight </option>';
         html +='</select>';
         html +='</div>';
 
@@ -264,7 +265,7 @@ $('.addAttributes').click(function (event) {
         $(".addAttributeBlock").before(html);
         $(".allattributes:last").find('.deleteProjectAttributes').removeClass('hidden');
         $(".allattributes:last").find('select').val(control_type);
-
+        $(".tags").tagsinput("");
 
         $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val('');
         $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val('');
@@ -273,16 +274,49 @@ $('.addAttributes').click(function (event) {
     }
 });
 
-// $('.attributes_block').on('change', 'select', function(event) {
-//     if ($(this).val() == 'select' || $(this).val() == 'multiple') {
+$('.attributes_block').on('change', 'select', function(event) {
+    if ($(this).val() == 'weight') {
+        
+        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').val('');
+        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').attr('disabled','disabled');
          
-//          $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
-//     }
-//     else
-//     {
-//         $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').attr('readonly','readonly');
-//     }
-// });
+    }
+    else
+    {
+        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
+    }
+});
+
+$('.weightQuestion').change(function (event) { 
+
+    if ($(this).hasClass("weight-kg")) {  
+        $(".weight-kg").attr('readonly',false);
+        $(".weight-st").val('');
+        $(".weight-st").attr('readonly',true);
+        $(".weight-lb").val('');
+        $(".weight-lb").attr('readonly',true);
+    }
+    else
+    {  
+        $(".weight-kg").val('');
+        $(".weight-kg").attr('readonly',true);
+        $(".weight-st").attr('readonly',false);
+        $(".weight-lb").attr('readonly',false);
+    }
+
+    if($(this).val()=='')
+    {  
+       if ($(this).hasClass("weight-kg")) {     
+           $(".weight-st").attr('readonly',false);
+           $(".weight-lb").attr('readonly',false); 
+       }
+       else
+       {
+            $(".weight-kg").attr('readonly',false);
+       }
+    }
+});
+
 
 $('.attributes_block').on('click', '.deleteProjectAttributes', function(event) {
      var attributeId = $(this).closest('.attributeContainer').find('input[name="attribute_id[]"]').val();

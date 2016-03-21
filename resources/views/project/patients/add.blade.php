@@ -61,23 +61,23 @@
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
-                                  <input type="text" class="m-b-5 col-sm-7" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
+                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
                                   </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <div class="col-md-2 add-attribute">
+                                      <div class="col-md-3 add-attribute">
                                       <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"><h6 class="m-t-15">{{ $default }}</h6> 
+                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"><h6 class="m-t-15">{{ $default }}</h6> 
                                       </div>
                                       <?php $i++;?>  
                                     @endforeach
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
-                                  <input type="text" class="m-b-5 col-sm-7" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
+                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
                                   </div>
                                   @endif
                                 
@@ -102,17 +102,17 @@
                                 </select>
                                 </div>
                                 @elseif('weight' === $attribute['control_type'])
-                                  <div class="col-md-2 add-attribute">
+                                  <div class="col-md-3 add-attribute">
                                          <label class="">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> kg</h6> 
+                                      <input type="text" class="m-b-5 col-sm-10  weightQuestion weight-kg" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> kg</h6> 
                                   </div>
-                                  <div class="col-md-2 add-attribute">
+                                  <div class="col-md-3 add-attribute">
                                          <label class="fade-0">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> st</h6> 
+                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-st" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> st</h6> 
                                   </div>
-                                  <div class="col-md-2 add-attribute">
+                                  <div class="col-md-3 add-attribute">
                                          <label class="fade-0">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-8" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> lb</h6> 
+                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-lb" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> lb</h6> 
                                   </div>
  
                                   
