@@ -82,7 +82,7 @@
          <br> -->
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
-               <div class="col-md-3 text-center"><h3>Hospital</h3></div>
+               <div class="col-md-4 text-center"><h3>Hospital</h3></div>
                <div class="col-md-6 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
