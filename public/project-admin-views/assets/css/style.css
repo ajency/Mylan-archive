@@ -8942,12 +8942,17 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   float: left;
   width: 47%;
   margin: 0;
+  position: relative;
 }
 .add-attribute1 .parent:last-child {
   float: right;
 }
 .add-attribute1 .parent ul.parsley-errors-list {
-  float: left;
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  bottom: 0;
+  top: 50px;
 }
 .add-attribute1 .input-group-addon {
   border: 1px solid;

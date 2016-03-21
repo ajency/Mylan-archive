@@ -1086,11 +1086,16 @@ ul.ui-multiselect-checkboxes{
 		float: left;
 		width: 47%;
 		margin: 0;
+		position: relative;
 		&:last-child{
 			float: right;
 		}	
 		ul.parsley-errors-list{
-			float: left;
+			position: absolute;
+		    left: 0px;
+		    width: 100%;
+		    bottom: 0;
+		    top: 50px;
 		}
 	}
 	.input-group-addon{
