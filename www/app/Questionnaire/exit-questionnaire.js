@@ -1,9 +1,10 @@
 angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', '$ionicPlatform', function($scope, App, Storage, QuestionAPI, DashboardAPI, $ionicPlatform) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', '$ionicPlatform', 'HospitalData', function($scope, App, Storage, QuestionAPI, DashboardAPI, $ionicPlatform, HospitalData) {
     var deregisterExit, onDeviceBackExit;
     $scope.view = {
       hospitalData: '',
       phone: '',
+      email: HospitalData.email,
       exit: function() {
         return ionic.Platform.exitApp();
       },
@@ -51,7 +52,17 @@ angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
       views: {
         "appContent": {
           templateUrl: 'views/questionnaire/exit.html',
-          controller: 'ExitQuestionnaireCtrl'
+          controller: 'ExitQuestionnaireCtrl',
+          resolve: {
+            HospitalData: function($q, Storage) {
+              var defer;
+              defer = $q.defer();
+              Storage.setData('hospital_details', 'get').then(function(data) {
+                return defer.resolve(data);
+              });
+              return defer.promise;
+            }
+          }
         }
       }
     });
