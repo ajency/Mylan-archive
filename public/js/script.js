@@ -83,6 +83,18 @@ $('.authUserEmail').change(function (event) {
  
 });
 
+
+
+$("input[name='has_all_access']").on("click", function(){
+       check = $(this).is(":checked");
+       if(check) {
+           $(".add_user_associates").addClass('hidden');
+       } else {
+           $(".add_user_associates").removeClass('hidden');
+       }
+});
+ 
+
     $('select[name="updateSubmissionStatus"]').change(function (event) { 
        var status = $(this).val();
        var responseId = $(this).attr('object-id');

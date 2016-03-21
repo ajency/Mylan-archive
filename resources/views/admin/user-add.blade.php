@@ -90,6 +90,7 @@
                   Access  (Individual)
                </div>
             </div>
+            <div class="add_user_associates">
             <hr>
             <div class="row hospital_users">
                <div class="col-md-4">
@@ -126,6 +127,7 @@
                  
                </div>
             </div>
+           </div> 
          </div>
          <div class="form-actions">
             <div class="text-right">
@@ -140,5 +142,8 @@
 </form>
 <script>
    var HOSPITAL_ID = 0;
+
+ 
+ 
 </script>
 @endsection
