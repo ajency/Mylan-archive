@@ -7,9 +7,9 @@
          <!-- <p ng-if="view.errorStartQuestion">  -->
          <p> 
           
-          <div class="questWarning">
+          <div class="questWarning" ng-if="view.errorStartQuestion">
             <i class="fa fa-2x fa-exclamation-circle"></i>
-            <span>You don not have any questionnaire to be submitted now.</span>
+            <span>{{view.errorMsg}}</span>
           </div>
          
            <!-- {{view.errorMsg}} -->
