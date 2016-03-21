@@ -320,7 +320,6 @@ body.modal-open .chat-window-wrapper {
   margin-right: 5px;
   display: inline-block;
   float: left;
-  min-width: 163px;
 }
 .header .chat-toggler .user-details {
   display: inline-block;
