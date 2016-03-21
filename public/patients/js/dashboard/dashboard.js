@@ -6,8 +6,18 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       QuestinnarieName: questionnaireName,
       showMoreButton: true,
       limitTo: 5,
+      errorStartQuestion: false,
+      errorMsg: '',
       init: function() {
         var id, param, questionnaireData, startQuestData, summaryData;
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'questionnarireError') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'An error occurred while starting questionnaire. Please try again';
+        }
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'offline') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'Unable to start questionnaire. Please check your internet connection.';
+        }
         questionnaireData = {};
         Storage.questionnaire('set', questionnaireData);
         startQuestData = {};
