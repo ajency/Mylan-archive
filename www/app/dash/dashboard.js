@@ -13,7 +13,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       errorStartQuestion: false,
       errorMsg: '',
       onPullToRefresh: function() {
-        this.showMoreButton = true;
+        this.showMoreButton = false;
         this.data = [];
         this.getSubmission();
         this.limitTo = 5;
@@ -28,7 +28,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         });
       },
       getSubmission: function() {
-        this.display = 'loader';
         this.showMoreButton = false;
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
