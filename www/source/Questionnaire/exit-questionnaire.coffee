@@ -1,11 +1,12 @@
 angular.module 'PatientApp.Quest'
 
-.controller 'ExitQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI', '$ionicPlatform'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI, $ionicPlatform)->
+.controller 'ExitQuestionnaireCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI', '$ionicPlatform', 'HospitalData'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, $ionicPlatform, HospitalData)->
 
 		$scope.view =
 			hospitalData : ''
 			phone : ''
+			email : HospitalData.email
 
 			exit :()->
 				ionic.Platform.exitApp()
@@ -50,6 +51,14 @@ angular.module 'PatientApp.Quest'
 				"appContent":
 					templateUrl: 'views/questionnaire/exit.html'
 					controller: 'ExitQuestionnaireCtrl'
+					resolve:
+						HospitalData :($q, Storage)->
+							defer = $q.defer()
+							Storage.setData 'hospital_details', 'get'
+							.then (data)->
+								defer.resolve data
+							defer.promise
+
 					
 
 ]
