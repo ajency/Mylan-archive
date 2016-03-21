@@ -45,39 +45,53 @@
                         
                                 <?php
                                 $defaults = explode(',', $attribute['values']);   
+                                $defaults = array_filter($defaults);
                                 ?>
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                    
+                                    <div class="col-md-3 add-attribute1">
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <div class="col-md-3 add-attribute">
-                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> {{ $default }}</h6> 
+                                    <div class="form-inline @if(count($defaults)>1) parent clearfix @endif">
+                                      <div class="form-group">
+                                      <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                        <div class="input-group">
+                                           <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}">
+                                          <div class="input-group-addon">{{ $default }}</div>
+                                        </div>
                                       </div>
+                                    </div>
                                     <?php $i++;?>  
                                     @endforeach
+                                    </div>
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
-                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
+                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required>
                                   </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
+                                    <div class="col-md-3 add-attribute1">
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <div class="col-md-3 add-attribute">
+                                      <div class="form-inline @if(count($defaults)>1) parent clearfix @endif">
+                                      <div class="form-group">
                                       <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}][{{ $default }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-type="number" data-parsley-min="0"><h6 class="m-t-15">{{ $default }}</h6> 
+                                        <div class="input-group">
+                                           <input type="text" class="form-control"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-type="number" data-parsley-min="0">
+                                          <div class="input-group-addon">{{ $default }}</div>
+                                        </div>
                                       </div>
+                                    </div>
                                       <?php $i++;?>  
                                     @endforeach
+                                    </div>
                                   @else
                                   <div class="col-md-3 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
-                                  <input type="text" class="m-b-5 col-sm-10" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
+                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" data-parsley-required data-parsley-type="number" data-parsley-min="0">
                                   </div>
                                   @endif
                                 
@@ -102,20 +116,38 @@
                                 </select>
                                 </div>
                                 @elseif('weight' === $attribute['control_type'])
-                                  <div class="col-md-3 add-attribute">
-                                         <label class="">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-10  weightQuestion weight-kg" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> kg</h6> 
+        
+                                  <div class="col-md-3 add-attribute1"> 
+                                    <div class="form-inline">
+                                      <div class="form-group">
+                                        <label class="">{{ $attribute['label'] }} </label>
+                                        <div class="input-group">
+                                          <input type="text" class="form-control  weightQuestion weight-kg" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg">
+                                          <div class="input-group-addon">kg</div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div class="col-md-3 add-attribute">
-                                         <label class="fade-0">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-st" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> st</h6> 
+                                    <div class="col-md-3 add-attribute1">
+                                    <div class="form-inline parent clearfix">
+                                      <div class="form-group">
+                                      <label class="fade-0">{{ $attribute['label'] }} </label>
+                                        <div class="input-group">
+                                           <input type="text" class="form-control weightQuestion weight-st" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st">
+                                          <div class="input-group-addon">st</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-inline parent clearfix">
+                                      <div class="form-group">
+                                        <label class="fade-0">{{ $attribute['label'] }} </label>
+                                        <div class="input-group">
+                                          <input type="text" class="form-control weightQuestion weight-lb" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb">
+                                          <div class="input-group-addon">lb</div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
-                                  <div class="col-md-3 add-attribute">
-                                         <label class="fade-0">{{ $attribute['label'] }} </label>
-                                      <input type="text" class="m-b-5 col-sm-10 weightQuestion weight-lb" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="Enter {{ $attribute['label'] }}"> <h6 class="m-t-15"> lb</h6> 
-                                  </div>
- 
-                                  
                                 @endif            
                              
                         
@@ -158,87 +190,6 @@
                     </div>
                      </div> -->
                 
-                
-
-
- 
-
-<div class="row">
-
-  <div class="col-md-3 add-attribute1">
-    <div class="form-inline parent clearfix">
-      <div class="form-group">
-      <label>KG</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
-          <div class="input-group-addon">KG</div>
-        </div>
-      </div>
-    </div>
-    <div class="form-inline parent clearfix">
-      <div class="form-group">
-        <label>LM</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="LM">
-          <div class="input-group-addon">LM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-3 add-attribute1"> 
-    <div class="form-inline">
-      <div class="form-group">
-        <label>KG</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
-          <div class="input-group-addon">KG</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  <div class="col-md-3 add-attribute1"> 
-    <div class="form-inline">
-      <div class="form-group">
-        <label>KG</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
-          <div class="input-group-addon">KG</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-  <div class="col-md-3 add-attribute1">
-    <div class="form-inline parent clearfix">
-      <div class="form-group">
-      <label>KG</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
-          <div class="input-group-addon">KG</div>
-        </div>
-      </div>
-    </div>
-    <div class="form-inline parent clearfix">
-      <div class="form-group">
-        <label>LM</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="LM">
-          <div class="input-group-addon">LM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-</div>
-
  
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>

@@ -81,7 +81,8 @@ class ProjectController extends Controller
                  if($attributeName=='')
                     continue;
 
-                $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key],'object_type' => $objecttype, 'object_id' => $projectId]);
+                $controlTypeDefaultValues = (isset($controltypevalues[$key]))?$controltypevalues[$key]:'';
+                $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'object_id' => $projectId]);
             }
         }
 
@@ -160,13 +161,14 @@ class ProjectController extends Controller
                 if($attributeName=='')
                     continue;
 
+                $controlTypeDefaultValues = (isset($controltypevalues[$key]))?$controltypevalues[$key]:'';
                 if($attributeIds[$key]=='')
                 {
-                    $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key],'object_type' => $objecttype, 'object_id' => $projectId]);
+                    $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'object_id' => $projectId]);
                 }
                 else
                 {
-                    $data = array('label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controltypevalues[$key]);
+                    $data = array('label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues);
                     Attributes::where('id', $attributeIds[$key])->update($data);
                 }
             }
