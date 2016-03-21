@@ -59,7 +59,11 @@
                                   @if(!empty($submissionsSummary))     
                                     <div id="submissionschart"></div>
                                   @else 
-                                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                  <table class="table">
+                                  <tbody>
+                                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                                  </tbody>
+                                  </table>
                                   @endif
                                  </div>
                               </div>
