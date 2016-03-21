@@ -184,8 +184,8 @@ class PatientController extends Controller
         $referenceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
         $project = $projectId;
-        $weight = $request->input('weight');
-        $height = $request->input('height');
+        //$weight = $request->input('weight');
+        //$height = $request->input('height');
         $age = $request->input('age');
         $attributes = $request->input('attributes');
         $attributes = serialize($attributes);
@@ -209,7 +209,7 @@ class PatientController extends Controller
         $user->hospital_id = $hospital;
         $user->project_id = $project;
         $user->type = 'patient';
-        $user->patient_weight = $weight;
+        //$user->patient_weight = $weight;
         $user->age = $age;
         $user->project_attributes = $attributes;
         // $user->patient_height = $height;
@@ -832,8 +832,8 @@ class PatientController extends Controller
         $referenceCode = $request->input('reference_code');
         $hospital = $hospital['id'];//$request->input('hospital');
         $project = $projectId;
-        $weight = $request->input('weight');
-        $height = $request->input('height');
+        // $weight = $request->input('weight');
+        // $height = $request->input('height');
         $age = $request->input('age');
         // $is_smoker = $request->input('is_smoker');
         // $smoke_per_week = $request->input('smoke_per_week');
@@ -850,9 +850,9 @@ class PatientController extends Controller
            $user->project_id = $project; 
         }
         
-        $user->patient_weight = $weight;
+        //$user->patient_weight = $weight;
         $user->age = $age;
-        $user->patient_height = $height;
+        //$user->patient_height = $height;
         $user->project_attributes = $attributes;
 
         // $user->patient_is_smoker = $is_smoker;

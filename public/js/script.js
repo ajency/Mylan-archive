@@ -269,8 +269,8 @@ $('.addAttributes').click(function (event) {
 
         $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val('');
         $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val('');
-        $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').val('');
-    
+        $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').tagsinput('removeAll');
+        
     }
 });
 
@@ -283,7 +283,7 @@ $('.attributes_block').on('change', 'select', function(event) {
     }
     else
     {
-        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('readonly');
+        $(this).closest('.attributeContainer').find('input[name="controltypevalues[]"]').removeAttr('disabled');
     }
 });
 

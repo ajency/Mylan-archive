@@ -52,7 +52,7 @@
                                 
                             </div>
                            
-                           @foreach($projectAttributes as $attibute)
+                           @foreach($projectAttributes as $key=>$attibute)
                             <div class="row allattributes attributeContainer">
                                 <div class="col-xs-4">
                                     <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
@@ -69,8 +69,11 @@
                                     </select>
                                 </div>
                                 <div class="col-xs-4"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
-                                    <input type="text" {{ ($attibute['control_type']=='weight')?'disabled':''}} name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
-
+                                @if($attibute['control_type']=='weight')
+                                    <input type="text"   name="controltypevalues[]" value="{{ $attibute['values'] }}" readonly class="tags text-100">
+                                @else 
+                                    <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
+                                @endif
                                 </div>
                                 <div class="deleteProject">
                                     <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>

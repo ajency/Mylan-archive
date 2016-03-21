@@ -119,7 +119,7 @@ class ProjectController extends Controller
 
         $project = Projects::find($projectId); 
         $projectAttributes = $project->attributes->toArray();
-
+        
          
         return view('hospital.project-edit')->with('active_menu', 'project')
                                            ->with('project', $project->toArray())
