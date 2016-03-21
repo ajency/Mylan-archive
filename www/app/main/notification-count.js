@@ -11,6 +11,9 @@ angular.module('PatientApp.notificationCount', []).factory('NotifyCount', [
         if (data > 0) {
           App.notification.count = data;
           return App.notification.badge = true;
+        } else {
+          App.notification.badge = false;
+          return App.notification.count = 0;
         }
       });
     };
