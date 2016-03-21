@@ -162,6 +162,84 @@
 
 
  
+
+<div class="row">
+
+  <div class="col-md-3 add-attribute1">
+    <div class="form-inline parent clearfix">
+      <div class="form-group">
+      <label>KG</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
+          <div class="input-group-addon">KG</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-inline parent clearfix">
+      <div class="form-group">
+        <label>LM</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="LM">
+          <div class="input-group-addon">LM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 add-attribute1"> 
+    <div class="form-inline">
+      <div class="form-group">
+        <label>KG</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
+          <div class="input-group-addon">KG</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-md-3 add-attribute1"> 
+    <div class="form-inline">
+      <div class="form-group">
+        <label>KG</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
+          <div class="input-group-addon">KG</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-md-3 add-attribute1">
+    <div class="form-inline parent clearfix">
+      <div class="form-group">
+      <label>KG</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="KG">
+          <div class="input-group-addon">KG</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-inline parent clearfix">
+      <div class="form-group">
+        <label>LM</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="LM">
+          <div class="input-group-addon">LM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+ 
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               
