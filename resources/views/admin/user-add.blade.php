@@ -82,7 +82,7 @@
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
                <div class="col-md-3">Hospital</div>
-               <div class="col-md-3">
+               <div class="col-md-6 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" >
                   <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
@@ -90,9 +90,9 @@
                   Access  (Individual)
                </div>
             </div>
-            <br>
+            <hr>
             <div class="row hospital_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <select name="hospital[]" id="hospital" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
                      @foreach($hospitals as $hospital)
@@ -101,8 +101,8 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-center">
                      <input id="access_view_0" type="radio" name="access_0" value="view" checked="checked">
                      <label for="access_view_0">View</label>
                      <input id="access_edit_0" type="radio" name="access_0" value="edit">
@@ -112,7 +112,7 @@
             </div>
             <hr>
             <div class="row">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <input type="hidden" name="counter" value="0">
                   <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
                </div>

@@ -8276,4 +8276,18 @@ input {
 .custom-table-flip-scroll {
   width: !important;
 }
+.hospital_users {
+  padding-top: 5px;
+}
+.hospital_users .radio-primary {
+  margin: 8px 0px;
+}
+.hospital_users .deleteUserHospitalAccess {
+  cursor: pointer;
+  line-height: 2.5;
+  color: #0aa699;
+}
+.hospital_users ul.parsley-errors-list {
+  margin: 0px;
+}
 /*# sourceMappingURL=style.css.map */
