@@ -90,6 +90,7 @@
                   Access  (Individual)
                </div>
             </div>
+            <div class="add_user_hospital">
             <br>
             <div class="row hospital_users">
                <div class="col-md-3">
@@ -127,6 +128,7 @@
                </div>
             </div>
          </div>
+         </div>
          <div class="form-actions">
             <div class="text-right">
                <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
@@ -140,5 +142,17 @@
 </form>
 <script>
    var HOSPITAL_ID = 0;
+
+   $("input[name='has_all_access']").on("click", function(){
+    check = $(this).is(":checked");
+    if(check) {
+        alert("Checkbox is checked.");
+    } else {
+        alert("Checkbox is unchecked.");
+    }
+   }); 
+
+ 
+   
 </script>
 @endsection
