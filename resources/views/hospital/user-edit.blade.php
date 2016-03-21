@@ -62,6 +62,7 @@
                </div>
 
             </div>
+            <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
             <br>
             <?php
                $i=0;
@@ -140,6 +141,7 @@
                </div>
             </div>
             @endif
+         </div>
          </div>
          <div class="form-actions">
             <div class="text-right">

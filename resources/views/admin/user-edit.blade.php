@@ -92,6 +92,7 @@
                </div>
 
             </div>
+         <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
             <hr>
             <?php
                $i=0;
@@ -166,6 +167,7 @@
                <div class="col-md-3">
                  
                </div>
+            </div>
             </div>
          </div>
          <div class="form-actions">

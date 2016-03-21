@@ -81,7 +81,7 @@
                         <div class="user-details">
                            <div class="username">
                               {{ Auth::user()->name }}    
-                              <span class="badge badge-default">Mylan Admin</span>               
+                              <span class="badge badge-default">{{ userType() }}</span>               
                            </div>
                         </div>
                      </a>

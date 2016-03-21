@@ -62,6 +62,7 @@
                   Access  (Individual)
                </div>
             </div>
+            <div class="add_user_associates">
             <br>
             <div class="row project_users">
                <div class="col-md-3">
@@ -97,6 +98,7 @@
                <div class="col-md-3">
                  
                </div>
+            </div>
             </div>
          </div>
          <div class="form-actions">
