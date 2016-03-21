@@ -39,7 +39,7 @@ angular.module 'PatientApp.Quest'
 
 			submitSummary : ->
 
-				CToast.showLongBottom 'questionnaire not submitted, its a dummy app.'
+				CToast.showLongBottom 'Questionnaire cannot be submitted. This is a test app.'
 				App.navigate 'exit-questionnaire'
 				
 				# CSpinner.show '', 'Please wait..'

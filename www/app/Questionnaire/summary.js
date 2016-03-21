@@ -42,7 +42,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       submitSummary: function() {
-        CToast.showLongBottom('questionnaire not submitted, its a dummy app.');
+        CToast.showLongBottom('Questionnaire cannot be submitted. This is a test app.');
         return App.navigate('exit-questionnaire');
       },
       prevQuestion: function() {
