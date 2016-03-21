@@ -58,7 +58,7 @@ angular.module 'PatientApp.Quest'
 	QuestionAPI.deletAnswer = (param)->
 	
 		defer = $q.defer()		
-		App.SendParseRequest('submitQuestionnaire2', param)
+		App.SendParseRequest('submitTestQuestionnaire', param)
 		.then (data)->
 			defer.resolve data
 		, (error)=>
