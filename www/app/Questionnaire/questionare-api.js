@@ -51,6 +51,18 @@ angular.module('PatientApp.Quest').factory('QuestionAPI', [
       })(this));
       return defer.promise;
     };
+    QuestionAPI.deletAnswer = function(param) {
+      var defer;
+      defer = $q.defer();
+      App.SendParseRequest('submitQuestionnaire2', param).then(function(data) {
+        return defer.resolve(data);
+      }, (function(_this) {
+        return function(error) {
+          return defer.reject(error);
+        };
+      })(this));
+      return defer.promise;
+    };
     QuestionAPI.setAction = function(action, data) {
       if (data == null) {
         data = {};

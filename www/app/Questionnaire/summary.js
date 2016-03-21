@@ -42,8 +42,29 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         return this.getSummaryApi();
       },
       submitSummary: function() {
-        CToast.showLongBottom('Questionnaire cannot be submitted. This is a test app.');
-        return App.navigate('exit-questionnaire');
+        var param;
+        CSpinner.show('', 'Please wait..');
+        param = {
+          responseId: $stateParams.summary
+        };
+        return QuestionAPI.deletAnswer(param).then((function(_this) {
+          return function(data) {
+            CToast.showLongBottom('Questionnaire cannot be submitted. This is a test app.');
+            return App.navigate('exit-questionnaire');
+          };
+        })(this), (function(_this) {
+          return function(error) {
+            if (error === 'offline') {
+              return CToast.showLongBottom('Please check your internet connection');
+            } else if (error === 'server_error') {
+              return CToast.showLongBottom('Error in submitting questionnaire,Server error');
+            } else {
+              return CToast.showLongBottom('Error in submitting questionnaire,try again');
+            }
+          };
+        })(this))["finally"](function() {
+          return CSpinner.hide();
+        });
       },
       prevQuestion: function() {
         var action, valueAction;
