@@ -216,10 +216,10 @@ class PatientController extends Controller
         $user->age = $age;
         $user->project_attributes = $attributes;
         // $user->patient_height = $height;
-        // $user->patient_is_smoker = $is_smoker;
-        // $user->patient_smoker_per_week = $smoke_per_week;
+        $user->patient_is_smoker = $is_smoker;
+        $user->patient_smoker_per_week = $smoke_per_week;
         // // $user->patient_is_alcoholic = $is_alcoholic;
-        // $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
         $userId = $user->id;
 
@@ -859,10 +859,10 @@ class PatientController extends Controller
         //$user->patient_height = $height;
         $user->project_attributes = $attributes;
 
-        // $user->patient_is_smoker = $is_smoker;
-        // $user->patient_smoker_per_week = $smoke_per_week;
-        // // $user->patient_is_alcoholic = $is_alcoholic;
-        // $user->patient_alcohol_units_per_week = $units_per_week;
+        $user->patient_is_smoker = $is_smoker;
+        $user->patient_smoker_per_week = $smoke_per_week;
+        // $user->patient_is_alcoholic = $is_alcoholic;
+        $user->patient_alcohol_units_per_week = $units_per_week;
         $user->save();
 
         $medications = $request->input('medications');
