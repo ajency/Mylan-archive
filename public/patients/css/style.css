@@ -1143,16 +1143,6 @@ input::-ms-input-placeholder {
   color: #00c3c0;
   text-decoration: none;
 }
-
-.activeLabel i.radio-icon {
-  background: #7bc67a;
-  border-color: #7bc67a;
-}
-.activeLabel i.radio-icon:before {
-  opacity: 1 !important;
-  visibility: inherit !important;
-}
-
 .alternative {
   margin: 5px 0px 7px 16.5em;
   text-transform: uppercase;

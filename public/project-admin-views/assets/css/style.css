@@ -8961,7 +8961,22 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .baseline-color {
   color: #576475;
 }
-
+.baselineAllign,
+.questStats {
+  line-height: 75px;
+}
+.p-l-r-5 {
+  padding: 0 5px;
+}
+.no-padding {
+  padding: 0 !important;
+}
+.g-l-h {
+  line-height: 1.5;
+}
+.m-t-13 {
+  margin-top: 13px;
+}
 .add-attribute input[type="text"] {
   float: left;
   margin-right: 15px;
@@ -9023,21 +9038,5 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .edit-add .select2.form-control {
   display: inline-block;
-}
-.baselineAllign,
-.questStats {
-  line-height: 75px;
-}
-.p-l-r-5 {
-  padding: 0 5px;
-}
-.no-padding {
-  padding: 0 !important;
-}
-.g-l-h {
-  line-height: 1.5;
-}
-.m-t-13 {
-  margin-top: 13px;
 }
 /*# sourceMappingURL=style.css.map */

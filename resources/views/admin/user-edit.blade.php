@@ -82,13 +82,13 @@
          <br> -->
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
-               <div class="col-md-4 text-center"><h3>Hospital</h3></div>
-               <div class="col-md-6 text-center">
+               <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
+               <div class="col-md-8 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
-                  <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
+                  <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
                </div>
-                  Access  (Individual)
+               <h5 class="user-sub-head">Access (Individual)</h5>
                </div>
 
             </div>
@@ -110,7 +110,7 @@
                   </select>
                </div>
                <div class="col-md-4">
-                  <div class="radio radio-primary text-center">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" {{ ('view'==$value['access_type']) ? 'checked':''}} >
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit" {{ ('edit'==$value['access_type']) ? 'checked':''}}>
@@ -141,7 +141,7 @@
                   </select>
                </div>
                <div class="col-md-4">
-                  <div class="radio radio-primary text-center">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" checked="checked">
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit">

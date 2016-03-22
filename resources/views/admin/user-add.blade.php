@@ -81,13 +81,13 @@
          <br> -->
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
-               <div class="col-md-4 text-center"><h3>Hospital</h3></div>
-               <div class="col-md-6 text-center">
+               <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
+               <div class="col-md-8 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" >
-                  <label for="has_all_access">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></label>
+                  <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
                </div>
-                  Access  (Individual)
+                 <h5 class="user-sub-head">Access (Individual)</h5>
                </div>
             </div>
             <div class="add_user_associates">
@@ -103,7 +103,7 @@
                   </select>
                </div>
                <div class="col-md-4">
-                  <div class="radio radio-primary text-center">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_0" type="radio" name="access_0" value="view" checked="checked">
                      <label for="access_view_0">View</label>
                      <input id="access_edit_0" type="radio" name="access_0" value="edit">

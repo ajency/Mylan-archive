@@ -402,7 +402,7 @@ $('.add-hospital-user').click(function (event) {
     html +='</div>';
                
     html +='<div class="col-md-4">';
-    html +='<div class="radio radio-primary text-center">';
+    html +='<div class="radio radio-primary text-right">';
     html +='<input id="access_view_'+i+'" type="radio" name="access_'+i+'" value="view" checked="checked">';
     html +='<label for="access_view_'+i+'">View</label>';
     html +='<input id="access_edit_'+i+'" type="radio" name="access_'+i+'" value="edit">';
