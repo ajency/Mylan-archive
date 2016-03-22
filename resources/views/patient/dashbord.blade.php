@@ -11,7 +11,9 @@
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
     var hospitalLogo = "{{ $hospital['logo'] }}";
-    // console.log({{ $hospital['name'] }});
+    var hospitalName = "{{ $hospital['name'] }}";
+    var hospitalPhone = "{{ $hospital['phone'] }}"
+    var hospitalEmail = "{{ $hospital['email'] }}"
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
     var JS_KEY       = "{{ env( 'JS_KEY') }}"
@@ -62,7 +64,7 @@
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 23px;">              
                 <i class="fa fa-cog text-muted"></i> <span class="text-muted"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href=""><i class="fa fa-refresh text-muted"></i> Password Reset</a></li>
+                  <li><a href="#reset-password"><i class="fa fa-refresh text-muted"></i> Password Reset</a></li>
                   <li><a href="{{ url( 'auth/logout' ) }}"><i class="fa fa-power-off text-muted"></i> Logout</a></li>
                 </ul>
             </li>

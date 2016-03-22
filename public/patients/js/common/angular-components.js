@@ -7,6 +7,9 @@ angular.module('angularApp.common').factory('CToast', [
         position: "right"
       });
     };
+    CToast.showVaild = function(id, content) {
+      return $("#" + id).notify(content, "success");
+    };
     return CToast;
   }
 ]);

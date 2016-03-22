@@ -10,6 +10,8 @@ angular.module 'angularApp.notification',[]
 			noNotification : null
 			limit : 10
 			gotAllRequests: false
+			email : hospitalEmail
+			phone : hospitalPhone
 
 			init :() ->
 				$rootScope.$broadcast 'notification:count'

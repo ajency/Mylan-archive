@@ -40,6 +40,21 @@ angular.module('angularApp.common', []).factory('App', [
         console.log('***********');
         console.log(location);
         return $location.path(location);
+      },
+      sendRequest: function(url, params, headers, timeout) {
+        var defer;
+        defer = $q.defer();
+        if (!_.isUndefined(timeout)) {
+          headers['timeout'] = timeout;
+        }
+        $http.post(url, params, headers).then(function(data) {
+          return defer.resolve(data);
+        }, (function(_this) {
+          return function(error) {
+            return defer.reject(_this.errorCode(error));
+          };
+        })(this));
+        return defer.promise;
       }
     };
   }

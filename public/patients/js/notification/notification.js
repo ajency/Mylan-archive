@@ -7,6 +7,8 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       noNotification: null,
       limit: 10,
       gotAllRequests: false,
+      email: hospitalEmail,
+      phone: hospitalPhone,
       init: function() {
         var param;
         $rootScope.$broadcast('notification:count');

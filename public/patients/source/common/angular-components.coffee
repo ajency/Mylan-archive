@@ -7,6 +7,9 @@ angular.module 'angularApp.common'
 	CToast.show = (content)->
 		$("#notify-css").notify(content, {position:"right"});
 
+	CToast.showVaild = (id, content)->
+		$("#"+id).notify(content, "success");
+
 	CToast
 
 ]
