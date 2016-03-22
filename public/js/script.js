@@ -322,7 +322,7 @@ $('.weightQuestion').change(function (event) {
            $(".weight-st").attr('readonly',false);
            $(".weight-lb").attr('readonly',false); 
        }
-       else
+       else if($(".weight-st").val()=='' && $(".weight-lb").val()=='')    
        {
             $(".weight-kg").attr('readonly',false);
        }
