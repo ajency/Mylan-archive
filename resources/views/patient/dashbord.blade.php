@@ -10,12 +10,24 @@
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
-    var hospitalLogo = "{{ $hospital['logo'] }}";
-    // console.log({{ $hospital['name'] }});
+    var hospitalLogo = "{{ $hospital['logoUrl'] }}";
+    var hospitalName = "{{ $hospital['name'] }}";
+    var hospitalPhone = "{{ $hospital['phone'] }}"
+    var hospitalEmail = "{{ $hospital['email'] }}"
+    var Url = "{{url()}}";
+    var path = "{{public_path()}}";
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
+
+    var APP_AuthrizationKey       = "{{ env( 'APP_AuthrizationKey') }}"
+    var APP_KEY       = "{{ env( 'APP_KEY') }}"
+    
     var JS_KEY       = "{{ env( 'JS_KEY') }}"
+
+
+
     var REST_API_KEY = "{{ config('constants.parse_sdk.rest_api_key') }}"
+   
 
  Parse.initialize(APP_ID, JS_KEY);
 
@@ -62,7 +74,7 @@
                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 23px;">              
                 <i class="fa fa-cog text-muted"></i> <span class="text-muted"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href=""><i class="fa fa-refresh text-muted"></i> Password Reset</a></li>
+                  <li><a href="#reset-password"><i class="fa fa-refresh text-muted"></i> Password Reset</a></li>
                   <li><a href="{{ url( 'auth/logout' ) }}"><i class="fa fa-power-off text-muted"></i> Logout</a></li>
                 </ul>
             </li>
