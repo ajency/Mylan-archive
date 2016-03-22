@@ -127,6 +127,10 @@
                                     $readOnly = '';
                                     $value = (isset($patientProjectAttributes[ $attribute['label'] ]['kg'])) ? $patientProjectAttributes[ $attribute['label'] ]['kg'] : '';
 
+                                    $stValue = (isset($patientProjectAttributes[ $attribute['label'] ]['st'])) ? $patientProjectAttributes[ $attribute['label'] ]['st'] : '';
+
+                                    $lbValue = (isset($patientProjectAttributes[ $attribute['label'] ]['lb'])) ? $patientProjectAttributes[ $attribute['label'] ]['lb'] : '';
+
                                     
                                     if($value=='' && $stValue=='' && $lbValue=='')
                                     {
@@ -149,9 +153,6 @@
                                     </div>
                                   </div>
                                   <?php
-                                    $stValue = (isset($patientProjectAttributes[ $attribute['label'] ]['st'])) ? $patientProjectAttributes[ $attribute['label'] ]['st'] : '';
-
-                                    $lbValue = (isset($patientProjectAttributes[ $attribute['label'] ]['lb'])) ? $patientProjectAttributes[ $attribute['label'] ]['lb'] : '';
 
                                     if($stValue=='' && $lbValue=='')
                                     {
