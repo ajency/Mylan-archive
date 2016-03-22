@@ -61,7 +61,7 @@
                     @if(is_array($value))
                         @foreach($value as $default => $val)
                             @if($val!='')
-                                {{ $val }} {{ $default }}
+                                {{ $val }}  @if(!is_int($default)) {{ $default }} @endif
                             @else 
                             &nbsp;     
                             @endif

@@ -153,7 +153,7 @@
                                     </div>
                                   </div>
                                   <?php
- 
+                                     $readOnly = '';
                                     if($value=='' && $stValue=='' && $lbValue=='')
                                     {
                                         $readOnly = '';
@@ -344,7 +344,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $(".multiselect").multiselect();
-    
+
     $('.datetimepicker').datetimepicker({
         format: 'DD-MM-YYYY HH:mm'
 
