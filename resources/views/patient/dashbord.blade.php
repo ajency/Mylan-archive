@@ -10,14 +10,24 @@
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
-    var hospitalLogo = "{{ $hospital['logo'] }}";
+    var hospitalLogo = "{{ $hospital['logoUrl'] }}";
     var hospitalName = "{{ $hospital['name'] }}";
     var hospitalPhone = "{{ $hospital['phone'] }}"
     var hospitalEmail = "{{ $hospital['email'] }}"
+    var Url = "{{url()}}";
+    var path = "{{public_path()}}";
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
+
+    var APP_AuthrizationKey       = "{{ env( 'APP_AuthrizationKey') }}"
+    var APP_KEY       = "{{ env( 'APP_KEY') }}"
+    
     var JS_KEY       = "{{ env( 'JS_KEY') }}"
+
+
+
     var REST_API_KEY = "{{ config('constants.parse_sdk.rest_api_key') }}"
+   
 
  Parse.initialize(APP_ID, JS_KEY);
 

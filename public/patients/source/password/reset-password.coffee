@@ -11,8 +11,8 @@ angular.module 'angularApp.Auth',[]
 			passwordmissmatch:''
 			hospitalName : 'HospitalData.name'
 			projectName : questionnaireName
-			hospitalLogo1 : hospitalLogo
-			hospitalName1 : hospitalName
+			hospitalLogoDisplay : hospitalLogo
+			hospitalNamedisplay : hospitalName
 			ReDcodeDispaly : 'RefcodeData'
 			show : false
 
@@ -34,7 +34,7 @@ angular.module 'angularApp.Auth',[]
 						@Re_password = ""
 
 					else	
-					
+
 						if angular.equals(@New_password, @Re_password)
                         	@show = true
                         	

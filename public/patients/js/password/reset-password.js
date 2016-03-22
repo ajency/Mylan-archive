@@ -6,8 +6,8 @@ angular.module('angularApp.Auth', []).controller('setup_passwordCtr', [
       passwordmissmatch: '',
       hospitalName: 'HospitalData.name',
       projectName: questionnaireName,
-      hospitalLogo1: hospitalLogo,
-      hospitalName1: hospitalName,
+      hospitalLogoDisplay: hospitalLogo,
+      hospitalNamedisplay: hospitalName,
       ReDcodeDispaly: 'RefcodeData',
       show: false,
       reset: function() {

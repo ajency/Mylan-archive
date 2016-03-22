@@ -11,12 +11,12 @@ angular.module 'angularApp.Auth'
 
 		defer = $q.defer()
 
-		url = 'http://mylantest.ajency.in/api/v1/user/setpassword'
+		url = Url+'/api/v1/user/setpassword'
 
 		AUTH_HEADERS = 
 			headers:
-				"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				"X-Authorization" : 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+				"X-API-KEY" : APP_KEY 
+				"X-Authorization" : APP_AuthrizationKey
 				"Content-Type" : 'application/json'
 				
 		App.sendRequest(url, params, AUTH_HEADERS)
