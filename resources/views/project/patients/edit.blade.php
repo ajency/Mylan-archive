@@ -115,10 +115,10 @@
                                 @elseif('multiple' == $attribute['control_type'])
                                 <div class="col-md-3">
                                 <label>{{ $attribute['label'] }} </label>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="select2 form-control m-b-5" data-parsley-required>
-                                    <option value="">Select {{ $attribute['label'] }}</option>   
+                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="multiselect select2 form-control m-b-5" data-parsley-mincheck="1" data-parsley-required>
+                                    <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
-                                    <option {{ (!empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
+                                    <option {{ (is_array($value) && !empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
                                 </div>
@@ -343,6 +343,8 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    $(".multiselect").multiselect();
+    
     $('.datetimepicker').datetimepicker({
         format: 'DD-MM-YYYY HH:mm'
 

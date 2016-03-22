@@ -4,7 +4,7 @@
    <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#" class="active" > HOME</a>
+            <a href="#" class="active" > Home</a>
          </li>
          <li>
             <a href="#"> Projects</a>

@@ -4,7 +4,7 @@
       <p>
       <ul class="breadcrumb">
          <li>
-            <a href="{{ url( 'admin/' ) }}"><span>HOME</span></a>
+            <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
          </li>
          <li>
             <a href="#" class="active">Users</a>
