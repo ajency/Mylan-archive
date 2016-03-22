@@ -121,9 +121,10 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "notificationIds": objIds
         };
+        this.display = 'loader';
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            _this.display = 'loader';
+            $rootScope.$broadcast('notification:count');
             _this.canLoadMore = false;
             _this.data = [];
             _this.init();

@@ -116,10 +116,13 @@ angular.module 'angularApp.notification',[]
 				param = 
 				 	"notificationIds": objIds
 
-
+				@display = 'loader' 	
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
-					@display = 'loader'
+					# App.notification.count = App.notification.count - objIds.length
+					# App.notification.badge = false if App.notification.count <= 0
+					$rootScope.$broadcast 'notification:count'
+
 					@canLoadMore = false
 					@data = []
 					@init()
