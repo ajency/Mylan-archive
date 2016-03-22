@@ -314,11 +314,11 @@ class SubmissionController extends Controller
         foreach ($baseInputValues as $questionId => $inputValues) {
             $questionLabel = $inputValues['question'];
 
-            $currentInputValue = (isset($answersList[$questionId]['optionValues']))? getInputValues($answersList[$questionId]['optionValues']) :0;
+            $currentInputValue = (isset($answersList[$questionId]['optionValues']))? getInputValues($answersList[$questionId]['optionValues']) :'-';
 
             $baseInputValue = getInputValues($baseLineAnswersList[$questionId]['optionValues']);
 
-            $previousInputValue = (isset($previousAnswersList[$questionId]['optionValues']))?getInputValues($previousAnswersList[$questionId]['optionValues']):0;
+            $previousInputValue = (isset($previousAnswersList[$questionId]['optionValues']))?getInputValues($previousAnswersList[$questionId]['optionValues']):'-';
 
             $inputValueChart[] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
              
