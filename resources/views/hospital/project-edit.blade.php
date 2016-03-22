@@ -26,7 +26,7 @@
                      <div class="grid-body">
                         <form class="form-no-horizontal-spacing" id="form-condensed" data-parsley-validate>
                            <div class="row column-seperation projectAdd">
-                              <div class="col-md-5 b-0">
+                              <div class="col-md-3 b-0">
                                  <div class="form-row">
                                     <label>Project Name</label>
                                     <input name="name" id="name" type="text"  class="form-control" data-parsley-required placeholder="Project Name" value="{{ $project['name'] }}">
@@ -37,7 +37,7 @@
                                  </div>
                               </div>
 
-                              <div class="col-md-7 attributes_block">
+                              <div class="col-md-9 attributes_block">
                             <h4>Attributes</h4>
                             <div class="row form-group">
                                 <div class="col-xs-4">

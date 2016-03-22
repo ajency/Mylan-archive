@@ -561,7 +561,7 @@ $('.add-project-user').click(function (event) {
     html +='<label for="access_edit_'+i+'">Edit</label>';
     html +='</div>';
     html +='</div>';
-    html +='<div class="col-md-4">';
+    html +='<div class="col-md-4 text-center">';
     html +='<a class="deleteUserProjectAccess hidden"> delete </a>';
     html +='</div>';
     html +='</div>';

@@ -48,7 +48,14 @@
               
          </div>
           <hr>
-         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
+         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
+                  
+         <div class="checkbox check-primary custom-checkbox pull-right">
+            <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
+            <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
+         </div>
+
+         </h4>
          <br>
          <!-- <div class="user-description-box">
             <div class="row">
@@ -83,12 +90,9 @@
              <div class="user-description-box allHospitalsAccess">
             <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
-               <div class="col-md-8 text-center">
-                  <div class="checkbox check-primary">
-                  <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
-                  <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
-               </div>
-               <h5 class="user-sub-head">Access (Individual)</h5>
+               <div class="col-md-4 text-right">
+          
+               <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
 
             </div>

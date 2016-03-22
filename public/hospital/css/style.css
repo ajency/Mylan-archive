@@ -3412,8 +3412,8 @@ textarea[class*="span"] {
   width: 16px;
   height: 16px;
   position: absolute;
-  left: 1px;
-  top: 0px;
+  left: 3.2px;
+  top: 1px;
   font-size: 11px;
   -webkit-transition: border 0.2s linear 0s,color 0.2s linear 0s;
           transition: border 0.2s linear 0s,color 0.2s linear 0s;
@@ -8273,29 +8273,33 @@ ul.parsley-errors-list li {
 }
 .user-head {
   margin: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  min-height: 70px;
 }
 .user-sub-head {
-  text-align: left;
-  margin: 0px 0 0 175px;
-  font-size: 1.1em;
+  margin: 0px;
 }
+.hospital_users,
 .project_users {
   padding-top: 5px;
 }
+.hospital_users .radio-primary,
 .project_users .radio-primary {
-  margin: 8px 0;
+  margin: 8px 0px;
+}
+.hospital_users .deleteUserHospitalAccess,
+.project_users .deleteUserHospitalAccess {
+  cursor: pointer;
+  line-height: 2.5;
+  color: #0aa699;
+}
+.hospital_users ul.parsley-errors-list,
+.project_users ul.parsley-errors-list {
+  margin: 0px;
+}
+.custom-checkbox.checkbox label:after {
+  left: 0px;
+  top: 0px;
+}
+.custom-checkbox.checkbox label:before {
+  top: 3px;
 }
 /*# sourceMappingURL=style.css.map */

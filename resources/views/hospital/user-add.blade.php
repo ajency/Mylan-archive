@@ -48,18 +48,20 @@
               
          </div>
           <hr>
-         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
+         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
+         <div class="checkbox check-primary custom-checkbox pull-right">
+                  <input id="has_access" type="checkbox" name="has_all_access" value="yes" >
+                  <label for="has_access"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future Projects.)</small></h4></label>
+         </div>
+         </h4>
          <br>
           
              <div class="user-description-box allProjectsAccess">
             <div class="row">
-               <div class="col-md-4"><h4 class="user-head">Projects</h4></div>
-               <div class="col-md-8 text-center">
-                  <div class="checkbox check-primary">
-                  <input id="has_access" type="checkbox" name="has_all_access" value="yes" >
-                  <label for="has_access"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future Projects.)</small></h4></label>
-               </div>
-                  <h5 class="user-sub-head">Access (Individual)</h5>
+               <div class="col-md-4 text-center"><h4 class="user-head">Projects</h4></div>
+               <div class="col-md-4 text-right">
+                  
+                  <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
             </div>
             <div class="add_user_associates">
