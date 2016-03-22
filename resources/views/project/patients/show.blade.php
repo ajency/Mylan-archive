@@ -61,7 +61,9 @@
                     @if(is_array($value))
                         @foreach($value as $default => $val)
                             @if($val!='')
-                                {{ $val }} {{ $default }} 
+                                {{ $val }} {{ $default }}
+                            @else 
+                            &nbsp;     
                             @endif
                         @endforeach
                     @else 
