@@ -54,7 +54,7 @@
                  <dt>Age</dt>
                  <dd>{{ $patient['age'] }}</dd>
                 
-                
+                @if(isset($patient['project_attributes']) && !empty($patient['project_attributes']))
                  @foreach($patient['project_attributes'] as $label => $value)
                  <dt>{{ $label }}</dt>
                  <dd>
@@ -69,7 +69,7 @@
                     @endif
                  </dd>
                  @endforeach
-                 
+                @endif 
                 <dt>Smoker</dt>
                  <dd>{{ $patient['patient_is_smoker'] }}</dd>
                  @if($patient['patient_is_smoker']=='yes')
