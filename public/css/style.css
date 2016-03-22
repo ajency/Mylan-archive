@@ -8275,18 +8275,22 @@ input {
 .custom-table-flip-scroll {
   width: !important;
 }
-.hospital_users {
+.hospital_users,
+.project_users {
   padding-top: 5px;
 }
-.hospital_users .radio-primary {
+.hospital_users .radio-primary,
+.project_users .radio-primary {
   margin: 8px 0px;
 }
-.hospital_users .deleteUserHospitalAccess {
+.hospital_users .deleteUserHospitalAccess,
+.project_users .deleteUserHospitalAccess {
   cursor: pointer;
   line-height: 2.5;
   color: #0aa699;
 }
-.hospital_users ul.parsley-errors-list {
+.hospital_users ul.parsley-errors-list,
+.project_users ul.parsley-errors-list {
   margin: 0px;
 }
 .no-margin {
