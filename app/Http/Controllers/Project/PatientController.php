@@ -193,16 +193,16 @@ class PatientController extends Controller
         $attributes = $request->input('attributes');
         $attributes = serialize($attributes);
         
-        // $is_smoker = $request->input('is_smoker');
-        // $smoke_per_week = $request->input('smoke_per_week');
-        // // $is_alcoholic = $request->input('is_alcoholic');
-        // $units_per_week = $request->input('units_per_week');
+        $is_smoker = $request->input('is_smoker');
+        $smoke_per_week = $request->input('smoke_per_week');
+        // $is_alcoholic = $request->input('is_alcoholic');
+        $units_per_week = $request->input('units_per_week');
 
         $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
         if(!empty($validateRefernceCode))
         {
            Session::flash('error_message','Error !!! Referance Code Already Exist ');    
-           return redirect(url($hospitalSlug . '/patients/create'));
+           return redirect(url($hospitalSlug .'/'.$projectSlug.'/patients/create'));
         }
         
         $user = new User();
@@ -838,10 +838,11 @@ class PatientController extends Controller
         // $weight = $request->input('weight');
         // $height = $request->input('height');
         $age = $request->input('age');
-        // $is_smoker = $request->input('is_smoker');
-        // $smoke_per_week = $request->input('smoke_per_week');
-        // // $is_alcoholic = $request->input('is_alcoholic');
-        //  $units_per_week = $request->input('units_per_week');
+        
+        $is_smoker = $request->input('is_smoker');
+        $smoke_per_week = $request->input('smoke_per_week');
+        // $is_alcoholic = $request->input('is_alcoholic');
+         $units_per_week = $request->input('units_per_week');
 
         $attributes = $request->input('attributes');
         $attributes = serialize($attributes);
