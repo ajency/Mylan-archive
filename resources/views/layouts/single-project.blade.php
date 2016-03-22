@@ -92,7 +92,7 @@
                         <div class="user-details">
                            <div class="username">
                               {{ Auth::user()->name }}    
-                              <span class="badge badge-default">Hospital Admin</span>               
+                              <span class="badge badge-default">{{ userType() }}</span>               
                            </div>
                         </div>
                      </a>
@@ -113,7 +113,7 @@
                </div>
                <div class="pull-left">
                <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/' ) }}" class="inline">{{ hospitalImageExist($hospital) }}
-               &nbsp;<h4 class="text-left semi-bold inline" >{{ $project['name']}}</h4></a>
+               &nbsp;<h4 class="text-left semi-bold inline m-t-13" >{{ $project['name']}}</h4></a>
                </div>
                <!-- END TOP NAVIGATION MENU -->
                <!-- BEGIN CHAT TOGGLER -->

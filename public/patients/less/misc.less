@@ -756,6 +756,7 @@ form{
     font-size: 22px;
     }
     }
+
 @media(max-width:767px){
   h3{
         font-size: 19px;
@@ -1170,6 +1171,9 @@ form .placeholderWrap .form-control:focus
 // notification section modification
 
 .notify-panel{
+  .panel-body{
+    padding-bottom: 0px;
+  }
   .notification-list{
     li{
       &:hover{
@@ -1184,6 +1188,9 @@ form .placeholderWrap .form-control:focus
         }
       }
     }
+  }
+  .view-more{
+    margin: 10px 0;
   } 
 }
 
@@ -1192,6 +1199,21 @@ form .placeholderWrap .form-control:focus
 input::-ms-input-placeholder{
   opacity: 0;
 }
+
+
+// Active class for radio button
+
+.activeLabel{
+  i.radio-icon{
+    background: #7bc67a;
+    border-color: #7bc67a;
+    &:before{
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+  }
+}
+
 
 // custom Questionnaire remaining styles 
 
@@ -1234,15 +1256,57 @@ color: #00aaa7;
 }
 
 
-.activeLabel{
-i.radio-icon{
-background: #7bc67a;
-    border-color: #7bc67a;
-    &:before{
-    opacity: 1 !important;
-    visibility: inherit !important;
+
+
+// questionnaire alternative styling
+
+.alternative{
+    margin: 5px 0px 7px 16.5em;
+    text-transform: uppercase;
+    position: relative;
+    font-weight: bold;
+    &:after,&:before{
+      content: "a";
+      position: absolute;
+      border-top: 1px solid #C8B4B4;
+      top: 10px;
+      color: transparent;
+      left: 25px;
+      width: 7%;
+    }
+    &:after{
+      left: -44px;
     }
 }
+
+
+// Global Line height
+
+.g-l-h{
+  line-height: 1.5;
 }
 
+//Questionnaier warning
+.questWarning{
+  background: #FFF4CB;
+  padding: 15px;
+  font-size: 16px;
+  i{
+    vertical-align: middle;
+    padding-right: 5px;
+  }
+}
+
+//Internet error alert
+
+.int-error{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    button{
+      padding: 10px 20px;
+    }
+}
 

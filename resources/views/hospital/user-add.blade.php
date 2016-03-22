@@ -51,17 +51,18 @@
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
           
-             <div class="user-description-box">
+             <div class="user-description-box allProjectsAccess">
             <div class="row">
                <div class="col-md-3">Projects</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
-                  <input id="has_access" type="checkbox" name="has_access" value="yes" >
+                  <input id="has_access" type="checkbox" name="has_all_access" value="yes" >
                   <label for="has_access">Access to all Projects<small> (This would automatically give access to future Projects.)</small></label>
                </div>
                   Access  (Individual)
                </div>
             </div>
+            <div class="add_user_associates">
             <br>
             <div class="row project_users">
                <div class="col-md-3">
@@ -97,6 +98,7 @@
                <div class="col-md-3">
                  
                </div>
+            </div>
             </div>
          </div>
          <div class="form-actions">

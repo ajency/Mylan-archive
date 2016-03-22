@@ -1085,6 +1085,9 @@ form .placeholderWrap .form-control:focus {
 .input .showHidePw:checked + i {
   color: #00bae5;
 }
+.notify-panel .panel-body {
+  padding-bottom: 0px;
+}
 .notify-panel .notification-list li:hover {
   background: #EBEBEB;
   cursor: pointer;
@@ -1096,8 +1099,19 @@ form .placeholderWrap .form-control:focus {
   text-decoration: none;
   color: #05A8A5;
 }
+.notify-panel .view-more {
+  margin: 10px 0;
+}
 input::-ms-input-placeholder {
   opacity: 0;
+}
+.activeLabel i.radio-icon {
+  background: #7bc67a;
+  border-color: #7bc67a;
+}
+.activeLabel i.radio-icon:before {
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 .questionnaire-text-field {
   visibility: visible !important;
@@ -1129,6 +1143,7 @@ input::-ms-input-placeholder {
   color: #00c3c0;
   text-decoration: none;
 }
+
 .activeLabel i.radio-icon {
   background: #7bc67a;
   border-color: #7bc67a;
@@ -1136,5 +1151,60 @@ input::-ms-input-placeholder {
 .activeLabel i.radio-icon:before {
   opacity: 1 !important;
   visibility: inherit !important;
+}
+
+.alternative {
+  margin: 5px 0px 7px 16.5em;
+  text-transform: uppercase;
+  position: relative;
+  font-weight: bold;
+}
+.alternative:after,
+.alternative:before {
+  content: "a";
+  position: absolute;
+  border-top: 1px solid #C8B4B4;
+  top: 10px;
+  color: transparent;
+  left: 25px;
+  width: 7%;
+}
+.alternative:after {
+  left: -44px;
+}
+.g-l-h {
+  line-height: 1.5;
+}
+.questWarning {
+  background: #FFF4CB;
+  padding: 15px;
+  font-size: 16px;
+}
+.questWarning i {
+  vertical-align: middle;
+  padding-right: 5px;
+}
+.int-error {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 400px;
+}
+.int-error button {
+  padding: 10px 20px;
 }
 /*# sourceMappingURL=style.css.map */

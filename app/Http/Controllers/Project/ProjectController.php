@@ -113,10 +113,16 @@ class ProjectController extends Controller
 
         $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
 
-        $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
+
+        //patient summary
+        // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         $patientController = new PatientController();
-        $patientResponses = $patientController->patientsSummary($fivepatient ,$startDateObj,$endDateObj); 
-        
+        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
+        $patientResponses = $patientsSummary['patientResponses'];
+        $patientSortedData = $patientsSummary['patientSortedData'];
+ 
+        $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+         
         $cond=['cleared'=>false];
         $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
 
@@ -124,11 +130,11 @@ class ProjectController extends Controller
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
-                                        ->with('allpatientscount', count($patients))
-                                        ->with('responseCount', $responseCount)
+                                        ->with('allpatientscount', count($patients))              
                                         ->with('submissionsSummary', $submissionsSummary)
-                                        ->with('patientResponses', $patientResponses['patientResponses'])
-                                        ->with('patientMiniGraphData', $patientResponses['patientMiniGraphData'])
+                                        ->with('patientSortedData', $patientSortedData)
+                                        ->with('patientResponses', $patientResponses)
+                                        ->with('patientMiniGraphData', $patientsSummary['patientMiniGraphData'])
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
@@ -234,7 +240,7 @@ class ProjectController extends Controller
 
         $cond = [];
         if($inputs['object_type']=="submission")
-            $status=["completed","late"];
+            $status=["completed"];
         else
             $status=["completed","late","missed"];
 
@@ -336,7 +342,7 @@ class ProjectController extends Controller
                   <td class="text-center sorting">'. $submission['previousScore'].'</td>
                   <td class="text-left sorting">'. $submission['totalScore'] .'</td>
                
-                 <td class="text-right semi-bold margin-none flagcount p-h-0">
+                 <td class="text-right semi-bold margin-none flagcount p-h-0" width="4%">
                     <h4><b class="text-'.$submission['totalBaseLineFlag'] .'">'. $submission['comparedToBaslineScore'].'</b></h4>
                  </td>
                  <td  class="text-center semi-bold margin-none flagcount p-h-0">
@@ -455,24 +461,26 @@ class ProjectController extends Controller
 
         $str.= '<tr><td onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">'. $referenceCode .'</td>
            <td  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">
-              <div class="lst-sub">
-                 <h2 class="bold pull-left">
+              <div class="lst-sub submission-count">
+                 <h2 class="bold inline">
                     '. $patientSummary['completed'] .'<br>
                     <sm class="text-success">Completed</sm>
                  </h2>
-                 <h2 class="bold pull-left">
+                 <h2 class="bold inline">
                     '. $patientSummary['late'] .'<br>
                     <sm class="text-warning">Late</sm>
                  </h2>
-                 <h2 class="bold pull-left">
+                 <h2 class="bold inline">
                     '. $patientSummary['missed'] .'<br>
                     <sm class="text-danger">Missed</sm>
                  </h2>
-                 <div class="pull-left p-t-20">
+                </div> 
+            </td>
+            <td>
+              <div class="lst-sub text-center p-t-20">
                     <span class="sm-font">Last Submission  <b>'. $patientSummary['lastSubmission'] .'</b></span><br>
                     <span class="sm-font">Next Submission  <b>'. $patientSummary['nextSubmission'] .'</b></span>
                  </div>
-              </div>
            </td>
            <td class="text-right sorting text-error"  onclick="window.document.location=\'/'.$hospitalSlug.'/'.$projectSlug.'/patients/'.$patientId.' \';">                              
               '. $patientSummary['previousFlag']['red'] .'
@@ -1247,6 +1255,7 @@ class ProjectController extends Controller
 
     public function questionnaireSetting($hospitalSlug,$projectSlug)
     {
+
         $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
         $hospital = $hospitalProjectData['hospital'];
@@ -1260,16 +1269,26 @@ class ProjectController extends Controller
         $questionnaire = $questionnaireQry->first();
 
         $settings =[];
-        $settings['gracePeriod'] = '';
-        $settings['reminderTime'] = '';
+        $settings['frequency']['day'] = ''; 
+        $settings['frequency']['hours'] = ''; 
+        $settings['gracePeriod']['day'] = '';
+        $settings['gracePeriod']['hours'] = '';
+        $settings['reminderTime']['day'] = '';
+        $settings['reminderTime']['hours'] = '';
         $settings['editable'] = '';
         $settings['type'] = ''; 
-        $settings['frequency'] = ''; 
+        
 
         if(!empty($questionnaire))
         {
-          $settings['gracePeriod'] = $questionnaire->get('gracePeriod');
-          $settings['reminderTime'] = $questionnaire->get('reminderTime');
+          $gracePeriod = secondsToTime($questionnaire->get('gracePeriod'));
+          $settings['gracePeriod']['day'] = $gracePeriod['d']; 
+          $settings['gracePeriod']['hours'] = $gracePeriod['h']; 
+
+          $reminderTime = secondsToTime($questionnaire->get('reminderTime'));
+          $settings['reminderTime']['day'] = $reminderTime['d']; 
+          $settings['reminderTime']['hours'] = $reminderTime['h']; 
+
           $settings['editable'] = $questionnaire->get('editable');
           $settings['type'] = $questionnaire->get('type');
 
@@ -1280,7 +1299,10 @@ class ProjectController extends Controller
           
           if(!empty($schedule))
           {
-            $settings['frequency'] = $schedule->get('frequency');
+   
+            $frequency = secondsToTime($schedule->get('frequency'));
+            $settings['frequency']['day'] = $frequency['d']; 
+            $settings['frequency']['hours'] = $frequency['h']; 
           }
           
         }
@@ -1302,9 +1324,17 @@ class ProjectController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
-        $frequency = $request->input('frequency');   
-        $gracePeriod = intval($request->input('gracePeriod'));
-        $reminderTime = intval($request->input('reminderTime'));
+        $frequencyDay = $request->input('frequencyDay');   
+        $frequencyHours = $request->input('frequencyHours');  
+        $gracePeriodDay = $request->input('gracePeriodDay');
+        $gracePeriodHours = $request->input('gracePeriodHours');
+        $reminderTimeDay = $request->input('reminderTimeDay');
+        $reminderTimeHours = $request->input('reminderTimeHours');
+
+        $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
+        $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+        $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
+
         $editable = ($request->input('editable')=='yes')?true:false;
         $type = $request->input('type');
 

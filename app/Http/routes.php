@@ -56,12 +56,16 @@ Route::get( '/dashboard', 'Patient\PatientController@index' );
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth']], function() {
+ 
+Route::get('/login-links', ['middleware' => 'permission', 'uses' => 'Admin\UserController@loginLinks']);
+});
+
+Route::group( ['prefix' => 'admin', 'middleware' => ['auth','mylan.permission']], function() {
 Route::get( '/', 'Admin\UserController@dashboard' );
 Route::get( '/dashboard', 'Admin\UserController@dashboard' );
 Route::resource( 'hospitals', 'Admin\HospitalController' );
 Route::resource( 'users', 'Admin\UserController' );
 Route::resource( 'user-access', 'Admin\UserAccessController' );
-
 
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
@@ -77,6 +81,8 @@ Route::resource( 'projects', 'Hospital\ProjectController' );
 Route::resource( 'attributes', 'Hospital\AttributeController' );
 Route::resource( 'users', 'Hospital\UserController' );
 Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
+Route::resource( 'user-access', 'Admin\UserAccessController' );
+Route::delete( 'delete-user-access/{id}', 'Admin\UserAccessController@deleteProjectAccess' );
 // Route::resource( 'patients', 'Hospital\PatientController' );
 // Route::resource( 'submissions', 'Hospital\SubmissionController' );
 

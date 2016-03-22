@@ -130,9 +130,9 @@
                                  </div>
                                 @endif
                               </div>
-                              <div class="col-md-3 m-t-25 text-right ">
-                              Previous | Baseline<br>
-                                 <span class="text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                              <div class="col-md-3 baselineAllign text-right ">
+                              Previous <span class="p-l-r-5">|</span> Baseline
+                                 <span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
                               <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
                               </div>
                            </div>
@@ -149,7 +149,7 @@
                               <div class="grid simple">
                                  <div class="grid-body">
                                     @if($answer['questionType']=='single-choice')
-                                    <div class="pull-right">
+                                    <div class="pull-right questStats">
                                        {{ $answer['comparedToPrevious'] }}
                                         @if($answer['previousFlag']=='green')
                                           <span class="text-success"><i class="fa fa-flag"></i></span>
@@ -159,15 +159,15 @@
                                         <span class="text-warning"><i class="fa fa-flag"></i></span>
                                         @endif
 
-                                       <span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                                       <span class="text-muted p-l-r-5">|</span>
 
                                         {{ $answer['comparedToBaseLine'] }}
                                         @if($answer['baseLineFlag']=='green')
-                                          <span class="text-success"><i class="fa fa-flag"></i></span>
+                                          <span class="text-success p-l-5"><i class="fa fa-flag"></i></span>
                                         @elseif($answer['baseLineFlag']=='red')
-                                          <span class="text-danger"><i class="fa fa-flag"></i></span>
+                                          <span class="text-danger p-l-5"><i class="fa fa-flag"></i></span>
                                         @elseif($answer['baseLineFlag']=='amber')
-                                        <span class="text-warning"><i class="fa fa-flag"></i></span>
+                                        <span class="text-warning p-l-5"><i class="fa fa-flag"></i></span>
                                         @endif
 
                                      </div>
@@ -178,7 +178,7 @@
                                       $x = 'A';
                                     ?>
                                       @foreach($answer['option'] as $option)
-                                      <h5 class="text-success semi-bold">{{ $x }} : {{ $option }}</h5>
+                                      <h5 class="text-success semi-bold">{{ $x }}: {{ $option }}</h5>
                                       <?php $x++;?>
                                       @endforeach
                                     @elseif($answer['questionType']=='input')
@@ -191,7 +191,7 @@
                                     
                                     
                                     @if(isset($previousAnswersList[$answer['questionId']]))
-                                    <h5 class="text-success"><span class="text-muted">Previous Answer:</span>
+                                    <h5 class="text-success g-l-h"><span class="text-muted">Previous Answer:</span>
    
                                         @if($previousAnswersList[$answer['questionId']]['questionType']=='multi-choice')
                                            <?php
@@ -199,7 +199,7 @@
                                             ?>
                                             <br>
                                             @foreach($previousAnswersList[$answer['questionId']]['option'] as $option)
-                                            <span class="text-info"><b>{{ $x }}</b> : {{ $option }}</span>  <br>
+                                            <span class="text-info"><b>{{ $x }}</b>: {{ $option }}</span>  <br>
                                             <?php $x++;?>
                                             @endforeach
                                           
@@ -218,7 +218,7 @@
                                      </h5>
                                     @endif
                                     @if(isset($baseLineAnswersList[$answer['questionId']]))
-                                    <h5 class="text-success"><span class="text-muted">Base Line Answer:</span>
+                                    <h5 class="text-success g-l-h"><span class="text-muted">Base Line Answer:</span>
    
                                         @if($baseLineAnswersList[$answer['questionId']]['questionType']=='multi-choice')
                                           <?php

@@ -64,10 +64,27 @@ angular.module 'angularApp.questionnaire'
 						
 
 				if @data.questionType == 'input'
+					kgsSelected = []
+					_.each @data.hasAnswer.option, (value)=>
+						str = value.label
+						str = str.toLowerCase()	
+						labelKg = ['kg', 'kgs']
+						bool = _.contains(labelKg, str)
+						
+						if bool	== true
+							kgsSelected.push(1)
+
+
+					if kgsSelected.length == 0
+						@firstText = 'notSelected'
+						@secondText = 'selected'
+					else
+						@firstText = 'selected'
+						@secondText = 'notSelected'
+
 					_.each @data.hasAnswer.option, (val) =>
 						@val_answerValue[val.label] = Number(val.value)
-					# ObjId = _.findWhere(@data.options, {id: @data.hasAnswer.option[0]})
-					# @val_answerValue[ObjId.option] = Number(@data.hasAnswer.value)
+
 
 
 			pastAnswer:()->
@@ -98,8 +115,97 @@ angular.module 'angularApp.questionnaire'
 
 					@data.previousQuestionnaireAnswer.dateDisplay = moment(previousAns.date).format('MMMM Do YYYY')
 
-			getQuestion :() ->
+			vlaidateInput : ->
 
+				InputReturn = true
+				valueArr = []
+				validArr = []
+				error = 0
+				sizeOfField = _.size(@data.options)
+				sizeOfTestboxAns = _.size(@val_answerValue)
+
+				kgValid =  true
+				lbValid = true
+				stValid = false
+				weightInput = 0
+
+				if (sizeOfTestboxAns == 0)
+					error = 1
+				else
+					_.each @val_answerValue, (value)->
+						value = value.toString()
+						if value == null || value == ''
+							valueArr.push 1
+						else
+							valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid == null
+								validArr.push 1
+
+					if valueArr.length == _.size(@val_answerValue)
+						error = 1
+				#for lbs validation 
+				if !_.isEmpty @val_answerValue
+					weightKeys = _.keys @val_answerValue
+					weigthValueArray = _.values @val_answerValue
+
+					_.each weightKeys, (val)->
+						lowerCase = val.toLowerCase()
+						if _.contains ['kg','kgs'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid == null
+								kgValid = false
+
+						# weightKeyArray.push val.toLowerCase()
+						lowerCase = val.toLowerCase()
+						if _.contains ['lb','lbs'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^-?\d*(\.\d+)?$/))
+							if valid == null
+								lbValid = false
+
+						lowerCase = val.toLowerCase()
+						if _.contains ['st','sts'], lowerCase
+							weightInput = 1
+							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+							if valid != null 
+								stValid = true
+							else if valid == null
+								stValid = false
+		
+				# ***temp**
+				if (weightInput == 0) && (error == 1 || validArr.length > 0)
+					CToast.show 'Please enter the values'
+				else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
+					CToast.show 'Please enter valid value,kg cannot be zero'
+				else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
+					CToast.show 'Please enter valid value,st cannot be zero'
+				else
+					valueInput = []
+					optionId = []
+					arryObj = []
+					_.each @data.options, (opt)=>
+						obj={}
+						a = @val_answerValue[opt.option]
+						if !_.isUndefined(a) && a !=''
+							obj['id'] = opt.id
+							obj['value'] = a.toString()
+							arryObj.push(obj)
+
+					options =
+						"questionId" : @data.questionId
+						"options": arryObj
+						"value": ""
+						"responseId" : @data.responseId
+
+					InputReturn = options
+
+				return InputReturn
+
+
+			
+			getQuestion :() ->
+				Storage.getQuestStatus('set','')
 				startQuestData = {}
 				Storage.startQuestionnaire 'set', startQuestData
 
@@ -164,8 +270,16 @@ angular.module 'angularApp.questionnaire'
 							@display = 'noError'
 						
 						,(error)=>
-							@display = 'error'
-							@errorType = error
+							if error == 'offline'
+								Storage.getQuestStatus('set','offline')
+								$location.path 'dashboard'	
+							else
+								Storage.getQuestStatus('set','questionnarireError')
+								$location.path 'dashboard'	
+
+							
+							# @display = 'error'
+							# @errorType = error
 
 					else 
 						responseId = questionnaireData.responseId 
@@ -239,57 +353,117 @@ angular.module 'angularApp.questionnaire'
 						@loadNextQuestion(options)
 
 				if @data.questionType == 'input'
-					valueArr = []
-					validArr = []
 
-					error = 0
-					sizeOfField = _.size(@data.options)
-					sizeOfTestboxAns = _.size(@val_answerValue)
+					param = @vlaidateInput() 
+					if param != true then @loadNextQuestion(param)
 
-					if (sizeOfTestboxAns == 0)
-						error = 1
-					else
-						console.log @val_answerValue
-						_.each @val_answerValue, (value)->
-							value = value.toString()
-							console.log value
-							if value == null || value == ''
-								console.log 'empty'
-								valueArr.push 1
-							else
-								valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-								if valid == null
-									validArr.push 1
+					# valueArr = []
+					# validArr = []
+					# error = 0
+					# sizeOfField = _.size(@data.options)
+					# sizeOfTestboxAns = _.size(@val_answerValue)
 
-						if valueArr.length == _.size(@val_answerValue)
-							error = 1
+					# kgValid =  true
+					# lbValid = true
+					# stValid = false
+					# weightInput = 0
 
-					# ***temp**
-					if error == 1 || validArr.length > 0
-						CToast.show 'Please enter the values'
-					else
-						valueInput = []
-						optionId = []
-						arryObj = []
-						_.each @data.options, (opt)=>
-							obj={}
-							a = @val_answerValue[opt.option]
-							if !_.isUndefined(a) && a !=''
-								# valueInput.push(a)
-								# optionId.push(opt.id)
+					# if (sizeOfTestboxAns == 0)
+					# 	error = 1
+					# else
+					# 	console.log @val_answerValue
+					# 	_.each @val_answerValue, (value)->
+					# 		value = value.toString()
+					# 		console.log value
+					# 		if value == null || value == ''
+					# 			console.log 'empty'
+					# 			valueArr.push 1
+					# 		else
+					# 			valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+					# 			if valid == null
+					# 				validArr.push 1
 
-								obj['id'] = opt.id
-								obj['value'] = a.toString()
-								arryObj.push(obj)
+					# 	if valueArr.length == _.size(@val_answerValue)
+					# 		error = 1
+					# #for lbs validation 
+					# if !_.isEmpty @val_answerValue
+					# 	weightKeys = _.keys @val_answerValue
+					# 	weigthValueArray = _.values @val_answerValue
 
-						
-						options =
-							"questionId" : @data.questionId
-							"options": arryObj
-							"responseId" : @data.responseId
+					# 	_.each weightKeys, (val)->
+
+					# 		lowerCase = val.toLowerCase()
+					# 		if _.contains ['kg','kgs'], lowerCase
+					# 			weightInput = 1
+					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+					# 			console.log 'valueee'
+					# 			console.log valid 
+					# 			if valid == null
+					# 				kgValid = false
+
+								
+
+					# 		# weightKeyArray.push val.toLowerCase()
+					# 		lowerCase = val.toLowerCase()
+					# 		if _.contains ['lb','lbs'], lowerCase
+					# 			weightInput = 1
+					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^-?\d*(\.\d+)?$/))
+					# 			console.log 'valueee'
+					# 			console.log valid 
+					# 			if valid == null
+					# 				lbValid = false
+
+
+					# 		lowerCase = val.toLowerCase()
+					# 		if _.contains ['st','sts'], lowerCase
+					# 			weightInput = 1
+					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
+					# 			console.log 'valueee'
+					# 			console.log valid 
+					# 			if valid != null 
+					# 				stValid = true
+					# 			else if valid == null
+					# 				stValid = false
+
+
+							
+					# # ***temp**
+					# if (weightInput == 0) && (error == 1 || validArr.length > 0)
+					# 	CToast.show 'Please enter the values'
+					# else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
+					# 	CToast.show 'Please enter valid value,kg cannot be zero'
+					# else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
+					# 	CToast.show 'Please enter valid value,st cannot be zero'
+					# else
+					# 	valueInput = []
+					# 	optionId = []
+					# 	arryObj = []
+					# 	_.each @data.options, (opt)=>
+					# 		obj={}
+					# 		a = @val_answerValue[opt.option]
+					# 		if !_.isUndefined(a) && a !=''
+					# 			# valueInput.push(a)
+					# 			# optionId.push(opt.id)
+
+					# 			obj['id'] = opt.id
+					# 			obj['value'] = a.toString()
+					# 			arryObj.push(obj)
+
+					# 	options =
+					# 		# "questionId" : @data.questionId
+					# 		# "options": [optionId[0]]
+					# 		# "value": valueInput[0].toString()
+
+					# 	options =
+					# 		"responseId" : @data.responseId
+					# 		"questionId" : @data.questionId
+					# 		"options": arryObj
+					# 		"value": ""
 							
 
-						@loadNextQuestion(options)
+
+					# 	@loadNextQuestion(options)
+
 
 			
 				if @data.questionType == 'multi-choice'
@@ -391,35 +565,24 @@ angular.module 'angularApp.questionnaire'
 					@loadPrevQuestion(options)
 
 				if @data.questionType == 'input'
-					valueInput = []
-					optionId = []
-					arryObj = []
-
-					_.each @data.options, (opt)=>
-						if ! _.isUndefined @val_answerValue
-							a = @val_answerValue[opt.option]
-							if !_.isUndefined(a) and !_.isEmpty(a)  and !_.isNull(a)
-								valueInput.push(a)
-								optionId.push(opt.id)
-								# temp
-								obj['id'] = opt.id
-								obj['value'] = a
-								arryObj.push(obj)
-
-					if  _.isEmpty(optionId)
-						optionId = []
+					containsString  = 0
+					if _.isEmpty(@val_answerValue)|| _.isUndefined(@val_answerValue)
+						containsString = 0	
 					else
-					 	optionId = [optionId[0]] 	
-					if  _.isEmpty(valueInput)
-						value = []
-					else
-					 	value = valueInput[0].toString()
-					options =
-						"responseId" : @data.responseId
-						"questionId" : @data.questionId
-						"options": arryObj
-						
-					@loadPrevQuestion(options)
+						_.each @val_answerValue, (value)->
+							if value.toString() != ''
+								containsString = 1
+
+					if containsString == 0
+						options =
+							"responseId" : @data.responseId
+							"questionId" : @data.questionId
+							"options": []
+							"value": ""
+						@loadPrevQuestion(options)
+					else 
+						param = @vlaidateInput() 
+						if param != true then @loadPrevQuestion(param)
 
 			onTapToRetry : ->
 				if @respStatus == 'noValue'

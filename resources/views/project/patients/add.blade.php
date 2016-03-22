@@ -251,8 +251,24 @@
                         
                      
                   </div>
+                  <hr>
+               <h4 class="no-margin">Set <span class="semi-bold">Frequency</span></h4>
+               <br>
+                <div class="row form-group">
                   
-                  <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
+                  <div class="col-sm-4">
+                    <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Days" value="" data-parsley-type="number">
+                  </div>
+                  
+                  <div class="col-sm-4">
+                    <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Hours" value="" data-parsley-type="number"> 
+                  </div>
+                 
+                </div>
+               
+     
+                  
+                
         
                
         <div class="form-actions">

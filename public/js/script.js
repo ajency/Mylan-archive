@@ -47,7 +47,6 @@ $('.validateRefernceCode').change(function (event) {
         }
     });
     
- 
 });
 
 
@@ -83,6 +82,18 @@ $('.authUserEmail').change(function (event) {
     
  
 });
+
+
+
+$("input[name='has_all_access']").on("click", function(){
+       check = $(this).is(":checked");
+       if(check) {
+           $(".add_user_associates").addClass('hidden');
+       } else {
+           $(".add_user_associates").removeClass('hidden');
+       }
+});
+ 
 
     $('select[name="updateSubmissionStatus"]').change(function (event) { 
        var status = $(this).val();
@@ -205,6 +216,7 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
     
 
 });
+
 
 $('.addAttributes').click(function (event) { 
 
@@ -338,6 +350,28 @@ $('.attributes_block').on('click', '.deleteProjectAttributes', function(event) {
 
 
 
+function authHospitalList(Obj ,hospitalObj)
+{
+    var result = true;
+
+    Obj.closest('.allHospitalsAccess').find('select[name="hospital[]"]').each(function () {
+
+        if (hospitalObj.get(0) != $(this).get(0) && $(this).val() == hospitalObj.val()) {
+            alert('Hospital Already Selected');
+            hospitalObj.val('');
+            result = false;
+
+        }
+    });
+    return result;
+} 
+
+$('.allHospitalsAccess').on('change', 'select[name="hospital[]"]', function(event) {
+    authHospitalList($(this) ,$(this));
+});
+
+
+
 $('.add-hospital-user').click(function (event) { 
 
     var objectType = $(this).attr('object-type');
@@ -348,33 +382,42 @@ $('.add-hospital-user').click(function (event) {
         return;
     }
 
+    if(!authHospitalList($(this) ,$(".hospital_users:last").find('select')))
+    {
+
+         return;
+    }
+    
+
     var addHospital = $(".hospital_users:last").find('select').html(); 
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
 
     html ='<hr><div class="row hospital_users">';
-    html +='<div class="col-md-3">';
+    html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="hospital[]" id="hospital" class="select2 form-control"  >';
     html += addHospital
     html +='<select>';
     html +='</div>';
                
-    html +='<div class="col-md-3">';
-    html +='<div class="radio radio-primary">';
+    html +='<div class="col-md-4">';
+    html +='<div class="radio radio-primary text-center">';
     html +='<input id="access_view_'+i+'" type="radio" name="access_'+i+'" value="view" checked="checked">';
     html +='<label for="access_view_'+i+'">View</label>';
     html +='<input id="access_edit_'+i+'" type="radio" name="access_'+i+'" value="edit">';
     html +='<label for="access_edit_'+i+'">Edit</label>';
     html +='</div>';
     html +='</div>';
-    html +='<div class="col-md-3">';
-    html +='<a class="deleteUserHospitalAccess hidden"> delete </a>';
+    html +='<div class="col-md-4 text-center">';
+    html +='<a class="deleteUserHospitalAccess hidden"> Delete </a>';
     html +='</div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".hospital_users:last").find('.deleteUserHospitalAccess').removeClass('hidden');
     $(".hospital_users:last").after(html);
+    
 
 });
 
@@ -462,6 +505,27 @@ $('.visit-data').on('click', '.delete-visit', function(event) {
     $(this).closest('.patient-visit').remove();
 });
 
+
+function authProjectList(Obj ,projectObj)
+{
+    var result = true;
+
+    Obj.closest('.allProjectsAccess').find('select[name="projects[]"]').each(function () {
+
+        if (projectObj.get(0) != $(this).get(0) && $(this).val() == projectObj.val()) {
+            alert('Project Already Selected');
+            projectObj.val('');
+            result = false;
+
+        }
+    });
+    return result;
+} 
+
+$('.allProjectsAccess').on('change', 'select[name="projects[]"]', function(event) {
+    authProjectList($(this) ,$(this));
+});
+
 $('.add-project-user').click(function (event) { 
 
     var objectType = $(this).attr('object-type');
@@ -470,6 +534,11 @@ $('.add-project-user').click(function (event) {
     {
         alert('Please Select '+ objectType);
         return;
+    }
+
+    if(!authProjectList($(this) ,$(".project_users:last").find('select')))
+    {
+         return;
     }
 
     var addProjects = $(".project_users:last").find('select').html(); 
@@ -493,12 +562,14 @@ $('.add-project-user').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-md-3">';
-    html +='<a class="deleteUserProjAccess hidden"> delete </a>';
+    html +='<a class="deleteUserProjectAccess hidden"> delete </a>';
     html +='</div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".project_users:last").find('.deleteUserProjectAccess').removeClass('hidden');
     $(".project_users:last").after(html);
+
 
 });
 
@@ -549,6 +620,29 @@ $('.deleteUserHospitalAccess').click(function (event) {
  
 });
 
+$('.deleteUserProjectAccess').click(function (event) { 
+    if (confirm('Are you sure you want to delete this record?') === false) {
+        return;
+    }
+
+    var userAccessId = $(this).attr("data-id");
+
+    if(userAccessId)
+    {
+        $.ajax({
+            url: BASEURL + "/delete-user-access/" + userAccessId,
+            type: "DELETE",
+            success: function (response) {
+ 
+            }
+        });
+    }
+
+    $(this).closest('.project_users').remove();
+    
+ 
+});
+
 function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLabel)
 {
     graphs = _.map(legends, function(value, key){ 
@@ -569,9 +663,9 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
     var chart = AmCharts.makeChart(container, {
         "type": "serial",
         "theme": "light",
-        "marginRight": 40,
-        "marginLeft": 40,
-        "autoMarginOffset": 20,
+        // "marginRight": 40,
+        // "marginLeft": 40,
+        // "autoMarginOffset": 20,
         "legend": {
             "useGraphSettings": true
         },
@@ -604,6 +698,9 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         "categoryField": "Date",
         "categoryAxis": {
             "gridPosition": "start",
+            "markPeriodChange": false,
+            "minHorizontalGap": 100,
+            // "labelRotation": 45,
             "axisAlpha": 0,
              "fillColor": "#000000",
             "gridAlpha": 0,
@@ -652,9 +749,9 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
      var chart = AmCharts.makeChart(container, {
           "type": "serial",
           "theme": "light",
-          "marginRight": 40,
-          "marginLeft": 40,
-          "autoMarginOffset": 20,
+          // "marginRight": 40,
+          // "marginLeft": 40,
+          // "autoMarginOffset": 20,
           "legend": {
               "useGraphSettings": true
           },
@@ -694,6 +791,9 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           "categoryField": "Date",
           "categoryAxis": {
               "gridPosition": "start",
+              "markPeriodChange": false,
+              "minHorizontalGap": 100,
+              // "labelRotation": 45,
               "axisAlpha": 0,
                "fillColor": "#000000",
               "gridAlpha": 0,
@@ -720,9 +820,9 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
     var chart = AmCharts.makeChart(container, {
          "type": "serial",
          "theme": "light",
-         "marginRight": 40,
-          "marginLeft": 40,
-          "autoMarginOffset": 20,
+         // "marginRight": 40,
+         //  "marginLeft": 40,
+         //  "autoMarginOffset": 20,
          "legend": {
              "useGraphSettings": true
          },
@@ -782,6 +882,8 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          "categoryField": "Date",
          "categoryAxis": {
              "gridPosition": "start",
+             "markPeriodChange": false,
+              "minHorizontalGap": 100,
              "axisAlpha": 0,
               "fillColor": "#000000",
              "gridAlpha": 0,

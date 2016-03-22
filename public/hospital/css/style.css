@@ -320,7 +320,6 @@ body.modal-open .chat-window-wrapper {
   margin-right: 5px;
   display: inline-block;
   float: left;
-  min-width: 163px;
 }
 .header .chat-toggler .user-details {
   display: inline-block;
@@ -8093,7 +8092,7 @@ label {
   padding: 15px;
 }
 .logo {
-  margin: 10px 14px;
+  margin: 10px 0px;
 }
 .m-0 {
   margin: 0!important;
@@ -8237,5 +8236,36 @@ input {
 }
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;
+}
+.adminlogin {
+  background: #fff;
+  padding: 40px;
+  width: 500px;
+  margin: 0 auto;
+  margin-top: 11%;
+  border: 1px solid #ddd;
+}
+.adminlogin .admin-header {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+/***Error Style***/
+ul.parsley-errors-list {
+  list-style-type: none;
+  text-align: left;
+  padding-left: 0;
+}
+ul.parsley-errors-list li {
+  color: #f35958!important;
 }
 /*# sourceMappingURL=style.css.map */

@@ -7,6 +7,8 @@ angular.module 'angularApp.storage', []
 	questionnaireData = {}
 	startQuestion = {}
 
+	questStatus = ''
+
 	Storage.summary = (action, data)->
 	    switch action
 	      when 'set'
@@ -32,6 +34,14 @@ angular.module 'angularApp.storage', []
 
 	      when 'get'
 	        startQuestion
+
+	Storage.getQuestStatus = (action,status)->
+	    switch action
+	      when 'set'
+	        questStatus = status
+
+	      when 'get'
+	        questStatus 
 
 
 	Storage

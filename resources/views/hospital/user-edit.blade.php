@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Edit User</span></h3>
-   <p>(Update a Hospital under {{ $hospital['name'] }})</p>
+   <p>(Update a user under {{ $hospital['name'] }})</p>
 </div>
 <form onsubmit="return validateHospitalUser();" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users/'.$user['id']) }}" data-parsley-validate>
 <div class="grid simple">
@@ -50,18 +50,19 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration</h4>
          <br>
-             <div class="user-description-box">
+             <div class="user-description-box allProjectsAccess">
             <div class="row">
                <div class="col-md-3">Projects</div>
                <div class="col-md-3">
                   <div class="checkbox check-primary">
-                  <input id="checkbox6" type="checkbox" name="has_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
+                  <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
                   <label for="checkbox6">Access to all Projects<small> (This would automatically give access to future projects.)</small></label>
                </div>
                   Access  (Individual)
                </div>
 
             </div>
+            <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
             <br>
             <?php
                $i=0;
@@ -70,7 +71,7 @@
             <div class="row project_users">
                <div class="col-md-3">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
-                  <select name="project[]" id="project" class="select2 form-control"  >
+                  <select name="projects[]" id="project" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
                      @foreach($projects as $project)
                      <option {{ ($project['id']==$value['object_id']) ? 'selected':''}} value="{{ $project['id'] }}">{{ $project['name'] }}</option>
@@ -86,15 +87,19 @@
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
+                @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> delete </a>
+                  <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> delete </a>
                </div>
+               @endif
             </div>
             <hr>
             <?php
                $i++;
             ?>
             @endforeach
+
+            @if(hasHospitalPermission($hospital['url_slug'],['edit']))
             <div class="row project_users">
                <div class="col-md-3">
                   <input type="hidden" name="user_access[]" value="">
@@ -115,10 +120,11 @@
                   </div>
                </div>
                <div class="col-md-3">
-                  <a class="deleteUserHospitalAccess hidden" data-id="0"> delete </a>
+                  <a class="deleteUserProjectAccess hidden" data-id="0"> delete </a>
                </div>
             </div>
             <hr>
+            
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="{{ $i }}">
@@ -134,12 +140,18 @@
                  
                </div>
             </div>
+            @endif
+         </div>
          </div>
          <div class="form-actions">
             <div class="text-right">
                <input type="hidden" name="_method" value="PUT">
                <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+
+               @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <button  class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+               @endif
+
                <a href="{{ url($hospital['url_slug'].'/users') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
             </div>
          </div>

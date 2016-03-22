@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
 <div class=" login-container adminlogin">
+    <div class="admin-header">
     <div class="logo-img inline">
        <img src="{{ asset('img/mylan-logo.png') }}" alt=""  data-src="{{ asset('img/mylan-logo.png') }}" width="180px
           " height="auto"/>
           </div>
         <h3 class="inline">Sign in to Mylan</h3>
-         <div>
         </div>
         <br>
      @if (count($errors) > 0)

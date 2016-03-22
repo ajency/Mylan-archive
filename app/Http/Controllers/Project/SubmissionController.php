@@ -71,9 +71,16 @@ class SubmissionController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $responseRate['lateCount'] = $responseQry->count();
 
+        $responseQry = new ParseQuery("Response");
+        $responseQry->equalTo("status","completed");
+        $responseQry->equalTo("project",$projectId);
+        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+        $responseRate['completedCount'] = $responseQry->count();
+
         // get completed count
-        $submissionStatus = '';
-        $responseStatus = ["completed","late"];
+        $submissionStatus = 'completed';
+        $responseStatus = ["completed"];
         
         $reviewStatus = ['reviewed','unreviewed'];
         if(isset($inputs['submissionStatus']))
@@ -85,14 +92,14 @@ class SubmissionController extends Controller
             if($submissionStatus=='completed')
             {
               //$responseRate['missedCount'] =0;
-              $responseRate['lateCount']  =0;
+              // $responseRate['lateCount']  =0;
               $responseStatus = [$inputs['submissionStatus']];
             }
-            // elseif($submissionStatus=='missed')
-            // {
-            //   $responseRate['lateCount']  =0;
-            //   $responseStatus = [];
-            // }
+            elseif($submissionStatus=='missed')
+            {
+              // $responseRate['lateCount']  =0;
+              $responseStatus = [$inputs['submissionStatus']];
+            }
             elseif($submissionStatus=='late')
             {
               //$responseRate['missedCount'] =0;
@@ -154,11 +161,11 @@ class SubmissionController extends Controller
         }
         // dd($timeDifference);
 
-        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']; 
+        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']+$responseRate['lateCount']; 
 
-        $responseRate['completedCount'] = count($completedResponses);
+        // $responseRate['completedCount'] = count($completedResponses);
 
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+        $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
         $responseRate['completed'] =  round($completed);
 
         $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\UserAccess;
 use App\Hospital;
+use App\Projects;
 use \Mail;
  
 
@@ -31,6 +32,72 @@ class UserController extends Controller
     public function dashboard()
     {  
         return view('admin.dashbord')->with('active_menu', 'dashbord');
+    }
+
+    public function loginLinks()
+    {
+        $accessData = [];
+        $userId = \Auth::user()->id;
+        $hasAllAccess = \Auth::user()->has_all_access;
+        $user = User::find($userId)->toArray(); 
+
+        if(\Auth::user()->type =='hospital_user')
+        {
+
+          if($hasAllAccess=='no')
+          {
+            $hospitalIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'hospital'])->lists('object_id')->toArray(); 
+            $hospitals = Hospital:: whereIn('id',$hospitalIds)->get()->toArray();
+          }
+          else
+          {
+            $hospitals = Hospital:: all()->toArray();
+          }
+
+          $accessData['type'] = 'Hospital';
+
+          foreach ($hospitals as $hospital) {
+
+            $url = url().'/'.$hospital['url_slug'];
+            $accessData['links'][] =['NAME'=>$hospital['name'], 'loginName'=>$hospital['name'], 'URL'=>$url];
+          }
+
+        }
+        elseif(\Auth::user()->type =='project_user')
+        {
+           
+          $hospitalId = \Auth::user()->hospital_id;
+          $hospital = Hospital:: where('id',$hospitalId)->first()->toArray();
+               
+            
+
+          if($hasAllAccess=='no')
+          {
+            $projectIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'project'])->lists('object_id')->toArray();  
+            $projects = Projects:: whereIn('id',$projectIds)->get()->toArray();
+          }
+          else
+          {  
+            $projects = Projects:: where('hospital_id',$hospitalId)->get()->toArray();
+          }
+         
+          $accessData['type'] = 'Project';
+
+          $hospitalData=[];
+        
+          foreach ($projects as $project) {
+ 
+            $name = $hospital['name'] .' ('.$project['name'].')';
+            $url = url().'/'.$hospital['url_slug'].'/'.$project['project_slug'];
+            $accessData['links'][] =['NAME'=>$name, 'loginName'=>$project['name'], 'URL'=>$url];
+          }
+
+          
+
+        }
+
+        return view('admin.loginlinks')->with('accessData', $accessData)
+                                       ->with('active_menu', 'dashbord');
     }
 
     /**
@@ -66,18 +133,19 @@ class UserController extends Controller
         $user->password = Hash::make($password);
         $user->phone = $request->input('phone');     
         $user->type = 'hospital_user'; 
-        $user->account_status = 'active'; 
-        $user->has_all_access = ($request->has('has_all_access'))?'yes':'no';
+        $user->account_status = 'active';
+        $hasAllAccess = ($request->has('has_all_access'))?'yes':'no';
+        $user->has_all_access = $hasAllAccess;
         $user->save(); 
         $userId = $user->id;
 
         $hospitalIds = $request->input('hospital');
-        $hospitalUrlStr = '';
-
+ 
         if(!empty($hospitalIds))
         {
             foreach ($hospitalIds as $key => $hospitalId) {
-                 if($hospitalId=='')
+                
+                if($hospitalId=='')
                     continue;
 
                 $access = $request->input('access_'.$key);
@@ -89,28 +157,16 @@ class UserController extends Controller
                 $userAccess->access_type = $access; 
                 $userAccess->save();
             }
- 
-
-          $hospitals = Hospital:: whereIn('id',$hospitalIds)->get()->toArray(); 
-
-
-          foreach ($hospitals as $hospital) {
-              $hospitalName = $hospital['name'];
-              $urlSlug = $hospital['url_slug'];
-
-              $hospitalUrlStr .= $hospitalName .' : '.url().'/'.$urlSlug . ' <br>';
-          }
             
         }
+        
+        $loginUrls = url().'/admin/login <br>';
 
-        
-        
-        
         $data =[];
         $data['name'] = $name;
         $data['email'] = $email;
         $data['password'] = $password;
-        $data['loginUrls'] = $hospitalUrlStr;
+        $data['loginUrls'] = $loginUrls;
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  

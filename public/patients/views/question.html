@@ -127,7 +127,7 @@
                             <i class="radio-icon fa fa-check"></i>
                             <input 
                               id = "firstRow"
-                              type="text"
+                              type="number"
                               class="questionnaire-text-field"
                               ng-disable="view.firstRowStatus"
                               ng-model="view.val_answerValue[view.data.withkg.option]"
@@ -135,7 +135,7 @@
                             {{view.data.withkg.option}}
                           </div>
                         </label>
-                        <br class="hidden-xs">
+                         <div class="alternative"> Or </div>
                          <label class="item item-radio">
                           <div class="item-content"
                               ng-click="view.secondRow()"
@@ -143,7 +143,7 @@
                               <!-- <input type="radio" name="group" value="go"> -->
                               <i class="radio-icon fa fa-check"></i>
                               <sm ng-repeat = "kgLabel in view.data.withoutkg  | orderBy:'score' track by $index">
-                              <input type="text" class="questionnaire-text-field"
+                              <input type="number" class="questionnaire-text-field"
                                 ng-model="view.val_answerValue[kgLabel.option]"
                                 ng-disable="view.secondRowStatus"
                                 ng-readonly = "!view.readonly">

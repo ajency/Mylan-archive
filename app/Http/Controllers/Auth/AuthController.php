@@ -80,6 +80,7 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     { 
+
         $referenceCode = $request->input('reference_code');
         $password = trim($request->input('password'));
         if($request->has('remember'))
@@ -172,11 +173,15 @@ class AuthController extends Controller
            $remember = 0;
             
         
-        if (Auth::attempt(['type' => 'mylan_admin','email' => $email, 'password' => $password], $remember))
+        if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
-            if(Auth::user()->account_status=='active')
+            if(Auth::user()->account_status=='active' && Auth::user()->type=='mylan_admin')
             {  
                 return redirect()->intended('admin/dashboard');
+            }
+            elseif(Auth::user()->account_status=='active' && (Auth::user()->type =='hospital_user' || Auth::user()->type =='project_user') )
+            {  
+                return redirect()->intended('admin/login-links');
             }
             else
             {

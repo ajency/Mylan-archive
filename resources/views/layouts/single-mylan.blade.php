@@ -81,7 +81,7 @@
                         <div class="user-details">
                            <div class="username">
                               {{ Auth::user()->name }}    
-                              <span class="badge badge-default">Hospital Admin</span>               
+                              <span class="badge badge-default">{{ userType() }}</span>               
                            </div>
                         </div>
                      </a>
@@ -115,11 +115,13 @@
                <div class="container">
                   <div class="bar-inner">
                      <ul>
+                        @if(Auth::user()->type=='mylan_admin')
                         <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
                            <a href="{{ url( 'admin/dashboard/' ) }}">
                            <span><i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
                         </li>
+                        
                         <li class="{{ ( $active_menu == 'hospital')? 'active-item' : ''}}">
                            <a href="{{ url( 'admin/hospitals/' ) }}">
                            <span><i class="fa fa-hospital-o"></i> Hospitals </span>
@@ -136,7 +138,13 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li> -->
-          
+                        @else 
+                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/login-links/' ) }}">
+                           <span><i class="fa fa-tachometer"></i> Dashboard </span>
+                           </a>
+                        </li>
+                        @endif
                      </ul>
                   </div>
                </div>

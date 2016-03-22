@@ -82,11 +82,21 @@ class UserAccessController extends Controller
      */
     public function destroy($id)
     {
-        UserAccess::find($id)->delete();
+        $userAccess = UserAccess::find($id)->delete();
 
         return response()->json([
                     'code' => 'useraccess_deleted',
                     'message' => 'User Hopital Access Successfully Deleted'
+                        ], 204);
+    }
+
+     public function deleteProjectAccess($hospitalSlug,$id)
+    {
+        $userAccess = UserAccess::find($id)->delete();
+
+        return response()->json([
+                    'code' => 'useraccess_deleted',
+                    'message' => 'User Project Access Successfully Deleted'
                         ], 204);
     }
 }

@@ -319,7 +319,9 @@
           <input type="hidden" name="_method" value="PUT">
                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
             <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa"></i> Back</button></a>
+            @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
             <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+            @endif
             <a href="{{ url($hospital['url_slug'].'/patients' ) }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
           </div>
           </div>

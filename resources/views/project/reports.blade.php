@@ -85,7 +85,11 @@
               @if($totalResponses)
                <div id="submissionschart" class="piechart-height"></div>
               @else 
-                <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                  <tbody>
+                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                  </tbody>
+                  </table>
               @endif
             </div>
             <div class="col-sm-8">
@@ -179,7 +183,11 @@
                     @endforeach
                  </select>
                  @if(!$totalResponses)
-                  <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                    <table class="table table-flip-scroll table-hover dashboard-tbl">
+                    <tbody>
+                    <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                    </tbody>
+                    </table>
                 @else
                  <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
                 @endif
@@ -216,7 +224,11 @@
                     </select> 
               
                     @if(!$totalResponses)
-                        <div class="text-center no-data-found" ><br><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                           <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <tbody>
+                          <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                          </tbody>
+                          </table>
                       @else
                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
                       @endif    
@@ -243,6 +255,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 
     //var legends = {score: "Total Score"};
     //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
+
+    //scroll div to right
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
 
       //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');

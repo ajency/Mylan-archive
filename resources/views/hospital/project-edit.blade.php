@@ -118,14 +118,18 @@
                         </div>
                               
                            </div>
+                            
                            <div class="form-actions">
                               <div class="text-right">
                                 <input type="hidden" name="_method" value="PUT">
                                  <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+                                 @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                                  <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+                                 @endif
                                  <a href="{{ url($hospital['url_slug'].'/projects') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
                               </div>
                            </div>
+                           
                         </form>
                      </div>
                   </div>

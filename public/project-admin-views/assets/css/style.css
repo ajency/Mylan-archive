@@ -1662,6 +1662,7 @@ body.modal-open .chat-window-wrapper {
 }
 .horizontal-menu .bar-inner > ul > li.open > .classic {
   max-height: 999px;
+  background-color: #05A8A5;
 }
 .horizontal-menu .bar-inner > ul > li.open > .classic > li {
   opacity: 1;
@@ -1686,16 +1687,22 @@ body.modal-open .chat-window-wrapper {
   transition: all 0.3s linear 0s;
 }
 .horizontal-menu .bar-inner > ul > li > .classic > li {
-  margin: 15px;
-  padding-bottom: 10px;
+  margin: 0px 10px;
+  padding: 10px;
   border-bottom: 1px solid #e5e9ec;
   color: #22262e;
   opacity: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-transition: all 0.1s linear 0.1s;
   transition: all 0.1s linear 0.1s;
 }
 .horizontal-menu .bar-inner > ul > li > .classic > li a {
-  color: #1b1e24;
+  color: #ffffff;
+  opacity: 1;
+  vertical-align: middle;
 }
 .horizontal-menu .bar-inner > ul > li > .classic > li a .description {
   display: block;
@@ -8195,7 +8202,11 @@ label {
   padding: 15px;
 }
 .logo {
-  margin: 10px 14px;
+  margin: 10px 0px;
+}
+.side-pipe {
+  vertical-align: text-top;
+  padding: 0 4px 0 10px;
 }
 .m-0 {
   margin: 0!important;
@@ -8369,9 +8380,23 @@ div.upload .img-div img {
   float: left;
   margin-left: 10px;
 }
+.submission-count {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
 .lst-sub h2 {
   font-size: 23px!important;
-  margin-right: 5px;
+  padding: 0 12px;
   text-align: center;
 }
 .lst-sub h2 sm {
@@ -8455,7 +8480,7 @@ input {
   background: #f35958 !important;
 }
 .grid-table-sort .sorting sm {
-  padding: 0px 11px;
+  padding: 0px 10px;
 }
 .grid-table-sort .sorting span {
   padding-left: 15px;
@@ -8904,6 +8929,11 @@ select option {
   margin: 10px 0;
   line-height: 1.1;
 }
+.mri-form input.form-control {
+  width: 60%;
+  margin: 0 16px 0 0;
+  float: left;
+}
 .mri-form .seconds {
   font-size: 14px;
   color: #05A8A5;
@@ -8911,6 +8941,12 @@ select option {
 }
 .mri-form .mri-submit {
   margin: 10px 0;
+}
+.mri-form ul.parsley-errors-list {
+  float: left;
+}
+.mri-form ul.parsley-errors-list > li {
+  padding-left: 0px;
 }
 ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   vertical-align: middle;
@@ -8925,6 +8961,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .baseline-color {
   color: #576475;
 }
+
 .add-attribute input[type="text"] {
   float: left;
   margin-right: 15px;
@@ -8986,5 +9023,21 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .edit-add .select2.form-control {
   display: inline-block;
+}
+.baselineAllign,
+.questStats {
+  line-height: 75px;
+}
+.p-l-r-5 {
+  padding: 0 5px;
+}
+.no-padding {
+  padding: 0 !important;
+}
+.g-l-h {
+  line-height: 1.5;
+}
+.m-t-13 {
+  margin-top: 13px;
 }
 /*# sourceMappingURL=style.css.map */

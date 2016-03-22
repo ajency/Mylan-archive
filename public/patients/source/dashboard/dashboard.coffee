@@ -9,8 +9,20 @@ angular.module 'angularApp.dashboard',[]
 			QuestinnarieName : questionnaireName
 			showMoreButton : true
 			limitTo: 5
+			errorStartQuestion : false
+			errorMsg : ''
+
+
 
 			init :() -> 
+				if Storage.getQuestStatus('get','questionnarireError') == 'questionnarireError'
+					@errorStartQuestion = true
+					@errorMsg = 'An error occurred while starting questionnaire. Please try again'
+				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
+					@errorStartQuestion = true
+					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
+
+
 				questionnaireData = {}
 				Storage.questionnaire 'set', questionnaireData
 
@@ -44,8 +56,10 @@ angular.module 'angularApp.dashboard',[]
 				Storage.summary 'set', summaryData
 				$location.path('summary')
 
-			startQuiz :() ->
-				startQuestData = 'start'
+			startQuiz :(val) ->
+				console.log '---startQuiz----'
+				console.log val 
+				startQuestData = val
 				Storage.startQuestionnaire 'set', startQuestData
 				$location.path 'start-questionnaire'
 

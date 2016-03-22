@@ -3,6 +3,17 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             You do not have any Questionnaries to be submitted now.
          </div> -->
+        
+         <!-- <p ng-if="view.errorStartQuestion">  -->
+         <p> 
+          
+          <div class="questWarning" ng-if="view.errorStartQuestion">
+            <i class="fa fa-2x fa-exclamation-circle"></i>
+            <span>{{view.errorMsg}}</span>
+          </div>
+         
+           <!-- {{view.errorMsg}} -->
+         </p>
          <br class="hidden-xs">
          <h3>Questionnaire Summary</h3>
          <hr>
@@ -73,7 +84,7 @@
                                 </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                    <a type="button" class="btn btn-success btn-hover" 
-                                      ng-click = "view.startQuiz();">
+                                      ng-click = "view.startQuiz('noValue');">
                                       <span>Start</span>
                                     </a>
                                 </div>
@@ -117,9 +128,16 @@
                                    <h5 class="text-warning">Late</h5>
                                 </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
-                                   <a type="button" 
-                                      ng-click = "view.summary(submissions.occurrenceId);" 
-                                      class="btn btn-warning btn-hover"><span>View</span></a>
+                                   <a type="button"
+                                      ng-if="submissions.answeredQuestions === false" 
+                                      ng-click = "view.startQuiz(submissions.occurrenceId);" 
+                                      class="btn btn-warning btn-hover"><span>Start</span>
+                                    </a>
+                                    <a type="button" 
+                                      ng-if="submissions.answeredQuestions === true"
+                                      ng-click = "view.resumeQuiz(submissions.occurrenceId);" 
+                                      class="btn btn-danger btn-hover"><span>Resume</span>
+                                    </a>
                                 </div>
                              </div>
                           </div>
@@ -180,11 +198,11 @@
                 </div> <!-- col-md-16 bg-white  -->
 
 
-                <div class="col-md-16 bg-white" ng-switch-when="error">
+                <div class="col-md-16 bg-white text-center" ng-switch-when="error">
                    <aj-error class="errors"
                       error-type="view.errorType"
                       tap-to-retry="view.onTapToRetry();">
                     </aj-error>
                 </div>
-         </div> <! -- row -->
+         </div> <!-- row -->
 </div> <!-- dashboard -->

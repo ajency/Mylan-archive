@@ -120,7 +120,11 @@
                                 @if(!empty($submissionsSummary))
                                     <div class="row"><div id="piechart" class="piechart-height"></div></div>
                                 @else 
-                                    <div class="row text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                                <table class="table table-flip-scroll table-hover dashboard-tbl">
+                                <tbody>
+                                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                                </tbody>
+                                </table>
                                 @endif
                                  </div>
                                  <div class="col-sm-6">
@@ -128,16 +132,22 @@
                                           <div class="col-sm-12 m-t-30">
                                           <div class="row">
                                              <div class="col-sm-4 text-center">
+                                              <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=completed">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['completed'] }}%</h2>
                                                 <p> # Completed</p>
+                                                </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
+                                              <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=late">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['late'] }}%</h2>
                                                 <p> # Late</p>
+                                                </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
+                                                <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=missed">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['missed'] }}%</h2>
                                                 <p> # Missed</p>
+                                                </a>
                                              </div>
                                              </div>
                                           </div>
@@ -233,22 +243,24 @@
                                </div>
                             </div>
                           </div>
-                           <div class="grid-body no-border table-data ">
+                           <div class="grid-body no-border table-data no-padding">
                             @if(!empty($submissionsSummary))                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
                             @else 
-                              <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                              <table class="table table-flip-scroll table-hover dashboard-tbl">
+                                <tbody>
+                                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                                </tbody>
+                                </table>
                             @endif
                            </div>
                         </div>
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
-
-                              <h4>Submissions <span class="semi-bold">Summary</span> <!-- <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="List of individual submissions. Default sorting by time."></i><sm class="light">(These are scores & flags for current submissions)</sm></h4>
-
-                              <!-- <div class="tools">
-                                 <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
-                              </div> -->
+                        <h4>
+                          Submissions <span class="semi-bold">Summary</span> 
+                          <sm class="light">(These are scores & flags for current submissions)</sm>
+                       </h4>
                            </div>
                            <div class="grid-body no-border" style="display: block;">
                               <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
@@ -263,7 +275,7 @@
                                    <sm class="sortSubmission" sort="previousScore" sort-type="asc">Prev <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm class="sortSubmission" sort="totalScore" sort-type="asc">Current <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
-                                <th colspan="3" class="sorting">
+                                <th colspan="3" class="sorting" width="11%">
                                    Change
                                    <br> 
                                    <sm class="sortSubmission" sort="comparedToBaseLine" sort-type="asc">δ Base  <i class="fa fa-angle-down sortCol"></i></sm>
@@ -307,7 +319,7 @@
                                        <td class="text-center sorting">0</td>
                                        <td class="text-center sorting">0</td>
                                     
-                                        <td class="text-center semi-bold margin-none flagcount p-h-0">
+                                        <td class="text-center semi-bold margin-none flagcount p-h-0" width="4%">
                                            <h4>-</h4>
                                         </td>
                                         <td class="text-center semi-bold margin-none flagcount p-h-0">
@@ -341,7 +353,7 @@
                                       <td class="text-center sorting">{{ $submission['previousScore'] }}</td>
                                       <td class="text-left sorting">{{ $submission['totalScore'] }}</td>
                                    
-                                     <td class="text-right semi-bold margin-none flagcount p-h-0">
+                                     <td class="text-right semi-bold margin-none flagcount p-h-0" width="4%">
                                         <h4><b class="text-{{ $submission['totalBaseLineFlag'] }}">{{ $submission['comparedToBaslineScore'] }}</b></h4>
                                      </td>
                                      <td  class="text-center semi-bold margin-none flagcount p-h-0">
@@ -381,7 +393,7 @@
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
                                <div class="grid-title no-border">
-                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(These is for the Cumulative Submissions)</sm></h4>
+                              <h4>Patient <span class="semi-bold">Summary</span> <sm class="light">(These are for the Cumulative Submissions)</sm></h4>
                               <!-- <div class="tools">
                                
                                  <div class="dataTables_filter pull-right filter2" id="example_filter"><input type="text" aria-controls="example" class="input-medium" placeholder="search by patient id"></div>
@@ -393,12 +405,12 @@
                         <tr>
 
                           <th width="12%">Patient ID</th>
-                          <th width="31%" class="sorting">Total Submissions<br>
+                          <th width="22%" class="sorting">Total Submissions<br>
                               <sm class="sortPatientSummary" sort="completed" sort-type="asc" >Completed <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="late" sort-type="asc" >Late <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="missed" sort-type="asc" >Missed <i class="fa fa-angle-down sortCol"></i></sm>
                           </th>
-
+                           <th width="17%"></th>
                            <th colspan="3" class="sorting">
                               Compared To Previous
                               <br> 
@@ -426,58 +438,54 @@
                             <span class="cf-loader"></span>
                          </div>
                      <?php 
-                          $i=1;
-                        ?>
-                  @if(!empty($patients))   
-                     @foreach($patients as $patient)
-                      <?php
-                         if($i==6)
-                              break;
-
-                        $patientId = $patient['id'];
-                        $status = $patient['account_status'];
-                        $patientStatus = $patient['account_status'];
-                        $referenceCode = $patient['reference_code'];
-
-                        $status_class = 'text-success';
-                        if($patient['account_status']=='suspended')
-                            $status_class = 'text-error';
-                        
-
+    
+                   foreach ($patients as  $patient) {
+                    $patientReferenceCode[] = $patient['reference_code'];
+                    $patientIds[$patient['reference_code']] = $patient['id'];
+                  }
+                     
+                      ?>
+                  @if(!empty($patientSortedData)) 
+                     @foreach($patientSortedData as $referenceCode => $data)
+                     
+                       <?php
+                        $patientId = $patientIds[$referenceCode];    
+                        $status_class='';
                         if(!isset($patientResponses[$referenceCode])) //inactive patient data
                         {
                             $patientsSummary[$referenceCode]['lastSubmission'] = '-';
                             $patientsSummary[$referenceCode]['nextSubmission'] = '-';
                             $patientsSummary[$referenceCode]['completed'] = [];
                             $patientsSummary[$referenceCode]['missed'] = 0;
-                            $patientsSummary[$referenceCode]['late'] = [];
+                            $patientsSummary[$referenceCode]['late'] = 0;
                        
                         }
-                        
                         $patientSummary = $patientResponses[$referenceCode];
                       ?>
-                      
                         <tr>
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
-                              <div class="lst-sub">
-                                 <h2 class="bold pull-left">
+                              <div class="lst-sub submission-count">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['completed'] }}<br>
                                     <sm class="text-success">Completed</sm>
                                  </h2>
-                                 <h2 class="bold pull-left">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['late'] }}<br>
                                     <sm class="text-warning">Late</sm>
                                  </h2>
-                                 <h2 class="bold pull-left">
+                                 <h2 class="bold inline">
                                     {{ $patientSummary['missed'] }}<br>
                                     <sm class="text-danger">Missed</sm>
                                  </h2>
-                                 <div class="pull-left p-t-20">
+                                 
+                              </div>
+                           </td>
+                           <td>
+                           <div class="lst-sub text-center p-t-20">
                                     <span class="sm-font">Last Submission  <b>{{ $patientSummary['lastSubmission'] }}</b></span><br>
                                     <span class="sm-font">Next Submission  <b>{{ $patientSummary['nextSubmission'] }}</b></span>
                                  </div>
-                              </div>
                            </td>
                            <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">                              
                               {{ $patientSummary['previousFlag']['red'] }}
@@ -503,13 +511,9 @@
                                  <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
-                           <!-- <td>
-                              <span class="{{ $status_class }}"> {{ $status }}</span>
-                           </td> -->
+              
                         </tr>
-                        <?php 
-                          $i++;
-                          ?>
+                         
                         @endforeach
                     @else 
                         <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>

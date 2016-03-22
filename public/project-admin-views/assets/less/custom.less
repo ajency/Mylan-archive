@@ -153,8 +153,16 @@ label{
 	    }
 }
 .logo{
-	    margin: 10px 14px;
+	    margin: 10px 0px;
+	    // border-right: 1px solid #999;
+    	// padding-right: 5px;
 }
+
+.side-pipe{
+	vertical-align: text-top;
+    padding: 0 4px 0 10px;
+}
+
 .m-0{
 	margin: 0!important;
 }
@@ -350,9 +358,15 @@ color: #fff;
     float: left;
     margin-left: 10px;
 }
+.submission-count{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .lst-sub h2 {
     font-size: 23px!important;
-    margin-right: 5px;
+    padding: 0 12px;
     text-align: center;
     sm{
     	display: block;
@@ -441,7 +455,7 @@ select, input{
 
  .grid-table-sort{
  	.sorting sm {
-    padding: 0px 11px;
+    padding: 0px 10px;
 	}
 	.sorting span {
     padding-left: 15px;
@@ -737,6 +751,7 @@ border-bottom:none;
     padding: 70px 0 !important;
     text-align: center; //Center Align
 }
+
 .adminlogin
 {
 	background: #fff;
@@ -1015,6 +1030,11 @@ select, select option
 		margin: 10px 0;
 		line-height: 1.1;
 	}
+	input.form-control{
+		width: 60%;
+	    margin: 0 16px 0 0;
+	    float: left;
+	}
 	.seconds{
 		font-size: 14px;
 	    color: #05A8A5;
@@ -1022,6 +1042,13 @@ select, select option
 	}
 	.mri-submit{
 		margin: 10px 0;
+	}
+	//erros allignment
+	ul.parsley-errors-list{
+		float: left;
+		& > li{
+			padding-left: 0px;
+		}
 	}
 }
 
@@ -1062,6 +1089,36 @@ ul.ui-multiselect-checkboxes{
 }
 
 
+// Submission questions flags allignment
+
+.baselineAllign{
+	line-height: 75px;
+}
+
+.p-l-r-5{
+	padding: 0 5px;
+}
+
+.questStats{
+	&:extend(.baselineAllign);
+}
+
+// no padding class
+
+.no-padding{
+	padding: 0 !important;
+}
+
+// Global Line Height class
+ .g-l-h{
+ 	line-height: 1.5;
+ }
+
+ //Margin top fix for hospital name
+
+.m-t-13{
+	margin-top: 13px;
+}
 
 // add attribute styling
 

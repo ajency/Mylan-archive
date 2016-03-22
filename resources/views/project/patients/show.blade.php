@@ -53,11 +53,8 @@
                  <dd>{{ $patient['reference_code']}}</dd>
                  <dt>Age</dt>
                  <dd>{{ $patient['age'] }}</dd>
-                 <dt>Weight</dt>
-                 <dd>{{ $patient['patient_weight'] }}</dd>
-                 <dt>Height</dt>
-                 <dd>{{ $patient['patient_height'] }}</dd>
-              
+                
+                
                  @foreach($patient['project_attributes'] as $label => $value)
                  <dt>{{ $label }}</dt>
                  <dd>
@@ -73,18 +70,17 @@
                  </dd>
                  @endforeach
                  
-                <!--  <dt>Smoker</dt>
+                <dt>Smoker</dt>
                  <dd>{{ $patient['patient_is_smoker'] }}</dd>
                  @if($patient['patient_is_smoker']=='yes')
                  <dt>If yes, how many per week</dt>
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
                  @endif
-                 <dt>Alcoholic</dt>
-                 <dd>{{ $patient['patient_is_alcoholic'] }}</dd>  
-                  @if($patient['patient_is_alcoholic']=='yes')  
-                 <dt>Alcohol(units per week)</dt>
-                 <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd>
-                  @endif --> 
+    
+                 <dt>Alcohol (units per week)</dt>
+                 <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd> 
+           
+
               </dl>
               </div>
               <div class="col-sm-4">
@@ -110,7 +106,11 @@
               <div class="col-sm-5 b-r">
                  <div class="">
                 @if(!$totalResponses)
-                    <div class="text-center no-data-found" ><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                       <table class="table table-flip-scroll table-hover dashboard-tbl">
+                        <tbody>
+                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        </tbody>
+                        </table>
                 @else
                     <div id="submissionschart"></div>
                 @endif
@@ -140,7 +140,11 @@
                     <option value="green_flags">Green Flags</option>
                  </select>
                   @if(!$totalResponses)
-                    <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                  <tbody>
+                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                  </tbody>
+                  </table>
                   @else
                     <div id="chartdiv"></div>
                   @endif
@@ -222,7 +226,11 @@
                     @endforeach
                  </select>
                @if(!$totalResponses)
-                <div class="text-center no-data-found" ><br><br><br><i class="fa fa-5x fa-frown-o"></i><br>No data found</div>
+                   <table class="table table-flip-scroll table-hover dashboard-tbl">
+                  <tbody>
+                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                  </tbody>
+                  </table>
               @else
                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
               @endif
@@ -448,8 +456,12 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
     var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 
-   $(document).ready(function() {
 
+   $(document).ready(function() {
+  
+     // Always scroll to right 
+    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
+    
     // submission chart
     var legends = {score: "Total Score"};
     // lineChartWithOutBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,"chartdiv",'Submissions','Total Score');
