@@ -127,7 +127,12 @@
                                     $readOnly = '';
                                     $value = (isset($patientProjectAttributes[ $attribute['label'] ]['kg'])) ? $patientProjectAttributes[ $attribute['label'] ]['kg'] : '';
 
-                                    if($value=='')
+                                    
+                                    if($value=='' && $stValue=='' && $lbValue=='')
+                                    {
+                                        $readOnly = '';
+                                    }
+                                    elseif($value=='')
                                     {
                                       $readOnly = 'readonly';
                                     }
