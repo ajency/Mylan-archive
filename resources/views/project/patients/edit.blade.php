@@ -153,8 +153,12 @@
                                     </div>
                                   </div>
                                   <?php
-
-                                    if($stValue=='' && $lbValue=='')
+ 
+                                    if($value=='' && $stValue=='' && $lbValue=='')
+                                    {
+                                        $readOnly = '';
+                                    }
+                                    elseif($stValue=='' && $lbValue=='')
                                     {
                                       $readOnly = 'readonly';
                                     }
