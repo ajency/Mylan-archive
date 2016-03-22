@@ -190,16 +190,16 @@
                         @endforeach
    
             </div>
-          <!--
+           
 
-            <div class="col-sm-3">
+     <!--        <div class="col-sm-3">
               <label>Weight</label>
                 <input name="weight" id="weight" type="text"  class="validateRefernceCode form-control" placeholder="Weight" data-parsley-required  value="{{ $patient['patient_weight'] }}">
             </div>
             <div class="col-sm-3">
               <label>Height</label>
                 <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
-            </div>
+            </div> -->
                     
                <div class="row">
               <div class="col-sm-6">
@@ -222,21 +222,21 @@
                     <div class="col-sm-6">
                     <div class="row form-row">
                
-                     <div class="col-sm-6">
+             <!--         <div class="col-sm-6">
                       <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required >
                           <option value="">Select</option>
                           <option {{ ($patient['patient_is_alcoholic']=='yes')?'selected':'' }} value="yes">Yes</option>
                           <option {{ ($patient['patient_is_alcoholic']=='no')?'selected':'' }} value="no">No</option> 
                         </select> 
-                    </div>
+                    </div> -->
                     <div class="col-sm-6">
                       <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
                     </div>
                     </div>
                     </div>
-                  </div> -->
+                  </div>  
                
                 
              

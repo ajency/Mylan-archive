@@ -32,7 +32,7 @@
                      <label>Age</label>
                         <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-required >
                     </div>
-                
+                  
 
                     @foreach($projectAttributes as $attribute)
                         
@@ -150,9 +150,9 @@
                         
                         @endforeach
                 </div>
-                  <!-- 
+                   
 
-                        <div class="col-sm-3">
+       <!--                  <div class="col-sm-3">
                       <label>Weight</label>
                         <input name="weight" id="weight" type="text"  class="validateRefernceCode  form-control" placeholder="Weight" data-parsley-required >
                     </div>
@@ -160,7 +160,7 @@
                       <label>Height</label>
                         <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
                     </div>
-                    
+                     -->
                   <div class="row column-seperator">
                   <div class="col-sm-6">
                     <div class="row form-row">
@@ -182,21 +182,21 @@
                     <div class="col-sm-6">
                     <div class="row form-row">
                
-                     <div class="col-sm-6">
+                <!--      <div class="col-sm-6">
                        <label>Is Alcoholic</label>
                       <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
                           <option value="yes">Yes</option>
                           <option value="no">No</option> 
                         </select> 
-                    </div> 
+                    </div>  -->
                     <div class="col-sm-6 ">
                       <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
                     </div>
                     </div>
                     </div>
-                     </div> -->
+                     </div> 
                 
  
                 <hr>
