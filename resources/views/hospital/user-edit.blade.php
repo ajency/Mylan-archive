@@ -52,24 +52,25 @@
          <br>
              <div class="user-description-box allProjectsAccess">
             <div class="row">
-               <div class="col-md-3">Projects</div>
-               <div class="col-md-3">
+               <div class="col-md-4"><h4 class="user-head">Projects</h4></div>
+               <div class="col-md-8 text-center">
                   <div class="checkbox check-primary">
                   <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
-                  <label for="checkbox6">Access to all Projects<small> (This would automatically give access to future projects.)</small></label>
+                  <label for="checkbox6"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future projects.)</small></h4></label>
                </div>
-                  Access  (Individual)
+                  <h5 class="user-sub-head">Access (Individual)</h5>
                </div>
 
             </div>
             <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
+            <hr>
             <br>
             <?php
                $i=0;
             ?>
             @foreach($userAccess as $value)
             <div class="row project_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
                   <select name="projects[]" id="project" class="select2 form-control"  >
                      <option value="">Select Hospital</option>
@@ -79,8 +80,8 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" {{ ('view'==$value['access_type']) ? 'checked':''}} >
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit" {{ ('edit'==$value['access_type']) ? 'checked':''}}>
@@ -88,7 +89,7 @@
                   </div>
                </div>
                 @if(hasHospitalPermission($hospital['url_slug'],['edit']))
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> delete </a>
                </div>
                @endif
@@ -101,7 +102,7 @@
 
             @if(hasHospitalPermission($hospital['url_slug'],['edit']))
             <div class="row project_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
                      <option value="">Select Project</option>
@@ -111,15 +112,15 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_{{ $i }}" type="radio" name="access_{{ $i }}" value="view" checked="checked">
                      <label for="access_view_{{ $i }}">View</label>
                      <input id="access_edit_{{ $i }}" type="radio" name="access_{{ $i }}" value="edit">
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <a class="deleteUserProjectAccess hidden" data-id="0"> delete </a>
                </div>
             </div>

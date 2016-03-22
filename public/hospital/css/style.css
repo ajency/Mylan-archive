@@ -3412,7 +3412,7 @@ textarea[class*="span"] {
   width: 16px;
   height: 16px;
   position: absolute;
-  left: 3.2px;
+  left: 1px;
   top: 0px;
   font-size: 11px;
   -webkit-transition: border 0.2s linear 0s,color 0.2s linear 0s;
@@ -8291,5 +8291,11 @@ ul.parsley-errors-list li {
   text-align: left;
   margin: 0px 0 0 175px;
   font-size: 1.1em;
+}
+.project_users {
+  padding-top: 5px;
+}
+.project_users .radio-primary {
+  margin: 8px 0;
 }
 /*# sourceMappingURL=style.css.map */

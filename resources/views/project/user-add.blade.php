@@ -53,18 +53,18 @@
           
              <div class="user-description-box">
             <div class="row">
-               <div class="col-md-3">Projects</div>
-               <div class="col-md-3">
+               <div class="col-md-4"><h4 class="user-head">Projects</h4></div>
+               <div class="col-md-8 text-center">
                   <div class="checkbox check-primary">
                   <input id="has_access" type="checkbox" name="has_access" value="yes" >
-                  <label for="has_access">Access to all Projects<small> (This would automatically give access to future Projects.)</small></label>
+                  <label for="has_access"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future Projects.)</small></h4></label>
                </div>
-                  Access  (Individual)
+                  <h5 class="user-sub-head">Access (Individual)</h5>
                </div>
             </div>
             <br>
             <div class="row project_users">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
                      <option value="">Select Project</option>
                      @foreach($projects as $project)
@@ -73,8 +73,8 @@
  
                   </select>
                </div>
-               <div class="col-md-3">
-                  <div class="radio radio-primary">
+               <div class="col-md-4">
+                  <div class="radio radio-primary text-right">
                      <input id="access_view_0" type="radio" name="access_0" value="view" checked="checked">
                      <label for="access_view_0">View</label>
                      <input id="access_edit_0" type="radio" name="access_0" value="edit">
@@ -84,7 +84,7 @@
             </div>
             <hr>
             <div class="row">
-               <div class="col-md-3">
+               <div class="col-md-4">
                   <input type="hidden" name="counter" value="0">
                   <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                </div>
