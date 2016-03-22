@@ -1105,13 +1105,17 @@ form .placeholderWrap .form-control:focus {
 input::-ms-input-placeholder {
   opacity: 0;
 }
-.activeLabel i.radio-icon {
-  background: #7bc67a;
-  border-color: #7bc67a;
+.multiSelect-check i.radio-icon {
+  background: #e4e0e0;
+  border-color: #e4e0e0 !important;
 }
-.activeLabel i.radio-icon:before {
+.multiSelect-check i.radio-icon:before {
   visibility: visible !important;
   opacity: 1 !important;
+}
+.activeLabel i.radio-icon {
+  background: #7bc67a;
+  border-color: #7bc67a !important;
 }
 .questionnaire-text-field {
   visibility: visible !important;
