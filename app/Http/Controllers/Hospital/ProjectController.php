@@ -69,7 +69,7 @@ class ProjectController extends Controller
 
         $attributeNames = $requestData['attribute_name'];
         $controltypes = $requestData['controltype'];
-        $controltypevalues = $requestData['controltypevalues'];
+        $controltypevalues = (isset($requestData['controltypevalues']))?$requestData['controltypevalues']:[];
 
         $objecttype = 'Project';
         $attributes = [];
@@ -149,7 +149,7 @@ class ProjectController extends Controller
         $attributeIds = $requestData['attribute_id'];
         $attributeNames = $requestData['attribute_name'];
         $controltypes = $requestData['controltype'];
-        $controltypevalues = $requestData['controltypevalues'];
+        $controltypevalues = (isset($requestData['controltypevalues']))?$requestData['controltypevalues']:[];
 
         $objecttype = 'Project';
         $attributes = [];
