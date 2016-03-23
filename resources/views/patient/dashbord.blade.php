@@ -12,10 +12,10 @@
     var userToken = '{{ $parseToken }}';
     var hospitalLogo = "{{ $hospital['logoUrl'] }}";
     var hospitalName = "{{ $hospital['name'] }}";
-    var hospitalPhone = "{{ $hospital['phone'] }}"
-    var hospitalEmail = "{{ $hospital['email'] }}"
+    var hospitalPhone = "{{ $hospital['phone'] }}";
+    var hospitalEmail = "{{ $hospital['email'] }}";
     var Url = "{{url()}}";
-    var path = "{{public_path()}}";
+   
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
 

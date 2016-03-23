@@ -4,6 +4,9 @@ angular.module 'angularApp.dashboard'
 	, ($scope, QuestionAPI, $routeParams, $location, Storage)->
 
 		$scope.view =
+			email : hospitalEmail
+			phone : hospitalPhone
+			
 			startQuiz :(quizID) ->
 
 				value = Storage.startQuestionnaire 'get'
