@@ -393,7 +393,8 @@ $('.add-hospital-user').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
 
-    html ='<hr><div class="row hospital_users">';
+    html ='<div class="row hospital_users">';
+    html +='<div class="col-md-12"><hr></div>';
     html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="hospital[]" id="hospital" class="select2 form-control"  >';
@@ -597,7 +598,7 @@ function validateHospitalUser()
     
 }
 
-$('.deleteUserHospitalAccess').click(function (event) { 
+$('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(event) {
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }

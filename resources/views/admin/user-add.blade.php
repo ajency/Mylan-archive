@@ -111,6 +111,9 @@
                      <label for="access_edit_0">Edit</label>
                   </div>
                </div>
+               <div class="col-md-4 text-center">
+                  <a class="deleteUserHospitalAccess hidden" data-id="0"> Delete </a>
+               </div>
             </div>
             <hr>
             <div class="row">
