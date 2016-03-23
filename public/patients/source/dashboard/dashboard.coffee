@@ -112,6 +112,10 @@ angular.module 'angularApp.dashboard',[]
 				  		if data > 0 
 				  			@notificationCount = data
 				  			@badge = true
+				  		else
+				  			@notificationCount = 0
+				  			@badge = false
+
 				  			
 
 				decrement : ->

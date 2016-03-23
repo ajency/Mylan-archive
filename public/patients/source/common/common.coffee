@@ -40,4 +40,20 @@ angular.module 'angularApp.common', []
 			console.log location 	
 			$location.path location
 
+		sendRequest :(url,params,headers,timeout)->
+				defer = $q.defer()
+
+				if !_.isUndefined(timeout)
+					headers['timeout'] = timeout
+
+				
+				$http.post url,  params, headers
+				.then (data)->
+					defer.resolve data
+				, (error)=>
+					defer.reject @errorCode(error)
+				
+
+				defer.promise
+
 ]

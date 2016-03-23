@@ -62,6 +62,9 @@
     <script src="{{ asset('patients/js/questionnaire/questionnaire.js') }}"></script>
     <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
 
+    <script src="{{ asset('patients/js/password/reset-password.js') }}"></script>
+    <script src="{{ asset('patients/js/password/auth-api.js') }}"></script>
+
   </head>
   <body>
   

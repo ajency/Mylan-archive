@@ -113,6 +113,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
             if (data > 0) {
               _this.notificationCount = data;
               return _this.badge = true;
+            } else {
+              _this.notificationCount = 0;
+              return _this.badge = false;
             }
           };
         })(this));
