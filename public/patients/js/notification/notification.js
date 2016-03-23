@@ -11,7 +11,6 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       phone: hospitalPhone,
       init: function() {
         var param;
-        $rootScope.$broadcast('notification:count');
         param = {
           "patientId": RefCode,
           "page": this.page,
@@ -19,7 +18,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         };
         console.log('**** notification coffeee ******');
         console.log(param);
-        return notifyAPI.getNotification(param).then((function(_this) {
+        notifyAPI.getNotification(param).then((function(_this) {
           return function(data) {
             var dataSize;
             console.log('notification data');
@@ -54,6 +53,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
             return _this.page = _this.page + 1;
           };
         })(this));
+        return $rootScope.$broadcast('notification:count');
       },
       deleteNotify: function(id) {
         var param;
@@ -126,9 +126,8 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         this.display = 'loader';
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            $rootScope.$broadcast('notification:count');
-            _this.canLoadMore = false;
             _this.data = [];
+            _this.canLoadMore = false;
             _this.init();
             console.log('sucess notification seen data');
             return console.log(data);

@@ -14,7 +14,7 @@ angular.module 'angularApp.notification',[]
 			phone : hospitalPhone
 
 			init :() ->
-				$rootScope.$broadcast 'notification:count'
+				
 			
 				param =
 					"patientId" : RefCode
@@ -51,6 +51,8 @@ angular.module 'angularApp.notification',[]
 
 				.finally =>
 					@page = @page + 1
+
+				$rootScope.$broadcast 'notification:count'
 			
 			deleteNotify:(id)->
 				console.log '***1deleteNotifcation****'
@@ -121,12 +123,13 @@ angular.module 'angularApp.notification',[]
 				@display = 'loader' 	
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
+					@data = []
 					# App.notification.count = App.notification.count - objIds.length
 					# App.notification.badge = false if App.notification.count <= 0
-					$rootScope.$broadcast 'notification:count'
+					# $rootScope.$broadcast 'notification:count'
 
 					@canLoadMore = false
-					@data = []
+					
 					@init()
 					console.log 'sucess notification seen data'
 					console.log data

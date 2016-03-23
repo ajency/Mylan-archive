@@ -127,7 +127,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         }
       },
       init: function() {
-        console.log('init');
         return this.getNotificationCount();
       },
       deleteAllNotification: function() {

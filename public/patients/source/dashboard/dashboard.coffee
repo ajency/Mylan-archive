@@ -123,7 +123,6 @@ angular.module 'angularApp.dashboard',[]
 					@badge = false if @notificationCount <= 0
 
 				init :->
-					console.log 'init'
 					@getNotificationCount()
 
 				deleteAllNotification : ->
