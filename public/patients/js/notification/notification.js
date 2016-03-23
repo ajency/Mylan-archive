@@ -16,13 +16,9 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
           "page": this.page,
           "limit": this.limit
         };
-        console.log('**** notification coffeee ******');
-        console.log(param);
         notifyAPI.getNotification(param).then((function(_this) {
           return function(data) {
             var dataSize;
-            console.log('notification data');
-            console.log(data);
             _this.display = 'noError';
             dataSize = _.size(data);
             if (dataSize > 0) {
@@ -57,16 +53,12 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       deleteNotify: function(id) {
         var param;
-        console.log('***1deleteNotifcation****');
-        console.log(id);
         param = {
           "notificationId": id
         };
         return notifyAPI.deleteNotification(param).then((function(_this) {
           return function(data) {
             var idObject, spliceIndex;
-            console.log('sucess notification seen data');
-            console.log(data);
             idObject = _.findWhere(_this.data, {
               id: id
             });
@@ -76,8 +68,6 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
             spliceIndex = _.findIndex($scope.view.data, function(request) {
               return request.id === id;
             });
-            console.log('spliceeIndexx');
-            console.log(spliceIndex);
             if (spliceIndex !== -1) {
               $scope.view.data.splice(spliceIndex, 1);
             }
@@ -91,13 +81,10 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       seenNotify: function(id) {
         var param;
-        console.log('***seenNotifcation****');
-        console.log(id);
         param = {
           "notificationId": id
         };
         notifyAPI.setNotificationSeen(param).then(function(data) {
-          console.log('sucess notification seen data');
           return console.log(data);
         }, function(error) {
           return console.log('error data');
@@ -110,10 +97,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         this.page = 0;
         return this.init();
       },
-      deleteNotifcation: function(id) {
-        console.log('***deleteNotifcation****');
-        return console.log(id);
-      },
+      deleteNotifcation: function(id) {},
       showMore: function() {
         return this.init();
       },
@@ -127,6 +111,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
             _this.data = [];
+            _this.page = 0;
             _this.canLoadMore = false;
             _this.init();
             console.log('sucess notification seen data');
