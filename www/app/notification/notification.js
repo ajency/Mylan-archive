@@ -41,8 +41,8 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
               _this.gotAllRequests = true;
             }
             _.each(_this.data, function(value) {
-              value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
-              return value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY');
+              value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A');
+              return value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A');
             });
             return _this.onScrollComplete();
           };
