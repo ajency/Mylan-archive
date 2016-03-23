@@ -120,7 +120,7 @@
                                 <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" data-parsley-mincheck="1" data-parsley-required>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
-                                    <option {{ (!empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
+                                    <option {{ (isset(($value['multiple'])) && !empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
                                 </div>

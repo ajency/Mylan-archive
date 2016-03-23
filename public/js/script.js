@@ -621,7 +621,7 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
  
 });
 
-$('.deleteUserProjectAccess').click(function (event) { 
+$('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event) {
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }
