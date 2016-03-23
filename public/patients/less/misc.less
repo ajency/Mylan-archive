@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 body,html{
   height: 100%;
 }
@@ -1320,3 +1322,87 @@ color: #00aaa7;
     }
 }
 
+
+
+//set password form styling
+
+.setPassword{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+    width: 70%;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    font-family: open sans;
+    .panel-body{
+      padding: 25px;
+    }
+    .panel-default{
+      background: transparent;
+      box-shadow: none;
+      margin-bottom: 0;
+    }
+    .l-col,.r-col{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      // min-height: 500px;
+    }
+    .fancy-title{
+      font-family: open sans;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+      font-size: 1.4em;
+      margin-bottom: 30px;
+    }
+    .hospitalName{
+      font-family: open sans;
+      font-size: 2em;
+      color: #776C6C;
+    }
+}
+
+
+
+.formSubmit{
+    width: 65%;
+    margin: 0 auto;
+    text-align: center;
+  .set-pass{
+        margin: 25px auto;
+        width: 76%;
+    .placeholderWrap{
+      display: block;
+      border-bottom: 1px solid #ccc;
+    }
+    input[type='password']{
+      padding: 8px;
+    }
+    .validError{
+        margin: 10px 0;
+        text-align: center;
+    }
+  }
+}
+
+.pageTitle{
+    width: 70%;
+    margin: 15px auto;
+    font-family: open sans;
+    h4{
+      font-size: 1.3em;
+      span{
+        font-weight: bold;
+      }
+    }
+}
+
+.rm-height{
+  min-height: calc(~"100vh - 175px") !important;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}

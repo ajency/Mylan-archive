@@ -57,8 +57,6 @@ angular.module 'angularApp.dashboard',[]
 				$location.path('summary')
 
 			startQuiz :(val) ->
-				console.log '---startQuiz----'
-				console.log val 
 				startQuestData = val
 				Storage.startQuestionnaire 'set', startQuestData
 				$location.path 'start-questionnaire'
@@ -75,7 +73,6 @@ angular.module 'angularApp.dashboard',[]
 
 			onTapToRetry : ->
 					@display = 'loader'
-					console.log 'onTapToRetry'
 					@init()
 
 			showMore : ->
@@ -103,7 +100,6 @@ angular.module 'angularApp.dashboard',[]
 				badge : false 
 
 				getNotificationCount :->
-					console.log 'inside getNotificationCount'
 					param =
 	  					"patientId" : RefCode
 
@@ -123,7 +119,6 @@ angular.module 'angularApp.dashboard',[]
 					@badge = false if @notificationCount <= 0
 
 				init :->
-					console.log 'init'
 					@getNotificationCount()
 
 				deleteAllNotification : ->

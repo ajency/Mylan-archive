@@ -3,6 +3,7 @@ angular.module('angularApp.dashboard').controller('StartQuestionnaireCtrl', [
     return $scope.view = {
       email: hospitalEmail,
       phone: hospitalPhone,
+      projectName: questionnaireName,
       startQuiz: function(quizID) {
         var questionnaireData, value;
         value = Storage.startQuestionnaire('get');
