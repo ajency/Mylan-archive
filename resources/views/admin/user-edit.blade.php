@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Edit User</span></h3>
-   <p>(Update a Hospital under Mylan)</p>
+   <p>(Update a user under Mylan)</p>
 </div>
 <form onsubmit="return validateHospitalUser();" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url('admin/users/'.$user['id']) }}" data-parsley-validate>
 <div class="grid simple">
