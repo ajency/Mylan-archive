@@ -59,13 +59,17 @@
                  <dt>{{ $label }}</dt>
                  <dd>
                     @if(is_array($value))
-                        @foreach($value as $default => $val)
-                            @if($val!='')
-                                {{ $val }}  @if(!is_int($default)) {{ $default }} @endif
-                            @else 
-                            &nbsp;     
-                            @endif
-                        @endforeach
+                        @if(isset($value['multiple']))
+                           {{ implode(", ",$value['multiple']) }} 
+                        @else
+                          @foreach($value as $default => $val)
+                              @if($val!='')
+                                {{ $val }} {{ $default }}
+                              @else 
+                                &nbsp;     
+                              @endif
+                          @endforeach
+                        @endif
                     @else 
                     {{ $value }}
                     @endif

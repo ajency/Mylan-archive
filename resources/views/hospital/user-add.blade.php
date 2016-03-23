@@ -20,7 +20,7 @@
  
 <div class="page-title">
    <h3><span class="semi-bold">Add User</span></h3>
-   <p>(Create a user under {{ $hospital['name'] }})</p>
+   <p>(Create User under {{ $hospital['name'] }})</p>
 </div>
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users') }}" data-parsley-validate>
 <div class="grid simple">

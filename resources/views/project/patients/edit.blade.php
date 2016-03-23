@@ -41,8 +41,9 @@
                                 $defaults = array_filter($defaults);
 
                                 $patientProjectAttributes = $patient['project_attributes'];
-                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : ''; 
 
+                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : ''; 
+                               
                                 ?>
                                  
                                 @if('textbox' === $attribute['control_type'])
@@ -113,12 +114,13 @@
                                 </select>
                                 </div>
                                 @elseif('multiple' == $attribute['control_type'])
+                                 
                                 <div class="col-md-3">
                                 <label>{{ $attribute['label'] }} </label>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="multiselect select2 form-control m-b-5" data-parsley-mincheck="1" data-parsley-required>
+                                <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" data-parsley-mincheck="1" data-parsley-required>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
-                                    <option {{ (is_array($value) && !empty($value) && in_array( $option ,$value)) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
+                                    <option {{ (!empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
                                 </div>

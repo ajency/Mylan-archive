@@ -801,7 +801,7 @@ class PatientController extends Controller
 
         $project = Projects::find($project['id']); 
         $projectAttributes = $project->attributes->toArray();  
-
+         
         // $projectAttributes = getProjectAttributes($projectAttributes);
         
         return view('project.patients.edit')->with('active_menu', 'patients')
@@ -814,6 +814,8 @@ class PatientController extends Controller
                                         ->with('projectAttributes', $projectAttributes)
                                         ->with('project', $project);
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -844,7 +846,7 @@ class PatientController extends Controller
         // $is_alcoholic = $request->input('is_alcoholic');
          $units_per_week = $request->input('units_per_week');
 
-        $attributes = $request->input('attributes');
+        $attributes = $request->input('attributes');  
         $attributes = serialize($attributes);
         
         $user = User::find($id);
