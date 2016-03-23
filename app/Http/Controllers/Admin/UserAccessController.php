@@ -82,7 +82,10 @@ class UserAccessController extends Controller
      */
     public function destroy($id)
     {
-        $userAccess = UserAccess::find($id)->delete();
+        if($id)
+        {
+            $userAccess = UserAccess::find($id)->delete();
+        }
 
         return response()->json([
                     'code' => 'useraccess_deleted',
