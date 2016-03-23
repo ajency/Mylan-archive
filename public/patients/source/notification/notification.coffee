@@ -76,7 +76,11 @@ angular.module 'angularApp.notification',[]
 					"notificationId":id
 
 				notifyAPI.setNotificationSeen param
-				.then (data)->
+				.then (data)=>
+					idObject = _.findWhere(@data, {id: id}) 
+					if idObject.hasSeen == false 
+						$rootScope.$broadcast 'decrement:notification:count'
+
 					console.log data
 				,(error)->
 					console.log 'error data'

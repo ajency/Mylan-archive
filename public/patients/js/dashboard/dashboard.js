@@ -59,8 +59,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       },
       startQuiz: function(val) {
         var startQuestData;
-        console.log('---startQuiz----');
-        console.log(val);
         startQuestData = val;
         Storage.startQuestionnaire('set', startQuestData);
         return $location.path('start-questionnaire');
@@ -76,7 +74,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
-        console.log('onTapToRetry');
         return this.init();
       },
       showMore: function() {
@@ -104,7 +101,6 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       badge: false,
       getNotificationCount: function() {
         var param;
-        console.log('inside getNotificationCount');
         param = {
           "patientId": RefCode
         };

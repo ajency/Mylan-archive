@@ -84,9 +84,18 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         param = {
           "notificationId": id
         };
-        notifyAPI.setNotificationSeen(param).then(function(data) {
-          return console.log(data);
-        }, function(error) {
+        notifyAPI.setNotificationSeen(param).then((function(_this) {
+          return function(data) {
+            var idObject;
+            idObject = _.findWhere(_this.data, {
+              id: id
+            });
+            if (idObject.hasSeen === false) {
+              $rootScope.$broadcast('decrement:notification:count');
+            }
+            return console.log(data);
+          };
+        })(this), function(error) {
           return console.log('error data');
         });
         return $location.path('dashboard');
