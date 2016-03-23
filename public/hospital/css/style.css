@@ -8286,7 +8286,9 @@ ul.parsley-errors-list li {
   margin: 8px 0px;
 }
 .hospital_users .deleteUserHospitalAccess,
-.project_users .deleteUserHospitalAccess {
+.project_users .deleteUserHospitalAccess,
+.hospital_users .deleteUserProjectAccess,
+.project_users .deleteUserProjectAccess {
   cursor: pointer;
   line-height: 2.5;
   color: #0aa699;

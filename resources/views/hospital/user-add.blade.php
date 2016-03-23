@@ -84,8 +84,14 @@
                      <label for="access_edit_0">Edit</label>
                   </div>
                </div>
+                <div class="col-md-4 text-center">
+                  <a class="deleteUserProjectAccess hidden" data-id="0"> Delete </a>
+               </div>
+               <div class="col-md-12">
+                    <hr>
+               </div>
             </div>
-            <hr>
+            <!-- <hr> -->
             <div class="row">
                <div class="col-md-4">
                   <input type="hidden" name="counter" value="0">

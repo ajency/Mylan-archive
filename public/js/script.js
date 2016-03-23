@@ -546,14 +546,13 @@ $('.add-project-user').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
 
-    html ='<hr><div class="row project_users">';
+    html ='<div class="row project_users">';
     html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="projects[]" id="projects" class="select2 form-control"  >';
     html += addProjects
     html +='<select>';
     html +='</div>';
-               
     html +='<div class="col-md-4">';
     html +='<div class="radio radio-primary text-right">';
     html +='<input id="access_view_'+i+'" type="radio" name="access_'+i+'" value="view" checked="checked">';
@@ -563,8 +562,9 @@ $('.add-project-user').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-md-4 text-center">';
-    html +='<a class="deleteUserProjectAccess hidden"> delete </a>';
+    html +='<a class="deleteUserProjectAccess hidden"> Delete </a>';
     html +='</div>';
+    html +='<div class="col-md-12"><hr></div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);

@@ -60,13 +60,13 @@
                <div class="col-md-4 text-center"><h4 class="user-head">Projects</h4></div>
                <div class="col-md-4 text-right">
                   
-                  <h5 class="user-sub-head">Access (Individual)</h5>
+                  <h4 class="user-sub-head">Access (Individual)</h5>
                </div>
 
             </div>
             <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
             <hr>
-            <br>
+            <!-- <br> -->
             <?php
                $i=0;
             ?>
@@ -91,12 +91,15 @@
                   </div>
                </div>
                 @if(hasHospitalPermission($hospital['url_slug'],['edit']))
-               <div class="col-md-4">
-                  <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> delete </a>
+               <div class="col-md-4 text-center">
+                  <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> Delete </a>
+               </div>
+                <div class="col-md-12">
+                  <hr>
                </div>
                @endif
             </div>
-            <hr>
+            <!-- <hr> -->
             <?php
                $i++;
             ?>
@@ -122,11 +125,14 @@
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
-               <div class="col-md-4">
-                  <a class="deleteUserProjectAccess hidden" data-id="0"> delete </a>
+               <div class="col-md-4 text-center">
+                  <a class="deleteUserProjectAccess hidden" data-id="0"> Delete </a>
+               </div>
+                <div class="col-md-12">
+                  <hr>
                </div>
             </div>
-            <hr>
+            <!-- <hr> -->
             
             <div class="row">
                <div class="col-md-3">
