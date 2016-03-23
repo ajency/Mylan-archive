@@ -69,7 +69,12 @@ angular.module 'PatientApp.notification',[]
 			onTapToRetry : ->
 				@gotAllRequests = false
 				@page = 0
-				@display = 'noError'
+				@canLoadMore = true
+				@display = 'loader'
+				@refresh = true
+				@init()
+				NotifyCount.getCount(@refcode)
+				
 
 			onInfiniteScroll : ->
 				@refresh = false

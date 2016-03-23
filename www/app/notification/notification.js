@@ -84,7 +84,11 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       onTapToRetry: function() {
         this.gotAllRequests = false;
         this.page = 0;
-        return this.display = 'noError';
+        this.canLoadMore = true;
+        this.display = 'loader';
+        this.refresh = true;
+        this.init();
+        return NotifyCount.getCount(this.refcode);
       },
       onInfiniteScroll: function() {
         this.refresh = false;
