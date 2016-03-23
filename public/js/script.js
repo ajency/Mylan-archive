@@ -394,7 +394,6 @@ $('.add-hospital-user').click(function (event) {
     var i = parseInt(counter) + 1;
 
     html ='<div class="row hospital_users">';
-    html +='<div class="col-md-12"><hr></div>';
     html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="hospital[]" id="hospital" class="select2 form-control"  >';
@@ -413,6 +412,7 @@ $('.add-hospital-user').click(function (event) {
     html +='<div class="col-md-4 text-center">';
     html +='<a class="deleteUserHospitalAccess hidden"> Delete </a>';
     html +='</div>';
+    html +='<div class="col-md-12"><hr></div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
