@@ -42,8 +42,8 @@ angular.module 'angularApp.notification',[]
 				
 					@data = @data.concat data
 					_.each @data, (value)->
-						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
-						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
+						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
 
 				,(error)=>
 					@display = 'error'
