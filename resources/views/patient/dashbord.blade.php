@@ -6,7 +6,7 @@
 
     
     var questionnaireIdd = '{{ $questionnaire["id"] }}';
-    var questionnaireName = '{{ $hospital["project"] }}'
+    var questionnaireName = '{{ $hospital["project"] }}';
     var patientRefCode = '{{ $referenceCode }}';
     var RefCode = patientRefCode;
     var userToken = '{{ $parseToken }}';
@@ -15,7 +15,6 @@
     var hospitalPhone = "{{ $hospital['phone'] }}";
     var hospitalEmail = "{{ $hospital['email'] }}";
     var Url = "{{url()}}";
-   
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
 
