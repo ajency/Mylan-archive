@@ -91,7 +91,7 @@ angular.module 'PatientApp.notification',[]
 
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
-					App.notification.count = App.notification.count - objIds.length
+					App.notification.count = App.notification.count - data.length
 					App.notification.badge = false if App.notification.count <= 0
 					# @badge = false if @count <= 0
 					@data = []

@@ -107,7 +107,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         };
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            App.notification.count = App.notification.count - objIds.length;
+            App.notification.count = App.notification.count - data.length;
             if (App.notification.count <= 0) {
               App.notification.badge = false;
             }
