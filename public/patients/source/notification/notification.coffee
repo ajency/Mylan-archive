@@ -14,20 +14,14 @@ angular.module 'angularApp.notification',[]
 			phone : hospitalPhone
 
 			init :() ->
-				$rootScope.$broadcast 'notification:count'
-			
+				
 				param =
 					"patientId" : RefCode
 					"page" : @page
 					"limit": @limit
 
-				console.log '**** notification coffeee ******'
-				console.log param
-
 				notifyAPI.getNotification param
 				.then (data)=>	
-					console.log 'notification data'
-					console.log data
 					@display = 'noError'
 					dataSize = _.size data
 					if dataSize > 0
@@ -42,8 +36,8 @@ angular.module 'angularApp.notification',[]
 				
 					@data = @data.concat data
 					_.each @data, (value)->
-						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY')
-						value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY')
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
+						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
 
 				,(error)=>
 					@display = 'error'
@@ -51,26 +45,21 @@ angular.module 'angularApp.notification',[]
 
 				.finally =>
 					@page = @page + 1
+
+				$rootScope.$broadcast 'notification:count'
 			
 			deleteNotify:(id)->
-				console.log '***1deleteNotifcation****'
-				console.log id 
 				param = 
 					"notificationId":id
 
 				notifyAPI.deleteNotification param
 				.then (data)=>
-					console.log 'sucess notification seen data'
-					console.log data
-
 					idObject = _.findWhere(@data, {id: id}) 
 					if idObject.hasSeen == false 
 						$rootScope.$broadcast 'decrement:notification:count'
 
 					spliceIndex = _.findIndex $scope.view.data, (request)->
 						request.id is id
-					console.log 'spliceeIndexx'
-					console.log spliceIndex 
 					$scope.view.data.splice(spliceIndex, 1) if spliceIndex isnt -1
 
 					if @data.length < 5
@@ -82,16 +71,12 @@ angular.module 'angularApp.notification',[]
 
 				# App.notification.decrement()
 
-			seenNotify:(id)->
-				console.log '***seenNotifcation****'
-				console.log id 
-				
+			seenNotify:(id)->		
 				param = 
 					"notificationId":id
 
 				notifyAPI.setNotificationSeen param
 				.then (data)->
-					console.log 'sucess notification seen data'
 					console.log data
 				,(error)->
 					console.log 'error data'
@@ -104,8 +89,7 @@ angular.module 'angularApp.notification',[]
 				@init()
 
 			deleteNotifcation:(id)->
-				console.log '***deleteNotifcation****'
-				console.log id 
+			
 
 			showMore :()->
 				@init()
@@ -121,12 +105,9 @@ angular.module 'angularApp.notification',[]
 				@display = 'loader' 	
 				notifyAPI.deleteAllNotification param
 				.then (data)=>
-					# App.notification.count = App.notification.count - objIds.length
-					# App.notification.badge = false if App.notification.count <= 0
-					$rootScope.$broadcast 'notification:count'
-
-					@canLoadMore = false
 					@data = []
+					@page = 0
+					@canLoadMore = false
 					@init()
 					console.log 'sucess notification seen data'
 					console.log data
