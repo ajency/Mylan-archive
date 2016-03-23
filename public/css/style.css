@@ -8303,8 +8303,8 @@ input {
   margin: 0px;
 }
 .custom-checkbox.checkbox label:after {
-  left: 0px;
-  top: 0px;
+  left: 3px;
+  top: 2px;
 }
 .custom-checkbox.checkbox label:before {
   top: 3px;
