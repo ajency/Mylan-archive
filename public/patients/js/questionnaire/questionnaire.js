@@ -529,11 +529,11 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         var summaryData;
         if (!_.isUndefined(data.status)) {
           if (data.status === 'completed') {
-            this.popTitle = 'This questionnaire was Completed';
+            this.popTitle = 'This questionnaire was completed';
             this.showConfirm();
             return this.display = 'completed';
           } else if (data.status === 'missed') {
-            this.popTitle = 'This questionnaire was Missed';
+            this.popTitle = 'This questionnaire was missed';
             this.showConfirm();
             return this.display = 'completed';
           } else if (data.status === 'saved_successfully') {
