@@ -40,25 +40,27 @@
                               <div class="col-md-9 attributes_block">
                             <h4>Attributes</h4>
                             <div class="row form-group">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Label</label>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
                                 <div class="col-xs-4">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                
+                                <div class="col-xs-2">
+                                    <label class="form-label">Validate</label>
+                                </div>
                             </div>
                            
                            @foreach($projectAttributes as $key=>$attibute)
                             <div class="row allattributes attributeContainer">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="{{ $attibute['id'] }}">
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <select name="controltype[]" class="select2-container select2 form-control">
                                         <option value="">Select Control Type</option>
                                         <option value="textbox" {{ ($attibute['control_type']=='textbox')?'selected':''}} > Text Box</option>control_type
@@ -75,6 +77,9 @@
                                     <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
                                 @endif
                                 </div>
+                                <div class="col-xs-2">
+                                    <input type="checkbox" name="validate[{{ $key }}]" {{ ($attibute['validate']=='on')?'checked':''}}>
+                                </div>
                                 <div class="deleteProject">
                                     <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
                                 </div>
@@ -82,13 +87,14 @@
                            @endforeach
 
                             <div class="row addAttributeBlock attributeContainer">
+
                                 <div class="add-unit">
                             <div class="">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="">
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <select name="controltype[]" class="select2-container select2 form-control">
                                         <option value="">Select Control Type</option>
                                         <option value="textbox"> Text Box</option>
@@ -102,20 +108,29 @@
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags text-100">
 
                                 </div>
+                                <div class="col-xs-2">
+                                    <input type="checkbox" name="validate[{{ ($key+1) }}]"  >
+                                </div>
                                 <div class="deleteProject">
                                     <a class="text-primary hidden"><i class="fa fa-trash"></i></a>
                                 <div class="col-xs-1 text-right">
                                     <a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-close"></i></a>
                                 </div>
                             </div>
-                                <div class="text-right">
-                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
-                                </div>
+                                
                             </div>
                              </div>
 
-                       
+                        <input type="hidden" name="counter" value="{{ ($key+1) }}">
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                             <div class="text-right">
+                                <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
+                            </div>
+                            </div>
+                            </div>
                               
                            </div>
                             

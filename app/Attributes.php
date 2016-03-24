@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attributes extends Model
 {
-    protected $fillable = ['label', 'control_type', 'object_type', 'object_id', 'values'];
+    protected $fillable = ['label', 'control_type', 'object_type', 'object_id', 'values','validate'];
      
     public function object() {
         return $this->morphTo();

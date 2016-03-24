@@ -70,6 +70,7 @@ class ProjectController extends Controller
         $attributeNames = $requestData['attribute_name'];
         $controltypes = $requestData['controltype'];
         $controltypevalues = (isset($requestData['controltypevalues']))?$requestData['controltypevalues']:[];
+        $validate = (isset($requestData['validate']))?$requestData['validate']:[];
 
         $objecttype = 'Project';
         $attributes = [];
@@ -82,7 +83,8 @@ class ProjectController extends Controller
                     continue;
 
                 $controlTypeDefaultValues = (isset($controltypevalues[$key]))?$controltypevalues[$key]:'';
-                $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'object_id' => $projectId]);
+                $validateControlType = (isset($validate[$key]))?$validate[$key]:'';
+                $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'validate' => $validateControlType, 'object_id' => $projectId]);
             }
         }
 
@@ -150,6 +152,7 @@ class ProjectController extends Controller
         $attributeNames = $requestData['attribute_name'];
         $controltypes = $requestData['controltype'];
         $controltypevalues = (isset($requestData['controltypevalues']))?$requestData['controltypevalues']:[];
+        $validate = (isset($requestData['validate']))?$requestData['validate']:[];  //dd($validate);
 
         $objecttype = 'Project';
         $attributes = [];
@@ -162,13 +165,14 @@ class ProjectController extends Controller
                     continue;
 
                 $controlTypeDefaultValues = (isset($controltypevalues[$key]))?$controltypevalues[$key]:'';
+                $validateControlType = (isset($validate[$key]))? $validate[$key] :'';
                 if($attributeIds[$key]=='')
                 {
-                    $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'object_id' => $projectId]);
+                    $attributes[] = new Attributes(['label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues,'object_type' => $objecttype, 'validate' => $validateControlType, 'object_id' => $projectId]);
                 }
                 else
                 {
-                    $data = array('label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues);
+                    $data = array('label' => ucfirst($attributeName), 'control_type' => $controltypes[$key], 'values' => $controlTypeDefaultValues, 'validate' => $validateControlType);
                     Attributes::where('id', $attributeIds[$key])->update($data);
                 }
             }

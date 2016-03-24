@@ -40,27 +40,30 @@
                            <div class="col-md-9 attributes_block">
                             <h4>Attributes</h4>
                             <div class="row form-group">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Label</label>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
                                 <div class="col-xs-4">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                
+                                <div class="col-xs-2">
+                                    <label class="form-label">Validate</label>
+                                </div>
                             </div>
                              
       
 
                             <div class="row addAttributeBlock attributeContainer">
+                                
                                 <div class="add-unit">
                             <div class="">
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <select name="controltype[]" class="select2-container select2 form-control">
                                         <option value="">Select Control Type</option>
                                         <option value="textbox"> Text Box</option>
@@ -74,16 +77,27 @@
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
+                                <div class="col-xs-2">
+                                    <input type="checkbox" name="validate[1]"  >
+                                </div>
                                 <div class="deleteProject">
                                     <a class="text-primary hidden"><i class="fa fa-Trash"></i></a>
                                 </div>
                             </div>
-                                <div class="text-right">
-                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
-                                </div>
+                               
                             </div>
+                            <input type="hidden" name="counter" value="1">
                              </div>
 
+
+
+                                <div class="row">
+                                <div class="col-md-12">
+                                 <div class="text-right">
+                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
+                                </div>
+                                </div>
+                                </div>
                        
                         </div>
                               

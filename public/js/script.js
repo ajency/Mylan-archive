@@ -220,9 +220,16 @@ $('.upload').on('click', '.deleteHospitalLogo', function(event) {
 
 $('.addAttributes').click(function (event) { 
 
-    var attribute_name = $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val();
-    var control_type = $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val();
-    var control_type_values = $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').val();
+    var attribute_name = $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="attribute_name[]"]').val();
+    var control_type = $(this).closest('.attributes_block').find('.addAttributeBlock').find('select[name="controltype[]"]').val();
+    var control_type_values = $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="controltypevalues[]"]').val();
+    var counter = $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="counter"]').val(); 
+    var newCounter = parseInt(counter)+1;
+ 
+
+    var validate = $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="validate['+counter+']"]');
+    var checked = (validate.is(":checked")) ?'checked' :'';  
+    
     var err= 0;
 
     if(attribute_name=='')
@@ -246,11 +253,11 @@ $('.addAttributes').click(function (event) {
     {
         html ='<div class="row m-b-10 allattributes attributeContainer">';
 
-        html +='<div class="col-xs-4">';
+        html +='<div class="col-xs-3">';
         html +='<input type="text" name="attribute_name[]" class="form-control" value="'+ attribute_name +'" placeholder="Enter Attribute Name"  >';
         html +='<input type="hidden" name="attribute_id[]" class="form-control" value=""></div>';
 
-        html +='<div class="col-xs-4">';
+        html +='<div class="col-xs-3">';
         html +='<select name="controltype[]" class="select2-container select2 form-control">';       
         html +='<option value="">Select Control Type</option>';
         html +='<option value="textbox"> Text Box</option>';
@@ -266,6 +273,10 @@ $('.addAttributes').click(function (event) {
         html +='<input type="text" name="controltypevalues[]" value="'+ control_type_values +'" data-role="tagsinput" class="tags text-100">';
         html +='</div>';
 
+        html +='<div class="col-md-2">';
+        html +='<input type="checkbox" name="validate['+counter+']" '+checked+'>';
+        html +='</div>';
+ 
         html +='<div class="deleteProject">';
         html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
         html +='<div class="text-right">';
@@ -279,9 +290,12 @@ $('.addAttributes').click(function (event) {
         $(".allattributes:last").find('select').val(control_type);
         $(".tags").tagsinput("");
 
-        $(this).closest('.addAttributeBlock').find('input[name="attribute_name[]"]').val('');
-        $(this).closest('.addAttributeBlock').find('select[name="controltype[]"]').val('');
-        $(this).closest('.addAttributeBlock').find('input[name="controltypevalues[]"]').tagsinput('removeAll');
+        $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="attribute_name[]"]').val('');
+        $(this).closest('.attributes_block').find('.addAttributeBlock').find('select[name="controltype[]"]').val('');
+        $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="controltypevalues[]"]').tagsinput('removeAll');
+        validate.removeAttr('checked');
+        validate.attr('name','validate['+newCounter+']');
+        $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="counter"]').val(newCounter)
         
     }
 });
