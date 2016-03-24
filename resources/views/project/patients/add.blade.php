@@ -22,13 +22,13 @@
            <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" data-parsley-validate onsubmit="return validateOptionalInputs();">
               <div class="row form-group edit-add">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-row">
                      <label>Reference Code</label>
                         <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                   </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                      <label>Age</label>
                         <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-required >
                     </div>
@@ -46,7 +46,7 @@
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
                                      
-                                    <div class="col-md-3 add-attribute1"> 
+                                    <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
@@ -65,7 +65,7 @@
                                     <?php $i++;?>  
                                     @endforeach
                                   @else
-                                  <div class="col-md-3 add-attribute">
+                                  <div class="col-md-4 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
                                   <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif>
                                   </div>
@@ -75,7 +75,7 @@
                                   
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                   <div class="col-md-3 add-attribute1"> 
+                                   <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
@@ -96,14 +96,14 @@
                                     @endforeach
                                      
                                   @else
-                                  <div class="col-md-3 add-attribute">
+                                  <div class="col-md-4 add-attribute">
                                   <label>{{ $attribute['label'] }} </label>
                                   <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-required data-parsley-type="number" data-parsley-min="0" >
                                   </div>
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate'])data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
@@ -113,7 +113,7 @@
                                 </select>
                                 </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
@@ -124,7 +124,7 @@
                                 </div>
                                 @elseif('weight' === $attribute['control_type'])
         
-                                  <div class="col-md-3 add-attribute1"> 
+                                  <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
                                         <label class="">{{ $attribute['label'] }} </label>
@@ -135,7 +135,7 @@
                                       </div>
                                     </div>
                                   </div>
-                                    <div class="col-md-3 add-attribute1">
+                                    <div class="col-md-4 add-attribute1">
                                     <div class="form-inline parent clearfix">
                                       <div class="form-group">
                                       <label class="fade-0">{{ $attribute['label'] }} </label>
