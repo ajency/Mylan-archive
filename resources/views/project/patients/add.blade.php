@@ -117,7 +117,7 @@
                                 @elseif('multiple' == $attribute['control_type'])
                                 <div class="col-md-4">
                                 <label>{{ $attribute['label'] }} </label>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
+                                <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
                                     <option  value="{{ $option }}">{{ $option }}</option>
