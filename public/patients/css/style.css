@@ -1261,6 +1261,10 @@ input::-ms-input-placeholder {
   font-size: 2em;
   color: #776C6C;
 }
+.projectName {
+  font-weight: bold;
+  color: #00aaa7;
+}
 .formSubmit {
   width: 65%;
   margin: 0 auto;
