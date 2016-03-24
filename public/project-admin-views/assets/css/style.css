@@ -9039,7 +9039,8 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add .select2.form-control {
   display: inline-block;
 }
-.ui-widget-header {
+.ui-multiselect-checkboxes {
   min-height: 36px !important;
+  background: #fff;
 }
 /*# sourceMappingURL=style.css.map */
