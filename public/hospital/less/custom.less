@@ -199,12 +199,12 @@ label{
 }
 
 .attributes_block{
-	 border-left: 1px solid #ddd;
-	 border-right: 0 !important;
+	 border: 0 !important;
 	 padding: 0 20px;
 	 min-height: 240px;
 	& > h4{
 		margin-top: 0;
+		margin-bottom: 15px;
 	}
 	.form-group{
 		margin-bottom: 15px;
@@ -217,11 +217,12 @@ label{
 .projectAdd{
 	& > div:first-child{
 		padding: 0 20px;
+		border: 0;
 	}
 	.form-row{
 			margin-bottom: 20px;
-			&:first-child{
-				margin-top: 40px;
+			input[type='text'],textarea{
+				width: 50%;
 			}
 			& > label{
 				margin-bottom: 10px;
@@ -242,6 +243,14 @@ label{
 		background: transparent;
 		padding: 0 30px;
 	}
+}
+
+
+.validateCheck{
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	height: 37px;
 }
 
 // Bootstrap tags input styling

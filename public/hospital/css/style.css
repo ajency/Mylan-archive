@@ -8193,13 +8193,13 @@ input {
   text-indent: 8px;
 }
 .attributes_block {
-  border-left: 1px solid #ddd;
-  border-right: 0 !important;
+  border: 0 !important;
   padding: 0 20px;
   min-height: 240px;
 }
 .attributes_block > h4 {
   margin-top: 0;
+  margin-bottom: 15px;
 }
 .attributes_block .form-group {
   margin-bottom: 15px;
@@ -8209,12 +8209,14 @@ input {
 }
 .projectAdd > div:first-child {
   padding: 0 20px;
+  border: 0;
 }
 .projectAdd .form-row {
   margin-bottom: 20px;
 }
-.projectAdd .form-row:first-child {
-  margin-top: 40px;
+.projectAdd .form-row input[type='text'],
+.projectAdd .form-row textarea {
+  width: 50%;
 }
 .projectAdd .form-row > label {
   margin-bottom: 10px;
@@ -8233,6 +8235,21 @@ input {
 .projectAdd .form-actions {
   background: transparent;
   padding: 0 30px;
+}
+.validateCheck {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 37px;
 }
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;

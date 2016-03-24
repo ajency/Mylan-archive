@@ -26,7 +26,7 @@
                      <div class="grid-body">
                         <form class="form-no-horizontal-spacing" id="form-condensed" data-parsley-validate>
                            <div class="row column-seperation projectAdd">
-                              <div class="col-md-3 b-0">
+                              <div class="col-md-12">
                                  <div class="form-row">
                                     <label>Project Name</label>
                                     <input name="name" id="name" type="text"  class="form-control" placeholder="Project Name" data-parsley-required>
@@ -37,7 +37,7 @@
                                  </div>
                               </div>
 
-                           <div class="col-md-9 attributes_block">
+                           <div class="col-md-12 attributes_block">
                             <h4>Attributes</h4>
                             <div class="row form-group">
                                 <div class="col-xs-3">
@@ -46,10 +46,10 @@
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-5">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-1">
                                     <label class="form-label">Validate</label>
                                 </div>
                             </div>
@@ -73,12 +73,14 @@
                                         <option value="weight"> Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-5">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
-                                <div class="col-xs-2">
+                                <div class="col-xs-1">
+                                <div class="validateCheck">
                                     <input type="checkbox" name="validate[1]"  >
+                                </div>
                                 </div>
                                 <div class="deleteProject">
                                     <a class="text-primary hidden"><i class="fa fa-Trash"></i></a>

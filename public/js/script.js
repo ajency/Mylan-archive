@@ -269,19 +269,19 @@ $('.addAttributes').click(function (event) {
         html +='</div>';
 
      
-        html +='<div class="col-md-4">';
+        html +='<div class="col-md-5">';
         html +='<input type="text" name="controltypevalues[]" value="'+ control_type_values +'" data-role="tagsinput" class="tags text-100">';
         html +='</div>';
 
-        html +='<div class="col-md-2">';
-        html +='<input type="checkbox" name="validate['+counter+']" '+checked+'>';
+        html +='<div class="col-md-1">';
+        html +='<div class="validateCheck"><input type="checkbox" name="validate['+counter+']" '+checked+'></div>';
         html +='</div>';
  
         html +='<div class="deleteProject">';
-        html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
-        html +='<div class="text-right">';
+        // html +='<a class="text-primary hidden"><i class="fa fa-close"></i></a>';
+        // html +='<div class="text-right">';
         html +='<a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-trash"></i></a>';
-        html +='</div>';
+        // html +='</div>';
         html +='</div>';
 
 
