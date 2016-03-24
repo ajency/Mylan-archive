@@ -1322,4 +1322,7 @@ input::-ms-input-placeholder {
 .clearNotification {
   margin-right: 30%;
 }
+.noNotification {
+  padding-bottom: 15px;
+}
 /*# sourceMappingURL=style.css.map */
