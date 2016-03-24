@@ -47,11 +47,14 @@
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                     <label class="form-label">Defaults</label>
                                 </div>
                                 <div class="col-xs-1 text-center">
                                     <label class="form-label">Validate</label>
+                                </div>
+                                <div class="col-xs-1 text-center">
+                                   
                                 </div>
                             </div>
                            
@@ -71,7 +74,7 @@
                                         <option value="weight" {{ ($attibute['control_type']=='weight')?'selected':''}} > Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-5"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
+                                <div class="col-xs-4"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
                                 @if($attibute['control_type']=='weight')
                                     <input type="text"   name="controltypevalues[]" value="{{ $attibute['values'] }}" readonly class="tags text-100">
                                 @else 
@@ -83,8 +86,10 @@
                                     <input type="checkbox" name="validate[{{ $key }}]" {{ ($attibute['validate']=='on')?'checked':''}}>
                                     </div>
                                 </div>
-                                <div class="deleteProject">
-                                    <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
+                                <div class="col-md-1 text-center">
+                                    <div class="deleteProject">
+                                        <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
+                                    </div>
                                 </div>
                             </div>
                            @endforeach
@@ -107,7 +112,7 @@
                                         <option value="weight"> Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags text-100">
 
                                 </div>
@@ -122,8 +127,10 @@
                                     <a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-close"></i></a>
                                 </div>
                                 </div> -->
-                                 <div class="deleteProject">
-                                    <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
+                                <div class="col-md-1 text-center">
+                                     <div class="deleteProject">
+                                        <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
+                                    </div>
                                 </div>
                                 
                             </div>

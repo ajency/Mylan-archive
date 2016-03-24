@@ -8166,10 +8166,6 @@ input {
 .b-0 {
   border: 0 !important;
 }
-.deleteProject {
-  position: absolute;
-  right: 0;
-}
 .deleteProject a i {
   line-height: 35px;
   color: #05A8A5;

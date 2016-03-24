@@ -46,11 +46,14 @@
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-1 text-center">
                                     <label class="form-label">Validate</label>
+                                </div>
+                                <div class="col-xs-1">
+                                    
                                 </div>
                             </div>
                              
@@ -73,7 +76,7 @@
                                         <option value="weight"> Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-5">
+                                <div class="col-xs-4">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
@@ -82,8 +85,10 @@
                                     <input type="checkbox" name="validate[1]"  >
                                 </div>
                                 </div>
-                                <div class="deleteProject">
-                                    <a class="text-primary hidden"><i class="fa fa-Trash"></i></a>
+                                <div class="col-md-1 text-center">
+                                    <div class="deleteProject">
+                                        <a class="text-primary hidden"><i class="fa fa-Trash"></i></a>
+                                    </div>
                                 </div>
                             </div>
                                
