@@ -29,8 +29,10 @@
                   </div>
                 </div>
                 <div class="col-sm-4">
+                 <div class="form-row">
                      <label>Age</label>
                         <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-required >
+                    </div>
                     </div>
                   
 
