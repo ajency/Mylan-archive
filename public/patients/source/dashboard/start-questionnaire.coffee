@@ -6,6 +6,7 @@ angular.module 'angularApp.dashboard'
 		$scope.view =
 			email : hospitalEmail
 			phone : hospitalPhone
+			projectName : questionnaireName
 			
 			startQuiz :(quizID) ->
 

@@ -616,11 +616,11 @@ angular.module 'angularApp.questionnaire'
 				
 				if !_.isUndefined(data.status)
 					if data.status == 'completed'
-						@popTitle = 'This questionnaire was Completed'
+						@popTitle = 'This questionnaire was completed'
 						@showConfirm()
 						@display = 'completed'
 					else if data.status == 'missed'
-						@popTitle = 'This questionnaire was Missed'
+						@popTitle = 'This questionnaire was missed'
 						@showConfirm()
 						@display = 'completed'
 					else if data.status == 'saved_successfully'
