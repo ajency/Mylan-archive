@@ -1316,4 +1316,7 @@ input::-ms-input-placeholder {
       -ms-flex-pack: center;
           justify-content: center;
 }
+.no-margin {
+  margin: 0;
+}
 /*# sourceMappingURL=style.css.map */
