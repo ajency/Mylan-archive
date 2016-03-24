@@ -1319,4 +1319,7 @@ input::-ms-input-placeholder {
 .no-margin {
   margin: 0;
 }
+.clearNotification {
+  margin-right: 30%;
+}
 /*# sourceMappingURL=style.css.map */

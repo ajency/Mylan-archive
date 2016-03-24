@@ -1,6 +1,12 @@
 <div class="container" ng-init="view.init();">
   <!-- Wrapper for slides --><br> 
-  <h3>Messages</h3>
+  <h3>Messages
+   <div class="text-center text-success pull-right clearNotification" ng-if="view.data.length > 0">
+      <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
+          <span>Clear Displayed Notification</span>
+      </a>
+    </div>
+  </h3>
   <br>
     <div class="row" ng-switch="view.display">
 
@@ -87,14 +93,14 @@
                             <span>No more Notification to be displayed </span>
                       </div>
 
-                      <br>
+                      
 
-                      <div class="text-center text-success" 
+                   <!--    <div class="text-center text-success" 
                         ng-if="view.data.length > 0">
                           <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
                               <span>Clear Displayed Notification</span>
                           </a>
-                      </div>
+                      </div> -->
 
                   </ul>
              </div>
