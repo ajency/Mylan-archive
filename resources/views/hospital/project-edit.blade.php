@@ -57,8 +57,8 @@
                                    
                                 </div>
                             </div>
-                           
-                           @foreach($projectAttributes as $key=>$attibute)
+                           <?php $key = 0;?>
+                           @foreach($projectAttributes as $key =>$attibute)
                             <div class="row allattributes attributeContainer">
                                 <div class="col-xs-3">
                                     <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
