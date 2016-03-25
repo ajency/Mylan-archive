@@ -1261,6 +1261,10 @@ input::-ms-input-placeholder {
   font-size: 2em;
   color: #776C6C;
 }
+.projectName {
+  font-weight: bold;
+  color: #00aaa7;
+}
 .formSubmit {
   width: 65%;
   margin: 0 auto;
@@ -1311,5 +1315,11 @@ input::-ms-input-placeholder {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.no-margin {
+  margin: 0;
+}
+.clearNotification {
+  margin-right: 30%;
 }
 /*# sourceMappingURL=style.css.map */
