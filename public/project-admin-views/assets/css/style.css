@@ -9056,6 +9056,16 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add .select2.form-control {
   display: inline-block;
 }
+.customMessage ul.parsley-errors-list {
+  position: absolute;
+  bottom: -22px;
+  right: 0;
+  left: 17px;
+  width: 100%;
+  padding: 1px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
 .ui-multiselect-checkboxes {
   height: inherit !important;
   background: #fff;

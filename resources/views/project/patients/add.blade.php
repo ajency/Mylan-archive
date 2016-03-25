@@ -177,7 +177,7 @@
                   <div class="col-sm-6">
                     <div class="row form-row">
                
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 customMessage">
                       <label>Is Smoker</label>
                       <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -185,7 +185,7 @@
                           <option value="no">No</option> 
                         </select>
                     </div>
-                    <div class="col-sm-6 smoke-input">
+                    <div class="col-sm-6 smoke-input customMessage">
                       <label>If yes, how many per week</label>
                         <input name="smoke_per_week" id="smoke_per_week" type="text" class=" form-control"  placeholder="How many per week" >
                     </div>
@@ -202,7 +202,7 @@
                           <option value="no">No</option> 
                         </select> 
                     </div>  -->
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-6 customMessage">
                       <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
                     </div>
