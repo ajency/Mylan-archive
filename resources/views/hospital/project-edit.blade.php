@@ -21,6 +21,7 @@
 <div class="page-title">
    <h3><span class="semi-bold">Edit Project</span></h3>
 </div>
+
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects/'.$project['id']) }}" data-parsley-validate>
 <div class="grid simple">
                      <div class="grid-body">
@@ -129,7 +130,7 @@
                                 </div> -->
                                 <div class="col-md-1 text-center">
                                      <div class="deleteProject">
-                                        <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
+                                        <a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </div>
                                 
