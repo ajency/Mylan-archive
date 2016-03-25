@@ -70,8 +70,13 @@
                               @endif
                           @endforeach
                         @endif
-                    @else 
-                    {{ $value }}
+                    @else
+                      @if($value!='')
+                        {{ $value }} 
+                      @else 
+                        -    
+                      @endif 
+            
                     @endif
                  </dd>
                  @endforeach
