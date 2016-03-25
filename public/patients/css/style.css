@@ -1322,4 +1322,11 @@ input::-ms-input-placeholder {
 .clearNotification {
   margin-right: 30%;
 }
+.noNotification {
+  padding-bottom: 15px;
+}
+.noNotification span {
+  font-size: 1.2em;
+  font-family: open sans;
+}
 /*# sourceMappingURL=style.css.map */
