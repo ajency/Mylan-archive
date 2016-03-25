@@ -8174,12 +8174,13 @@ label {
   color: #282323;
 }
 .dl-horizontal dt {
-  width: 175px;
+  width: 50%;
   text-align: left;
   margin-bottom: 10px;
+  text-overflow: inherit;
 }
 .dl-horizontal dd {
-  margin-left: 175px;
+  margin-left: 250px;
   margin-bottom: 10px;
 }
 .no {
@@ -9059,6 +9060,16 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .customMessage ul.parsley-errors-list {
   position: absolute;
   bottom: -22px;
+  right: 0;
+  left: 17px;
+  width: 100%;
+  padding: 1px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+.customSelect ul.parsley-errors-list {
+  position: absolute;
+  bottom: -30px;
   right: 0;
   left: 17px;
   width: 100%;

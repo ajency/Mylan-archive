@@ -106,7 +106,7 @@
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                <div class="col-md-4">
+                                <div class="col-md-4 customSelect">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate'])data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
