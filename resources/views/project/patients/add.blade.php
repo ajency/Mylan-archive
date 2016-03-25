@@ -116,7 +116,7 @@
                                 </select>
                                 </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                <div class="col-md-4">
+                                <div class="col-md-4 aj">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
@@ -374,6 +374,7 @@
         $('input[name="units_per_week"]').removeAttr('data-parsley-required');
       }
     });
+
 
 
   });
