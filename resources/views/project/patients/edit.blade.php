@@ -18,8 +18,10 @@
 <div class="page-title">
         <h3><span class="semi-bold">Patients</span></h3>
       </div> 
+    @include('admin.flashmessage')
      <div class="grid simple">
            <div class="grid-body">
+      
       <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate onsubmit="return validateOptionalInputs();">
               <div class="row form-group  edit-add">
                 <div class="col-md-4">

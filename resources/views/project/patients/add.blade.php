@@ -16,10 +16,11 @@
 <!-- BEGIN PAGE TITLE -->
 <div class="page-title">
         <h3><span class="semi-bold">Patients</span></h3>
-      </div> 
+      </div>
+      @include('admin.flashmessage') 
      <div class="grid simple">
-     @include('hospital.flashmessage')
            <div class="grid-body">
+
       <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" data-parsley-validate onsubmit="return validateOptionalInputs();">
               <div class="row form-group edit-add">
                 <div class="col-md-4">

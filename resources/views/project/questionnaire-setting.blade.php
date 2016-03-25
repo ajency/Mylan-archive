@@ -28,6 +28,7 @@
                        <h3 class="">{{ $project['name'] }}</h3>
                       
                       <hr>
+          @include('admin.flashmessage')
          <form class="form-horizontal col-sm-8 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" data-parsley-validate>
   <div class="form-group">
     <label for="frequency" class="col-sm-4 side-label">Frequency</label>

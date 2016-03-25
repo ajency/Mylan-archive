@@ -32,6 +32,7 @@
          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
          <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
          <br>
+         @include('admin.flashmessage')
          <form method="post" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" data-parsley-validate>
  
          <input type="hidden" name="patientId" value="{{ $patient['id']}}">

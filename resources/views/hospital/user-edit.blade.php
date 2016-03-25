@@ -22,6 +22,7 @@
    <h3><span class="semi-bold">Edit User</span></h3>
    <p>(Update User under {{ $hospital['name'] }})</p>
 </div>
+@include('admin.flashmessage')
 <form onsubmit="return validateHospitalUser();" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users/'.$user['id']) }}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">

@@ -22,6 +22,7 @@
    <h3><span class="semi-bold">Add User</span></h3>
    <p>(Create a User)</p>
 </div>
+@include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url('admin/users') }}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">

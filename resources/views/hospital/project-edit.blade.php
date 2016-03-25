@@ -21,7 +21,7 @@
 <div class="page-title">
    <h3><span class="semi-bold">Edit Project</span></h3>
 </div>
-
+@include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects/'.$project['id']) }}" data-parsley-validate>
 <div class="grid simple">
                      <div class="grid-body">

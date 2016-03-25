@@ -22,6 +22,7 @@
    <h3><span class="semi-bold">Edit Hospital</span></h3>
    <p>(Update the Hospital details)</p>
 </div>
+@include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="/admin/hospitals/{{$hospital['id']}}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">

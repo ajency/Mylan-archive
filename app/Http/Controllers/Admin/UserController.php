@@ -11,6 +11,7 @@ use App\UserAccess;
 use App\Hospital;
 use App\Projects;
 use \Mail;
+use \Session;
  
 
 class UserController extends Controller
@@ -173,7 +174,9 @@ class UserController extends Controller
             $message->to($data['email'], $data['name'])->subject('Welcome to Mylan!');
         });
         
+        Session::flash('success_message','User created successfully. An email has been sent to the user email address with the login instruction');
          
+
         return redirect(url('/admin/users/' . $userId . '/edit'));
         
     }
@@ -260,6 +263,7 @@ class UserController extends Controller
             
         }
         
+        Session::flash('success_message','User details successfully updated.');
         
         return redirect(url('/admin/users/' . $userId . '/edit'));
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Hospital;
 use \File;
 use \Input;
+use \Session;
 
 class HospitalController extends Controller
 {
@@ -65,6 +66,8 @@ class HospitalController extends Controller
          
         $hospital->save();
         $hospitalId = $hospital->id;
+
+        Session::flash('success_message','Hospital created successfully.');
          
         return redirect(url('/admin/hospitals/' . $hospitalId . '/edit'));
     }
@@ -123,7 +126,8 @@ class HospitalController extends Controller
          
         $hospital->save();
  
-         
+        Session::flash('success_message','Hospital details successfully updated.');
+
         return redirect(url('/admin/hospitals/' . $hospitalId . '/edit'));
     }
 

@@ -1362,6 +1362,7 @@ class ProjectController extends Controller
         $schedule->set("frequency", $frequency);
         $schedule->save();
 
+        Session::flash('success_message','Project settings successfully updated.');
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
     }
 

@@ -36,6 +36,7 @@
                            <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
                            <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
                            <br>
+                           @include('admin.flashmessage')
                           <div class="user-description-box">
                           <?php
                           $x = 1;

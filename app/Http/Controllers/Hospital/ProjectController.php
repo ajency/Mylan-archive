@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Hospital;
 use App\Projects;
 use App\Attributes;
+use \Session;
 
 class ProjectController extends Controller
 {
@@ -92,6 +93,8 @@ class ProjectController extends Controller
         if (!empty($attributes)) {
             $project->attributes()->saveMany($attributes);
         }
+
+        Session::flash('success_message','Project successfully created.');
          
         return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
          
@@ -183,7 +186,7 @@ class ProjectController extends Controller
             $project->attributes()->saveMany($attributes);
         }
 
-         
+        Session::flash('success_message','Project details successfully updated.'); 
         return redirect(url($hospitalSlug . '/projects/' . $projectId . '/edit'));
     }
 

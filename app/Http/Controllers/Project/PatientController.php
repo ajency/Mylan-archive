@@ -259,7 +259,8 @@ class PatientController extends Controller
         $apiKey->key           = $apiKey->generateKey();
         $apiKey->save();
 
- 
+        Session::flash('success_message','Patient created successfully.');
+         
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
     }
 
@@ -901,6 +902,7 @@ class PatientController extends Controller
         }
         $user->clinicVisit()->saveMany($patientVisits);
 
+        Session::flash('success_message','Patient details successfully updated.');
 
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $id.'/edit')); 
     }
@@ -1847,6 +1849,7 @@ class PatientController extends Controller
 
         ParseObject::saveAll($bulkAnswerInstances);
         
+        Session::flash('success_message','Patient baseline successfully created.');
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 
          
