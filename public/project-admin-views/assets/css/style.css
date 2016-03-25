@@ -9060,7 +9060,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   display: inline-block;
 }
 .ui-multiselect-checkboxes {
-  min-height: 36px !important;
+  height: inherit !important;
   background: #fff;
 }
 /*# sourceMappingURL=style.css.map */
