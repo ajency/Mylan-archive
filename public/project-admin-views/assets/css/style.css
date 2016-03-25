@@ -8991,15 +8991,11 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   position: absolute;
   bottom: 0;
   right: 0;
+  left: 16px;
   width: 100%;
   padding: 1px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px
-  /* font-style: normal; */
-  /* font-weight: 400; */
-  /* line-height: 1.42857143; */
-  /* text-align: left; */
-  /* text-align: start; */
+  font-size: 14px;
 }
 .add-attribute1 .parent {
   float: left;
