@@ -9026,6 +9026,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .fade-0 {
   opacity: 0;
+  font-size: 8px;
 }
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;
