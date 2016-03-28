@@ -8297,6 +8297,7 @@ input {
 /***Error Style***/
 ul.parsley-errors-list li {
   color: #f35958!important;
+  font-size: 0.96em;
 }
 /***Image Upload***/
 div.upload {
@@ -9057,6 +9058,13 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add .select2.form-control {
   display: inline-block;
 }
+.edit-add .tooltip.top .tooltip-arrow {
+  border-top-color: #05A8A5;
+}
+.edit-add .tooltip-inner {
+  font-family: open sans;
+  background-color: #05A8A5;
+}
 .customMessage ul.parsley-errors-list {
   position: absolute;
   bottom: -22px;
@@ -9076,6 +9084,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   padding: 1px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
+}
+.multiSelect ul.parsley-errors-list {
+  left: 15px;
 }
 .ui-multiselect-checkboxes {
   height: inherit !important;
