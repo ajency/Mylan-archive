@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Project;
 
 use Illuminate\Http\Request;
 
+use \Cache;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
@@ -100,13 +101,24 @@ class ProjectController extends Controller
 
 
         $responseStatus = ["completed","late","missed"];
-         
-        $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
+
+        // Cache::forget('projectResponses');
+        // Cache::forget('patientsSummary');
+        //  Cache script
+        if (Cache::has('projectResponses')) {
+            $projectResponses =  Cache::get('projectResponses');
+        }
+        else
+        {
+          $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
+          Cache::put('projectResponses', $projectResponses, 10);
+        } 
+        
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
-         $responseCount = $this->getProjectResponseCounts($projectResponses);
+        $responseCount = $this->getProjectResponseCounts($projectResponses);
         // //red flags,amber flags ,unreviwed submission , submission
-         $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
+        $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
 
          //patient completed  and late submissions 
         $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
@@ -116,8 +128,16 @@ class ProjectController extends Controller
 
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
-        $patientController = new PatientController();
-        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]); 
+        
+        if (Cache::has('patientsSummary')) {
+            $patientsSummary =  Cache::get('patientsSummary'); 
+        }
+        else
+        {
+          $patientController = new PatientController();
+          $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+          Cache::put('patientsSummary', $patientsSummary, 10);
+        } 
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData'];
  
