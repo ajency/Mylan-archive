@@ -102,16 +102,16 @@ class ProjectController extends Controller
 
         $responseStatus = ["completed","late","missed"];
 
-        // Cache::forget('projectResponses');
-        // Cache::forget('patientsSummary');
+        Cache::flush();
+
         //  Cache script
-        if (Cache::has('projectResponses')) {
-            $projectResponses =  Cache::get('projectResponses');
+        if (Cache::has('projectResponses_'.$projectId)) {
+            $projectResponses =  Cache::get('projectResponses_'.$projectId); 
         }
         else
         {
           $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-          Cache::put('projectResponses', $projectResponses, 10);
+          Cache:: add('projectResponses_'.$projectId, $projectResponses, 10); 
         } 
         
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
@@ -129,14 +129,14 @@ class ProjectController extends Controller
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         
-        if (Cache::has('patientsSummary')) {
-            $patientsSummary =  Cache::get('patientsSummary'); 
+        if (Cache::has('patientsSummary_'.$projectId)) {
+            $patientsSummary =  Cache::get('patientsSummary_'.$projectId); 
         }
         else
         {
           $patientController = new PatientController();
           $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-          Cache::put('patientsSummary', $patientsSummary, 10);
+          Cache::add('patientsSummary_'.$projectId, $patientsSummary, 10);
         } 
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData'];
