@@ -123,7 +123,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         error = 0;
         sizeOfField = _.size(this.data.options);
         sizeOfTestboxAns = _.size(this.val_answerValue);
-        kgValid = true;
+        kgValid = false;
         lbValid = true;
         stValid = false;
         weightInput = 0;
@@ -155,8 +155,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             if (_.contains(['kg', 'kgs'], lowerCase)) {
               weightInput = 1;
               valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-              if (valid === null) {
-                kgValid = false;
+              if (valid !== null) {
+                kgValid = true;
               }
             }
             lowerCase = val.toLowerCase();
@@ -179,6 +179,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }
           });
         }
+        console.log('********inputt*********');
+        console.log(weightInput);
+        console.log(validArr);
+        console.log(weightInput);
+        console.log(this.firstText);
+        console.log(this.secondText);
         if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
           CToast.show('Please enter the values');
         } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
@@ -277,6 +283,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'input') {
           param = this.vlaidateInput();
+          console.log('******** param **********');
+          console.log(param);
           if (param !== true) {
             this.loadNextQuestion(param);
           }

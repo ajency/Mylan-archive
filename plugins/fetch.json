@@ -57,14 +57,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.ionic.keyboard": {
-        "source": {
-            "type": "registry",
-            "id": "com.ionic.keyboard"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-network-information": {
         "source": {
             "type": "registry",
@@ -77,14 +69,6 @@
         "source": {
             "type": "registry",
             "id": "org.apache.cordova.network-information"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-app-preferences": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-app-preferences"
         },
         "is_top_level": true,
         "variables": {}
@@ -106,6 +90,22 @@
             "type": "git",
             "url": "https://github.com/phonegap-build/PushPlugin.git",
             "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-app-preferences": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-app-preferences"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "ionic-plugin-keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "ionic-plugin-keyboard"
         },
         "is_top_level": true,
         "variables": {}

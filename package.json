@@ -28,10 +28,8 @@
       "locator": "https://github.com/Paldom/SpinnerDialog.git",
       "id": "hu.dpal.phonegap.plugins.SpinnerDialog"
     },
-    "com.ionic.keyboard",
     "cordova-plugin-network-information",
     "org.apache.cordova.network-information",
-    "cordova-plugin-app-preferences",
     {
       "variables": {
         "APP_ID": "MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA",
@@ -43,9 +41,16 @@
     {
       "locator": "https://github.com/phonegap-build/PushPlugin.git",
       "id": "com.phonegap.plugins.PushPlugin"
-    }
+    },
+    "cordova-plugin-app-preferences",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
-    "android"
+    "android",
+    {
+      "platform": "ios",
+      "version": "3.9.2",
+      "locator": "ios@3.9.2"
+    }
   ]
 }

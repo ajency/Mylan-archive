@@ -125,7 +125,7 @@ angular.module 'PatientApp.Quest',[]
 				sizeOfField = _.size(@data.options)
 				sizeOfTestboxAns = _.size(@val_answerValue)
 
-				kgValid =  true
+				kgValid =  false
 				lbValid = true
 				stValid = false
 				weightInput = 0
@@ -154,8 +154,8 @@ angular.module 'PatientApp.Quest',[]
 						if _.contains ['kg','kgs'], lowerCase
 							weightInput = 1
 							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-							if valid == null
-								kgValid = false
+							if valid != null
+								kgValid = true
 
 						# weightKeyArray.push val.toLowerCase()
 						lowerCase = val.toLowerCase()
@@ -175,6 +175,13 @@ angular.module 'PatientApp.Quest',[]
 								stValid = false
 		
 				# ***temp**
+				console.log '********inputt*********'
+				console.log weightInput
+				console.log validArr
+				console.log weightInput
+				console.log @firstText
+				console.log @secondText
+
 				if (weightInput == 0) && (error == 1 || validArr.length > 0)
 					CToast.show 'Please enter the values'
 				else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
@@ -263,6 +270,8 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 					param = @vlaidateInput() 
+					console.log '******** param **********'
+					console.log param
 					if param != true then @loadNextQuestion(param)
 			
 				if @data.questionType == 'multi-choice'
