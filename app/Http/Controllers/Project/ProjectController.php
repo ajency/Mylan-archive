@@ -103,15 +103,16 @@ class ProjectController extends Controller
         $responseStatus = ["completed","late","missed"];
 
         // Cache::flush();
+        $responseCacheKey = "projectResponses_".$projectId."_".strtotime($startDate)."_".strtotime($endDate);
 
         //  Cache script
-        if (Cache::has('projectResponses_'.$projectId)) {
-            $projectResponses =  Cache::get('projectResponses_'.$projectId); 
+        if (Cache::has($responseCacheKey)) {
+            $projectResponses =  Cache::get($responseCacheKey); 
         }
         else
         {
           $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-          Cache:: add('projectResponses_'.$projectId, $projectResponses, 10); 
+          Cache:: add($responseCacheKey, $projectResponses, 10); 
         } 
         
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
@@ -129,14 +130,15 @@ class ProjectController extends Controller
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         
-        if (Cache::has('patientsSummary_'.$projectId)) {
-            $patientsSummary =  Cache::get('patientsSummary_'.$projectId); 
+        $patientsSummaryCacheKey = "patientsSummary_".$projectId."_".strtotime($startDate)."_".strtotime($endDate);
+        if (Cache::has($patientsSummaryCacheKey)) {
+            $patientsSummary =  Cache::get($patientsSummaryCacheKey); 
         }
         else
         {
           $patientController = new PatientController();
           $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-          Cache::add('patientsSummary_'.$projectId, $patientsSummary, 10);
+          Cache::add($patientsSummaryCacheKey, $patientsSummary, 10);
         } 
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData'];
