@@ -531,7 +531,8 @@ h3.line-title span {
   color: #bbb!important;
   position: absolute;
   right: 9px;
-  font-weight: bold;
+  font-weight: lighter;
+  font-family: open sans;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon span {
   position: absolute;
