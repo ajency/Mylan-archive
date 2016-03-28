@@ -102,7 +102,7 @@ class ProjectController extends Controller
 
         $responseStatus = ["completed","late","missed"];
 
-        Cache::flush();
+        // Cache::flush();
 
         //  Cache script
         if (Cache::has('projectResponses_'.$projectId)) {
