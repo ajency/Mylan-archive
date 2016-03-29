@@ -1608,7 +1608,7 @@ class PatientController extends Controller
     {
         $questionId ='';
         foreach ($questions as   $question) {
-            if(is_null($question->get('previousQuestion')))
+            if(is_null($question->get('previousQuestion')) && $question->get('isChild')==false)
             {
                 $questionId = $question->getObjectId();
                 break;
@@ -1625,20 +1625,34 @@ class PatientController extends Controller
 
         $questionsList = [];
         $sequenceQuestions = [];
+        $subQuestions = [];
         foreach ($questions as   $question) {
             $questionId = $question->getObjectId();
             $nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
+            $previousQuestionId = (!is_null($question->get('previousQuestion')))? $question->get('previousQuestion')->getObjectId():'';
             
             $questionType = $question->get('type');
             $title = $question->get('title');
             $name = $question->get('question');
-            $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
+            $isChild = $question->get('isChild');
+            if(!$isChild)
+                $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
+            else
+                $subQuestions[$previousQuestionId][$questionId] = ['previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
+
+
         }
 
+        
         $firstQuestionId = $this->getFirstQuestion($questions);
 
         $orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
- 
+
+        if(!empty($subQuestions))
+        {
+            $orderQuestions = $this->addSubQuestionToList($orderQuestions,$subQuestions);
+        }
+        
         return $orderQuestions;
     }
 
@@ -1652,6 +1666,21 @@ class PatientController extends Controller
          
         return $questions;
 
+    }
+
+    public function addSubQuestionToList($orderQuestions,$subQuestions)
+    {
+        $newOrder = [];
+        foreach ($orderQuestions as $questionId => $questionData) {
+
+            $newOrder[$questionId] = $questionData; 
+            if(isset($subQuestions[$questionId]))
+            {
+                $newOrder = array_merge($newOrder,$subQuestions[$questionId]); 
+            }
+        }
+
+        return $newOrder;
     }
 
      public function getpatientBaseLineScore($hospitalSlug ,$projectSlug ,$patientId)
