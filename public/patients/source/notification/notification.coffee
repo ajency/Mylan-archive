@@ -13,6 +13,7 @@ angular.module 'angularApp.notification',[]
 			email : hospitalEmail
 			phone : hospitalPhone
 			errorMsg : ''
+			disable : false
 
 			init :() ->
 				@errorMsg = ''
@@ -23,6 +24,7 @@ angular.module 'angularApp.notification',[]
 
 				notifyAPI.getNotification param
 				.then (data)=>	
+					@disable = false
 					@display = 'noError'
 					dataSize = _.size data
 					if dataSize > 0
@@ -105,7 +107,7 @@ angular.module 'angularApp.notification',[]
 			DeleteAll:()->
 				# param = 
 				# 	"patientId": RefCode 
-				
+				@disable = true
 				@errorMsg = ''
 
 				objIds = _.pluck(@data, 'id')  
@@ -128,10 +130,11 @@ angular.module 'angularApp.notification',[]
 						@errorMsg = 'Notification not clear , try again'
 
 					@display = 'noError' 
-					CToast.showPosition('clear',msg,'left')
+					CToast.showPosition('clear',@errorMsg,'left')
 					console.log 'error data'
 					# @display = 'error'
 					# @errorType = error
+				
 
 
 

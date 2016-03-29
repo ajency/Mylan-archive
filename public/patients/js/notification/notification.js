@@ -10,6 +10,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       email: hospitalEmail,
       phone: hospitalPhone,
       errorMsg: '',
+      disable: false,
       init: function() {
         var param;
         this.errorMsg = '';
@@ -21,6 +22,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
         notifyAPI.getNotification(param).then((function(_this) {
           return function(data) {
             var dataSize;
+            _this.disable = false;
             _this.display = 'noError';
             dataSize = _.size(data);
             if (dataSize > 0) {
@@ -117,6 +119,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       DeleteAll: function() {
         var objIds, param;
+        this.disable = true;
         this.errorMsg = '';
         objIds = _.pluck(this.data, 'id');
         param = {
@@ -140,7 +143,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
               _this.errorMsg = 'Notification not clear , try again';
             }
             _this.display = 'noError';
-            CToast.showPosition('clear', msg, 'left');
+            CToast.showPosition('clear', _this.errorMsg, 'left');
             return console.log('error data');
           };
         })(this));

@@ -7,13 +7,24 @@
   </div>
 
   <h3>Messages
-   <div id="clear" class="text-center text-success pull-right clearNotification " ng-if="view.data.length > 0">
-      <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
+   <div id="clear"
+      
+      class="text-center text-success pull-right clearNotification " 
+      ng-if="view.data.length > 0 || view.disable === true"
+    >
+      <button  
+        ng-disabled = "view.disable" 
+        
+        class="btn btn-default btn-block btn-warning" 
+        ng-click="view.DeleteAll()">
           <span>Clear Displayed Notification</span>
-      </a>
+      </button>
+
     </div>
+    
   </h3>
   <br>
+
     <div class="row" ng-switch="view.display">
 
         <div ng-switch-when="error">
