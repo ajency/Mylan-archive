@@ -1,10 +1,12 @@
 <div class="container" ng-init="view.init();">
-  <!-- Wrapper for slides --><br> 
+  <!-- Wrapper for slides -->
 
-  <div class="questWarning" ng-if="view.errorMsg != ''" >
+  <div class="questWarning text-danger" ng-if="view.errorMsg != ''" >
             <i class="fa fa-2x fa-exclamation-circle"></i>
             <span> {{view.errorMsg}}</span>
   </div>
+
+<br>
 
   <h3>Messages
    <div id="clear" class="text-center text-success pull-right clearNotification " ng-if="view.data.length > 0">
