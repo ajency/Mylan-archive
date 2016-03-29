@@ -1179,6 +1179,8 @@ input::-ms-input-placeholder {
   background: #FFF4CB;
   padding: 15px;
   font-size: 16px;
+  font-family: open sans;
+  font-weight: bold;
 }
 .questWarning i {
   vertical-align: middle;
