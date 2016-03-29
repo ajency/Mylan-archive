@@ -404,6 +404,22 @@ $("#patientform").find("button[type='submit']").on('click', function() {
     }
 
 
+    // multiselect fix for scroll
+
+
+    // $(window).scroll(function(){
+    //     if(($(window).scrollTop()>50) && $(".ui-multiselect").hasClass("ui-state-active"))
+    //     {
+    //         $(".ui-multiselect").removeClass("ui-state-active");
+    //         $('.ui-multiselect-menu').css({display:'none'});
+    //         $(".ui-multiselect").trigger( "click" );
+    //     }
+    // });
+
+
+ 
+
+
 
   });
  
