@@ -8228,6 +8228,9 @@ input {
 .projectAdd .addAttributes i {
   padding-right: 5px;
 }
+.projectAdd .addAttributes:focus {
+  outline: none;
+}
 .projectAdd .form-actions {
   background: transparent;
   padding: 0 30px;

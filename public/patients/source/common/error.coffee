@@ -19,6 +19,8 @@ angular.module 'angularApp.common'
 				errorMsg = 'Could not connect to server'
 			when 'server_error'
 				errorMsg = 'Server error'
+			when 'offline'
+				errorMsg = 'No internet availability'
 			else
 				errorMsg = 'Unknown error'
 

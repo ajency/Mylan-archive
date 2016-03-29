@@ -123,7 +123,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         error = 0;
         sizeOfField = _.size(this.data.options);
         sizeOfTestboxAns = _.size(this.val_answerValue);
-        kgValid = true;
+        kgValid = false;
         lbValid = true;
         stValid = false;
         weightInput = 0;
@@ -155,8 +155,8 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             if (_.contains(['kg', 'kgs'], lowerCase)) {
               weightInput = 1;
               valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-              if (valid === null) {
-                kgValid = false;
+              if (valid !== null) {
+                kgValid = true;
               }
             }
             lowerCase = val.toLowerCase();
@@ -506,7 +506,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
         }
       },
       init: function() {
-        console.log('insie questionnaire');
         return this.getQuestion();
       },
       closeModal: function() {
@@ -583,7 +582,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           edit = false;
         }
         if (edit === false) {
-          console.log('inside firstrow click');
           this.firstText = 'selected';
           this.secondText = 'notSelected';
           a = {};
@@ -603,7 +601,6 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
           edit = false;
         }
         if (edit === false) {
-          console.log('inside second row click');
           this.firstText = 'notSelected ';
           this.secondText = 'selected';
           return _.each(this.data.options, (function(_this) {
@@ -614,7 +611,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
               labelKg = ['kg', 'kgs'];
               bool = _.contains(labelKg, str);
               if (bool) {
-                return _this.val_answerValue[value.option] = '';
+                if (!_.isUndefined(_this.val_answerValue)) {
+                  return _this.val_answerValue[value.option] = '';
+                }
               }
             };
           })(this));

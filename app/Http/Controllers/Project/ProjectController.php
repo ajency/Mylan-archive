@@ -99,7 +99,6 @@ class ProjectController extends Controller
             $patientReferenceCode[] = $patient['reference_code'];
         }
 
-
         $responseStatus = ["completed","late","missed"];
 
         // Cache::flush();
@@ -125,7 +124,6 @@ class ProjectController extends Controller
         $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
 
         $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
-
 
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);

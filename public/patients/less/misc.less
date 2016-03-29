@@ -2,6 +2,7 @@
 
 body,html{
   height: 100%;
+  font-family: open sans;
 }
 body{
   background: #fff;
@@ -218,6 +219,17 @@ p{
     border-bottom: 1px solid #ddd;
     padding: 15px 10px;
   }
+
+  .notification-list{
+    .ng-scope{
+      &:last-child{
+        li{
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
   .question{
     font-size: 22px;
   }
@@ -567,8 +579,9 @@ h4.line-title,h3.line-title {
 .item.item-radio .radio-icon span{
  color: #bbb!important;
  position: absolute;
-   right: 9px;
-   font-weight: bold;
+ right: 9px;
+ font-weight: lighter;
+ font-family: open sans;
 }
 .item.item-radio.item-radio input:checked ~ .radio-icon span{
    position: absolute;
@@ -1428,3 +1441,4 @@ color: #00aaa7;
     font-family: open sans;
   }
 }
+

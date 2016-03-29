@@ -18,6 +18,9 @@ angular.module('angularApp.common').directive('ajError', [
           case 'server_error':
             errorMsg = 'Server error';
             break;
+          case 'offline':
+            errorMsg = 'No internet availability';
+            break;
           default:
             errorMsg = 'Unknown error';
         }

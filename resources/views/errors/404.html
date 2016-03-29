@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            404.
+        </title>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+        <style>
+            body,html{
+            height: 100%;
+            font-family: open sans;
+            }
+            body{
+            background-color: #f2f2f2;
+            }
+            .btn-hover {
+            width: 100%;
+            }
+            .btn-hover span {
+            position: relative;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            }
+            .btn-hover span:after {
+            content: '\f101';
+            font-family: fontawesome;
+            position: absolute;
+            opacity: 0;
+            top: -2px;
+            right: -20px;
+            -webkit-transition: 0.5s;
+            transition: 0.5s;
+            }
+            .btn-hover:hover span {
+            padding-right: 25px;
+            }
+            .btn-hover:hover span:after {
+            opacity: 1;
+            right: 0;
+            }
+            .f-n-f {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: open sans;
+            }
+            .f-n-f .row {
+            background: #fff;
+            padding: 65px;
+            }
+            .f-n-f .row h1,
+            .f-n-f .row h3 {
+            margin: 20px 0;
+            font-size: 3.5em;
+            }
+            .f-n-f .row h3 {
+            color: #A9A5A5;
+            font-size: 1.6em;
+            }
+            .f-n-f .row a {
+            background: #00aaa7;
+            color: #fff;
+            width: initial;
+            }
+            .notFound span {
+            line-height: 1.8;
+            }
+            .notFound span:after {
+            content: "\f015";
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container f-n-f">
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h1>
+                        File Not Found
+                    </h1>
+                    <h3>
+                        Sorry, but we couldn't find the content you were looking for.
+                    </h3>
+                    <a class="btn btn-hover notFound">
+                        <span>
+                            Back to our home
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

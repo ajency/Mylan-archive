@@ -7,6 +7,20 @@ angular.module 'angularApp.common', []
 		currentState: ''
 		test : 4555
 
+		parseErrorCode :(error)->
+			errType = ''
+			errMsg = error.message
+			if error.code == 100
+				errType = 'offline'
+			else if error.code == 141
+				errType = 'server_error'
+			else if errMsg.code == 101
+				errType = 'server_error'
+			else if errMsg.code == 124
+				errType = 'offline'
+			errType
+				
+
 		errorCode : (error) ->
 			error = ''
 			if error.code == '100'
@@ -24,7 +38,7 @@ angular.module 'angularApp.common', []
 				error: (error) =>
 					console.log 'inside error common function'
 					console.log error
-					defer.reject @errorCode error
+					defer.reject @parseErrorCode error
 
 			defer.promise
 		

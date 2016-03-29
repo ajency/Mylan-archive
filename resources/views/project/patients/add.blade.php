@@ -21,7 +21,7 @@
      <div class="grid simple">
            <div class="grid-body">
 
-      <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" data-parsley-validate onsubmit="return validateOptionalInputs();">
+      <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" onsubmit="return validateOptionalInputs();">
               <div class="row form-group edit-add">
                 <div class="col-md-4">
                   <div class="form-row">
@@ -116,7 +116,8 @@
                                 </select>
                                 </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                <div class="col-md-4 aj">
+                                <div class="col-md-4 multiSelect">
+                                <div class="form-row">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
@@ -125,14 +126,15 @@
                                     @endforeach
                                 </select>
                                 </div>
+                                </div>
                                 @elseif('weight' === $attribute['control_type'])
         
                                   <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
-                                        <label class="">{{ $attribute['label'] }} </label>
+                                        <label class="">{{ $attribute['label'] }} <i class="fa fa-exclamation-circle p-l-5" data-toggle="tooltip" data-placement="top" title="Please enter your weight in KG or ST/LB"></i></label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}">
+                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" >
                                           <div class="input-group-addon">kg</div>
                                         </div>
                                       </div>
@@ -374,6 +376,32 @@
         $('input[name="units_per_week"]').removeAttr('data-parsley-required');
       }
     });
+
+
+
+$("#patientform").find("button[type='submit']").on('click', function() {
+  
+        validateInput();
+        return false;
+    });
+    
+    function validateInput() {
+        $("#patientform").find(".target").parsley({
+            successClass: "has-success",
+            errorClass: "has-error",
+            classHandler: function (el) {
+                return el.$element.closest('.form-group'); //working
+            },
+            errorsWrapper: "<span class='help-block'></span>",
+            errorTemplate: "<span></span>",
+            
+        });
+        
+      
+        
+        // validate field and affects UI
+       $("#patientform").parsley().validate();
+    }
 
 
 
