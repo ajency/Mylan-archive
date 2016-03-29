@@ -1,7 +1,13 @@
 <div class="container" ng-init="view.init();">
   <!-- Wrapper for slides --><br> 
+
+  <div class="questWarning" ng-if="view.errorMsg != ''" >
+            <i class="fa fa-2x fa-exclamation-circle"></i>
+            <span> {{view.errorMsg}}</span>
+  </div>
+
   <h3>Messages
-   <div class="text-center text-success pull-right clearNotification" ng-if="view.data.length > 0">
+   <div id="clear" class="text-center text-success pull-right clearNotification " ng-if="view.data.length > 0">
       <a type="button" class="btn btn-default btn-block btn-warning" ng-click="view.DeleteAll()">
           <span>Clear Displayed Notification</span>
       </a>

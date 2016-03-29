@@ -1,5 +1,5 @@
 angular.module('angularApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope', function($scope, App, $routeParams, notifyAPI, $location, $rootScope) {
+  '$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope', 'CToast', function($scope, App, $routeParams, notifyAPI, $location, $rootScope, CToast) {
     return $scope.view = {
       data: [],
       display: 'loader',
@@ -9,8 +9,10 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       gotAllRequests: false,
       email: hospitalEmail,
       phone: hospitalPhone,
+      errorMsg: '',
       init: function() {
         var param;
+        this.errorMsg = '';
         param = {
           "patientId": RefCode,
           "page": this.page,
@@ -41,6 +43,8 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
           };
         })(this), (function(_this) {
           return function(error) {
+            console.log('inside notification page error');
+            console.log(error);
             _this.display = 'error';
             return _this.errorType = error;
           };
@@ -53,6 +57,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       deleteNotify: function(id) {
         var param;
+        this.errorMsg = '';
         param = {
           "notificationId": id
         };
@@ -112,6 +117,7 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
       },
       DeleteAll: function() {
         var objIds, param;
+        this.errorMsg = '';
         objIds = _.pluck(this.data, 'id');
         param = {
           "notificationIds": objIds
@@ -126,9 +132,18 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
             console.log('sucess notification seen data');
             return console.log(data);
           };
-        })(this), function(error) {
-          return console.log('error data');
-        });
+        })(this), (function(_this) {
+          return function(error) {
+            if (error === 'offline') {
+              _this.errorMsg = 'Notification not clear , check your internet connection';
+            } else {
+              _this.errorMsg = 'Notification not clear , try again';
+            }
+            _this.display = 'noError';
+            CToast.showPosition('clear', msg, 'left');
+            return console.log('error data');
+          };
+        })(this));
       }
     };
   }

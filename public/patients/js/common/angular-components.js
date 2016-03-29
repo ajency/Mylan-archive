@@ -7,6 +7,11 @@ angular.module('angularApp.common').factory('CToast', [
         position: "right"
       });
     };
+    CToast.showPosition = function(id, content, Position) {
+      return $("#" + id).notify(content, {
+        position: Position
+      });
+    };
     CToast.showVaild = function(id, content) {
       return $("#" + id).notify(content, "success");
     };
