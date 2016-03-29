@@ -205,7 +205,7 @@
               <div class="footer">
                 <div class="container">
                   <div class="footer-content text-center">
-                   <span>Copyright © 2015 {{ $hospital['name'] }}. All rights reserved.</span>
+                   <span>Copyright © 2016 {{ $hospital['name'] }}. All rights reserved.</span>
                   </div>
                 </div>
               </div>
