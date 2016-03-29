@@ -124,7 +124,7 @@ angular.module 'angularApp.questionnaire'
 				sizeOfField = _.size(@data.options)
 				sizeOfTestboxAns = _.size(@val_answerValue)
 
-				kgValid =  true
+				kgValid =  false
 				lbValid = true
 				stValid = false
 				weightInput = 0
@@ -153,8 +153,8 @@ angular.module 'angularApp.questionnaire'
 						if _.contains ['kg','kgs'], lowerCase
 							weightInput = 1
 							valid = (weigthValueArray[_.indexOf weightKeys,val].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-							if valid == null
-								kgValid = false
+							if valid != null
+								kgValid = true
 
 						# weightKeyArray.push val.toLowerCase()
 						lowerCase = val.toLowerCase()
@@ -357,115 +357,6 @@ angular.module 'angularApp.questionnaire'
 					param = @vlaidateInput() 
 					if param != true then @loadNextQuestion(param)
 
-					# valueArr = []
-					# validArr = []
-					# error = 0
-					# sizeOfField = _.size(@data.options)
-					# sizeOfTestboxAns = _.size(@val_answerValue)
-
-					# kgValid =  true
-					# lbValid = true
-					# stValid = false
-					# weightInput = 0
-
-					# if (sizeOfTestboxAns == 0)
-					# 	error = 1
-					# else
-					# 	console.log @val_answerValue
-					# 	_.each @val_answerValue, (value)->
-					# 		value = value.toString()
-					# 		console.log value
-					# 		if value == null || value == ''
-					# 			console.log 'empty'
-					# 			valueArr.push 1
-					# 		else
-					# 			valid = (value.match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-					# 			if valid == null
-					# 				validArr.push 1
-
-					# 	if valueArr.length == _.size(@val_answerValue)
-					# 		error = 1
-					# #for lbs validation 
-					# if !_.isEmpty @val_answerValue
-					# 	weightKeys = _.keys @val_answerValue
-					# 	weigthValueArray = _.values @val_answerValue
-
-					# 	_.each weightKeys, (val)->
-
-					# 		lowerCase = val.toLowerCase()
-					# 		if _.contains ['kg','kgs'], lowerCase
-					# 			weightInput = 1
-					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-					# 			console.log 'valueee'
-					# 			console.log valid 
-					# 			if valid == null
-					# 				kgValid = false
-
-								
-
-					# 		# weightKeyArray.push val.toLowerCase()
-					# 		lowerCase = val.toLowerCase()
-					# 		if _.contains ['lb','lbs'], lowerCase
-					# 			weightInput = 1
-					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^-?\d*(\.\d+)?$/))
-					# 			console.log 'valueee'
-					# 			console.log valid 
-					# 			if valid == null
-					# 				lbValid = false
-
-
-					# 		lowerCase = val.toLowerCase()
-					# 		if _.contains ['st','sts'], lowerCase
-					# 			weightInput = 1
-					# 			valid = (weigthValueArray[_.indexOf weightKeys,val].match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm))
-					# 			console.log 'valueee'
-					# 			console.log valid 
-					# 			if valid != null 
-					# 				stValid = true
-					# 			else if valid == null
-					# 				stValid = false
-
-
-							
-					# # ***temp**
-					# if (weightInput == 0) && (error == 1 || validArr.length > 0)
-					# 	CToast.show 'Please enter the values'
-					# else if (weightInput == 1) && (@firstText == 'selected' && kgValid == false)
-					# 	CToast.show 'Please enter valid value,kg cannot be zero'
-					# else if (weightInput == 1) && (@secondText == 'selected' && (stValid == false || lbValid == false ))
-					# 	CToast.show 'Please enter valid value,st cannot be zero'
-					# else
-					# 	valueInput = []
-					# 	optionId = []
-					# 	arryObj = []
-					# 	_.each @data.options, (opt)=>
-					# 		obj={}
-					# 		a = @val_answerValue[opt.option]
-					# 		if !_.isUndefined(a) && a !=''
-					# 			# valueInput.push(a)
-					# 			# optionId.push(opt.id)
-
-					# 			obj['id'] = opt.id
-					# 			obj['value'] = a.toString()
-					# 			arryObj.push(obj)
-
-					# 	options =
-					# 		# "questionId" : @data.questionId
-					# 		# "options": [optionId[0]]
-					# 		# "value": valueInput[0].toString()
-
-					# 	options =
-					# 		"responseId" : @data.responseId
-					# 		"questionId" : @data.questionId
-					# 		"options": arryObj
-					# 		"value": ""
-							
-
-
-					# 	@loadNextQuestion(options)
-
-
-			
 				if @data.questionType == 'multi-choice'
 					if ! _.contains(_.pluck(@data.options, 'checked'), true)
 						CToast.show 'Please select your answer'
@@ -593,7 +484,6 @@ angular.module 'angularApp.questionnaire'
 
 
 			init : ->
-				console.log 'insie questionnaire'
 				@getQuestion()	
 
 			closeModal : ->
@@ -662,7 +552,6 @@ angular.module 'angularApp.questionnaire'
 				else
 					edit = false
 				if edit == false
-					console.log 'inside firstrow click'
 					@firstText = 'selected'
 					@secondText = 'notSelected'
 					
@@ -677,7 +566,6 @@ angular.module 'angularApp.questionnaire'
 				else
 					edit = false
 				if edit == false
-					console.log 'inside second row click'
 					@firstText = 'notSelected '
 					@secondText = 'selected'
 					
@@ -686,8 +574,10 @@ angular.module 'angularApp.questionnaire'
 						str = str.toLowerCase()	
 						labelKg = ['kg', 'kgs']
 						bool = _.contains(labelKg, str)	
+
 						if bool	
-						  @val_answerValue[value.option] = ''
+						  if !_.isUndefined(@val_answerValue)
+						  	@val_answerValue[value.option] = ''
 
 
 
