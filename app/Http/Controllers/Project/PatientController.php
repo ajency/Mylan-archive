@@ -616,7 +616,7 @@ class PatientController extends Controller
         foreach($redFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $redFlagData[$i]["Date"] = date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
+            $redFlagData[$i]["Date"] = date('d M',$occurrenceDate) ; //.' ('.$sequenceNumber.')'
             $redFlagData[$i]["Baseline"] = $value['baseLine'];
             $redFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -628,7 +628,7 @@ class PatientController extends Controller
         foreach($amberFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $amberFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
+            $amberFlagData[$i]["Date"] =  date('d M',$occurrenceDate) ; //.' ('.$sequenceNumber.')'
             $amberFlagData[$i]["Baseline"] = $value['baseLine'];
             $amberFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -640,7 +640,7 @@ class PatientController extends Controller
         foreach($greenFlagsBySubmission as $sequenceNumber => $value)
         { 
             $occurrenceDate = $submissionDates[$sequenceNumber]; 
-            $greenFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
+            $greenFlagData[$i]["Date"] =  date('d M',$occurrenceDate) ; //.' ('.$sequenceNumber.')'
             $greenFlagData[$i]["Baseline"] = $value['baseLine'];
             $greenFlagData[$i]["Previous"] = $value['previous'] ;
  
@@ -654,7 +654,7 @@ class PatientController extends Controller
         {
             $occurrenceDate = $submissionDates[$sequenceNumber];  
             $baseLineScore =  $baseLineBySubmission[$sequenceNumber];
-            $totalFlagData[$i]["Date"] =  date('d M',$occurrenceDate).' ('.$sequenceNumber.')' ;
+            $totalFlagData[$i]["Date"] =  date('d M',$occurrenceDate) ; //.' ('.$sequenceNumber.')'
             $totalFlagData[$i]["score"] = $value;
             $totalFlagData[$i]["baseLine"] = $baseLineScore;
  
