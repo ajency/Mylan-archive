@@ -125,7 +125,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       scrollTop: function() {
         App.scrollTop();
-        this.limitTo = 5;
         return this.scroll = false;
       },
       getScrollPosition: function() {
@@ -137,6 +136,12 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
           return $scope.$apply(function() {
             return $scope.view.scroll = false;
           });
+        } else if (scrollPosition > 1000) {
+          if (this.limitTo >= 25) {
+            return $scope.$apply(function() {
+              return $scope.view.scroll = true;
+            });
+          }
         }
       }
     };

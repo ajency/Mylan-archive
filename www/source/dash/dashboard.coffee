@@ -111,18 +111,22 @@ angular.module 'PatientApp.dashboard',[]
 
 			scrollTop : ->
 				App.scrollTop()
-				@limitTo = 5
+				# @limitTo = 5
 				@scroll = false
 
 			getScrollPosition : ->
+
 				console.log 'getscroll position'
 				scrollPosition = App.getScrollPosition()
 				console.log scrollPosition
-
 				if scrollPosition < 200
-					
 					$scope.$apply ->
-  						$scope.view.scroll = false
+						$scope.view.scroll = false
+				else if scrollPosition > 1000
+					if @limitTo >= 25
+						$scope.$apply ->
+							$scope.view.scroll = true
+
 					
 					
 
