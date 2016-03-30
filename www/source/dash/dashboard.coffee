@@ -18,7 +18,7 @@ angular.module 'PatientApp.dashboard',[]
 
 			onPullToRefresh :->
 				@showMoreButton = false
-				@data =[]
+				# @data =[]
 				@getSubmission()
 				@limitTo = 5
 				@scroll = false
@@ -31,7 +31,7 @@ angular.module 'PatientApp.dashboard',[]
 				App.navigate 'start-questionnaire', responseId:val
 
 			getSubmission : ->
-				
+				# @display = 'loader'
 				@showMoreButton = false
 				
 				Storage.setData 'refcode','get'

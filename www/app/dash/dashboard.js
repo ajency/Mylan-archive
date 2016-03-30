@@ -14,7 +14,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       errorMsg: '',
       onPullToRefresh: function() {
         this.showMoreButton = false;
-        this.data = [];
         this.getSubmission();
         this.limitTo = 5;
         return this.scroll = false;
