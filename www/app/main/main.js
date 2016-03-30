@@ -64,7 +64,14 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         });
       },
       exitApp: function() {
-        return ionic.Platform.exitApp();
+        if (App.isAndroid()) {
+          return ionic.Platform.exitApp();
+        } else {
+          return App.navigate("dashboard", {}, {
+            animate: false,
+            back: false
+          });
+        }
       },
       closePopup: function() {
         return $ionicLoading.hide();
