@@ -4,7 +4,7 @@
    <ion-nav-title>
    <!--  <h1 class="title">{{view.hospitalName}}</h1> -->
    </ion-nav-title>
-   <ion-content ng-switch="view.display">
+   <ion-content ng-switch="view.display" class="has-footer">
       
       <div class="loader" ng-switch-when="loader">
           <ion-spinner>
@@ -110,7 +110,7 @@
 
     class="notification-footer" ng-if="view.data.length">
       <div
-        
+        ng-disabled = "view.disable"
         class="button clear-notification button-block button-balanced"
         ng-click="view.DeleteAll();">
         Clear displayed notifications

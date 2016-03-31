@@ -1,17 +1,18 @@
 angular.module 'PatientApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner'
-	, ($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner)->
+.controller 'notifyCtrl',['$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner', 'CToast'
+	, ($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner, CToast)->
 
 		$scope.view =
 			data : []
 			display : 'noError'
 			page : 0
-			limit : 10
+			limit : 20
 			refcode : ''
 			canLoadMore : true
 			refresh: false
 			gotAllRequests: false
+			disable : false
 
 			init :() ->
 				
@@ -27,13 +28,15 @@ angular.module 'PatientApp.notification',[]
 					@display = 'noError'
 					dataSize = _.size data
 					if dataSize > 0
+						if @refresh then @data = data
+						else @data = @data.concat data
+
 						if dataSize < @limit
 							@canLoadMore = false
 						else
 							@canLoadMore = true
 
-						if @refresh then @data = data
-						else @data = @data.concat data
+						
 					else
 						@canLoadMore = false
 
@@ -48,9 +51,11 @@ angular.module 'PatientApp.notification',[]
 					@display = 'error'
 					@errorType = error
 				.finally =>
+					@disable = false
 					@page = @page + 1
 					$scope.$broadcast 'scroll.refreshComplete'
 					$scope.$broadcast 'scroll.infiniteScrollComplete'
+					
 
 			seenNotify:(id)->
 				App.navigate 'dashboard', {}, {animate: false, back: false}
@@ -77,6 +82,7 @@ angular.module 'PatientApp.notification',[]
 				
 
 			onInfiniteScroll : ->
+				@disable = true
 				@refresh = false
 				Storage.setData 'refcode','get'
 				.then (refcode)=>
@@ -87,6 +93,7 @@ angular.module 'PatientApp.notification',[]
 				$scope.$broadcast 'scroll.infiniteScrollComplete'
 
 			DeleteAll:()->
+				@canLoadMore = false
 				# param = 
 				# 	"patientId": @refcode 
 				CSpinner.show '', 'Please wait..'
@@ -99,18 +106,19 @@ angular.module 'PatientApp.notification',[]
 					App.notification.count = App.notification.count - data.length
 					App.notification.badge = false if App.notification.count <= 0
 					# @badge = false if @count <= 0
-					@data = []
+					@refresh = true
+					# @data = []
 					App.scrollTop()
 					App.resize()
 					@page = 0
-					@canLoadMore = true
-					@display = 'loader'
+					# @canLoadMore = true
+					# @display = 'loader'
 					@init()
 					# App.notification.count = 0
 					# App.notification.badge = false
 				,(error)->
 					if error == 'offline'
-							CToast.show 'Check net connection'
+							CToast.show 'Check internet connection'
 						else if error == 'server_error'
 							CToast.showLongBottom 'Error in clearing Notification ,Server error'
 						else
@@ -119,6 +127,7 @@ angular.module 'PatientApp.notification',[]
 					CSpinner.hide()
 
 			onPullToRefresh : ->
+				@disable = true
 				@gotAllRequests = false
 				NotifyCount.getCount(@refcode)
 				@page = 0
