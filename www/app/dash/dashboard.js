@@ -1,5 +1,5 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', '$rootScope', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope) {
     $scope.view = {
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
@@ -152,13 +152,17 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return NotifyCount.getCount(refcode);
       });
     });
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       $scope.view.display = 'loader';
       $scope.view.data = [];
       $scope.view.limitTo = 5;
       $scope.view.showMoreButton = false;
       $scope.view.scroll = false;
       return $scope.view.errorStartQuestion = false;
+    });
+    return $rootScope.$on('in:app:notification', function(e, obj) {
+      App.scrollTop();
+      return $scope.view.onPullToRefresh();
     });
   }
 ]).config([
