@@ -8,7 +8,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       readonly: '',
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
-          return this.loginerror = "Please enter the credentials ";
+          return this.loginerror = "Please enter your credentials ";
         } else {
           if (_.isUndefined(this.refrencecode) || _.isUndefined(this.password)) {
             return this.loginerror = "Please enter valid credentials ";
@@ -38,6 +38,10 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                 } else if (data.code === 'limit_exceeded') {
                   return _this.loginerror = 'Cannot do setup more then 5 times';
                 } else if (data.code === 'invalid_login') {
+                  _this.password = '';
+                  if (_this.readonly === false) {
+                    _this.refrencecode = '';
+                  }
                   return _this.loginerror = 'Credentials entered are invalid';
                 } else if (data.code === 'password_not_set') {
                   return _this.loginerror = 'No password set for the reference code';

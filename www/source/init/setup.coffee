@@ -12,7 +12,7 @@ angular.module 'PatientApp.init'
 
 			verifyRefCode : ->
 				if @refcode =='' || _.isUndefined(@refcode)
-					@emptyfield = "Please enter Valid Reference Code"	
+					@emptyfield = "Please enter valid reference code"	
 				else
 					@deviceUUID = App.deviceUUID()
 					if App.isAndroid() 
@@ -67,6 +67,10 @@ angular.module 'PatientApp.init'
 
 			call:()->
 				App.callUs(MYLANPHONE)
+
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			$scope.view.refcode = ''
+
 				
 ]
 	
