@@ -37,6 +37,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
               }
             } else {
               _this.canLoadMore = false;
+              _this.data = [];
             }
             if (!_this.canLoadMore) {
               _this.gotAllRequests = true;

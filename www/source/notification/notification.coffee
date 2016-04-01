@@ -39,6 +39,7 @@ angular.module 'PatientApp.notification',[]
 						
 					else
 						@canLoadMore = false
+						@data = []
 
 					@gotAllRequests = true if !@canLoadMore
 
