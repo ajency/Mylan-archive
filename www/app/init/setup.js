@@ -41,7 +41,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
           })(this), (function(_this) {
             return function(error) {
               if (error === 'offline') {
-                return _this.emptyfield = 'Please check internet connection';
+                return _this.emptyfield = 'Please check your internet connection';
               } else if (error === 'server_error') {
                 return _this.emptyfield = 'Please try again';
               }

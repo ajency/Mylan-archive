@@ -37,7 +37,7 @@ angular.module 'PatientApp.init'
 							@emptyfield = 'Please check your reference code'
 					, (error)=>
 						if error == 'offline'
-							@emptyfield = 'Please check internet connection'
+							@emptyfield = 'Please check your internet connection'
 						else if error == 'server_error'
 							@emptyfield = 'Please try again'
 					.finally ()->
