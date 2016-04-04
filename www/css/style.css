@@ -1494,4 +1494,16 @@ ul .mcq_active div span {
   background: #FF8181;
   color: #FFFFFF;
 }
+/** Questionaire missed **/
+.popupQuestion {
+  text-align: center;
+}
+.popupQuestion .popup-body {
+  font-weight: 600;
+}
+.popupQuestion .popup-buttons {
+  text-align: center;
+  margin: auto;
+  width: 40%;
+}
 /*# sourceMappingURL=style.css.map */
