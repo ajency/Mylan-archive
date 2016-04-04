@@ -540,6 +540,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       showConfirm: function() {
         this.alertPopup = $ionicPopup.alert({
           title: 'Alert',
+          cssClass: 'popupQuestion',
           template: this.title
         });
         return this.alertPopup.then(function(res) {

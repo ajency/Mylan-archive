@@ -493,6 +493,7 @@ angular.module 'PatientApp.Quest',[]
 			showConfirm : ->
 			  	@alertPopup = $ionicPopup.alert(
 			    	title: 'Alert'
+			    	cssClass: 'popupQuestion'
 			    	template: @title)
 
 			  	@alertPopup.then (res) ->
