@@ -382,7 +382,7 @@
 $("#patientform").find("button[type='submit']").on('click', function() {
   
         validateInput();
-        return false;
+        //return false;
     });
     
     function validateInput() {
