@@ -8186,7 +8186,6 @@ input {
 .attributeContainer input.form-control,
 .attributeContainer select.form-control {
   margin-bottom: 8px;
-  text-indent: 8px;
 }
 .attributes_block {
   border: 0 !important;
@@ -8213,6 +8212,7 @@ input {
 .projectAdd .form-row input[type='text'],
 .projectAdd .form-row textarea {
   width: 50%;
+  line-height: 1.5;
 }
 .projectAdd .form-row > label {
   margin-bottom: 10px;
@@ -8233,7 +8233,8 @@ input {
 }
 .projectAdd .form-actions {
   background: transparent;
-  padding: 0 30px;
+  padding-left: 35px;
+  padding-right: 35px;
 }
 .validateCheck {
   display: -webkit-box;

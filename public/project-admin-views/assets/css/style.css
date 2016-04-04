@@ -9029,6 +9029,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;
 }
+.edit-add {
+  margin-bottom: 0;
+}
 .edit-add .col-sm-4,
 .edit-add .col-md-4 {
   margin-bottom: 30px;
@@ -9064,6 +9067,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add .tooltip-inner {
   font-family: open sans;
   background-color: #05A8A5;
+}
+#patientform .form-actions {
+  background: transparent;
 }
 .customMessage ul.parsley-errors-list {
   position: absolute;
