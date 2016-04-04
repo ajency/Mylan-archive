@@ -47,6 +47,7 @@ angular.module 'PatientApp.notification',[]
 						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
 						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
 					@onScrollComplete()	
+					@disable = false
 				, (error)=>
 					@data = []
 					@display = 'error'
@@ -73,6 +74,7 @@ angular.module 'PatientApp.notification',[]
 					App.notification.decrement()
 
 			onTapToRetry : ->
+				@disable = true
 				@gotAllRequests = false
 				@page = 0
 				@canLoadMore = true
@@ -94,6 +96,7 @@ angular.module 'PatientApp.notification',[]
 				$scope.$broadcast 'scroll.infiniteScrollComplete'
 
 			DeleteAll:()->
+				@refresh = true
 				@canLoadMore = false
 				# param = 
 				# 	"patientId": @refcode 

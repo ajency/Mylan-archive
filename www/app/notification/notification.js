@@ -46,7 +46,8 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
               value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A');
               return value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A');
             });
-            return _this.onScrollComplete();
+            _this.onScrollComplete();
+            return _this.disable = false;
           };
         })(this), (function(_this) {
           return function(error) {
@@ -85,6 +86,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         }
       },
       onTapToRetry: function() {
+        this.disable = true;
         this.gotAllRequests = false;
         this.page = 0;
         this.canLoadMore = true;
@@ -108,6 +110,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       },
       DeleteAll: function() {
         var objIds, param;
+        this.refresh = true;
         this.canLoadMore = false;
         CSpinner.show('', 'Please wait..');
         objIds = _.pluck(this.data, 'id');
