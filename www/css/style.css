@@ -1513,4 +1513,17 @@ ul .mcq_active div span {
   border: none;
   min-height: 35px;
 }
+/* Notification */
+.questionaire-list .item-content {
+  padding: 16px 49px 16px 16px !important;
+}
+.questionaire-list .notification-time {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  z-index: 999;
+}
+.questionaire-list .notification-time .button {
+  background: none;
+}
 /*# sourceMappingURL=style.css.map */
