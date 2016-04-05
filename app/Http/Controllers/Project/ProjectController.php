@@ -13,6 +13,7 @@ use App\Projects;
 use App\User;
 use App\UserAccess;
 use \Input;
+use \Session;
 use App\Http\Controllers\Project\PatientController;
 
 class ProjectController extends Controller
@@ -948,9 +949,7 @@ class ProjectController extends Controller
 
             
         }
-
-         
-
+        
         return $patientFlagsData;
     }
 
