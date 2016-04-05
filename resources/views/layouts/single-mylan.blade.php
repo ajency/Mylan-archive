@@ -105,12 +105,7 @@
             <!-- END TOP NAVIGATION MENU --> 
          </div>
          <!-- END TOP NAVIGATION BAR --> 
-      </div>
-      <!-- END HEADER -->
-      <!-- BEGIN CONTAINER -->
-      <div class="page-container row-fluid">
-         <!-- BEGIN PAGE CONTAINER-->
-         <div class="page-content">
+         <div class="site-nav">
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
@@ -149,6 +144,47 @@
                   </div>
                </div>
             </div>
+         </div>
+      </div>
+      <!-- END HEADER -->
+      <!-- BEGIN CONTAINER -->
+      <div class="page-container row-fluid">
+         <!-- BEGIN PAGE CONTAINER-->
+         <div class="page-content">
+            <!-- <div class="bar">
+               <div class="container">
+                  <div class="bar-inner">
+                     <ul>
+                        @if(Auth::user()->type=='mylan_admin')
+                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/dashboard/' ) }}">
+                           <span><i class="fa fa-tachometer"></i> Dashboard </span>
+                           </a>
+                        </li>
+                        
+                        <li class="{{ ( $active_menu == 'hospital')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/hospitals/' ) }}">
+                           <span><i class="fa fa-hospital-o"></i> Hospitals </span>
+                           </a>
+                        </li>
+                        
+                        <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/users/' ) }}">
+                           <span><i class="fa fa-users"></i> Users </span>
+                           </a>
+                        </li>
+                       
+                        @else 
+                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                           <a href="{{ url( 'admin/login-links/' ) }}">
+                           <span><i class="fa fa-tachometer"></i> Dashboard </span>
+                           </a>
+                        </li>
+                        @endif
+                     </ul>
+                  </div>
+               </div>
+            </div> -->
             <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
             <div id="portlet-config" class="modal hide">
                <div class="modal-header">

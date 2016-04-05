@@ -113,12 +113,8 @@
             <!-- END TOP NAVIGATION MENU --> 
          </div>
          <!-- END TOP NAVIGATION BAR --> 
-      </div>
-      <!-- END HEADER -->
-      <!-- BEGIN CONTAINER -->
-      <div class="page-container row-fluid">
-         <!-- BEGIN PAGE CONTAINER-->
-         <div class="page-content">
+         <!-- START MAIN NAVIGATION -->
+         <div class="site-nav">
             <div class="bar">
                <div class="container">
                   <div class="bar-inner">
@@ -157,7 +153,15 @@
                      </ul>
                   </div>
                </div>
-            </div>
+            </div>  
+         </div>
+            <!-- END SECONDARY NAVIGATION -->
+      </div>
+      <!-- END HEADER -->
+      <!-- BEGIN CONTAINER -->
+      <div class="page-container row-fluid">
+         <!-- BEGIN PAGE CONTAINER-->
+         <div class="page-content">
             <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
             <div id="portlet-config" class="modal hide">
                <div class="modal-header">

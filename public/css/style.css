@@ -1587,7 +1587,6 @@ body.modal-open .chat-window-wrapper {
   width: 100%;
   background-color: #f4f5f7;
   position: fixed;
-  margin-top: 56px;
   display: table;
   z-index: 50;
 }
@@ -8019,6 +8018,19 @@ body.rtl .header {
 body.rtl .footer-widget {
   right: 0;
   left: auto;
+}
+.site-nav .bar {
+  background: #05A8A5;
+}
+.site-nav .bar ul li a {
+  opacity: 0.9;
+  color: #fff;
+}
+.site-nav .bar ul li.active-item {
+  background: #fff;
+}
+.site-nav .bar ul li.active-item a {
+  color: #63696d;
 }
 .page-content {
   background: #f9f9f9;
