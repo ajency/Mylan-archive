@@ -17,7 +17,8 @@
       </ion-refresher>
 
       <div ng-switch-when="noError" class="notification-screen"   >
-         <div ng-repeat ="notify in view.data" ng-click="clicker(notify)"  class="notify-view"> 
+
+        <!--  <div ng-repeat ="notify in view.data" ng-click="clicker(notify)"  class="notify-view"> 
           
             <div class="row item notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
@@ -40,9 +41,6 @@
                       
                       <p class="f-w-400 notification-msg">You have missed the questionnaire due on 
                           <span class="text-green">{{notify.occurrenceDateDisplay}}. </span></p>
-
-                       <!--  <p class="f-w-400">Questionnairre was due on {{notify.occurrenceDateDisplay}}. 
-                          Please submit it by<p> <p class="text-green"> {{notify.graceDateDisplay}} </p> -->
                     </div>
                 </div>
                 <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
@@ -66,7 +64,54 @@
             </div>
 
             
+        </div> -->
+
+        <div class="list" >
+
+          <div ng-repeat ="notify in view.data">
+
+            <label class="item item-radio" ng-if = "notify.type === 'beforOccurrence'"
+                ng-click ="view.seenNotify(notify.id)">
+                <input type="radio" name="group1">
+                <div class="item-content">
+                  Questionnaire is due on  {{notify.occurrenceDateDisplay}}.
+                </div>
+               <!--  <i class="radio-icon ion-checkmark"></i> -->
+                <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
+                    <a class="button icon ion-ios-close delete-btn"></a>
+                </div>
+            </label>
+
+            <label class="item item-radio" ng-if = "notify.type === 'missedOccurrence'"
+                ng-click ="view.seenNotify(notify.id)">
+                <input type="radio" name="group1">
+                <div class="item-content">
+                  You have missed the questionnaire due on {{notify.occurrenceDateDisplay}}. .
+                </div>
+               <!--  <i class="radio-icon ion-checkmark"></i> -->
+                <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
+                    <a class="button icon ion-ios-close delete-btn"></a>
+                </div>
+            </label>
+
+            <label class="item item-radio" ng-if = "notify.type === 'beforeGracePeriod'"
+                ng-click ="view.seenNotify(notify.id)">
+                <input type="radio" name="group1" >
+                <div class="item-content">
+                Questionnaire was due on {{notify.occurrenceDateDisplay}}.Please submit it by
+                {{notify.graceDateDisplay}}.
+                </div>
+               <!--  <i class="radio-icon ion-checkmark"></i> -->
+                <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
+                    <a class="button icon ion-ios-close delete-btn"></a>
+                </div>
+            </label>
+
+
+          </div>
+
         </div>
+
 
         <div class="row item border-none" ng-if="view.gotAllRequests && view.data.length == 0 ">
           <div class="col"></div>
@@ -81,14 +126,7 @@
             <div class="col"></div>
         </div>
             
-         <!--  <div class="row">
-            <div class="col"></div>
-              <div class="col col-80"> 
-                <button class="button button-block button-balanced" ng-if=" view.data.length > 0 ">Clear all Notifications
-                </button>
-              </div>
-              <div class="col"></div>
-          </div> -->
+
           <ion-infinite-scroll
             ng-if="view.canLoadMore"
             on-infinite="view.onInfiniteScroll();"

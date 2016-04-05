@@ -152,6 +152,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       },
       deleteNotify: function(id) {
         var idObject, param;
+        console.log('deletee notifyy');
         param = {
           "notificationId": id
         };

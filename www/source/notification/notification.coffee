@@ -140,6 +140,7 @@ angular.module 'PatientApp.notification',[]
 				@init()
 
 			deleteNotify:(id)->
+				console.log('deletee notifyy')
 				param = 
 					"notificationId":id
 
