@@ -26,7 +26,7 @@ body {
   direction: ltr;
   background-color: #1b1e24;
   color: #6f7b8a;
-  font-family: 'Arial';
+  font-family: open sans;
   font-size: 13px;
   padding: 0px !important;
   margin: 0px !important;
@@ -164,7 +164,7 @@ body.modal-open .chat-window-wrapper {
   margin: 0 !important;
   position: fixed;
   width: 100%;
-  z-index: 999;
+  z-index: 99999;
   min-height: 60px;
   left: 0;
   -webkit-backface-visibility: hidden;
@@ -1588,7 +1588,6 @@ body.modal-open .chat-window-wrapper {
   width: 100%;
   background-color: #f4f5f7;
   position: fixed;
-  margin-top: 56px;
   display: table;
   z-index: 50;
 }
@@ -8056,22 +8055,22 @@ body.rtl .footer-widget {
   right: 0;
   left: auto;
 }
-.page-content {
-  background: #f9f9f9
-  /****Chart Colors****/
-}
-.page-content .bar {
+.site-nav .bar {
   background: #05A8A5;
 }
-.page-content .bar ul li a {
+.site-nav .bar ul li a {
   opacity: 0.9;
   color: #fff;
 }
-.page-content .bar ul li.active-item {
+.site-nav .bar ul li.active-item {
   background: #fff;
 }
-.page-content .bar ul li.active-item a {
+.site-nav .bar ul li.active-item a {
   color: #63696d;
+}
+.page-content {
+  background: #f9f9f9
+  /****Chart Colors****/
 }
 .page-content .grid.simple .grid-body {
   border: 1px solid #f4f4f4;
@@ -9029,6 +9028,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .bootstrap-tagsinput span.label-info {
   background: #05A8A5;
 }
+.edit-add {
+  margin-bottom: 0;
+}
 .edit-add .col-sm-4,
 .edit-add .col-md-4 {
   margin-bottom: 30px;
@@ -9064,6 +9066,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .edit-add .tooltip-inner {
   font-family: open sans;
   background-color: #05A8A5;
+}
+#patientform .form-actions {
+  background: transparent;
 }
 .customMessage ul.parsley-errors-list {
   position: absolute;

@@ -22,7 +22,7 @@
      <div class="grid simple">
            <div class="grid-body">
       
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" data-parsley-validate onsubmit="return validateOptionalInputs();">
+      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" onsubmit="return validateOptionalInputs();">
               <div class="row form-group  edit-add">
                 <div class="col-md-4">
                   <div class="form-row">
@@ -117,7 +117,7 @@
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                <div class="col-md-4">
+                                <div class="col-md-4 customSelect">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
@@ -129,6 +129,7 @@
                                 @elseif('multiple' == $attribute['control_type'])
                                  
                                 <div class="col-md-4">
+                                <div class="form-row multiSelect">
                                 <label>{{ $attribute['label'] }} </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5"  @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
@@ -136,6 +137,7 @@
                                     <option {{ (isset($value['multiple']) && !empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
+                                </div>
                                 </div>
                                 @elseif('weight' === $attribute['control_type'])
                                   <?php
@@ -220,7 +222,7 @@
               <div class="col-sm-6">
               <div class="row form-row">
                
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 customMessage">
                       <label>Is Smoker</label>
                       <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
@@ -228,7 +230,7 @@
                           <option {{ ($patient['patient_is_smoker']=='no')?'selected':'' }} value="no">No</option> 
                         </select>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 smoke-input customMessage">
                       <label>If yes, how many per week</label>
                         <input name="smoke_per_week" id="smoke_per_week" type="text"  class="form-control" placeholder="How many per week" value="{{ $patient['patient_smoker_per_week'] }}">
                     </div>
@@ -245,7 +247,7 @@
                           <option {{ ($patient['patient_is_alcoholic']=='no')?'selected':'' }} value="no">No</option> 
                         </select> 
                     </div> -->
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 customMessage">
                       <label>Alcohol consumption per week</label>
                         <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
                     </div>
@@ -435,6 +437,35 @@ function validateOptionalInputs()
           $('input[name="units_per_week"]').removeAttr('data-parsley-required');
       }
     });
+
+
+// Custom validation for parsley
+
+$("#form-condensed").find("button[type='submit']").on('click', function() {
+  
+        validateInput();
+        //return false;
+    });
+    
+    function validateInput() {
+        $("#form-condensed").find(".target").parsley({
+            successClass: "has-success",
+            errorClass: "has-error",
+            classHandler: function (el) {
+                return el.$element.closest('.form-group'); //working
+            },
+            errorsWrapper: "<span class='help-block'></span>",
+            errorTemplate: "<span></span>",
+            
+        });
+        
+
+        // validate field and affects UI
+       $("#form-condensed").parsley().validate();
+    }
+
+
+
  
   }); 
 </script>

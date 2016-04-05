@@ -382,7 +382,7 @@
 $("#patientform").find("button[type='submit']").on('click', function() {
   
         validateInput();
-        return false;
+        //return false;
     });
     
     function validateInput() {
@@ -397,13 +397,10 @@ $("#patientform").find("button[type='submit']").on('click', function() {
             
         });
         
-      
-        
+
         // validate field and affects UI
        $("#patientform").parsley().validate();
     }
-
-
 
   });
  

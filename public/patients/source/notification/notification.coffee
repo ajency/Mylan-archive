@@ -1,7 +1,7 @@
 angular.module 'angularApp.notification',[]
 
-.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope'
-	, ($scope, App, $routeParams, notifyAPI, $location, $rootScope)->
+.controller 'notifyCtrl',['$scope', 'App', '$routeParams', 'notifyAPI', '$location', '$rootScope', 'CToast'
+	, ($scope, App, $routeParams, notifyAPI, $location, $rootScope, CToast)->
 
 		$scope.view =
 			data : []
@@ -12,9 +12,11 @@ angular.module 'angularApp.notification',[]
 			gotAllRequests: false
 			email : hospitalEmail
 			phone : hospitalPhone
+			errorMsg : ''
+			disable : false
 
 			init :() ->
-				
+				@errorMsg = ''
 				param =
 					"patientId" : RefCode
 					"page" : @page
@@ -22,6 +24,7 @@ angular.module 'angularApp.notification',[]
 
 				notifyAPI.getNotification param
 				.then (data)=>	
+					@disable = false
 					@display = 'noError'
 					dataSize = _.size data
 					if dataSize > 0
@@ -39,7 +42,9 @@ angular.module 'angularApp.notification',[]
 						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
 						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
 
-				,(error)=>
+				,(error) =>
+					console.log 'inside notification page error'
+					console.log error
 					@display = 'error'
 					@errorType = error
 
@@ -49,6 +54,7 @@ angular.module 'angularApp.notification',[]
 				$rootScope.$broadcast 'notification:count'
 			
 			deleteNotify:(id)->
+				@errorMsg = ''
 				param = 
 					"notificationId":id
 
@@ -101,6 +107,8 @@ angular.module 'angularApp.notification',[]
 			DeleteAll:()->
 				# param = 
 				# 	"patientId": RefCode 
+				@disable = true
+				@errorMsg = ''
 
 				objIds = _.pluck(@data, 'id')  
 				param = 
@@ -115,8 +123,18 @@ angular.module 'angularApp.notification',[]
 					@init()
 					console.log 'sucess notification seen data'
 					console.log data
-				,(error)->
+				,(error)=>
+					if error == 'offline'
+						@errorMsg = 'Notification not clear , check your internet connection'
+					else 
+						@errorMsg = 'Notification not clear , try again'
+
+					@display = 'noError' 
+					CToast.showPosition('clear',@errorMsg,'left')
 					console.log 'error data'
+					# @display = 'error'
+					# @errorType = error
+				
 
 
 

@@ -123,13 +123,8 @@
 
          </div>
          <!-- END TOP NAVIGATION BAR --> 
-      </div>
-      <!-- END HEADER -->
-      <!-- BEGIN CONTAINER -->
-      <div class="page-container row-fluid">
-         <!-- BEGIN PAGE CONTAINER-->
-         <div class="page-content">
-            <div class="bar">
+      <div class="site-nav">
+         <div class="bar">
                <div class="container">
                   <div class="bar-inner">
                      <ul>
@@ -187,6 +182,63 @@
                   </div>
                </div>
             </div>
+      </div>
+
+      </div>
+      <!-- END HEADER -->
+      <!-- BEGIN CONTAINER -->
+      <div class="page-container row-fluid">
+         <!-- BEGIN PAGE CONTAINER-->
+         <div class="page-content">
+            <!-- <div class="bar">
+               <div class="container">
+                  <div class="bar-inner">
+                     <ul>
+                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/dashboard/' ) }}">
+                           <span><i class="fa fa-tachometer"></i> Dashboard </span>
+                           </a>
+                        </li>
+   
+                        <li class="{{ ( $active_menu == 'patients')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/patients/' ) }}">
+                           <span><i class="fa fa-wheelchair"></i> Patients </span>
+                           </a>
+                        </li>
+        
+                        <li class="{{ ( $active_menu == 'submission')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submissions/' ) }}">
+                           <span><i class="fa fa-list-alt"></i> Submissions </span>
+                           </a>
+                        </li>
+                        <li class="{{ ( $active_menu == 'flags')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/flags/' ) }}">
+                           <span><i class="fa fa-flag"></i> Flags </span>
+                           </a>
+                        </li>
+                        <li class="{{ ( $active_menu == 'reports')? 'active-item' : ''}}">
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/reports/' ) }}">
+                           <span><i class="fa fa-bar-chart"></i> Reports </span>
+                           </a>
+                        </li>
+                        @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+                        <li class="classic {{ ( $active_menu == 'settings')? 'active-item' : ''}}">
+                        <a href="javascript:;">
+                          <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="classic">
+                        
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">Questionnaire Setting</a>
+                        </li>
+                        
+                        </ul>
+                      </li>
+                      @endif
+                     </ul>
+                  </div>
+               </div>
+            </div> -->
             <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
             <div id="portlet-config" class="modal hide">
                <div class="modal-header">
@@ -205,7 +257,7 @@
               <div class="footer">
                 <div class="container">
                   <div class="footer-content text-center">
-                   <span>Copyright © 2015 {{ $hospital['name'] }}. All rights reserved.</span>
+                   <span>Copyright © 2016 {{ $hospital['name'] }}. All rights reserved.</span>
                   </div>
                 </div>
               </div>
