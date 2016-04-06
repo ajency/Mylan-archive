@@ -1911,6 +1911,45 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	, (error) ->
 		response.error error
 
+# ***************TEST APP***********************
+#TEST API SUBMIT QUSESTIONNAIRE
+Parse.Cloud.define "submitTestQuestionnaire", (request, response) ->
+	responseId = request.params.responseId
+	responseQuery = new Parse.Query("Response")
+	responseQuery.include('questionnaire')
+	responseQuery.include('schedule')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		deleteResponseAnswers(responseObj)
+		.then (answers) ->
+			responseObj.set 'answeredQuestions', [] 
+			responseObj.save()
+			.then (responseObj) ->
+				response.success "submitted_successfully"
+			, (error) ->
+				response.error error 
+		, (error) ->
+			response.error error 
+	, (error) ->
+		response.error error
+
+
+deleteResponseAnswers = (responseObj) ->
+	promise = new Parse.Promise()
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.equalTo('response', responseObj)
+	answerQuery.find()
+	.then (answers) ->
+		_.each answers, (answer) ->
+			answer.destroy()
+
+		promise.resolve answers
+	, (error) ->
+		promise.reject error
+
+	promise
+
+# *************************************************
 
 createAlerts = (patientId, project, alertType, referenceId) ->
 	promise = new Parse.Promise()
@@ -2205,7 +2244,7 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 
 getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 	promise = new Parse.Promise()
-
+	
 	answerQuery = new Parse.Query('Answer')
 	answerQuery.equalTo("question", questionObject)
 	answerQuery.include('response')
@@ -2216,7 +2255,7 @@ getPreviousQuestionnaireAnswer =  (questionObject, responseObj, patientId) ->
 	answerQuery.find()
 	.then (answerObjects) ->
 		result = {}
-		answerObjects = (answerObj for answerObj in answerObjects when (answerObj.get('response').get('status') == 'completed' || answerObj.get('response').get('status') == 'late'))
+		answerObjects = (answerObj for answerObj in answerObjects when (answerObj.get('response').get('status') == 'completed')) # || answerObj.get('response').get('status') == 'late'
 		if !_.isEmpty answerObjects
 
 				optionIds = []

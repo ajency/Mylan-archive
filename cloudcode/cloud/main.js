@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -182,7 +182,7 @@
     return promise;
   };
 
-  getNotificationMessage = function(scheduleObj, notificationType, occurrenceDate, installationId) {
+  getNotificationMessage = function(scheduleObj, notificationType, notificationId, occurrenceDate, installationId) {
     var promise, questionnaireQuery;
     promise = new Parse.Promise();
     questionnaireQuery = new Parse.Query('Questionnaire');
@@ -199,14 +199,14 @@
         if (timeZone !== '') {
           convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A');
         } else {
-          convertedGraceDate = graceDate;
+          convertedGraceDate = moment(graceDate).format('DD-MM-YYYY hh:mm A');
         }
         console.log("convertedGraceDate");
         console.log(convertedGraceDate);
         if (notificationType === "beforOccurrence") {
           message = "Questionnaire is due on " + newNextOccurrence;
         } else if (notificationType === "beforeGracePeriod") {
-          message = "Questionnairre was due on " + newNextOccurrence + ". Please submit it by " + convertedGraceDate;
+          message = "Questionnaire was due on " + newNextOccurrence + ". Please submit it by " + convertedGraceDate;
         } else if (notificationType === "missedOccurrence") {
           message = "You have missed the questionnaire due on " + newNextOccurrence;
         } else {
@@ -214,10 +214,46 @@
         }
         console.log("**Notification Msg occurrenceDate**");
         console.log(occurrenceDate);
-        return promise.resolve(message);
+        return getNotificationData(notificationId, installationId, message).then(function(pushData) {
+          return promise.resolve(pushData);
+        }, function(error) {
+          return promise.reject(error);
+        });
       }, function(error) {
         return promise.reject(error);
       });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  getNotificationData = function(notificationId, installationId, message) {
+    var installationQuery, promise;
+    promise = new Parse.Promise();
+    installationQuery = new Parse.Query(Parse.Installation);
+    installationQuery.equalTo("installationId", installationId);
+    installationQuery.find().then(function(installationObject) {
+      var deviceType, pushData;
+      if (_.isEmpty(installationObject)) {
+        deviceType = 'unknown';
+      } else {
+        deviceType = installationObject[0].get('deviceType');
+      }
+      if (deviceType.toLowerCase() === 'android') {
+        pushData = {
+          id: notificationId,
+          header: "Mylan",
+          message: message
+        };
+      } else {
+        pushData = {
+          title: "Mylan",
+          alert: message,
+          badge: 'Increment'
+        };
+      }
+      return promise.resolve(pushData);
     }, function(error) {
       return promise.reject(error);
     });
@@ -254,9 +290,8 @@
                     promise2 = Parse.Promise.as();
                     _.each(tokenStorageObjs, function(tokenStorageObj) {
                       return promise2 = promise2.then(function() {
-                        return getNotificationMessage(scheduleObj, notification.get('type'), notification.get('occurrenceDate'), tokenStorageObj.get('installationId')).then(function(message) {
+                        return getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'), tokenStorageObj.get('installationId')).then(function(pushData) {
                           var installationQuery;
-                          console.log("message " + message);
                           console.log("---------------------");
                           installationQuery = new Parse.Query(Parse.Installation);
                           installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
@@ -264,11 +299,7 @@
                           installationQuery.find();
                           return Parse.Push.send({
                             where: installationQuery,
-                            data: {
-                              id: notification.id,
-                              header: "Mylan",
-                              message: message
-                            }
+                            data: pushData
                           });
                         }, function(error) {
                           return promise1.reject(error);
@@ -2951,6 +2982,44 @@
     });
   });
 
+  Parse.Cloud.define("submitTestQuestionnaire", function(request, response) {
+    var responseId, responseQuery;
+    responseId = request.params.responseId;
+    responseQuery = new Parse.Query("Response");
+    responseQuery.include('questionnaire');
+    responseQuery.include('schedule');
+    return responseQuery.get(responseId).then(function(responseObj) {
+      return deleteResponseAnswers(responseObj).then(function(answers) {
+        responseObj.set('answeredQuestions', []);
+        return responseObj.save().then(function(responseObj) {
+          return response.success("submitted_successfully");
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  deleteResponseAnswers = function(responseObj) {
+    var answerQuery, promise;
+    promise = new Parse.Promise();
+    answerQuery = new Parse.Query('Answer');
+    answerQuery.equalTo('response', responseObj);
+    answerQuery.find().then(function(answers) {
+      _.each(answers, function(answer) {
+        return answer.destroy();
+      });
+      return promise.resolve(answers);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
   createAlerts = function(patientId, project, alertType, referenceId) {
     var alerts, promise;
     promise = new Parse.Promise();
@@ -3176,7 +3245,7 @@
         results1 = [];
         for (j = 0, len = answerObjects.length; j < len; j++) {
           answerObj = answerObjects[j];
-          if (answerObj.get('response').get('status') === 'completed' || answerObj.get('response').get('status') === 'late') {
+          if (answerObj.get('response').get('status') === 'completed') {
             results1.push(answerObj);
           }
         }

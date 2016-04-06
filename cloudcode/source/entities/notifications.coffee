@@ -96,7 +96,7 @@ getNotificationType = (scheduleObj) ->
 
 
 
-getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installationId) ->
+getNotificationMessage = (scheduleObj, notificationType, notificationId, occurrenceDate,installationId) ->
     promise = new Parse.Promise()
 
     questionnaireQuery = new Parse.Query('Questionnaire')
@@ -126,7 +126,8 @@ getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installa
             if timeZone!=''
                 convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A')
             else
-                convertedGraceDate = graceDate
+                # convertedGraceDate = graceDate
+                convertedGraceDate = moment(graceDate).format('DD-MM-YYYY hh:mm A')
 
             console.log "convertedGraceDate"
             console.log convertedGraceDate
@@ -134,7 +135,7 @@ getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installa
             if notificationType == "beforOccurrence"
                 message="Questionnaire is due on #{newNextOccurrence}"
             else if notificationType == "beforeGracePeriod"
-                message="Questionnairre was due on #{newNextOccurrence}. Please submit it by #{convertedGraceDate}"
+                message="Questionnaire was due on #{newNextOccurrence}. Please submit it by #{convertedGraceDate}"
             else if notificationType == "missedOccurrence"
                 message="You have missed the questionnaire due on #{newNextOccurrence}"
             else
@@ -142,7 +143,13 @@ getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installa
 
             console.log "**Notification Msg occurrenceDate**"
             console.log occurrenceDate
-            promise.resolve(message)
+
+            getNotificationData(notificationId, installationId, message)
+            .then (pushData) ->
+                promise.resolve(pushData)
+            , (error) ->
+                promise.reject error
+
         , (error) ->
             promise.reject error
 
@@ -151,7 +158,38 @@ getNotificationMessage = (scheduleObj, notificationType, occurrenceDate,installa
     promise
 
 
+getNotificationData = (notificationId, installationId, message)->
+    promise = new Parse.Promise()
+    installationQuery = new Parse.Query Parse.Installation
+    installationQuery.equalTo "installationId", installationId
 
+    installationQuery.find()
+    .then (installationObject)->
+        if _.isEmpty(installationObject) then deviceType = 'unknown'
+        else deviceType = installationObject[0].get 'deviceType'
+
+        if deviceType.toLowerCase() is 'android'
+            pushData = 
+                id: notificationId
+                header: "Mylan"
+                message: message
+        else
+            pushData = 
+                title: "Mylan"
+                alert: message
+                badge: 'Increment'
+
+        # notificationObj = 
+        #     pushData: pushData
+        #     installationId : installationId
+        #     notificationId : notificationId
+        
+        promise.resolve pushData
+
+    , (error)->
+        promise.reject error
+    
+    promise
 
 sendNotifications = () ->
     Arr = []
@@ -190,21 +228,17 @@ sendNotifications = () ->
                                         .then () ->
                                             #console.log "tokenStorageObjs #{tokenStorageObjs.length}"
                                             #console.log "---------------------"
-                                            getNotificationMessage(scheduleObj, notification.get('type'), notification.get('occurrenceDate'),tokenStorageObj.get('installationId'))
-                                            .then (message) ->  
-                                                console.log "message #{message}"
+                                            getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'),tokenStorageObj.get('installationId'))
+                                            .then (pushData) ->  
                                                 console.log "---------------------"                         
                                                 installationQuery = new Parse.Query(Parse.Installation)
                                                 installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
-                                                #installationQuery.equalTo('installationId', '4975e846-af7a-4113-b0c4-c73117908ef7')
+                                                # installationQuery.equalTo('installationId', 'e8c072c2-bf7d-48e3-aaf0-f3dc8eeafc4d')
                                                 installationQuery.limit(1)
                                                 installationQuery.find()
                                                 Parse.Push.send({
                                                     where: installationQuery
-                                                    data: {
-                                                        id: notification.id
-                                                        header: "Mylan"
-                                                        message: message}
+                                                    data: pushData
                                                 })
                                             , (error) ->
                                                 promise1.reject error   
