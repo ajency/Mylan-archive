@@ -158,6 +158,8 @@
                                    <sm style="position: relative; bottom: 2px;"  class="sortSubmission" sort="baseLineTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
+                                <th class="sorting sortSubmission" sort="alert" sort-type="asc"  style="cursor:pointer;">Notification <i class="fa fa-angle-down sortCol"></i><br><br>
+                                </th>
                                 <th class="sorting sortSubmission" sort="status" sort-type="asc"  style="cursor:pointer;">Status <i class="fa fa-angle-down sortCol"></i><br><br>
                                 </th>
                                 <th class="sorting sortSubmission" sort="reviewed" sort-type="asc"  style="cursor:pointer;">Review Status <i class="fa fa-angle-down sortCol"></i><br><br>
@@ -206,6 +208,7 @@
                                         <td class="text-center sorting text-warning">0</td>
                                         <td class="text-left sorting  text-success">0</td>
                           
+                                      <td class="text-center text-success">-</td>
                                       <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
@@ -243,7 +246,8 @@
                                      <td class="text-right sorting text-error">{{ $submission['baseLineFlag']['red'] }}</td>
                                      <td class="text-center sorting text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
                                      <td class="text-left sorting text-success">{{ $submission['baseLineFlag']['green'] }}</td>
-                               
+                                  
+                                  <td class="text-center text-success">{{ $submission['alert'] }}</td> 
                                    <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                    <td class="text-center text-success">{{ getStatusName($submission['reviewed']) }}</td>
                                 </tr>
