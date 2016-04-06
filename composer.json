@@ -8,7 +8,8 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
         "parse/php-sdk" : "1.1.*",
-        "chrisbjr/api-guard": "^2.3"
+        "chrisbjr/api-guard": "^2.3",
+        "predis/predis": "*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
