@@ -23,3 +23,17 @@ app = angular.module 'PatientApp.Global'
     
 
 ]
+
+.directive 'mcqSelect', ['$timeout', ($timeout)->
+  
+  link: (scope, element, attr)->
+    $timeout ->
+      $(element).click ->
+        # ng-click="view.deleteNotify(notify.id)" 
+        # if $(this).hasClass('mcq_active')
+        #   $(this).removeClass('mcq_active')
+        $(element).parent().addClass('mcq_a')
+
+
+    
+]
