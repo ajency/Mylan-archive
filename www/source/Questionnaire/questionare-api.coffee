@@ -101,5 +101,16 @@ angular.module 'PatientApp.Quest'
 			
 		defer.promise
 
+	QuestionAPI.getFirstQuest = (param)->
+
+		defer = $q.defer()		
+		App.SendParseRequest('goToFirstQuestion', param)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+
 	QuestionAPI	
 ]
