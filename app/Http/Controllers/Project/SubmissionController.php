@@ -82,42 +82,30 @@ class SubmissionController extends Controller
         $submissionStatus = 'completed';
         $responseStatus = ["completed"];
         
-        $reviewStatus = ['reviewed','unreviewed'];
+        $reviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
+        $responseStatus = ['completed','missed','late'];
         if(isset($inputs['submissionStatus']))
         {
             
             $submissionStatus = $inputs['submissionStatus'];
 
-
-            if($submissionStatus=='completed')
+            if(in_array($submissionStatus, $responseStatus))
             {
-              //$responseRate['missedCount'] =0;
-              // $responseRate['lateCount']  =0;
-              $responseStatus = [$inputs['submissionStatus']];
+                $responseStatus = [$submissionStatus];
             }
-            elseif($submissionStatus=='missed')
+            elseif(in_array($submissionStatus, $reviewStatus))
             {
-              // $responseRate['lateCount']  =0;
-              $responseStatus = [$inputs['submissionStatus']];
+                $cond = ['reviewed'=>$submissionStatus];
             }
-            elseif($submissionStatus=='late')
-            {
-              //$responseRate['missedCount'] =0;
-              $responseStatus = [$inputs['submissionStatus']];
-            }
-            elseif($submissionStatus=='unreviewed')
-            {
-              //$responseRate['missedCount'] =0;
-              $cond = ['reviewed'=>'unreviewed'];
+            // elseif($submissionStatus=='unreviewed')
+            // {
+            //   //$responseRate['missedCount'] =0;
+            //   $cond = ['reviewed'=>'unreviewed'];
              
-            }
+            // }
         }
 
-        // $reviewStatus=['reviewed','unreviewed'];
-        // if(isset($inputs['reviewStatus']))
-        // {
-        //   $reviewStatus=[$inputs['reviewStatus']];
-        // }
+
         
         if(isset($inputs['sort']))
         {

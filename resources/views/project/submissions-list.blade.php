@@ -107,6 +107,9 @@
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                                 <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
+                                <option {{ ($submissionStatus=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
+                                <option {{ ($submissionStatus=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
+                                <option {{ ($submissionStatus=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
                                 <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
@@ -203,7 +206,7 @@
                                         <td class="text-center sorting text-warning">0</td>
                                         <td class="text-left sorting  text-success">0</td>
                           
-                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
+                                      <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
@@ -241,8 +244,8 @@
                                      <td class="text-center sorting text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
                                      <td class="text-left sorting text-success">{{ $submission['baseLineFlag']['green'] }}</td>
                                
-                                   <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
-                                   <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                                   <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
+                                   <td class="text-center text-success">{{ getStatusName($submission['reviewed']) }}</td>
                                 </tr>
                                 @endif
                         
