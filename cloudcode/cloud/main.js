@@ -1499,6 +1499,36 @@
     return promise;
   };
 
+  Parse.Cloud.define('goToFirstQuestion', function(request, response) {
+    var questionnaireId, responseId;
+    responseId = request.params.responseId;
+    questionnaireId = request.params.questionnaireId;
+    return firstQuestion(questionnaireId).then(function(questionObj) {
+      var responseQuery;
+      responseQuery = new Parse.Query('Response');
+      responseQuery.include('questionnaire');
+      return responseQuery.get(responseId).then(function(responseObj) {
+        var result, resumeStatus;
+        resumeStatus = ['started', 'late'];
+        if (!_.contains(resumeStatus, responseObj.get('status'))) {
+          result = {};
+          result['status'] = responseObj.get('status');
+          return response.success(result);
+        } else {
+          return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+            return response.success(questionData);
+          }, function(error) {
+            return response.error(error);
+          });
+        }
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   Parse.Cloud.define('getNextQuestion', function(request, response) {
     var options, questionId, responseId, responseQuery, value;
     responseId = request.params.responseId;

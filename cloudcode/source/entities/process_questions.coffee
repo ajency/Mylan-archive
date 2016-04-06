@@ -300,6 +300,34 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		promise.reject error
 	promise	
 
+Parse.Cloud.define 'goToFirstQuestion', (request, response) ->
+
+	responseId = request.params.responseId
+	questionnaireId = request.params.questionnaireId
+
+	firstQuestion questionnaireId
+	.then (questionObj) ->
+		responseQuery = new Parse.Query('Response')
+		responseQuery.include('questionnaire')
+		responseQuery.get(responseId)
+		.then (responseObj) ->
+			resumeStatus = ['started','late']
+			if !_.contains(resumeStatus, responseObj.get('status'))
+				result = {}
+				result['status'] = responseObj.get('status')
+				response.success result
+			else
+				getQuestionData questionObj, responseObj, responseObj.get('patient')
+				.then (questionData) ->
+					response.success questionData
+				,(error) ->
+					response.error error
+				 
+		,(error) ->
+			response.error error
+		 
+	,(error) ->
+		response.error error
 
 Parse.Cloud.define 'getNextQuestion', (request, response) ->
 #	if !request.user
