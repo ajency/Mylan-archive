@@ -9097,4 +9097,12 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   height: inherit !important;
   background: #fff;
 }
+.customModal {
+  z-index: 99999;
+  top: 25%;
+  font-size: 1.1em;
+}
+.customModal .modal-body {
+  background: transparent;
+}
 /*# sourceMappingURL=style.css.map */
