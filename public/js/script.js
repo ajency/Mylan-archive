@@ -98,8 +98,16 @@ $("input[name='has_all_access']").on("click", function(){
     $('select[name="updateSubmissionStatus"]').change(function (event) { 
        var status = $(this).val();
        var responseId = $(this).attr('object-id');
-       $("#statusLoader").removeClass('hidden');
-       $(this).closest('form').submit();
+       $('input[name="updateSubmissionStatus"]').val(status);
+       
+       $('#myModal').modal({ backdrop: 'static', keyboard: false });
+      
+
+       // $("#statusLoader").removeClass('hidden');
+
+       //ajax call
+
+       // $(this).closest('form').submit();
       //  $.ajax({
       //   url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
       //   type: "POST",

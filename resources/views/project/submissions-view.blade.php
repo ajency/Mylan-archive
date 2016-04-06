@@ -113,7 +113,7 @@
                                     <div class="col-md-2">
                                       
                                     </div>
-                                    <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
+                                    
                                     <div class="col-md-8"> 
                                       <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
@@ -124,9 +124,7 @@
                                        </select>
                                       
                                     </div>
-                                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                                    </form>
-                                    <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
+                                    
 
                                     <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
                                  </div>
@@ -268,13 +266,21 @@
 <div class="modal fade customModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
       <div class="modal-body">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+
+       NOTE : <textarea name="reviewNote"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default closeModel" >Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button> <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
       </div>
+      <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+      <input type="hidden" value="{{ $responseData['reviewed'] }}" name="updateSubmissionStatus"/>
+      <input type="hidden" value="{{ $responseData['reviewed'] }}" name="oldStatus"/>
+
+      </form>
+                                   
     </div>
   </div>
 </div>
@@ -292,6 +298,12 @@
 
       $('select[name="patientSubmission"]').change(function (event) { 
          window.location="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/"+$(this).val();
+      });
+
+      $('.closeModel').click(function (event) { 
+         var oldStatus = $(this).closest('form').find('input[name="oldStatus"]').val();
+         $('select[name="updateSubmissionStatus"]').val(oldStatus);
+         $('#myModal').modal('hide');
       });
 
       $('select[name="referenceCode"]').change(function (event) { 

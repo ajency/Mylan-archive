@@ -162,10 +162,7 @@ class SubmissionController extends Controller
         $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
         $responseRate['late'] =  round($late);
 
-
-
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
-
 
         $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
@@ -610,11 +607,13 @@ class SubmissionController extends Controller
        
             $data = $request->all();  
             $reviewStatus = $data['updateSubmissionStatus'];
+            $reviewNote = $data['reviewNote'];
 
             $responseObj = new ParseQuery("Response");
             $response = $responseObj->get($responseId);
 
             $response->set('reviewed',$reviewStatus);
+            $response->set('reviewNote',$reviewNote);
             $response->save(); 
 
             if($reviewStatus=='reviewed')
