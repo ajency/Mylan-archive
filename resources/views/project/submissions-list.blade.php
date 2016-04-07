@@ -125,11 +125,11 @@
                            Submission Summary
                            <sm class="light">(These are scores & flags for current submissions)</sm>
                         </div>
-                        <div class="grid-body no-border" style="display: block;">
+                        <div class="grid-body no-border" style="display: block;padding: 10px 5px;">
                           <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="status" cond="{{ $submissionStatus }}">
                           <thead class="cf">
                              <tr>
-                                <th class="sorting" width="10%">Patient ID <br><br></th>
+                                <th class="sorting" width="8%">Patient ID <br><br></th>
                                 <th class="sorting sortSubmission" sort="sequenceNumber" sort-type="asc"  style="cursor:pointer;"># Submission <i class="fa fa-angle-down sortCol"></i><br><br></th>
                                 <th colspan="3" class="sorting">
                                    Total Score
