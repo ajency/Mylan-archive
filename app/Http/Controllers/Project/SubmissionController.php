@@ -82,18 +82,18 @@ class SubmissionController extends Controller
         $submissionStatus = 'completed';
         $responseStatus = ["completed"];
         
-        $reviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
-        $responseStatus = ['completed','missed','late'];
+        $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
+        $allResponseStatus = ['completed','missed','late'];
         if(isset($inputs['submissionStatus']))
         {
             
             $submissionStatus = $inputs['submissionStatus'];
 
-            if(in_array($submissionStatus, $responseStatus))
+            if(in_array($submissionStatus, $allResponseStatus))
             {
                 $responseStatus = [$submissionStatus];
             }
-            elseif(in_array($submissionStatus, $reviewStatus))
+            elseif(in_array($submissionStatus, $allReviewStatus))
             {
                 $cond = ['reviewed'=>$submissionStatus];
             }
@@ -105,8 +105,6 @@ class SubmissionController extends Controller
             // }
         }
 
-
-        
         if(isset($inputs['sort']))
         {
             $sortBy = $inputs['sort'];
