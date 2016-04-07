@@ -294,7 +294,7 @@
       $('.closeModel').click(function (event) { 
          var oldStatus = $(this).closest('form').find('input[name="oldStatus"]').val();
          $('select[name="updateSubmissionStatus"]').val(oldStatus);
-         $('input[name="reviewNote"]').val('');
+         $('textarea[name="reviewNote"]').val('');
          $('#myModal').modal('hide');
       });
 
