@@ -91,11 +91,11 @@
                            
                            <div class="user-description-box">
                            <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                  
                                  <div class="row">
                                     
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                        <label>Submission Number</label>
                                        <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
                                        @foreach($allSubmissions as $responseId =>$submission)
@@ -107,14 +107,12 @@
                                  <br>
                                  <div>Submitted on {{ $date }}</div>
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-5">
                                 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                                  <div class="row">
-                                    <div class="col-md-2">
-                                      
-                                    </div>
                                     
-                                    <div class="col-md-8"> 
+                                    
+                                    <div class="col-md-10"> 
                                       <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
                                           <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
@@ -257,19 +255,12 @@
 
 <!-- Modal Code -->
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
 <div class="modal fade customModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
       <div class="modal-body">
-
-       NOTE : <textarea name="reviewNote"></textarea>
+        <span>NOTE :</span><textarea name="reviewNote" required></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default closeModel" >Cancel</button>

@@ -9104,5 +9104,26 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .customModal .modal-body {
   background: transparent;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 30px;
+}
+.customModal .modal-body > span {
+  padding-right: 10px;
+}
+.customModal .modal-body > textarea {
+  width: 70%;
+  line-height: 1.5;
+  font-family: open sans;
 }
 /*# sourceMappingURL=style.css.map */
