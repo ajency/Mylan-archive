@@ -2455,6 +2455,7 @@
           responseObj.set('previousFlagStatus', 'open');
           responseObj.set('reviewed', 'unreviewed');
           responseObj.set('baseLine', baseLineObj);
+          responseObj.set('alert', false);
           if (_.isUndefined(responseObj_prev)) {
             responseObj.set('sequenceNumber', 1.);
           } else {
@@ -2991,7 +2992,12 @@
               sequenceNumber = responseObj.get("sequenceNumber");
               alertType = "compared_to_previous_red_flags";
               return createAlerts(patientId, project, alertType, responseId).then(function(BaseLine) {
-                return response.success("submitted_successfully");
+                responseObj.set('alert', true);
+                return responseObj.save().then(function(responseObj) {
+                  return response.success("submitted_successfully");
+                }, function(error) {
+                  return response.error(error);
+                });
               }, function(error) {
                 return response.error(error);
               });

@@ -1303,7 +1303,7 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 				responseObj.set 'reviewed', 'unreviewed'
 				#responseObj.set 'flagStatus', 'open'
 				responseObj.set 'baseLine', baseLineObj
-
+				responseObj.set 'alert', false
 
 				if _.isUndefined(responseObj_prev)
 					responseObj.set 'sequenceNumber', (1)
@@ -1924,7 +1924,12 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 						alertType = "compared_to_previous_red_flags"
 						createAlerts(patientId, project, alertType, responseId) 
 						.then (BaseLine) ->
-							response.success "submitted_successfully"
+							responseObj.set 'alert', true
+							responseObj.save()
+							.then (responseObj) ->
+								response.success "submitted_successfully"
+							, (error) ->
+								response.error error	
 						, (error) ->
 							response.error error	
 					else
