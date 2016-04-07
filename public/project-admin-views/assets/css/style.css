@@ -8964,7 +8964,14 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 }
 .baselineAllign,
 .questStats {
-  line-height: 75px;
+  line-height: 26px;
+  margin: 16px 0;
+}
+.baselineAllign .flagsAllignment {
+  margin-right: 20px;
+}
+.baselineAllign .flagsAllignment .text-muted {
+  padding: 0 22px 0 20px;
 }
 .p-l-r-5 {
   padding: 0 5px;
@@ -9125,5 +9132,24 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   width: 70%;
   line-height: 1.5;
   font-family: open sans;
+}
+.reviewStatus > select {
+  float: left;
+  width: 82%;
+}
+.reviewStatus .notes {
+  display: inline-block;
+  padding-left: 10px;
+  margin: 8px 0;
+}
+.reviewStatus .notes .tooltip {
+  width: 100%;
+}
+.reviewStatus .notes .tooltip.top .tooltip-arrow {
+  border-top-color: #05A8A5;
+}
+.reviewStatus .notes .tooltip-inner {
+  font-family: open sans;
+  background-color: #05A8A5;
 }
 /*# sourceMappingURL=style.css.map */

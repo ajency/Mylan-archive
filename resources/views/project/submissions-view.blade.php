@@ -112,7 +112,7 @@
                                  <div class="row">
                                     
                                     
-                                    <div class="col-md-10"> 
+                                    <div class="col-md-12 reviewStatus"> 
                                       <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
                                           <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
@@ -120,18 +120,29 @@
                                           <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
                                           <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
                                        </select>
+
+                                       <div class="notes">
+                                       <i class="fa fa-comments" data-toggle="tooltip" data-placement="top" title="Please enter your note"></i>
+                                       </div>
                                       
                                     </div>
                                     
-
-                                    <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
+                                    <!-- <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div> -->
+                                    
                                  </div>
                                 @endif
                               </div>
                               <div class="col-md-3 baselineAllign text-right ">
-                              Previous <span class="p-l-r-5">|</span> Baseline
+                              <div class="pull-right">
+                                Previous <span class="p-l-r-5">|</span> Baseline
+                              </div>
+                              <br>
+                              <div class="pull-right flagsAllignment">
                                  <span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
                               <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
+                              </div>
+                              
+                                
                               </div>
                            </div>
                               

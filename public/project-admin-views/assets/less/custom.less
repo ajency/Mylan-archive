@@ -1116,7 +1116,14 @@ ul.ui-multiselect-checkboxes{
 // Submission questions flags allignment
 
 .baselineAllign{
-	line-height: 75px;
+	line-height: 26px;
+    margin: 16px 0;
+    .flagsAllignment{
+    	margin-right: 20px;
+    	.text-muted{
+    		padding: 0 22px 0 20px;
+    	}
+    }
 }
 
 .p-l-r-5{
@@ -1320,5 +1327,30 @@ ul.ui-multiselect-checkboxes{
     		line-height: 1.5;
     		font-family: open sans;
 	    }
+	}
+}
+
+
+// Review status note tootip and select box styled for submission page
+
+.reviewStatus{
+	& > select{
+		float: left;
+    	width: 82%;
+	}
+	.notes{
+		display: inline-block;
+	    padding-left: 10px;
+	    margin: 8px 0;
+		.tooltip{
+			width:100%;
+		}
+		.tooltip.top .tooltip-arrow{
+				border-top-color: #05A8A5;
+		}
+		.tooltip-inner{
+			font-family: open sans;
+			background-color: #05A8A5;
+		}
 	}
 }
