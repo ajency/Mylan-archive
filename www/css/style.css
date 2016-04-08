@@ -1525,5 +1525,6 @@ ul .mcq_active div span {
 }
 .questionaire-list .notification-time .button {
   background: none;
+  box-shadow: none !important;
 }
 /*# sourceMappingURL=style.css.map */
