@@ -123,6 +123,7 @@
 
                                        <div class="notes">
                                        <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="Please enter your note"></i>
+                                       <i class="fa fa-comments" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
                                        </div>
                                       
                                     </div>
