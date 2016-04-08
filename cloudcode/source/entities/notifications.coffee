@@ -177,7 +177,7 @@ getNotificationData = (notificationId, installationId, message)->
             pushData = 
                 title: "Mylan"
                 alert: message
-                badge: 'Increment'
+                # badge: 'Increment'
 
         # notificationObj = 
         #     pushData: pushData

@@ -249,8 +249,7 @@
       } else {
         pushData = {
           title: "Mylan",
-          alert: message,
-          badge: 'Increment'
+          alert: message
         };
       }
       return promise.resolve(pushData);
