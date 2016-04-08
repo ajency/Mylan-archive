@@ -1117,7 +1117,7 @@ ul.ui-multiselect-checkboxes{
 
 .baselineAllign{
 	line-height: 26px;
-    margin: 16px 0;
+    margin: 15px 0;
     .flagsAllignment{
     	margin-right: 20px;
     	.text-muted{
@@ -1313,20 +1313,31 @@ ul.ui-multiselect-checkboxes{
 	z-index: 99999;
 	top: 25%;
 	font-size: 1.1em;
+	.modal-header{
+		 background: #099a8c;
+   		 padding: 10px 15px;
+   		 & > h3{
+   		 	color: #fff;
+    		margin: 0;
+   		 }
+	}
    	.modal-body{
 		background: transparent;
 		display: flex;
 	    align-items: center;
 	    justify-content: center;
-	    padding: 30px;
+	    padding: 15px;
 	    & > span{
 	    	padding-right: 10px;
 	    }
 	    & > textarea{
-	    	width: 70%;
+	    	width: 100%;
     		line-height: 1.5;
     		font-family: open sans;
 	    }
+	}
+	.modal-footer{
+		padding: 10px 15px;
 	}
 }
 
@@ -1353,4 +1364,13 @@ ul.ui-multiselect-checkboxes{
 			background-color: #05A8A5;
 		}
 	}
+}
+
+// Controlling submission graph fields through tootip
+
+.submissionStatus{
+	overflow: hidden;
+    white-space: nowrap;
+    width: 75px;
+    text-overflow: ellipsis;
 }

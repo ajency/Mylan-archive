@@ -26,7 +26,7 @@ body {
   direction: ltr;
   background-color: #1b1e24;
   color: #6f7b8a;
-  font-family: open sans;
+  font-family: 'Arial';
   font-size: 13px;
   padding: 0px !important;
   margin: 0px !important;
@@ -8965,7 +8965,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .baselineAllign,
 .questStats {
   line-height: 26px;
-  margin: 16px 0;
+  margin: 15px 0;
 }
 .baselineAllign .flagsAllignment {
   margin-right: 20px;
@@ -9109,6 +9109,14 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   top: 25%;
   font-size: 1.1em;
 }
+.customModal .modal-header {
+  background: #099a8c;
+  padding: 10px 15px;
+}
+.customModal .modal-header > h3 {
+  color: #fff;
+  margin: 0;
+}
 .customModal .modal-body {
   background: transparent;
   display: -webkit-box;
@@ -9123,15 +9131,18 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  padding: 30px;
+  padding: 15px;
 }
 .customModal .modal-body > span {
   padding-right: 10px;
 }
 .customModal .modal-body > textarea {
-  width: 70%;
+  width: 100%;
   line-height: 1.5;
   font-family: open sans;
+}
+.customModal .modal-footer {
+  padding: 10px 15px;
 }
 .reviewStatus > select {
   float: left;
@@ -9151,5 +9162,11 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .reviewStatus .notes .tooltip-inner {
   font-family: open sans;
   background-color: #05A8A5;
+}
+.submissionStatus {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 75px;
+  text-overflow: ellipsis;
 }
 /*# sourceMappingURL=style.css.map */

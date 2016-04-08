@@ -122,7 +122,7 @@
                                        </select>
 
                                        <div class="notes">
-                                       <i class="fa fa-comments" data-toggle="tooltip" data-placement="top" title="Please enter your note"></i>
+                                       <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="Please enter your note"></i>
                                        </div>
                                       
                                     </div>
@@ -270,8 +270,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
+      <div class="modal-header text-left">
+        <h3>Notes</h3>
+      </div>
       <div class="modal-body">
-        <span>NOTE :</span><textarea name="reviewNote" required></textarea>
+        <textarea name="reviewNote" required></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default closeModel" >Cancel</button>
