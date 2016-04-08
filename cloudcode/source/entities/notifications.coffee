@@ -319,7 +319,7 @@ checkMissedResponses = () ->
             _.each responseObjs, (responseObj) ->
                 promise1 = promise1
                 .then () ->
-                    getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+                    getValidTimeFrame(responseObj.get('patient'),responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
                     .then (timeObj) ->
                         # currentDate = new Date()
                         # if currentDate.getTime() > timeObj['upperLimit']
@@ -369,7 +369,7 @@ createMissedResponse = () ->
             _.each scheduleObjs, (scheduleObj) ->
                 promise1 = promise1
                 .then () ->
-                    getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+                    getValidTimeFrame(scheduleObj.get('patient'),scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
                     .then (timeObj) ->
                         # currentDate = new Date()
                         # if currentDate.getTime() > timeObj['upperLimit'].getTime()
@@ -391,13 +391,10 @@ createMissedResponse = () ->
                                     notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                     notificationObj.save()
                                     .then (notificationObj) ->
-                                        scheduleQuery = new Parse.Query('Schedule')
-                                        scheduleQuery.doesNotExist('patient')
-                                        scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                                        scheduleQuery.first()
-                                        .then (scheduleQuestionnaireObj) ->
+                                        getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+                                        .then (settings) ->
                                             newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                                            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                                            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                                             scheduleObj.set 'nextOccurrence', newNextOccurrence
                                             scheduleObj.save()
                                         , (error) ->
@@ -459,13 +456,10 @@ createLateResponse = (scheduleObj) ->
             responseObj.set 'status', 'late'
             responseObj.save()
             .then (responseObj) ->
-                scheduleQuery = new Parse.Query('Schedule')
-                scheduleQuery.doesNotExist('patient')
-                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                scheduleQuery.first()
-                .then (scheduleQuestionnaireObj) ->
+                getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+                .then (settings) ->
                     newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                    newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                    newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                     scheduleObj.set 'nextOccurrence', newNextOccurrence
                     scheduleObj.save()
                     .then (scheduleQuestionnaireObj) ->
