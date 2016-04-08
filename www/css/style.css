@@ -1517,13 +1517,13 @@ ul .mcq_active div span {
 .questionaire-list .item-content {
   padding: 16px 49px 16px 16px !important;
 }
-.questionaire-list .notification-time {
+.questionaire-list .notification-row {
   position: absolute;
   right: 0px;
   top: 5px;
   z-index: 999;
 }
-.questionaire-list .notification-time .button {
+.mcq .button {
   background: none;
   box-shadow: none !important;
 }
@@ -1531,3 +1531,4 @@ ul .mcq_active div span {
 .mcq_a {
   background-color: #F5EFDF;
 }
+/*# sourceMappingURL=style.css.map */
