@@ -66,6 +66,30 @@ angular.module 'PatientApp.Quest',[]
 								@display = 'error'
 								@errorType = error
 
+					else if @respStatus == 'firstQuestion'
+						param =
+							"questionnaireId" : patientData.id
+							
+						Storage.setData 'responseId','get'
+						.then (responseId)=>	
+							param.responseId = responseId
+							QuestionAPI.getFirstQuest param
+							.then (data)=>
+								console.log 'previous data'
+								console.log @data	
+								@variables()
+								@data = []
+								@data = data
+								@questionLabel()
+								@readonly = @data.editable
+								@pastAnswer()
+								if !_.isEmpty(@data.hasAnswer)
+									@hasAnswerShow()	
+								@display = 'noError'
+							,(error)=>
+								@display = 'error'
+								@errorType = error
+
 					else if @respStatus == 'noValue'
 						responseId = ''
 

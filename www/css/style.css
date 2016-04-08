@@ -1528,3 +1528,6 @@ ul .mcq_active div span {
   box-shadow: none !important;
 }
 /*# sourceMappingURL=style.css.map */
+.mcq_a {
+  background-color: #F5EFDF;
+}

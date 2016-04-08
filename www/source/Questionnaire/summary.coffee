@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Quest'
 
 .controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'Storage', 'CToast', 'CSpinner', '$ionicPlatform'
-	, ($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform)->
+	'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog'
+	, ($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -78,6 +78,29 @@ angular.module 'PatientApp.Quest'
 					Storage.setData 'responseId', 'set', $stateParams.summary 
 					.then ()->
 						App.navigate 'questionnaire', respStatus:'lastQuestion'
+
+			redirectLast :->
+				Storage.setData 'responseId', 'set', $stateParams.summary 
+					.then ()->
+						App.navigate 'questionnaire', respStatus:'firstQuestion'
+
+
+
+			onSumbmit : ->
+					
+					msg = 'Are you happy with your answers?'
+					CDialog.confirm 'Confirmation', msg, ['No','Yes']
+					.then (btnIndex)=>
+						switch btnIndex
+							when 1
+								console.log 'noo'
+								@redirectLast()
+								# @attributes = @originalAttrs
+								# @modal.hide()
+							when 2
+								
+								console.log 'yesss'
+								@submitSummary()
 
 		onDeviceBackSummary = ->
 			$scope.view.back()

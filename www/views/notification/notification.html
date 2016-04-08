@@ -16,11 +16,10 @@
         class="aj-refresher">
       </ion-refresher>
 
-      <div ng-switch-when="noError" class="notification-screen"   >
-
-        <!--  <div ng-repeat ="notify in view.data" ng-click="clicker(notify)"  class="notify-view"> 
-          
-            <div class="row item notification-row" 
+      <div  ng-switch-when="noError" class="notification-screen"   >
+        <div>
+         <div ng-repeat ="notify in view.data"   class="notify-view"> 
+            <div class="mcq row item notification-row" 
               ng-if = "notify.type === 'beforOccurrence'">
                   <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                       <div>
@@ -29,12 +28,12 @@
                           <span class="text-green">{{notify.occurrenceDateDisplay}}. </span></p>
                       </div>
                   </div>
-                  <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
+                  <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"  mcq-select> 
                       <a class="button icon ion-ios-close delete-btn"></a>
                   </div>
             </div>
 
-            <div class="row item notification-row" 
+            <div class="mcq row item notification-row" 
                 ng-if = "notify.type === 'missedOccurrence'">
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
@@ -43,12 +42,12 @@
                           <span class="text-green">{{notify.occurrenceDateDisplay}}. </span></p>
                     </div>
                 </div>
-                <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
+                <div class="col text-right" ng-click="view.deleteNotify(notify.id)" mcq-select> 
                     <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
             </div>
 
-            <div class="row item notification-row " 
+            <div class="mcq row item notification-row " 
                 ng-if = "notify.type === 'beforeGracePeriod'" >
                 <div class="col col-80" ng-click ="view.seenNotify(notify.id)">
                     <div>
@@ -58,15 +57,15 @@
                           Please submit it by <span class="text-green"> {{notify.graceDateDisplay}}. </span></p>
                     </div>
                 </div>
-                <div class="col text-right" ng-click="view.deleteNotify(notify.id)"> 
+                <div class="col text-right" ng-click="view.deleteNotify(notify.id)" mcq-select> 
                     <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
             </div>
 
-            
-        </div> -->
+          </div>
+        </div>
 
-        <div class="list questionaire-list" >
+        <!-- <div class="list questionaire-list" >
 
           <div ng-repeat ="notify in view.data">
 
@@ -76,7 +75,7 @@
                 <div class="item-content">
                   Questionnaire is due on  {{notify.occurrenceDateDisplay}}.
                 </div>
-               <!--  <i class="radio-icon ion-checkmark"></i> -->
+               
                 <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
                     <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
@@ -88,7 +87,7 @@
                 <div class="item-content">
                   You have missed the questionnaire due on {{notify.occurrenceDateDisplay}}. .
                 </div>
-               <!--  <i class="radio-icon ion-checkmark"></i> -->
+               
                 <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
                     <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
@@ -101,7 +100,7 @@
                 Questionnaire was due on {{notify.occurrenceDateDisplay}}.Please submit it by
                 {{notify.graceDateDisplay}}.
                 </div>
-               <!--  <i class="radio-icon ion-checkmark"></i> -->
+               
                 <div class="col text-right notification-time" ng-click="view.deleteNotify(notify.id)"> 
                     <a class="button icon ion-ios-close delete-btn"></a>
                 </div>
@@ -110,7 +109,7 @@
 
           </div>
 
-        </div>
+        </div> -->
 
 
         <div class="row item border-none" ng-if="view.gotAllRequests && view.data.length == 0 ">

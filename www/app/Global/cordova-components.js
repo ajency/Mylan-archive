@@ -48,4 +48,13 @@ angular.module('PatientApp.Global').factory('CToast', [
     };
     return CSpinner;
   }
+]).factory('CDialog', [
+  '$cordovaDialogs', 'App', function($cordovaDialogs, App) {
+    var CDialog;
+    CDialog = {};
+    CDialog.confirm = function(title, message, buttons) {
+      return $cordovaDialogs.confirm(message, title, buttons);
+    };
+    return CDialog;
+  }
 ]);

@@ -63,6 +63,30 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   return _this.errorType = error;
                 });
               });
+            } else if (_this.respStatus === 'firstQuestion') {
+              param = {
+                "questionnaireId": patientData.id
+              };
+              return Storage.setData('responseId', 'get').then(function(responseId) {
+                param.responseId = responseId;
+                return QuestionAPI.getFirstQuest(param).then(function(data) {
+                  console.log('previous data');
+                  console.log(_this.data);
+                  _this.variables();
+                  _this.data = [];
+                  _this.data = data;
+                  _this.questionLabel();
+                  _this.readonly = _this.data.editable;
+                  _this.pastAnswer();
+                  if (!_.isEmpty(_this.data.hasAnswer)) {
+                    _this.hasAnswerShow();
+                  }
+                  return _this.display = 'noError';
+                }, function(error) {
+                  _this.display = 'error';
+                  return _this.errorType = error;
+                });
+              });
             } else if (_this.respStatus === 'noValue') {
               responseId = '';
               options = {

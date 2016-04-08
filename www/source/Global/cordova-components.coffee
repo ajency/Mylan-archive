@@ -38,12 +38,12 @@ angular.module 'PatientApp.Global'
 ]
 
 
-# .factory 'CDialog', ['$cordovaDialogs', 'App', ($cordovaDialogs, App)->
+.factory 'CDialog', ['$cordovaDialogs', 'App', ($cordovaDialogs, App)->
 	
-# 	CDialog = {}
+	CDialog = {}
 
-# 	CDialog.confirm = (title, message, buttons)->
-# 		$cordovaDialogs.confirm message, title, buttons
+	CDialog.confirm = (title, message, buttons)->
+		$cordovaDialogs.confirm message, title, buttons
 
-# 	CDialog
-# ]
+	CDialog
+]
