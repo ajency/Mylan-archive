@@ -1904,6 +1904,7 @@
     responseId = request.params.responseId;
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo("objectId", responseId);
+    responseQuery.include('questionnaire');
     return responseQuery.first().then(function(responseObj) {
       return getSummary(responseObj).then(function(answerObjects) {
         var result;
@@ -1911,6 +1912,7 @@
         result['answerObjects'] = answerObjects;
         result['submissionDate'] = responseObj.updatedAt;
         result['sequenceNumber'] = responseObj.get('sequenceNumber');
+        result['editable'] = responseObj.get('questionnaire').get('editable');
         return response.success(result);
       }, function(error) {
         return response.error(error);

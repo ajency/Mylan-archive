@@ -717,6 +717,7 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo("objectId", responseId)
+	responseQuery.include('questionnaire')
 	responseQuery.first()
 	.then (responseObj) ->
 		getSummary responseObj
@@ -725,6 +726,7 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 			result['answerObjects'] = answerObjects
 			result['submissionDate'] = responseObj.updatedAt
 			result['sequenceNumber'] = responseObj.get('sequenceNumber')
+			result['editable'] = responseObj.get('questionnaire').get('editable')
 			response.success result
 			# response.success answerObjects
 		, (error) ->
