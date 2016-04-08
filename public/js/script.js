@@ -1243,6 +1243,7 @@ $('.sortSubmission').click(function (event) {
              
 
            sortObject.closest('.grid-body').find(".loader-outer").addClass('hidden');
+           $('[data-toggle="tooltip"]').tooltip()
         }
       });
 
