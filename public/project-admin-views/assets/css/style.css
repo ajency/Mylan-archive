@@ -9167,6 +9167,7 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   overflow: hidden;
   white-space: nowrap;
   width: 75px;
+  margin: 0 auto;
   text-overflow: ellipsis;
 }
 /*# sourceMappingURL=style.css.map */
