@@ -321,7 +321,8 @@ class ProjectController extends Controller
                  <td class="text-center sorting text-warning">0</td>
                  <td class="text-left sorting text-success">0</td>
               
-               <td class="text-center text-success">'. ucfirst($submission['status']) .'</td>
+               <td class="text-center text-success">'.$submission['alert'].'</td>
+               <td class="text-center text-success">'. getStatusName($submission['status']) .'</td>
                <td class="text-center text-success">-</td>
             </tr>';
             }
@@ -359,8 +360,9 @@ class ProjectController extends Controller
                  <td class="text-center sorting text-warning">'. $submission['baseLineFlag']['amber'].'</td>
                  <td class="text-left sorting text-success">'. $submission['baseLineFlag']['green'] .'</td>
               
-               <td class="text-center text-success">'. ucfirst($submission['status']) .'</td>
-               <td class="text-center text-success">'. ucfirst($submission['reviewed']) .'</td>
+               <td class="text-center text-success">-</td>
+               <td class="text-center text-success">'. getStatusName($submission['status']) .'</td>
+               <td class="text-center text-success">'. getStatusName($submission['reviewed']) .'</td>
             </tr>';
         }
       }
