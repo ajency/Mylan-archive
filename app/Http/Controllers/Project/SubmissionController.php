@@ -230,6 +230,7 @@ class SubmissionController extends Controller
         $responseData['baseLineFlag'] = $response->get("baseLineFlag");
         $responseData['previousFlag'] = $response->get("previousFlag");
         $responseData['reviewed'] = $response->get("reviewed");
+        $responseData['reviewNote'] = $response->get("reviewNote");
 
         $referenceCode = $response->get("patient");
         $sequenceNumber = $response->get("sequenceNumber");
