@@ -66,14 +66,12 @@ getNotifications = () ->
 getNotificationType = (scheduleObj) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
-    .then (questionnaireObj) ->
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+    .then (settings) ->
         nextOccurrence = scheduleObj.get('nextOccurrence')
         currentDate = new Date()
-        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
-        reminderTime = questionnaireObj.get('reminderTime')
+        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000))
+        reminderTime = settings['reminderTime']
         beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000)
         afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
         bufferTime = cronjobRunTime/2
@@ -99,10 +97,9 @@ getNotificationType = (scheduleObj) ->
 getNotificationMessage = (scheduleObj, notificationType, notificationId, occurrenceDate,installationId) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
-    .then (questionnaireObj) ->
+
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+    .then (settings) ->
         # nextOccurrence = scheduleObj.get('nextOccurrence')
         
         # console.log "-=-=-=-=-=-=-"
@@ -119,7 +116,7 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             timeZone = convertedTimezoneObject['timeZone'] 
             console.log "**New newNextOccurrence**"
             console.log newNextOccurrence
-            gracePeriod = questionnaireObj.get("gracePeriod")
+            gracePeriod = settings['gracePeriod']
             # graceDate =new Date(newNextOccurrence.getTime() + (questionnaireObj.get('gracePeriod') * 1000))
             # "DD-MM-YYYY HH:mm HH:mm"
             graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
@@ -682,12 +679,10 @@ getPatientNotifications = (patientId,page,limit) ->
 getNotificationSendObject = (scheduleObj, notification) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
     .then (questionnaireObj) ->
         occurrenceDate = notification.get('occurrenceDate')
-        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000))
         notificationType = notification.get('type')
         #console.log "-=-=-=-=-=-=-"
         #console.log "nextOccurrence #{nextOccurrence}"

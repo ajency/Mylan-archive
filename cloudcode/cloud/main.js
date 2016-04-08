@@ -156,16 +156,14 @@
   };
 
   getNotificationType = function(scheduleObj) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       var afterReminder, beforeReminder, bufferTime, currentDate, graceDate, nextOccurrence, reminderTime;
       nextOccurrence = scheduleObj.get('nextOccurrence');
       currentDate = new Date();
-      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
-      reminderTime = questionnaireObj.get('reminderTime');
+      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000));
+      reminderTime = settings['reminderTime'];
       beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000);
       afterReminder = new Date(nextOccurrence.getTime() + reminderTime * 1000);
       bufferTime = cronjobRunTime / 2;
@@ -183,18 +181,16 @@
   };
 
   getNotificationMessage = function(scheduleObj, notificationType, notificationId, occurrenceDate, installationId) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       return timeZoneConverter(installationId, occurrenceDate).then(function(convertedTimezoneObject) {
         var convertedGraceDate, graceDate, gracePeriod, message, newNextOccurrence, timeZone;
         newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
         timeZone = convertedTimezoneObject['timeZone'];
         console.log("**New newNextOccurrence**");
         console.log(newNextOccurrence);
-        gracePeriod = questionnaireObj.get("gracePeriod");
+        gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
           convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A');
@@ -736,14 +732,12 @@
   };
 
   getNotificationSendObject = function(scheduleObj, notification) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(questionnaireObj) {
       var graceDate, notificationSendObject, notificationType, occurrenceDate;
       occurrenceDate = notification.get('occurrenceDate');
-      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
+      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000));
       notificationType = notification.get('type');
       notificationSendObject = {};
       notificationSendObject['occurrenceDate'] = occurrenceDate;
