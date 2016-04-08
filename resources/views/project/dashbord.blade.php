@@ -381,7 +381,7 @@
                         
                             @endforeach
                         @else 
-                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
