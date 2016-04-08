@@ -87,20 +87,22 @@ angular.module 'PatientApp.Quest'
 
 
 			onSumbmit : ->
-					
-					msg = 'Are you happy with your answers?'
-					CDialog.confirm 'Confirmation', msg, ['No','Yes']
-					.then (btnIndex)=>
-						switch btnIndex
-							when 1
-								console.log 'noo'
-								@redirectLast()
-								# @attributes = @originalAttrs
-								# @modal.hide()
-							when 2
-								
-								console.log 'yesss'
-								@submitSummary()
+					if @data.editable == true 
+						msg = 'Are you happy with your answers?'
+						CDialog.confirm 'Confirmation', msg, ['No','Yes']
+						.then (btnIndex)=>
+							switch btnIndex
+								when 1
+									console.log 'noo'
+									@redirectLast()
+									# @attributes = @originalAttrs
+									# @modal.hide()
+								when 2
+									
+									console.log 'yesss'
+									@submitSummary()
+					else
+						@submitSummary()
 
 		onDeviceBackSummary = ->
 			$scope.view.back()

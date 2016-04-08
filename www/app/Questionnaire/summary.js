@@ -102,19 +102,23 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       },
       onSumbmit: function() {
         var msg;
-        msg = 'Are you happy with your answers?';
-        return CDialog.confirm('Confirmation', msg, ['No', 'Yes']).then((function(_this) {
-          return function(btnIndex) {
-            switch (btnIndex) {
-              case 1:
-                console.log('noo');
-                return _this.redirectLast();
-              case 2:
-                console.log('yesss');
-                return _this.submitSummary();
-            }
-          };
-        })(this));
+        if (this.data.editable === true) {
+          msg = 'Are you happy with your answers?';
+          return CDialog.confirm('Confirmation', msg, ['No', 'Yes']).then((function(_this) {
+            return function(btnIndex) {
+              switch (btnIndex) {
+                case 1:
+                  console.log('noo');
+                  return _this.redirectLast();
+                case 2:
+                  console.log('yesss');
+                  return _this.submitSummary();
+              }
+            };
+          })(this));
+        } else {
+          return this.submitSummary();
+        }
       }
     };
     onDeviceBackSummary = function() {
