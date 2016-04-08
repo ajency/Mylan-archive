@@ -104,15 +104,15 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         var msg;
         if (this.data.editable === true) {
           msg = 'Are you happy with your answers?';
-          return CDialog.confirm('Confirmation', msg, ['No', 'Yes']).then((function(_this) {
+          return CDialog.confirm('Confirmation', msg, ['Yes', 'No']).then((function(_this) {
             return function(btnIndex) {
               switch (btnIndex) {
                 case 1:
-                  console.log('noo');
-                  return _this.redirectLast();
-                case 2:
                   console.log('yesss');
                   return _this.submitSummary();
+                case 2:
+                  console.log('noo');
+                  return _this.redirectLast();
               }
             };
           })(this));

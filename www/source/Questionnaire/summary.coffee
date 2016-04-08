@@ -89,18 +89,17 @@ angular.module 'PatientApp.Quest'
 			onSumbmit : ->
 					if @data.editable == true 
 						msg = 'Are you happy with your answers?'
-						CDialog.confirm 'Confirmation', msg, ['No','Yes']
+						CDialog.confirm 'Confirmation', msg, ['Yes', 'No']
 						.then (btnIndex)=>
 							switch btnIndex
 								when 1
-									console.log 'noo'
-									@redirectLast()
-									# @attributes = @originalAttrs
-									# @modal.hide()
-								when 2
-									
 									console.log 'yesss'
 									@submitSummary()
+									
+
+								when 2
+									console.log 'noo'
+									@redirectLast()
 					else
 						@submitSummary()
 
