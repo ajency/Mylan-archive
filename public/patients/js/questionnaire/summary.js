@@ -52,6 +52,8 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
       },
       submitSummary: function() {
         var param;
+        $('#submitSummaryModal').modal('hide');
+        $('.modal-backdrop').addClass('hidden');
         param = {
           responseId: this.responseId
         };
@@ -87,6 +89,24 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
       onTapToRetry: function() {
         this.display = 'loader';
         return this.init();
+      },
+      goToFirstQuestion: function() {
+        var questionnaireData;
+        $('#submitSummaryModal').modal('hide');
+        $('.modal-backdrop').addClass('hidden');
+        questionnaireData = {
+          respStatus: 'firstQuestion',
+          responseId: this.responseId
+        };
+        Storage.questionnaire('set', questionnaireData);
+        return $location.path('questionnaire');
+      },
+      onSumbmit: function() {
+        if (this.data.editable === true) {
+          $('#submitSummaryModal').modal('show');
+        } else {
+          return this.submitSummary();
+        }
       }
     };
   }

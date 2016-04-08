@@ -65,9 +65,45 @@
         </div>
     
       <br><br><br>
-        <a ng-if = "view.hideButton == true" type="button" ng-click="view.submitSummary()" class="btn btn-success btn-lg">Submit</a>
+        <a ng-if = "view.hideButton == true" type="button" ng-click="view.onSumbmit()" class="btn btn-success btn-lg">Submit</a>
        <a type="button" ng-click="view.back()" class="btn btn-success btn-lg">Go Back</a>
     </div>
 </div> <!--container -->
+
+<div class="modal fade bs-example-modal-sm" id="submitSummaryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+       <div class="text-center">
+      <div class="padding">
+      <br>
+      <div class="ic">
+      <i class="fa fa-check"></i>
+      </div>
+      <br><br>
+      <p> Are you happy with your answers?</p>
+      
+     
+    </div>
+    </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-xs-8"> 
+            <button class="btn btn-success btn-block" ng-click="view.goToFirstQuestion()">
+                No
+              </button>
+          </div>
+          <div class="col-xs-8">
+              <button class="btn btn-success btn-block" ng-click="view.submitSummary()">
+                Yes
+              </button>
+          </div>
+           
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
    
