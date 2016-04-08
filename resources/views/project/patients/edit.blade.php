@@ -349,7 +349,7 @@
             @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
             <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
             @endif
-            <a href="{{ url($hospital['url_slug'].'/patients' ) }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
+            <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
           </div>
           </div>
       </form>
