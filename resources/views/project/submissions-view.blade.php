@@ -122,7 +122,7 @@
                                        </select>
 
                                        <div class="notes">
-                                       <i class="fa fa-comment" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
+                                       <i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
                                        </div>
                                       
                                     </div>
