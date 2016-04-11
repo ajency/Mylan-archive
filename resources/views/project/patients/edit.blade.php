@@ -26,12 +26,12 @@
               <div class="row form-group  edit-add">
                 <div class="col-md-4">
                   <div class="form-row">
-                     <label>Reference Code</label>
+                     <label>Reference Code<span class="text-primary">*</span></label>
                         <input {{ $disabled }} name="reference_code" id="reference_code" class="form-control" type="text" value="{{ $patient['reference_code'] }}"   placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
                   </div>
                 </div>
                 <div class="col-sm-4"> 
-                     <label>Age</label>
+                     <label>Age <span class="text-primary">*</span></label>
                         <input name="age" id="age" type="text" class="form-control" placeholder="Age" data-parsley-required   value="{{ $patient['age'] }}">
                     </div>
                    
@@ -59,7 +59,11 @@
                                       <div class="col-md-4 add-attribute1"> 
                                         <div class="form-inline">
                                           <div class="form-group">
-                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }}
+                                              @if(('on' == $attribute['validate']) && count($defaults) == 1)
+                                              <span class="text-primary">*</span>
+                                              @endif
+                                             </label>
                                             <div class="input-group">
                                               <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" value="{{ $value }}"
                                               data-parsley-group="block-{{ $key }}"
@@ -78,7 +82,11 @@
                                      
                                   @else
                                   <div class="col-md-4 add-attribute">
-                                  <label>{{ $attribute['label'] }} </label>
+                                  <label>{{ $attribute['label'] }} 
+                                    @if('on' == $attribute['validate'])
+                                      <span class="text-primary">*</span>
+                                    @endif
+                                  </label>
                                   <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif value="{{ $value }}" >
                                   </div>
                                   @endif
@@ -93,7 +101,11 @@
                                       <div class="col-md-4 add-attribute1"> 
                                         <div class="form-inline">
                                           <div class="form-group">
-                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} </label>
+                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
+                                              @if('on' == $attribute['validate'] && count($defaults) > 1)
+                                                <span class="text-primary">*</span>
+                                              @endif
+                                            </label>
                                             <div class="input-group">
                                               <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-type="number" data-parsley-min="0" data-parsley-group="block-{{ $key }}" value="{{ $value }}"
 
@@ -111,14 +123,22 @@
                                      
                                   @else
                                   <div class="col-md-4 add-attribute">
-                                  <label>{{ $attribute['label'] }} </label>
+                                  <label>{{ $attribute['label'] }} 
+                                    @if('on' == $attribute['validate'])
+                                      <span class="text-primary">*</span>
+                                    @endif
+                                  </label>
                                   <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-type="number" data-parsley-min="0" value="{{ $value }}">
                                   </div>
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
                                 <div class="col-md-4 customSelect">
-                                <label>{{ $attribute['label'] }} </label>
+                                <label>{{ $attribute['label'] }} 
+                                   @if('on' == $attribute['validate'])
+                                      <span class="text-primary">*</span>
+                                   @endif
+                                </label>
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
@@ -130,7 +150,11 @@
                                  
                                 <div class="col-md-4">
                                 <div class="form-row multiSelect">
-                                <label>{{ $attribute['label'] }} </label>
+                                <label>{{ $attribute['label'] }} 
+                                   @if('on' == $attribute['validate'])
+                                      <span class="text-primary">*</span>
+                                   @endif
+                                </label>
                                 <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5"  @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
@@ -161,7 +185,11 @@
                                   <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
-                                        <label class="">{{ $attribute['label'] }} </label>
+                                        <label class="">{{ $attribute['label'] }} 
+                                        @if('on' == $attribute['validate'])
+                                          <span class="text-primary">*</span>
+                                       @endif
+                                        </label>
                                         <div class="input-group">
                                           <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" value="{{ $value }}" {{ $readOnly }} data-parsley-group="block-{{ $key }}">
                                           <div class="input-group-addon">kg</div>
@@ -223,7 +251,7 @@
               <div class="row form-row">
                
                     <div class="col-sm-6 customMessage">
-                      <label>Is Smoker</label>
+                      <label>Is Smoker <span class="text-primary">*</span></label>
                       <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
                           <option {{ ($patient['patient_is_smoker']=='yes')?'selected':'' }} value="yes">Yes</option>
