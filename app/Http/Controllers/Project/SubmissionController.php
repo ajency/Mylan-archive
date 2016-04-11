@@ -137,7 +137,7 @@ class SubmissionController extends Controller
               $completedResponses[] = $response;
             }
 
-            if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed') {
+            if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
                 // echo $sequenceNumber.'<br>';
                 $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
