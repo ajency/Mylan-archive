@@ -9162,6 +9162,12 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   font-family: open sans;
   background-color: #05A8A5;
 }
+.Notes {
+  margin-top: 8px;
+}
+.Notes p {
+  line-height: 1.5;
+}
 .submissionStatus {
   overflow: hidden;
   white-space: nowrap;

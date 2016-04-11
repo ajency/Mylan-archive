@@ -105,12 +105,12 @@
                                     </div>
                                  </div>
                                  <br>
-                                 <div>Submitted on {{ $date }}</div>
+                                 <div><label>Submitted on {{ $date }}</label></div>
                               </div>
                               <div class="col-md-5">
                                 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                                  <div class="row">
-                                    
+  
                                     
                                     <div class="col-md-12 reviewStatus"> 
                                       <label>Review Status</label>
@@ -121,9 +121,9 @@
                                           <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
                                        </select>
 
-                                       <div class="notes">
+                                      <!--  <div class="notes">
                                        <i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
-                                       </div>
+                                       </div> -->
                                       
                                     </div>
                                     
@@ -144,6 +144,13 @@
                               
                                 
                               </div>
+                              @if($responseData['reviewNote']!='')
+                              <div class="col-md-12">
+                                 <div class="Notes"><label>Notes:</label>
+                                  <p>{{ $responseData['reviewNote'] }}</p>
+                                 </div>
+                              </div>
+                              @endif
                            </div>
                               
                            </div>
