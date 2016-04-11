@@ -66,14 +66,12 @@ getNotifications = () ->
 getNotificationType = (scheduleObj) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
-    .then (questionnaireObj) ->
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+    .then (settings) ->
         nextOccurrence = scheduleObj.get('nextOccurrence')
         currentDate = new Date()
-        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
-        reminderTime = questionnaireObj.get('reminderTime')
+        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000))
+        reminderTime = settings['reminderTime']
         beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000)
         afterReminder =  new Date(nextOccurrence.getTime() + reminderTime * 1000)
         bufferTime = cronjobRunTime/2
@@ -99,10 +97,9 @@ getNotificationType = (scheduleObj) ->
 getNotificationMessage = (scheduleObj, notificationType, notificationId, occurrenceDate,installationId) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
-    .then (questionnaireObj) ->
+
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+    .then (settings) ->
         # nextOccurrence = scheduleObj.get('nextOccurrence')
         
         # console.log "-=-=-=-=-=-=-"
@@ -119,7 +116,7 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             timeZone = convertedTimezoneObject['timeZone'] 
             console.log "**New newNextOccurrence**"
             console.log newNextOccurrence
-            gracePeriod = questionnaireObj.get("gracePeriod")
+            gracePeriod = settings['gracePeriod']
             # graceDate =new Date(newNextOccurrence.getTime() + (questionnaireObj.get('gracePeriod') * 1000))
             # "DD-MM-YYYY HH:mm HH:mm"
             graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
@@ -177,7 +174,7 @@ getNotificationData = (notificationId, installationId, message)->
             pushData = 
                 title: "Mylan"
                 alert: message
-                # badge: 'Increment'
+                badge: 'Increment'
 
         # notificationObj = 
         #     pushData: pushData
@@ -319,7 +316,7 @@ checkMissedResponses = () ->
             _.each responseObjs, (responseObj) ->
                 promise1 = promise1
                 .then () ->
-                    getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+                    getValidTimeFrame(responseObj.get('patient'),responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
                     .then (timeObj) ->
                         # currentDate = new Date()
                         # if currentDate.getTime() > timeObj['upperLimit']
@@ -369,7 +366,7 @@ createMissedResponse = () ->
             _.each scheduleObjs, (scheduleObj) ->
                 promise1 = promise1
                 .then () ->
-                    getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+                    getValidTimeFrame(scheduleObj.get('patient'),scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
                     .then (timeObj) ->
                         # currentDate = new Date()
                         # if currentDate.getTime() > timeObj['upperLimit'].getTime()
@@ -391,13 +388,10 @@ createMissedResponse = () ->
                                     notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                     notificationObj.save()
                                     .then (notificationObj) ->
-                                        scheduleQuery = new Parse.Query('Schedule')
-                                        scheduleQuery.doesNotExist('patient')
-                                        scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                                        scheduleQuery.first()
-                                        .then (scheduleQuestionnaireObj) ->
+                                        getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+                                        .then (settings) ->
                                             newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                                            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                                            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                                             scheduleObj.set 'nextOccurrence', newNextOccurrence
                                             scheduleObj.save()
                                         , (error) ->
@@ -459,13 +453,10 @@ createLateResponse = (scheduleObj) ->
             responseObj.set 'status', 'late'
             responseObj.save()
             .then (responseObj) ->
-                scheduleQuery = new Parse.Query('Schedule')
-                scheduleQuery.doesNotExist('patient')
-                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                scheduleQuery.first()
-                .then (scheduleQuestionnaireObj) ->
+                getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+                .then (settings) ->
                     newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                    newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                    newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                     scheduleObj.set 'nextOccurrence', newNextOccurrence
                     scheduleObj.save()
                     .then (scheduleQuestionnaireObj) ->
@@ -688,12 +679,10 @@ getPatientNotifications = (patientId,page,limit) ->
 getNotificationSendObject = (scheduleObj, notification) ->
     promise = new Parse.Promise()
 
-    questionnaireQuery = new Parse.Query('Questionnaire')
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id)
-    questionnaireQuery.first()
+    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
     .then (questionnaireObj) ->
         occurrenceDate = notification.get('occurrenceDate')
-        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000))
+        graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000))
         notificationType = notification.get('type')
         #console.log "-=-=-=-=-=-=-"
         #console.log "nextOccurrence #{nextOccurrence}"
