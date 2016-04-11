@@ -137,7 +137,7 @@ class SubmissionController extends Controller
               $completedResponses[] = $response;
             }
 
-            if ($reviewed=='reviewed') {
+            if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed') {
                 // echo $sequenceNumber.'<br>';
                 $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
@@ -615,7 +615,7 @@ class SubmissionController extends Controller
             $response->set('reviewNote',$reviewNote);
             $response->save(); 
 
-            if($reviewStatus=='reviewed')
+            if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed')
             {
                 $alertQry = new ParseQuery("Alerts");
                 $alertQry->equalTo("referenceId",$responseId);
