@@ -36,7 +36,7 @@ class UserTableSeeder extends Seeder {
             'type' => 'mylan_admin',
             'email' => 'admin@mylan.com',
             'account_status' => 'active',
-            'project_access' => 'yes',
+            'has_all_access' => 'yes',
             'mylan_access' => 'yes',
             'password' => Hash::make( 'admin' )
         ] ); 
