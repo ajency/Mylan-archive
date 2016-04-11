@@ -147,7 +147,7 @@
                               @if($responseData['reviewNote']!='')
                               <div class="col-md-12">
                                  <div class="Notes"><label>Notes:</label>
-                                  <p>{{ $responseData['reviewNote'] }}</p>
+                                  <span>{{ $responseData['reviewNote'] }}</span>
                                  </div>
                               </div>
                               @endif

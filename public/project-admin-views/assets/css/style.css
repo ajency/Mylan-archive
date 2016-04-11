@@ -9165,7 +9165,10 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .Notes {
   margin-top: 8px;
 }
-.Notes p {
+.Notes label {
+  display: inline-block;
+}
+.Notes span {
   line-height: 1.5;
 }
 .submissionStatus {
