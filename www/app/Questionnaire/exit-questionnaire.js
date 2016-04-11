@@ -6,7 +6,14 @@ angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
       phone: '',
       email: HospitalData.email,
       exit: function() {
-        return ionic.Platform.exitApp();
+        if (App.isAndroid()) {
+          return ionic.Platform.exitApp();
+        } else {
+          return App.navigate("dashboard", {}, {
+            animate: false,
+            back: false
+          });
+        }
       },
       init: function() {
         return Storage.setData('hospital_details', 'get').then((function(_this) {

@@ -1,14 +1,15 @@
 angular.module('PatientApp.notification', []).controller('notifyCtrl', [
-  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner', function($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner) {
+  '$scope', 'App', 'Storage', 'notifyAPI', '$rootScope', 'NotifyCount', 'CSpinner', 'CToast', function($scope, App, Storage, notifyAPI, $rootScope, NotifyCount, CSpinner, CToast) {
     $scope.view = {
       data: [],
       display: 'noError',
       page: 0,
-      limit: 10,
+      limit: 20,
       refcode: '',
       canLoadMore: true,
       refresh: false,
       gotAllRequests: false,
+      disable: false,
       init: function() {
         var param;
         param = {
@@ -24,27 +25,29 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
             _this.display = 'noError';
             dataSize = _.size(data);
             if (dataSize > 0) {
-              if (dataSize < _this.limit) {
-                _this.canLoadMore = false;
-              } else {
-                _this.canLoadMore = true;
-              }
               if (_this.refresh) {
                 _this.data = data;
               } else {
                 _this.data = _this.data.concat(data);
               }
+              if (dataSize < _this.limit) {
+                _this.canLoadMore = false;
+              } else {
+                _this.canLoadMore = true;
+              }
             } else {
               _this.canLoadMore = false;
+              _this.data = [];
             }
             if (!_this.canLoadMore) {
               _this.gotAllRequests = true;
             }
             _.each(_this.data, function(value) {
-              value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('MMMM Do YYYY');
-              return value['graceDateDisplay'] = moment(value.graceDate).format('MMMM Do YYYY');
+              value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A');
+              return value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A');
             });
-            return _this.onScrollComplete();
+            _this.onScrollComplete();
+            return _this.disable = false;
           };
         })(this), (function(_this) {
           return function(error) {
@@ -54,6 +57,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
           };
         })(this))["finally"]((function(_this) {
           return function() {
+            _this.disable = false;
             _this.page = _this.page + 1;
             $scope.$broadcast('scroll.refreshComplete');
             return $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -82,11 +86,17 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         }
       },
       onTapToRetry: function() {
+        this.disable = true;
         this.gotAllRequests = false;
         this.page = 0;
-        return this.display = 'noError';
+        this.canLoadMore = true;
+        this.display = 'loader';
+        this.refresh = true;
+        this.init();
+        return NotifyCount.getCount(this.refcode);
       },
       onInfiniteScroll: function() {
+        this.disable = true;
         this.refresh = false;
         return Storage.setData('refcode', 'get').then((function(_this) {
           return function(refcode) {
@@ -100,6 +110,8 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       },
       DeleteAll: function() {
         var objIds, param;
+        this.refresh = true;
+        this.canLoadMore = false;
         CSpinner.show('', 'Please wait..');
         objIds = _.pluck(this.data, 'id');
         param = {
@@ -107,21 +119,19 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         };
         return notifyAPI.deleteAllNotification(param).then((function(_this) {
           return function(data) {
-            App.notification.count = App.notification.count - objIds.length;
+            App.notification.count = App.notification.count - data.length;
             if (App.notification.count <= 0) {
               App.notification.badge = false;
             }
-            _this.data = [];
+            _this.refresh = true;
             App.scrollTop();
             App.resize();
             _this.page = 0;
-            _this.canLoadMore = true;
-            _this.display = 'loader';
             return _this.init();
           };
         })(this), function(error) {
           if (error === 'offline') {
-            return CToast.show('Check net connection');
+            return CToast.show('Check internet connection');
           } else if (error === 'server_error') {
             return CToast.showLongBottom('Error in clearing Notification ,Server error');
           } else {
@@ -132,6 +142,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         });
       },
       onPullToRefresh: function() {
+        this.disable = true;
         this.gotAllRequests = false;
         NotifyCount.getCount(this.refcode);
         this.page = 0;
@@ -141,6 +152,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       },
       deleteNotify: function(id) {
         var idObject, param;
+        console.log('deletee notifyy');
         param = {
           "notificationId": id
         };

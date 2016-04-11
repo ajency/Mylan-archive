@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog) {
     var deregister, onDeviceBackSummary;
     $scope.view = {
       title: 'C-weight',
@@ -91,6 +91,33 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
               respStatus: 'lastQuestion'
             });
           });
+        }
+      },
+      redirectLast: function() {
+        return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
+          return App.navigate('questionnaire', {
+            respStatus: 'firstQuestion'
+          });
+        });
+      },
+      onSumbmit: function() {
+        var msg;
+        if (this.data.editable === true) {
+          msg = 'Are you happy with your answers?';
+          return CDialog.confirm('Confirmation', msg, ['Yes', 'No']).then((function(_this) {
+            return function(btnIndex) {
+              switch (btnIndex) {
+                case 1:
+                  console.log('yesss');
+                  return _this.submitSummary();
+                case 2:
+                  console.log('noo');
+                  return _this.redirectLast();
+              }
+            };
+          })(this));
+        } else {
+          return this.submitSummary();
         }
       }
     };

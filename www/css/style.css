@@ -580,6 +580,7 @@ ul .mcq_active div span {
 .list.list-inset,
 .question-popup {
   position: relative;
+  overflow: visible;
 }
 .list.list-inset i.ion-ios-help-outline,
 .question-popup i.ion-ios-help-outline,
@@ -929,6 +930,9 @@ ul .mcq_active div span {
 @media (min-device-width: 600px) and (max-device-width: 1024px) and (orientation: portrait) {
   .hospital-logo {
     width: 320px !important;
+  }
+  .item-input-type span {
+    top: 30px !important;
   }
   .prev-answers {
     font-size: 20px;
@@ -1382,7 +1386,10 @@ ul .mcq_active div span {
     padding-top: 30px;
   }
   .item.item-radio .item-content span {
-    line-height: 35px;
+    line-height: 30px;
+  }
+  .item-input-type span {
+    top: 30px !important;
   }
   li.item.item-checkbox.mcq {
     position: relative;
@@ -1486,5 +1493,42 @@ ul .mcq_active div span {
 .info-msg.bg-assertive {
   background: #FF8181;
   color: #FFFFFF;
+}
+/** Questionaire missed **/
+.popupQuestion {
+  text-align: center;
+}
+.popupQuestion .popup-body {
+  font-weight: 600;
+}
+.popupQuestion .popup-buttons {
+  text-align: center;
+  margin: auto;
+  width: 40%;
+  min-height: 55px;
+}
+.popupQuestion .popup-buttons .button {
+  background: #00aaa7;
+  box-shadow: 0px 4px 0 0 #008380;
+  border: none;
+  min-height: 35px;
+}
+/* Notification */
+.questionaire-list .item-content {
+  padding: 16px 49px 16px 16px !important;
+}
+.questionaire-list .notification-row {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  z-index: 999;
+}
+.mcq .button {
+  background: none;
+  box-shadow: none !important;
+}
+/*# sourceMappingURL=style.css.map */
+.mcq_a {
+  background-color: #F5EFDF;
 }
 /*# sourceMappingURL=style.css.map */

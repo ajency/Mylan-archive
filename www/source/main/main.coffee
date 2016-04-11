@@ -54,7 +54,10 @@ angular.module 'PatientApp.main', []
 					hideOnStateChange: true	
 
 			exitApp : ->
-				ionic.Platform.exitApp()
+				if App.isAndroid()
+					ionic.Platform.exitApp()
+				else
+					App.navigate "dashboard", {}, {animate: false, back: false}
 
 			closePopup : ->
 				$ionicLoading.hide()

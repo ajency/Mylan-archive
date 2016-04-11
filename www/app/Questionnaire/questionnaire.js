@@ -63,6 +63,30 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   return _this.errorType = error;
                 });
               });
+            } else if (_this.respStatus === 'firstQuestion') {
+              param = {
+                "questionnaireId": patientData.id
+              };
+              return Storage.setData('responseId', 'get').then(function(responseId) {
+                param.responseId = responseId;
+                return QuestionAPI.getFirstQuest(param).then(function(data) {
+                  console.log('previous data');
+                  console.log(_this.data);
+                  _this.variables();
+                  _this.data = [];
+                  _this.data = data;
+                  _this.questionLabel();
+                  _this.readonly = _this.data.editable;
+                  _this.pastAnswer();
+                  if (!_.isEmpty(_this.data.hasAnswer)) {
+                    _this.hasAnswerShow();
+                  }
+                  return _this.display = 'noError';
+                }, function(error) {
+                  _this.display = 'error';
+                  return _this.errorType = error;
+                });
+              });
             } else if (_this.respStatus === 'noValue') {
               responseId = '';
               options = {
@@ -123,7 +147,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         error = 0;
         sizeOfField = _.size(this.data.options);
         sizeOfTestboxAns = _.size(this.val_answerValue);
-        kgValid = true;
+        kgValid = false;
         lbValid = true;
         stValid = false;
         weightInput = 0;
@@ -155,8 +179,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             if (_.contains(['kg', 'kgs'], lowerCase)) {
               weightInput = 1;
               valid = weigthValueArray[_.indexOf(weightKeys, val)].toString().match(/^(?![0.]+$)\d+(\.\d{1,2})?$/gm);
-              if (valid === null) {
-                kgValid = false;
+              if (valid !== null) {
+                kgValid = true;
               }
             }
             lowerCase = val.toLowerCase();
@@ -179,6 +203,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }
           });
         }
+        console.log('********inputt*********');
+        console.log(weightInput);
+        console.log(validArr);
+        console.log(weightInput);
+        console.log(this.firstText);
+        console.log(this.secondText);
         if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
           CToast.show('Please enter the values');
         } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
@@ -277,6 +307,8 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'input') {
           param = this.vlaidateInput();
+          console.log('******** param **********');
+          console.log(param);
           if (param !== true) {
             this.loadNextQuestion(param);
           }
@@ -532,6 +564,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       showConfirm: function() {
         this.alertPopup = $ionicPopup.alert({
           title: 'Alert',
+          cssClass: 'popupQuestion',
           template: this.title
         });
         return this.alertPopup.then(function(res) {

@@ -1,13 +1,13 @@
 angular.module('PatientApp.init').controller('setupCtr', [
   '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup) {
-    return $scope.view = {
+    $scope.view = {
       refcode: '',
       emptyfield: '',
       deviceOS: '',
       deviceUUID: '',
       verifyRefCode: function() {
         if (this.refcode === '' || _.isUndefined(this.refcode)) {
-          return this.emptyfield = "Please enter Valid Reference Code";
+          return this.emptyfield = "Please enter valid reference code";
         } else {
           this.deviceUUID = App.deviceUUID();
           if (App.isAndroid()) {
@@ -41,7 +41,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
           })(this), (function(_this) {
             return function(error) {
               if (error === 'offline') {
-                return _this.emptyfield = 'Please check internet connection';
+                return _this.emptyfield = 'Please check your internet connection';
               } else if (error === 'server_error') {
                 return _this.emptyfield = 'Please try again';
               }
@@ -79,5 +79,8 @@ angular.module('PatientApp.init').controller('setupCtr', [
         return App.callUs(MYLANPHONE);
       }
     };
+    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      return $scope.view.refcode = '';
+    });
   }
 ]);

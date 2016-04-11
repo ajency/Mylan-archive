@@ -1,7 +1,7 @@
 angular.module 'PatientApp.dashboard',[]
 
-.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData', 'NotifyCount'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount)->
+.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData', 'NotifyCount', '$rootScope'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope)->
 
 		$scope.view =
 			hospitalName: HospitalData.name
@@ -20,7 +20,6 @@ angular.module 'PatientApp.dashboard',[]
 
 			onPullToRefresh :->
 				@showMoreButton = false
-				@data =[]
 				@getSubmission()
 				@limitTo = 5
 				@scroll = false
@@ -33,7 +32,6 @@ angular.module 'PatientApp.dashboard',[]
 				App.navigate 'start-questionnaire', responseId:val
 
 			getSubmission : ->
-				
 				@showMoreButton = false
 				
 				Storage.setData 'refcode','get'
@@ -92,8 +90,6 @@ angular.module 'PatientApp.dashboard',[]
 				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
 					@errorStartQuestion = true
 					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
-
-				# @data = []
 				@getSubmission()	
 				
 
@@ -116,23 +112,25 @@ angular.module 'PatientApp.dashboard',[]
 				if @limitTo >= 25
 					@scroll = true
 
-
 			scrollTop : ->
 				App.scrollTop()
-				@limitTo = 5
 				@scroll = false
 
 			getScrollPosition : ->
+
 				console.log 'getscroll position'
 				scrollPosition = App.getScrollPosition()
 				console.log scrollPosition
-
 				if scrollPosition < 200
-					
 					$scope.$apply ->
-  						$scope.view.scroll = false
+						$scope.view.scroll = false
+				else if scrollPosition > 1000
+					if @limitTo >= 25
+						$scope.$apply ->
+							$scope.view.scroll = true
+
 					
-					
+			
 
 		$scope.$on '$ionicView.enter', (event, viewData)->
 			console.log 'view enter'
@@ -149,6 +147,11 @@ angular.module 'PatientApp.dashboard',[]
 			$scope.view.scroll =  false
 			$scope.view.errorStartQuestion = false
 			$scope.view.showStart = false
+
+		$rootScope.$on 'in:app:notification', (e, obj)->
+			App.scrollTop()
+			$scope.view.onPullToRefresh()
+
 
 ]
 

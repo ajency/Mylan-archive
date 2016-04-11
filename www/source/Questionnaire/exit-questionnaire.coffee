@@ -9,7 +9,10 @@ angular.module 'PatientApp.Quest'
 			email : HospitalData.email
 
 			exit :()->
-				ionic.Platform.exitApp()
+				if App.isAndroid()
+					ionic.Platform.exitApp()
+				else
+					App.navigate "dashboard", {}, {animate: false, back: false}
 
 			init:()->
 				Storage.setData 'hospital_details','get'

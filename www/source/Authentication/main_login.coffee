@@ -14,7 +14,7 @@ angular.module 'PatientApp.Auth'
 
 			mainlogin : ->
 				if @refrencecode =='' || @password ==''
-					@loginerror = "Please enter the credentials "
+					@loginerror = "Please enter your credentials "
 				else	
 					if  _.isUndefined(@refrencecode) || _.isUndefined(@password) 
 						@loginerror = "Please enter valid credentials "
@@ -41,6 +41,9 @@ angular.module 'PatientApp.Auth'
 							else if data.code == 'limit_exceeded'
 								@loginerror = 'Cannot do setup more then 5 times'
 							else if data.code == 'invalid_login'
+								@password = ''
+								if @readonly == false 
+									 @refrencecode = ''
 								@loginerror = 'Credentials entered are invalid'
 							else if data.code == 'password_not_set'
 								@loginerror = 'No password set for the reference code'

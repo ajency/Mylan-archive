@@ -1,5 +1,5 @@
 angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
-  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount) {
+  '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', '$rootScope', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope) {
     $scope.view = {
       hospitalName: HospitalData.name,
       projectName: HospitalData.project,
@@ -16,7 +16,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       currentDate: moment().format('MMMM Do YYYY'),
       onPullToRefresh: function() {
         this.showMoreButton = false;
-        this.data = [];
         this.getSubmission();
         this.limitTo = 5;
         return this.scroll = false;
@@ -132,7 +131,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       scrollTop: function() {
         App.scrollTop();
-        this.limitTo = 5;
         return this.scroll = false;
       },
       getScrollPosition: function() {
@@ -144,6 +142,12 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
           return $scope.$apply(function() {
             return $scope.view.scroll = false;
           });
+        } else if (scrollPosition > 1000) {
+          if (this.limitTo >= 25) {
+            return $scope.$apply(function() {
+              return $scope.view.scroll = true;
+            });
+          }
         }
       }
     };
@@ -154,7 +158,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         return NotifyCount.getCount(refcode);
       });
     });
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       $scope.view.display = 'loader';
       $scope.view.data = [];
       $scope.view.limitTo = 5;
@@ -162,6 +166,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       $scope.view.scroll = false;
       $scope.view.errorStartQuestion = false;
       return $scope.view.showStart = false;
+    });
+    return $rootScope.$on('in:app:notification', function(e, obj) {
+      App.scrollTop();
+      return $scope.view.onPullToRefresh();
     });
   }
 ]).config([
