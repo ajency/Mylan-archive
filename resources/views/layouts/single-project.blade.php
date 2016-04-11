@@ -15,6 +15,7 @@
       <!-- BEGIN CORE CSS FRAMEWORK -->
       <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/plugins/boostrapv3/css/bootstrap-theme.min.css') }}" rel="stylesheet" type="text/css"/>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
       <link href="{{ asset('project-admin-views/assets/plugins/font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/animate.min.css') }}" rel="stylesheet" type="text/css"/>
       <!-- END CORE CSS FRAMEWORK -->
