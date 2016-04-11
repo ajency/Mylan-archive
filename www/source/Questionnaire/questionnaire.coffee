@@ -56,6 +56,7 @@ angular.module 'PatientApp.Quest',[]
 								@variables()
 								@data = []
 								@data = data
+								@checkQuestinarieStatus(data)
 								@questionLabel()
 								@readonly = @data.editable
 								@pastAnswer()
@@ -80,6 +81,7 @@ angular.module 'PatientApp.Quest',[]
 								@variables()
 								@data = []
 								@data = data
+								@checkQuestinarieStatus(data)
 								@questionLabel()
 								@readonly = @data.editable
 								@pastAnswer()

@@ -51,6 +51,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   _this.variables();
                   _this.data = [];
                   _this.data = data;
+                  _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
                   _this.readonly = _this.data.editable;
                   _this.pastAnswer();
@@ -75,6 +76,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   _this.variables();
                   _this.data = [];
                   _this.data = data;
+                  _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
                   _this.readonly = _this.data.editable;
                   _this.pastAnswer();
