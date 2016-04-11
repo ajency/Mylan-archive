@@ -366,6 +366,42 @@
 
                            </div>
                   <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
+
+                  <hr>
+               <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
+               <br>
+                <div class="form-group">
+    <label for="frequency" class="col-sm-4 side-label">Frequency</label>
+    <div class="col-sm-4">
+      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}" data-parsley-type="number"> <h6 class="seconds">days</h6>
+    </div>
+    
+    <div class="col-sm-4">
+      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+   
+  </div>
+ <div class="form-group">
+    <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
+    </div>
+      <div class="col-sm-4">
+      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
+    </div>
+      <div class="col-sm-4">
+      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+  </div>
+
         </div>
                 
               </div>

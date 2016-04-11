@@ -370,6 +370,7 @@ class ProjectController extends Controller
                }
                 
                $str.='data-placement="top" title="'. getStatusName($submission['reviewed']) .'">'. getStatusName($submission['reviewed']) .'</div></td>
+  
             </tr>';
         }
       }
@@ -1343,7 +1344,7 @@ class ProjectController extends Controller
         $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
         $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
 
-        $editable = ($request->input('editable')=='yes')?true:false;
+        $editable = ($request->input('editable')=='yes')? true: false;
         $type = $request->input('type');
 
         $questionnaireQry = new ParseQuery("Questionnaire");
