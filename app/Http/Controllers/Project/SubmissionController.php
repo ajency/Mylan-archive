@@ -664,7 +664,7 @@ class SubmissionController extends Controller
         $projectController = new ProjectController(); 
         $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
 
-        return view('project.submission-notifications')->with('active_menu', 'submissions')
+        return view('project.submission-notifications')->with('active_menu', 'submission-notification')
                                         ->with('hospital', $hospital)
                                         ->with('project', $project)
                                         ->with('allPatients', $allPatients)

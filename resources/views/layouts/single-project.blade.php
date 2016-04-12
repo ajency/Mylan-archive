@@ -145,11 +145,12 @@
                            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submissions/' ) }}">
                            <span><i class="fa fa-list-alt"></i> Submissions </span>
                            </a>
-                           <ul class="classic">
-                              <li>
-                                <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submission-notifications/' ) }}">Submission Notifications</a>
-                              </li>
-                           </ul>
+                            
+                        </li>
+                        <li class="{{ ( $active_menu == 'submission-notification')? 'active-item' : ''}}">
+                            
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submission-notifications/' ) }}"><span><i class="fa fa-list-alt"></i>Submission Notifications</span></a>
+                            
                         </li>
                         <li class="{{ ( $active_menu == 'flags')? 'active-item' : ''}}">
                            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/flags/' ) }}">
