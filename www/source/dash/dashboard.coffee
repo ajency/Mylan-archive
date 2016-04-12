@@ -121,6 +121,9 @@ angular.module 'PatientApp.dashboard',[]
 						$scope.$apply ->
 							$scope.view.scroll = true
 
+			scrollButtom : ->
+				App.scrollBottom()
+
 					
 			
 

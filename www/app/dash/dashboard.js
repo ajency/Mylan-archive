@@ -143,6 +143,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
             });
           }
         }
+      },
+      scrollButtom: function() {
+        return App.scrollBottom();
       }
     };
     $scope.$on('$ionicView.enter', function(event, viewData) {
