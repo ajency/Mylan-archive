@@ -123,7 +123,9 @@ class ProjectController extends Controller
         $patientSortedData = array_slice($patientSortedData, 0, 5, true);
          
         $cond=['cleared'=>false];
-        $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+        $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+
+        $submissionNotifications = $this->getProjectAlerts($projectId,5,0);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
@@ -137,7 +139,8 @@ class ProjectController extends Controller
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
-                                        ->with('prejectAlerts', $prejectAlerts)
+                                        ->with('projectAlerts', $projectAlerts)
+                                        ->with('submissionNotifications', $submissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
@@ -145,7 +148,7 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[])
+    public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[],$refCond=[])
     {
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
@@ -182,7 +185,7 @@ class ProjectController extends Controller
 
         $alertMsg = [];
         $alertTypes = [
-        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submission number %d in comparison with previous submission",
+        'compared_to_previous_red_flags'=>"%u red flags have been raised for submission number %d in comparison with previous submission",
         'new_patient'=>"New Patient Created"
         ];
 
@@ -200,10 +203,24 @@ class ProjectController extends Controller
             {
                 $responseQry = new ParseQuery("Response");
                 $responseQry->equalTo("objectId", $referenceId); 
+                if(!empty($refCond))
+                {
+                    foreach ($refCond as $key => $value) {
+                        $responseQry->equalTo($key,$value);
+                    }
+                }
                 $response = $responseQry->first();
-                $sequenceNumber = $response->get("sequenceNumber");
-                $responseId = $response->getObjectId();
-                $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+
+                if(!empty($response))
+                {
+                    $sequenceNumber = $response->get("sequenceNumber");
+                    $reviewStatus = $response->get("reviewed");
+                    $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+                    $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+
+                    $responseId = $response->getObjectId();
+                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                }
             }
            
             

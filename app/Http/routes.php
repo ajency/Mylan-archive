@@ -105,6 +105,7 @@ Route::resource( 'submissions', 'Project\SubmissionController' );
 Route::resource( 'projects', 'Project\ProjectController' );
 
 Route::get( 'flags', 'Project\SubmissionController@getSubmissionFlags' );
+Route::get( 'submission-notifications', 'Project\SubmissionController@getSubmissionNotifications' );
 Route::post( 'submissions/{id}/updatesubmissionstatus', 'Project\SubmissionController@updateSubmissionStatus' );
 Route::get( 'reports', 'Project\ProjectController@reports' );
 

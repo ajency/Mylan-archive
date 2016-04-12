@@ -407,6 +407,9 @@ class PatientController extends Controller
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
         //$questionBaseLine = $questionsChartData['questionBaseLine'];
+
+        $cond=['patient'=>$patient['reference_code']];
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
        
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
@@ -427,6 +430,7 @@ class PatientController extends Controller
                                         ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('submissionFlags', $submissionFlags)
                                         ->with('patientFlags', $patientFlags)
+                                        ->with('submissionNotifications', $submissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('project', $project);
