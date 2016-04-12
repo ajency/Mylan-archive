@@ -381,14 +381,8 @@ class ProjectController extends Controller
               
                <td class="text-center text-success">'.$submission['alert'].'</td>
                <td class="text-center text-success">'. getStatusName($submission['status']) .'</td>
-        
-               <td class="text-center text-success"><div class="submissionStatus"';
-               if(strlen($submission['reviewed']) >10 )
-               {
-                  $str.='data-toggle="tooltip"'; 
-               }
                 
-               $str.='data-placement="top" title="'. getStatusName($submission['reviewed']) .'">'. getStatusName($submission['reviewed']) .'</div></td>
+               <td class="text-center text-success"><div class="submissionStatus">'. getStatusName($submission['reviewed']) .'</div></td>
             </tr>';
         }
       }
