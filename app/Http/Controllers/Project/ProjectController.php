@@ -211,6 +211,7 @@ class ProjectController extends Controller
                 }
                 $response = $responseQry->first();
 
+
                 if(!empty($response))
                 {
                     $sequenceNumber = $response->get("sequenceNumber");
@@ -221,6 +222,7 @@ class ProjectController extends Controller
                     $responseId = $response->getObjectId();
                     $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
                 }
+
             }
            
             
