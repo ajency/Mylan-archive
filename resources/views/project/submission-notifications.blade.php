@@ -60,7 +60,7 @@
                         </div>
                         <div class="alert alert-info alert-black">
                           
-                           Submission Notifications  <span class="semi-bold">Report</span> 
+                           Submission Notifications Report
                           <sm class="light">(These are the notifications generated for submissions)</sm>
                         
                         </div>
