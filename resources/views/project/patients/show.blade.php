@@ -386,9 +386,9 @@
 
                <div class="grid simple grid-table">
                            <div class="grid-title no-border">
-                        <h4>
-                          Submissions <span class="semi-bold">Notifications</span> 
-                          <sm class="light">(These are notification generated for submissions)</sm>
+                         <h4>
+                          Notifications <span class="semi-bold">Summary</span> 
+                          <sm class="light">(These are the notifications generated for submissions)</sm>
                        </h4>
                            </div>
                            <div class="grid-body no-border" style="display: block;">

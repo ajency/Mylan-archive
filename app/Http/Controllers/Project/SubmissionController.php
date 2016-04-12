@@ -648,23 +648,28 @@ class SubmissionController extends Controller
         $project = $hospitalProjectData['project'];
         $projectId = intval($project['id']);
 
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
         $inputs = Input::get(); 
+        $refCond = [];
+        $reviewStatus = "all";
+        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+        {
+            
+            $reviewStatus = $inputs['reviewStatus'];
+            $refCond = ['reviewed'=>$reviewStatus];
+             
+        }
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+        $projectController = new ProjectController(); 
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
-
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
-                      "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
-                     );
+        return view('project.submission-notifications')->with('active_menu', 'submissions')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('reviewStatus', $reviewStatus); 
 
     }
     /**

@@ -2305,7 +2305,44 @@ class PatientController extends Controller
         return $chartData;
     }
 
+    public function getSubmissionNotifications($hospitalSlug,$projectSlug , $patientId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
+        $hospital = $hospitalProjectData['hospital'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        $patient = User::find($patientId)->toArray();
+
+        $inputs = Input::get(); 
+        $refCond = [];
+        $cond = ['patient'=>$patient['reference_code']];
+        $reviewStatus = "all";
+        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+        {
+            
+            $reviewStatus = $inputs['reviewStatus'];
+            $refCond = ['reviewed'=>$reviewStatus];
+             
+        }
+
+        $projectController = new ProjectController(); 
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$cond,$refCond);
+
+        return view('project.patients.submission-notifications')->with('active_menu', 'patients')
+                                        ->with('active_tab', 'submissions-notification') 
+                                        ->with('tab', '06')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('patient', $patient)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('reviewStatus', $reviewStatus); 
+    }
 
     /**
      * Remove the specified resource from storage.
