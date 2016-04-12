@@ -43,7 +43,9 @@
       "id": "com.phonegap.plugins.PushPlugin"
     },
     "cordova-plugin-app-preferences",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "add",
+    "cordova-plugin-dialogs"
   ],
   "cordovaPlatforms": [
     "android",

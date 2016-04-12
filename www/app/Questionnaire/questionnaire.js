@@ -49,7 +49,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   console.log('previous data');
                   console.log(_this.data);
                   _this.variables();
-                  _this.data = [];
+                  delete _this.data;
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
@@ -74,7 +74,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   console.log('previous data');
                   console.log(_this.data);
                   _this.variables();
-                  _this.data = [];
+                  delete _this.data;
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
@@ -99,6 +99,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
+                delete _this.data;
                 _this.data = data;
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
@@ -124,6 +125,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
+                delete _this.data;
                 _this.data = data;
                 _this.questionLabel();
                 _this.checkQuestinarieStatus(data);
