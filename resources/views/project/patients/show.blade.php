@@ -419,7 +419,7 @@
                                    
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
-                                   <div class="submissionStatus">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                   <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
                                    </td>
                                 </tr>
                                  
