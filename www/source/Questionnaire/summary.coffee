@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Quest'
 
 .controller 'SummaryCtr',['$scope', 'App', 'QuestionAPI','$stateParams', 
-	'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog'
-	, ($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog)->
+	'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog', '$ionicLoading'
+	, ($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog, $ionicLoading)->
 
 		$scope.view =
 			title: 'C-weight'
@@ -11,6 +11,9 @@ angular.module 'PatientApp.Quest'
 			response : ''
 			display : 'loader'
 			hideButton : ''
+
+			closePopup : ->
+				$ionicLoading.hide()
 
 			getSummaryApi :()->
 				@hideButton = if App.previousState == 'dashboard' then true else false
@@ -38,7 +41,7 @@ angular.module 'PatientApp.Quest'
 				@getSummaryApi()
 
 			submitSummary : ->
-
+				@closePopup()
 				CSpinner.show '', 'Please wait..'
 
 				param = 
@@ -75,33 +78,45 @@ angular.module 'PatientApp.Quest'
 				if App.previousState == 'dashboard'
 					App.navigate 'dashboard'
 				else
-					Storage.setData 'responseId', 'set', $stateParams.summary 
-					.then ()->
-						App.navigate 'questionnaire', respStatus:'lastQuestion'
+					if $('.loading-container').hasClass 'active'
+						@closePopup()
+					else
+						Storage.setData 'responseId', 'set', $stateParams.summary 
+						.then ()->
+							App.navigate 'questionnaire', respStatus:'lastQuestion'
 
 			redirectLast :->
+				@closePopup()
 				Storage.setData 'responseId', 'set', $stateParams.summary 
 					.then ()->
 						App.navigate 'questionnaire', respStatus:'firstQuestion'
 
 
 
-			onSumbmit : ->
-					if @data.editable == true 
-						msg = 'Are you happy with your answers?'
-						CDialog.confirm 'Confirmation', msg, ['Yes', 'No']
-						.then (btnIndex)=>
-							switch btnIndex
-								when 1
-									console.log 'yesss'
-									@submitSummary()
+			# onSumbmit : ->
+			# 		if @data.editable == true 
+			# 			msg = 'Are you happy with your answers?'
+			# 			CDialog.confirm 'Confirmation', msg, ['Yes', 'No']
+			# 			.then (btnIndex)=>
+			# 				switch btnIndex
+			# 					when 1
+			# 						console.log 'yesss'
+			# 						@submitSummary()
 									
 
-								when 2
-									console.log 'noo'
-									@redirectLast()
-					else
-						@submitSummary()
+			# 					when 2
+			# 						console.log 'noo'
+			# 						@redirectLast()
+			# 		else
+			# 			@submitSummary()
+
+			onSumbmit : ->
+				$ionicLoading.show
+					scope: $scope
+					templateUrl:'views/main/confirm.html'
+					hideOnStateChange: true	
+
+			
 
 		onDeviceBackSummary = ->
 			$scope.view.back()

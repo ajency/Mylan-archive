@@ -1,5 +1,5 @@
 angular.module('PatientApp.Quest').controller('SummaryCtr', [
-  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog) {
+  '$scope', 'App', 'QuestionAPI', '$stateParams', 'Storage', 'CToast', 'CSpinner', '$ionicPlatform', 'CDialog', '$ionicLoading', function($scope, App, QuestionAPI, $stateParams, Storage, CToast, CSpinner, $ionicPlatform, CDialog, $ionicLoading) {
     var deregister, onDeviceBackSummary;
     $scope.view = {
       title: 'C-weight',
@@ -8,6 +8,9 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       response: '',
       display: 'loader',
       hideButton: '',
+      closePopup: function() {
+        return $ionicLoading.hide();
+      },
       getSummaryApi: function() {
         var param;
         this.hideButton = App.previousState === 'dashboard' ? true : false;
@@ -43,6 +46,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
       },
       submitSummary: function() {
         var param;
+        this.closePopup();
         CSpinner.show('', 'Please wait..');
         param = {
           responseId: $stateParams.summary
@@ -86,14 +90,19 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         if (App.previousState === 'dashboard') {
           return App.navigate('dashboard');
         } else {
-          return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
-            return App.navigate('questionnaire', {
-              respStatus: 'lastQuestion'
+          if ($('.loading-container').hasClass('active')) {
+            return this.closePopup();
+          } else {
+            return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
+              return App.navigate('questionnaire', {
+                respStatus: 'lastQuestion'
+              });
             });
-          });
+          }
         }
       },
       redirectLast: function() {
+        this.closePopup();
         return Storage.setData('responseId', 'set', $stateParams.summary).then(function() {
           return App.navigate('questionnaire', {
             respStatus: 'firstQuestion'
@@ -101,24 +110,11 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         });
       },
       onSumbmit: function() {
-        var msg;
-        if (this.data.editable === true) {
-          msg = 'Are you happy with your answers?';
-          return CDialog.confirm('Confirmation', msg, ['Yes', 'No']).then((function(_this) {
-            return function(btnIndex) {
-              switch (btnIndex) {
-                case 1:
-                  console.log('yesss');
-                  return _this.submitSummary();
-                case 2:
-                  console.log('noo');
-                  return _this.redirectLast();
-              }
-            };
-          })(this));
-        } else {
-          return this.submitSummary();
-        }
+        return $ionicLoading.show({
+          scope: $scope,
+          templateUrl: 'views/main/confirm.html',
+          hideOnStateChange: true
+        });
       }
     };
     onDeviceBackSummary = function() {
