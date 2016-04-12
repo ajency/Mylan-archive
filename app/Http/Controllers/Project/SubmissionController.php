@@ -78,12 +78,12 @@ class SubmissionController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $responseRate['completedCount'] = $responseQry->count();
 
-        // get completed count
-        $submissionStatus = 'completed';
-        $responseStatus = ["completed"];
+        
         
         $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
         $allResponseStatus = ['completed','missed','late'];
+
+        $responseStatus = $allResponseStatus;
         if(isset($inputs['submissionStatus']))
         {
             
@@ -103,6 +103,12 @@ class SubmissionController extends Controller
             //   $cond = ['reviewed'=>'unreviewed'];
              
             // }
+        }
+        else
+        {
+             // get completed count
+            $submissionStatus = 'completed';
+            $responseStatus = ["completed"];
         }
 
         if(isset($inputs['sort']))
