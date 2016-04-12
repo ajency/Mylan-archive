@@ -79,7 +79,7 @@
                           </thead>
                           <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
                            
-                          @if(!empty($submissionNotifications))   
+                          @if(!empty($submissionNotifications['alertMsg']))   
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
