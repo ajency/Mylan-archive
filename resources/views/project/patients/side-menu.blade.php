@@ -6,5 +6,5 @@
       <li class="{{ ( $active_tab == 'base_line')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score/list') }}';"><a href="#"><i class="fa fa-bar-chart"></i> Baseline Score</a></li>
       <li class="{{ ( $active_tab == 'reports')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/patient-reports') }}';"><a href="#"><i class="fa fa-bar-chart"></i> Reports</a></li>
       <!-- <li class="{{ ( $active_tab == 'users')? 'active' : ''}}"><a href="#"><i class="fa fa-bar-chart"></i> Details</a></li> -->
-      <li class="{{ ( $active_tab == 'submissions-notification')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}';"><a href="#"><i class="fa fa-list-alt"></i> Submission Notification</a></li>
+      <li class="{{ ( $active_tab == 'submissions-notification')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}';"><a href="#"><i class="fa fa-list-alt"></i> Submission Notifications</a></li>
 </ul>

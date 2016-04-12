@@ -153,7 +153,7 @@ class SubmissionController extends Controller
         }
         // dd($timeDifference);
 
-        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']+$responseRate['lateCount']; 
+        $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
 
         // $responseRate['completedCount'] = count($completedResponses);
 

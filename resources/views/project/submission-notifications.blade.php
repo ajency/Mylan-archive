@@ -17,7 +17,7 @@
 
 
 <div class="page-title">
-                     <h3><span class="semi-bold">Submission Notification</span> Report</h3>    
+                     <h3><span class="semi-bold">Submission Notifications</span> Report</h3>    
                      <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
 
                      <div class="patient-search pull-right">
