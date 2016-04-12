@@ -201,9 +201,13 @@ class ProjectController extends Controller
                 $responseQry = new ParseQuery("Response");
                 $responseQry->equalTo("objectId", $referenceId); 
                 $response = $responseQry->first();
-                $sequenceNumber = $response->get("sequenceNumber");
-                $responseId = $response->getObjectId();
-                $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                if(!empty($response))
+                {
+                    $sequenceNumber = $response->get("sequenceNumber");
+                    $responseId = $response->getObjectId();
+                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                }
+                
             }
            
             
