@@ -71,7 +71,7 @@
                                 <th class="sorting" width="10%">Patient ID <br><br></th>
                                 <th class="sorting "># Submission<br><br></th>
                                 
-                                <th class="sorting">Reason<br><br>
+                                <th class="sorting" width="40%">Reason<br><br>
                                 </th>
                                 <th class="sorting">Review Status<br><br>
                                 </th>
@@ -90,7 +90,10 @@
                                    </td>
                                    <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
                                    
-                                   <td class="text-center text-success"><div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div></td>
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
+                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                   </td>
                                 </tr>
                                  
                         
