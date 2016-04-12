@@ -395,7 +395,7 @@
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
                         <h4>
-                          Notifications <span class="semi-bold">Summary</span> 
+                          Submission Notification  <span class="semi-bold">Report</span> 
                           <sm class="light">(These are the notifications generated for submissions)</sm>
                        </h4>
                            </div>
@@ -438,7 +438,7 @@
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
                               <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submission-notifications" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                               </div>
                            </div>
                         </div>

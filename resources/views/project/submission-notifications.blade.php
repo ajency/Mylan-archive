@@ -17,7 +17,7 @@
 
 
 <div class="page-title">
-                     <h3><span class="semi-bold">Submissions</span> Notifications</h3>
+                     <h3><span class="semi-bold">Submission Notification</span> Report</h3>    
                      <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
 
                      <div class="patient-search pull-right">
@@ -60,7 +60,7 @@
                         </div>
                         <div class="alert alert-info alert-black">
                           
-                          Submission <span class="semi-bold">Notifications</span> 
+                           Submission Notification  <span class="semi-bold">Report</span> 
                           <sm class="light">(These are the notifications generated for submissions)</sm>
                         
                         </div>

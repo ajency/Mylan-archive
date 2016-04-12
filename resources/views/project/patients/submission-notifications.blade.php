@@ -35,7 +35,7 @@
                         <div class="grid simple grid-table">
                     <div class="grid-title no-border">
                        <h4>
-                            Submission <span class="semi-bold">Notifications</span> 
+                            Submission Notification  <span class="semi-bold">Report</span> 
                           <sm class="light">(These are the notifications generated for submissions)</sm>
                        </h4>
                        <div class="tools">
