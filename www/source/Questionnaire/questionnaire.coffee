@@ -54,7 +54,7 @@ angular.module 'PatientApp.Quest',[]
 								console.log 'previous data'
 								console.log @data	
 								@variables()
-								@data = []
+								delete @data
 								@data = data
 								@checkQuestinarieStatus(data)
 								@questionLabel()
@@ -79,7 +79,7 @@ angular.module 'PatientApp.Quest',[]
 								console.log 'previous data'
 								console.log @data	
 								@variables()
-								@data = []
+								delete @data
 								@data = data
 								@checkQuestinarieStatus(data)
 								@questionLabel()
@@ -104,6 +104,7 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
+							delete @data
 							@data = data
 							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.responseId
@@ -129,6 +130,7 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
+							delete @data
 							@data = data
 							@questionLabel()
 							@checkQuestinarieStatus(data)
