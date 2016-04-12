@@ -636,7 +636,7 @@
       </script>
       <style type="text/css">
          .grid-title h4 {
-         width: 52% !important;
+         /*width: 52% !important;*/
          white-space: inherit;
          overflow: hidden;
          text-overflow: initial;

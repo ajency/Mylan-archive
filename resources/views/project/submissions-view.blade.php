@@ -104,8 +104,7 @@
                                        </select>
                                     </div>
                                  </div>
-                                 <br>
-                                 <div><label>Submitted on {{ $date }}</label></div>
+            
                               </div>
                               <div class="col-md-5">
                                 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
@@ -144,15 +143,27 @@
                               
                                 
                               </div>
-                              @if($responseData['reviewNote']!='')
-                              <div class="col-md-12">
-                                 <div class="Notes"><label>Notes:</label>
-                                  <span>{{ $responseData['reviewNote'] }}</span>
-                                 </div>
-                              </div>
-                              @endif
+                            
                            </div>
                               
+                          <div class="row">
+                            <div class="col-md-4">
+                                 <div><label>Submitted on {{ $date }}</label></div>
+                            </div>
+                            <div class="col-md-8">
+                                @if($responseData['reviewNote']!='')
+                              
+                                 <div class="Notes">
+                                    <label>Notes: </label>
+                                    <label>{{ $responseData['reviewNote'] }}</label> 
+                                 </div>
+                          
+                              @endif
+
+                            </div>
+                          </div>
+
+
                            </div>
                            <br>
                       
