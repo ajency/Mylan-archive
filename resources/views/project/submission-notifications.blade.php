@@ -7,7 +7,7 @@
             <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a>
          </li>
          <li>
-            <a href="#" class="active">Submissions Notifications</a>
+            <a href="#" class="active">Submission Notifications</a>
          </li>
       </ul>
       </p>

@@ -6,7 +6,7 @@
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}">{{ $patient['reference_code']}}</a> </li>
-        <li><a href="#" class="active">Submissions Notification</a> </li>
+        <li><a href="#" class="active">Submission Notifications</a> </li>
  
       </ul>
       </p>
