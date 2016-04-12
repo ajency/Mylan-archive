@@ -149,7 +149,7 @@
                         </li>
                         <li class="{{ ( $active_menu == 'submission-notification')? 'active-item' : ''}}">
                             
-                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submission-notifications/' ) }}"><span><i class="fa fa-list-alt"></i>Submission Notifications</span></a>
+                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/submission-notifications/' ) }}"><span><i class="fa fa-list-alt"></i> Submission Notifications </span></a>
                             
                         </li>
                         <li class="{{ ( $active_menu == 'flags')? 'active-item' : ''}}">
