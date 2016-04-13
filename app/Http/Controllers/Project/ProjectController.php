@@ -109,7 +109,8 @@ class ProjectController extends Controller
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
          $responseCount = $this->getProjectResponseCounts($projectResponses);
-        // //red flags,amber flags ,unreviwed submission , submission
+        
+        //red flags,amber flags ,unreviwed submission , submission
          $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
 
          //patient completed  and late submissions 
