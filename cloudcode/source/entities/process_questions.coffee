@@ -2969,6 +2969,7 @@ getQuestionnaireSetting = (patientId, questionnaireObj) ->
 	.then (scheduleObj) ->
 		settings = {}
 		if !_.isEmpty(scheduleObj) and scheduleObj.get('frequency')!='0'
+			console.log "PATIENT FREQUENCY"
 			settings['frequency'] = scheduleObj.get('frequency')
 			settings['gracePeriod'] = scheduleObj.get('gracePeriod')
 			settings['reminderTime'] = scheduleObj.get('reminderTime')
@@ -2979,6 +2980,7 @@ getQuestionnaireSetting = (patientId, questionnaireObj) ->
 			scheduleQuery.equalTo('questionnaire', questionnaireObj)
 			scheduleQuery.first()
 			.then (scheduleQuestionnaireObj) ->
+				console.log "QUESTIONNAIRE FREQUENCY"
 				settings['frequency'] = scheduleQuestionnaireObj.get('frequency')
 				settings['gracePeriod'] = questionnaireObj.get('gracePeriod')
 				settings['reminderTime'] = questionnaireObj.get('reminderTime')

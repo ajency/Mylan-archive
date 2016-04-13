@@ -4013,6 +4013,7 @@
       var settings;
       settings = {};
       if (!_.isEmpty(scheduleObj) && scheduleObj.get('frequency') !== '0') {
+        console.log("PATIENT FREQUENCY");
         settings['frequency'] = scheduleObj.get('frequency');
         settings['gracePeriod'] = scheduleObj.get('gracePeriod');
         settings['reminderTime'] = scheduleObj.get('reminderTime');
@@ -4022,6 +4023,7 @@
         scheduleQuery.doesNotExist('patient');
         scheduleQuery.equalTo('questionnaire', questionnaireObj);
         return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+          console.log("QUESTIONNAIRE FREQUENCY");
           settings['frequency'] = scheduleQuestionnaireObj.get('frequency');
           settings['gracePeriod'] = questionnaireObj.get('gracePeriod');
           settings['reminderTime'] = questionnaireObj.get('reminderTime');
