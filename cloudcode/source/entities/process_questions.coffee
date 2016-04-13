@@ -72,37 +72,47 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
-			createResponse questionnaireId, patientId, scheduleObj
-			.then (responseObj) ->
-				responseObj.set 'reviewed', 'unreviewed'
-				responseObj.set 'status', 'started'
-				responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-				responseObj.save()
-				.then (responseObj) ->
-					getQuestionnaireSetting(patientId,scheduleObj.get('questionnaire'))
-					.then (settings) ->
-						# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-						# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-						newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format()
-						newNextOccurrence = new Date(newNextOccurrence)
-						scheduleObj.set 'nextOccurrence', newNextOccurrence
-						scheduleObj.save()
-						.then (scheduleObj) ->
-							firstQuestion questionnaireId
-							.then (questionObj) ->
-								getQuestionData questionObj, responseObj, patientId
-								.then (questionData) ->
-									response.success questionData
+			getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+			.then (timeObj) ->
+				if isValidTime(timeObj)
+					createResponse questionnaireId, patientId, scheduleObj
+					.then (responseObj) ->
+						responseObj.set 'reviewed', 'unreviewed'
+						responseObj.set 'status', 'started'
+						responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+						responseObj.save()
+						.then (responseObj) ->
+							getQuestionnaireSetting(patientId,scheduleObj.get('questionnaire'))
+							.then (settings) ->
+								# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+								# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format()
+								newNextOccurrence = new Date(newNextOccurrence)
+								scheduleObj.set 'nextOccurrence', newNextOccurrence
+								scheduleObj.save()
+								.then (scheduleObj) ->
+									firstQuestion questionnaireId
+									.then (questionObj) ->
+										getQuestionData questionObj, responseObj, patientId
+										.then (questionData) ->
+											response.success questionData
+										,(error) ->
+											response.error error	
+									,(error) ->
+										response.error error
+
 								,(error) ->
-									response.error error	
+									response.error error
 							,(error) ->
 								response.error error
 						,(error) ->
-							response.error error
+							response.error error	
 					,(error) ->
 						response.error error
-				,(error) ->
-					response.error error	
+				else
+					result = {}
+					result['status'] = "aleady_taken"	
+					response.success result	
 			,(error) ->
 				response.error error
 		,(error) ->

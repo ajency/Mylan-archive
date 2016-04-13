@@ -1248,20 +1248,29 @@
       scheduleQuery = new Parse.Query('Schedule');
       scheduleQuery.equalTo('patient', patientId);
       return scheduleQuery.first().then(function(scheduleObj) {
-        return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
-          responseObj.set('reviewed', 'unreviewed');
-          responseObj.set('status', 'started');
-          responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-          return responseObj.save().then(function(responseObj) {
-            return getQuestionnaireSetting(patientId, scheduleObj.get('questionnaire')).then(function(settings) {
-              var newNextOccurrence;
-              newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format();
-              newNextOccurrence = new Date(newNextOccurrence);
-              scheduleObj.set('nextOccurrence', newNextOccurrence);
-              return scheduleObj.save().then(function(scheduleObj) {
-                return firstQuestion(questionnaireId).then(function(questionObj) {
-                  return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
-                    return response.success(questionData);
+        return getValidTimeFrame(patientId, scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+          var result;
+          if (isValidTime(timeObj)) {
+            return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
+              responseObj.set('reviewed', 'unreviewed');
+              responseObj.set('status', 'started');
+              responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+              return responseObj.save().then(function(responseObj) {
+                return getQuestionnaireSetting(patientId, scheduleObj.get('questionnaire')).then(function(settings) {
+                  var newNextOccurrence;
+                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format();
+                  newNextOccurrence = new Date(newNextOccurrence);
+                  scheduleObj.set('nextOccurrence', newNextOccurrence);
+                  return scheduleObj.save().then(function(scheduleObj) {
+                    return firstQuestion(questionnaireId).then(function(questionObj) {
+                      return getQuestionData(questionObj, responseObj, patientId).then(function(questionData) {
+                        return response.success(questionData);
+                      }, function(error) {
+                        return response.error(error);
+                      });
+                    }, function(error) {
+                      return response.error(error);
+                    });
                   }, function(error) {
                     return response.error(error);
                   });
@@ -1274,9 +1283,11 @@
             }, function(error) {
               return response.error(error);
             });
-          }, function(error) {
-            return response.error(error);
-          });
+          } else {
+            result = {};
+            result['status'] = "aleady_taken";
+            return response.success(result);
+          }
         }, function(error) {
           return response.error(error);
         });
