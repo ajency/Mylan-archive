@@ -119,9 +119,9 @@ class AuthController extends Controller
                         $questionnaireObj = new ParseQuery("Questionnaire");
                         $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
 
-                        $frequency = Auth::user()->frequency;
-                        $graceperiod = Auth::user()->grace_period;
-                        $remindertime = Auth::user()->reminder_time;
+                        $frequency = strval(Auth::user()->frequency);   
+                        $gracePeriod = intval(Auth::user()->grace_period);   
+                        $reminderTime = intval(Auth::user()->reminder_time);
 
                         $date = new \DateTime();
 

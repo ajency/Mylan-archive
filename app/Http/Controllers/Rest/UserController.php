@@ -297,15 +297,18 @@ class UserController extends Controller
                             $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
 
                             $date = new \DateTime();
- 
+                            
+                            $frequency = strval($user['frequency']);   
+                            $gracePeriod = intval($user['grace_period']);   
+                            $reminderTime = intval($user['reminder_time']);
 
                             $schedule = new ParseObject("Schedule");
                             $schedule->set("questionnaire", $questionnaire);
                             $schedule->set("patient", $referenceCode);
                             $schedule->set("startDate", $date);
-                            $schedule->set("frequency",$user['frequency']);
-                            $schedule->set("gracePeriod",$user['grace_period']);
-                            $schedule->set("reminderTime",$user['reminder_time']);
+                            $schedule->set("frequency",$frequency);
+                            $schedule->set("gracePeriod",$gracePeriod);
+                            $schedule->set("reminderTime",$reminderTime);
                             $schedule->set("nextOccurrence", $date);
                             $schedule->save();
                         }
