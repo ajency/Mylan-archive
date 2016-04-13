@@ -44,24 +44,26 @@ class PatientController extends Controller
 
         $patientsStatus ='';
         
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         
-        
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
+
+        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
          
         $activepatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
-            
-            if($patient['account_status']=='active')
-                $activepatients[]= $patient['reference_code'];
-            
+                
             if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
                 $patientReferenceCode[] = $patient['reference_code'];
             else
                 $patientReferenceCode[] = $patient['reference_code'];
         }
 
-
+        foreach ($patientByDate as  $patient) {
+            
+            if($patient['account_status']=='active')
+                $activepatients[]= $patient['reference_code'];
+        }
         
 
         $startDateObj = array(
@@ -96,6 +98,7 @@ class PatientController extends Controller
                                           ->with('project', $project)
                                           ->with('active_menu', 'patients')
                                           ->with('activepatients', count($activepatients))
+                                          ->with('allpatientscount', count($patientByDate))         
                                           ->with('patients', $patients)
                                           ->with('allPatients', $allPatients)
                                           ->with('completed', $completed)
