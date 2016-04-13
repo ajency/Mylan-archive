@@ -383,6 +383,60 @@
                     </div>
                  </div>
               </div>
+
+               <div class="grid simple grid-table">
+                           <div class="grid-title no-border">
+                         <h4>
+                          Submission Notification  <span class="semi-bold">Report</span> 
+                          <sm class="light">(These are the notifications generated for submissions)</sm>
+                       </h4>
+                           </div>
+                           <div class="grid-body no-border" style="display: block;">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
+                          <thead class="cf">
+                             <tr>
+                                <!-- <th class="sorting" width="10%">Patient ID <br><br></th> -->
+                                <th class="sorting "># Submission<br><br></th>
+                                
+                                <th class="sorting" width="40%">Reason<br><br>
+                                </th>
+                                <th class="sorting">Review Status<br><br>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
+                           
+                          @if(!empty($submissionNotifications['alertMsg']))   
+                              @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
+            
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
+                                    <!-- <td class="text-center">{{ $submissionNotification['patient'] }}</td> -->
+                                    <td class="text-center">
+                                      <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
+                                      <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
+                                   </td>
+                                   <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
+                                   
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
+                                   <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                   </td>
+                                </tr>
+                                 
+                        
+                            @endforeach
+                        @else 
+                        <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        @endif    
+                                
+                          </tbody>
+                       </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+                                 <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                              </div>
+                           </div>
+                        </div
            </div>
            <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
               <span>( 5 recently generated red flags )</span> -->

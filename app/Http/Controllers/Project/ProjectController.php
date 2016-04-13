@@ -84,7 +84,9 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
+
+        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         //dd($patients);
         $activepatients = [];
@@ -92,11 +94,13 @@ class ProjectController extends Controller
         $cond = [];
         $sort = [];
         foreach ($patients as  $patient) {
+            $patientReferenceCode[] = $patient['reference_code'];
+        }
+
+        foreach ($patientByDate as  $patient) {
             
             if($patient['account_status']=='active')
                 $activepatients[]= $patient['reference_code'];
-            
-            $patientReferenceCode[] = $patient['reference_code'];
         }
 
         $responseStatus = ["completed","late","missed"];
@@ -123,13 +127,15 @@ class ProjectController extends Controller
         $patientSortedData = array_slice($patientSortedData, 0, 5, true);
          
         $cond=['cleared'=>false];
-        $prejectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+        $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+
+        $submissionNotifications = $this->getProjectAlerts($projectId,5,0);
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
-                                        ->with('allpatientscount', count($patients))              
+                                        ->with('allpatientscount', count($patientByDate))              
                                         ->with('submissionsSummary', $submissionsSummary)
                                         ->with('patientSortedData', $patientSortedData)
                                         ->with('patientResponses', $patientResponses)
@@ -137,7 +143,8 @@ class ProjectController extends Controller
                                         ->with('projectFlagsChart', $projectFlagsChart)
                                         ->with('project', $project)
                                         ->with('patients', $patients)
-                                        ->with('prejectAlerts', $prejectAlerts)
+                                        ->with('projectAlerts', $projectAlerts)
+                                        ->with('submissionNotifications', $submissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
@@ -145,7 +152,7 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[])
+    public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[],$refCond=[])
     {
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
@@ -182,7 +189,7 @@ class ProjectController extends Controller
 
         $alertMsg = [];
         $alertTypes = [
-        'compared_to_previous_red_flags'=>"Two or more red flags have been raised for submission number %d in comparison with previous submission",
+        'compared_to_previous_red_flags'=>"%u red flags have been raised for submission number %d in comparison with previous submission",
         'new_patient'=>"New Patient Created"
         ];
 
@@ -200,10 +207,26 @@ class ProjectController extends Controller
             {
                 $responseQry = new ParseQuery("Response");
                 $responseQry->equalTo("objectId", $referenceId); 
+                if(!empty($refCond))
+                {
+                    foreach ($refCond as $key => $value) {
+                        $responseQry->equalTo($key,$value);
+                    }
+                }
                 $response = $responseQry->first();
-                $sequenceNumber = $response->get("sequenceNumber");
-                $responseId = $response->getObjectId();
-                $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'sequenceNumber'=>$sequenceNumber,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+
+
+                if(!empty($response))
+                {
+                    $sequenceNumber = $response->get("sequenceNumber");
+                    $reviewStatus = $response->get("reviewed");
+                    $previousTotalRedFlags = $response->get("previousTotalRedFlags");
+                    $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+
+                    $responseId = $response->getObjectId();
+                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                }
+
             }
            
             
@@ -362,15 +385,9 @@ class ProjectController extends Controller
               
                <td class="text-center text-success">'.$submission['alert'].'</td>
                <td class="text-center text-success">'. getStatusName($submission['status']) .'</td>
-        
-               <td class="text-center text-success"><div class="submissionStatus"';
-               if(strlen($submission['reviewed']) >10 )
-               {
-                  $str.='data-toggle="tooltip"'; 
-               }
                 
-               $str.='data-placement="top" title="'. getStatusName($submission['reviewed']) .'">'. getStatusName($submission['reviewed']) .'</div></td>
-  
+              <td class="text-center text-success"><div class="submissionStatus">'. getStatusName($submission['reviewed']) .'</div></td>
+
             </tr>';
         }
       }

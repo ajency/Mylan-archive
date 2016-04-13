@@ -169,19 +169,19 @@
                            </div>
 
                            <div class="grid-body no-border" style="display: block;">
-                           @if(!empty($prejectAlerts['alertMsg']))
-                            @foreach($prejectAlerts['alertMsg'] as $prejectAlert)
-                              <div class="notification-messages {{ $prejectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $prejectAlert['responseId'] }}';">
+                           @if(!empty($projectAlerts['alertMsg']))
+                            @foreach($projectAlerts['alertMsg'] as $projectAlert)
+                              <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $projectAlert['responseId'] }}';">
                                 <div class="message-wrapper msg-card">
-                                     <div class="heading">Patient ID {{ $prejectAlert['patient'] }}   </div>
-                                     <div class="description"> {{ sprintf($prejectAlert['msg'], $prejectAlert['sequenceNumber'] ) }} </div>
+                                     <div class="heading">Patient ID {{ $projectAlert['patient'] }}   </div>
+                                     <div class="description"> {{ sprintf($projectAlert['msg'], $projectAlert['previousTotalRedFlags'],$projectAlert['sequenceNumber'] ) }} </div>
                                   </div>
                                   <!-- <div class="date pull-right"> Yesterday </div> -->
                                   <div class="clearfix"></div>
                               </div>
                             @endforeach
                             <div class="text-right">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($prejectAlerts['alertCount']>4) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/notifications" class="text-success {{ ($projectAlerts['alertCount']>4) ?'':'hidden'}}">View All <i class="fa fa-long-arrow-right"></i>&nbsp;&nbsp;</a>
                               </div>
                           @else 
                              <div class="text-center text-muted"> <i class="fa fa-bell"></i> No New Notification</div>
@@ -284,16 +284,16 @@
                                 <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;" class="sortSubmission" sort="previousTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;"  class="sortSubmission" sort="baseLineTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
                                 <th class="sorting">Alerts<br><br>
                                 </th>
@@ -375,7 +375,10 @@
                                    
                                    <td class="text-center text-success">{{ $submission['alert'] }}</td> 
                                    <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
-                                   <td class="text-center text-success"><div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div></td>
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div> -->
+                                   <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }}</div>
+                                   </td>
                                 </tr>
                                 @endif
                         
@@ -389,6 +392,59 @@
                               <hr style="margin: 0px 0px 10px 0px;">
                               <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                              </div>
+                           </div>
+                        </div>
+                  <div class="grid simple grid-table">
+                           <div class="grid-title no-border">
+                        <h4>
+                          Submission Notifications <span class="semi-bold">Report</span> 
+                          <sm class="light">(These are the notifications generated for submissions)</sm>
+                       </h4>
+                           </div>
+                           <div class="grid-body no-border" style="display: block;">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
+                          <thead class="cf">
+                             <tr>
+                                <th class="sorting" width="10%">Patient ID <br><br></th>
+                                <th class="sorting "># Submission<br><br></th>
+                                
+                                <th class="sorting" width="40%">Reason<br><br>
+                                </th>
+                                <th class="sorting">Review Status<br><br>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
+                           
+                          @if(!empty($submissionNotifications['alertMsg']))   
+                              @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
+            
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
+                                    <td class="text-center">{{ $submissionNotification['patient'] }}</td>
+                                    <td class="text-center">
+                                      <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
+                                      <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
+                                   </td>
+                                   <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
+                                   
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
+                                   <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                   </td>
+                                </tr>
+                                 
+                        
+                            @endforeach
+                        @else 
+                        <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        @endif    
+                                
+                          </tbody>
+                       </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submission-notifications" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                               </div>
                            </div>
                         </div>
@@ -636,7 +692,7 @@
       </script>
       <style type="text/css">
          .grid-title h4 {
-         width: 52% !important;
+         width: 100% !important;
          white-space: inherit;
          overflow: hidden;
          text-overflow: initial;

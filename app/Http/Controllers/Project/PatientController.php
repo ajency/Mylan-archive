@@ -44,24 +44,26 @@ class PatientController extends Controller
 
         $patientsStatus ='';
         
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
         
-        
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
+
+        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
          
         $activepatients = [];
         $patientReferenceCode = [];
         foreach ($patients as  $patient) {
-            
-            if($patient['account_status']=='active')
-                $activepatients[]= $patient['reference_code'];
-            
+                
             if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
                 $patientReferenceCode[] = $patient['reference_code'];
             else
                 $patientReferenceCode[] = $patient['reference_code'];
         }
 
-
+        foreach ($patientByDate as  $patient) {
+            
+            if($patient['account_status']=='active')
+                $activepatients[]= $patient['reference_code'];
+        }
         
 
         $startDateObj = array(
@@ -96,6 +98,7 @@ class PatientController extends Controller
                                           ->with('project', $project)
                                           ->with('active_menu', 'patients')
                                           ->with('activepatients', count($activepatients))
+                                          ->with('allpatientscount', count($patientByDate))         
                                           ->with('patients', $patients)
                                           ->with('allPatients', $allPatients)
                                           ->with('completed', $completed)
@@ -424,6 +427,9 @@ class PatientController extends Controller
         $questionLabels = $questionsChartData['questionLabels'];
         $questionChartData = $questionsChartData['chartData'];
         //$questionBaseLine = $questionsChartData['questionBaseLine'];
+
+        $cond=['patient'=>$patient['reference_code']];
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
        
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
@@ -444,6 +450,7 @@ class PatientController extends Controller
                                         ->with('responseArr', $patientSubmissionsByDate)
                                         ->with('submissionFlags', $submissionFlags)
                                         ->with('patientFlags', $patientFlags)
+                                        ->with('submissionNotifications', $submissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('project', $project);
@@ -1193,11 +1200,15 @@ class PatientController extends Controller
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'missed'); 
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
             $missedCount = $responseQry->count();
 
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'late'); 
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
             $lateCount = $responseQry->count();
 
             //
@@ -2365,7 +2376,44 @@ class PatientController extends Controller
         return $chartData;
     }
 
+    public function getSubmissionNotifications($hospitalSlug,$projectSlug , $patientId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
+        $hospital = $hospitalProjectData['hospital'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        $patient = User::find($patientId)->toArray();
+
+        $inputs = Input::get(); 
+        $refCond = [];
+        $cond = ['patient'=>$patient['reference_code']];
+        $reviewStatus = "all";
+        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+        {
+            
+            $reviewStatus = $inputs['reviewStatus'];
+            $refCond = ['reviewed'=>$reviewStatus];
+             
+        }
+
+        $projectController = new ProjectController(); 
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$cond,$refCond);
+
+        return view('project.patients.submission-notifications')->with('active_menu', 'patients')
+                                        ->with('active_tab', 'submissions-notification') 
+                                        ->with('tab', '06')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('patient', $patient)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('reviewStatus', $reviewStatus); 
+    }
 
     /**
      * Remove the specified resource from storage.

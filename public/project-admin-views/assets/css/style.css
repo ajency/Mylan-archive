@@ -9162,11 +9162,15 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   font-family: open sans;
   background-color: #05A8A5;
 }
+.Notes label {
+  line-height: 1.5;
+}
+.Notes label:first-child {
+  float: left;
+  padding-right: 8px;
+}
 .submissionStatus {
-  overflow: hidden;
-  white-space: nowrap;
   width: 75px;
   margin: 0 auto;
-  text-overflow: ellipsis;
 }
 /*# sourceMappingURL=style.css.map */

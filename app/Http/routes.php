@@ -105,6 +105,7 @@ Route::resource( 'submissions', 'Project\SubmissionController' );
 Route::resource( 'projects', 'Project\ProjectController' );
 
 Route::get( 'flags', 'Project\SubmissionController@getSubmissionFlags' );
+Route::get( 'submission-notifications', 'Project\SubmissionController@getSubmissionNotifications' );
 Route::post( 'submissions/{id}/updatesubmissionstatus', 'Project\SubmissionController@updateSubmissionStatus' );
 Route::get( 'reports', 'Project\ProjectController@reports' );
 
@@ -116,6 +117,7 @@ Route::get( 'patients/{id}/submissions', 'Project\PatientController@getPatientSu
 Route::get( 'patients/{id}/flags', 'Project\PatientController@getPatientFlags' );
 Route::get( 'patients/{id}/patient-reports', 'Project\PatientController@getPatientReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@validateRefernceCode' );
+Route::get( 'patients/{id}/submission-notifications', 'Project\PatientController@getSubmissionNotifications' );
 
 Route::get( '/getsubmissionlist', 'Project\ProjectController@getSubmissionList' );
 Route::get( '/getpatientsummarylist', 'Project\ProjectController@getPatientSummaryList' );

@@ -78,12 +78,12 @@ class SubmissionController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $responseRate['completedCount'] = $responseQry->count();
 
-        // get completed count
-        $submissionStatus = 'completed';
-        $responseStatus = ["completed"];
+        
         
         $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
         $allResponseStatus = ['completed','missed','late'];
+
+        $responseStatus = $allResponseStatus;
         if(isset($inputs['submissionStatus']))
         {
             
@@ -103,6 +103,12 @@ class SubmissionController extends Controller
             //   $cond = ['reviewed'=>'unreviewed'];
              
             // }
+        }
+        else
+        {
+             // get completed count
+            $submissionStatus = 'completed';
+            $responseStatus = ["completed"];
         }
 
         if(isset($inputs['sort']))
@@ -137,7 +143,7 @@ class SubmissionController extends Controller
               $completedResponses[] = $response;
             }
 
-            if ($reviewed=='reviewed') {
+            if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
                 // echo $sequenceNumber.'<br>';
                 $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
@@ -147,7 +153,7 @@ class SubmissionController extends Controller
         }
         // dd($timeDifference);
 
-        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']+$responseRate['lateCount']; 
+        $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
 
         // $responseRate['completedCount'] = count($completedResponses);
 
@@ -615,7 +621,7 @@ class SubmissionController extends Controller
             $response->set('reviewNote',$reviewNote);
             $response->save(); 
 
-            if($reviewStatus=='reviewed')
+            if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed')
             {
                 $alertQry = new ParseQuery("Alerts");
                 $alertQry->equalTo("referenceId",$responseId);
@@ -630,6 +636,41 @@ class SubmissionController extends Controller
             
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/submissions/' . $responseId));
  
+    }
+
+    public function getSubmissionNotifications($hospitalSlug,$projectSlug)
+    {
+
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        $inputs = Input::get(); 
+        $refCond = [];
+        $reviewStatus = "all";
+        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+        {
+            
+            $reviewStatus = $inputs['reviewStatus'];
+            $refCond = ['reviewed'=>$reviewStatus];
+             
+        }
+
+        $projectController = new ProjectController(); 
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
+
+        return view('project.submission-notifications')->with('active_menu', 'submission-notification')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('reviewStatus', $reviewStatus); 
+
     }
     /**
      * Show the form for editing the specified resource.

@@ -53,6 +53,8 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/getsubmissionlist'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/getpatientsummarylist'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/notifications'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/submission-notifications'=>['view','edit'],
+
                         '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view','edit'],
 
 
@@ -64,6 +66,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score-edit'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/validatereferncecode'=>['edit'],
+                        '{hospitalslug}/{projectslug}/patients/{id}/submission-notifications'=>['view','edit'],
                         ]; 
 
  
