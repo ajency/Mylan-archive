@@ -1136,11 +1136,15 @@ class PatientController extends Controller
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'missed'); 
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
             $missedCount = $responseQry->count();
 
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'late'); 
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
             $lateCount = $responseQry->count();
 
             //
