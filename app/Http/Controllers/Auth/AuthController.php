@@ -119,19 +119,18 @@ class AuthController extends Controller
                         $questionnaireObj = new ParseQuery("Questionnaire");
                         $questionnaire = $questionnaireObj->get($data['questionnaire']['id']);
 
+                        $date = new \DateTime();
                         $frequency = strval(Auth::user()->frequency);   
                         $gracePeriod = intval(Auth::user()->grace_period);   
                         $reminderTime = intval(Auth::user()->reminder_time);
-
-                        $date = new \DateTime();
 
                         $schedule = new ParseObject("Schedule");
                         $schedule->set("questionnaire", $questionnaire);
                         $schedule->set("patient", $referenceCode);
                         $schedule->set("startDate", $date);
                         $schedule->set("frequency",$frequency);
-                        $schedule->set("gracePeriod",$graceperiod);
-                        $schedule->set("reminderTime",$remindertime);
+                        $schedule->set("gracePeriod",$gracePeriod);
+                        $schedule->set("reminderTime",$reminderTime);
                         $schedule->set("nextOccurrence", $date);
                         $schedule->save();
 
