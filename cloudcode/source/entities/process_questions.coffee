@@ -2964,3 +2964,21 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 	getAllPatientAnswers()
 
 	promise
+
+# Parse.Cloud.afterSave "Response", (request)->
+#     responseObject = request.object
+
+#     if !responseObject.existed() and responseObject.get("status")!='started'
+#     	console.log "clear cache"
+#     	projectId = responseObject.get("project")
+
+# 		Parse.Cloud.httpRequest
+# 			url: 'http://mylantest2.ajency.in/api/v2/project/'+ projectId +'/clear-cache'
+# 			success: (httpResponse) ->
+# 				request.resolve httpResponse
+# 				return
+# 			error: (httpResponse) ->
+# 				request.reject 'Request failed with response code ' + httpResponse.status
+# 				return
+        
+         
