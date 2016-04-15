@@ -91,11 +91,11 @@
                            
                            <div class="user-description-box">
                            <div class="row">
-                              <div class="col-md-6">
+                              <div class="col-md-4">
                                  
                                  <div class="row">
                                     
-                                    <div class="col-md-8">
+                                    <div class="col-md-12">
                                        <label>Submission Number</label>
                                        <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
                                        @foreach($allSubmissions as $responseId =>$submission)
@@ -104,39 +104,66 @@
                                        </select>
                                     </div>
                                  </div>
-                                 <br>
-                                 <div>Submitted on {{ $date }}</div>
+            
                               </div>
-                              <div class="col-md-3">
+                              <div class="col-md-5">
                                 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                                  <div class="row">
-                                    <div class="col-md-2">
-                                      
-                                    </div>
-                                    <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
-                                    <div class="col-md-8"> 
+  
+                                    
+                                    <div class="col-md-12 reviewStatus"> 
                                       <label>Review Status</label>
                                        <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
-                                          <option {{ ($responseData['reviewed']=='reviewed')?'selected':''}} value="reviewed">Reviewed</option>
+                                          <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
+                                          <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
+                                          <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
                                           <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
                                        </select>
+
+                                      <!--  <div class="notes">
+                                       <i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
+                                       </div> -->
                                       
                                     </div>
-                                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                                    </form>
-                                    <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
-
-                                    <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div>
+                                    
+                                    <!-- <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div> -->
+                                    
                                  </div>
                                 @endif
                               </div>
                               <div class="col-md-3 baselineAllign text-right ">
-                              Previous <span class="p-l-r-5">|</span> Baseline
+                              <div class="pull-right">
+                                Previous <span class="p-l-r-5">|</span> Baseline
+                              </div>
+                              <br>
+                              <div class="pull-right flagsAllignment">
                                  <span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
                               <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
                               </div>
+                              
+                                
+                              </div>
+                            
                            </div>
                               
+                          <div class="row">
+                            <div class="col-md-4">
+                                 <div><label>Submitted on {{ $date }}</label></div>
+                            </div>
+                            <div class="col-md-8">
+                                @if($responseData['reviewNote']!='')
+                              
+                                 <div class="Notes">
+                                    <label>Notes: </label>
+                                    <label>{{ $responseData['reviewNote'] }}</label> 
+                                 </div>
+                          
+                              @endif
+
+                            </div>
+                          </div>
+
+
                            </div>
                            <br>
                       
@@ -255,6 +282,35 @@
                      </div>
                      </div>
 
+<!-- Modal Code -->
+
+<div class="modal fade customModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
+      <div class="modal-header text-left">
+        <h3>Notes</h3>
+      </div>
+      <div class="modal-body">
+        <textarea name="reviewNote" required></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default closeModel" >Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button> <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
+      </div>
+      <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+      <input type="hidden" value="{{ $responseData['reviewed'] }}" name="updateSubmissionStatus"/>
+      <input type="hidden" value="{{ $responseData['reviewed'] }}" name="oldStatus"/>
+
+      </form>
+                                   
+    </div>
+  </div>
+</div>
+
+
+
+
 
      <script type="text/javascript">
       
@@ -265,6 +321,13 @@
 
       $('select[name="patientSubmission"]').change(function (event) { 
          window.location="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/"+$(this).val();
+      });
+
+      $('.closeModel').click(function (event) { 
+         var oldStatus = $(this).closest('form').find('input[name="oldStatus"]').val();
+         $('select[name="updateSubmissionStatus"]').val(oldStatus);
+         $('textarea[name="reviewNote"]').val('');
+         $('#myModal').modal('hide');
       });
 
       $('select[name="referenceCode"]').change(function (event) { 

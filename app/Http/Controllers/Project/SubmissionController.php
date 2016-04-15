@@ -78,47 +78,39 @@ class SubmissionController extends Controller
         $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
         $responseRate['completedCount'] = $responseQry->count();
 
-        // get completed count
-        $submissionStatus = 'completed';
-        $responseStatus = ["completed"];
         
-        $reviewStatus = ['reviewed','unreviewed'];
+        
+        $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
+        $allResponseStatus = ['completed','missed','late'];
+
+        $responseStatus = $allResponseStatus;
         if(isset($inputs['submissionStatus']))
         {
             
             $submissionStatus = $inputs['submissionStatus'];
 
-
-            if($submissionStatus=='completed')
+            if(in_array($submissionStatus, $allResponseStatus))
             {
-              //$responseRate['missedCount'] =0;
-              // $responseRate['lateCount']  =0;
-              $responseStatus = [$inputs['submissionStatus']];
+                $responseStatus = [$submissionStatus];
             }
-            elseif($submissionStatus=='missed')
+            elseif(in_array($submissionStatus, $allReviewStatus))
             {
-              // $responseRate['lateCount']  =0;
-              $responseStatus = [$inputs['submissionStatus']];
+                $cond = ['reviewed'=>$submissionStatus];
             }
-            elseif($submissionStatus=='late')
-            {
-              //$responseRate['missedCount'] =0;
-              $responseStatus = [$inputs['submissionStatus']];
-            }
-            elseif($submissionStatus=='unreviewed')
-            {
-              //$responseRate['missedCount'] =0;
-              $cond = ['reviewed'=>'unreviewed'];
+            // elseif($submissionStatus=='unreviewed')
+            // {
+            //   //$responseRate['missedCount'] =0;
+            //   $cond = ['reviewed'=>'unreviewed'];
              
-            }
+            // }
+        }
+        else
+        {
+             // get completed count
+            $submissionStatus = 'completed';
+            $responseStatus = ["completed"];
         }
 
-        // $reviewStatus=['reviewed','unreviewed'];
-        // if(isset($inputs['reviewStatus']))
-        // {
-        //   $reviewStatus=[$inputs['reviewStatus']];
-        // }
-        
         if(isset($inputs['sort']))
         {
             $sortBy = $inputs['sort'];
@@ -151,7 +143,7 @@ class SubmissionController extends Controller
               $completedResponses[] = $response;
             }
 
-            if ($reviewed=='reviewed') {
+            if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
                 // echo $sequenceNumber.'<br>';
                 $datediff =0;
                 $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
@@ -161,7 +153,7 @@ class SubmissionController extends Controller
         }
         // dd($timeDifference);
 
-        $totalResponses = count($patientSubmissions)+$responseRate['missedCount']+$responseRate['lateCount']; 
+        $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
 
         // $responseRate['completedCount'] = count($completedResponses);
 
@@ -174,10 +166,7 @@ class SubmissionController extends Controller
         $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
         $responseRate['late'] =  round($late);
 
-
-
         $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
-
 
         $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
@@ -247,6 +236,7 @@ class SubmissionController extends Controller
         $responseData['baseLineFlag'] = $response->get("baseLineFlag");
         $responseData['previousFlag'] = $response->get("previousFlag");
         $responseData['reviewed'] = $response->get("reviewed");
+        $responseData['reviewNote'] = $response->get("reviewNote");
 
         $referenceCode = $response->get("patient");
         $sequenceNumber = $response->get("sequenceNumber");
@@ -622,14 +612,16 @@ class SubmissionController extends Controller
        
             $data = $request->all();  
             $reviewStatus = $data['updateSubmissionStatus'];
+            $reviewNote = $data['reviewNote'];
 
             $responseObj = new ParseQuery("Response");
             $response = $responseObj->get($responseId);
 
             $response->set('reviewed',$reviewStatus);
+            $response->set('reviewNote',$reviewNote);
             $response->save(); 
 
-            if($reviewStatus=='reviewed')
+            if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed')
             {
                 $alertQry = new ParseQuery("Alerts");
                 $alertQry->equalTo("referenceId",$responseId);
@@ -644,6 +636,41 @@ class SubmissionController extends Controller
             
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/submissions/' . $responseId));
  
+    }
+
+    public function getSubmissionNotifications($hospitalSlug,$projectSlug)
+    {
+
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        $inputs = Input::get(); 
+        $refCond = [];
+        $reviewStatus = "all";
+        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+        {
+            
+            $reviewStatus = $inputs['reviewStatus'];
+            $refCond = ['reviewed'=>$reviewStatus];
+             
+        }
+
+        $projectController = new ProjectController(); 
+        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
+
+        return view('project.submission-notifications')->with('active_menu', 'submission-notification')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('allPatients', $allPatients)
+                                        ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('reviewStatus', $reviewStatus); 
+
     }
     /**
      * Show the form for editing the specified resource.

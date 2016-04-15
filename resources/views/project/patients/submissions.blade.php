@@ -85,16 +85,18 @@
                                 <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;" class="sortSubmission" sort="previousTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;"  class="sortSubmission" sort="baseLineTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th class="sorting sortSubmission" sort="alert" sort-type="asc"  style="cursor:pointer;">Alerts <i class="fa fa-angle-down sortCol"></i><br><br>
                                 </th>
                                 <th class="sorting sortSubmission" sort="status" sort-type="asc"  style="cursor:pointer;">Status <i class="fa fa-angle-down sortCol"></i><br><br>
                                 </th>
@@ -143,7 +145,8 @@
                                       <td class="text-center sorting text-warning">0</td>
                                       <td class="text-left sorting  text-success">0</td>
 
-                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
+                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
@@ -176,14 +179,18 @@
                                      <td class="text-center sorting text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
                                      <td class="text-left sorting text-success">{{ $submission['baseLineFlag']['green'] }}</td>
                                    
-                                   <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
-                                   <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                                   <td class="text-center text-success">{{ $submission['alert'] }}</td> 
+                                   <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div> -->
+                                   <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }}</div>
+                                   </td>
                                 </tr>
                                 @endif
                         
                             @endforeach
                           @else 
-                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif      
                                 
                           </tbody>

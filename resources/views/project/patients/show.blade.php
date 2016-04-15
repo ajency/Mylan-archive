@@ -45,7 +45,7 @@
 <div class="tabbable tabs-left">
       @include('project.patients.side-menu')
      <div class="tab-content">
-     <div class="tab-pane table-data active" id="Patients">
+     <div class="tab-pane table-data active" id="Patients" style="padding: 15px 8px;">
         <div class="row">
                 <div class="col-sm-8">
                   <dl class="dl-horizontal">
@@ -275,16 +275,18 @@
                                 <th colspan="3" class="sorting">
                                    Previous
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="previousTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;" class="sortSubmission" sort="previousTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="previousTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                 </th>
                                 <th colspan="3" class="sorting">
                                    Baseline
                                    <br> 
-                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 20px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-left sortSubmission" sort="baseLineTotalRedFlags" sort-type="asc" style="margin-left: 5px"><i class="fa fa-flag text-error"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
                                    <sm style="position: relative; bottom: 2px;"  class="sortSubmission" sort="baseLineTotalAmberFlags" sort-type="asc"><i class="fa fa-flag text-warning"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
-                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 20px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                   <sm class="pull-right sortSubmission" sort="baseLineTotalGreenFlags" sort-type="asc" style="margin-right: 5px"><i class="fa fa-flag text-success"></i>  <i class="fa fa-angle-down sortCol"></i></sm>
+                                </th>
+                                <th class="sorting">Alerts<br><br>
                                 </th>
                                 <th class="sorting">Status<br><br>
                                 </th>
@@ -327,7 +329,8 @@
                                       <td class="text-center text-warning">0</td>
                                       <td class="text-left  text-success">0</td>
 
-                                      <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
+                                      <td class="text-center text-success">-</td>
+                                      <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                       <td class="text-center text-success">-</td>
                                    </tr>
                                  @else 
@@ -359,15 +362,16 @@
                                    <td class="text-right text-error">{{ $submission['baseLineFlag']['red'] }}</td>
                                    <td class="text-center text-warning">{{ $submission['baseLineFlag']['amber'] }}</td>
                                    <td class="text-left  text-success">{{ $submission['baseLineFlag']['green'] }}</td>
-                                    
-                                   <td class="text-center text-success">{{ ucfirst($submission['status']) }}</td>
-                                   <td class="text-center text-success">{{ ucfirst($submission['reviewed']) }}</td>
+                                   
+                                   <td class="text-center text-success">{{ $submission['alert'] }}</td>  
+                                   <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
+                                   <td class="text-center text-success"><div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div></td>
                                 </tr>
                                 @endif
                         
                             @endforeach
                            @else 
-                        <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
@@ -379,6 +383,60 @@
                     </div>
                  </div>
               </div>
+
+               <div class="grid simple grid-table">
+                           <div class="grid-title no-border">
+                         <h4>
+                          Submission Notification  <span class="semi-bold">Report</span> 
+                          <sm class="light">(These are the notifications generated for submissions)</sm>
+                       </h4>
+                           </div>
+                           <div class="grid-body no-border" style="display: block;">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
+                          <thead class="cf">
+                             <tr>
+                                <!-- <th class="sorting" width="10%">Patient ID <br><br></th> -->
+                                <th class="sorting "># Submission<br><br></th>
+                                
+                                <th class="sorting" width="40%">Reason<br><br>
+                                </th>
+                                <th class="sorting">Review Status<br><br>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
+                           
+                          @if(!empty($submissionNotifications['alertMsg']))   
+                              @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
+            
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
+                                    <!-- <td class="text-center">{{ $submissionNotification['patient'] }}</td> -->
+                                    <td class="text-center">
+                                      <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
+                                      <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
+                                   </td>
+                                   <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
+                                   
+                                   <td class="text-center text-success">
+                                   <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
+                                   <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                   </td>
+                                </tr>
+                                 
+                        
+                            @endforeach
+                        @else 
+                        <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        @endif    
+                                
+                          </tbody>
+                       </table>
+                              <hr style="margin: 0px 0px 10px 0px;">
+                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+                                 <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+                              </div>
+                           </div>
+                        </div
            </div>
            <!-- <a href="patient-flag.html">    Open Red Flags</a></h4>
               <span>( 5 recently generated red flags )</span> -->
