@@ -149,6 +149,15 @@ angular.module 'PatientApp.notification',[]
 					spliceIndex = _.findIndex $scope.view.data, (request)->
 						request.id is id
 					$scope.view.data.splice(spliceIndex, 1) if spliceIndex isnt -1
+				,(error)->
+					if error == 'offline'
+							CToast.showLongBottom 'Check internet connection, Unable to clear notification'
+					else if error == 'server_error'
+						CToast.showLongBottom 'Error in clearing Notification ,try again'
+
+					console.log '--11---'
+					console.log error
+
 
 				idObject = _.findWhere(@data, {id: id}) 
 				if idObject.hasSeen == false 
