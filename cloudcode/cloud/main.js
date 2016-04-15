@@ -1300,7 +1300,7 @@
             });
           } else {
             result = {};
-            result['status'] = "aleady_taken";
+            result['status'] = "already_taken";
             return response.success(result);
           }
         }, function(error) {

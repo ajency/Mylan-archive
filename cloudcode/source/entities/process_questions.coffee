@@ -113,7 +113,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 						response.error error
 				else
 					result = {}
-					result['status'] = "aleady_taken"	
+					result['status'] = "already_taken"	
 					response.success result	
 			,(error) ->
 				response.error error
