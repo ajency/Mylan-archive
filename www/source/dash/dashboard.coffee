@@ -21,6 +21,7 @@ angular.module 'PatientApp.dashboard',[]
 				@getSubmission()
 				@limitTo = 5
 				@scroll = false
+				@errorStartQuestion = false
 
 
 			init :() ->
@@ -82,6 +83,9 @@ angular.module 'PatientApp.dashboard',[]
 				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
 					@errorStartQuestion = true
 					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
+				if Storage.getQuestStatus('get','questionnarireError') == 'already_taken'
+					@errorStartQuestion = true
+					@errorMsg = 'The questionnaire has been already  started.'
 				@getSubmission()	
 				
 

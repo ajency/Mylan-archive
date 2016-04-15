@@ -54,7 +54,7 @@ angular.module 'PatientApp.Quest',[]
 								console.log 'previous data'
 								console.log @data	
 								@variables()
-								delete @data
+								
 								@data = data
 								@checkQuestinarieStatus(data)
 								@questionLabel()
@@ -79,7 +79,7 @@ angular.module 'PatientApp.Quest',[]
 								console.log 'previous data'
 								console.log @data	
 								@variables()
-								delete @data
+								
 								@data = data
 								@checkQuestinarieStatus(data)
 								@questionLabel()
@@ -104,7 +104,7 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
-							delete @data
+							@checkQuestinarieStatus(data)
 							@data = data
 							@pastAnswer()
 							Storage.setData 'responseId', 'set', data.responseId
@@ -130,7 +130,7 @@ angular.module 'PatientApp.Quest',[]
 						.then (data)=>
 							console.log 'inside then'
 							console.log data
-							delete @data
+							
 							@data = data
 							@questionLabel()
 							@checkQuestinarieStatus(data)
@@ -538,6 +538,11 @@ angular.module 'PatientApp.Quest',[]
 					else if data.status == 'missed'
 						@title = 'This questionnaire was missed'
 						@showConfirm()
+					else if data.status == 'aleady_taken'
+						Storage.getQuestStatus('set','already_taken')
+						App.navigate 'dashboard', {}, {animate: false, back: false}
+
+
 
 			firstRow:()->
 				if @readonly == false && !_.isEmpty @data.hasAnswer
