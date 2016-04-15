@@ -107,16 +107,29 @@ class ProjectController extends Controller
         $responseStatus = ["completed","late","missed"];
 
         // Cache::flush();
-        $responseCacheKey = "projectResponses_".$projectId."_".strtotime($startDate)."_".strtotime($endDate);
+        $responseCacheKey = "projectResponses_".$projectId;
+        $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
         //  Cache script
         if (Cache::has($responseCacheKey)) {
-            $projectResponses =  Cache::get($responseCacheKey); 
+            $cacheProjectResponses =  Cache::get($responseCacheKey); 
+            if(isset($cacheProjectResponses[$cacheDateKey]))
+            {
+              $projectResponses = $cacheProjectResponses[$cacheDateKey];
+            }
+            else
+            {
+              $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
+              $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+              Cache:: forever($responseCacheKey, $cacheProjectResponses);
+            }
+
         }
         else
         {
           $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-          Cache:: add($responseCacheKey, $projectResponses, 10); 
+          $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+          Cache:: forever($responseCacheKey, $cacheProjectResponses); 
         } 
         
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
@@ -135,16 +148,31 @@ class ProjectController extends Controller
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         
-        $patientsSummaryCacheKey = "patientsSummary_".$projectId."_".strtotime($startDate)."_".strtotime($endDate);
+        $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+
         if (Cache::has($patientsSummaryCacheKey)) {
-            $patientsSummary =  Cache::get($patientsSummaryCacheKey); 
+            $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
+            if(isset($cachePatientsSummary[$cacheDateKey]))
+            {
+              $patientsSummary = $cachePatientsSummary[$cacheDateKey];
+            }
+            else
+            {
+              $patientController = new PatientController();
+              $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+              $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
+              Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary);
+            }
+
         }
         else
         {
           $patientController = new PatientController();
           $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-          Cache::add($patientsSummaryCacheKey, $patientsSummary, 10);
+          $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
+          Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
         } 
+
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData'];
  
@@ -1413,6 +1441,23 @@ class ProjectController extends Controller
 
         Session::flash('success_message','Project settings successfully updated.');
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+    }
+
+    public function clearCache($projectId)
+    {
+        $responseCacheKey = "projectResponses_".$projectId;
+        $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+
+        Cache::forget($responseCacheKey);
+        Cache::forget($patientsSummaryCacheKey);
+
+         $json_resp = array(
+                'code' => 'cache_cleared' , 
+                'message' => 'Cache cleared'
+                );
+          $status_code = 200;        
+        
+         return response()->json( $json_resp, $status_code);  
     }
 
 

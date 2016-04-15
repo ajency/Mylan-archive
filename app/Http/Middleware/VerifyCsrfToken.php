@@ -15,6 +15,7 @@ class VerifyCsrfToken extends BaseVerifier
         'api/v1/user/dosetup',
         'api/v1/user/login',
         'api/v1/user/setpassword',
+        'api/v2/project/*',
     ];
 
 }

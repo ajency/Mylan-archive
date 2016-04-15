@@ -24,6 +24,11 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
     Route::post( 'user/setpassword', 'Rest\UserController@setPassword' );
 } );
 
+/********API********/
+Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
+    Route::post( 'project/{id}/clear-cache', 'Project\ProjectController@clearCache' );
+} );
+
 /**
  * Auth and forgot password route
  */
