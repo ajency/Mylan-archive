@@ -337,7 +337,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {
-            return CToast.show('Please fill in the following');
+            return CToast.show('Please fill in your answer');
           } else {
             options = {
               "questionId": this.data.questionId,

@@ -322,7 +322,7 @@ angular.module 'PatientApp.Quest',[]
 				if @data.questionType == 'descriptive'
 
 					if (@descriptiveAnswer == '')
-						CToast.show 'Please fill in the following'
+						CToast.show 'Please fill in your answer'
 					else
 						options =
 							"questionId" : @data.questionId
