@@ -187,6 +187,11 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
         return NotifyCount.getCount(refcode);
       });
     });
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      if (!viewData.enableBack) {
+        return viewData.enableBack = true;
+      }
+    });
     return $rootScope.$on('in:app:notification', function(e, obj) {
       return $scope.view.autoFetch();
     });

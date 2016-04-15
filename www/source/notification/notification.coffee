@@ -167,6 +167,11 @@ angular.module 'PatientApp.notification',[]
 				.then (refcode)->
 					NotifyCount.getCount(refcode)
 
+		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
+			if !viewData.enableBack
+				viewData.enableBack = true	
+
+
 		$rootScope.$on 'in:app:notification', (e, obj)->
 			$scope.view.autoFetch()
 
