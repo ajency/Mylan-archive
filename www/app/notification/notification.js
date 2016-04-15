@@ -172,8 +172,7 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
           } else if (error === 'server_error') {
             CToast.showLongBottom('Error in clearing Notification ,try again');
           }
-          console.log('--11---');
-          return console.log(error);
+          return $(".mcq").removeClass("mcq_a");
         });
         idObject = _.findWhere(this.data, {
           id: id

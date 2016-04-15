@@ -154,14 +154,14 @@ angular.module 'PatientApp.notification',[]
 							CToast.showLongBottom 'Check internet connection, Unable to clear notification'
 					else if error == 'server_error'
 						CToast.showLongBottom 'Error in clearing Notification ,try again'
-
-					console.log '--11---'
-					console.log error
-
+						
+					$(".mcq").removeClass("mcq_a")
 
 				idObject = _.findWhere(@data, {id: id}) 
 				if idObject.hasSeen == false 
 					App.notification.decrement()
+
+				
 
 			autoFetch : ->
 				@gotAllRequests = false
