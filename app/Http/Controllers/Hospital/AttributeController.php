@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Attributes;
+use App\User;
 
 class AttributeController extends Controller
 {
@@ -83,7 +84,25 @@ class AttributeController extends Controller
      */
     public function destroy($hospitalSlug,$id)
     {
-        $attribute = Attributes::find($id)->delete();
+        $attribute = Attributes::find($id);
+        $projectId = $attribute->object_id;
+        $label = $attribute->label;
+
+        $patients = User::where('type','patient')->where('project_id',$projectId)->get();
+
+        foreach ($patients as $key => $patient) {
+            $patientAttributes = unserialize($patient->project_attributes);
+
+            if(isset($patientAttributes[$label]))
+            {
+                unset($patientAttributes[$label]);
+                $patient->project_attributes =  serialize($patientAttributes); 
+                $patient->save();
+            }
+                
+        }
+
+        $attribute->delete();
                
         return response()->json( [
                     'code' => 'attr_deleted',
