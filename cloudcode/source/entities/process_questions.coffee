@@ -69,11 +69,15 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 
 	else if  (responseId == "") and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
 		scheduleQuery = new Parse.Query('Schedule')
+		scheduleQuery.include('questionnaire')
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
 			getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			.then (timeObj) ->
+				console.log "SQ timeObj"
+				console.log scheduleObj.get('nextOccurrence')
+				console.log timeObj
 				if isValidTime(timeObj)
 					createResponse questionnaireId, patientId, scheduleObj
 					.then (responseObj) ->
@@ -1185,7 +1189,10 @@ Parse.Cloud.define "dashboard", (request, response) ->
 				getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				.then (timeObj) ->
 					status =""
-					if isValidTime(timeObj)
+					console.log "DB timeObj"
+					console.log scheduleObj.get('nextOccurrence')
+					console.log timeObj
+					if isValidTime(timeObj)			
 						status ="due"
 					else if isValidUpcomingTime(timeObj)
 						status = "upcoming"
@@ -2965,20 +2972,38 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 
 	promise
 
-# Parse.Cloud.afterSave "Response", (request)->
-#     responseObject = request.object
 
-#     if !responseObject.existed() and responseObject.get("status")!='started'
-#     	console.log "clear cache"
-#     	projectId = responseObject.get("project")
 
-# 		Parse.Cloud.httpRequest
-# 			url: 'http://mylantest2.ajency.in/api/v2/project/'+ projectId +'/clear-cache'
-# 			success: (httpResponse) ->
-# 				request.resolve httpResponse
-# 				return
-# 			error: (httpResponse) ->
-# 				request.reject 'Request failed with response code ' + httpResponse.status
-# 				return
-        
-         
+Parse.Cloud.afterSave 'Response', (request, response) ->
+	responseObject = request.object
+	if !responseObject.existed() and responseObject.get("status")!='started'
+		console.log "RESPONSE STATUS :"
+		console.log responseObject.get("status")
+		projectId = responseObject.get("project")
+		Parse.Cloud.httpRequest
+			method: 'POST'
+			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+			headers:
+				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+
+		console.log "cache cleared"
+		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		return
+	else
+		return
+
+
+Parse.Cloud.define "clearProjectCache", (request, response) ->
+	projectId = 22
+	Parse.Cloud.httpRequest
+		method: 'POST'
+		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		headers:
+			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+
+	console.log "cache cleared"
+	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+	return
+ 

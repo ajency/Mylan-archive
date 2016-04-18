@@ -1258,10 +1258,14 @@
       });
     } else if ((responseId === "") && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       scheduleQuery = new Parse.Query('Schedule');
+      scheduleQuery.include('questionnaire');
       scheduleQuery.equalTo('patient', patientId);
       return scheduleQuery.first().then(function(scheduleObj) {
         return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
           var result;
+          console.log("SQ timeObj");
+          console.log(scheduleObj.get('nextOccurrence'));
+          console.log(timeObj);
           if (isValidTime(timeObj)) {
             return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
               responseObj.set('reviewed', 'unreviewed');
@@ -2333,6 +2337,9 @@
           return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
             var answeredQuestions, j, len, responseObj, result, status, upcoming_due;
             status = "";
+            console.log("DB timeObj");
+            console.log(scheduleObj.get('nextOccurrence'));
+            console.log(timeObj);
             if (isValidTime(timeObj)) {
               status = "due";
             } else if (isValidUpcomingTime(timeObj)) {
@@ -4024,6 +4031,43 @@
     getAllPatientAnswers();
     return promise;
   };
+
+  Parse.Cloud.afterSave('Response', function(request, response) {
+    var projectId, responseObject;
+    responseObject = request.object;
+    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
+      console.log("RESPONSE STATUS :");
+      console.log(responseObject.get("status"));
+      projectId = responseObject.get("project");
+      Parse.Cloud.httpRequest({
+        method: 'POST',
+        url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+        headers: {
+          'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+          'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+        }
+      });
+      console.log("cache cleared");
+      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
+    } else {
+
+    }
+  });
+
+  Parse.Cloud.define("clearProjectCache", function(request, response) {
+    var projectId;
+    projectId = 22;
+    Parse.Cloud.httpRequest({
+      method: 'POST',
+      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+      headers: {
+        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+      }
+    });
+    console.log("cache cleared");
+    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
+  });
 
   _ = require('underscore.js');
 
