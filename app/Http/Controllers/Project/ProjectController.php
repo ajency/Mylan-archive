@@ -107,10 +107,11 @@ class ProjectController extends Controller
         $responseStatus = ["completed","late","missed"];
 
         // Cache::flush();
+        // CACHE PROJECT RESPONSES
         $responseCacheKey = "projectResponses_".$projectId;
         $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
-        //  Cache script
+         
         if (Cache::has($responseCacheKey)) {
             $cacheProjectResponses =  Cache::get($responseCacheKey); 
             if(isset($cacheProjectResponses[$cacheDateKey]))
@@ -148,8 +149,8 @@ class ProjectController extends Controller
         //patient summary
         // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
         
+        // CACHE PATIENT SUMMARY
         $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-
         if (Cache::has($patientsSummaryCacheKey)) {
             $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
             if(isset($cachePatientsSummary[$cacheDateKey]))
@@ -178,10 +179,28 @@ class ProjectController extends Controller
  
         $patientSortedData = array_slice($patientSortedData, 0, 5, true);
          
-        $cond=['cleared'=>false];
-        $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+        
+        // CACHE PATIENT ALERTS AND NOTIFICATION
+        $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+        if (Cache::has($patientsAlertsCacheKey)) {
 
-        $submissionNotifications = $this->getProjectAlerts($projectId,5,0);
+          $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+
+          $projectAlerts = $cachePatientsAlerts['ALERTS'];
+          $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+
+        }
+        else
+        {
+          
+          $cond=['cleared'=>false];
+          $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+          $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+
+          $cachePatientsAlerts['ALERTS'] = $projectAlerts;
+          $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
+          Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+        } 
 
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
