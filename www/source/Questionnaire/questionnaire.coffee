@@ -538,7 +538,7 @@ angular.module 'PatientApp.Quest',[]
 					else if data.status == 'missed'
 						@title = 'This questionnaire was missed'
 						@showConfirm()
-					else if data.status == 'aleady_taken'
+					else if data.status == 'already_taken'
 						Storage.getQuestStatus('set','already_taken')
 						App.navigate 'dashboard', {}, {animate: false, back: false}
 

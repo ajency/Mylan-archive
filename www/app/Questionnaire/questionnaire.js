@@ -589,7 +589,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else if (data.status === 'missed') {
             this.title = 'This questionnaire was missed';
             return this.showConfirm();
-          } else if (data.status === 'aleady_taken') {
+          } else if (data.status === 'already_taken') {
             Storage.getQuestStatus('set', 'already_taken');
             return App.navigate('dashboard', {}, {
               animate: false,
