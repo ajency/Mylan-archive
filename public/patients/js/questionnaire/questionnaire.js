@@ -257,6 +257,38 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 }
               };
             })(this));
+          } else if (this.respStatus === 'firstQuestion') {
+            param = {
+              "questionnaireId": questionnaireIdd,
+              "responseId": questionnaireData.responseId
+            };
+            return QuestionAPI.getFirstQuest(param).then((function(_this) {
+              return function(data) {
+                _this.display = 'noError';
+                _this.checkQuestinarieStatus(data);
+                console.log('previous data');
+                console.log(_this.data);
+                _this.variables();
+                _this.data = [];
+                _this.data = data;
+                _this.questionLabel();
+                _this.readonly = _this.data.editable;
+                _this.pastAnswer();
+                if (!_.isEmpty(_this.data.hasAnswer)) {
+                  return _this.hasAnswerShow();
+                }
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                _this.display = 'error';
+                console.log(error);
+                if (error === 'offline') {
+                  return CToast.show('Check net connection,answer not saved');
+                } else {
+                  return CToast.show('Error ,try again');
+                }
+              };
+            })(this));
           } else if (this.respStatus === 'noValue') {
             responseId = '';
             options = {
@@ -269,6 +301,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
+                _this.checkQuestinarieStatus(data);
                 _this.pastAnswer();
                 return _this.display = 'noError';
               };
@@ -542,6 +575,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             Storage.summary('set', summaryData);
             return $location.path('summary');
+          } else if (data.status === 'already_taken') {
+            Storage.getQuestStatus('set', 'already_taken');
+            return $location.path('dashboard');
           }
         }
       },

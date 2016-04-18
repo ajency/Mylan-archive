@@ -55,6 +55,8 @@ angular.module 'angularApp.questionnaire',[]
 					$location.path 'dashboard'
 
 			submitSummary : ->
+				$('#submitSummaryModal').modal('hide')
+				$('.modal-backdrop').addClass('hidden')
 				# CSpinner.show '', 'Please wait..'
 				param = 
 					responseId : @responseId
@@ -86,6 +88,26 @@ angular.module 'angularApp.questionnaire',[]
 			onTapToRetry : ->
 				@display = 'loader'
 				@init()
+
+			goToFirstQuestion : ->
+				$('#submitSummaryModal').modal('hide')
+				$('.modal-backdrop').addClass('hidden')
+				questionnaireData = 
+						respStatus : 'firstQuestion'
+						responseId : @responseId
+
+					Storage.questionnaire 'set', questionnaireData
+
+					$location.path 'questionnaire'
+
+			onSumbmit : ->
+					if @data.editable == true 
+						$('#submitSummaryModal').modal('show')
+						return
+															
+					else
+						@submitSummary()
+
 				
 				
 

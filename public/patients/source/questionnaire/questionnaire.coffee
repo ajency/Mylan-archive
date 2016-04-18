@@ -249,6 +249,34 @@ angular.module 'angularApp.questionnaire'
 								CToast.show 'Check net connection,answer not saved'
 							else
 								CToast.show 'Error ,try again'
+
+					else if @respStatus == 'firstQuestion'
+						param =
+							"questionnaireId": questionnaireIdd
+							"responseId" : questionnaireData.responseId 
+
+						QuestionAPI.getFirstQuest param
+						.then (data)=>
+							@display = 'noError'
+							@checkQuestinarieStatus(data)
+							console.log 'previous data'
+							console.log @data	
+							@variables()
+							@data = []
+							@data = data
+							@questionLabel()
+							@readonly = @data.editable
+							@pastAnswer()
+							if !_.isEmpty(@data.hasAnswer)
+								@hasAnswerShow()	
+							
+						,(error)=>
+							@display = 'error'
+							console.log error
+							if error == 'offline'
+								CToast.show 'Check net connection,answer not saved'
+							else
+								CToast.show 'Error ,try again'
 							
 
 					else if @respStatus == 'noValue'
@@ -264,7 +292,7 @@ angular.module 'angularApp.questionnaire'
 							console.log 'inside then'
 							console.log data
 							@data = data
-
+							@checkQuestinarieStatus(data)
 							@pastAnswer()
 							# Storage.setData 'responseId', 'set', data.result.responseId
 							@display = 'noError'
@@ -521,6 +549,10 @@ angular.module 'angularApp.questionnaire'
 						Storage.summary 'set', summaryData
 						$location.path('summary')
 
+					else if data.status == 'already_taken'
+						Storage.getQuestStatus('set','already_taken')
+						$location.path('dashboard')
+
 			questionLabel:()->
 				if @data.questionType == 'input'
 					arr = []
@@ -578,6 +610,8 @@ angular.module 'angularApp.questionnaire'
 						if bool	
 						  if !_.isUndefined(@val_answerValue)
 						  	@val_answerValue[value.option] = ''
+
+
 
 
 
