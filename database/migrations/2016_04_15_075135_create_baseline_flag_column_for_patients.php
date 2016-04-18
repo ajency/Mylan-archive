@@ -16,7 +16,7 @@ class CreateBaselineFlagColumnForPatients extends Migration
     public function up()
     {
         Schema::table( 'users', function(Blueprint $table) {
-            $table->string( 'baseline_set');
+            $table->string( 'baseline_set')->default( 'no' );
         } );
 
         // User::where('type','patient')->get()->each( function($patient) {

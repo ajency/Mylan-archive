@@ -274,11 +274,11 @@ class UserController extends Controller
             else
             {
 
-                $responseQry = new ParseQuery("Response");
-                $responseQry->equalTo("patient", $referenceCode); 
-                $responseQry->equalTo("status", 'base_line'); 
-                $response = $responseQry->first();
-                if(empty($response))
+                // $responseQry = new ParseQuery("Response");
+                // $responseQry->equalTo("patient", $referenceCode); 
+                // $responseQry->equalTo("status", 'base_line'); 
+                // $response = $responseQry->first();
+                if($user['baseline_set']=='no')
                 {
                     $json_resp = array(
                         'code' => 'baseline_not_set' , 
