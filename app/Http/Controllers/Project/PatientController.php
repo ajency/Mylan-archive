@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use App\User;
+use App\UserDevice;
 use Chrisbjr\ApiGuard\Models\ApiKey;
 use App\Hospital;
 use App\Projects;
@@ -2366,6 +2367,30 @@ class PatientController extends Controller
                                         ->with('allPatients', $allPatients)
                                         ->with('submissionNotifications', $submissionNotifications)
                                         ->with('reviewStatus', $reviewStatus); 
+    }
+
+    public function getPatientDevices($hospitalSlug,$projectSlug , $patientId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $patient = User::find($patientId);
+        $userDevices = $patient->devices()->get()->toArray();
+
+        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        return view('project.patients.user-devices')->with('active_menu', 'patients')
+                                                ->with('active_tab', 'user-devices') 
+                                                ->with('tab', '07')
+                                                ->with('hospital', $hospital)
+                                                ->with('project', $project)
+                                                ->with('patient', $patient)
+                                                ->with('allPatients', $allPatients)
+                                                ->with('userDevices', $userDevices); 
     }
 
     /**

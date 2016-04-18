@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract,
     }
 
     public function devices() {
-        return $this->hasMany( 'App\UserDevices');
+        return $this->hasMany( 'App\UserDevice');
     }
 
     public function access() {

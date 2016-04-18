@@ -57,7 +57,7 @@ class ProjectPermission
 
                         '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view','edit'],
 
-
+                        '{hospitalslug}/{projectslug}/patients/{id}/patient-devices'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/submissions'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/flags'=>['view','edit'],

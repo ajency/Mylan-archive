@@ -123,6 +123,7 @@ Route::get( 'patients/{id}/flags', 'Project\PatientController@getPatientFlags' )
 Route::get( 'patients/{id}/patient-reports', 'Project\PatientController@getPatientReports' );
 Route::post( 'patients/{id}/validatereferncecode', 'Project\PatientController@validateRefernceCode' );
 Route::get( 'patients/{id}/submission-notifications', 'Project\PatientController@getSubmissionNotifications' );
+Route::get( 'patients/{id}/patient-devices', 'Project\PatientController@getPatientDevices' );
 
 Route::get( '/getsubmissionlist', 'Project\ProjectController@getSubmissionList' );
 Route::get( '/getpatientsummarylist', 'Project\ProjectController@getPatientSummaryList' );
