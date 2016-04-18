@@ -301,6 +301,7 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
                 console.log('inside then');
                 console.log(data);
                 _this.data = data;
+                _this.checkQuestinarieStatus(data);
                 _this.pastAnswer();
                 return _this.display = 'noError';
               };
@@ -574,6 +575,9 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
             };
             Storage.summary('set', summaryData);
             return $location.path('summary');
+          } else if (data.status === 'already_taken') {
+            Storage.getQuestStatus('set', 'already_taken');
+            return $location.path('dashboard');
           }
         }
       },

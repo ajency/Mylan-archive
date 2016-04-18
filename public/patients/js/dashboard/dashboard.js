@@ -18,6 +18,10 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
           this.errorStartQuestion = true;
           this.errorMsg = 'Unable to start questionnaire. Please check your internet connection.';
         }
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'already_taken') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'The questionnaire has been already  started.';
+        }
         questionnaireData = {};
         Storage.questionnaire('set', questionnaireData);
         startQuestData = {};

@@ -292,7 +292,7 @@ angular.module 'angularApp.questionnaire'
 							console.log 'inside then'
 							console.log data
 							@data = data
-
+							@checkQuestinarieStatus(data)
 							@pastAnswer()
 							# Storage.setData 'responseId', 'set', data.result.responseId
 							@display = 'noError'
@@ -548,6 +548,10 @@ angular.module 'angularApp.questionnaire'
 
 						Storage.summary 'set', summaryData
 						$location.path('summary')
+
+					else if data.status == 'already_taken'
+						Storage.getQuestStatus('set','already_taken')
+						$location.path('dashboard')
 
 			questionLabel:()->
 				if @data.questionType == 'input'
