@@ -89,22 +89,24 @@ class AuthController extends Controller
            $remember = 0;
             
         $newpassword = getPassword($referenceCode , $password);
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("patient", $referenceCode); 
-        $responseQry->equalTo("status", 'base_line'); 
-        $response = $responseQry->first();
-        
-        if(empty($response))
-        {
-            $json_resp = array(
-                'code' => 'baseline_not_set' , 
-                'message' => 'Baseline not set for patient'
-                );
-                $status_code = 200;
-        }          
-        elseif (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
+
+        // $responseQry = new ParseQuery("Response");
+        // $responseQry->equalTo("patient", $referenceCode); 
+        // $responseQry->equalTo("status", 'base_line'); 
+        // $response = $responseQry->first();
+     
+                 
+        if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         {   
-            if(Auth::user()->account_status=='active')
+            if(Auth::user()->baseline_set=='no')
+            {
+                $json_resp = array(
+                    'code' => 'baseline_not_set' , 
+                    'message' => 'Baseline not set for patient'
+                    );
+                    $status_code = 200;
+            } 
+            elseif(Auth::user()->account_status=='active')
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);
