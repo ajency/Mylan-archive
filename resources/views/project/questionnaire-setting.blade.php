@@ -33,32 +33,38 @@
   <div class="form-group">
     <label for="frequency" class="col-sm-4 side-label">Frequency</label>
     <div class="col-sm-4">
-      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}" data-parsley-type="number"> <h6 class="seconds">days</h6>
+      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits"> <h6 class="seconds">days</h6>
     </div>
     
     <div class="col-sm-4">
-      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
    
   </div>
  <div class="form-group">
     <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-type="number">
+      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits">
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
    <div class="form-group">
     <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-type="number">
+      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits">
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-type="number"><h6 class="seconds">hours</h6>
+      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+    data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
  <div class="form-group">
