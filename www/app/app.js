@@ -30,4 +30,10 @@ angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
       return App.questinnarieButton = App.currentState === 'questionnaire' ? true : false;
     });
   }
-]).config(['$stateProvider', function($stateProvider) {}]);
+]).config([
+  '$ionicConfigProvider', function($ionicConfigProvider) {
+    $ionicConfigProvider.views.swipeBackEnabled(false);
+    $ionicConfigProvider.views.forwardCache(true);
+    return $ionicConfigProvider.views.transition('none');
+  }
+]);

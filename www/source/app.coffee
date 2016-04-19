@@ -38,7 +38,10 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 ]
 
-.config ['$stateProvider', ($stateProvider)->
+.config ['$ionicConfigProvider', ($ionicConfigProvider)->
+	$ionicConfigProvider.views.swipeBackEnabled false
+	$ionicConfigProvider.views.forwardCache true
+	$ionicConfigProvider.views.transition 'none'
 
 
 	
