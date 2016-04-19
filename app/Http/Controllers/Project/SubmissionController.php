@@ -473,7 +473,7 @@ class SubmissionController extends Controller
         }
 
         $patientController = new PatientController();
-        $questionsList = $patientController->getSequenceQuestions($questions);
+        $questionsList = $patientController->getSequenceQuestions($questions,true);
 
         
         //sort data

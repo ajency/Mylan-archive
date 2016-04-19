@@ -396,8 +396,6 @@ class PatientController extends Controller
                 $responseByDate[$sequenceNumber] = $responseId;
             } 
 
-
-
             ksort($responseByDate);
             $patientSubmissionsByDate = [];
             foreach ($responseByDate as $sequenceNumber => $responseId) {
@@ -1621,7 +1619,7 @@ class PatientController extends Controller
         //     $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
         // }
 
-        $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions) :[];
+        $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions,true) :[];
         // dd($firstQuestionId);
         $optionScore = [];
         foreach ($options as   $option) {
@@ -1714,7 +1712,7 @@ class PatientController extends Controller
         return $questionId;
     }
 
-    public function getSequenceQuestions($questions)
+    public function getSequenceQuestions($questions,$subQuestionsFlag=false)
     {
 
         $questionsList = [];
@@ -1731,7 +1729,7 @@ class PatientController extends Controller
             $isChild = $question->get('isChild');
             if(!$isChild)
                 $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
-            else
+            elseif($subQuestionsFlag)
                 $subQuestions[$previousQuestionId][$questionId] = ['previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
 
 
