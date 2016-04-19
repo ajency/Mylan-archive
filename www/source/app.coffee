@@ -6,7 +6,7 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 
 
-.run ['$rootScope', 'App', 'User', '$timeout', ($rootScope, App, User, $timeout)->
+.run ['$rootScope', 'App', 'User', '$timeout', '$ionicPlatform' , ($rootScope, App, User, $timeout, $ionicPlatform)->
 
 	Parse.initialize APP_ID, JS_KEY
 
@@ -25,7 +25,15 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 			@count = @count - 1
 			@badge = false if @count <= 0
 
+	# App.disableNativeScroll()
 
+	$ionicPlatform.ready ->
+	  # Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+	  # for form inputs)
+	  if window.cordova and window.cordova.plugins.Keyboard
+	    cordova.plugins.Keyboard.hideKeyboardAccessoryBar false
+	    cordova.plugins.Keyboard.disableScroll true
+			
 	$rootScope.$on '$stateChangeSuccess', (ev, to, toParams, from, fromParams)->
 		App.previousState = from.name
 		App.currentState  = to.name

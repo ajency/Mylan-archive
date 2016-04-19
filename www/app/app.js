@@ -1,5 +1,5 @@
 angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).run([
-  '$rootScope', 'App', 'User', '$timeout', function($rootScope, App, User, $timeout) {
+  '$rootScope', 'App', 'User', '$timeout', '$ionicPlatform', function($rootScope, App, User, $timeout, $ionicPlatform) {
     Parse.initialize(APP_ID, JS_KEY);
     $rootScope.App = App;
     App.navigate('init', {}, {
@@ -20,6 +20,12 @@ angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
         }
       }
     };
+    $ionicPlatform.ready(function() {
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+        return cordova.plugins.Keyboard.disableScroll(true);
+      }
+    });
     return $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
       var bool, hideForStates;
       App.previousState = from.name;

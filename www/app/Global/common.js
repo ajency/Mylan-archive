@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard) {
     var App;
     return App = {
       start: true,
@@ -61,6 +61,9 @@ angular.module('PatientApp.Global', []).factory('App', [
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
           return $cordovaKeyboard.hideAccessoryBar(true);
         }
+      },
+      disableNativeScroll: function() {
+        return console.log('disable native Scroll');
       },
       errorCode: function(error) {
         console.log(error);

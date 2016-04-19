@@ -2,8 +2,8 @@ angular.module 'PatientApp.Global', []
 
 
 .factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
-	, '$cordovaPreferences', '$ionicScrollDelegate'
-	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate)->
+	, '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard)->
 
 		App = 
 			start: true
@@ -51,6 +51,11 @@ angular.module 'PatientApp.Global', []
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
 					$cordovaKeyboard.hideAccessoryBar true
+
+			disableNativeScroll : ->
+				console.log 'disable native Scroll'
+				# if $window.cordova && $window.cordova.plugins.Keyboard
+				# 	$cordovaKeyboard.disableScroll true
 
 			errorCode : (error) ->
 				console.log error
