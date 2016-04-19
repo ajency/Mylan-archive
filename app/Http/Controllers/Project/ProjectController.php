@@ -58,150 +58,159 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
-  
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
-
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-        $inputs = Input::get(); 
-
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
-
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
-                      "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
-                     );
-
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
-
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
-
-        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
-
-        //dd($patients);
-        $activepatients = [];
-        $patientReferenceCode = [];
-        $cond = [];
-        $sort = [];
-        foreach ($patients as  $patient) {
-            $patientReferenceCode[] = $patient['reference_code'];
-        }
-
-        foreach ($patientByDate as  $patient) {
-            
-            if($patient['account_status']=='active')
-                $activepatients[]= $patient['reference_code'];
-        }
-
-        $responseStatus = ["completed","late","missed"];
-
-        // Cache::flush();
-        // CACHE PROJECT RESPONSES
-        $responseCacheKey = "projectResponses_".$projectId;
-        $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
-
-         
-        if (Cache::has($responseCacheKey)) {
-            $cacheProjectResponses =  Cache::get($responseCacheKey); 
-            if(isset($cacheProjectResponses[$cacheDateKey]))
-            {
-              $projectResponses = $cacheProjectResponses[$cacheDateKey];
-            }
-            else
-            {
-              $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-              $cacheProjectResponses[$cacheDateKey] = $projectResponses;
-              Cache:: forever($responseCacheKey, $cacheProjectResponses);
-            }
-
-        }
-        else
+        try
         {
-          $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-          $cacheProjectResponses[$cacheDateKey] = $projectResponses;
-          Cache:: forever($responseCacheKey, $cacheProjectResponses); 
-        } 
-        
-        // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-         $responseCount = $this->getProjectResponseCounts($projectResponses);
-        
-        //red flags,amber flags ,unreviwed submission , submission
-         $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
 
-         //patient completed  and late submissions 
-        $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+          $inputs = Input::get(); 
 
-        $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+          $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        //patient summary
-        // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
-        
-        // CACHE PATIENT SUMMARY
-        $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-        if (Cache::has($patientsSummaryCacheKey)) {
-            $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
-            if(isset($cachePatientsSummary[$cacheDateKey]))
-            {
-              $patientsSummary = $cachePatientsSummary[$cacheDateKey];
-            }
-            else
-            {
-              $patientController = new PatientController();
-              $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-              $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
-              Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary);
-            }
+          //date object
+          $startDateObj = array(
+                    "__type" => "Date",
+                    "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                   );
 
-        }
-        else
-        {
-          $patientController = new PatientController();
-          $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-          $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
-          Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
-        } 
+          $endDateObj = array(
+                        "__type" => "Date",
+                        "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                       );
 
-        $patientResponses = $patientsSummary['patientResponses'];
-        $patientSortedData = $patientsSummary['patientSortedData'];
- 
-        $patientSortedData = array_slice($patientSortedData, 0, 5, true);
-         
-        
-        // CACHE PATIENT ALERTS AND NOTIFICATION
-        $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-        if (Cache::has($patientsAlertsCacheKey)) {
+          $startDateYmd = date('Y-m-d', strtotime($startDate));
+          $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-          $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+          $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
 
-          $projectAlerts = $cachePatientsAlerts['ALERTS'];
-          $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+          $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
-        }
-        else
-        {
+          //dd($patients);
+          $activepatients = [];
+          $patientReferenceCode = [];
+          $cond = [];
+          $sort = [];
+          foreach ($patients as  $patient) {
+              $patientReferenceCode[] = $patient['reference_code'];
+          }
+
+          foreach ($patientByDate as  $patient) {
+              
+              if($patient['account_status']=='active')
+                  $activepatients[]= $patient['reference_code'];
+          }
+
+          $responseStatus = ["completed","late","missed"];
+
+          // Cache::flush();
+          // CACHE PROJECT RESPONSES
+          $responseCacheKey = "projectResponses_".$projectId;
+          $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
+
+           
+          if (Cache::has($responseCacheKey)) {
+              $cacheProjectResponses =  Cache::get($responseCacheKey); 
+              if(isset($cacheProjectResponses[$cacheDateKey]))
+              {
+                $projectResponses = $cacheProjectResponses[$cacheDateKey];
+              }
+              else
+              {
+                $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
+                $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+                Cache:: forever($responseCacheKey, $cacheProjectResponses);
+              }
+
+          }
+          else
+          {
+            $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
+            $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+            Cache:: forever($responseCacheKey, $cacheProjectResponses); 
+          } 
           
-          $cond=['cleared'=>false];
-          $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-          $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+          // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
-          $cachePatientsAlerts['ALERTS'] = $projectAlerts;
-          $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
-          Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+           $responseCount = $this->getProjectResponseCounts($projectResponses);
+          
+          //red flags,amber flags ,unreviwed submission , submission
+           $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
+
+
+           //patient completed  and late submissions 
+          $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+
+          $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
+
+          //patient summary
+          // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
+          
+          // CACHE PATIENT SUMMARY
+          $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+          if (Cache::has($patientsSummaryCacheKey)) {
+              $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
+              if(isset($cachePatientsSummary[$cacheDateKey]))
+              {
+                $patientsSummary = $cachePatientsSummary[$cacheDateKey];
+              }
+              else
+              {
+                $patientController = new PatientController();
+                $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+                $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
+                Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary);
+              }
+
+          }
+          else
+          {
+            $patientController = new PatientController();
+            $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+            $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
+            Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
+          } 
+
+          $patientResponses = $patientsSummary['patientResponses'];
+          $patientSortedData = $patientsSummary['patientSortedData'];
+   
+          $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+           
+          
+          // CACHE PATIENT ALERTS AND NOTIFICATION
+          $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+          if (Cache::has($patientsAlertsCacheKey)) {
+
+            $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+
+            $projectAlerts = $cachePatientsAlerts['ALERTS'];
+            $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+
+          }
+          else
+          {
+            
+            $cond=['cleared'=>false];
+            $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+            $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+
+            $cachePatientsAlerts['ALERTS'] = $projectAlerts;
+            $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
+            Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+          } 
+
         } 
+        catch (\Exception $e) {
 
+          Log::error($e->getMessage());
+          abort(404);  
+
+        }
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
@@ -1174,117 +1183,126 @@ class ProjectController extends Controller
 
     public function reports($hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
-
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-        $inputs = Input::get();
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
-
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
-
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
-                      "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
-                     );
-
-        $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->lists('reference_code')->toArray();
-
-        if(!$referenceCode)
+        try
         {
-            $referenceCode = current($allPatients);
+
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+
+          $inputs = Input::get();
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+          $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
+          $startDateYmd = date('Y-m-d', strtotime($startDate));
+          $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+
+          $startDateObj = array(
+                    "__type" => "Date",
+                    "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                   );
+
+          $endDateObj = array(
+                        "__type" => "Date",
+                        "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                       );
+
+          $referenceCode = (isset($inputs['referenceCode']))?$inputs['referenceCode']:0;
+          $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->lists('reference_code')->toArray();
+
+          if(!$referenceCode)
+          {
+              $referenceCode = current($allPatients);
+          }
+
+          $patients[] = $referenceCode;
+          $responseArr=[];
+          
+          $patientController = new PatientController();
+          $responseByDate = [];
+          $responseStatus = ["completed","late","missed"];
+          $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
+          $patientResponses = $patientController->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+          foreach ($patientResponses as  $response) {
+              $responseId = $response->getObjectId();
+              $responseStatus = $response->get("status");
+              $sequenceNumber = $response->get("sequenceNumber");
+
+              $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+              $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
+
+              if ($responseStatus=='completed') {
+                  $completedResponses[]= $response;
+                  $patientSubmissions[] = $response;
+              }
+              elseif ($responseStatus=='late') {
+                  $lateResponses[]= $response;
+                  //$patientSubmissions[] = $response;
+              }
+              elseif ($responseStatus=='missed') {
+                  $missedResponses[]= $response;
+              }
+
+              $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+              $occurrenceDate = strtotime($occurrenceDate);
+              $responseByDate[$sequenceNumber] = $responseId;
+          } 
+
+          ksort($responseByDate);
+          $patientSubmissionsByDate = [];
+          foreach ($responseByDate as $sequenceNumber => $responseId) {
+              $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
+          }
+
+          $totalResponses = count($patientResponses);
+          $responseRate['completedCount'] = count($completedResponses);
+          $responseRate['missedCount'] = count($missedResponses);
+          $responseRate['lateCount'] = count($lateResponses);
+
+          $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+          $responseRate['completed'] =  round($completed);
+
+          $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
+          $responseRate['missed'] =  round($missed);
+
+          $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
+          $responseRate['late'] =  round($late);  
+
+          $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
+          $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);
+
+         
+          //get patient answers
+          $patientAnswers = $patientController->getPatientAnwersByDate($referenceCode,$projectId,0,[],$startDateObj,$endDateObj);
+          
+
+           //flags chart (total,red,amber,green)  
+          $flagsCount = $patientController->patientFlagsCount($patientSubmissions,$baselineAnwers);    
+
+          //health chart
+          $healthChart = $patientController->healthChartData($patientAnswers);
+          $submissionFlags = $healthChart['submissionFlags'];
+          $flagsQuestions = $healthChart['questionLabel'];
+
+          //question chart
+          $questionsChartData = $patientController->getQuestionChartData($patientAnswers);
+          $questionLabels = $questionsChartData['questionLabels'];
+          $questionChartData = $questionsChartData['chartData'];
+
+          $patientSubmissionChart = $patientController->getPatientSubmissionChart($patientAnswers,$allBaselineAnwers);
+          $submissionChart = $patientSubmissionChart['submissionChart'] ;
+          $submissionNumbers = $patientSubmissionChart['submissions'] ;
+          $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $patients[] = $referenceCode;
-        $responseArr=[];
-        
-        $patientController = new PatientController();
-        $responseByDate = [];
-        $responseStatus = ["completed","late","missed"];
-        $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
-        $patientResponses = $patientController->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
-        foreach ($patientResponses as  $response) {
-            $responseId = $response->getObjectId();
-            $responseStatus = $response->get("status");
-            $sequenceNumber = $response->get("sequenceNumber");
-
-            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
-            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
-
-            if ($responseStatus=='completed') {
-                $completedResponses[]= $response;
-                $patientSubmissions[] = $response;
-            }
-            elseif ($responseStatus=='late') {
-                $lateResponses[]= $response;
-                //$patientSubmissions[] = $response;
-            }
-            elseif ($responseStatus=='missed') {
-                $missedResponses[]= $response;
-            }
-
-            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
-            $occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$sequenceNumber] = $responseId;
-        } 
-
-        ksort($responseByDate);
-        $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $sequenceNumber => $responseId) {
-            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
-        }
-
-        $totalResponses = count($patientResponses);
-        $responseRate['completedCount'] = count($completedResponses);
-        $responseRate['missedCount'] = count($missedResponses);
-        $responseRate['lateCount'] = count($lateResponses);
-
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed);
-
-        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed);
-
-        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late);  
-
-        $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
-        $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);
-
-       
-        //get patient answers
-        $patientAnswers = $patientController->getPatientAnwersByDate($referenceCode,$projectId,0,[],$startDateObj,$endDateObj);
-        
-
-         //flags chart (total,red,amber,green)  
-        $flagsCount = $patientController->patientFlagsCount($patientSubmissions,$baselineAnwers);    
-
-        //health chart
-        $healthChart = $patientController->healthChartData($patientAnswers);
-        $submissionFlags = $healthChart['submissionFlags'];
-        $flagsQuestions = $healthChart['questionLabel'];
-
-        //question chart
-        $questionsChartData = $patientController->getQuestionChartData($patientAnswers);
-        $questionLabels = $questionsChartData['questionLabels'];
-        $questionChartData = $questionsChartData['chartData'];
-
-        $patientSubmissionChart = $patientController->getPatientSubmissionChart($patientAnswers,$allBaselineAnwers);
-        $submissionChart = $patientSubmissionChart['submissionChart'] ;
-        $submissionNumbers = $patientSubmissionChart['submissions'] ;
-        $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
 
         return view('project.reports')->with('active_menu', 'reports')
                                         ->with('hospital', $hospital)
@@ -1310,34 +1328,42 @@ class ProjectController extends Controller
 
     public function getNotifications($hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
 
-        $inputs = Input::get();
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+          $inputs = Input::get();
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+          $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+          $startDateYmd = date('Y-m-d', strtotime($startDate));
+          $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
+          $startDateObj = array(
+                    "__type" => "Date",
+                    "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                   );
 
-        $endDateObj = array(
-                      "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
-                     );
+          $endDateObj = array(
+                        "__type" => "Date",
+                        "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                       );
 
-        $dateCond=['startDate'=>$startDateObj,'endDate'=>$endDateObj];
+          $dateCond=['startDate'=>$startDateObj,'endDate'=>$endDateObj];
 
-        $prejectAlerts = $this->getProjectAlerts($projectId,"",0,$dateCond);
+          $prejectAlerts = $this->getProjectAlerts($projectId,"",0,$dateCond);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
         return view('project.notifications')->with('active_menu', '')
                                         ->with('hospital', $hospital)
@@ -1351,58 +1377,64 @@ class ProjectController extends Controller
 
     public function questionnaireSetting($hospitalSlug,$projectSlug)
     {
-
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
-
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-        $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project",$projectId);
-        $questionnaire = $questionnaireQry->first();
-
-        $settings =[];
-        $settings['frequency']['day'] = ''; 
-        $settings['frequency']['hours'] = ''; 
-        $settings['gracePeriod']['day'] = '';
-        $settings['gracePeriod']['hours'] = '';
-        $settings['reminderTime']['day'] = '';
-        $settings['reminderTime']['hours'] = '';
-        $settings['editable'] = '';
-        $settings['type'] = ''; 
-        
-
-        if(!empty($questionnaire))
+        try
         {
-          $gracePeriod = secondsToTime($questionnaire->get('gracePeriod'));
-          $settings['gracePeriod']['day'] = $gracePeriod['d']; 
-          $settings['gracePeriod']['hours'] = $gracePeriod['h']; 
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-          $reminderTime = secondsToTime($questionnaire->get('reminderTime'));
-          $settings['reminderTime']['day'] = $reminderTime['d']; 
-          $settings['reminderTime']['hours'] = $reminderTime['h']; 
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-          $settings['editable'] = $questionnaire->get('editable');
-          $settings['type'] = $questionnaire->get('type');
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
 
-          $scheduleQry = new ParseQuery("Schedule");
-          $scheduleQry->equalTo("questionnaire",$questionnaire);
-          $scheduleQry->doesNotExist("patient");
-          $schedule = $scheduleQry->first();
+          $questionnaireQry = new ParseQuery("Questionnaire");
+          $questionnaireQry->equalTo("project",$projectId);
+          $questionnaire = $questionnaireQry->first();
+
+          $settings =[];
+          $settings['frequency']['day'] = ''; 
+          $settings['frequency']['hours'] = ''; 
+          $settings['gracePeriod']['day'] = '';
+          $settings['gracePeriod']['hours'] = '';
+          $settings['reminderTime']['day'] = '';
+          $settings['reminderTime']['hours'] = '';
+          $settings['editable'] = '';
+          $settings['type'] = ''; 
           
-          if(!empty($schedule))
+
+          if(!empty($questionnaire))
           {
-   
-            $frequency = secondsToTime($schedule->get('frequency'));
-            $settings['frequency']['day'] = $frequency['d']; 
-            $settings['frequency']['hours'] = $frequency['h']; 
+            $gracePeriod = secondsToTime($questionnaire->get('gracePeriod'));
+            $settings['gracePeriod']['day'] = $gracePeriod['d']; 
+            $settings['gracePeriod']['hours'] = $gracePeriod['h']; 
+
+            $reminderTime = secondsToTime($questionnaire->get('reminderTime'));
+            $settings['reminderTime']['day'] = $reminderTime['d']; 
+            $settings['reminderTime']['hours'] = $reminderTime['h']; 
+
+            $settings['editable'] = $questionnaire->get('editable');
+            $settings['type'] = $questionnaire->get('type');
+
+            $scheduleQry = new ParseQuery("Schedule");
+            $scheduleQry->equalTo("questionnaire",$questionnaire);
+            $scheduleQry->doesNotExist("patient");
+            $schedule = $scheduleQry->first();
+            
+            if(!empty($schedule))
+            {
+     
+              $frequency = secondsToTime($schedule->get('frequency'));
+              $settings['frequency']['day'] = $frequency['d']; 
+              $settings['frequency']['hours'] = $frequency['h']; 
+            }
+            
           }
-          
+        
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-       
 
         return view('project.questionnaire-setting')->with('active_menu', 'settings')
                                         ->with('hospital', $hospital)
@@ -1412,53 +1444,62 @@ class ProjectController extends Controller
 
     public function saveQuestionnaireSetting(Request $request,$hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-        $frequencyDay = $request->input('frequencyDay');   
-        $frequencyHours = $request->input('frequencyHours');  
-        $gracePeriodDay = $request->input('gracePeriodDay');
-        $gracePeriodHours = $request->input('gracePeriodHours');
-        $reminderTimeDay = $request->input('reminderTimeDay');
-        $reminderTimeHours = $request->input('reminderTimeHours');
-
-        $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
-        $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
-        $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
-
-        $editable = ($request->input('editable')=='yes')?true:false;
-        $type = $request->input('type');
-
-        $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project",$projectId);
-        $questionnaire = $questionnaireQry->first();
-
-        $questionnaire->set('gracePeriod',$gracePeriod);
-        $questionnaire->set('reminderTime',$reminderTime);
-        $questionnaire->set('editable',$editable);
-        $questionnaire->set('type',$type);
-        $questionnaire->save();
-
-        $scheduleQry = new ParseQuery("Schedule");
-        $scheduleQry->equalTo("questionnaire",$questionnaire);
-        $scheduleQry->doesNotExist("patient");
-        $schedule = $scheduleQry->first();
-
-        if(empty($schedule))
+        try
         {
-          $schedule = new ParseObject("Schedule");
-          $schedule->set("questionnaire", $questionnaire);
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
+
+            $frequencyDay = $request->input('frequencyDay');   
+            $frequencyHours = $request->input('frequencyHours');  
+            $gracePeriodDay = $request->input('gracePeriodDay');
+            $gracePeriodHours = $request->input('gracePeriodHours');
+            $reminderTimeDay = $request->input('reminderTimeDay');
+            $reminderTimeHours = $request->input('reminderTimeHours');
+
+            $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
+            $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+            $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
+
+            $editable = ($request->input('editable')=='yes')?true:false;
+            $type = $request->input('type');
+
+            $questionnaireQry = new ParseQuery("Questionnaire");
+            $questionnaireQry->equalTo("project",$projectId);
+            $questionnaire = $questionnaireQry->first();
+
+            $questionnaire->set('gracePeriod',$gracePeriod);
+            $questionnaire->set('reminderTime',$reminderTime);
+            $questionnaire->set('editable',$editable);
+            $questionnaire->set('type',$type);
+            $questionnaire->save();
+
+            $scheduleQry = new ParseQuery("Schedule");
+            $scheduleQry->equalTo("questionnaire",$questionnaire);
+            $scheduleQry->doesNotExist("patient");
+            $schedule = $scheduleQry->first();
+
+            if(empty($schedule))
+            {
+              $schedule = new ParseObject("Schedule");
+              $schedule->set("questionnaire", $questionnaire);
+            }
+
+            $schedule->set("frequency", $frequency);
+            $schedule->save();
+
+            Session::flash('success_message','Project settings successfully updated.');
+            
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $schedule->set("frequency", $frequency);
-        $schedule->save();
-
-        Session::flash('success_message','Project settings successfully updated.');
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
     }
 

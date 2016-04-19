@@ -25,150 +25,157 @@ class SubmissionController extends Controller
      */
     public function index($hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $inputs = Input::get(); 
+            $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+            $startDateYmd = date('Y-m-d', strtotime($startDate));
+            $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
 
-        $responseRate = [];  
-        $cond=[];
-        $sort =[]; 
-         // get missed count
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","missed");
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['missedCount'] = $responseQry->count();
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","late");
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['lateCount'] = $responseQry->count();
+            $responseRate = [];  
+            $cond=[];
+            $sort =[]; 
+             // get missed count
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("status","missed");
+            $responseQry->equalTo("project",$projectId);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            $responseRate['missedCount'] = $responseQry->count();
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("status","completed");
-        $responseQry->equalTo("project",$projectId);
-        $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        $responseRate['completedCount'] = $responseQry->count();
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("status","late");
+            $responseQry->equalTo("project",$projectId);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            $responseRate['lateCount'] = $responseQry->count();
 
-        
-        
-        $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
-        $allResponseStatus = ['completed','missed','late'];
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("status","completed");
+            $responseQry->equalTo("project",$projectId);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            $responseRate['completedCount'] = $responseQry->count();
 
-        $responseStatus = $allResponseStatus;
-        if(isset($inputs['submissionStatus']))
-        {
             
-            $submissionStatus = $inputs['submissionStatus'];
-
-            if(in_array($submissionStatus, $allResponseStatus))
-            {
-                $responseStatus = [$submissionStatus];
-            }
-            elseif(in_array($submissionStatus, $allReviewStatus))
-            {
-                $cond = ['reviewed'=>$submissionStatus];
-            }
-            // elseif($submissionStatus=='unreviewed')
-            // {
-            //   //$responseRate['missedCount'] =0;
-            //   $cond = ['reviewed'=>'unreviewed'];
-             
-            // }
-        }
-        else
-        {
-             // get completed count
-            $submissionStatus = 'completed';
-            $responseStatus = ["completed"];
-        }
-
-        if(isset($inputs['sort']))
-        {
-            $sortBy = $inputs['sort'];
-            $sortData = explode('-', $inputs['sort']);
-            if(count($sortData)==2)
-            {
-                $sort = [$sortData[1]=>$sortData[0]];
-            }
             
-        }
+            $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
+            $allResponseStatus = ['completed','missed','late'];
 
-        $projectController = new ProjectController();
-        
-        $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond,$sort);  
+            $responseStatus = $allResponseStatus;
+            if(isset($inputs['submissionStatus']))
+            {
                 
-        $timeDifference = [];
-        $completedResponses = [];
-        
-        foreach ($patientSubmissions as $key => $response) {
-            $reviewed = $response->get("reviewed");
-            $status = $response->get("status");
-            $sequenceNumber = $response->get("sequenceNumber");
-      
-            $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
-            $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
-            $responseId = $response->getObjectId();
+                $submissionStatus = $inputs['submissionStatus'];
 
-            if($status=='completed')
+                if(in_array($submissionStatus, $allResponseStatus))
+                {
+                    $responseStatus = [$submissionStatus];
+                }
+                elseif(in_array($submissionStatus, $allReviewStatus))
+                {
+                    $cond = ['reviewed'=>$submissionStatus];
+                }
+                // elseif($submissionStatus=='unreviewed')
+                // {
+                //   //$responseRate['missedCount'] =0;
+                //   $cond = ['reviewed'=>'unreviewed'];
+                 
+                // }
+            }
+            else
             {
-              $completedResponses[] = $response;
+                 // get completed count
+                $submissionStatus = 'completed';
+                $responseStatus = ["completed"];
             }
 
-            if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
-                // echo $sequenceNumber.'<br>';
-                $datediff =0;
-                $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
-                $timeDifference[] = intval( $datediff);
+            if(isset($inputs['sort']))
+            {
+                $sortBy = $inputs['sort'];
+                $sortData = explode('-', $inputs['sort']);
+                if(count($sortData)==2)
+                {
+                    $sort = [$sortData[1]=>$sortData[0]];
+                }
+                
             }
-             
+
+            $projectController = new ProjectController();
+            
+            $patientSubmissions = $projectController->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond,$sort);  
+                    
+            $timeDifference = [];
+            $completedResponses = [];
+            
+            foreach ($patientSubmissions as $key => $response) {
+                $reviewed = $response->get("reviewed");
+                $status = $response->get("status");
+                $sequenceNumber = $response->get("sequenceNumber");
+          
+                $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
+                $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
+                $responseId = $response->getObjectId();
+
+                if($status=='completed')
+                {
+                  $completedResponses[] = $response;
+                }
+
+                if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
+                    // echo $sequenceNumber.'<br>';
+                    $datediff =0;
+                    $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
+                    $timeDifference[] = intval( $datediff);
+                }
+                 
+            }
+            // dd($timeDifference);
+
+            $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
+
+            // $responseRate['completedCount'] = count($completedResponses);
+
+            $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
+            $responseRate['completed'] =  round($completed);
+
+            $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
+            $responseRate['missed'] =  round($missed);
+
+            $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
+            $responseRate['late'] =  round($late);
+
+            $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
+
+            $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-        // dd($timeDifference);
-
-        $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
-
-        // $responseRate['completedCount'] = count($completedResponses);
-
-        $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed);
-
-        $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed);
-
-        $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late);
-
-        $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
-
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
         return view('project.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
@@ -212,110 +219,116 @@ class SubmissionController extends Controller
      */
     public function show($hospitalSlug ,$projectSlug,$submissionId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $data =  $this->getSubmissionData($submissionId,true);
-        $questionnaire = $data['questionnaire'];
-        $date = $data['date']; 
-        $answersList = $data['answers'];//dd($answersList);
-        $response = $data['response'];
-        $currentChartData = $data['chartData'];
-        $currentInputValues = $data['inputValues'];//dd($currentInputValues);
-        $previousSubmissionId = $data['previousSubmission'];
-        $baseLineId = $data['baseLine'];
-        
+            $data =  $this->getSubmissionData($submissionId,true);
+            $questionnaire = $data['questionnaire'];
+            $date = $data['date']; 
+            $answersList = $data['answers'];//dd($answersList);
+            $response = $data['response'];
+            $currentChartData = $data['chartData'];
+            $currentInputValues = $data['inputValues'];//dd($currentInputValues);
+            $previousSubmissionId = $data['previousSubmission'];
+            $baseLineId = $data['baseLine'];
+            
 
-        $responseData['comparedToBaseLine'] = $response->get("comparedToBaseLine");
-        $responseData['comparedToPrevious'] = $response->get("comparedToPrevious");
-        $responseData['baseLineFlag'] = $response->get("baseLineFlag");
-        $responseData['previousFlag'] = $response->get("previousFlag");
-        $responseData['reviewed'] = $response->get("reviewed");
-        $responseData['reviewNote'] = $response->get("reviewNote");
+            $responseData['comparedToBaseLine'] = $response->get("comparedToBaseLine");
+            $responseData['comparedToPrevious'] = $response->get("comparedToPrevious");
+            $responseData['baseLineFlag'] = $response->get("baseLineFlag");
+            $responseData['previousFlag'] = $response->get("previousFlag");
+            $responseData['reviewed'] = $response->get("reviewed");
+            $responseData['reviewNote'] = $response->get("reviewNote");
 
-        $referenceCode = $response->get("patient");
-        $sequenceNumber = $response->get("sequenceNumber");
-
-        $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
-
-        // $oldResponseQry = new ParseQuery("Response");
-        // $oldResponseQry->notEqualTo("objectId", $submissionId);
-        // $oldResponseQry->equalTo("patient", $referenceCode);
-        // $oldResponseQry->equalTo("status", "completed");
-        // $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
-        
-        // $oldResponse = $oldResponseQry->first();
-
-        // $baseLineResponseQry = new ParseQuery("Response");
-        // $baseLineResponseQry->equalTo("patient", $referenceCode);
-        // $baseLineResponseQry->equalTo("status", "base_line");
-        // $baseLineResponseQry->descending("createdAt");
-        // $baseLineResponse = $baseLineResponseQry->first();
-
-        $previousAnswersList =[];
-        $previousChartData = [];
-        if($previousSubmissionId!='')
-        {
-            $previousData =  $this->getSubmissionData($previousSubmissionId,false);
-            $previousAnswersList = $previousData['answers'];
-            $previousChartData = $previousData['chartData'];
-            $previousInputValues = $data['inputValues'];
-        }
-
-        $baseLineAnswersList =[];
-        $baseChartData = [];
-        if($baseLineId!='')
-        {
-            $baseLineData =  $this->getSubmissionData($baseLineId,false);
-            $baseLineAnswersList = $baseLineData['answers'];
-            $baseChartData = $baseLineData['chartData'];
-            $baseInputValues = $data['inputValues'];
-        }
-       
-        // get patient submissions
-        $allSubmissions = [];
-        $patientController = new PatientController();
-        $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed","late"]);
-
-        foreach ($completedResponses as $key => $response) {
-            $responseId = $response->getObjectId();
+            $referenceCode = $response->get("patient");
             $sequenceNumber = $response->get("sequenceNumber");
-            $allSubmissions[$responseId] = "Submission ".$sequenceNumber;
+
+            $patient = User::where('reference_code',$referenceCode)->first()->toArray(); 
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+            // $oldResponseQry = new ParseQuery("Response");
+            // $oldResponseQry->notEqualTo("objectId", $submissionId);
+            // $oldResponseQry->equalTo("patient", $referenceCode);
+            // $oldResponseQry->equalTo("status", "completed");
+            // $oldResponseQry->lessThan("createdAt", $response->getCreatedAt()); 
+            
+            // $oldResponse = $oldResponseQry->first();
+
+            // $baseLineResponseQry = new ParseQuery("Response");
+            // $baseLineResponseQry->equalTo("patient", $referenceCode);
+            // $baseLineResponseQry->equalTo("status", "base_line");
+            // $baseLineResponseQry->descending("createdAt");
+            // $baseLineResponse = $baseLineResponseQry->first();
+
+            $previousAnswersList =[];
+            $previousChartData = [];
+            if($previousSubmissionId!='')
+            {
+                $previousData =  $this->getSubmissionData($previousSubmissionId,false);
+                $previousAnswersList = $previousData['answers'];
+                $previousChartData = $previousData['chartData'];
+                $previousInputValues = $data['inputValues'];
+            }
+
+            $baseLineAnswersList =[];
+            $baseChartData = [];
+            if($baseLineId!='')
+            {
+                $baseLineData =  $this->getSubmissionData($baseLineId,false);
+                $baseLineAnswersList = $baseLineData['answers'];
+                $baseChartData = $baseLineData['chartData'];
+                $baseInputValues = $data['inputValues'];
+            }
+           
+            // get patient submissions
+            $allSubmissions = [];
+            $patientController = new PatientController();
+            $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed","late"]);
+
+            foreach ($completedResponses as $key => $response) {
+                $responseId = $response->getObjectId();
+                $sequenceNumber = $response->get("sequenceNumber");
+                $allSubmissions[$responseId] = "Submission ".$sequenceNumber;
+            }
+
+            $submissionChart = [];
+            foreach ($baseChartData as $questionId => $chartData) {
+                $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
+                $baseScore = $chartData['score'];
+                $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
+                $question = $chartData['question'];
+                $submissionChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
+                 
+            }       
+
+            $inputValueChart = [];
+            
+            foreach ($baseInputValues as $questionId => $inputValues) {
+                $questionLabel = $inputValues['question'];
+
+                $currentInputValue = (isset($answersList[$questionId]['optionValues']))? getInputValues($answersList[$questionId]['optionValues']) :'-';
+
+                $baseInputValue = getInputValues($baseLineAnswersList[$questionId]['optionValues']);
+
+                $previousInputValue = (isset($previousAnswersList[$questionId]['optionValues']))?getInputValues($previousAnswersList[$questionId]['optionValues']):'-';
+
+                $inputValueChart[] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
+                 
+            }
+
+            $submissionJson = json_encode($submissionChart);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $submissionChart = [];
-        foreach ($baseChartData as $questionId => $chartData) {
-            $currentScore = (isset($currentChartData[$questionId]['score']))?$currentChartData[$questionId]['score']:0;
-            $baseScore = $chartData['score'];
-            $previousScore = (isset($previousChartData[$questionId]['score']))?$previousChartData[$questionId]['score']:0;
-            $question = $chartData['question'];
-            $submissionChart[] =["question"=> $question,"base"=> $baseScore,"prev"=> $previousScore,"current"=> $currentScore];
-             
-        }       
-
-        $inputValueChart = [];
-        
-        foreach ($baseInputValues as $questionId => $inputValues) {
-            $questionLabel = $inputValues['question'];
-
-            $currentInputValue = (isset($answersList[$questionId]['optionValues']))? getInputValues($answersList[$questionId]['optionValues']) :'-';
-
-            $baseInputValue = getInputValues($baseLineAnswersList[$questionId]['optionValues']);
-
-            $previousInputValue = (isset($previousAnswersList[$questionId]['optionValues']))?getInputValues($previousAnswersList[$questionId]['optionValues']):'-';
-
-            $inputValueChart[] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
-             
-        }
-
-        $submissionJson = json_encode($submissionChart);
-
         
         return view('project.submissions-view')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'submissions')
@@ -483,48 +496,55 @@ class SubmissionController extends Controller
 
     public function getSubmissionFlags($hospitalSlug ,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $patientsllFlags = [];
-        $patientsFlags = [];
-        $responseOpenRedFlags = [];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $inputs = Input::get(); 
+            $patientsllFlags = [];
+            $patientsFlags = [];
+            $responseOpenRedFlags = [];
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $inputs = Input::get(); 
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
+
+            $startDateYmd = date('Y-m-d', strtotime($startDate));
+            $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+            
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+            $filterType = (isset($inputs['type']))?$inputs['type']:'';
+            $activeTab = (isset($inputs['active']))?$inputs['active']:'all';
+
+            $responseStatus = ["completed","late","missed"];
+            $projectController = new ProjectController(); 
+            $projectAnswers = $projectController->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
+     
+            $patientController = new PatientController(); 
+            $submissionFlags =  $patientController->getsubmissionFlags($projectAnswers,$filterType); 
         
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+        } catch (\Exception $e) {
 
-        $filterType = (isset($inputs['type']))?$inputs['type']:'';
-        $activeTab = (isset($inputs['active']))?$inputs['active']:'all';
-
-        $responseStatus = ["completed","late","missed"];
-        $projectController = new ProjectController(); 
-        $projectAnswers = $projectController->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
- 
-        $patientController = new PatientController(); 
-        $submissionFlags =  $patientController->getsubmissionFlags($projectAnswers,$filterType); 
- 
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
         return view('project.flags')->with('active_menu', 'flags')
                                                ->with('hospital', $hospital)
@@ -609,7 +629,7 @@ class SubmissionController extends Controller
 
     public function updateSubmissionStatus(Request $request, $hospitalSlug ,$projectSlug, $responseId)
     {
-       
+        try{    
             $data = $request->all();  
             $reviewStatus = $data['updateSubmissionStatus'];
             $reviewNote = $data['reviewNote'];
@@ -633,36 +653,48 @@ class SubmissionController extends Controller
                 }
                
             }
-            
+        
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
+           
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/submissions/' . $responseId));
  
     }
 
     public function getSubmissionNotifications($hospitalSlug,$projectSlug)
     {
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+            $hospital = $hospitalProjectData['hospital'];
 
-        $hospital = $hospitalProjectData['hospital'];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+            $inputs = Input::get(); 
+            $refCond = [];
+            $reviewStatus = "all";
+            if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+            {
+                
+                $reviewStatus = $inputs['reviewStatus'];
+                $refCond = ['reviewed'=>$reviewStatus];
+                 
+            }
 
-        $inputs = Input::get(); 
-        $refCond = [];
-        $reviewStatus = "all";
-        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
-        {
-            
-            $reviewStatus = $inputs['reviewStatus'];
-            $refCond = ['reviewed'=>$reviewStatus];
-             
+            $projectController = new ProjectController(); 
+            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $projectController = new ProjectController(); 
-        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],[],$refCond);
 
         return view('project.submission-notifications')->with('active_menu', 'submission-notification')
                                         ->with('hospital', $hospital)

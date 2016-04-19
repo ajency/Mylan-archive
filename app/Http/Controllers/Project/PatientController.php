@@ -28,72 +28,79 @@ class PatientController extends Controller
      */
     public function index($hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try
+        {
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $inputs = Input::get();
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
+            $inputs = Input::get();
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $patientsStatus ='';
-        
-        
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
+            $startDateYmd = date('Y-m-d', strtotime($startDate));
+            $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
-        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
-         
-        $activepatients = [];
-        $patientReferenceCode = [];
-        foreach ($patients as  $patient) {
-                
-            if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
-                $patientReferenceCode[] = $patient['reference_code'];
-            else
-                $patientReferenceCode[] = $patient['reference_code'];
-        }
-
-        foreach ($patientByDate as  $patient) {
+            $patientsStatus ='';
             
-            if($patient['account_status']=='active')
-                $activepatients[]= $patient['reference_code'];
-        }
-        
+            
+            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
+            $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+             
+            $activepatients = [];
+            $patientReferenceCode = [];
+            foreach ($patients as  $patient) {
+                    
+                if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
+                    $patientReferenceCode[] = $patient['reference_code'];
+                else
+                    $patientReferenceCode[] = $patient['reference_code'];
+            }
 
-        $endDateObj = array(
+            foreach ($patientByDate as  $patient) {
+                
+                if($patient['account_status']=='active')
+                    $activepatients[]= $patient['reference_code'];
+            }
+            
+
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
+
+            $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
 
 
-        
+            
 
-        $patientsSummary = $patientResponses['patientResponses'];
-        $patientSortedData = $patientResponses['patientSortedData'];
-        $completed = $patientResponses['completed']; 
-        $late = $patientResponses['late']; 
-        $missed = $patientResponses['missed']; 
-        $completedCount = $patientResponses['completedCount'];
-        $lateCount = $patientResponses['lateCount'];
-        $missedCount = $patientResponses['missedCount'];
-        $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray(); 
+            $patientsSummary = $patientResponses['patientResponses'];
+            $patientSortedData = $patientResponses['patientSortedData'];
+            $completed = $patientResponses['completed']; 
+            $late = $patientResponses['late']; 
+            $missed = $patientResponses['missed']; 
+            $completedCount = $patientResponses['completedCount'];
+            $lateCount = $patientResponses['lateCount'];
+            $missedCount = $patientResponses['missedCount'];
+            $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray(); 
       
+        } catch (\Exception $e) {
 
+            Log::error($e->getMessage());
+            abort(404);         
+        }
     //code to be removed
       // User::where('type','patient')->get()->each( function($patient) {
       //       $referenceCode = $patient->reference_code;
@@ -139,18 +146,24 @@ class PatientController extends Controller
      */
     public function create($hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $project = Projects::find($projectId); 
-        $projectAttributes = $project->attributes->toArray();
+            $project = Projects::find($projectId); 
+            $projectAttributes = $project->attributes->toArray();
 
-        // $projectAttributes = getProjectAttributes($projectAttributes);
+            // $projectAttributes = getProjectAttributes($projectAttributes);
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
 
         return view('project.patients.add')->with('active_menu', 'patients')
@@ -197,87 +210,94 @@ class PatientController extends Controller
      */
     public function store(Request $request,$hospitalSlug,$projectSlug)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
-        $hospital = $hospitalProjectData['hospital'];
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+            $hospital = $hospitalProjectData['hospital'];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $referenceCode = $request->input('reference_code');
-        $hospital = $hospital['id'];//$request->input('hospital');
-        $project = $projectId;
-        //$weight = $request->input('weight');
-        //$height = $request->input('height');
-        $age = $request->input('age');
-        $attributes = $request->input('attributes');
-        $attributes = serialize($attributes);
-        
-        $is_smoker = $request->input('is_smoker');
-        $smoke_per_week = $request->input('smoke_per_week');
-        // $is_alcoholic = $request->input('is_alcoholic');
-        $units_per_week = $request->input('units_per_week');
+            $referenceCode = $request->input('reference_code');
+            $hospital = $hospital['id'];//$request->input('hospital');
+            $project = $projectId;
+            //$weight = $request->input('weight');
+            //$height = $request->input('height');
+            $age = $request->input('age');
+            $attributes = $request->input('attributes');
+            $attributes = serialize($attributes);
+            
+            $is_smoker = $request->input('is_smoker');
+            $smoke_per_week = $request->input('smoke_per_week');
+            // $is_alcoholic = $request->input('is_alcoholic');
+            $units_per_week = $request->input('units_per_week');
 
-        $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
-        if(!empty($validateRefernceCode))
-        {
-           Session::flash('error_message','Error !!! Referance Code Already Exist ');    
-           return redirect(url($hospitalSlug .'/'.$projectSlug.'/patients/create'));
-        }
-        
-        $user = new User();
-        $user->reference_code = $referenceCode;
-        $user->password = '';
-        $user->account_status = 'created';
-        $user->hospital_id = $hospital;
-        $user->project_id = $project;
-        $user->type = 'patient';
-        //$user->patient_weight = $weight;
-        $user->age = $age;
-        $user->project_attributes = $attributes;
-        // $user->patient_height = $height;
-        $user->patient_is_smoker = $is_smoker;
-        $user->patient_smoker_per_week = $smoke_per_week;
-        // // $user->patient_is_alcoholic = $is_alcoholic;
-        $user->patient_alcohol_units_per_week = $units_per_week;
-        $user->save();
-        $userId = $user->id;
-
-        $medications = $request->input('medications');
-        $patientMedication=[];
-
-        if(!empty($medications))
-        {
-            foreach ($medications as   $medication) {
-                if($medication == '')
-                    continue;
-                $patientMedication[]= new PatientMedication(['medication' => $medication]);
+            $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
+            if(!empty($validateRefernceCode))
+            {
+               Session::flash('error_message','Error !!! Referance Code Already Exist ');    
+               return redirect(url($hospitalSlug .'/'.$projectSlug.'/patients/create'));
             }
-        }
+            
+            $user = new User();
+            $user->reference_code = $referenceCode;
+            $user->password = '';
+            $user->account_status = 'created';
+            $user->hospital_id = $hospital;
+            $user->project_id = $project;
+            $user->type = 'patient';
+            //$user->patient_weight = $weight;
+            $user->age = $age;
+            $user->project_attributes = $attributes;
+            // $user->patient_height = $height;
+            $user->patient_is_smoker = $is_smoker;
+            $user->patient_smoker_per_week = $smoke_per_week;
+            // // $user->patient_is_alcoholic = $is_alcoholic;
+            $user->patient_alcohol_units_per_week = $units_per_week;
+            $user->save();
+            $userId = $user->id;
 
-        $user->medications()->saveMany($patientMedication);
+            $medications = $request->input('medications');
+            $patientMedication=[];
 
-        $visitDate = $request->input('visit_date');
-        $notes = $request->input('note');
-        $patientVisits=[];
-
-        if(!empty($visitDate))
-        {
-            foreach ($visitDate as $key=>  $visitDate) {
-                if($visitDate == '')
-                    continue;
-
-                $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
-                $note = $notes[$key];
-                $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+            if(!empty($medications))
+            {
+                foreach ($medications as   $medication) {
+                    if($medication == '')
+                        continue;
+                    $patientMedication[]= new PatientMedication(['medication' => $medication]);
+                }
             }
+
+            $user->medications()->saveMany($patientMedication);
+
+            $visitDate = $request->input('visit_date');
+            $notes = $request->input('note');
+            $patientVisits=[];
+
+            if(!empty($visitDate))
+            {
+                foreach ($visitDate as $key=>  $visitDate) {
+                    if($visitDate == '')
+                        continue;
+
+                    $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
+                    $note = $notes[$key];
+                    $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+                }
+            }
+            $user->clinicVisit()->saveMany($patientVisits);
+
+            $apiKey                = new ApiKey;
+            $apiKey->user_id       = $user->id;
+            $apiKey->key           = $apiKey->generateKey();
+            $apiKey->save();
+
+            Session::flash('success_message','Patient created successfully.');
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-        $user->clinicVisit()->saveMany($patientVisits);
-
-        $apiKey                = new ApiKey;
-        $apiKey->user_id       = $user->id;
-        $apiKey->key           = $apiKey->generateKey();
-        $apiKey->save();
-
-        Session::flash('success_message','Patient created successfully.');
          
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
     }
@@ -290,144 +310,152 @@ class PatientController extends Controller
      */
     public function show($hospitalSlug,$projectSlug , $patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try
+        {
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $inputs = Input::get();
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $inputs = Input::get();
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateYmd = date('Y-m-d', strtotime($startDate));
-        $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
+            $startDateYmd = date('Y-m-d', strtotime($startDate));
+            $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $patient = User::find($patientId);
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
+
+            $patient = User::find($patientId);
+            
+            
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+
+            // // get completed count
+            // $responseQry = new ParseQuery("Response");
+            // $responseQry->equalTo("status","completed");
+            // $responseQry->equalTo("patient",$patient['reference_code']);
+            // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            // $responseRate['completedCount'] = $responseQry->count();
+
         
-        
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+            //  // get missed count
+            // $responseQry = new ParseQuery("Response");
+            // $responseQry->equalTo("status","missed");
+            // $responseQry->equalTo("patient",$patient['reference_code']);
+            // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            // $responseRate['missedCount'] = $responseQry->count();
 
-        // // get completed count
-        // $responseQry = new ParseQuery("Response");
-        // $responseQry->equalTo("status","completed");
-        // $responseQry->equalTo("patient",$patient['reference_code']);
-        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        // $responseRate['completedCount'] = $responseQry->count();
+            // $responseQry = new ParseQuery("Response");
+            // $responseQry->equalTo("status","late");
+            // $responseQry->equalTo("patient",$patient['reference_code']);
+            // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+            // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            // $responseRate['lateCount'] = $responseQry->count();
 
-    
-        //  // get missed count
-        // $responseQry = new ParseQuery("Response");
-        // $responseQry->equalTo("status","missed");
-        // $responseQry->equalTo("patient",$patient['reference_code']);
-        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        // $responseRate['missedCount'] = $responseQry->count();
+            $patients[] = $patient['reference_code'];
+            $responseByDate = [];
+            $responseStatus = ["completed","late","missed"];
+            $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
+            $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+            foreach ($patientResponses as  $response) {
+                $responseId = $response->getObjectId();
+                $responseStatus = $response->get("status");
+                $sequenceNumber = $response->get("sequenceNumber");
 
-        // $responseQry = new ParseQuery("Response");
-        // $responseQry->equalTo("status","late");
-        // $responseQry->equalTo("patient",$patient['reference_code']);
-        // $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
-        // $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
-        // $responseRate['lateCount'] = $responseQry->count();
+                $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+                $responseArr[$responseId]['SUBMISSIONNO'] = $sequenceNumber;
 
-        $patients[] = $patient['reference_code'];
-        $responseByDate = [];
-        $responseStatus = ["completed","late","missed"];
-        $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
-        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
-        foreach ($patientResponses as  $response) {
-            $responseId = $response->getObjectId();
-            $responseStatus = $response->get("status");
-            $sequenceNumber = $response->get("sequenceNumber");
+                if ($responseStatus=='completed') {
+                    $completedResponses[]= $response;
+                    $patientSubmissions[] = $response;
+                }
+                elseif ($responseStatus=='late') {
+                    $lateResponses[]= $response;
+                    // $patientSubmissions[] = $response;
+                }
+                elseif ($responseStatus=='missed') {
+                    $missedResponses[]= $response;
+                }
 
-            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
-            $responseArr[$responseId]['SUBMISSIONNO'] = $sequenceNumber;
+                $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+                // $occurrenceDate = strtotime($occurrenceDate);
+                $responseByDate[$sequenceNumber] = $responseId;
+            } 
 
-            if ($responseStatus=='completed') {
-                $completedResponses[]= $response;
-                $patientSubmissions[] = $response;
+
+
+            ksort($responseByDate);
+            $patientSubmissionsByDate = [];
+            foreach ($responseByDate as $sequenceNumber => $responseId) {
+                $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
             }
-            elseif ($responseStatus=='late') {
-                $lateResponses[]= $response;
-                // $patientSubmissions[] = $response;
-            }
-            elseif ($responseStatus=='missed') {
-                $missedResponses[]= $response;
-            }
 
-            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
-            // $occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$sequenceNumber] = $responseId;
-        } 
+            $totalResponses = count($patientResponses);
+            $responseRate['completedCount'] = count($completedResponses);
+            $responseRate['missedCount'] = count($missedResponses);
+            $responseRate['lateCount'] = count($lateResponses);
 
+            $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
+            $responseRate['completed'] =  round($completed);
 
+            $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
+            $responseRate['missed'] =  round($missed);
 
-        ksort($responseByDate);
-        $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $sequenceNumber => $responseId) {
-            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
+            $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
+            $responseRate['late'] =  round($late);
+
+            $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
+
+            //get patient answers
+            $patientAnswers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+            
+          
+            //flags chart (total,red,amber,green)  
+            $flagsCount = $this->patientFlagsCount($patientSubmissions,$baselineAnwers);
+
+            //health chart
+            $healthChart = $this->healthChartData($patientAnswers);
+            $submissionFlags = $healthChart['submissionFlags'];
+            $flagsQuestions = $healthChart['questionLabel'];
+           
+
+            //patient submissions
+            $projectController = new ProjectController();
+            $lastFiveSubmissions = array_slice($patientSubmissions, 0, 5, true);
+            $submissionsSummary = $projectController->getSubmissionsSummary($lastFiveSubmissions); 
+
+            //question chart
+            $questionsChartData = $this->getQuestionChartData($patientAnswers);
+
+            //patient submission flags
+            $patientFlags =  $this->getsubmissionFlags($patientAnswers); 
+
+            $questionLabels = $questionsChartData['questionLabels'];
+            $questionChartData = $questionsChartData['chartData'];
+            //$questionBaseLine = $questionsChartData['questionBaseLine'];
+
+            $cond=['patient'=>$patient['reference_code']];
+            $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $totalResponses = count($patientResponses);
-        $responseRate['completedCount'] = count($completedResponses);
-        $responseRate['missedCount'] = count($missedResponses);
-        $responseRate['lateCount'] = count($lateResponses);
-
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $responseRate['completed'] =  round($completed);
-
-        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $responseRate['missed'] =  round($missed);
-
-        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $responseRate['late'] =  round($late);
-
-        $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
-
-        //get patient answers
-        $patientAnswers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
-        
-      
-        //flags chart (total,red,amber,green)  
-        $flagsCount = $this->patientFlagsCount($patientSubmissions,$baselineAnwers);
-
-        //health chart
-        $healthChart = $this->healthChartData($patientAnswers);
-        $submissionFlags = $healthChart['submissionFlags'];
-        $flagsQuestions = $healthChart['questionLabel'];
-       
-
-        //patient submissions
-        $projectController = new ProjectController();
-        $lastFiveSubmissions = array_slice($patientSubmissions, 0, 5, true);
-        $submissionsSummary = $projectController->getSubmissionsSummary($lastFiveSubmissions); 
-
-        //question chart
-        $questionsChartData = $this->getQuestionChartData($patientAnswers);
-
-        //patient submission flags
-        $patientFlags =  $this->getsubmissionFlags($patientAnswers); 
-
-        $questionLabels = $questionsChartData['questionLabels'];
-        $questionChartData = $questionsChartData['chartData'];
-        //$questionBaseLine = $questionsChartData['questionBaseLine'];
-
-        $cond=['patient'=>$patient['reference_code']];
-        $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
        
         return view('project.patients.show')->with('active_menu', 'patients')
                                         ->with('active_tab', 'summary')
@@ -805,27 +833,34 @@ class PatientController extends Controller
      */
     public function edit($hospitalSlug,$projectSlug,$patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $project = $hospitalProjectData['project'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $patient = User::find($patientId); 
-        $patientStatus = $patient->account_status;
+            $project = $hospitalProjectData['project'];
 
-        $disabled = '';
-        if($patientStatus=='active')
-            $disabled = 'disabled';
+            $patient = User::find($patientId); 
+            $patientStatus = $patient->account_status;
 
-        $patientMedications = $patient->medications()->get()->toArray();
-        $patientvisits = $patient->clinicVisit()->get()->toArray();
+            $disabled = '';
+            if($patientStatus=='active')
+                $disabled = 'disabled';
 
-        $project = Projects::find($project['id']); 
-        $projectAttributes = $project->attributes->toArray();  
-         
-        // $projectAttributes = getProjectAttributes($projectAttributes);
+            $patientMedications = $patient->medications()->get()->toArray();
+            $patientvisits = $patient->clinicVisit()->get()->toArray();
+
+            $project = Projects::find($project['id']); 
+            $projectAttributes = $project->attributes->toArray();  
+             
+            // $projectAttributes = getProjectAttributes($projectAttributes);
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
         
         return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)
@@ -849,135 +884,150 @@ class PatientController extends Controller
      */
     public function update(Request $request,$hospitalSlug,$projectSlug, $id)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
-
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-        $referenceCode = $request->input('reference_code');
-        $hospital = $hospital['id'];//$request->input('hospital');
-        $project = $projectId;
-        // $weight = $request->input('weight');
-        // $height = $request->input('height');
-        $age = $request->input('age');
-        
-        $is_smoker = $request->input('is_smoker');
-        $smoke_per_week = $request->input('smoke_per_week');
-        // $is_alcoholic = $request->input('is_alcoholic');
-         $units_per_week = $request->input('units_per_week');
-
-        $attributes = $request->input('attributes');  
-        $attributes = serialize($attributes);
-        
-        $user = User::find($id);
-        if($user->account_status=='created')
+        try
         {
-           $user->reference_code = $referenceCode;
-           $user->project_id = $project; 
-        }
-        
-        //$user->patient_weight = $weight;
-        $user->age = $age;
-        //$user->patient_height = $height;
-        $user->project_attributes = $attributes;
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $user->patient_is_smoker = $is_smoker;
-        $user->patient_smoker_per_week = $smoke_per_week;
-        // $user->patient_is_alcoholic = $is_alcoholic;
-        $user->patient_alcohol_units_per_week = $units_per_week;
-        $user->save();
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $medications = $request->input('medications');
-        $patientMedication=[];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        if(!empty($medications))
-        {
-            $user->medications()->delete();
-            foreach ($medications as   $medication) {
-                if($medication == '')
-                    continue;
+            $referenceCode = $request->input('reference_code');
+            $hospital = $hospital['id'];//$request->input('hospital');
+            $project = $projectId;
+            // $weight = $request->input('weight');
+            // $height = $request->input('height');
+            $age = $request->input('age');
+            
+            $is_smoker = $request->input('is_smoker');
+            $smoke_per_week = $request->input('smoke_per_week');
+            // $is_alcoholic = $request->input('is_alcoholic');
+             $units_per_week = $request->input('units_per_week');
 
-                $patientMedication[]= new PatientMedication(['medication' => $medication]);
+            $attributes = $request->input('attributes');  
+            $attributes = serialize($attributes);
+            
+            $user = User::find($id);
+            if($user->account_status=='created')
+            {
+               $user->reference_code = $referenceCode;
+               $user->project_id = $project; 
             }
-        }
+            
+            //$user->patient_weight = $weight;
+            $user->age = $age;
+            //$user->patient_height = $height;
+            $user->project_attributes = $attributes;
 
-        $user->medications()->saveMany($patientMedication);
+            $user->patient_is_smoker = $is_smoker;
+            $user->patient_smoker_per_week = $smoke_per_week;
+            // $user->patient_is_alcoholic = $is_alcoholic;
+            $user->patient_alcohol_units_per_week = $units_per_week;
+            $user->save();
 
-        $visitDate = $request->input('visit_date');
-        $notes = $request->input('note');
-        $patientVisits=[];
+            $medications = $request->input('medications');
+            $patientMedication=[];
 
-        if(!empty($visitDate))
-        {
-            $user->clinicVisit()->delete();
-            foreach ($visitDate as $key=>  $visitDate) {
-                if($visitDate == '')
-                    continue;
-                
-                $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
-                $note = $notes[$key];
-                $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+            if(!empty($medications))
+            {
+                $user->medications()->delete();
+                foreach ($medications as   $medication) {
+                    if($medication == '')
+                        continue;
+
+                    $patientMedication[]= new PatientMedication(['medication' => $medication]);
+                }
             }
-        }
-        $user->clinicVisit()->saveMany($patientVisits);
 
-        Session::flash('success_message','Patient details successfully updated.');
+            $user->medications()->saveMany($patientMedication);
+
+            $visitDate = $request->input('visit_date');
+            $notes = $request->input('note');
+            $patientVisits=[];
+
+            if(!empty($visitDate))
+            {
+                $user->clinicVisit()->delete();
+                foreach ($visitDate as $key=>  $visitDate) {
+                    if($visitDate == '')
+                        continue;
+                    
+                    $visitDate = date('Y-m-d H:i:s' , strtotime($visitDate));
+                    $note = $notes[$key];
+                    $patientVisits[]= new PatientClinicVisit(['date_visited' => $visitDate,'note' => $note]);
+                }
+            }
+            $user->clinicVisit()->saveMany($patientVisits);
+
+            Session::flash('success_message','Patient details successfully updated.');
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $id.'/edit')); 
     }
 
     public function getPatientSubmission($hospitalSlug,$projectSlug ,$patientId)
     { 
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $submissionStatus = '';
+            $submissionStatus = '';
 
-        $patient = User::find($patientId)->toArray();
+            $patient = User::find($patientId)->toArray();
 
-        $inputs = Input::get(); 
+            $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
-        // $responseStatus = ["completed"];
-        // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
 
-        $patients[] = $patient['reference_code'];
-        
-        if(isset($inputs['submissionStatus']) && $inputs['submissionStatus']!='all')
-        {
-            $responseStatus = [$inputs['submissionStatus']];
-            $submissionStatus = $inputs['submissionStatus'];
-        }
-        else
-        {
-            $responseStatus = ["completed","late","missed"];
-        }
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+            // $responseStatus = ["completed"];
+            // $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
-        $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
-        //dd($patientResponses);
-        $projectController = new ProjectController();
-        $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
+            $patients[] = $patient['reference_code'];
+            
+            if(isset($inputs['submissionStatus']) && $inputs['submissionStatus']!='all')
+            {
+                $responseStatus = [$inputs['submissionStatus']];
+                $submissionStatus = $inputs['submissionStatus'];
+            }
+            else
+            {
+                $responseStatus = ["completed","late","missed"];
+            }
+
+            $patientResponses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus); 
+            //dd($patientResponses);
+            $projectController = new ProjectController();
+            $submissionsSummary = $projectController->getSubmissionsSummary($patientResponses); 
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
         return view('project.patients.submissions')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'submissions')
@@ -995,38 +1045,44 @@ class PatientController extends Controller
 
     public function getPatientFlags($hospitalSlug,$projectSlug ,$patientId)
     { 
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $patient = User::find($patientId)->toArray();
+            $patient = User::find($patientId)->toArray();
 
-        $inputs = Input::get(); 
+            $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $filterType = (isset($inputs['type']))?$inputs['type']:'';
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
 
-        $responseStatus = ["completed"]; //,"late"
-        $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+            $filterType = (isset($inputs['type']))?$inputs['type']:'';
 
-        $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+            $responseStatus = ["completed"]; //,"late"
+            $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+
+            $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            abort(404);         
+        }
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
                                                 ->with('tab', '03')
@@ -1043,34 +1099,41 @@ class PatientController extends Controller
 
     public function getpatientBaseLines($hospitalSlug ,$projectSlug ,$patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $hospital = $hospitalProjectData['hospital'];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $patient = User::find($patientId)->toArray();
-        $referenceCode = $patient['reference_code'];
-        
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("patient", $referenceCode); 
-        $responseQry->equalTo("status", 'base_line'); 
-        $responseQry->ascending("createdAt");
-        $responses = $responseQry->find();
+            $patient = User::find($patientId)->toArray();
+            $referenceCode = $patient['reference_code'];
+            
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("patient", $referenceCode); 
+            $responseQry->equalTo("status", 'base_line'); 
+            $responseQry->ascending("createdAt");
+            $responses = $responseQry->find();
 
-        $baseLines = [];
+            $baseLines = [];
 
-        foreach ($responses as  $response) {
-            $responseId = $response->getObjectId();
-            $sequenceNumber = $response->get('sequenceNumber');
-            $date = $response->getCreatedAt()->format('d-m-Y');
-            $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+            foreach ($responses as  $response) {
+                $responseId = $response->getObjectId();
+                $sequenceNumber = $response->get('sequenceNumber');
+                $date = $response->getCreatedAt()->format('d-m-Y');
+                $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+            }
+
+            $questionnaireQry = new ParseQuery("Questionnaire");
+            $questionnaireQry->equalTo("project", $projectId);
+            $isQuestionnaireSet = $questionnaireQry->count();  
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $questionnaireQry = new ParseQuery("Questionnaire");
-        $questionnaireQry->equalTo("project", $projectId);
-        $isQuestionnaireSet = $questionnaireQry->count();  
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         return view('project.patients.baseline-list')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'base_line')
@@ -1086,26 +1149,31 @@ class PatientController extends Controller
     
     public function showpatientBaseLineScore($hospitalSlug ,$projectSlug,$patientId,$responseId)
     {
- 
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
+            $project = $hospitalProjectData['project'];
 
-        $patient = User::find($patientId)->toArray();
-        $referenceCode = $patient['reference_code'];
-        $projectId = $patient['project_id'];
-        $projectId = intval ($projectId);
-        $projectName = Projects::find($projectId)->name; 
+            $patient = User::find($patientId)->toArray();
+            $referenceCode = $patient['reference_code'];
+            $projectId = $patient['project_id'];
+            $projectId = intval ($projectId);
+            $projectName = Projects::find($projectId)->name; 
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,$responseId,true);
-        $questionnaireName = $baseLineData['questionnaireName']; 
-        $questionsList = $baseLineData['questionsList']; 
-        $optionsList = $baseLineData['optionsList']; 
-        $answersList = $baseLineData['answersList']; 
-         
+            $baseLineData = $this->getBaseLineData($projectId,$referenceCode,$responseId,true);
+            $questionnaireName = $baseLineData['questionnaireName']; 
+            $questionsList = $baseLineData['questionsList']; 
+            $optionsList = $baseLineData['optionsList']; 
+            $answersList = $baseLineData['answersList']; 
+        
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        } 
         
         return view('project.patients.baselinescore')->with('active_menu', 'patients')
                                         ->with('active_tab', 'base_line')
@@ -1711,29 +1779,34 @@ class PatientController extends Controller
 
      public function getpatientBaseLineScore($hospitalSlug ,$projectSlug ,$patientId)
     {
- 
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
-
-
-        $patient = User::find($patientId)->toArray();
-        $referenceCode = $patient['reference_code'];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
 
+            $patient = User::find($patientId)->toArray();
+            $referenceCode = $patient['reference_code'];
 
-        $baseLineData = $this->getBaseLineData($projectId,$referenceCode,'',false);
-        $questionnaireName = $baseLineData['questionnaireName']; 
-        $questionnaireId = $baseLineData['questionnaireId']; 
-        $questionsList = $baseLineData['questionsList'];  
-        $optionsList = $baseLineData['optionsList']; 
-        $optionScore = $baseLineData['optionScore'];
-        $answersList = $baseLineData['answersList']; 
-        //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
+
+
+            $baseLineData = $this->getBaseLineData($projectId,$referenceCode,'',false);
+            $questionnaireName = $baseLineData['questionnaireName']; 
+            $questionnaireId = $baseLineData['questionnaireId']; 
+            $questionsList = $baseLineData['questionsList'];  
+            $optionsList = $baseLineData['optionsList']; 
+            $optionScore = $baseLineData['optionScore'];
+            $answersList = $baseLineData['answersList']; 
+            //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
         
         return view('project.patients.baselinescore-edit')->with('active_menu', 'patients')
                                         ->with('active_tab', 'base_line')
@@ -1752,119 +1825,83 @@ class PatientController extends Controller
 
     public function setPatientBaseLineScore(Request $request, $hospitalSlug ,$projectSlug ,$id)
     {
+        try{
         
-        // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+            // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        // $hospital = $hospitalProjectData['hospital'];
-        // $project = $hospitalProjectData['project'];
-        // $projectId = intval($project['id']);
+            // $hospital = $hospitalProjectData['hospital'];
+            // $project = $hospitalProjectData['project'];
+            // $projectId = intval($project['id']);
 
-        $baseLineAnswers = $request->all(); //dd($baseLineAnswers);
-        $questions = $baseLineAnswers['question'];
-        $questionType = $baseLineAnswers['questionType'];
-        // $baseLineResponseId = $baseLineAnswers['baseLineResponseId'];
-        $questionnaireId = $baseLineAnswers['questionnaireId'];
-        $patientId = $baseLineAnswers['patientId'];
+            $baseLineAnswers = $request->all(); //dd($baseLineAnswers);
+            $questions = $baseLineAnswers['question'];
+            $questionType = $baseLineAnswers['questionType'];
+            // $baseLineResponseId = $baseLineAnswers['baseLineResponseId'];
+            $questionnaireId = $baseLineAnswers['questionnaireId'];
+            $patientId = $baseLineAnswers['patientId'];
 
-        $patient = User::find($patientId);
-        $referenceCode = $patient->reference_code;
-        $projectId = $patient->project_id;
-        $projectId = intval ($projectId);
+            $patient = User::find($patientId);
+            $referenceCode = $patient->reference_code;
+            $projectId = $patient->project_id;
+            $projectId = intval ($projectId);
 
-        // if($baseLineResponseId =='')
-        // {
-                // }
-        // else
-        // {
-        //     $responseObj = new ParseQuery("Response");
-        //     $response = $responseObj->get($baseLineResponseId);
+            // if($baseLineResponseId =='')
+            // {
+                    // }
+            // else
+            // {
+            //     $responseObj = new ParseQuery("Response");
+            //     $response = $responseObj->get($baseLineResponseId);
 
-        //     $answers = new ParseQuery("Answer");
-        //     $answers->equalTo("response", $response);
-        //     $answersObjs = $answers->find();
-        //     // ParseObject::destroyAll($answersObjs);
-        //     foreach ($answersObjs as $answer) {
-        //         $answer->destroy();
-        //     }
-        // }
+            //     $answers = new ParseQuery("Answer");
+            //     $answers->equalTo("response", $response);
+            //     $answersObjs = $answers->find();
+            //     // ParseObject::destroyAll($answersObjs);
+            //     foreach ($answersObjs as $answer) {
+            //         $answer->destroy();
+            //     }
+            // }
 
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("patient", $referenceCode); 
-        $responseQry->equalTo("status", 'base_line'); 
-        $responseQry->descending("createdAt");
-        $responses = $responseQry->first();
+            $responseQry = new ParseQuery("Response");
+            $responseQry->equalTo("patient", $referenceCode); 
+            $responseQry->equalTo("status", 'base_line'); 
+            $responseQry->descending("createdAt");
+            $responses = $responseQry->first();
 
-        $sequenceNumber = (empty($responses))? 1 :($responses->get('sequenceNumber') + 1);
-
-
-        $questionnaireObj = new ParseQuery("Questionnaire");
-        $questionnaire = $questionnaireObj->get($questionnaireId);
-
-        $date = new \DateTime();
-        //add
-        $response = new ParseObject("Response");
-        $response->set("questionnaire", $questionnaire);
-        $response->set("patient", $referenceCode);
-        $response->set("sequenceNumber", $sequenceNumber);
-        $response->set("project", $projectId);
-        $response->set("occurrenceDate", $date);
-        $response->set("status", 'base_line');
-        $response->save();
-        $responseId = $response->getObjectId();
+            $sequenceNumber = (empty($responses))? 1 :($responses->get('sequenceNumber') + 1);
 
 
+            $questionnaireObj = new ParseQuery("Questionnaire");
+            $questionnaire = $questionnaireObj->get($questionnaireId);
 
-        $bulkAnswerInstances = [];
-        $totalScore = 0;
-        foreach ($questions as $questionId=> $answers) {
+            $date = new \DateTime();
+            //add
+            $response = new ParseObject("Response");
+            $response->set("questionnaire", $questionnaire);
+            $response->set("patient", $referenceCode);
+            $response->set("sequenceNumber", $sequenceNumber);
+            $response->set("project", $projectId);
+            $response->set("occurrenceDate", $date);
+            $response->set("status", 'base_line');
+            $response->save();
+            $responseId = $response->getObjectId();
 
-            $questionObj = array('__type' => 'Pointer', 'className' => 'Questions', 'objectId' => $questionId);
-            
-            if($questionType[$questionId]=='single-choice')
-            {
-                $answerData = explode('-',$answers);
-                $optionId = $answerData[0];
-                $score = intval ($answerData[1]);
-            
-                $optionObj = array('__type' => 'Pointer', 'className' => 'Options', 'objectId' => $optionId);
+
+
+            $bulkAnswerInstances = [];
+            $totalScore = 0;
+            foreach ($questions as $questionId=> $answers) {
+
+                $questionObj = array('__type' => 'Pointer', 'className' => 'Questions', 'objectId' => $questionId);
                 
-                $answer = new ParseObject("Answer");
-                $answer->setAssociativeArray("question", $questionObj);
-                $answer->set("response", $response);
-                $answer->set("patient", $referenceCode);
-                $answer->setAssociativeArray("option", $optionObj);
-                $answer->set("score", $score);
-                $answer->set("project", $projectId);
-                // $answer->save();
-                $bulkAnswerInstances[] = $answer;
-
-                $totalScore +=$score;
-            }
-            elseif($questionType[$questionId]=='descriptive')
-            {
-                $answer = new ParseObject("Answer");
-                $answer->setAssociativeArray("question", $questionObj);
-                $answer->set("response", $response);
-                $answer->set("patient", $referenceCode);
-                $answer->set("value", $answers);
-                $answer->set("project", $projectId);
-                // $answer->save();
-                $bulkAnswerInstances[] = $answer;
-            }
-            elseif($questionType[$questionId]=='multi-choice')
-            {
-                foreach ($answers as  $options) {
-                    $answerData = explode('-',$options);
-                    
-                    if(count($answerData)<=1)
-                        continue;
-
-                    
+                if($questionType[$questionId]=='single-choice')
+                {
+                    $answerData = explode('-',$answers);
                     $optionId = $answerData[0];
                     $score = intval ($answerData[1]);
-
+                
                     $optionObj = array('__type' => 'Pointer', 'className' => 'Options', 'objectId' => $optionId);
-
+                    
                     $answer = new ParseObject("Answer");
                     $answer->setAssociativeArray("question", $questionObj);
                     $answer->set("response", $response);
@@ -1874,14 +1911,32 @@ class PatientController extends Controller
                     $answer->set("project", $projectId);
                     // $answer->save();
                     $bulkAnswerInstances[] = $answer;
-                }
-            }
-            elseif($questionType[$questionId]=='input')
-            {
-                foreach ($answers as $optionId => $value) {
 
-                    if($value!='')
-                    {
+                    $totalScore +=$score;
+                }
+                elseif($questionType[$questionId]=='descriptive')
+                {
+                    $answer = new ParseObject("Answer");
+                    $answer->setAssociativeArray("question", $questionObj);
+                    $answer->set("response", $response);
+                    $answer->set("patient", $referenceCode);
+                    $answer->set("value", $answers);
+                    $answer->set("project", $projectId);
+                    // $answer->save();
+                    $bulkAnswerInstances[] = $answer;
+                }
+                elseif($questionType[$questionId]=='multi-choice')
+                {
+                    foreach ($answers as  $options) {
+                        $answerData = explode('-',$options);
+                        
+                        if(count($answerData)<=1)
+                            continue;
+
+                        
+                        $optionId = $answerData[0];
+                        $score = intval ($answerData[1]);
+
                         $optionObj = array('__type' => 'Pointer', 'className' => 'Options', 'objectId' => $optionId);
 
                         $answer = new ParseObject("Answer");
@@ -1889,25 +1944,49 @@ class PatientController extends Controller
                         $answer->set("response", $response);
                         $answer->set("patient", $referenceCode);
                         $answer->setAssociativeArray("option", $optionObj);
+                        $answer->set("score", $score);
                         $answer->set("project", $projectId);
-                        $answer->set("value", $value);
                         // $answer->save();
                         $bulkAnswerInstances[] = $answer;
                     }
-                    
+                }
+                elseif($questionType[$questionId]=='input')
+                {
+                    foreach ($answers as $optionId => $value) {
+
+                        if($value!='')
+                        {
+                            $optionObj = array('__type' => 'Pointer', 'className' => 'Options', 'objectId' => $optionId);
+
+                            $answer = new ParseObject("Answer");
+                            $answer->setAssociativeArray("question", $questionObj);
+                            $answer->set("response", $response);
+                            $answer->set("patient", $referenceCode);
+                            $answer->setAssociativeArray("option", $optionObj);
+                            $answer->set("project", $projectId);
+                            $answer->set("value", $value);
+                            // $answer->save();
+                            $bulkAnswerInstances[] = $answer;
+                        }
+                        
+                    }
                 }
             }
+
+            $response->set("totalScore", $totalScore);
+            $response->save();
+
+            $patient->baseline_set='yes';
+            $patient->save();
+
+            ParseObject::saveAll($bulkAnswerInstances);
+            
+            Session::flash('success_message','Patient baseline successfully created.');
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $response->set("totalScore", $totalScore);
-        $response->save();
-
-        $patient->baseline_set='yes';
-        $patient->save();
-
-        ParseObject::saveAll($bulkAnswerInstances);
-        
-        Session::flash('success_message','Patient baseline successfully created.');
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 
          
@@ -1916,77 +1995,83 @@ class PatientController extends Controller
 
     public function getPatientReports($hospitalSlug ,$projectSlug ,$patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $patient = User::find($patientId)->toArray();
+            $patient = User::find($patientId)->toArray();
 
-        $inputs = Input::get(); 
+            $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
-        $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
-        $startDateObj = array(
-                  "__type" => "Date",
-                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
-                 );
-
-        $endDateObj = array(
+            $startDateObj = array(
                       "__type" => "Date",
-                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
                      );
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
-        $patients[] = $patient['reference_code'];
-        $responseArr=[];
-        $patientSubmissions=[];
-        $responseByDate = [];
-        
-        $responseStatus = ["completed","late","missed"]; 
-        $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
-        $totalResponses = count($responses);
-        foreach ($responses as  $response) {
-            $responseId = $response->getObjectId();
-            $sequenceNumber = $response->get("sequenceNumber");
-            $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
-            $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
+            $endDateObj = array(
+                          "__type" => "Date",
+                          "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                         );
+
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
+            $patients[] = $patient['reference_code'];
+            $responseArr=[];
+            $patientSubmissions=[];
+            $responseByDate = [];
             
-            $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
-            //$occurrenceDate = strtotime($occurrenceDate);
-            $responseByDate[$sequenceNumber] = $responseId;
-        } 
-        
-        ksort($responseByDate);
+            $responseStatus = ["completed","late","missed"]; 
+            $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
+            $totalResponses = count($responses);
+            foreach ($responses as  $response) {
+                $responseId = $response->getObjectId();
+                $sequenceNumber = $response->get("sequenceNumber");
+                $responseArr[$responseId]['DATE'] = $response->get("occurrenceDate")->format('d M');
+                $responseArr[$responseId]['SUBMISSIONNO'] = $response->get("sequenceNumber");
+                
+                $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
+                //$occurrenceDate = strtotime($occurrenceDate);
+                $responseByDate[$sequenceNumber] = $responseId;
+            } 
+            
+            ksort($responseByDate);
 
-        $patientSubmissionsByDate = [];
-        foreach ($responseByDate as $sequenceNumber => $responseId) {
-            $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
-        }
+            $patientSubmissionsByDate = [];
+            foreach ($responseByDate as $sequenceNumber => $responseId) {
+                $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
+            }
 
-        $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+            $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
-        $healthChart = $this->healthChartData($answers);
-        $submissionArr = $healthChart['submissionFlags'];
-        $questionArr = $healthChart['questionLabel'];
+            $healthChart = $this->healthChartData($answers);
+            $submissionArr = $healthChart['submissionFlags'];
+            $questionArr = $healthChart['questionLabel'];
 
-        // $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
-        $allBaselineAnwers = $this->getAllPatientBaseLine($patient['reference_code']);
-        
-        $questionsChartData = $this->getQuestionChartData($answers);
+            // $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
+            $allBaselineAnwers = $this->getAllPatientBaseLine($patient['reference_code']);
+            
+            $questionsChartData = $this->getQuestionChartData($answers);
 
-        $questionLabels = $questionsChartData['questionLabels'];
-        $questionChartData = $questionsChartData['chartData'];
-        // $questionBaseLine = $questionsChartData['questionBaseLine'];
+            $questionLabels = $questionsChartData['questionLabels'];
+            $questionChartData = $questionsChartData['chartData'];
+            // $questionBaseLine = $questionsChartData['questionBaseLine'];
 
-        $patientSubmissionChart = $this->getPatientSubmissionChart($answers,$allBaselineAnwers);
-        $submissionChart = $patientSubmissionChart['submissionChart'] ;
-        $submissionNumbers = $patientSubmissionChart['submissions'] ;
-        $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
+            $patientSubmissionChart = $this->getPatientSubmissionChart($answers,$allBaselineAnwers);
+            $submissionChart = $patientSubmissionChart['submissionChart'] ;
+            $submissionNumbers = $patientSubmissionChart['submissions'] ;
+            $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
        
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
      
         return view('project.patients.reports')->with('active_menu', 'patients')
                                         ->with('active_tab', 'reports')
@@ -2332,31 +2417,38 @@ class PatientController extends Controller
 
     public function getSubmissionNotifications($hospitalSlug,$projectSlug , $patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
+            $hospital = $hospitalProjectData['hospital'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
-        $patient = User::find($patientId)->toArray();
+            $patient = User::find($patientId)->toArray();
 
-        $inputs = Input::get(); 
-        $refCond = [];
-        $cond = ['patient'=>$patient['reference_code']];
-        $reviewStatus = "all";
-        if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
-        {
-            
-            $reviewStatus = $inputs['reviewStatus'];
-            $refCond = ['reviewed'=>$reviewStatus];
-             
+            $inputs = Input::get(); 
+            $refCond = [];
+            $cond = ['patient'=>$patient['reference_code']];
+            $reviewStatus = "all";
+            if(isset($inputs['reviewStatus']) && $inputs['reviewStatus']!='all')
+            {
+                
+                $reviewStatus = $inputs['reviewStatus'];
+                $refCond = ['reviewed'=>$reviewStatus];
+                 
+            }
+
+            $projectController = new ProjectController(); 
+            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$cond,$refCond);
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
         }
-
-        $projectController = new ProjectController(); 
-        $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$cond,$refCond);
 
         return view('project.patients.submission-notifications')->with('active_menu', 'patients')
                                         ->with('active_tab', 'submissions-notification') 
@@ -2371,17 +2463,24 @@ class PatientController extends Controller
 
     public function getPatientDevices($hospitalSlug,$projectSlug , $patientId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
+            $hospital = $hospitalProjectData['hospital'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
 
-        $patient = User::find($patientId);
-        $userDevices = $patient->devices()->get()->toArray();
+            $patient = User::find($patientId);
+            $userDevices = $patient->devices()->get()->toArray();
 
-        $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+            $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
+
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
 
         return view('project.patients.user-devices')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'user-devices') 

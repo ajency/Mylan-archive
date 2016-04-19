@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Log;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -42,9 +43,26 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
+
+        if($e instanceof \Parse\ParseException){
+            Log::error($e->getMessage());
+            abort(503);
+        
+        } 
+
+        // if($e instanceof \FatalErrorException){
+        //     Log::error($e->getMessage());
+        //     abort(404);
+        
+        // } 
+
+       
+
+        
 
         return parent::render($request, $e);
     }
