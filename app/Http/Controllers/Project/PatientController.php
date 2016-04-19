@@ -756,6 +756,10 @@ class PatientController extends Controller
             $questionType = $answer->get("question")->get("type");
             $questionLabel = $answer->get("question")->get("title");
             $patient = $answer->get("patient");
+            $isChild = $answer->get("question")->get("isChild");
+
+            if($isChild)
+              continue;
 
             $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
             $responsePreviousFlag = $answer->get("response")->get("previousFlag");
