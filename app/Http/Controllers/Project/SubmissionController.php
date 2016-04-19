@@ -474,7 +474,7 @@ class SubmissionController extends Controller
 
         $patientController = new PatientController();
         $questionsList = $patientController->getSequenceQuestions($questions,true);
-
+       
         
         //sort data
         $sortedChartData = [];
@@ -482,7 +482,7 @@ class SubmissionController extends Controller
 
         foreach ($questionsList as $questionId => $data) {
             
-            if(isset($chartData[$questionId]))
+            if(isset($chartData[$questionId]) && isset($data['nextQuestionId']))
                 $sortedChartData[$questionId] = $chartData[$questionId];
 
             $sequentialanswersList[$questionId]=  $answersList[$questionId];
