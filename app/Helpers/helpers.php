@@ -357,3 +357,10 @@ function getStatusName($status)
     return (isset($reviewStatus[$status]))?$reviewStatus[$status] :'';
 }
 
+public function flushCacheMemory()
+{
+    \Cache::flush();
+
+    return "1";
+}
+

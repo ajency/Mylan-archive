@@ -38,8 +38,7 @@ class Kernel extends ConsoleKernel
             })->everyMinute();    
 
         $schedule->call(function () {
-            $projectController = new ProjectController();
-            $projectController->flushCacheMemory();
+            flushCacheMemory();
 
             $myfile = fopen("/var/www/html/newtest.txt", "w") or die("Unable to open file!");
 
