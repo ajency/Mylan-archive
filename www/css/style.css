@@ -1551,4 +1551,9 @@ ul .mcq_active div span {
   right: 0;
 }
 /*# sourceMappingURL=style.css.map */
-.no-transition { transition:none !important; keyframe:0s none !important; }
+.no-transition {
+  -webkit-transition: none !important;
+          transition: none !important;
+  keyframe: 0s none !important;
+}
+/*# sourceMappingURL=style.css.map */
