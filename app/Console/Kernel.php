@@ -29,10 +29,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
-            $msg = "MYLAN TEST CRON JOB";
-
-            // send email
-            mail("prajay@ajency.in","CRON JOB TEST",$msg);
+            flushCacheMemory();
             $myfile = fopen("/var/www/html/mylan.txt", "w") or die("Unable to open file!");
 
             })->everyMinute();    
