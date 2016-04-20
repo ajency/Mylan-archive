@@ -1332,3 +1332,10 @@ input::-ms-input-placeholder {
   font-family: open sans;
 }
 /*# sourceMappingURL=style.css.map */
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
