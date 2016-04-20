@@ -143,7 +143,6 @@ angular.module('angularApp.notification', []).controller('notifyCtrl', [
               _this.errorMsg = 'Notification not clear , try again';
             }
             _this.display = 'noError';
-            CToast.showPosition('clear', _this.errorMsg, 'left');
             return console.log('error data');
           };
         })(this));

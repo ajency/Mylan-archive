@@ -62,7 +62,13 @@ angular.module 'angularApp.questionnaire',[]
 					responseId : @responseId
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					CToast.show 'submiteed successfully '
+					if (data == 'submitted_successfully')
+						a = 1
+					else if (data == 'completed')
+						Storage.getQuestStatus('set','Submitted questionnaire was already completed')
+					else if (data == 'missed')
+						Storage.getQuestStatus('set','Submitted questionnaire was missed')
+						
 					questionnaireData = {}
 					Storage.questionnaire 'set', questionnaireData
 					$location.path 'dashboard'
