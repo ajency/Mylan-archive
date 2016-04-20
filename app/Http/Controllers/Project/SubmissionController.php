@@ -230,7 +230,8 @@ class SubmissionController extends Controller
 
             $data =  $this->getSubmissionData($submissionId,true);
             $questionnaire = $data['questionnaire'];
-            $date = $data['date']; 
+            $submittedDate = $data['submittedDate']; 
+            $updatedDate = $data['updatedDate']; 
             $answersList = $data['answers'];//dd($answersList);
             $response = $data['response'];
             $currentChartData = $data['chartData'];
@@ -341,7 +342,8 @@ class SubmissionController extends Controller
                                                 ->with('project', $project)
                                                 ->with('logoUrl', $logoUrl)
                                                 ->with('questionnaire', $questionnaire)
-                                                ->with('date', $date)
+                                                ->with('submittedDate', $submittedDate)
+                                                ->with('updatedDate', $updatedDate)
                                                 ->with('answersList', $answersList)
                                                 ->with('currentSubmission', $submissionId)
                                                 ->with('responseData', $responseData)
@@ -383,7 +385,9 @@ class SubmissionController extends Controller
           $baseLine = '';
           $previousSubmission = '';
         }
-        $date = $response->getUpdatedAt()->format('d-m-Y');
+
+        $submittedDate = $response->getUpdatedAt()->format('d-m-Y');
+        $updatedDate = $response->getUpdatedAt()->format('d-m-Y');
         
         
         // ($response->get("previousSubmission")==null)?'' : $response->get("previousSubmission")->getObjectId();
@@ -490,7 +494,7 @@ class SubmissionController extends Controller
 
 
 
-        $data = ['questionnaire'=>$questionnaire ,'date'=>$date ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$sequentialanswersList, 'response'=>$response,'chartData'=>$sortedChartData,'inputValues'=>$inputValues] ;
+        $data = ['questionnaire'=>$questionnaire ,'submittedDate'=>$submittedDate ,'updatedDate'=>$updatedDate ,'baseLine'=>$baseLine ,'previousSubmission'=>$previousSubmission , 'answers'=>$sequentialanswersList, 'response'=>$response,'chartData'=>$sortedChartData,'inputValues'=>$inputValues] ;
         return $data;
     }
 

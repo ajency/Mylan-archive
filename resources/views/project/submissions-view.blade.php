@@ -148,13 +148,13 @@
                               
                           <div class="row">
                             <div class="col-md-4">
-                                 <div><label>Submitted on {{ $date }}</label></div>
+                                 <div><label>Submitted on {{ $submittedDate }}</label></div>
                             </div>
                             <div class="col-md-8">
                                 @if($responseData['reviewNote']!='')
                               
                                  <div class="Notes">
-                                    <label>Notes: </label>
+                                    <label>Notes: ( {{ $updatedDate }} )</label>
                                     <label>{{ $responseData['reviewNote'] }}</label> 
                                  </div>
                           
