@@ -42,6 +42,7 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         })(this));
       },
       init: function() {
+        Storage.setSummaryStatus('set', '');
         return this.getSummaryApi();
       },
       submitSummary: function() {
@@ -53,8 +54,21 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            CToast.show('Successfully submitted');
-            return App.navigate('exit-questionnaire');
+            if (data === 'submitted_successfully') {
+              Storage.setSummaryStatus('set', 'Your questionnaire has been successfully submitted.');
+              CToast.show('Successfully submitted');
+              return App.navigate('exit-questionnaire');
+            } else if (data === 'completed') {
+              Storage.setSummaryStatus('set', ' Your questionnaire has been already submitted.');
+              CToast.show('Questionnarie already submitted');
+              return App.navigate('exit-questionnaire');
+            } else if (data === 'missed') {
+              CToast.show('Questionnarie has been missed');
+              return App.navigate('dashboard', {}, {
+                animate: false,
+                back: false
+              });
+            }
           };
         })(this), (function(_this) {
           return function(error) {

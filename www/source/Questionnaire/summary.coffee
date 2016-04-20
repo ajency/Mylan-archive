@@ -38,6 +38,7 @@ angular.module 'PatientApp.Quest'
 					@errorType = error
 					
 			init : ->
+				Storage.setSummaryStatus('set','')
 				@getSummaryApi()
 
 			submitSummary : ->
@@ -48,8 +49,18 @@ angular.module 'PatientApp.Quest'
 					responseId : $stateParams.summary
 				QuestionAPI.submitSummary param
 				.then (data)=>
-					CToast.show 'Successfully submitted'
-					App.navigate 'exit-questionnaire'
+					if (data == 'submitted_successfully')
+						Storage.setSummaryStatus('set', 'Your questionnaire has been successfully submitted.')
+						CToast.show 'Successfully submitted'
+						App.navigate 'exit-questionnaire'
+					else if (data == 'completed')
+						Storage.setSummaryStatus('set',' Your questionnaire has been already submitted.')
+						CToast.show 'Questionnarie already submitted'
+						App.navigate 'exit-questionnaire'
+					else if (data == 'missed')
+						
+						CToast.show 'Questionnarie has been missed'
+						App.navigate 'dashboard', {}, {animate: false, back: false}
 					# deregister()
 				,(error)=>
 					if error == 'offline'
