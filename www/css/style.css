@@ -1542,7 +1542,7 @@ ul .mcq_active div span {
 .notification-delete .delete-btn {
   width: 50%;
   height: 52%;
-  overflow: auto;
+  overflow: hidden;
   margin: auto;
   position: absolute;
   top: 0;
