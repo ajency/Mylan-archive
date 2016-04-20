@@ -357,7 +357,7 @@ function getStatusName($status)
     return (isset($reviewStatus[$status]))?$reviewStatus[$status] :'';
 }
 
-public function flushCacheMemory()
+function flushCacheMemory()
 {
     \Cache::flush();
 
