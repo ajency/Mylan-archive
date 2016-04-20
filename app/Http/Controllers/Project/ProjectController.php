@@ -1520,6 +1520,12 @@ class ProjectController extends Controller
          return response()->json( $json_resp, $status_code);  
     }
 
+    public function flushCacheMemory()
+    {
+        Cache::flush();
+        return true;
+    }
+
 
     /**
      * Show the form for editing the specified resource.
