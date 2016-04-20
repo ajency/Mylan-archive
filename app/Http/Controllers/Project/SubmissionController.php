@@ -384,9 +384,9 @@ class SubmissionController extends Controller
         {
           $baseLine = '';
           $previousSubmission = '';
-        }
+        }  
 
-        $submittedDate = $response->get("submittedDate")->format('d-m-Y');
+        $submittedDate = ($response->get("submittedDate")!=null)?$response->get("submittedDate")->format('d-m-Y'):$response->getCreatedAt()->format('d-m-Y'); 
         $updatedDate = $response->getUpdatedAt()->format('d-m-Y');
         
         
