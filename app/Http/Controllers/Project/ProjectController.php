@@ -118,12 +118,27 @@ class ProjectController extends Controller
               $cacheProjectResponses =  Cache::get($responseCacheKey); 
               if(isset($cacheProjectResponses[$cacheDateKey]))
               {
-                $projectResponses = $cacheProjectResponses[$cacheDateKey];
+                $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
+                $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
+                $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
+                 
               }
               else
               {
                 $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-                $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+            
+                $responseCount = $this->getProjectResponseCounts($projectResponses);
+                $cacheProjectResponses[$cacheDateKey]['responseCount'] = $responseCount;
+                
+                //red flags,amber flags ,unreviwed submission , submission
+                $projectFlagsChart = $this->projectFlagsChart($projectResponses);
+                $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'] = $projectFlagsChart;
+
+                 //patient completed  and late submissions 
+                $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+                $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
+                $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
+
                 Cache:: forever($responseCacheKey, $cacheProjectResponses);
               }
 
@@ -131,25 +146,22 @@ class ProjectController extends Controller
           else
           {
             $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-            $cacheProjectResponses[$cacheDateKey] = $projectResponses;
+            
+            $responseCount = $this->getProjectResponseCounts($projectResponses);
+            $cacheProjectResponses[$cacheDateKey]['responseCount'] = $responseCount;
+            
+            //red flags,amber flags ,unreviwed submission , submission
+            $projectFlagsChart = $this->projectFlagsChart($projectResponses);
+            $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'] = $projectFlagsChart;
+
+             //patient completed  and late submissions 
+            $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+            $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
+            $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
+
             Cache:: forever($responseCacheKey, $cacheProjectResponses); 
           } 
           
-          // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
-
-           $responseCount = $this->getProjectResponseCounts($projectResponses);
-          
-          //red flags,amber flags ,unreviwed submission , submission
-           $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
-
-
-           //patient completed  and late submissions 
-          $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
-
-          $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
-
-          //patient summary
-          // $fivepatient = array_slice($patientReferenceCode, 0, 5, true);
           
           // CACHE PATIENT SUMMARY
           $patientsSummaryCacheKey = "patientsSummary_".$projectId;
