@@ -124,11 +124,15 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         });
       },
       onSumbmit: function() {
-        return $ionicLoading.show({
-          scope: $scope,
-          templateUrl: 'views/main/confirm.html',
-          hideOnStateChange: true
-        });
+        if (this.data.editable === true) {
+          return $ionicLoading.show({
+            scope: $scope,
+            templateUrl: 'views/main/confirm.html',
+            hideOnStateChange: true
+          });
+        } else {
+          return this.submitSummary();
+        }
       }
     };
     onDeviceBackSummary = function() {

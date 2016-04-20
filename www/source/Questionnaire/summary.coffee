@@ -122,10 +122,13 @@ angular.module 'PatientApp.Quest'
 			# 			@submitSummary()
 
 			onSumbmit : ->
-				$ionicLoading.show
-					scope: $scope
-					templateUrl:'views/main/confirm.html'
-					hideOnStateChange: true	
+				if @data.editable == true 
+					$ionicLoading.show
+						scope: $scope
+						templateUrl:'views/main/confirm.html'
+						hideOnStateChange: true	
+				else
+					@submitSummary()
 
 			
 
