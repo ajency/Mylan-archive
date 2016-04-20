@@ -121,7 +121,7 @@ class ProjectController extends Controller
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
                 $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
-                 
+
               }
               else
               {
@@ -312,11 +312,12 @@ class ProjectController extends Controller
                 {
                     $sequenceNumber = $response->get("sequenceNumber");
                     $reviewStatus = $response->get("reviewed");
+                    $reviewNote = $response->get("reviewNote");
                     $previousTotalRedFlags = $response->get("previousTotalRedFlags");
                     $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
 
                     $responseId = $response->getObjectId();
-                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
                 }
 
             }
