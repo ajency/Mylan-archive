@@ -1523,7 +1523,11 @@ class ProjectController extends Controller
     public function flushCacheMemory()
     {
         Cache::flush();
-        return true;
+
+        return response()->json([
+                    'code' => 'cache_cleared',
+                    'message' => "cache cleared",
+                        ], 200);
     }
 
 
