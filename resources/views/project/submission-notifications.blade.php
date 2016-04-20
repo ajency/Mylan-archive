@@ -71,9 +71,9 @@
                                 <th class="sorting" width="10%">Patient ID <br><br></th>
                                 <th class="sorting "># Submission<br><br></th>
                                 
-                                <th class="sorting" width="40%">Reason<br><br>
+                                <th class="sorting" width="35%">Reason<br><br>
                                 </th>
-                                <th class="sorting" width="40%">Review Note<br><br>
+                                <th class="sorting" width="35%">Review Note<br><br>
                                 </th>
                                 <th class="sorting">Review Status<br><br>
                                 </th>

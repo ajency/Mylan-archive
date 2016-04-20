@@ -60,7 +60,9 @@
                              <tr>
                                <th class="sorting "># Submission<br><br></th>
                                 
-                                <th class="sorting" width="40%">Reason<br><br>
+                                <th class="sorting" width="35%">Reason<br><br>
+                                </th>
+                                 <th class="sorting" width="35%">Review Note<br><br>
                                 </th>
                                 <th class="sorting">Review Status<br><br>
                                 </th>
@@ -78,7 +80,7 @@
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
                                    </td>
                                    <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
-                                   
+                                   <td class="text-center">{{ $submissionNotification['reviewNote'] }}</td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
