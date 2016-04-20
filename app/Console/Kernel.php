@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
 
             // send email
             mail("prajay@ajency.in","CRON JOB TEST",$msg);
+            $myfile = fopen("/var/www/html/mylan.txt", "w") or die("Unable to open file!");
 
             })->everyMinute();    
 
