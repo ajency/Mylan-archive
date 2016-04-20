@@ -27,7 +27,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 /********API********/
 Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/clear-cache', 'Project\ProjectController@clearCache' );
-    Route::post( 'project/flush-cache-memory', 'Project\ProjectController@flushCacheMemory' );
+    
 } );
 
 /**
@@ -103,6 +103,8 @@ Route::delete( 'delete-user-access/{id}', 'Admin\UserAccessController@deleteProj
 });
 
 /*****project***/ //
+Route::get( 'project/flush-cache-memory', 'Project\ProjectController@flushCacheMemory' );
+
 Route::group( ['prefix' => '{hospitalslug}/{projectslug}'  , 'middleware' => ['auth','project.permission']], function() {
 Route::get( '/', 'Project\ProjectController@show' );
 Route::get( '/dashboard', 'Project\ProjectController@show' );
