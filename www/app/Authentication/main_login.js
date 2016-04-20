@@ -46,7 +46,7 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                 } else if (data.code === 'password_not_set') {
                   return _this.loginerror = 'No password set for the reference code';
                 } else if (data.code === 'baseline_not_set') {
-                  return _this.loginerror = 'Please contact hospital administrator for further login';
+                  return _this.loginerror = 'Patient cannot be activated,due to missing activation data . Please contact your hospital administrator';
                 } else {
                   CToast.show('Please check credentials');
                   return _this.loginerror = "Password entered is incorrect, Please try again";
