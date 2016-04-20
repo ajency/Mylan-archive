@@ -94,7 +94,14 @@ class AuthController extends Controller
         // $responseQry->equalTo("patient", $referenceCode); 
         // $responseQry->equalTo("status", 'base_line'); 
         // $response = $responseQry->first();
-     
+        
+        $user = User::where('reference_code', $referenceCode)->first();
+        if($user->login_attempts >3)
+        {
+            return redirect('/admin/login')->withErrors([
+                    'email' => 'Account Blocked, contact administrator',
+                ]);  
+        }
                  
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         {   
@@ -163,6 +170,13 @@ class AuthController extends Controller
                 ]);
             }
         }
+
+        if($user!=null)
+        { 
+            $user->login_attempts = $user->login_attempts + 1 ;
+            $user->account_status=='inactive'
+            $user->save();
+        }
         
         return redirect('login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
@@ -185,7 +199,14 @@ class AuthController extends Controller
             $remember = $request->input('remember');
         else
            $remember = 0;
-            
+        
+        $user = User::where('email', $email)->first();
+        if($user->login_attempts >3)
+        {
+            return redirect('/admin/login')->withErrors([
+                    'email' => 'Account Blocked, contact administrator',
+                ]);  
+        }   
         
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
@@ -206,6 +227,14 @@ class AuthController extends Controller
             }
         }
         
+        
+        if($user!=null)
+        { 
+            $user->login_attempts = $user->login_attempts + 1 ;
+            $user->account_status=='inactive'
+            $user->save();
+        }
+
         return redirect('/admin/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
