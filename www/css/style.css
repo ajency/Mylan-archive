@@ -1556,4 +1556,14 @@ ul .mcq_active div span {
           transition: none !important;
   keyframe: 0s none !important;
 }
+.platform-android .spinner {
+  stroke: #4F8EF7;
+  fill: #4F8EF7;
+}
+.platform-android .spinner g {
+  stroke: #4F8EF7;
+}
+.platform-android .spinner .stop2 {
+  stop-color: #4F8EF7;
+}
 /*# sourceMappingURL=style.css.map */
