@@ -1,5 +1,5 @@
 angular.module('angularApp.common', []).factory('App', [
-  '$q', '$http', '$location', function($q, $http, $location) {
+  '$q', '$http', '$location', '$rootScope', function($q, $http, $location, $rootScope) {
     var App;
     return App = {
       previousState: '',
@@ -17,6 +17,9 @@ angular.module('angularApp.common', []).factory('App', [
           errType = 'server_error';
         } else if (errMsg.code === 124) {
           errType = 'offline';
+        } else if (error.code === 209) {
+          error = 'server_connection';
+          $rootScope.$broadcast('on:session:expiry');
         }
         return errType;
       },

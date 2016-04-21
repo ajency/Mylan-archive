@@ -1,6 +1,6 @@
 angular.module('angularApp.dashboard', []).controller('dashboardController', [
-  '$scope', 'DashboardAPI', '$location', 'Storage', function($scope, DashboardAPI, $location, Storage) {
-    return $scope.view = {
+  '$scope', 'DashboardAPI', '$location', 'Storage', '$rootScope', function($scope, DashboardAPI, $location, Storage, $rootScope) {
+    $scope.view = {
       data: [],
       display: 'loader',
       QuestinnarieName: questionnaireName,
@@ -88,6 +88,10 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         }
       }
     };
+    return $rootScope.$on('on:session:expiry', function() {
+      Parse.User.logOut();
+      return window.location = Url + "/auth/logout";
+    });
   }
 ]).controller('EachRequestTimeCtrl', [
   '$scope', function($scope) {
