@@ -167,7 +167,7 @@
                       <!-- descriptive -->
                   <form ng-if='view.data.questionType == "descriptive"'>
                     <div class="form-group"> 
-                      <textarea type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
+                      <textarea maxlength="1000" type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
                         ng-readonly = "!view.readonly" ></textarea> </div>
                   </form>
 
