@@ -59,8 +59,14 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
         };
         return QuestionAPI.submitSummary(param).then((function(_this) {
           return function(data) {
-            var questionnaireData;
-            CToast.show('submiteed successfully ');
+            var a, questionnaireData;
+            if (data === 'submitted_successfully') {
+              a = 1;
+            } else if (data === 'completed') {
+              Storage.getQuestStatus('set', 'Submitted questionnaire was already completed');
+            } else if (data === 'missed') {
+              Storage.getQuestStatus('set', 'Submitted questionnaire was missed');
+            }
             questionnaireData = {};
             Storage.questionnaire('set', questionnaireData);
             return $location.path('dashboard');

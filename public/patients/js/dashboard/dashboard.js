@@ -13,14 +13,15 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
         if (Storage.getQuestStatus('get', 'questionnarireError') === 'questionnarireError') {
           this.errorStartQuestion = true;
           this.errorMsg = 'An error occurred while starting questionnaire. Please try again';
-        }
-        if (Storage.getQuestStatus('get', 'questionnarireError') === 'offline') {
+        } else if (Storage.getQuestStatus('get', 'questionnarireError') === 'offline') {
           this.errorStartQuestion = true;
           this.errorMsg = 'Unable to start questionnaire. Please check your internet connection.';
-        }
-        if (Storage.getQuestStatus('get', 'questionnarireError') === 'already_taken') {
+        } else if (Storage.getQuestStatus('get', 'questionnarireError') === 'already_taken') {
           this.errorStartQuestion = true;
           this.errorMsg = 'The questionnaire has been already  started.';
+        } else if (Storage.getQuestStatus('get', 'questionnarireError') !== '') {
+          this.errorStartQuestion = true;
+          this.errorMsg = Storage.getQuestStatus('get', 'questionnarireError');
         }
         questionnaireData = {};
         Storage.questionnaire('set', questionnaireData);

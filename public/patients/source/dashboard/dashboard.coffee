@@ -18,12 +18,17 @@ angular.module 'angularApp.dashboard',[]
 				if Storage.getQuestStatus('get','questionnarireError') == 'questionnarireError'
 					@errorStartQuestion = true
 					@errorMsg = 'An error occurred while starting questionnaire. Please try again'
-				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
+				else if Storage.getQuestStatus('get','questionnarireError') == 'offline'
 					@errorStartQuestion = true
 					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
-				if Storage.getQuestStatus('get','questionnarireError') == 'already_taken'
+				else if Storage.getQuestStatus('get','questionnarireError') == 'already_taken'
 					@errorStartQuestion = true
 					@errorMsg = 'The questionnaire has been already  started.'
+				else if Storage.getQuestStatus('get','questionnarireError') != ''
+					
+					@errorStartQuestion = true
+					@errorMsg = Storage.getQuestStatus('get','questionnarireError')
+
 
 
 				questionnaireData = {}

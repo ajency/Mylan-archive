@@ -130,7 +130,7 @@ angular.module 'angularApp.notification',[]
 						@errorMsg = 'Notification not clear , try again'
 
 					@display = 'noError' 
-					CToast.showPosition('clear',@errorMsg,'left')
+					
 					console.log 'error data'
 					# @display = 'error'
 					# @errorType = error
