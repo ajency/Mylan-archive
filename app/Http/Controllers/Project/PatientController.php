@@ -2110,7 +2110,7 @@ class PatientController extends Controller
         $questionArr =[];
         $questionList =[];
         $questionObjs =[];
-        $submissionArr=[];
+        $submissionFlags=[];
         foreach ($answers as   $answer) {
             $responseStatus = $answer->get("response")->get("status");
             $questionobj = $answer->get("question");
@@ -2131,8 +2131,12 @@ class PatientController extends Controller
             $questionObjs[$questionId] =$questionobj;
            if ($questionType=='single-choice')  
             { 
-               $submissionArr[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
-               $submissionArr[$responseId][$questionId]['previousFlag'] = $previousFlag ;
+              if($baseLineFlag=='no_colour' || $baseLineFlag=='')
+                  $submissionFlags[$responseId][$questionId]['baslineFlag'] = $baseLineFlag ;
+
+              if($previousFlag=='no_colour' || $previousFlag=='')
+                  $submissionFlags[$responseId][$questionId]['previousFlag'] = $previousFlag ;
+                
                $questionArr[$questionId] ='';
             } 
             
@@ -2151,7 +2155,7 @@ class PatientController extends Controller
 
  
         $data['questionLabel']=$questionList;
-        $data['submissionFlags']=$submissionArr;
+        $data['submissionFlags']=$submissionFlags;
 
         return $data;
  
