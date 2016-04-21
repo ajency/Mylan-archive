@@ -29,16 +29,10 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->call(function () {
-           
-            $myfile = fopen("/var/www/html/test/mylan.txt", "w") or die("Unable to open file!");
-
-            })->everyMinute();    
-
-        $schedule->call(function () {
             flushCacheMemory();
 
-            $myfile = fopen("/var/www/html/newtest.txt", "w") or die("Unable to open file!");
+            $myfile = fopen("/var/www/html/test/newtest.txt", "w") or die("Unable to open file!");
 
-            })->daily();         
+        })->daily();         
     }
 }
