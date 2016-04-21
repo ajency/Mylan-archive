@@ -251,11 +251,20 @@ class UserController extends Controller
             $newpassword = getPassword($referenceCode , $password);
      
             $user = User::where('type','patient')->where('reference_Code',$referenceCode)->first();
+             
+
             $userId = $user['id']; 
             
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
-
-            if($userDeviceCount >=SETUP_LIMIT)
+            if($user->login_attempts >3)
+            {
+                $json_resp = array(
+                    'code' => 'login_attempts' , 
+                    'message' => 'Account Blocked, contact administrator'
+                    );
+                $status_code = 200;  
+            }
+            elseif($userDeviceCount >=SETUP_LIMIT)
             {
                 $json_resp = array(
                     'code' => 'limit_exceeded' , 
@@ -266,8 +275,8 @@ class UserController extends Controller
             elseif($user==null)
             {
                 $json_resp = array(
-                    'code' => 'invalid_user' , 
-                    'message' => 'In valid user'
+                    'code' => 'invalid_details' , 
+                    'message' => 'In valid login details'
                     );
                 $status_code = 200;
             }
@@ -344,6 +353,11 @@ class UserController extends Controller
                 }
                 else
                 {
+                    
+                    $user->login_attempts = $user->login_attempts + 1 ;
+                    $user->account_status=='inactive'
+                    $user->save();
+        
                    $json_resp = array(
                     'code' => 'invalid_login' , 
                     'message' => 'Invalid Login details'

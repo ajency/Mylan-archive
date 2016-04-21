@@ -95,10 +95,10 @@ class AuthController extends Controller
         // $responseQry->equalTo("status", 'base_line'); 
         // $response = $responseQry->first();
         
-        $user = User::where('reference_code', $referenceCode)->first();
+        $user = User::where('type','patient')->where('reference_code', $referenceCode)->first();
         if($user->login_attempts >3)
         {
-            return redirect('/admin/login')->withErrors([
+            return redirect('/login')->withErrors([
                     'email' => 'Account Blocked, contact administrator',
                 ]);  
         }
@@ -200,7 +200,7 @@ class AuthController extends Controller
         else
            $remember = 0;
         
-        $user = User::where('email', $email)->first();
+        $user = User::where('type','!=','patient')->where('email', $email)->first();
         if($user->login_attempts >3)
         {
             return redirect('/admin/login')->withErrors([
