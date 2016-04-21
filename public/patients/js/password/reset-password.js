@@ -8,7 +8,7 @@ angular.module('angularApp.Auth', []).controller('setup_passwordCtr', [
       projectName: questionnaireName,
       hospitalLogoDisplay: hospitalLogo,
       hospitalNamedisplay: hospitalName,
-      ReDcodeDispaly: 'RefcodeData',
+      ReDcodeDispaly: patientRefCode,
       show: false,
       reset: function() {
         this.New_password = '';
