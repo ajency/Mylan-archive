@@ -355,7 +355,7 @@ class UserController extends Controller
                 {
                     
                     $user->login_attempts = $user->login_attempts + 1 ;
-                    $user->account_status=='inactive'
+                    $user->account_status=='inactive';
                     $user->save();
         
                    $json_resp = array(

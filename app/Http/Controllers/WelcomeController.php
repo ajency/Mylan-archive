@@ -51,10 +51,10 @@ class WelcomeController extends Controller {
           }
           else
           {
-
+              Session::put('referenceCode',$referenceCode); 
               if($user['account_status'] =='created')
               {
-                  Session::put('referenceCode',$referenceCode); 
+                  
                   return redirect('/set-password');
               }
               elseif($user['account_status'] =='active')

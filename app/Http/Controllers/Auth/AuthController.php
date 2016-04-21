@@ -174,7 +174,7 @@ class AuthController extends Controller
         if($user!=null)
         { 
             $user->login_attempts = $user->login_attempts + 1 ;
-            $user->account_status=='inactive'
+            $user->account_status=='inactive';
             $user->save();
         }
         
@@ -231,7 +231,7 @@ class AuthController extends Controller
         if($user!=null)
         { 
             $user->login_attempts = $user->login_attempts + 1 ;
-            $user->account_status=='inactive'
+            $user->account_status=='inactive';
             $user->save();
         }
 
