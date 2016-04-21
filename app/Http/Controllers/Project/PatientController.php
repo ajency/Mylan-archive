@@ -903,6 +903,7 @@ class PatientController extends Controller
             // $height = $request->input('height');
             $age = $request->input('age');
             $status = $request->input('status');
+             
             
             $is_smoker = $request->input('is_smoker');
             $smoke_per_week = $request->input('smoke_per_week');
@@ -917,6 +918,11 @@ class PatientController extends Controller
             {
                $user->reference_code = $referenceCode;
                $user->project_id = $project; 
+            }
+
+            if($user->account_status=='inactive' && $status=='active')
+            {
+               $user->login_attempts = 0;
             }
             
             $user->age = $age;
