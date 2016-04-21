@@ -154,8 +154,7 @@
                                 @if($responseData['reviewNote']!='')
                               
                                  <div class="Notes">
-                                    <label>Notes: ( {{ $updatedDate }} )</label>
-                                    <label>{{ $responseData['reviewNote'] }}</label> 
+                                    <label>Notes: ( {{ $updatedDate }} ) {{ $responseData['reviewNote'] }}</label> 
                                  </div>
                           
                               @endif
