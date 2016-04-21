@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -1223,18 +1223,22 @@
           questionQuery.include('questionnaire');
           if (answeredQuestions.length !== 0) {
             return questionQuery.get(answeredQuestions[answeredQuestions.length - 1]).then(function(questionObj) {
-              return getNextQuestion(questionObj, []).then(function(nextQuestionObj) {
-                if (!_.isEmpty(nextQuestionObj)) {
-                  return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
-                    return response.success(questionData);
-                  }, function(error) {
-                    return response.error(error);
-                  });
-                } else {
-                  result = {};
-                  result['status'] = "saved_successfully";
-                  return response.success(result);
-                }
+              return getAnsweredOptions(responseObj, questionObj).then(function(options) {
+                return getNextQuestion(questionObj, options).then(function(nextQuestionObj) {
+                  if (!_.isEmpty(nextQuestionObj)) {
+                    return getQuestionData(nextQuestionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
+                      return response.success(questionData);
+                    }, function(error) {
+                      return response.error(error);
+                    });
+                  } else {
+                    result = {};
+                    result['status'] = "saved_successfully";
+                    return response.success(result);
+                  }
+                }, function(error) {
+                  return response.error(error);
+                });
               }, function(error) {
                 return response.error(error);
               });
@@ -1263,9 +1267,6 @@
       return scheduleQuery.first().then(function(scheduleObj) {
         return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
           var result;
-          console.log("SQ timeObj");
-          console.log(scheduleObj.get('nextOccurrence'));
-          console.log(timeObj);
           if (isValidTime(timeObj)) {
             return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
               responseObj.set('reviewed', 'unreviewed');
@@ -1317,6 +1318,29 @@
       return response.error("Invalid request.");
     }
   });
+
+  getAnsweredOptions = function(responseObj, questionObj) {
+    var answerQuery, promise;
+    promise = new Parse.Promise();
+    answerQuery = new Parse.Query('Answer');
+    answerQuery.include("question");
+    answerQuery.include("option");
+    answerQuery.descending('createdAt');
+    answerQuery.equalTo("response", responseObj);
+    answerQuery.equalTo("question", questionObj);
+    answerQuery.find().then(function(answerObjs) {
+      var answerObj, j, len, options;
+      options = [];
+      for (j = 0, len = answerObjs.length; j < len; j++) {
+        answerObj = answerObjs[j];
+        options.push(answerObj.get('option').id);
+      }
+      return promise.resolve(options);
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
 
   firstQuestion = function(questionnaireId) {
     var promise, questionnaireQuery;
@@ -2337,9 +2361,6 @@
           return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
             var answeredQuestions, j, len, responseObj, result, status, upcoming_due;
             status = "";
-            console.log("DB timeObj");
-            console.log(scheduleObj.get('nextOccurrence'));
-            console.log(timeObj);
             if (isValidTime(timeObj)) {
               status = "due";
             } else if (isValidUpcomingTime(timeObj)) {
@@ -2979,59 +3000,66 @@
     responseQuery.include('questionnaire');
     responseQuery.include('schedule');
     return responseQuery.get(responseId).then(function(responseObj) {
-      return getBaseLineScores(responseObj).then(function(BaseLine) {
-        return getPreviousScores(responseObj).then(function(previous) {
-          var occurrenceDate, questionnaireObj, scheduleObj, status;
-          questionnaireObj = responseObj.get("questionnaire");
-          occurrenceDate = responseObj.get("occurrenceDate");
-          scheduleObj = responseObj.get("schedule");
-          status = "completed";
-          responseObj.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
-          responseObj.set("baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']);
-          responseObj.set("baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']);
-          responseObj.set("baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']);
-          responseObj.set("comparedToPrevious", previous['comparedToPrevious']);
-          responseObj.set("previousTotalRedFlags", previous['previousTotalRedFlags']);
-          responseObj.set("previousTotalAmberFlags", previous['previousTotalAmberFlags']);
-          responseObj.set("previousTotalGreenFlags", previous['previousTotalGreenFlags']);
-          responseObj.set("baseLineFlag", BaseLine['baseLineFlag']);
-          responseObj.set("previousFlag", previous['previousFlag']);
-          responseObj.set("status", status);
-          responseObj.set("totalScore", BaseLine['totalScore']);
-          responseObj.set("baseLineScore", BaseLine['baseLineScore']);
-          responseObj.set("previousScore", previous['previousScore']);
-          if (previous['previousSubmission'] !== '') {
-            responseObj.set("previousSubmission", previous['previousSubmission']);
-          }
-          return responseObj.save().then(function(responseObj) {
-            var alertType, patientId, project, sequenceNumber;
-            if (previous['previousTotalRedFlags'] >= 2) {
-              patientId = responseObj.get("patient");
-              project = responseObj.get("project");
-              sequenceNumber = responseObj.get("sequenceNumber");
-              alertType = "compared_to_previous_red_flags";
-              return createAlerts(patientId, project, alertType, responseId).then(function(BaseLine) {
-                responseObj.set('alert', true);
-                return responseObj.save().then(function(responseObj) {
-                  return response.success("submitted_successfully");
+      if (responseObj.get('status') === 'started') {
+        return getBaseLineScores(responseObj).then(function(BaseLine) {
+          return getPreviousScores(responseObj).then(function(previous) {
+            var occurrenceDate, questionnaireObj, scheduleObj, status, submittedDate;
+            questionnaireObj = responseObj.get("questionnaire");
+            occurrenceDate = responseObj.get("occurrenceDate");
+            scheduleObj = responseObj.get("schedule");
+            status = "completed";
+            submittedDate = new Date();
+            responseObj.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
+            responseObj.set("baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']);
+            responseObj.set("baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']);
+            responseObj.set("baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']);
+            responseObj.set("comparedToPrevious", previous['comparedToPrevious']);
+            responseObj.set("previousTotalRedFlags", previous['previousTotalRedFlags']);
+            responseObj.set("previousTotalAmberFlags", previous['previousTotalAmberFlags']);
+            responseObj.set("previousTotalGreenFlags", previous['previousTotalGreenFlags']);
+            responseObj.set("baseLineFlag", BaseLine['baseLineFlag']);
+            responseObj.set("previousFlag", previous['previousFlag']);
+            responseObj.set("status", status);
+            responseObj.set("totalScore", BaseLine['totalScore']);
+            responseObj.set("baseLineScore", BaseLine['baseLineScore']);
+            responseObj.set("previousScore", previous['previousScore']);
+            responseObj.set("totalScore", BaseLine['totalScore']);
+            if (previous['previousSubmission'] !== '') {
+              responseObj.set("previousSubmission", previous['previousSubmission']);
+            }
+            responseObj.set("submittedDate", submittedDate);
+            return responseObj.save().then(function(responseObj) {
+              var alertType, patientId, project, sequenceNumber;
+              if (previous['previousTotalRedFlags'] >= 2) {
+                patientId = responseObj.get("patient");
+                project = responseObj.get("project");
+                sequenceNumber = responseObj.get("sequenceNumber");
+                alertType = "compared_to_previous_red_flags";
+                return createAlerts(patientId, project, alertType, responseId).then(function(BaseLine) {
+                  responseObj.set('alert', true);
+                  return responseObj.save().then(function(responseObj) {
+                    return response.success("submitted_successfully");
+                  }, function(error) {
+                    return response.error(error);
+                  });
                 }, function(error) {
                   return response.error(error);
                 });
-              }, function(error) {
-                return response.error(error);
-              });
-            } else {
-              return response.success("submitted_successfully");
-            }
+              } else {
+                return response.success("submitted_successfully");
+              }
+            }, function(error) {
+              return response.error(error);
+            });
           }, function(error) {
             return response.error(error);
           });
         }, function(error) {
           return response.error(error);
         });
-      }, function(error) {
-        return response.error(error);
-      });
+      } else {
+        return response.success(responseObj.get('status'));
+      }
     }, function(error) {
       return response.error(error);
     });

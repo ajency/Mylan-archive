@@ -27,29 +27,33 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 				if answeredQuestions.length != 0
 					questionQuery.get(answeredQuestions[answeredQuestions.length - 1])
 					.then (questionObj) ->
-						getNextQuestion(questionObj, [])
-						.then (nextQuestionObj) ->
+						getAnsweredOptions(responseObj,questionObj)
+						.then (options) ->
+							getNextQuestion(questionObj,options)
+							.then (nextQuestionObj) ->
 
-							if !_.isEmpty(nextQuestionObj)
-								getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
-								.then (questionData) ->
-									response.success questionData
-								,(error) ->
-									response.error error
-							else
-								# getSummary(responseObj)
-								# .then (summaryObjects) ->
-								# 	result = {}
-								# 	result['status'] = "saved_successfully"
-								# 	result['summary'] = summaryObjects
-								# 	response.success result
-								# ,(error) ->
-								# 	response.error error
-								result = {}
-								result['status'] = "saved_successfully"	
-								response.success result				       
+								if !_.isEmpty(nextQuestionObj)
+									getQuestionData nextQuestionObj, responseObj, responseObj.get('patient')
+									.then (questionData) ->
+										response.success questionData
+									,(error) ->
+										response.error error
+								else
+									# getSummary(responseObj)
+									# .then (summaryObjects) ->
+									# 	result = {}
+									# 	result['status'] = "saved_successfully"
+									# 	result['summary'] = summaryObjects
+									# 	response.success result
+									# ,(error) ->
+									# 	response.error error
+									result = {}
+									result['status'] = "saved_successfully"	
+									response.success result				       
+							,(error) ->
+								response.error error
 						,(error) ->
-							response.error error
+								response.error error
 					,(error) ->
 						response.error error
 
@@ -75,9 +79,6 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		.then (scheduleObj) ->
 			getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			.then (timeObj) ->
-				console.log "SQ timeObj"
-				console.log scheduleObj.get('nextOccurrence')
-				console.log timeObj
 				if isValidTime(timeObj)
 					createResponse questionnaireId, patientId, scheduleObj
 					.then (responseObj) ->
@@ -130,6 +131,24 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 
 
 
+getAnsweredOptions = (responseObj,questionObj) ->
+	promise = new Parse.Promise()
+
+
+	answerQuery = new Parse.Query('Answer')
+	answerQuery.include("question")
+	answerQuery.include("option")
+	answerQuery.descending('createdAt')
+	answerQuery.equalTo("response", responseObj)
+	answerQuery.equalTo("question", questionObj)
+	answerQuery.find()
+	.then (answerObjs) ->
+		options = []
+		options.push answerObj.get('option').id for answerObj in answerObjs
+		promise.resolve (options)
+	, (error) ->
+		promise.error error
+	promise
 
 
 firstQuestion = (questionnaireId) ->
@@ -1189,9 +1208,6 @@ Parse.Cloud.define "dashboard", (request, response) ->
 				getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				.then (timeObj) ->
 					status =""
-					console.log "DB timeObj"
-					console.log scheduleObj.get('nextOccurrence')
-					console.log timeObj
 					if isValidTime(timeObj)			
 						status ="due"
 					else if isValidUpcomingTime(timeObj)
@@ -1901,64 +1917,70 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	responseQuery.include('schedule')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		getBaseLineScores(responseObj) 
-		.then (BaseLine) ->
-			getPreviousScores(responseObj)
-			.then (previous) ->
-				questionnaireObj = responseObj.get "questionnaire"
-				occurrenceDate = responseObj.get "occurrenceDate"
-				scheduleObj = responseObj.get "schedule"
+		if responseObj.get('status') =='started'
+			getBaseLineScores(responseObj) 
+			.then (BaseLine) ->
+				getPreviousScores(responseObj)
+				.then (previous) ->
+					questionnaireObj = responseObj.get "questionnaire"
+					occurrenceDate = responseObj.get "occurrenceDate"
+					scheduleObj = responseObj.get "schedule"
 
-				# if isLateSubmission(questionnaireObj,occurrenceDate)
-				# 	status = "late"
-				# else
-				# 	status = "completed"
+					# if isLateSubmission(questionnaireObj,occurrenceDate)
+					# 	status = "late"
+					# else
+					# 	status = "completed"
 
-				status = "completed"
+					status = "completed"
+					submittedDate = new Date()
 
-				responseObj.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
-				responseObj.set "baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']
-				responseObj.set "baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']
-				responseObj.set "baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']
-				responseObj.set "comparedToPrevious", previous['comparedToPrevious']
-				responseObj.set "previousTotalRedFlags", previous['previousTotalRedFlags']
-				responseObj.set "previousTotalAmberFlags", previous['previousTotalAmberFlags']
-				responseObj.set "previousTotalGreenFlags", previous['previousTotalGreenFlags']
-				responseObj.set "baseLineFlag", BaseLine['baseLineFlag']
-				responseObj.set "previousFlag", previous['previousFlag']
-				responseObj.set "status", status
-				responseObj.set "totalScore", BaseLine['totalScore']
-				# responseObj.set "baseLine", BaseLine['baseLine']
-				responseObj.set "baseLineScore", BaseLine['baseLineScore']
-				responseObj.set "previousScore", previous['previousScore']
-				if previous['previousSubmission'] !=''
-					responseObj.set "previousSubmission", previous['previousSubmission']
-				responseObj.save()
-				.then (responseObj) ->
-					if previous['previousTotalRedFlags'] >= 2
-						patientId = responseObj.get("patient")
-						project = responseObj.get("project")
-						sequenceNumber = responseObj.get("sequenceNumber")
-						alertType = "compared_to_previous_red_flags"
-						createAlerts(patientId, project, alertType, responseId) 
-						.then (BaseLine) ->
-							responseObj.set 'alert', true
-							responseObj.save()
-							.then (responseObj) ->
-								response.success "submitted_successfully"
+					responseObj.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+					responseObj.set "baseLineTotalRedFlags", BaseLine['baseLineTotalRedFlags']
+					responseObj.set "baseLineTotalAmberFlags", BaseLine['baseLineTotalAmberFlags']
+					responseObj.set "baseLineTotalGreenFlags", BaseLine['baseLineTotalGreenFlags']
+					responseObj.set "comparedToPrevious", previous['comparedToPrevious']
+					responseObj.set "previousTotalRedFlags", previous['previousTotalRedFlags']
+					responseObj.set "previousTotalAmberFlags", previous['previousTotalAmberFlags']
+					responseObj.set "previousTotalGreenFlags", previous['previousTotalGreenFlags']
+					responseObj.set "baseLineFlag", BaseLine['baseLineFlag']
+					responseObj.set "previousFlag", previous['previousFlag']
+					responseObj.set "status", status
+					responseObj.set "totalScore", BaseLine['totalScore']
+					# responseObj.set "baseLine", BaseLine['baseLine']
+					responseObj.set "baseLineScore", BaseLine['baseLineScore']
+					responseObj.set "previousScore", previous['previousScore']
+					responseObj.set "totalScore", BaseLine['totalScore']
+					if previous['previousSubmission'] !=''
+						responseObj.set "previousSubmission", previous['previousSubmission']
+					responseObj.set "submittedDate", submittedDate
+					responseObj.save()
+					.then (responseObj) ->
+						if previous['previousTotalRedFlags'] >= 2
+							patientId = responseObj.get("patient")
+							project = responseObj.get("project")
+							sequenceNumber = responseObj.get("sequenceNumber")
+							alertType = "compared_to_previous_red_flags"
+							createAlerts(patientId, project, alertType, responseId) 
+							.then (BaseLine) ->
+								responseObj.set 'alert', true
+								responseObj.save()
+								.then (responseObj) ->
+									response.success "submitted_successfully"
+								, (error) ->
+									response.error error	
 							, (error) ->
 								response.error error	
-						, (error) ->
-							response.error error	
-					else
-						response.success "submitted_successfully"
-					
+						else
+							response.success "submitted_successfully"
+						
+					, (error) ->
+						response.error error
 				, (error) ->
 					response.error error
 			, (error) ->
 				response.error error
-		, (error) ->
-			response.error error
+		else
+			response.success responseObj.get('status')
 	, (error) ->
 		response.error error
 
