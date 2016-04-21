@@ -128,6 +128,10 @@ angular.module 'PatientApp.storage', []
       when 'remove'
         localforage.removeItem variableName
 
+      when 'clear'
+        localforage.clear()
+
+
   Storage.summary = (action, data)->
     switch action
       when 'set'

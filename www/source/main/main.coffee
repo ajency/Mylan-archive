@@ -70,6 +70,10 @@ angular.module 'PatientApp.main', []
 		# $rootScope.$on 'notification:count:update', (e, obj)->
 		# 	console.log 'notificcation count uopdate'
 		# 	$scope.view.getNotificationCount()
+		$rootScope.$on 'on:session:expiry', ->
+			Parse.User.logOut()
+			localforage.clear()
+			App.navigate 'setup', {}, {animate: false, back: false}
 			
 ]
 

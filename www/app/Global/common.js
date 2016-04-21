@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope) {
     var App;
     return App = {
       start: true,
@@ -156,6 +156,8 @@ angular.module('PatientApp.Global', []).factory('App', [
           errType = 'server_error';
         } else if (errMsg.code === 124) {
           errType = 'offline';
+        } else if (error.code === 209) {
+          $rootScope.$broadcast('on:session:expiry');
         }
         return errType;
       },

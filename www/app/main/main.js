@@ -77,12 +77,20 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return $ionicLoading.hide();
       }
     };
-    return $rootScope.$on('in:app:notification', function(e, obj) {
+    $rootScope.$on('in:app:notification', function(e, obj) {
       if (App.notification.count === 0) {
         return $scope.view.getNotificationCount();
       } else {
         return App.notification.increment();
       }
+    });
+    return $rootScope.$on('on:session:expiry', function() {
+      Parse.User.logOut();
+      localforage.clear();
+      return App.navigate('setup', {}, {
+        animate: false,
+        back: false
+      });
     });
   }
 ]).config([
