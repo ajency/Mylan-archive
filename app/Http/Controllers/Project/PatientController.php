@@ -902,6 +902,7 @@ class PatientController extends Controller
             // $weight = $request->input('weight');
             // $height = $request->input('height');
             $age = $request->input('age');
+            $status = $request->input('status');
             
             $is_smoker = $request->input('is_smoker');
             $smoke_per_week = $request->input('smoke_per_week');
@@ -918,8 +919,8 @@ class PatientController extends Controller
                $user->project_id = $project; 
             }
             
-            //$user->patient_weight = $weight;
             $user->age = $age;
+            //$user->patient_weight = $weight;
             //$user->patient_height = $height;
             $user->project_attributes = $attributes;
 
@@ -927,6 +928,7 @@ class PatientController extends Controller
             $user->patient_smoker_per_week = $smoke_per_week;
             // $user->patient_is_alcoholic = $is_alcoholic;
             $user->patient_alcohol_units_per_week = $units_per_week;
+            $user->account_status = $status;
             $user->save();
 
             $medications = $request->input('medications');

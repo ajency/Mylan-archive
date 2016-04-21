@@ -281,8 +281,16 @@
                     </div>
                     </div>
                      </div> 
-                
- 
+                @if($patient['account_status']!='created')
+                <div class="row column-seperator">
+                  <div class="col-sm-6">
+                     <label>Status</label>
+                        <input name="status" id="status_active" type="radio" class=" " {{ ($patient['account_status']=='active')?'checked':'' }} value="active"> <label for="status_active">Active</label> &nbsp;
+                        <input name="status" id="status_inactive" type="radio" class="" {{ ($patient['account_status']=='inactive')?'checked':'' }} value="inactive"> <label for="status_inactive">Inactive </label>
+                    </div>
+                     
+                     </div> 
+                @endif
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               
