@@ -13,7 +13,7 @@ angular.module 'angularApp.Auth',[]
 			projectName : questionnaireName
 			hospitalLogoDisplay : hospitalLogo
 			hospitalNamedisplay : hospitalName
-			ReDcodeDispaly : 'RefcodeData'
+			ReDcodeDispaly : patientRefCode
 			show : false
 
 			reset :()->
