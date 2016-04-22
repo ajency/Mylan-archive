@@ -84,6 +84,20 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return App.notification.increment();
       }
     });
+    $rootScope.$on('push:notification:click', function(e, obj) {
+      var param, payload;
+      payload = obj.payload;
+      console.log('--iddd--');
+      console.log(payload);
+      param = {
+        "notificationId": payload.id
+      };
+      return notifyAPI.setNotificationSeen(param).then(function(data) {
+        return console.log('sucess data');
+      }, function(error) {
+        return console.log('error data');
+      });
+    });
     return $rootScope.$on('on:session:expiry', function() {
       Parse.User.logOut();
       localforage.clear();
