@@ -144,7 +144,10 @@ getAnsweredOptions = (responseObj,questionObj) ->
 	answerQuery.find()
 	.then (answerObjs) ->
 		options = []
-		options.push answerObj.get('option').id for answerObj in answerObjs
+		_.each answerObjs, (answerObj) ->
+			if answerObj.get('question').get('type') == 'single-choice'
+				options.push answerObj.get('option').id
+				
 		promise.resolve (options)
 	, (error) ->
 		promise.error error

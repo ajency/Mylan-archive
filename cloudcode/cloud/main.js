@@ -1329,12 +1329,13 @@
     answerQuery.equalTo("response", responseObj);
     answerQuery.equalTo("question", questionObj);
     answerQuery.find().then(function(answerObjs) {
-      var answerObj, j, len, options;
+      var options;
       options = [];
-      for (j = 0, len = answerObjs.length; j < len; j++) {
-        answerObj = answerObjs[j];
-        options.push(answerObj.get('option').id);
-      }
+      _.each(answerObjs, function(answerObj) {
+        if (answerObj.get('question').get('type') === 'single-choice') {
+          return options.push(answerObj.get('option').id);
+        }
+      });
       return promise.resolve(options);
     }, function(error) {
       return promise.error(error);
