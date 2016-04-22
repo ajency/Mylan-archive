@@ -29,7 +29,7 @@
                       
                       <hr>
           @include('admin.flashmessage')
-         <form class="form-horizontal col-sm-8 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}" data-parsley-validate>
+         <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}" data-parsley-validate>
   
           <div class="col-md-12 settings_block">
                              
@@ -133,7 +133,7 @@
           </div>
 
           <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-11">
                <div class="text-right">
                   <a tabindex="0" class="btn btn-link addSettings"><i class="fa fa-plus"></i>Add More</a>
               </div>
@@ -144,9 +144,9 @@
 
 
                         <div class="form-group">
-                          <div class="col-sm-10 text-center mri-submit">
+                          <div class="col-sm-11 text-right">
                           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="submit" class="btn btn-success m-r-15 m-t-10">Save</button>
                           </div>
                         </div>
                       </form>
