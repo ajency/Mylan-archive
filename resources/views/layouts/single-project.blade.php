@@ -174,6 +174,9 @@
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">Questionnaire Setting</a>
                         </li>
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}">Alert Setting</a>
+                        </li>
                         <!--  <li>
                             <a href="index.html">Message & Notifications
                               <span class="description">

@@ -131,7 +131,8 @@ Route::get( 'patients/{id}/patient-devices', 'Project\PatientController@getPatie
 Route::get( '/getsubmissionlist', 'Project\ProjectController@getSubmissionList' );
 Route::get( '/getpatientsummarylist', 'Project\ProjectController@getPatientSummaryList' );
 Route::get( '/notifications', 'Project\ProjectController@getNotifications' );
-Route::get( '/questionnaire-setting', 'Project\ProjectController@questionnaireSetting' );
-Route::post( '/questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
+Route::get( '/alert-setting', 'Project\ProjectController@alertSetting' );
+Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
+Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
 });
 

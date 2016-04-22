@@ -16,6 +16,7 @@ use App\UserAccess;
 use \Input;
 use \Session;
 use App\Http\Controllers\Project\PatientController;
+use \Log;
 
 class ProjectController extends Controller
 {
@@ -1543,6 +1544,132 @@ class ProjectController extends Controller
                         ], 200);
     }
 
+    public function alertSetting($hospitalSlug,$projectSlug)
+    {
+      try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+
+          $alertsettingsQry = new ParseQuery("AlertSettings");
+          $alertsettingsQry->equalTo("project",$projectId);
+          $alertsettings = $alertsettingsQry->find();
+
+          $settings =[];
+          foreach ($alertsettings as $alertsetting) {
+             $settings[] =['id'=>$alertsetting->getObjectId(),
+                           'flagCount'=>$alertsetting->get("flagCount"),
+                           'operation'=>$alertsetting->get("operation"),
+                           'flagColour'=>$alertsetting->get("flagColour"),
+                           'comparedTo'=>$alertsetting->get("comparedTo"),
+                          ];
+          }
+
+           
+        
+        } catch (\Exception $e) {
+
+            Log::error($e->getMessage());
+            abort(404);         
+        }
+
+        return view('project.alert-settings')->with('active_menu', 'settings')
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('settings', $settings);
+    }
+
+    public function saveAlertSetting(Request $request,$hospitalSlug,$projectSlug)
+    {
+
+        // try
+        // {
+            $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+            $hospital = $hospitalProjectData['hospital'];
+            $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+            $project = $hospitalProjectData['project'];
+            $projectId = intval($project['id']);
+
+            $flagCount = $request->input('flag_count');   
+            $operation = $request->input('operation');  
+            $flagColour = $request->input('flag_colour');
+            $comparedTo = $request->input('compared_to');
+            $settingsIds = $request->input('setting_id');
+
+            foreach ($flagCount as $key => $value) {
+              $settingsId = $settingsIds[$key];
+              $flagCountVal = intval($value);
+              $operationVal = $operation[$key];
+              $flagColourVal = $flagColour[$key];
+              $comparedToVal = $comparedTo[$key];
+
+              if($value=='')
+                continue;
+
+              if($settingsId=='')
+              {  
+                $alertsetting = new ParseObject("AlertSettings");
+                $alertsetting->set("project", $projectId);
+                $alertsetting->set("flagCount", $flagCountVal);
+                $alertsetting->set("operation", $operationVal);
+                $alertsetting->set("flagColour", $flagColourVal);
+                $alertsetting->set("comparedTo", $comparedToVal);
+                $alertsetting->save();
+
+             }
+              else
+              {
+                $alertsettingObj = new ParseQuery("AlertSettings");
+                $alertsetting = $alertsettingObj->get($settingsId);
+                $alertsetting->set("flagCount", $flagCountVal);
+                $alertsetting->set("operation", $operationVal);
+                $alertsetting->set("flagColour", $flagColourVal);
+                $alertsetting->set("comparedTo", $comparedToVal);
+                $alertsetting->save();
+              }
+       
+              
+            }
+             
+
+            Session::flash('success_message','Alert settings successfully updated.');
+            
+        // } catch (\Exception $e) {
+            
+        //     Log::error($e->getMessage());
+        //     abort(404);         
+        // }
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/alert-setting')); 
+    }
+
+    public function deleteAlertSettings($hospitalSlug,$projectSlug,$settingsId)
+    {
+        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+        $hospital = $hospitalProjectData['hospital'];
+        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+        $project = $hospitalProjectData['project'];
+        $projectId = intval($project['id']);
+
+        $alertsettingObj = new ParseQuery("AlertSettings");
+        $alertsetting = $alertsettingObj->get($settingsId);
+        $alertsetting->destroy();
+
+        return response()->json([
+                    'code' => 'delete_settings',
+                    'message' => "Settings deleted",
+                        ], 203);
+
+
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -1304,3 +1304,119 @@ $( document ).on("click", ".sortPatientSummary", function() {
 
     });
 
+
+$('.addSettings').click(function (event) { 
+
+    var flag_count = $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="flag_count[]"]').val();
+    var operation = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="operation[]"]').val();
+    var flag_colour = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="flag_colour[]"]').val();
+    var compared_to = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="compared_to[]"]').val();
+    var counter = $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="counter"]').val(); 
+    var newCounter = parseInt(counter)+1;
+ 
+   
+    var err= 0;
+
+    if(flag_count=='')
+    {
+        alert('Please enter Flag Count');
+        err++;
+    }
+    else if(operation=='')
+    {
+        alert('Please enter operation')
+        err++;
+    }
+    else if(flag_colour=='')
+    {
+        alert('Please enter Flag Colour')
+        err++;
+    }
+    else if(compared_to=='')
+    {
+        alert('Please enter compared To')
+        err++;
+    }
+
+     
+
+    if(err==0)
+    {
+        html ='<div class="row allsettings settingsContainer">';
+
+        html +='<div class="col-xs-2">';
+        html +='<input type="text" name="flag_count[]" class="form-control" value="'+flag_count+'"  placeholder="Enter Flag Count"  >';
+        html +='<input type="hidden" name="setting_id[]" class="form-control" >';
+        html +='</div>';
+        html +='<div class="col-xs-3">';
+        html +='<select name="operation[]" class="select2-container select2 form-control">';
+        html +='<option value="">Select Operation</option>';
+        html +='<option value="greater_than" >Greater Than</option>';
+        html +='<option value="greater_than_equal_to">Greater Than Equal To</option>';
+        html +='<option value="less_than">Less Than</option>';
+        html +='<option value="less_than_equal_to" > Less Than Equal To </option>';
+        html +='</select>';
+                     
+        html +='</div>';
+        html +='<div class="col-xs-3">';
+        html +='<select name="flag_colour[]" class="select2-container select2 form-control">';
+        html +='<option value="">Select Flag Colour</option>';
+        html +='<option value="red" >Red</option>';
+        html +='<option value="amber" >Amber</option>';
+        html +='<option value="green" >Green</option>';
+        html +='</select>';
+        html +='</div>';
+        html +='<div class="col-xs-3">';
+        html +='<select name="compared_to[]" class="select2-container select2 form-control">';
+        html +='<option value="">Select Compared To</option>';
+        html +='<option value="previous"  >Previous</option>';
+        html +='<option value="baseline">Baseline</option>';
+        html +='</select>';
+                     
+        html +='</div>';
+        html +='<div class="col-md-1 text-center">';
+        html +='<div class="deleteSettings">';
+        html +='<a class="text-primary deleteAlertSettings"><i class="fa fa-trash"></i></a>';
+        html +='</div>';
+        html +='</div>';
+        html +='</div>';
+
+
+        $(".addSettingsBlock").before(html);
+        $(".allsettings:last").find('.deleteAlertSettings').removeClass('hidden');
+        $(".allsettings:last").find('select[name="operation[]"]').val(operation);
+        $(".allsettings:last").find('select[name="flag_colour[]"]').val(flag_colour);
+        $(".allsettings:last").find('select[name="compared_to[]"]').val(compared_to);
+
+        $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="flag_count[]"]').val('');
+        $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="operation[]"]').val('');
+        $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="flag_colour[]"]').val('');
+        $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="compared_to[]"]').val('');
+
+        $(this).closest('.attributes_block').find('.addAttributeBlock').find('input[name="counter"]').val(newCounter)
+        
+    }
+});
+
+$('.settings_block').on('click', '.deleteAlertSettings', function(event) {
+    if (confirm('Are you sure you want to delete this record?') === false) {
+        return;
+    }
+
+    var settingsId = $(this).closest(".settingsContainer").find('input[name="setting_id[]"]').val();
+
+    if(settingsId!='')
+    {
+        $.ajax({
+            url: BASEURL + "/delete-alert-setting/" + settingsId,
+            type: "DELETE",
+            success: function (response) {
+                 
+            }
+        });
+    }
+     
+    
+    $(this).closest('.settingsContainer').remove();
+ 
+});

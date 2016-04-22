@@ -56,6 +56,8 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/submission-notifications'=>['view','edit'],
 
                         '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/alert-setting'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/delete-alert-setting/{id}'=>['edit'],
 
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-devices'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view','edit'],

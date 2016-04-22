@@ -68,7 +68,7 @@
                                 <div class="col-xs-3">
                                     <select name="controltype[]" class="select2-container select2 form-control">
                                         <option value="">Select Control Type</option>
-                                        <option value="textbox" {{ ($attibute['control_type']=='textbox')?'selected':''}} > Text Box</option>control_type
+                                        <option value="textbox" {{ ($attibute['control_type']=='textbox')?'selected':''}} > Text Box</option> 
                                         <option value="select" {{ ($attibute['control_type']=='select')?'selected':''}} >Select Box</option>
                                         <option value="multiple" {{ ($attibute['control_type']=='multiple')?'selected':''}} > Multiple Select Box</option>
                                         <option value="number" {{ ($attibute['control_type']=='number')?'selected':''}} > Number </option>
