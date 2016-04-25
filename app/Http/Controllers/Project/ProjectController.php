@@ -283,6 +283,36 @@ class ProjectController extends Controller
         $alertMsg = [];
         $alertTypes = [
         'compared_to_previous_red_flags'=>"%u red flags have been raised for submission number %d in comparison with previous submission",
+        'more_red_flags_compared_to_previous'=>"More than %u red flags have been raised for submission number %d in comparison with previous submission",
+        'more_red_flags_compared_to_baseline'=>"More than %u red flags have been raised for submission number %d in comparison with baseline submission",
+        'more_equal_red_flags_compared_to_previous'=>"%u or more red flags have been raised for submission number %d in comparison with previous submission",
+        'more_equal_red_flags_compared_to_baseline'=>"%u or more red flags have been raised for submission number %d in comparison with baseline submission",
+
+        'less_red_flags_compared_to_previous'=>"Less than %u red flags have been raised for submission number %d in comparison with previous submission",
+        'less_red_flags_compared_to_baseline'=>"Less than %u red flags have been raised for submission number %d in comparison with baseline submission",
+        'less_equal_red_flags_compared_to_previous'=>"%u or less red flags have been raised for submission number %d in comparison with previous submission",
+        'less_equal_red_flags_compared_to_baseline'=>"%u or less red flags have been raised for submission number %d in comparison with baseline submission",
+
+        'more_amber_flags_compared_to_previous'=>"More than %u amber flags have been raised for submission number %d in comparison with previous submission",
+        'more_amber_flags_compared_to_baseline'=>"More than %u amber flags have been raised for submission number %d in comparison with baseline submission",
+        'more_equal_amber_flags_compared_to_previous'=>"%u or more amber flags have been raised for submission number %d in comparison with previous submission",
+        'more_equal_amber_flags_compared_to_baseline'=>"%u or more amber flags have been raised for submission number %d in comparison with baseline submission",
+
+        'less_amber_flags_compared_to_previous'=>"Less than %u amber flags have been raised for submission number %d in comparison with previous submission",
+        'less_amber_flags_compared_to_baseline'=>"Less than %u amber flags have been raised for submission number %d in comparison with baseline submission",
+        'less_equal_amber_flags_compared_to_previous'=>"%u or less amber flags have been raised for submission number %d in comparison with previous submission",
+        'less_equal_amber_flags_compared_to_baseline'=>"%u or less amber flags have been raised for submission number %d in comparison with baseline submission",
+
+        'more_green_flags_compared_to_previous'=>"More than %u green flags have been raised for submission number %d in comparison with previous submission",
+        'more_green_flags_compared_to_baseline'=>"More than %u green flags have been raised for submission number %d in comparison with baseline submission",
+        'more_equal_green_flags_compared_to_previous'=>"%u or more green flags have been raised for submission number %d in comparison with previous submission",
+        'more_equal_green_flags_compared_to_baseline'=>"%u or more green flags have been raised for submission number %d in comparison with baseline submission",
+
+        'less_green_flags_compared_to_previous'=>"Less than %u green flags have been raised for submission number %d in comparison with previous submission",
+        'less_green_flags_compared_to_baseline'=>"Less than %u green flags have been raised for submission number %d in comparison with baseline submission",
+        'less_equal_green_flags_compared_to_previous'=>"%u or less green flags have been raised for submission number %d in comparison with previous submission",
+        'less_equal_green_flags_compared_to_baseline'=>"%u or less green flags have been raised for submission number %d in comparison with baseline submission",
+
         'new_patient'=>"New Patient Created"
         ];
 
