@@ -1,6 +1,6 @@
 var app;
 
-app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification', 'angularApp.storage', 'angularApp.Auth']).run([
+app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification', 'angularApp.storage', 'angularApp.Auth', 'angularApp.contact']).run([
   '$rootScope', 'App', function($rootScope, App) {
     return $rootScope.$on('$routeChangeSuccess', function(event, current, previous, rejection) {
       if (!_.isUndefined(current.$$route)) {
@@ -39,6 +39,10 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard', 'angularA
       url: '/reset-password',
       templateUrl: 'patients/views/set-password.html',
       controller: 'setup_passwordCtr'
+    }).when('/contact', {
+      url: '/contact',
+      templateUrl: 'patients/views/contact.html',
+      controller: 'contactCtrl'
     }).otherwise({
       redirectTo: '/dashboard'
     });

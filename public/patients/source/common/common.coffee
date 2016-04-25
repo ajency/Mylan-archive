@@ -44,6 +44,8 @@ angular.module 'angularApp.common', []
 					defer.reject @parseErrorCode error
 
 			defer.promise
+
+		
 		
 
 		navigate : (path , param )->

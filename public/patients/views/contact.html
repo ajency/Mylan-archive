@@ -1,0 +1,68 @@
+<div class="container">
+  <!-- Wrapper for slides --><br> 
+  <h3>Contact Us</h3>
+  <hr>
+  
+  <br>
+   <p class="text-muted">
+      If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below
+   </p>
+  <br>
+   <div class="row">
+      <div class="col-sm-8 text-center b-r">
+        <h4> <i class="fa fa-phone text-muted"></i> <a href="" class="text-success">{{ view.phone }}</a></h4>
+      </div>
+      <div class="col-sm-8 text-center b-r">
+          <h4> <i class="fa fa-envelope text-muted"></i> <a href="mailto:MRIPanc@nhshospitals.nhs.uk" class="text-success">{{ view.email }}</a></h4>
+      </div>
+      <div class="col-sm-8 text-center">
+          <i class="fa fa-map-marker text-muted"></i>
+         {{view.Address}}
+      </div>
+   </div>
+   <br>
+    <div class="panel panel-default p-20">
+          <div class="panel-body p-20">
+            <p class="text-muted">To have us call you, fill in the form below. A nurse from the hospital will get in touch with you at the earliest.</p>
+            <br>
+            <form class="contact">
+              <div class="row">
+                <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="fname" class="f-w-200">First Name</label>
+                  <input type="text" class="form-control input-lg b-b" id="fname" ng-model="view.firstName"  placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="lname" class="f-w-200">Last Name</label>
+                  <input type="text" class="form-control input-lg b-b" id="lname" ng-model="view.lastName" placeholder="">
+                </div>
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="phno" class="f-w-200">Phone Number</label>
+                  <input type="text" class="form-control input-lg b-b" id="phno" ng-model="view.patientPhone" placeholder="">
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <div class="form-group">
+                  <label for="email" class="f-w-200">Email</label>
+                  <input type="text" class="form-control input-lg b-b"  ng-model="view.patientEmail"  placeholder="">
+                </div>
+              </div>
+              </div>
+              <div class="form-group">
+                  <label for="message" class="f-w-200">Message</label>
+                  <textarea type="text" class="form-control input-lg b-b" id="message" ng-model="view.message" placeholder="">
+                  </textarea>
+              </div>
+               <button id="notify-css"type="submit" class="btn btn-success btn-lg" ng-click="view.onSubmit()">Submit</button>
+               <p class="text-center " > {{view.errorText}} </p>
+               <p class="text-center " > {{view.successText}} </p>
+            </form>
+           </div>
+        </div>
+</div>

@@ -15,6 +15,9 @@
     var hospitalPhone = "{{ $hospital['phone'] }}";
     var hospitalEmail = "{{ $hospital['email'] }}";
     var Url = "{{url()}}";
+    var hospitalIdd = '11';
+    var projectIdd = '17';
+    var hospitalAddress = '1234';
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
 
