@@ -204,6 +204,7 @@ class UserController extends Controller
         $hospitalData['project_id'] = $project['id'];
         $hospitalData['project'] = $project['name'];
         $hospitalData['email'] = $hospital['email'];
+        $hospitalData['address'] = $hospital['address_line_1'].','.$hospital['address_line_2'].','.$hospital['city'].','.$hospital['country'].','.$hospital['postal_code'];
 
         $questionnareData=[];
         if(!empty($questionnaire))
