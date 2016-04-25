@@ -15,9 +15,9 @@
     var hospitalPhone = "{{ $hospital['phone'] }}";
     var hospitalEmail = "{{ $hospital['email'] }}";
     var Url = "{{url()}}";
-    var hospitalIdd = '11';
-    var projectIdd = '17';
-    var hospitalAddress = '1234';
+    var hospitalIdd = "{{ $hospital['id'] }}";
+    var projectIdd = "{{ $hospital['project_id'] }}";
+    var hospitalAddress = "{{ $hospital['address'] }}";
 
     var APP_ID       = "{{ config('constants.parse_sdk.app_id') }}"
 
@@ -25,6 +25,17 @@
     var APP_KEY       = "{{ env( 'APP_KEY') }}"
     
     var JS_KEY       = "{{ env( 'JS_KEY') }}"
+
+    var AUTH_HEADERS;
+
+AUTH_HEADERS = {
+  headers: {
+    "X-API-KEY": APP_KEY,
+    "X-Authorization": APP_AuthrizationKey,
+    "Content-Type": 'application/json'
+  }
+};
+
 
 
 
