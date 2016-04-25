@@ -15,6 +15,7 @@ use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Project\PatientController;
 use App\UserAccess;
 use \Input;
+use \Log;
 
 class SubmissionController extends Controller
 {
