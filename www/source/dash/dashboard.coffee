@@ -22,6 +22,7 @@ angular.module 'PatientApp.dashboard',[]
 				@limitTo = 5
 				@scroll = false
 				@errorStartQuestion = false
+				@errorMsg = ''
 
 
 			init :() ->
@@ -98,6 +99,8 @@ angular.module 'PatientApp.dashboard',[]
 			onTapToRetry : ->
 				@display = 'loader'
 				@getSubmission()
+				@errorStartQuestion = false
+				@errorMsg = ''
 
 			showMore : ->
 				@limitTo = @limitTo + 5
