@@ -13,6 +13,8 @@ angular.module 'angularApp.common'
 	CToast.showVaild = (id, content)->
 		$("#"+id).notify(content, "success");
 
+	
+
 	CToast
 
 ]

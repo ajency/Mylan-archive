@@ -1,5 +1,5 @@
 app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
-		, 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification', 'angularApp.storage', 'angularApp.Auth'])
+		, 'angularApp.questionnaire', 'angularApp.common', 'angularApp.notification', 'angularApp.storage', 'angularApp.Auth', 'angularApp.contact'])
 
 
 
@@ -49,6 +49,12 @@ app = angular.module('angularApp', ['ngRoute', 'angularApp.dashboard'
 			url: '/reset-password'
 			templateUrl: 'patients/views/set-password.html'
 			controller: 'setup_passwordCtr'
+
+		.when '/contact',
+			url: '/contact'
+			templateUrl: 'patients/views/contact.html'
+			controller: 'contactCtrl'
+
 
 
 		.otherwise redirectTo: '/dashboard'

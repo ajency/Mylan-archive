@@ -10,3 +10,20 @@
 # APP_ID       = 'n9TOwjPT1ObDHhj5PsXqlKLV7CpPUNodtqJVaBDj'
 # JS_KEY       = 'emRYjVZQBXgtXgiy1npeT0z53BzZeMGdU6KMf36L'
 # REST_API_KEY = '9cwfC4tsdxiyeb5cPsArsOI4BdDfFmbw4hXu72x3'
+
+# AUTH_URL = 'http://mylantest.ajency.in/api/v1'
+
+# AUTH_URL = Url+'/api/v1'
+
+AUTH_HEADERS = 
+	headers:
+		"X-API-KEY" : APP_KEY
+		"X-Authorization" : APP_AuthrizationKey
+		"Content-Type" : 'application/json'
+
+
+
+
+
+
+

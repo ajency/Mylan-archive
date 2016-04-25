@@ -1,7 +1,7 @@
 angular.module 'angularApp.dashboard',[]
 
-.controller 'dashboardController', ['$scope', 'DashboardAPI', '$location', 'Storage'
-	, ($scope, DashboardAPI, $location, Storage)->
+.controller 'dashboardController', ['$scope', 'DashboardAPI', '$location', 'Storage', '$rootScope'
+	, ($scope, DashboardAPI, $location, Storage, $rootScope)->
 	
 		$scope.view =
 			data : []
@@ -87,6 +87,11 @@ angular.module 'angularApp.dashboard',[]
 				@limitTo = @limitTo + 5
 				if @data.length < @limitTo 
 					@showMoreButton = false
+
+
+		$rootScope.$on 'on:session:expiry', ->
+			Parse.User.logOut()	
+			window.location = Url+"/auth/logout"	
 
 				
 ]

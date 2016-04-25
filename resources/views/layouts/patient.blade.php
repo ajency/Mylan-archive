@@ -65,6 +65,9 @@
     <script src="{{ asset('patients/js/password/reset-password.js') }}"></script>
     <script src="{{ asset('patients/js/password/auth-api.js') }}"></script>
 
+    <script src="{{ asset('patients/js/contact/contact.js') }}"></script>
+    <script src="{{ asset('patients/js/contact/contact-api.js') }}"></script>
+
   </head>
   <body>
   

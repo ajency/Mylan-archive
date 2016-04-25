@@ -1,0 +1,24 @@
+angular.module 'angularApp.contact'
+
+factory 'contactAPI', ['$q', '$http', 'App', ($q, $http, App, $stateParams)->
+
+	contactAPI = {}
+
+	contactAPI.getNotification = (param)->
+
+		defer = $q.defer()		
+		App.SendParseRequest('getPatientNotifications', param)
+		.then (data)->
+			defer.resolve data
+		, (error)=>
+			defer.reject error
+			
+		defer.promise
+		
+
+	
+
+	
+	contactAPI
+
+]
