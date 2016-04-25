@@ -195,27 +195,27 @@ class ProjectController extends Controller
           $patientSortedData = array_slice($patientSortedData, 0, 5, true);
            
           
-          // // CACHE PATIENT ALERTS AND NOTIFICATION
-          // $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-          // if (Cache::has($patientsAlertsCacheKey)) {
+          // CACHE PATIENT ALERTS AND NOTIFICATION
+          $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+          if (Cache::has($patientsAlertsCacheKey)) {
 
-          //   $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+            $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
 
-          //   $projectAlerts = $cachePatientsAlerts['ALERTS'];
-          //   $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+            $projectAlerts = $cachePatientsAlerts['ALERTS'];
+            $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
 
-          // }
-          // else
-          // {
+          }
+          else
+          {
             
-          //   $cond=['cleared'=>false];
-          //   $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-          //   $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+            $cond=['cleared'=>false];
+            $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+            $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
 
-          //   $cachePatientsAlerts['ALERTS'] = $projectAlerts;
-          //   $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
-          //   Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-          // } 
+            $cachePatientsAlerts['ALERTS'] = $projectAlerts;
+            $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
+            Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+          } 
 
         } 
         catch (\Exception $e) {
@@ -338,6 +338,9 @@ class ProjectController extends Controller
                 }
                 $response = $responseQry->first();
 
+                $alertClass = (isset($alertClases[$alertType])) ? $alertClases[$alertType]:"";
+                $alertContent = (isset($alertTypes[$alertType])) ? $alertTypes[$alertType]:"";
+
 
                 if(!empty($response))
                 {
@@ -348,14 +351,14 @@ class ProjectController extends Controller
                     $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
 
                     $responseId = $response->getObjectId();
-                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'msg'=>$alertTypes[$alertType],"class"=>$alertClases[$alertType]];
+                    $alertMsg[] = ['patient'=>$patient,'responseId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$previousTotalRedFlags,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'msg'=>$alertContent,"class"=>$alertClass];
                 }
 
             }
            
             
         }
-
+ 
         $data['alertMsg']=$alertMsg;
         $data['alertCount']=$alertCount;
 
