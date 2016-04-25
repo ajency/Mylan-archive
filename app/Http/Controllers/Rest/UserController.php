@@ -13,6 +13,7 @@ use App\User;
 use App\UserDevice;
 use App\Hospital;
 use App\Projects;
+use \Mail;
 
 
 
@@ -486,6 +487,61 @@ class UserController extends Controller
                 $status_code = 200;
                  
             }
+        }
+        catch (Exception $ex) {
+
+            $json_resp = array(
+                'code' => 'Failed' , 
+                'message' => 'Some error message'
+                );
+            $status_code = 404;        
+        }
+
+        return response()->json( $json_resp, $status_code); 
+    }
+
+    public function contactUs(Request $request)
+    {
+        try{
+
+            $requestData = $request->all();  
+            $referenceCode = $requestData['referenceCode'];
+            $patientName = $requestData['patientName'];
+            $patientEmail = $requestData['patientEmail'];
+            $patientPhone = $requestData['patientPhone'];
+            $hospitalId = $requestData['hospitalId'];
+            $projectId = $requestData['projectId'];
+
+            $user = User::where('reference_Code',$referenceCode)->first(); 
+            $hospital = Hospital::find($hospitalId)->toArray();
+            $project = Projects::find($projectId)->toArray();
+
+            
+
+            $data =[];
+            $data['hospital_name'] = $hospital['name'];
+            $data['hospital_email'] = $hospital['email'];
+            $data['project'] = $project['name'];
+            $data['patient_name'] = $patientName;
+            $data['patient_email'] = $patientEmail;
+            $data['patient_phone'] = $patientPhone;
+            $data['patient_reference_code'] = $referenceCode;
+
+     
+            Mail::send('patient.contactmail', ['data'=>$data], function($message)use($data)
+            {  
+                $message->to($data['hospital_email'], $data['hospital_name'])->subject('Inquiry');
+            });
+             
+             
+            $json_resp = array(
+               
+                'code' => 'mail_sent' , 
+                'message' => 'Mail sent'
+            );
+            $status_code = 200;
+                 
+             
         }
         catch (Exception $ex) {
 
