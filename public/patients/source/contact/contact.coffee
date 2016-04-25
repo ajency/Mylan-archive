@@ -47,7 +47,7 @@ angular.module 'angularApp.contact',[]
 
 					param = 
 						"referenceCode" : RefCode
-						"patientName": @firstName+ '' + @lastName
+						"patientName": @firstName+ ' ' + @lastName
 						"patientEmail" : @patientEmail
 						"patientPhone" : @patientPhone
 						"hospitalId" : hospitalIdd
