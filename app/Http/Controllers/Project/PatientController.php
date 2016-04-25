@@ -18,6 +18,7 @@ use App\PatientClinicVisit;
 use \Session;
 use App\Http\Controllers\Project\ProjectController;
 use \Input;
+use \Log;
 
 class PatientController extends Controller
 {

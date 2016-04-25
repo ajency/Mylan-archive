@@ -195,27 +195,27 @@ class ProjectController extends Controller
           $patientSortedData = array_slice($patientSortedData, 0, 5, true);
            
           
-          // CACHE PATIENT ALERTS AND NOTIFICATION
-          $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-          if (Cache::has($patientsAlertsCacheKey)) {
+          // // CACHE PATIENT ALERTS AND NOTIFICATION
+          // $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+          // if (Cache::has($patientsAlertsCacheKey)) {
 
-            $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+          //   $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
 
-            $projectAlerts = $cachePatientsAlerts['ALERTS'];
-            $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+          //   $projectAlerts = $cachePatientsAlerts['ALERTS'];
+          //   $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
 
-          }
-          else
-          {
+          // }
+          // else
+          // {
             
-            $cond=['cleared'=>false];
-            $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-            $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+          //   $cond=['cleared'=>false];
+          //   $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+          //   $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
 
-            $cachePatientsAlerts['ALERTS'] = $projectAlerts;
-            $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
-            Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-          } 
+          //   $cachePatientsAlerts['ALERTS'] = $projectAlerts;
+          //   $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
+          //   Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+          // } 
 
         } 
         catch (\Exception $e) {
