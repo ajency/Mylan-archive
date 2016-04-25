@@ -8,9 +8,9 @@ angular.module 'angularApp.contact'
 
 		defer = $q.defer()
 
-		url = AUTH_URL+'/user/contactus'
+		apiUrl = Url+'/api/v1/user/contactus'
 				
-		App.sendRequest(url, param, AUTH_HEADERS)
+		App.sendRequest(apiUrl, param, AUTH_HEADERS)
 		.then (data)->
 			defer.resolve data.data
 		, (error)=>

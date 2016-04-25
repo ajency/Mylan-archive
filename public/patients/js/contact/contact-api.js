@@ -3,10 +3,10 @@ angular.module('angularApp.contact').factory('contactAPI', [
     var contactAPI;
     contactAPI = {};
     contactAPI.sendEmail = function(param) {
-      var defer, url;
+      var apiUrl, defer;
       defer = $q.defer();
-      url = AUTH_URL + '/user/contactus';
-      App.sendRequest(url, param, AUTH_HEADERS).then(function(data) {
+      apiUrl = Url + '/api/v1/user/contactus';
+      App.sendRequest(apiUrl, param, AUTH_HEADERS).then(function(data) {
         return defer.resolve(data.data);
       }, (function(_this) {
         return function(error) {
