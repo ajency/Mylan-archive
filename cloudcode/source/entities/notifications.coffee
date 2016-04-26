@@ -420,6 +420,8 @@ createMissedResponse = () ->
                         console.log  "missed4"
                         promise1.reject error
                 else
+                    console.log "PROJECT PAUSED"
+                    console.log scheduleObj.get('questionnaire').get('project')
                     promise1.resolve("project paused")
             promise1
         updateMissedResponse()
@@ -486,6 +488,8 @@ createLateResponse = (scheduleObj) ->
         else 
             promise.resolve("not missed")   
     else
+        console.log "PROJECT PAUSED"
+        console.log scheduleObj.get('questionnaire').get('project')
         promise.resolve("project paused")   
     promise
 

@@ -495,6 +495,8 @@
               return promise1.reject(error);
             });
           } else {
+            console.log("PROJECT PAUSED");
+            console.log(scheduleObj.get('questionnaire').get('project'));
             return promise1.resolve("project paused");
           }
         });
@@ -569,6 +571,8 @@
         promise.resolve("not missed");
       }
     } else {
+      console.log("PROJECT PAUSED");
+      console.log(scheduleObj.get('questionnaire').get('project'));
       promise.resolve("project paused");
     }
     return promise;
@@ -4068,43 +4072,6 @@
     getAllPatientAnswers();
     return promise;
   };
-
-  Parse.Cloud.afterSave('Response', function(request, response) {
-    var projectId, responseObject;
-    responseObject = request.object;
-    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
-      console.log("RESPONSE STATUS :");
-      console.log(responseObject.get("status"));
-      projectId = responseObject.get("project");
-      Parse.Cloud.httpRequest({
-        method: 'POST',
-        url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-        headers: {
-          'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-        }
-      });
-      console.log("cache cleared");
-      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-    } else {
-
-    }
-  });
-
-  Parse.Cloud.define("clearProjectCache", function(request, response) {
-    var projectId;
-    projectId = 22;
-    Parse.Cloud.httpRequest({
-      method: 'POST',
-      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-      headers: {
-        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-      }
-    });
-    console.log("cache cleared");
-    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-  });
 
   _ = require('underscore.js');
 
