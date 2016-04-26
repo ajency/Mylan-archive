@@ -265,7 +265,7 @@ class UserController extends Controller
                     );
                     $status_code = 200;
             }
-            elseif($project->project_status =="paused")
+            elseif($project['project_status'] =="paused")
             {
                 $json_resp = array(
                     'code' => 'project_paused' , 

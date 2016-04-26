@@ -94,7 +94,7 @@ class AuthController extends Controller
         $responseQry->equalTo("patient", $referenceCode); 
         $responseQry->equalTo("status", 'base_line'); 
         $response = $responseQry->first();
-        
+       
         if(empty($response))
         {
             $json_resp = array(
@@ -105,8 +105,8 @@ class AuthController extends Controller
         }          
         elseif (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
-            $project = Projects::find(Auth::user()->project_id)->toArray();  
-            if(Auth::user()->account_status=='active' && $project->project_status !="paused")
+            $project = Projects::find(Auth::user()->project_id)->toArray(); 
+            if(Auth::user()->account_status=='active' && $project['project_status'] !="paused")
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);
