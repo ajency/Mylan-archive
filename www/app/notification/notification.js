@@ -166,7 +166,14 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
               return $scope.view.data.splice(spliceIndex, 1);
             }
           };
-        })(this));
+        })(this), function(error) {
+          if (error === 'offline') {
+            CToast.showLongBottom('Check internet connection, Unable to clear notification');
+          } else if (error === 'server_error') {
+            CToast.showLongBottom('Error in clearing Notification ,try again');
+          }
+          return $(".mcq").removeClass("mcq_a");
+        });
         idObject = _.findWhere(this.data, {
           id: id
         });
@@ -186,6 +193,11 @@ angular.module('PatientApp.notification', []).controller('notifyCtrl', [
       return Storage.setData('refcode', 'get').then(function(refcode) {
         return NotifyCount.getCount(refcode);
       });
+    });
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+      if (!viewData.enableBack) {
+        return viewData.enableBack = true;
+      }
     });
     return $rootScope.$on('in:app:notification', function(e, obj) {
       return $scope.view.autoFetch();

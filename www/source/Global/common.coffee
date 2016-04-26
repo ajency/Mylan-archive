@@ -2,8 +2,8 @@ angular.module 'PatientApp.Global', []
 
 
 .factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
-	, '$cordovaPreferences', '$ionicScrollDelegate'
-	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate)->
+	, '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope)->
 
 		App = 
 			start: true
@@ -51,6 +51,11 @@ angular.module 'PatientApp.Global', []
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
 					$cordovaKeyboard.hideAccessoryBar true
+
+			disableNativeScroll : ->
+				console.log 'disable native Scroll'
+				# if $window.cordova && $window.cordova.plugins.Keyboard
+				# 	$cordovaKeyboard.disableScroll true
 
 			errorCode : (error) ->
 				console.log error
@@ -139,6 +144,8 @@ angular.module 'PatientApp.Global', []
 					errType = 'server_error'
 				else if errMsg.code == 124
 					errType = 'offline'
+				else if error.code == 209
+					$rootScope.$broadcast 'on:session:expiry'
 				errType
 
 			SendParseRequest :(cloudFun, param)->

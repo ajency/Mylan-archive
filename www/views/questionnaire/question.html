@@ -168,6 +168,7 @@
         class="col">
           <label class="item-input item-icon-right b-b b-t b-l b-r">
             <textarea class="descriptive-text" 
+              maxlength="1000"
               type="text" 
               ng-model="view.descriptiveAnswer"
               ng-readonly = "!view.readonly"
@@ -242,7 +243,7 @@
       <div 
         class="list question-type "
         ng-if = 'view.data.questionType == "single-choice"'>
-        <label class="item item-radio"
+        <label class="no-transition item item-radio"
           ng-repeat ="answerValue in view.data.options  | orderBy:'score' track by $index">
             <input type="radio" name="group" ng-model="view.singleChoiceValue" 
             ng-value="answerValue.id" ng-disabled="!view.readonly">
@@ -257,7 +258,7 @@
       <ul 
         class="list question-type"
         ng-if = 'view.data.questionType == "multi-choice"'>
-        <div ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index"  >
+        <div class="no-transition" ng-repeat ="answerValue in view.data.options | orderBy:'score' track by $index"  >
           <li 
           class="item item-checkbox mcq" ng-class="{mcq_active : answerValue.checked == true }">
           <label class="checkbox" >

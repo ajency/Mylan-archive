@@ -19,6 +19,7 @@
 
       <ion-refresher
         on-refresh="view.onPullToRefresh();"
+        spinner= "spiral"
         class="aj-refresher">
       </ion-refresher>
 
@@ -89,7 +90,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20  text-right">
+               <div class="col col-30  text-right">
                </div>
             </div>
          </div>
@@ -104,7 +105,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20 text-right">
+               <div class="col col-30 text-right">
                   <button 
                      class="button button-block button-small button-assertive"
                      ng-click = "view.startQuiz('noValue');">
@@ -124,7 +125,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20 text-right">
+               <div class="col col-30 text-right">
                   <button 
                      class="button button-block button-small button-assertive"
                      ng-click = "view.resumeQuiz(submissions.occurrenceId);">
@@ -146,7 +147,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20 text-right">
+               <div class="col col-30 text-right">
                   <!-- <button class="button button-block button-small button-balanced"  
                   ng-click = "view.summary(submissions.occurrenceId);">View</button> -->
                   <button 
@@ -179,7 +180,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20 text-right">
+               <div class="col col-30 text-right">
                </div>
             </div>
          </div>
@@ -194,7 +195,7 @@
                <div class="col">
                   <h6>{{ submissions.occurrenceDate }}</h6>
                </div>
-               <div class="col col-20 text-right">
+               <div class="col col-30 text-right">
                   <button class="button button-block button-small button-balanced"  
                   ng-click = "view.summary(submissions.occurrenceId);">View</button>
                </div>
@@ -254,8 +255,18 @@
               <img src="images/arrow.png"/>
      
         </div>
+        <!--please comment this div -->
+        <div 
+          class="bar bar-footer bar-assertive bar-top"  
+          ng-if ="view.scroll == false && view.limitTo >= 25"
+            ng-click="view.scrollButtom()">
+          
+              <img src="images/arrow-down.png"/>
+     
+        </div>
+        <!--please comment this div -->
 </ion-view>
-<script>
+<!-- <script>
 
             AmCharts.makeChart("chartdiv", {
                 "type": "pie",
@@ -288,4 +299,4 @@
 
             });
 
-        </script>
+        </script> -->

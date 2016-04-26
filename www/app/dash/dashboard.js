@@ -18,7 +18,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         this.showMoreButton = false;
         this.getSubmission();
         this.limitTo = 5;
-        return this.scroll = false;
+        this.scroll = false;
+        this.errorStartQuestion = false;
+        return this.errorMsg = '';
       },
       init: function() {
         return Storage.getNextQuestion('set', 1);
@@ -103,6 +105,10 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
           this.errorStartQuestion = true;
           this.errorMsg = 'Unable to start questionnaire. Please check your internet connection.';
         }
+        if (Storage.getQuestStatus('get', 'questionnarireError') === 'already_taken') {
+          this.errorStartQuestion = true;
+          this.errorMsg = 'The questionnaire has been already  started.';
+        }
         return this.getSubmission();
       },
       summary: function(id) {
@@ -117,7 +123,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
-        return this.getSubmission();
+        this.getSubmission();
+        this.errorStartQuestion = false;
+        return this.errorMsg = '';
       },
       showMore: function() {
         this.limitTo = this.limitTo + 5;
@@ -149,6 +157,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
             });
           }
         }
+      },
+      scrollButtom: function() {
+        return App.scrollBottom();
       }
     };
     $scope.$on('$ionicView.enter', function(event, viewData) {

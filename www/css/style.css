@@ -50,7 +50,6 @@ p {
 }
 .summary-ans-label {
   margin-top: 10px;
-  display: inline-block;
   margin-right: 10px;
 }
 .question-label {
@@ -85,6 +84,7 @@ p {
   margin: 0px 4px;
   width: 30%;
   padding: 5px;
+  box-shadow: none !important;
 }
 .item-input-type span {
   top: 20px !important;
@@ -1387,6 +1387,7 @@ ul .mcq_active div span {
   }
   .item.item-radio .item-content span {
     line-height: 30px;
+    top: 38%;
   }
   .item-input-type span {
     top: 30px !important;
@@ -1530,5 +1531,38 @@ ul .mcq_active div span {
 /*# sourceMappingURL=style.css.map */
 .mcq_a {
   background-color: #F5EFDF;
+}
+.btn-gear {
+  padding: 0 7px;
+}
+.notification-delete {
+  position: relative;
+}
+.notification-delete .delete-btn {
+  width: 50%;
+  height: 52%;
+  overflow: hidden;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+/*# sourceMappingURL=style.css.map */
+.no-transition {
+  -webkit-transition: none !important;
+          transition: none !important;
+  keyframe: 0s none !important;
+}
+.platform-android .spinner {
+  stroke: #4F8EF7;
+  fill: #4F8EF7;
+}
+.platform-android .spinner g {
+  stroke: #4F8EF7;
+}
+.platform-android .spinner .stop2 {
+  stop-color: #4F8EF7;
 }
 /*# sourceMappingURL=style.css.map */

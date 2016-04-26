@@ -67,9 +67,25 @@ angular.module 'PatientApp.main', []
 				$scope.view.getNotificationCount()
 			else App.notification.increment()
 
+		$rootScope.$on 'push:notification:click', (e, obj)->
+			payload = obj.payload
+			console.log '--iddd--'
+			console.log payload
+			param = 
+				"notificationId":payload.id
+			notifyAPI.setNotificationSeen param
+			.then (data)->
+				console.log 'sucess data'
+			,(error)->
+				console.log 'error data'
+
 		# $rootScope.$on 'notification:count:update', (e, obj)->
 		# 	console.log 'notificcation count uopdate'
 		# 	$scope.view.getNotificationCount()
+		$rootScope.$on 'on:session:expiry', ->
+			Parse.User.logOut()
+			localforage.clear()
+			App.navigate 'setup', {}, {animate: false, back: false}
 			
 ]
 

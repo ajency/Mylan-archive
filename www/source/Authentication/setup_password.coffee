@@ -5,6 +5,7 @@ angular.module 'PatientApp.Auth',[]
 	, ($scope, App, Storage,$ionicLoading,AuthAPI, CToast, CSpinner, HospitalData, RefcodeData)->
   	
 		$scope.view =
+			tittle : 'Reset your password'
 			New_password:''
 			Re_password: ''
 			passwordmissmatch:''
@@ -82,5 +83,8 @@ angular.module 'PatientApp.Auth',[]
 					
 		$scope.$on '$ionicView.beforeEnter', (event, viewData)->
 			$scope.view.reset();
+
+		$scope.$on '$ionicView.beforeLeave', (event, viewData)->
+			$scope.view.tittle = ''
 
 ]

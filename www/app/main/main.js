@@ -77,12 +77,34 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
         return $ionicLoading.hide();
       }
     };
-    return $rootScope.$on('in:app:notification', function(e, obj) {
+    $rootScope.$on('in:app:notification', function(e, obj) {
       if (App.notification.count === 0) {
         return $scope.view.getNotificationCount();
       } else {
         return App.notification.increment();
       }
+    });
+    $rootScope.$on('push:notification:click', function(e, obj) {
+      var param, payload;
+      payload = obj.payload;
+      console.log('--iddd--');
+      console.log(payload);
+      param = {
+        "notificationId": payload.id
+      };
+      return notifyAPI.setNotificationSeen(param).then(function(data) {
+        return console.log('sucess data');
+      }, function(error) {
+        return console.log('error data');
+      });
+    });
+    return $rootScope.$on('on:session:expiry', function() {
+      Parse.User.logOut();
+      localforage.clear();
+      return App.navigate('setup', {}, {
+        animate: false,
+        back: false
+      });
     });
   }
 ]).config([

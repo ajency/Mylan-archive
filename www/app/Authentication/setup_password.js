@@ -1,6 +1,7 @@
 angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
   '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'HospitalData', 'RefcodeData', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, HospitalData, RefcodeData) {
     $scope.view = {
+      tittle: 'Reset your password',
       New_password: '',
       Re_password: '',
       passwordmissmatch: '',
@@ -77,8 +78,11 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         };
       }
     };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+    $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
       return $scope.view.reset();
+    });
+    return $scope.$on('$ionicView.beforeLeave', function(event, viewData) {
+      return $scope.view.tittle = '';
     });
   }
 ]);

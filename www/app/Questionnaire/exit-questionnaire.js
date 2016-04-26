@@ -5,6 +5,7 @@ angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
       hospitalData: '',
       phone: '',
       email: HospitalData.email,
+      msg: Storage.setSummaryStatus('get'),
       exit: function() {
         if (App.isAndroid()) {
           return ionic.Platform.exitApp();

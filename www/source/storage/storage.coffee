@@ -14,6 +14,8 @@ angular.module 'PatientApp.storage', []
 
   questStatus = ''
 
+  summaryStatus = ''
+
 
   Storage.setup = (action)->
     switch action
@@ -126,6 +128,10 @@ angular.module 'PatientApp.storage', []
       when 'remove'
         localforage.removeItem variableName
 
+      when 'clear'
+        localforage.clear()
+
+
   Storage.summary = (action, data)->
     switch action
       when 'set'
@@ -141,6 +147,14 @@ angular.module 'PatientApp.storage', []
 
       when 'get'
         questStatus 
+
+  Storage.setSummaryStatus = (action,status)->
+    switch action
+      when 'set'
+        summaryStatus = status
+
+      when 'get'
+        summaryStatus 
 
 
   Storage

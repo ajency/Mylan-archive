@@ -49,7 +49,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   console.log('previous data');
                   console.log(_this.data);
                   _this.variables();
-                  delete _this.data;
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
@@ -74,7 +73,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                   console.log('previous data');
                   console.log(_this.data);
                   _this.variables();
-                  delete _this.data;
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
                   _this.questionLabel();
@@ -99,7 +97,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
-                delete _this.data;
+                _this.checkQuestinarieStatus(data);
                 _this.data = data;
                 _this.pastAnswer();
                 Storage.setData('responseId', 'set', data.responseId);
@@ -125,7 +123,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return QuestionAPI.getQuestion(options).then(function(data) {
                 console.log('inside then');
                 console.log(data);
-                delete _this.data;
                 _this.data = data;
                 _this.questionLabel();
                 _this.checkQuestinarieStatus(data);
@@ -337,7 +334,7 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'descriptive') {
           if (this.descriptiveAnswer === '') {
-            return CToast.show('Please fill in the following');
+            return CToast.show('Please fill in your answer');
           } else {
             options = {
               "questionId": this.data.questionId,
@@ -592,6 +589,12 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           } else if (data.status === 'missed') {
             this.title = 'This questionnaire was missed';
             return this.showConfirm();
+          } else if (data.status === 'already_taken') {
+            Storage.getQuestStatus('set', 'already_taken');
+            return App.navigate('dashboard', {}, {
+              animate: false,
+              back: false
+            });
           }
         }
       },

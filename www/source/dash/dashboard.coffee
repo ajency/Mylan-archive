@@ -23,6 +23,8 @@ angular.module 'PatientApp.dashboard',[]
 				@getSubmission()
 				@limitTo = 5
 				@scroll = false
+				@errorStartQuestion = false
+				@errorMsg = ''
 
 
 			init :() ->
@@ -90,6 +92,9 @@ angular.module 'PatientApp.dashboard',[]
 				if Storage.getQuestStatus('get','questionnarireError') == 'offline'
 					@errorStartQuestion = true
 					@errorMsg = 'Unable to start questionnaire. Please check your internet connection.'
+				if Storage.getQuestStatus('get','questionnarireError') == 'already_taken'
+					@errorStartQuestion = true
+					@errorMsg = 'The questionnaire has been already  started.'
 				@getSubmission()	
 				
 
@@ -102,6 +107,8 @@ angular.module 'PatientApp.dashboard',[]
 			onTapToRetry : ->
 				@display = 'loader'
 				@getSubmission()
+				@errorStartQuestion = false
+				@errorMsg = ''
 
 			showMore : ->
 				@limitTo = @limitTo + 5
@@ -128,6 +135,9 @@ angular.module 'PatientApp.dashboard',[]
 					if @limitTo >= 25
 						$scope.$apply ->
 							$scope.view.scroll = true
+
+			scrollButtom : ->
+				App.scrollBottom()
 
 					
 			

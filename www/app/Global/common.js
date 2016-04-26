@@ -1,5 +1,5 @@
 angular.module('PatientApp.Global', []).factory('App', [
-  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate) {
+  '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope) {
     var App;
     return App = {
       start: true,
@@ -61,6 +61,9 @@ angular.module('PatientApp.Global', []).factory('App', [
         if ($window.cordova && $window.cordova.plugins.Keyboard) {
           return $cordovaKeyboard.hideAccessoryBar(true);
         }
+      },
+      disableNativeScroll: function() {
+        return console.log('disable native Scroll');
       },
       errorCode: function(error) {
         console.log(error);
@@ -153,6 +156,8 @@ angular.module('PatientApp.Global', []).factory('App', [
           errType = 'server_error';
         } else if (errMsg.code === 124) {
           errType = 'offline';
+        } else if (error.code === 209) {
+          $rootScope.$broadcast('on:session:expiry');
         }
         return errType;
       },

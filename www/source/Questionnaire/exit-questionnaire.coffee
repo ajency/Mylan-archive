@@ -7,6 +7,7 @@ angular.module 'PatientApp.Quest'
 			hospitalData : ''
 			phone : ''
 			email : HospitalData.email
+			msg : Storage.setSummaryStatus('get')
 
 			exit :()->
 				if App.isAndroid()
