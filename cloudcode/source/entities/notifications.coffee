@@ -335,6 +335,7 @@ checkMissedResponses = () ->
                             notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
                             notificationObj.save()
                             .then (notificationObj) ->
+                                console.log  "MISSED :("
                                 responseObj.set 'status', 'missed'
                                 responseObj.save()
                         else
@@ -368,6 +369,7 @@ createMissedResponse = () ->
             promise1 = Parse.Promise.as()
             _.each scheduleObjs, (scheduleObj) ->
                 if scheduleObj.get('questionnaire').get('pauseProject') == false
+                    console.log "PROJECT ACTIVE"
                     promise1 = promise1
                     .then () ->
                         getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
@@ -378,6 +380,7 @@ createMissedResponse = () ->
                             if moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')
                                 createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
                                 .then (responseObj) ->
+                                    console.log  "MISSED :("
                                     responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                     responseObj.set 'status', 'missed'
                                     responseObj.save()
@@ -458,9 +461,11 @@ createLateResponses = () ->
 createLateResponse = (scheduleObj) ->
     promise = new Parse.Promise()
     if scheduleObj.get('questionnaire').get('pauseProject') == false
+        console.log "PROJECT ACTIVE"
         if isLateSubmission(scheduleObj.get('questionnaire'),scheduleObj.get('nextOccurrence'))
             createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
             .then (responseObj) ->
+                console.log  "LATE :{"
                 responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                 responseObj.set 'status', 'late'
                 responseObj.save()

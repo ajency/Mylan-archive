@@ -402,6 +402,7 @@
                 notificationObj.set('cleared', false);
                 notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
                 return notificationObj.save().then(function(notificationObj) {
+                  console.log("MISSED :(");
                   responseObj.set('status', 'missed');
                   return responseObj.save();
                 });
@@ -441,12 +442,14 @@
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
           if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+            console.log("PROJECT ACTIVE");
             return promise1 = promise1.then(function() {
               return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
                 var currentDateTime;
                 currentDateTime = moment().format();
                 if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
                   return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+                    console.log("MISSED :(");
                     responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                     responseObj.set('status', 'missed');
                     return responseObj.save().then(function(responseObj) {
@@ -539,8 +542,10 @@
     var promise;
     promise = new Parse.Promise();
     if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+      console.log("PROJECT ACTIVE");
       if (isLateSubmission(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))) {
         createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+          console.log("LATE :{");
           responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
           responseObj.set('status', 'late');
           return responseObj.save().then(function(responseObj) {
