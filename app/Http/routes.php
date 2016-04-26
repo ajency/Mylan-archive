@@ -135,5 +135,7 @@ Route::get( '/notifications', 'Project\ProjectController@getNotifications' );
 Route::get( '/alert-setting', 'Project\ProjectController@alertSetting' );
 Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
 Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
+Route::get( '/questionnaire-setting', 'Project\ProjectController@questionnaireSetting' );
+Route::post( '/questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
 });
 
