@@ -1303,6 +1303,7 @@ class ProjectController extends Controller
         $settings['reminderTime']['hours'] = '';
         $settings['editable'] = '';
         $settings['type'] = ''; 
+        $settings['pauseProject'] = ''; 
         
 
         if(!empty($questionnaire))
@@ -1317,6 +1318,7 @@ class ProjectController extends Controller
 
           $settings['editable'] = $questionnaire->get('editable');
           $settings['type'] = $questionnaire->get('type');
+          $settings['pauseProject'] = ($questionnaire->get('pauseProject')==true)?'yes':'no';
 
           $scheduleQry = new ParseQuery("Schedule");
           $scheduleQry->equalTo("questionnaire",$questionnaire);
@@ -1356,12 +1358,14 @@ class ProjectController extends Controller
         $gracePeriodHours = $request->input('gracePeriodHours');
         $reminderTimeDay = $request->input('reminderTimeDay');
         $reminderTimeHours = $request->input('reminderTimeHours');
-
+ 
+         
         $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
         $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
         $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
 
         $editable = ($request->input('editable')=='yes')?true:false;
+        $pauseProject = ($request->input('pauseProject')=='yes')?true:false;
         $type = $request->input('type');
 
         $questionnaireQry = new ParseQuery("Questionnaire");
@@ -1371,6 +1375,7 @@ class ProjectController extends Controller
         $questionnaire->set('gracePeriod',$gracePeriod);
         $questionnaire->set('reminderTime',$reminderTime);
         $questionnaire->set('editable',$editable);
+        $questionnaire->set('pauseProject',$pauseProject);
         $questionnaire->set('type',$type);
         $questionnaire->save();
 
