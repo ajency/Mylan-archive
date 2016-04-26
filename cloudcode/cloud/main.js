@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -3001,7 +3001,7 @@
     responseQuery.include('questionnaire');
     responseQuery.include('schedule');
     return responseQuery.get(responseId).then(function(responseObj) {
-      if (responseObj.get('status') === 'started') {
+      if ((responseObj.get('status') === 'started') || (responseObj.get('status') === 'late')) {
         return getBaseLineScores(responseObj).then(function(BaseLine) {
           return getPreviousScores(responseObj).then(function(previous) {
             var occurrenceDate, questionnaireObj, scheduleObj, status, submittedDate;
@@ -3030,25 +3030,34 @@
             }
             responseObj.set("submittedDate", submittedDate);
             return responseObj.save().then(function(responseObj) {
-              var alertType, patientId, project, sequenceNumber;
-              if (previous['previousTotalRedFlags'] >= 2) {
-                patientId = responseObj.get("patient");
-                project = responseObj.get("project");
-                sequenceNumber = responseObj.get("sequenceNumber");
-                alertType = "compared_to_previous_red_flags";
-                return createAlerts(patientId, project, alertType, responseId).then(function(BaseLine) {
-                  responseObj.set('alert', true);
-                  return responseObj.save().then(function(responseObj) {
-                    return response.success("submitted_successfully");
-                  }, function(error) {
-                    return response.error(error);
+              return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
+                var alertsSaveArr;
+                alertsSaveArr = [];
+                if (_.isEmpty(alerts)) {
+                  return response.success("submitted_successfully");
+                } else {
+                  return _.each(alerts, function(alert) {
+                    var AlertData, Alerts, alertObj;
+                    AlertData = {
+                      patient: responseObj.get("patient"),
+                      project: responseObj.get("project"),
+                      alertType: alert,
+                      referenceId: responseObj.id,
+                      cleared: false
+                    };
+                    Alerts = Parse.Object.extend("Alerts");
+                    alertObj = new Alerts(AlertData);
+                    alertsSaveArr.push(alertObj);
+                    return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+                      return response.success("submitted_successfully");
+                    }, function(error) {
+                      return response.error(error);
+                    });
                   });
-                }, function(error) {
-                  return response.error(error);
-                });
-              } else {
-                return response.success("submitted_successfully");
-              }
+                }
+              }, function(error) {
+                return response.error(error);
+              });
             }, function(error) {
               return response.error(error);
             });
@@ -3102,6 +3111,154 @@
       return promise.reject(error);
     });
     return promise;
+  };
+
+  Parse.Cloud.define("submitAlertQuestionnaire", function(request, response) {
+    var responseId, responseQuery;
+    responseId = request.params.responseId;
+    responseQuery = new Parse.Query("Response");
+    responseQuery.include('questionnaire');
+    responseQuery.include('schedule');
+    return responseQuery.get(responseId).then(function(responseObj) {
+      return getBaseLineScores(responseObj).then(function(BaseLine) {
+        return getPreviousScores(responseObj).then(function(previous) {
+          var occurrenceDate, questionnaireObj, scheduleObj;
+          questionnaireObj = responseObj.get("questionnaire");
+          occurrenceDate = responseObj.get("occurrenceDate");
+          scheduleObj = responseObj.get("schedule");
+          return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
+            var alertsSaveArr;
+            alertsSaveArr = [];
+            return _.each(alerts, function(alert) {
+              var AlertData, Alerts, alertObj;
+              AlertData = {
+                patient: responseObj.get("patient"),
+                project: responseObj.get("project"),
+                alertType: alert,
+                referenceId: responseObj.id,
+                cleared: false
+              };
+              Alerts = Parse.Object.extend("Alerts");
+              alertObj = new Alerts(AlertData);
+              alertsSaveArr.push(alertObj);
+              return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+                return response.success(alertsObjs);
+              }, function(error) {
+                return response.error(error);
+              });
+            });
+          }, function(error) {
+            return response.error(error);
+          });
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    });
+  });
+
+  getSubmissionAlerts = function(projectId, baseLineFlags, previousFlags) {
+    var alertSettingsQuery, promise;
+    promise = new Parse.Promise();
+    alertSettingsQuery = new Parse.Query('AlertSettings');
+    alertSettingsQuery.equalTo('project', projectId);
+    alertSettingsQuery.find().then(function(alertSettings) {
+      var alerts, amberFlags, greenFlags, redFlags;
+      alerts = [];
+      redFlags = [];
+      amberFlags = [];
+      greenFlags = [];
+      redFlags['baseline'] = "baseLineTotalRedFlags";
+      redFlags['previous'] = "previousTotalRedFlags";
+      amberFlags['baseline'] = "baseLineTotalAmberFlags";
+      amberFlags['previous'] = "previousTotalAmberFlags";
+      greenFlags['baseline'] = "baseLineTotalGreenFlags";
+      greenFlags['previous'] = "previousTotalGreenFlags";
+      _.each(alertSettings, function(alertSetting) {
+        var comaparisonCountIndex, compareType, comparedTo, comparisonCount, flagColour, flagCount, operator;
+        operator = alertSetting.get("operation");
+        flagCount = alertSetting.get("flagCount");
+        flagColour = alertSetting.get("flagColour");
+        comparedTo = alertSetting.get("comparedTo");
+        if (flagColour === "red") {
+          comaparisonCountIndex = redFlags[comparedTo];
+        } else if (flagColour === "amber") {
+          comaparisonCountIndex = amberFlags[comparedTo];
+        } else if (flagColour === "green") {
+          comaparisonCountIndex = greenFlags[comparedTo];
+        }
+        if (comparedTo === "previous") {
+          comparisonCount = previousFlags[comaparisonCountIndex];
+        } else {
+          comparisonCount = baseLineFlags[comaparisonCountIndex];
+        }
+        if (operator === "greater_than") {
+          compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
+          if (greaterThan(flagCount, comparisonCount, false)) {
+            return alerts.push(compareType);
+          }
+        } else if (operator === "greater_than_equal_to") {
+          compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+          if (greaterThan(flagCount, comparisonCount, true)) {
+            return alerts.push(compareType);
+          }
+        } else if (operator === "less_than") {
+          compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
+          if (greaterThan(flagCount, comparisonCount, false)) {
+            return alerts.push(compareType);
+          }
+        } else if (operator === "less_than_equal_to") {
+          compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+          if (greaterThan(flagCount, comparisonCount, true)) {
+            return alerts.push(compareType);
+          }
+        }
+      });
+      return promise.resolve(alerts);
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
+
+  greaterThan = function(count, comapredValue, isEqual) {
+    var result;
+    if (isEqual) {
+      if (comapredValue >= count) {
+        result = true;
+      } else {
+        result = false;
+      }
+    } else {
+      if (comapredValue > count) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+    console.log(result);
+    return result;
+  };
+
+  lessThan = function(count, comapredValue, isEqual) {
+    var result;
+    if (isEqual) {
+      if (comapredValue <= count) {
+        result = true;
+      } else {
+        result = false;
+      }
+    } else {
+      if (comapredValue < count) {
+        result = true;
+      } else {
+        result = false;
+      }
+    }
+    console.log(result);
+    return result;
   };
 
   createAlerts = function(patientId, project, alertType, referenceId) {

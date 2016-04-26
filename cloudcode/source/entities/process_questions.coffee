@@ -1920,7 +1920,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	responseQuery.include('schedule')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		if responseObj.get('status') =='started'
+		if (responseObj.get('status') =='started') || (responseObj.get('status') =='late')
 			getBaseLineScores(responseObj) 
 			.then (BaseLine) ->
 				getPreviousScores(responseObj)
@@ -1958,24 +1958,51 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 					responseObj.set "submittedDate", submittedDate
 					responseObj.save()
 					.then (responseObj) ->
-						if previous['previousTotalRedFlags'] >= 2
-							patientId = responseObj.get("patient")
-							project = responseObj.get("project")
-							sequenceNumber = responseObj.get("sequenceNumber")
-							alertType = "compared_to_previous_red_flags"
-							createAlerts(patientId, project, alertType, responseId) 
-							.then (BaseLine) ->
-								responseObj.set 'alert', true
-								responseObj.save()
-								.then (responseObj) ->
-									response.success "submitted_successfully"
-								, (error) ->
-									response.error error	
-							, (error) ->
-								response.error error	
-						else
-							response.success "submitted_successfully"
+						# if previous['previousTotalRedFlags'] >= 2
+						# 	patientId = responseObj.get("patient")
+						# 	project = responseObj.get("project")
+						# 	sequenceNumber = responseObj.get("sequenceNumber")
+						# 	alertType = "compared_to_previous_red_flags"
+						# 	createAlerts(patientId, project, alertType, responseId) 
+						# 	.then (BaseLine) ->
+						# 		responseObj.set 'alert', true
+						# 		responseObj.save()
+						# 		.then (responseObj) ->
+						# 			response.success "submitted_successfully"
+						# 		, (error) ->
+						# 			response.error error	
+						# 	, (error) ->
+						# 		response.error error	
+						# else
+						# 	response.success "submitted_successfully"
 						
+						getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
+						.then (alerts) ->
+							alertsSaveArr =[]
+							if _.isEmpty(alerts)
+								response.success "submitted_successfully"
+							else
+								_.each alerts, (alert) ->
+									AlertData=
+				                        patient: responseObj.get("patient")
+				                        project: responseObj.get("project")
+				                        alertType : alert
+				                        referenceId : responseObj.id
+				                        cleared : false
+				                    Alerts = Parse.Object.extend("Alerts") 
+				                    alertObj = new Alerts AlertData
+				                    alertsSaveArr.push(alertObj)
+
+				                Parse.Object.saveAll alertsSaveArr
+			                    .then (alertsObjs) ->
+			                        # response.success alertsObjs	
+			                        response.success "submitted_successfully"
+			                    , (error) ->
+			                        response.error error	
+
+							# response.success alerts						 
+						, (error) ->
+							response.error error
 					, (error) ->
 						response.error error
 				, (error) ->
@@ -2024,6 +2051,149 @@ deleteResponseAnswers = (responseObj) ->
 		promise.reject error
 
 	promise
+
+# **********ALERTS****************
+
+# test alert api
+Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
+#	if !request.user
+#		response.error('Must be logged in.')
+#
+#	else
+	responseId = request.params.responseId
+	responseQuery = new Parse.Query("Response")
+	responseQuery.include('questionnaire')
+	responseQuery.include('schedule')
+	responseQuery.get(responseId)
+	.then (responseObj) ->
+		getBaseLineScores(responseObj) 
+		.then (BaseLine) ->
+			getPreviousScores(responseObj)
+			.then (previous) ->
+				questionnaireObj = responseObj.get "questionnaire"
+				occurrenceDate = responseObj.get "occurrenceDate"
+				scheduleObj = responseObj.get "schedule"
+	
+				getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
+				.then (alerts) ->
+					alertsSaveArr =[]
+					_.each alerts, (alert) ->
+						AlertData=
+	                        patient: responseObj.get("patient")
+	                        project: responseObj.get("project")
+	                        alertType : alert
+	                        referenceId : responseObj.id
+	                        cleared : false
+	                    Alerts = Parse.Object.extend("Alerts") 
+	                    alertObj = new Alerts AlertData
+	                    alertsSaveArr.push(alertObj)
+
+	                Parse.Object.saveAll alertsSaveArr
+                    .then (alertsObjs) ->
+                        response.success alertsObjs	
+                    , (error) ->
+                        response.error error	
+
+					# response.success alerts						 
+				, (error) ->
+					response.error error	
+				
+			, (error) ->
+				response.error error
+		, (error) ->
+			response.error error
+
+
+getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
+	promise = new Parse.Promise()
+	alertSettingsQuery = new Parse.Query('AlertSettings')
+	alertSettingsQuery.equalTo('project', projectId)
+	alertSettingsQuery.find()
+	.then (alertSettings) ->
+		alerts =[]
+		redFlags=[]
+		amberFlags=[]
+		greenFlags=[]
+		redFlags['baseline'] = "baseLineTotalRedFlags"
+		redFlags['previous'] = "previousTotalRedFlags"
+
+		amberFlags['baseline'] = "baseLineTotalAmberFlags"
+		amberFlags['previous'] = "previousTotalAmberFlags"
+
+		greenFlags['baseline'] = "baseLineTotalGreenFlags"
+		greenFlags['previous'] = "previousTotalGreenFlags"
+
+		_.each alertSettings, (alertSetting) ->
+			operator = alertSetting.get("operation")
+			flagCount = alertSetting.get("flagCount")
+			flagColour = alertSetting.get("flagColour")
+			comparedTo = alertSetting.get("comparedTo")
+
+			if flagColour == "red"
+				comaparisonCountIndex = redFlags[comparedTo]
+			else if flagColour == "amber"
+				comaparisonCountIndex = amberFlags[comparedTo]
+			else if flagColour == "green"
+				comaparisonCountIndex = greenFlags[comparedTo]
+
+			if comparedTo == "previous"
+				comparisonCount = previousFlags[comaparisonCountIndex]
+			else
+				comparisonCount = baseLineFlags[comaparisonCountIndex]
+
+
+			if operator == "greater_than"
+				compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
+				if greaterThan(flagCount,comparisonCount,false)
+					alerts.push(compareType)
+			else if operator == "greater_than_equal_to"
+				compareType = "more_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+				if greaterThan(flagCount,comparisonCount,true)
+					alerts.push(compareType)
+			else if operator == "less_than"
+				compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
+				if greaterThan(flagCount,comparisonCount,false)
+					alerts.push(compareType)
+			else if operator == "less_than_equal_to"
+				compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+				if greaterThan(flagCount,comparisonCount,true)
+					alerts.push(compareType)
+							
+		promise.resolve(alerts)
+	, (error) ->
+		promise.reject error
+
+	promise
+
+greaterThan = (count, comapredValue, isEqual) ->
+	if isEqual
+		if comapredValue >= count
+			result = true
+		else
+			result = false
+	else
+		if comapredValue > count
+			result = true
+		else
+			result = false
+
+	console.log result
+	result
+
+lessThan = (count, comapredValue, isEqual) ->
+	if isEqual
+		if comapredValue <= count
+			result = true
+		else
+			result = false
+	else
+		if comapredValue < count
+			result = true
+		else
+			result = false
+
+	console.log result
+	result
 
 # *************************************************
 
