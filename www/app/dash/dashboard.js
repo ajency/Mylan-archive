@@ -17,7 +17,8 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
         this.getSubmission();
         this.limitTo = 5;
         this.scroll = false;
-        return this.errorStartQuestion = false;
+        this.errorStartQuestion = false;
+        return this.errorMsg = '';
       },
       init: function() {
         return Storage.getNextQuestion('set', 1);
@@ -116,7 +117,9 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       onTapToRetry: function() {
         this.display = 'loader';
-        return this.getSubmission();
+        this.getSubmission();
+        this.errorStartQuestion = false;
+        return this.errorMsg = '';
       },
       showMore: function() {
         this.limitTo = this.limitTo + 5;
