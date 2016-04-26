@@ -1751,9 +1751,9 @@ class PatientController extends Controller
         $questionnaireId = $baseLineAnswers['questionnaireId'];
         $patientId = $baseLineAnswers['patientId'];
 
-        $patient = User::find($patientId)->toArray();
-        $referenceCode = $patient['reference_code'];
-        $projectId = $patient['project_id'];
+        $patient = User::find($patientId);
+        $referenceCode = $patient->reference_code;
+        $projectId = $patient->project_id;
         $projectId = intval ($projectId);
 
         // if($baseLineResponseId =='')
@@ -1886,6 +1886,9 @@ class PatientController extends Controller
 
         $response->set("totalScore", $totalScore);
         $response->save();
+
+        $patient->baseline_set='yes';
+        $patient->save();
 
         ParseObject::saveAll($bulkAnswerInstances);
         
