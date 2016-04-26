@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
 use App\Hospital;
+use App\Projects;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
@@ -103,8 +104,9 @@ class AuthController extends Controller
                 $status_code = 200;
         }          
         elseif (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
-        {   
-            if(Auth::user()->account_status=='active')
+        { 
+            $project = Projects::find(Auth::user()->project_id)->toArray();  
+            if(Auth::user()->account_status=='active' && $project->project_status !="paused")
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);

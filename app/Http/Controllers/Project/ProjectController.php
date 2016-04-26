@@ -1359,7 +1359,7 @@ class ProjectController extends Controller
         $reminderTimeDay = $request->input('reminderTimeDay');
         $reminderTimeHours = $request->input('reminderTimeHours');
  
-         
+
         $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
         $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
         $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
@@ -1367,6 +1367,9 @@ class ProjectController extends Controller
         $editable = ($request->input('editable')=='yes')?true:false;
         $pauseProject = ($request->input('pauseProject')=='yes')?true:false;
         $type = $request->input('type');
+
+        $project->project_status = ($request->input('pauseProject')=='yes')?"paused":"active";
+        $project->save();
 
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project",$projectId);

@@ -254,6 +254,8 @@ class UserController extends Controller
             $userId = $user['id']; 
             
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
+            $project = Projects::find($user['project_id'])->toArray();  
+             
 
             if($userDeviceCount >=SETUP_LIMIT)
             {
@@ -262,6 +264,14 @@ class UserController extends Controller
                     'message' => 'cannot do setup more then 5 times'
                     );
                     $status_code = 200;
+            }
+            elseif($project->project_status =="paused")
+            {
+                $json_resp = array(
+                    'code' => 'project_paused' , 
+                    'message' => 'Invalid Login details'
+                    );
+                $status_code = 200;
             }
             elseif($user==null)
             {
