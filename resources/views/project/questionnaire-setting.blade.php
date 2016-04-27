@@ -33,12 +33,12 @@
   <div class="form-group">
     <label for="frequency" class="col-sm-4 side-label">Frequency</label>
     <div class="col-sm-4">
-      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" name="frequencyDay" class="form-control input-days" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
     data-parsley-type="digits"> <h6 class="seconds">days</h6>
     </div>
     
     <div class="col-sm-4">
-      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" name="frequencyHours" class="form-control input-hours" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" @if($settings['frequency']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
    
@@ -46,24 +46,24 @@
  <div class="form-group">
     <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
     data-parsley-type="digits">
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['hours'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
    <div class="form-group">
     <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
     <div class="col-sm-4">
-      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
     data-parsley-type="digits">
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" min="1" data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+      <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['gracePeriod']['hours'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
@@ -101,4 +101,25 @@
                   </div>
  
 <!-- END PLACE PAGE CONTENT HERE -->
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+ 
+     $('.input-days').change(function (event) {  
+      if($(this).val() >= 1)
+      { 
+         $(this).closest(".form-group").find('.input-hours').removeAttr("min"); 
+         $(this).closest(".form-group").find('.input-hours').removeAttr("data-parsley-validation-threshold");
+      }
+      else
+      {
+        $(this).closest(".form-group").find('.input-hours').attr("min","1"); 
+        $(this).closest(".form-group").find('.input-hours').attr("data-parsley-validation-threshold","1");
+      }
+    });
+});
+
+</script>
+
 @endsection
