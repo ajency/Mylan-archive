@@ -232,12 +232,25 @@ class PatientController extends Controller
             // $is_alcoholic = $request->input('is_alcoholic');
             $units_per_week = $request->input('units_per_week');
 
+ 
             $validateRefernceCode = User::where('reference_code',$referenceCode)->get()->toArray();
             if(!empty($validateRefernceCode))
             {
                Session::flash('error_message','Error !!! Referance Code Already Exist ');    
                return redirect(url($hospitalSlug .'/'.$projectSlug.'/patients/create'));
             }
+
+            //questionnaire settings
+            $frequencyDay = $request->input('frequencyDay');   
+            $frequencyHours = $request->input('frequencyHours');  
+            $gracePeriodDay = $request->input('gracePeriodDay');
+            $gracePeriodHours = $request->input('gracePeriodHours');
+            $reminderTimeDay = $request->input('reminderTimeDay');
+            $reminderTimeHours = $request->input('reminderTimeHours');
+
+            $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
+            $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+            $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
             
             $user = new User();
             $user->reference_code = $referenceCode;
@@ -254,6 +267,11 @@ class PatientController extends Controller
             $user->patient_smoker_per_week = $smoke_per_week;
             // // $user->patient_is_alcoholic = $is_alcoholic;
             $user->patient_alcohol_units_per_week = $units_per_week;
+
+            $user->frequency = $frequency;
+            $user->grace_period = $gracePeriod;
+            $user->reminder_time = $reminderTime;
+
             $user->save();
             $userId = $user->id;
 
@@ -263,10 +281,11 @@ class PatientController extends Controller
             if(!empty($medications))
             {
                 foreach ($medications as   $medication) {
-                    if($medication == '')
-                        continue;
-                    $patientMedication[]= new PatientMedication(['medication' => $medication]);
+                  if($medication == '')
+                      continue;
+                  $patientMedication[]= new PatientMedication(['medication' => $medication]);
                 }
+ 
             }
 
             $user->medications()->saveMany($patientMedication);
@@ -861,11 +880,25 @@ class PatientController extends Controller
             if($patientStatus=='active')
                 $disabled = 'disabled';
 
+ 
             $patientMedications = $patient->medications()->get()->toArray();
             $patientvisits = $patient->clinicVisit()->get()->toArray();
 
             $project = Projects::find($project['id']); 
             $projectAttributes = $project->attributes->toArray();  
+
+            $frequency = secondsToTime($patient->frequency);
+            $settings['frequency']['day'] = $frequency['d']; 
+            $settings['frequency']['hours'] = $frequency['h'];
+
+            $gracePeriod = secondsToTime($patient->grace_period);
+            $settings['gracePeriod']['day'] = $gracePeriod['d']; 
+            $settings['gracePeriod']['hours'] = $gracePeriod['h']; 
+
+            $reminderTime = secondsToTime($patient->reminder_time);
+            $settings['reminderTime']['day'] = $reminderTime['d']; 
+            $settings['reminderTime']['hours'] = $reminderTime['h']; 
+
              
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
@@ -873,6 +906,7 @@ class PatientController extends Controller
             Log::error($e->getMessage());
             abort(404);         
         }
+ 
         
         return view('project.patients.edit')->with('active_menu', 'patients')
                                         ->with('hospital', $hospital)
@@ -882,6 +916,7 @@ class PatientController extends Controller
                                         ->with('patientvisits', $patientvisits)
                                         ->with('patientMedications', $patientMedications)
                                         ->with('projectAttributes', $projectAttributes)
+                                        ->with('settings', $settings)
                                         ->with('project', $project);
     }
 
@@ -906,6 +941,7 @@ class PatientController extends Controller
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
+
             $referenceCode = $request->input('reference_code');
             $hospital = $hospital['id'];//$request->input('hospital');
             $project = $projectId;
@@ -922,6 +958,18 @@ class PatientController extends Controller
 
             $attributes = $request->input('attributes');  
             $attributes = serialize($attributes);
+
+            //questionnaire settings
+            $frequencyDay = $request->input('frequencyDay');   
+            $frequencyHours = $request->input('frequencyHours');  
+            $gracePeriodDay = $request->input('gracePeriodDay');
+            $gracePeriodHours = $request->input('gracePeriodHours');
+            $reminderTimeDay = $request->input('reminderTimeDay');
+            $reminderTimeHours = $request->input('reminderTimeHours');
+
+            $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
+            $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+            $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
             
             $user = User::find($id);
             if($user->account_status=='created')
@@ -945,6 +993,9 @@ class PatientController extends Controller
             // $user->patient_is_alcoholic = $is_alcoholic;
             $user->patient_alcohol_units_per_week = $units_per_week;
             $user->account_status = $status;
+            $user->frequency = $frequency;
+            $user->grace_period = $gracePeriod;
+            $user->reminder_time = $reminderTime;
             $user->save();
 
             $medications = $request->input('medications');
@@ -981,6 +1032,19 @@ class PatientController extends Controller
             }
             $user->clinicVisit()->saveMany($patientVisits);
 
+            $scheduleQry = new ParseQuery("Schedule");
+            $scheduleQry->equalTo("patient",$referenceCode);
+            $schedule = $scheduleQry->first();
+
+            if(!empty($schedule))
+            {
+                $schedule->frequency = $frequency;
+                $schedule->gracePeriod = $gracePeriod;
+                $schedule->reminderTime = $reminderTime;
+                $schedule->save();
+                
+            }
+
             Session::flash('success_message','Patient details successfully updated.');
 
         } catch (\Exception $e) {
@@ -988,6 +1052,10 @@ class PatientController extends Controller
             Log::error($e->getMessage());
             abort(404);         
         }
+ 
+ 
+        Session::flash('success_message','Patient details successfully updated.');
+ 
 
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $id.'/edit')); 
     }

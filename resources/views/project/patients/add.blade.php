@@ -297,19 +297,39 @@
                      
                   </div>
                   <hr>
-               <h4 class="no-margin">Set <span class="semi-bold">Frequency</span></h4>
+               <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
                <br>
-                <div class="row form-group">
-                  
-                  <div class="col-sm-4">
-                    <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Days" value="" data-parsley-type="number">
-                  </div>
-                  
-                  <div class="col-sm-4">
-                    <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Hours" value="" data-parsley-type="number"> 
-                  </div>
-                 
-                </div>
+                <div class="form-group">
+    <label for="frequency" class="col-sm-4 side-label">Frequency</label>
+    <div class="col-sm-4">
+      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"> <h6 class="seconds">days</h6>
+    </div>
+    
+    <div class="col-sm-4">
+      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+   
+  </div>
+ <div class="form-group">
+    <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
+    </div>
+      <div class="col-sm-4">
+      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+  </div>
+   <div class="form-group">
+    <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="" data-parsley-type="number">
+      <h6 class="seconds">days</h6>
+    </div>
+      <div class="col-sm-4">
+      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
+    </div>
+  </div>
                
      
                   

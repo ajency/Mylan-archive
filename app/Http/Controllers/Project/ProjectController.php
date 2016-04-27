@@ -518,7 +518,8 @@ class ProjectController extends Controller
                <td class="text-center text-success">'.$submission['alert'].'</td>
                <td class="text-center text-success">'. getStatusName($submission['status']) .'</td>
                 
-               <td class="text-center text-success"><div class="submissionStatus">'. getStatusName($submission['reviewed']) .'</div></td>
+              <td class="text-center text-success"><div class="submissionStatus">'. getStatusName($submission['reviewed']) .'</div></td>
+
             </tr>';
         }
       }
@@ -1647,12 +1648,13 @@ class ProjectController extends Controller
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
+ 
             $flagCount = $request->input('flag_count');   
             $operation = $request->input('operation');  
             $flagColour = $request->input('flag_colour');
             $comparedTo = $request->input('compared_to');
             $settingsIds = $request->input('setting_id');
-
+ 
             foreach ($flagCount as $key => $value) {
               $settingsId = $settingsIds[$key];
               $flagCountVal = intval($value);
