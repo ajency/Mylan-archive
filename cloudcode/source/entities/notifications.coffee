@@ -335,6 +335,7 @@ checkMissedResponses = () ->
                             notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
                             notificationObj.save()
                             .then (notificationObj) ->
+                                console.log  "MISSED :("
                                 responseObj.set 'status', 'missed'
                                 responseObj.save()
                         else
@@ -367,57 +368,64 @@ createMissedResponse = () ->
         updateMissedResponse = ->
             promise1 = Parse.Promise.as()
             _.each scheduleObjs, (scheduleObj) ->
-                promise1 = promise1
-                .then () ->
-                    getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
-                    .then (timeObj) ->
-                        # currentDate = new Date()
-                        # if currentDate.getTime() > timeObj['upperLimit'].getTime()
-                        currentDateTime = moment().format()
-                        if moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')
-                            createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
-                            .then (responseObj) ->
-                                responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-                                responseObj.set 'status', 'missed'
-                                responseObj.save()
+                if scheduleObj.get('questionnaire').get('pauseProject') == false
+                    console.log "PROJECT ACTIVE"
+                    promise1 = promise1
+                    .then () ->
+                        getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+                        .then (timeObj) ->
+                            # currentDate = new Date()
+                            # if currentDate.getTime() > timeObj['upperLimit'].getTime()
+                            currentDateTime = moment().format()
+                            if moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')
+                                createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
                                 .then (responseObj) ->
-                                    notificationObj = new Parse.Object('Notification')
-                                    notificationObj.set 'hasSeen', false
-                                    notificationObj.set 'patient', scheduleObj.get('patient')
-                                    notificationObj.set 'type', 'missedOccurrence'
-                                    notificationObj.set 'processed', false
-                                    notificationObj.set 'schedule', scheduleObj
-                                    notificationObj.set 'cleared', false
-                                    notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-                                    notificationObj.save()
-                                    .then (notificationObj) ->
-                                        scheduleQuery = new Parse.Query('Schedule')
-                                        scheduleQuery.doesNotExist('patient')
-                                        scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                                        scheduleQuery.first()
-                                        .then (scheduleQuestionnaireObj) ->
-                                            newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                                            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-                                            scheduleObj.set 'nextOccurrence', newNextOccurrence
-                                            scheduleObj.save()
+                                    console.log  "MISSED :("
+                                    responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+                                    responseObj.set 'status', 'missed'
+                                    responseObj.save()
+                                    .then (responseObj) ->
+                                        notificationObj = new Parse.Object('Notification')
+                                        notificationObj.set 'hasSeen', false
+                                        notificationObj.set 'patient', scheduleObj.get('patient')
+                                        notificationObj.set 'type', 'missedOccurrence'
+                                        notificationObj.set 'processed', false
+                                        notificationObj.set 'schedule', scheduleObj
+                                        notificationObj.set 'cleared', false
+                                        notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+                                        notificationObj.save()
+                                        .then (notificationObj) ->
+                                            scheduleQuery = new Parse.Query('Schedule')
+                                            scheduleQuery.doesNotExist('patient')
+                                            scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+                                            scheduleQuery.first()
+                                            .then (scheduleQuestionnaireObj) ->
+                                                newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+                                                newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                                                scheduleObj.set 'nextOccurrence', newNextOccurrence
+                                                scheduleObj.save()
+                                            , (error) ->
+                                                console.log  "missed1"
+                                                promise1.reject error
                                         , (error) ->
-                                            console.log  "missed1"
                                             promise1.reject error
                                     , (error) ->
+                                        console.log  "missed2"
                                         promise1.reject error
                                 , (error) ->
-                                    console.log  "missed2"
+                                    console.log  "missed3"
                                     promise1.reject error
-                            , (error) ->
-                                console.log  "missed3"
-                                promise1.reject error
-                        else 
-                            scheduleObj.save()
+                            else 
+                                scheduleObj.save()
+                        , (error) ->
+                            promise1.reject error
                     , (error) ->
+                        console.log  "missed4"
                         promise1.reject error
-                , (error) ->
-                    console.log  "missed4"
-                    promise1.reject error
+                else
+                    console.log "PROJECT PAUSED"
+                    console.log scheduleObj.get('questionnaire').get('project')
+                    promise1.resolve("project paused")
             promise1
         updateMissedResponse()
         .then () ->
@@ -452,36 +460,42 @@ createLateResponses = () ->
 
 createLateResponse = (scheduleObj) ->
     promise = new Parse.Promise()
-    if isLateSubmission(scheduleObj.get('questionnaire'),scheduleObj.get('nextOccurrence'))
-        createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
-        .then (responseObj) ->
-            responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-            responseObj.set 'status', 'late'
-            responseObj.save()
+    if scheduleObj.get('questionnaire').get('pauseProject') == false
+        console.log "PROJECT ACTIVE"
+        if isLateSubmission(scheduleObj.get('questionnaire'),scheduleObj.get('nextOccurrence'))
+            createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
             .then (responseObj) ->
-                scheduleQuery = new Parse.Query('Schedule')
-                scheduleQuery.doesNotExist('patient')
-                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                scheduleQuery.first()
-                .then (scheduleQuestionnaireObj) ->
-                    newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                    newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-                    scheduleObj.set 'nextOccurrence', newNextOccurrence
-                    scheduleObj.save()
+                console.log  "LATE :{"
+                responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+                responseObj.set 'status', 'late'
+                responseObj.save()
+                .then (responseObj) ->
+                    scheduleQuery = new Parse.Query('Schedule')
+                    scheduleQuery.doesNotExist('patient')
+                    scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
+                    scheduleQuery.first()
                     .then (scheduleQuestionnaireObj) ->
-                        promise.resolve("missed")   
+                        newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
+                        newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                        scheduleObj.set 'nextOccurrence', newNextOccurrence
+                        scheduleObj.save()
+                        .then (scheduleQuestionnaireObj) ->
+                            promise.resolve("missed")   
+                        , (error) ->
+                            promise.reject error
                     , (error) ->
                         promise.reject error
                 , (error) ->
                     promise.reject error
             , (error) ->
                 promise.reject error
-        , (error) ->
-            promise.reject error
 
-    else 
-        promise.resolve("not missed")   
-
+        else 
+            promise.resolve("not missed")   
+    else
+        console.log "PROJECT PAUSED"
+        console.log scheduleObj.get('questionnaire').get('project')
+        promise.resolve("project paused")   
     promise
 
 

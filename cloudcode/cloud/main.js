@@ -402,6 +402,7 @@
                 notificationObj.set('cleared', false);
                 notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
                 return notificationObj.save().then(function(notificationObj) {
+                  console.log("MISSED :(");
                   responseObj.set('status', 'missed');
                   return responseObj.save();
                 });
@@ -440,59 +441,67 @@
         var promise1;
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
-          return promise1 = promise1.then(function() {
-            return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
-              var currentDateTime;
-              currentDateTime = moment().format();
-              if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
-                return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
-                  responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-                  responseObj.set('status', 'missed');
-                  return responseObj.save().then(function(responseObj) {
-                    var notificationObj;
-                    notificationObj = new Parse.Object('Notification');
-                    notificationObj.set('hasSeen', false);
-                    notificationObj.set('patient', scheduleObj.get('patient'));
-                    notificationObj.set('type', 'missedOccurrence');
-                    notificationObj.set('processed', false);
-                    notificationObj.set('schedule', scheduleObj);
-                    notificationObj.set('cleared', false);
-                    notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-                    return notificationObj.save().then(function(notificationObj) {
-                      scheduleQuery = new Parse.Query('Schedule');
-                      scheduleQuery.doesNotExist('patient');
-                      scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-                      return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
-                        var newNextOccurrence;
-                        newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-                        newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
-                        scheduleObj.set('nextOccurrence', newNextOccurrence);
-                        return scheduleObj.save();
+          if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+            console.log("PROJECT ACTIVE");
+            return promise1 = promise1.then(function() {
+              return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+                var currentDateTime;
+                currentDateTime = moment().format();
+                if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
+                  return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+                    console.log("MISSED :(");
+                    responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+                    responseObj.set('status', 'missed');
+                    return responseObj.save().then(function(responseObj) {
+                      var notificationObj;
+                      notificationObj = new Parse.Object('Notification');
+                      notificationObj.set('hasSeen', false);
+                      notificationObj.set('patient', scheduleObj.get('patient'));
+                      notificationObj.set('type', 'missedOccurrence');
+                      notificationObj.set('processed', false);
+                      notificationObj.set('schedule', scheduleObj);
+                      notificationObj.set('cleared', false);
+                      notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+                      return notificationObj.save().then(function(notificationObj) {
+                        scheduleQuery = new Parse.Query('Schedule');
+                        scheduleQuery.doesNotExist('patient');
+                        scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+                        return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                          var newNextOccurrence;
+                          newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+                          newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+                          scheduleObj.set('nextOccurrence', newNextOccurrence);
+                          return scheduleObj.save();
+                        }, function(error) {
+                          console.log("missed1");
+                          return promise1.reject(error);
+                        });
                       }, function(error) {
-                        console.log("missed1");
                         return promise1.reject(error);
                       });
                     }, function(error) {
+                      console.log("missed2");
                       return promise1.reject(error);
                     });
                   }, function(error) {
-                    console.log("missed2");
+                    console.log("missed3");
                     return promise1.reject(error);
                   });
-                }, function(error) {
-                  console.log("missed3");
-                  return promise1.reject(error);
-                });
-              } else {
-                return scheduleObj.save();
-              }
+                } else {
+                  return scheduleObj.save();
+                }
+              }, function(error) {
+                return promise1.reject(error);
+              });
             }, function(error) {
+              console.log("missed4");
               return promise1.reject(error);
             });
-          }, function(error) {
-            console.log("missed4");
-            return promise1.reject(error);
-          });
+          } else {
+            console.log("PROJECT PAUSED");
+            console.log(scheduleObj.get('questionnaire').get('project'));
+            return promise1.resolve("project paused");
+          }
         });
         return promise1;
       };
@@ -532,22 +541,28 @@
   createLateResponse = function(scheduleObj) {
     var promise;
     promise = new Parse.Promise();
-    if (isLateSubmission(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))) {
-      createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
-        responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-        responseObj.set('status', 'late');
-        return responseObj.save().then(function(responseObj) {
-          var scheduleQuery;
-          scheduleQuery = new Parse.Query('Schedule');
-          scheduleQuery.doesNotExist('patient');
-          scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-          return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
-            var newNextOccurrence;
-            newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-            newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
-            scheduleObj.set('nextOccurrence', newNextOccurrence);
-            return scheduleObj.save().then(function(scheduleQuestionnaireObj) {
-              return promise.resolve("missed");
+    if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+      console.log("PROJECT ACTIVE");
+      if (isLateSubmission(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))) {
+        createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+          console.log("LATE :{");
+          responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+          responseObj.set('status', 'late');
+          return responseObj.save().then(function(responseObj) {
+            var scheduleQuery;
+            scheduleQuery = new Parse.Query('Schedule');
+            scheduleQuery.doesNotExist('patient');
+            scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
+            return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+              var newNextOccurrence;
+              newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
+              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+              scheduleObj.set('nextOccurrence', newNextOccurrence);
+              return scheduleObj.save().then(function(scheduleQuestionnaireObj) {
+                return promise.resolve("missed");
+              }, function(error) {
+                return promise.reject(error);
+              });
             }, function(error) {
               return promise.reject(error);
             });
@@ -557,11 +572,13 @@
         }, function(error) {
           return promise.reject(error);
         });
-      }, function(error) {
-        return promise.reject(error);
-      });
+      } else {
+        promise.resolve("not missed");
+      }
     } else {
-      promise.resolve("not missed");
+      console.log("PROJECT PAUSED");
+      console.log(scheduleObj.get('questionnaire').get('project'));
+      promise.resolve("project paused");
     }
     return promise;
   };
@@ -4219,43 +4236,6 @@
     getAllPatientAnswers();
     return promise;
   };
-
-  Parse.Cloud.afterSave('Response', function(request, response) {
-    var projectId, responseObject;
-    responseObject = request.object;
-    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
-      console.log("RESPONSE STATUS :");
-      console.log(responseObject.get("status"));
-      projectId = responseObject.get("project");
-      Parse.Cloud.httpRequest({
-        method: 'POST',
-        url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-        headers: {
-          'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-        }
-      });
-      console.log("cache cleared");
-      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-    } else {
-
-    }
-  });
-
-  Parse.Cloud.define("clearProjectCache", function(request, response) {
-    var projectId;
-    projectId = 22;
-    Parse.Cloud.httpRequest({
-      method: 'POST',
-      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-      headers: {
-        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-      }
-    });
-    console.log("cache cleared");
-    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-  });
 
   _ = require('underscore.js');
 

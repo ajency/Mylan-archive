@@ -3168,36 +3168,36 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 
 
 
-Parse.Cloud.afterSave 'Response', (request, response) ->
-	responseObject = request.object
-	if !responseObject.existed() and responseObject.get("status")!='started'
-		console.log "RESPONSE STATUS :"
-		console.log responseObject.get("status")
-		projectId = responseObject.get("project")
-		Parse.Cloud.httpRequest
-			method: 'POST'
-			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-			headers:
-				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+# Parse.Cloud.afterSave 'Response', (request, response) ->
+# 	responseObject = request.object
+# 	if !responseObject.existed() and responseObject.get("status")!='started'
+# 		console.log "RESPONSE STATUS :"
+# 		console.log responseObject.get("status")
+# 		projectId = responseObject.get("project")
+# 		Parse.Cloud.httpRequest
+# 			method: 'POST'
+# 			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+# 			headers:
+# 				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+# 				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
-		console.log "cache cleared"
-		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-		return
-	else
-		return
+# 		console.log "cache cleared"
+# 		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+# 		return
+# 	else
+# 		return
 
 
-Parse.Cloud.define "clearProjectCache", (request, response) ->
-	projectId = 22
-	Parse.Cloud.httpRequest
-		method: 'POST'
-		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-		headers:
-			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+# Parse.Cloud.define "clearProjectCache", (request, response) ->
+# 	projectId = 22
+# 	Parse.Cloud.httpRequest
+# 		method: 'POST'
+# 		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+# 		headers:
+# 			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+# 			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
-	console.log "cache cleared"
-	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-	return
+# 	console.log "cache cleared"
+# 	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+# 	return
  
