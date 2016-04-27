@@ -3156,6 +3156,8 @@
       }, function(error) {
         return response.error(error);
       });
+    }, function(error) {
+      return response.error(error);
     });
   });
 

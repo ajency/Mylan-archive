@@ -2016,6 +2016,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 
 # ***************TEST APP***********************
 #TEST API SUBMIT QUSESTIONNAIRE
+
 Parse.Cloud.define "submitTestQuestionnaire", (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
@@ -2056,10 +2057,6 @@ deleteResponseAnswers = (responseObj) ->
 
 # test alert api
 Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
-#	if !request.user
-#		response.error('Must be logged in.')
-#
-#	else
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query("Response")
 	responseQuery.include('questionnaire')
@@ -2102,6 +2099,8 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 				response.error error
 		, (error) ->
 			response.error error
+	, (error) ->
+		response.error error
 
 
 getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
