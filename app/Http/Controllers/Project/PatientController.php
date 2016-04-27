@@ -774,6 +774,7 @@ class PatientController extends Controller
             $previousFlag = $answer->get("previousFlag");
 
             $responseId = $answer->get("response")->getObjectId();
+            $responseStatus = $answer->get("response")->get("status");
             $answerId = $answer->getObjectId();
             $questionId = $answer->get("question")->getObjectId();
             $questionType = $answer->get("question")->get("type");
@@ -781,8 +782,14 @@ class PatientController extends Controller
             $patient = $answer->get("patient");
             $isChild = $answer->get("question")->get("isChild");
 
+            if($responseStatus!="completed")
+              continue;
+            
             if($isChild)
               continue;
+
+            if($questionType!='single-choice')
+                continue;
 
             if($baseLineFlag=='no_colour' || $baseLineFlag=='')
               continue;
