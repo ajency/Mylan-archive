@@ -77,7 +77,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 		scheduleQuery.equalTo('patient', patientId)
 		scheduleQuery.first()
 		.then (scheduleObj) ->
-			getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+			getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			.then (timeObj) ->
 				if isValidTime(timeObj)
 					createResponse questionnaireId, patientId, scheduleObj
@@ -87,14 +87,11 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 						responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
 						responseObj.save()
 						.then (responseObj) ->
-							scheduleQuery = new Parse.Query('Schedule')
-							scheduleQuery.doesNotExist('patient')
-							scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-							scheduleQuery.first()
-							.then (scheduleQuestionnaireObj) ->
+							getQuestionnaireSetting(patientId,scheduleObj.get('questionnaire'))
+							.then (settings) ->
 								# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
 								# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format()
+								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format()
 								newNextOccurrence = new Date(newNextOccurrence)
 								scheduleObj.set 'nextOccurrence', newNextOccurrence
 								scheduleObj.save()
@@ -108,6 +105,7 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 											response.error error	
 									,(error) ->
 										response.error error
+
 								,(error) ->
 									response.error error
 							,(error) ->
@@ -752,7 +750,6 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo("objectId", responseId)
-	responseQuery.include('questionnaire')
 	responseQuery.first()
 	.then (responseObj) ->
 		getSummary responseObj
@@ -761,7 +758,6 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 			result['answerObjects'] = answerObjects
 			result['submissionDate'] = responseObj.updatedAt
 			result['sequenceNumber'] = responseObj.get('sequenceNumber')
-			result['editable'] = responseObj.get('questionnaire').get('editable')
 			response.success result
 			# response.success answerObjects
 		, (error) ->
@@ -1208,7 +1204,7 @@ Parse.Cloud.define "dashboard", (request, response) ->
 			responseQuery.descending('occurrenceDate')
 			responseQuery.find()
 			.then (responseObjs) ->
-				getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+				getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				.then (timeObj) ->
 					status =""
 					if isValidTime(timeObj)			
@@ -1255,7 +1251,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 	responseQuery.first()
 	.then (responseObj) ->
 		if !_.isUndefined(responseObj)
-			getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
+			getValidTimeFrame(patientId,responseObj.get('questionnaire'), responseObj.get('occurrenceDate'))
 			.then (timeObj) ->
 				if isValidMissedTime(timeObj)
 					responseObj.set 'status', 'missed'
@@ -1269,7 +1265,7 @@ updateMissedObjects = (scheduleObj, patientId) ->
 			, (error) ->
 				promise.error error
 		else
-			getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+			getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 			.then (timeObj) ->
 				if isValidMissedTime(timeObj)
 					createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj)#, 'missed', scheduleObj.get('nextOccurrence'))
@@ -1278,14 +1274,11 @@ updateMissedObjects = (scheduleObj, patientId) ->
 						responseObj.set 'status', 'missed'
 						responseObj.save()
 						.then (responseObj) ->
-							scheduleQuery = new Parse.Query('Schedule')
-							scheduleQuery.doesNotExist('patient')
-							scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-							scheduleQuery.first()
-							.then (scheduleQuestionnaireObj) ->
+							getQuestionnaireSetting(patientId,scheduleObj.get('questionnaire'))
+							.then (settings) ->
 								# newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
 								# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
-								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format()
+								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format()
 								newNextOccurrence = new Date(newNextOccurrence)
 								scheduleObj.set 'nextOccurrence', newNextOccurrence
 								scheduleObj.save()
@@ -1417,15 +1410,12 @@ isValidMissedTime = (timeObj) ->
 
 # 	timeObj
 
-getValidTimeFrame = (questionnaireObj, occurrenceDate) ->
+getValidTimeFrame = (patientId,questionnaireObj, occurrenceDate) ->
 	promise = new Parse.Promise()
-	scheduleQuery = new Parse.Query('Schedule')
-	scheduleQuery.doesNotExist('patient')
-	scheduleQuery.equalTo('questionnaire', questionnaireObj)
-	scheduleQuery.first()
-	.then (questionnaireScheduleObj) ->
-		gracePeriod = questionnaireObj.get('gracePeriod')
-		frequency = questionnaireScheduleObj.get('frequency')
+	getQuestionnaireSetting(patientId,questionnaireObj)
+	.then (settings) ->
+		gracePeriod = settings['gracePeriod']
+		frequency = settings['frequency']
 
 		upperLimit = moment(occurrenceDate).add(frequency, 's').format()
 		upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format()
@@ -1444,18 +1434,14 @@ getValidTimeFrame = (questionnaireObj, occurrenceDate) ->
 	promise
 
 
-
 getValidPeriod = (scheduleObj) ->
 	promise = new Parse.Promise()
-	scheduleQuery = new Parse.Query('Schedule')
-	scheduleQuery.doesNotExist('patient')
-	scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-	scheduleQuery.first()
-	.then (questionnaireScheduleObj) ->
+	getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+	.then (settings) ->
 
 		nextOccurrence = scheduleObj.get('nextOccurrence')
-		gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod') 
-		frequency = questionnaireScheduleObj.get('frequency')
+		gracePeriod = settings['gracePeriod']
+		frequency = settings['frequency']
 
 		upperLimit = moment(nextOccurrence).add(frequency, 's').format()
 		upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format()
@@ -3168,36 +3154,90 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 
 
 
-# Parse.Cloud.afterSave 'Response', (request, response) ->
-# 	responseObject = request.object
-# 	if !responseObject.existed() and responseObject.get("status")!='started'
-# 		console.log "RESPONSE STATUS :"
-# 		console.log responseObject.get("status")
-# 		projectId = responseObject.get("project")
-# 		Parse.Cloud.httpRequest
-# 			method: 'POST'
-# 			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-# 			headers:
-# 				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-# 				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
-# 		console.log "cache cleared"
-# 		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-# 		return
-# 	else
-# 		return
+Parse.Cloud.afterSave 'Response', (request, response) ->
+	responseObject = request.object
+	if !responseObject.existed() and responseObject.get("status")!='started'
+		console.log "RESPONSE STATUS :"
+		console.log responseObject.get("status")
+		projectId = responseObject.get("project")
+		Parse.Cloud.httpRequest
+			method: 'POST'
+			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+			headers:
+				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+
+		console.log "cache cleared"
+		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		return
+	else
+		return
 
 
-# Parse.Cloud.define "clearProjectCache", (request, response) ->
-# 	projectId = 22
-# 	Parse.Cloud.httpRequest
-# 		method: 'POST'
-# 		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-# 		headers:
-# 			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-# 			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+Parse.Cloud.define "clearProjectCache", (request, response) ->
+	projectId = 22
+	Parse.Cloud.httpRequest
+		method: 'POST'
+		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		headers:
+			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
-# 	console.log "cache cleared"
-# 	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-# 	return
+	console.log "cache cleared"
+	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+	return
+ 
+
+Parse.Cloud.define 'getQuestionnaireSetting', (request, response) ->
+	patientId = request.params.patientId
+	questionnaireId = request.params.questionnaireId
+
+	questionnaireQuery = new Parse.Query('Questionnaire')
+	questionnaireQuery.get(questionnaireId)
+	.then (questionnaireObj) ->
+		getQuestionnaireSetting(patientId,questionnaireObj)
+		.then (settings) ->
+			response.success settings
+		, (error) ->
+			response.error error
+	, (error) ->
+		response.error error
+
+	
+
+getQuestionnaireSetting = (patientId, questionnaireObj) ->
+	promise = new Parse.Promise()
+
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.exists('frequency')
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		settings = {}
+		if !_.isEmpty(scheduleObj) and scheduleObj.get('frequency')!='0'
+			console.log "PATIENT FREQUENCY"
+			settings['frequency'] = scheduleObj.get('frequency')
+			settings['gracePeriod'] = scheduleObj.get('gracePeriod')
+			settings['reminderTime'] = scheduleObj.get('reminderTime')
+			promise.resolve(settings)
+		else
+			scheduleQuery = new Parse.Query('Schedule')
+			scheduleQuery.doesNotExist('patient')
+			scheduleQuery.equalTo('questionnaire', questionnaireObj)
+			scheduleQuery.first()
+			.then (scheduleQuestionnaireObj) ->
+				console.log "QUESTIONNAIRE FREQUENCY"
+				settings['frequency'] = scheduleQuestionnaireObj.get('frequency')
+				settings['gracePeriod'] = questionnaireObj.get('gracePeriod')
+				settings['reminderTime'] = questionnaireObj.get('reminderTime')
+				promise.resolve(settings)
+			, (error) ->
+				promise.reject error
+
+	, (error) ->
+		promise.reject error
+
+	promise
+
  

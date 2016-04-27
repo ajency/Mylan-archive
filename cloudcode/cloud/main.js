@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -156,16 +156,14 @@
   };
 
   getNotificationType = function(scheduleObj) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       var afterReminder, beforeReminder, bufferTime, currentDate, graceDate, nextOccurrence, reminderTime;
       nextOccurrence = scheduleObj.get('nextOccurrence');
       currentDate = new Date();
-      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
-      reminderTime = questionnaireObj.get('reminderTime');
+      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000));
+      reminderTime = settings['reminderTime'];
       beforeReminder = new Date(nextOccurrence.getTime() - reminderTime * 1000);
       afterReminder = new Date(nextOccurrence.getTime() + reminderTime * 1000);
       bufferTime = cronjobRunTime / 2;
@@ -183,18 +181,16 @@
   };
 
   getNotificationMessage = function(scheduleObj, notificationType, notificationId, occurrenceDate, installationId) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       return timeZoneConverter(installationId, occurrenceDate).then(function(convertedTimezoneObject) {
         var convertedGraceDate, graceDate, gracePeriod, message, newNextOccurrence, timeZone;
         newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
         timeZone = convertedTimezoneObject['timeZone'];
         console.log("**New newNextOccurrence**");
         console.log(newNextOccurrence);
-        gracePeriod = questionnaireObj.get("gracePeriod");
+        gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
           convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A');
@@ -249,7 +245,8 @@
       } else {
         pushData = {
           title: "Mylan",
-          alert: message
+          alert: message,
+          badge: 'Increment'
         };
       }
       return promise.resolve(pushData);
@@ -389,7 +386,7 @@
         promise1 = Parse.Promise.as();
         _.each(responseObjs, function(responseObj) {
           return promise1 = promise1.then(function() {
-            return getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
+            return getValidTimeFrame(responseObj.get('patient'), responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
               var currentDateTime, notificationObj;
               currentDateTime = moment().format();
               if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
@@ -549,14 +546,10 @@
           responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
           responseObj.set('status', 'late');
           return responseObj.save().then(function(responseObj) {
-            var scheduleQuery;
-            scheduleQuery = new Parse.Query('Schedule');
-            scheduleQuery.doesNotExist('patient');
-            scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-            return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+            return getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
               var newNextOccurrence;
               newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+              newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000);
               scheduleObj.set('nextOccurrence', newNextOccurrence);
               return scheduleObj.save().then(function(scheduleQuestionnaireObj) {
                 return promise.resolve("missed");
@@ -759,14 +752,12 @@
   };
 
   getNotificationSendObject = function(scheduleObj, notification) {
-    var promise, questionnaireQuery;
+    var promise;
     promise = new Parse.Promise();
-    questionnaireQuery = new Parse.Query('Questionnaire');
-    questionnaireQuery.get(scheduleObj.get('questionnaire').id);
-    questionnaireQuery.first().then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(questionnaireObj) {
       var graceDate, notificationSendObject, notificationType, occurrenceDate;
       occurrenceDate = notification.get('occurrenceDate');
-      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (questionnaireObj.get('gracePeriod') * 1000));
+      graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000));
       notificationType = notification.get('type');
       notificationSendObject = {};
       notificationSendObject['occurrenceDate'] = occurrenceDate;
@@ -1282,7 +1273,7 @@
       scheduleQuery.include('questionnaire');
       scheduleQuery.equalTo('patient', patientId);
       return scheduleQuery.first().then(function(scheduleObj) {
-        return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+        return getValidTimeFrame(patientId, scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
           var result;
           if (isValidTime(timeObj)) {
             return createResponse(questionnaireId, patientId, scheduleObj).then(function(responseObj) {
@@ -1290,12 +1281,9 @@
               responseObj.set('status', 'started');
               responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
               return responseObj.save().then(function(responseObj) {
-                scheduleQuery = new Parse.Query('Schedule');
-                scheduleQuery.doesNotExist('patient');
-                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-                return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                return getQuestionnaireSetting(patientId, scheduleObj.get('questionnaire')).then(function(settings) {
                   var newNextOccurrence;
-                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format();
+                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format();
                   newNextOccurrence = new Date(newNextOccurrence);
                   scheduleObj.set('nextOccurrence', newNextOccurrence);
                   return scheduleObj.save().then(function(scheduleObj) {
@@ -1960,7 +1948,6 @@
     responseId = request.params.responseId;
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo("objectId", responseId);
-    responseQuery.include('questionnaire');
     return responseQuery.first().then(function(responseObj) {
       return getSummary(responseObj).then(function(answerObjects) {
         var result;
@@ -1968,7 +1955,6 @@
         result['answerObjects'] = answerObjects;
         result['submissionDate'] = responseObj.updatedAt;
         result['sequenceNumber'] = responseObj.get('sequenceNumber');
-        result['editable'] = responseObj.get('questionnaire').get('editable');
         return response.success(result);
       }, function(error) {
         return response.error(error);
@@ -2376,7 +2362,7 @@
         responseQuery.equalTo('patient', patientId);
         responseQuery.descending('occurrenceDate');
         return responseQuery.find().then(function(responseObjs) {
-          return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+          return getValidTimeFrame(patientId, scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
             var answeredQuestions, j, len, responseObj, result, status, upcoming_due;
             status = "";
             if (isValidTime(timeObj)) {
@@ -2426,7 +2412,7 @@
     responseQuery.include('questionnaire');
     responseQuery.first().then(function(responseObj) {
       if (!_.isUndefined(responseObj)) {
-        return getValidTimeFrame(responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
+        return getValidTimeFrame(patientId, responseObj.get('questionnaire'), responseObj.get('occurrenceDate')).then(function(timeObj) {
           if (isValidMissedTime(timeObj)) {
             responseObj.set('status', 'missed');
             return responseObj.save().then(function(responseObj) {
@@ -2441,19 +2427,15 @@
           return promise.error(error);
         });
       } else {
-        return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+        return getValidTimeFrame(patientId, scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
           if (isValidMissedTime(timeObj)) {
             return createResponse(scheduleObj.get('questionnaire').id, patientId, scheduleObj).then(function(responseObj) {
               responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
               responseObj.set('status', 'missed');
               return responseObj.save().then(function(responseObj) {
-                var scheduleQuery;
-                scheduleQuery = new Parse.Query('Schedule');
-                scheduleQuery.doesNotExist('patient');
-                scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-                return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                return getQuestionnaireSetting(patientId, scheduleObj.get('questionnaire')).then(function(settings) {
                   var newNextOccurrence;
-                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(scheduleQuestionnaireObj.get('frequency'), 's').format();
+                  newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format();
                   newNextOccurrence = new Date(newNextOccurrence);
                   scheduleObj.set('nextOccurrence', newNextOccurrence);
                   return scheduleObj.save().then(function(scheduleObj) {
@@ -2563,16 +2545,13 @@
     }
   };
 
-  getValidTimeFrame = function(questionnaireObj, occurrenceDate) {
-    var promise, scheduleQuery;
+  getValidTimeFrame = function(patientId, questionnaireObj, occurrenceDate) {
+    var promise;
     promise = new Parse.Promise();
-    scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.doesNotExist('patient');
-    scheduleQuery.equalTo('questionnaire', questionnaireObj);
-    scheduleQuery.first().then(function(questionnaireScheduleObj) {
+    getQuestionnaireSetting(patientId, questionnaireObj).then(function(settings) {
       var frequency, gracePeriod, lowerLimit, timeObj, upperLimit;
-      gracePeriod = questionnaireObj.get('gracePeriod');
-      frequency = questionnaireScheduleObj.get('frequency');
+      gracePeriod = settings['gracePeriod'];
+      frequency = settings['frequency'];
       upperLimit = moment(occurrenceDate).add(frequency, 's').format();
       upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format();
       upperLimit = moment(upperLimit).subtract(60, 's').format();
@@ -2588,16 +2567,13 @@
   };
 
   getValidPeriod = function(scheduleObj) {
-    var promise, scheduleQuery;
+    var promise;
     promise = new Parse.Promise();
-    scheduleQuery = new Parse.Query('Schedule');
-    scheduleQuery.doesNotExist('patient');
-    scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-    scheduleQuery.first().then(function(questionnaireScheduleObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       var frequency, gracePeriod, lowerLimit, nextOccurrence, timeObj, upperLimit;
       nextOccurrence = scheduleObj.get('nextOccurrence');
-      gracePeriod = scheduleObj.get('questionnaire').get('gracePeriod');
-      frequency = questionnaireScheduleObj.get('frequency');
+      gracePeriod = settings['gracePeriod'];
+      frequency = settings['frequency'];
       upperLimit = moment(nextOccurrence).add(frequency, 's').format();
       upperLimit = moment(upperLimit).subtract(gracePeriod, 's').format();
       upperLimit = moment(upperLimit).subtract(60, 's').format();
@@ -4234,6 +4210,94 @@
       return promise;
     };
     getAllPatientAnswers();
+    return promise;
+  };
+
+  Parse.Cloud.afterSave('Response', function(request, response) {
+    var projectId, responseObject;
+    responseObject = request.object;
+    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
+      console.log("RESPONSE STATUS :");
+      console.log(responseObject.get("status"));
+      projectId = responseObject.get("project");
+      Parse.Cloud.httpRequest({
+        method: 'POST',
+        url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+        headers: {
+          'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+          'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+        }
+      });
+      console.log("cache cleared");
+      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
+    } else {
+
+    }
+  });
+
+  Parse.Cloud.define("clearProjectCache", function(request, response) {
+    var projectId;
+    projectId = 22;
+    Parse.Cloud.httpRequest({
+      method: 'POST',
+      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+      headers: {
+        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+      }
+    });
+    console.log("cache cleared");
+    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
+  });
+
+  Parse.Cloud.define('getQuestionnaireSetting', function(request, response) {
+    var patientId, questionnaireId, questionnaireQuery;
+    patientId = request.params.patientId;
+    questionnaireId = request.params.questionnaireId;
+    questionnaireQuery = new Parse.Query('Questionnaire');
+    return questionnaireQuery.get(questionnaireId).then(function(questionnaireObj) {
+      return getQuestionnaireSetting(patientId, questionnaireObj).then(function(settings) {
+        return response.success(settings);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getQuestionnaireSetting = function(patientId, questionnaireObj) {
+    var promise, scheduleQuery;
+    promise = new Parse.Promise();
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.equalTo('patient', patientId);
+    scheduleQuery.exists('frequency');
+    scheduleQuery.first().then(function(scheduleObj) {
+      var settings;
+      settings = {};
+      if (!_.isEmpty(scheduleObj) && scheduleObj.get('frequency') !== '0') {
+        console.log("PATIENT FREQUENCY");
+        settings['frequency'] = scheduleObj.get('frequency');
+        settings['gracePeriod'] = scheduleObj.get('gracePeriod');
+        settings['reminderTime'] = scheduleObj.get('reminderTime');
+        return promise.resolve(settings);
+      } else {
+        scheduleQuery = new Parse.Query('Schedule');
+        scheduleQuery.doesNotExist('patient');
+        scheduleQuery.equalTo('questionnaire', questionnaireObj);
+        return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+          console.log("QUESTIONNAIRE FREQUENCY");
+          settings['frequency'] = scheduleQuestionnaireObj.get('frequency');
+          settings['gracePeriod'] = questionnaireObj.get('gracePeriod');
+          settings['reminderTime'] = questionnaireObj.get('reminderTime');
+          return promise.resolve(settings);
+        }, function(error) {
+          return promise.reject(error);
+        });
+      }
+    }, function(error) {
+      return promise.reject(error);
+    });
     return promise;
   };
 
