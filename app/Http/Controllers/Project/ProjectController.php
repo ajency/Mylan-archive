@@ -71,7 +71,8 @@ class ProjectController extends Controller
 
           $inputs = Input::get(); 
 
-          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
           $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
           //date object
@@ -378,7 +379,7 @@ class ProjectController extends Controller
 
         $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
@@ -541,7 +542,7 @@ class ProjectController extends Controller
 
         $inputs = Input::get(); 
 
-        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+        $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
         $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
         $startDateObj = array(
@@ -1242,12 +1243,14 @@ class ProjectController extends Controller
           $hospital = $hospitalProjectData['hospital'];
           $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+
           $project = $hospitalProjectData['project'];
           $projectId = intval($project['id']);
 
           $inputs = Input::get();
-          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
           $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
 
           $startDateYmd = date('Y-m-d', strtotime($startDate));
           $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
@@ -1388,11 +1391,11 @@ class ProjectController extends Controller
 
           $project = $hospitalProjectData['project'];
           $projectId = intval($project['id']);
-
+ 
           $inputs = Input::get();
-          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+          $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
           $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
-
+ 
           $startDateYmd = date('Y-m-d', strtotime($startDate));
           $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
@@ -1451,6 +1454,7 @@ class ProjectController extends Controller
           $settings['reminderTime']['hours'] = '';
           $settings['editable'] = '';
           $settings['type'] = ''; 
+          $settings['pauseProject'] = '';  
           
 
           if(!empty($questionnaire))
@@ -1465,6 +1469,7 @@ class ProjectController extends Controller
 
             $settings['editable'] = $questionnaire->get('editable');
             $settings['type'] = $questionnaire->get('type');
+            $settings['pauseProject'] = ($questionnaire->get('pauseProject')==true)?'yes':'no';
 
             $scheduleQry = new ParseQuery("Schedule");
             $scheduleQry->equalTo("questionnaire",$questionnaire);
@@ -1479,13 +1484,16 @@ class ProjectController extends Controller
               $settings['frequency']['hours'] = $frequency['h']; 
             }
             
+
           }
+
         
         } catch (\Exception $e) {
-
             Log::error($e->getMessage());
-            abort(404);         
-        }
+            abort(404);   
+        }      
+
+        
 
         return view('project.questionnaire-setting')->with('active_menu', 'settings')
                                         ->with('hospital', $hospital)
@@ -1518,7 +1526,11 @@ class ProjectController extends Controller
             $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));   
 
             $editable = ($request->input('editable')=='yes')?true:false;
+            $pauseProject = ($request->input('pauseProject')=='yes')?true:false;
             $type = $request->input('type');
+
+            $project->project_status = ($request->input('pauseProject')=='yes')?"paused":"active";
+            $project->save();
 
             $questionnaireQry = new ParseQuery("Questionnaire");
             $questionnaireQry->equalTo("project",$projectId);
@@ -1527,6 +1539,7 @@ class ProjectController extends Controller
             $questionnaire->set('gracePeriod',$gracePeriod);
             $questionnaire->set('reminderTime',$reminderTime);
             $questionnaire->set('editable',$editable);
+            $questionnaire->set('pauseProject',$pauseProject);
             $questionnaire->set('type',$type);
             $questionnaire->save();
 
@@ -1562,7 +1575,7 @@ class ProjectController extends Controller
         Cache::forget($responseCacheKey);
         Cache::forget($patientsSummaryCacheKey);
 
-         $json_resp = array(
+        $json_resp = array(
                 'code' => 'cache_cleared' , 
                 'message' => 'Cache cleared'
                 );
@@ -1624,8 +1637,8 @@ class ProjectController extends Controller
     public function saveAlertSetting(Request $request,$hospitalSlug,$projectSlug)
     {
 
-        // try
-        // {
+        try
+        {
             $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
             $hospital = $hospitalProjectData['hospital'];
@@ -1678,11 +1691,11 @@ class ProjectController extends Controller
 
             Session::flash('success_message','Alert settings successfully updated.');
             
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
             
-        //     Log::error($e->getMessage());
-        //     abort(404);         
-        // }
+            Log::error($e->getMessage());
+            abort(404);         
+        }
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/alert-setting')); 
     }
 

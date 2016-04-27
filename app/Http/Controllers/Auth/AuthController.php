@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
 use App\Hospital;
+use App\Projects;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
@@ -90,11 +91,6 @@ class AuthController extends Controller
             
         $newpassword = getPassword($referenceCode , $password);
 
-        // $responseQry = new ParseQuery("Response");
-        // $responseQry->equalTo("patient", $referenceCode); 
-        // $responseQry->equalTo("status", 'base_line'); 
-        // $response = $responseQry->first();
-        
         $user = User::where('type','patient')->where('reference_code', $referenceCode)->first();
         if($user->login_attempts >3)
         {
@@ -103,17 +99,18 @@ class AuthController extends Controller
                 ]);  
         }
                  
+       
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
-        {   
+        { 
+            $project = Projects::find(Auth::user()->project_id)->toArray(); 
             if(Auth::user()->baseline_set=='no')
             {
-                $json_resp = array(
-                    'code' => 'baseline_not_set' , 
-                    'message' => 'Baseline not set for patient'
-                    );
-                    $status_code = 200;
+                Auth::logout();
+                return redirect('/login')->withErrors([
+                    'email' => 'Account inactive, contact administrator',
+                ]);
             } 
-            elseif(Auth::user()->account_status=='active')
+            elseif(Auth::user()->account_status=='active' && $project['project_status'] !="paused")
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);

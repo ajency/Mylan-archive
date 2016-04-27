@@ -37,9 +37,10 @@ class SubmissionController extends Controller
 
             $inputs = Input::get(); 
 
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+  
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
-
+ 
             $startDateYmd = date('Y-m-d', strtotime($startDate));
             $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
@@ -515,10 +516,12 @@ class SubmissionController extends Controller
             $patientsFlags = [];
             $responseOpenRedFlags = [];
 
+ 
             $inputs = Input::get(); 
-
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+ 
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+ 
 
             $startDateObj = array(
                       "__type" => "Date",

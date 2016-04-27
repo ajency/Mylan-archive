@@ -88,6 +88,15 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="Frequency" class="col-sm-4 side-label">Pause Project</label>
+    <div class="col-sm-6">
+<select id="pauseProject" name="pauseProject" style="width:100%" class="">
+<option value="yes" {{ ($settings['pauseProject']=='yes')?'selected':'' }}>Yes</option>
+<option value="no" {{ ($settings['pauseProject']=='no')?'selected':'' }}>No</option>
+</select>
+    </div>
+  </div>
+  <div class="form-group">
     <div class="col-sm-10 text-center mri-submit">
     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
       <button type="submit" class="btn btn-success">Save</button>

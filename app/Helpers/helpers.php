@@ -18,6 +18,7 @@ function getRoles()
 
 //constatnts
 define("SETUP_LIMIT", 5);
+define("DATE_DIFFERENCE", 90);
 
 function getUserApiKey( $userId ) {
 

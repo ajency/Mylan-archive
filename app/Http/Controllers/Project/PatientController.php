@@ -37,11 +37,12 @@ class PatientController extends Controller
             $hospital = $hospitalProjectData['hospital'];
             $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
             $inputs = Input::get();
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
             $startDateYmd = date('Y-m-d', strtotime($startDate));
@@ -318,12 +319,14 @@ class PatientController extends Controller
             $hospital = $hospitalProjectData['hospital'];
             $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
             $inputs = Input::get();
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+
 
             $startDateYmd = date('Y-m-d', strtotime($startDate));
             $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
@@ -1006,8 +1009,9 @@ class PatientController extends Controller
 
             $inputs = Input::get(); 
 
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+ 
 
             $startDateObj = array(
                       "__type" => "Date",
@@ -1073,9 +1077,10 @@ class PatientController extends Controller
 
             $patient = User::find($patientId)->toArray();
 
+
             $inputs = Input::get(); 
 
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
 
             $startDateObj = array(
@@ -1844,7 +1849,9 @@ class PatientController extends Controller
     {
         try{
         
+ 
             // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+ 
 
             // $hospital = $hospitalProjectData['hospital'];
             // $project = $hospitalProjectData['project'];
@@ -1993,6 +2000,7 @@ class PatientController extends Controller
             $response->set("totalScore", $totalScore);
             $response->save();
 
+ 
             $patient->baseline_set='yes';
             $patient->save();
 
@@ -2004,6 +2012,7 @@ class PatientController extends Controller
             Log::error($e->getMessage());
             abort(404);         
         }
+ 
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 
          
@@ -2022,10 +2031,12 @@ class PatientController extends Controller
 
             $patient = User::find($patientId)->toArray();
 
+ 
             $inputs = Input::get(); 
-
-            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('-1 months'));
+ 
+            $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
             $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');
+ 
 
             $startDateObj = array(
                       "__type" => "Date",
