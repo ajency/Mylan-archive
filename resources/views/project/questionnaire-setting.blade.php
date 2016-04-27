@@ -51,7 +51,7 @@
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['hours'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
+      <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
@@ -63,7 +63,7 @@
       <h6 class="seconds">days</h6>
     </div>
       <div class="col-sm-4">
-      <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['gracePeriod']['hours'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
+      <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['reminderTime']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
