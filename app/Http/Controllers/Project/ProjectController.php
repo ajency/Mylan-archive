@@ -192,6 +192,7 @@ class ProjectController extends Controller
 
           $patientResponses = $patientsSummary['patientResponses'];
           $patientSortedData = $patientsSummary['patientSortedData'];
+          $totalSubmissionCount = $responseCount['totalSubmissionCount'];
    
           $patientSortedData = array_slice($patientSortedData, 0, 5, true);
            
@@ -227,6 +228,7 @@ class ProjectController extends Controller
         }
 
         return view('project.dashbord')->with('active_menu', 'dashbord')
+                                        ->with('totalSubmissionCount', $totalSubmissionCount) 
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
                                         ->with('allpatientscount', count($patientByDate))              
@@ -832,6 +834,7 @@ class ProjectController extends Controller
         $data['amberPrevious'] = (isset($amberFlags['previous']))?array_sum($amberFlags['previous']):0;
         $data['unreviewedSubmission'] = count($unreviewed);
         $data['patientSubmissions'] = $patientSubmissions;
+        $data['totalSubmissionCount'] = $totalResponses;
         
  
 

@@ -117,7 +117,7 @@
                            <br>
                               <div class="row">
                                  <div class="col-sm-6">
-                                @if(!empty($submissionsSummary))
+                                @if(!$totalSubmissionCount)
                                     <div class="row"><div id="piechart" class="piechart-height"></div></div>
                                 @else 
                                 <table class="table table-flip-scroll table-hover dashboard-tbl">
@@ -244,7 +244,7 @@
                             </div>
                           </div>
                            <div class="grid-body no-border table-data no-padding">
-                            @if(!empty($submissionsSummary))                              
+                            @if(!$totalSubmissionCount)                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
                             @else 
                               <table class="table table-flip-scroll table-hover dashboard-tbl">
