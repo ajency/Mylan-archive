@@ -41,7 +41,7 @@ angular.module('angularApp.contact', []).controller('contactCtrl', [
         } else {
           param = {
             "referenceCode": RefCode,
-            "patientName": this.firstName + '' + this.lastName,
+            "patientName": this.firstName + ' ' + this.lastName,
             "patientEmail": this.patientEmail,
             "patientPhone": this.patientPhone,
             "hospitalId": hospitalIdd,
