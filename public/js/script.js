@@ -736,6 +736,8 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
             "position": "bottom-right"
          }
     });
+
+    amchartsNoData(chart);
   //   chart.addListener("dataUpdated", zoomChart);
   //   function zoomChart() {
   //   if (chart.zoomToIndexes) {
@@ -830,6 +832,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
            }
          });
 
+     amchartsNoData(chart);
      // chart.addListener("dataUpdated", zoomChart);
      // function zoomChart() {
      //    if (chart.zoomToIndexes) {
@@ -920,6 +923,7 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
           }
          });
 
+    amchartsNoData(chart);
   //   chart.addListener("dataUpdated", zoomChart);
   //   function zoomChart() {
   //   if (chart.zoomToIndexes) {
@@ -1001,6 +1005,8 @@ function patientFlagsChart(chartData)
             "position": "bottom-right"
          }
     });
+
+    amchartsNoData(chart);
 }
 
 function submissionChart(chartData,baseLine)
@@ -1054,7 +1060,7 @@ function submissionChart(chartData,baseLine)
         "minorGridEnabled": true
     }
 });
-
+    amchartsNoData(chart);
 
 }
 
@@ -1067,6 +1073,11 @@ function submissionBarChart(chartData,container)
     "useGraphSettings": true
   },
     "dataProvider": chartData,
+    "valueAxes": [{
+        "title": "Score",
+        "maximum": 6,
+        "minimum": 1,
+    }],
     "startDuration": 1,
     "graphs": [{
         "balloonText": "Previous [[category]] (: <b>[[value]]</b>",
@@ -1102,7 +1113,7 @@ function submissionBarChart(chartData,container)
      }
 
 });
-
+    amchartsNoData(chart);
 
 }
 
@@ -1141,10 +1152,94 @@ function miniGraph(chartData,container)
         "gridAlpha": 0
     }
 });
- 
+     
+}
+
+function amchartsNoData(chart)
+{
+    AmCharts.checkEmptyData = function (chart) {
+        if ( 0 == chart.dataProvider.length ) {
+            // set min/max on the value axis
+            chart.valueAxes[0].minimum = 0;
+            chart.valueAxes[0].maximum = 100;
+            
+            // add dummy data point
+            var dataPoint = {
+                dummyValue: 0
+            };
+            dataPoint[chart.categoryField] = '';
+            chart.dataProvider = [dataPoint];
+            
+            // add label
+            chart.addLabel(0, '50%', 'The chart contains no data', 'center');
+            
+            // set opacity of the chart div
+            chart.chartDiv.style.opacity = 0.5;
+            
+            // redraw it
+            chart.validateNow();
+        }
+    }
+
+    AmCharts.checkEmptyData(chart);
 }
 
 
+function drawPieChart(container,chartData)
+{
+    var chart = AmCharts.makeChart( container, {
+     "type": "pie",
+     "theme": "light",
+       "dataProvider": chartData,
+         "titleField": "title",
+         "valueField": "value",
+         "labelRadius": 5,
+
+         "radius": "36%",
+         "innerRadius": "60%",
+         "labelText": "[[title]]",
+         "export": {
+           "enabled": true
+         }
+     } );
+    
+    pieChartNoData(chart); 
+}
+
+function pieChartNoData(chart)
+{
+    AmCharts.addInitHandler(function(chart) {
+  
+      // check if data is mepty
+      if (chart.dataProvider === undefined || chart.dataProvider.length === 0) {
+        // add some bogus data
+        var dp = {};
+        dp[chart.titleField] = "";
+        dp[chart.valueField] = 1;
+        chart.dataProvider.push(dp)
+        
+        var dp = {};
+        dp[chart.titleField] = "";
+        dp[chart.valueField] = 1;
+        chart.dataProvider.push(dp)
+        
+        var dp = {};
+        dp[chart.titleField] = "";
+        dp[chart.valueField] = 1;
+        chart.dataProvider.push(dp)
+        
+        // disable slice labels
+        chart.labelsEnabled = false;
+        
+        // add label to let users know the chart is empty
+        chart.addLabel("50%", "50%", "The chart contains no data", "middle", 15);
+        
+        // dim the whole chart
+        chart.alpha = 0.3;
+      }
+      
+    }, ["pie"]);
+}
 
 
 

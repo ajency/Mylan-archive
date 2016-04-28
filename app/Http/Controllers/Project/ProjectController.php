@@ -195,8 +195,8 @@ class ProjectController extends Controller
           $totalSubmissionCount = $responseCount['totalSubmissionCount'];
    
           $patientSortedData = array_slice($patientSortedData, 0, 5, true);
-           
-          
+
+                              
           // CACHE PATIENT ALERTS AND NOTIFICATION
           $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
           if (Cache::has($patientsAlertsCacheKey)) {
@@ -226,7 +226,7 @@ class ProjectController extends Controller
           abort(404);  
 
         }
-
+         
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('totalSubmissionCount', $totalSubmissionCount) 
                                         ->with('responseCount', $responseCount) 
@@ -828,6 +828,15 @@ class ProjectController extends Controller
         $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
         $data['late'] =  round($late);
 
+        $pieChartData=[];
+        if($totalResponses)
+        {
+          $pieChartData[] = ["title"=> "# Missed","value"=>$data['missedCount']];
+          $pieChartData[] = ["title"=> "# Completed","value"=>$data['completedCount']];
+          $pieChartData[] = ["title"=> "# late","value"=>$data['lateCount']];
+        }
+        
+
         $data['redBaseLine'] = (isset($redFlags['baseLine']))?array_sum($redFlags['baseLine']):0;
         $data['redPrevious'] = (isset($redFlags['previous']))?array_sum($redFlags['previous']):0;
         $data['amberBaseLine'] = (isset($amberFlags['baseLine']))?array_sum($amberFlags['baseLine']):0;
@@ -835,8 +844,9 @@ class ProjectController extends Controller
         $data['unreviewedSubmission'] = count($unreviewed);
         $data['patientSubmissions'] = $patientSubmissions;
         $data['totalSubmissionCount'] = $totalResponses;
+        $data['pieChartData'] = json_encode($pieChartData);
         
- 
+        
 
         
          
@@ -1329,6 +1339,16 @@ class ProjectController extends Controller
 
           $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
           $responseRate['late'] =  round($late);  
+
+          $pieChartData=[];
+          if($totalResponses)
+          {
+            $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
+            $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
+            $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
+          }
+
+          $responseRate['pieChartData'] = json_encode($pieChartData);
 
           $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
           $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);

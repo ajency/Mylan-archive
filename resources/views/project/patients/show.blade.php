@@ -116,15 +116,9 @@
            <div class="row">
               <div class="col-sm-5 b-r">
                  <div class="">
-                @if(!$totalResponses)
-                       <table class="table table-flip-scroll table-hover dashboard-tbl">
-                        <tbody>
-                        <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                        </tbody>
-                        </table>
-                @else
+                
                     <div id="submissionschart"></div>
-                @endif
+                 
                     <div class="row p-t-20">
                        <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
@@ -541,34 +535,8 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
  
-    var chart = AmCharts.makeChart( "submissionschart", {
-                 "type": "pie",
-                 "theme": "light",
-                 "dataProvider": [ {
-                   "title": "# Missed",
-                   "value": {{ $responseRate['missedCount'] }}
-                 }, {
-                   "title": "# Completed",
-                   "value": {{ $responseRate['completedCount'] }}
-                 } 
-                 , {
-                   "title": "# late",
-                   "value": {{ $responseRate['lateCount'] }}
-                 } ],
-                 "titleField": "title",
-                 "valueField": "value",
-                 "labelRadius": 5,
-         
-                 "radius": "42%",
-                 "innerRadius": "60%",
-                 "labelText": "[[title]]",
-                 "export": {
-                   "enabled": true
-                 }
-               } );// Pie Chart
-         
+    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>);
         
-
     $('select[name="generateChart"]').change(function (event) { 
       if($(this).val()=='total_score')
       { 

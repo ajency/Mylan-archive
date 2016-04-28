@@ -169,6 +169,16 @@ class SubmissionController extends Controller
             $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
             $responseRate['late'] =  round($late);
 
+            $pieChartData=[];
+            if($totalResponses)
+            {
+              $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
+              $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
+              $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
+            }
+
+            $responseRate['pieChartData'] = json_encode($pieChartData);
+            
             $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
             $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);

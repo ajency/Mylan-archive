@@ -82,15 +82,9 @@
          </div>
          <div class="row">
             <div class="col-sm-4">
-              @if($totalResponses)
+            
                <div id="submissionschart" class="piechart-height"></div>
-              @else 
-                   <table class="table table-flip-scroll table-hover dashboard-tbl">
-                  <tbody>
-                  <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                  </tbody>
-                  </table>
-              @endif
+               
             </div>
             <div class="col-sm-8">
                <div class="row p-t-80">
@@ -248,62 +242,62 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
 ?>
 
  <script type="text/javascript">
-     var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
+    var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
     var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
 
     $(document).ready(function() {
 
-    //var legends = {score: "Total Score"};
-    //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
+      //var legends = {score: "Total Score"};
+      //lineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,legends,0,"chartdiv",'Submissions','Total Score');
 
-    //scroll div to right
-    $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
+      //scroll div to right
+      $('.sticky-table-outer-div').animate({scrollLeft: 99999}, 300);
 
       //question chart
-    shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
+      shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
 
-    //submission chart
-    submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
+      //submission chart
+      submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
 
-      $('select[name="referenceCode"]').change(function (event) { 
-        $("#patientRefCode").val($(this).val());
-         $(this).closest('form').submit();
+        $('select[name="referenceCode"]').change(function (event) { 
+          $("#patientRefCode").val($(this).val());
+           $(this).closest('form').submit();
+        });
+
+        $('select[name="generateQuestionChart"]').change(function (event) { 
+        <?php 
+        foreach($questionLabels as $questionId => $label)
+        {
+          $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
+          //$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
+          ?>
+          if($(this).val()=='{{$questionId}}')
+          { 
+            shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart','Submissions','Score');
+          }
+
+          <?php
+        }
+        ?>
+
       });
 
-      $('select[name="generateQuestionChart"]').change(function (event) { 
-      <?php 
-      foreach($questionLabels as $questionId => $label)
-      {
-        $inputJson = (isset($questionChartData[$questionId])) ? json_encode($questionChartData[$questionId]):'[]';
-        //$baseLine = (isset($questionBaseLine[$questionId]))?$questionBaseLine[$questionId]:0;
-        ?>
-        if($(this).val()=='{{$questionId}}')
-        { 
-          shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$label}}',0,'questionChart','Submissions','Score');
+        $('select[name="generateSubmissionChart"]').change(function (event) { 
+        <?php 
+        foreach($submissionNumbers as $submissionNumber => $responseId)
+        {
+          $submissionJson = json_encode($submissionChart[$responseId]);
+          ?>
+          if($(this).val()=='{{$responseId}}')
+          { 
+            submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
+          }
+
+          <?php
         }
-
-        <?php
-      }
-      ?>
-
-    });
-
-      $('select[name="generateSubmissionChart"]').change(function (event) { 
-      <?php 
-      foreach($submissionNumbers as $submissionNumber => $responseId)
-      {
-        $submissionJson = json_encode($submissionChart[$responseId]);
         ?>
-        if($(this).val()=='{{$responseId}}')
-        { 
-          submissionBarChart(<?php echo $submissionJson; ?>,'submissionChart');
-        }
 
-        <?php
-      }
-      ?>
-
-    });
+      });
 
     //   $('select[name="generateChart"]').change(function (event) { 
     //   if($(this).val()=='total_score')
@@ -332,32 +326,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     // });
 
          
-         var chart = AmCharts.makeChart( "submissionschart", {
-                    "type": "pie",
-                    "theme": "light",
-                    "dataProvider": [ {
-                   "title": "# Missed",
-                   "value": {{ $responseRate['missedCount'] }}
-                 }, {
-                   "title": "# Completed",
-                   "value": {{ $responseRate['completedCount'] }}
-                 } 
-                 , {
-                   "title": "# late",
-                   "value": {{ $responseRate['lateCount'] }}
-                 } ],
-                    "titleField": "title",
-                    "valueField": "value",
-                    "labelRadius": 5,
-         
-                    "radius": "36%",
-                    "innerRadius": "60%",
-                    "labelText": "[[title]]",
-                    "export": {
-                      "enabled": true
-                    }
-                  } );// Pie Chart
-         });
+      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>);
+      
+    });
          
       </script>
 @endsection

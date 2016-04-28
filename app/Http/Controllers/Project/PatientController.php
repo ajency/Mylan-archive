@@ -95,6 +95,7 @@ class PatientController extends Controller
             $completedCount = $patientResponses['completedCount'];
             $lateCount = $patientResponses['lateCount'];
             $missedCount = $patientResponses['missedCount'];
+            $pieChartData = $patientResponses['pieChartData'];
             $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray(); 
       
@@ -131,6 +132,7 @@ class PatientController extends Controller
                                           ->with('completedCount', $completedCount)
                                           ->with('lateCount', $lateCount)
                                           ->with('missedCount', $missedCount)
+                                          ->with('pieChartData', $pieChartData)
                                           ->with('endDate', $endDate)
                                           ->with('startDate', $startDate)
                                           ->with('patientsStatus', $patientsStatus)
@@ -438,6 +440,16 @@ class PatientController extends Controller
 
             $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
             $responseRate['late'] =  round($late);
+
+            $pieChartData=[];
+            if($totalResponses)
+            {
+              $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
+              $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
+              $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
+            }
+
+            $responseRate['pieChartData'] = json_encode($pieChartData);
 
             $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
 
@@ -1470,7 +1482,8 @@ class PatientController extends Controller
         $missed =  round($missed);
 
         $patientMiniGraphData = $this->patientsMiniGraph($responses);
-        
+
+             
          
  
         $data['patientResponses']=$patientResponses;
@@ -1483,6 +1496,16 @@ class PatientController extends Controller
         $data['missedCount']=array_sum($missedResponses);
         $data['totalResponses']=$totalResponses;
         $data['patientMiniGraphData']=$patientMiniGraphData;
+
+        $pieChartData=[];
+        if($totalResponses)
+        {
+          $pieChartData[] = ["title"=> "# Missed","value"=>$data['missedCount']];
+          $pieChartData[] = ["title"=> "# Completed","value"=>$data['completedCount']];
+          $pieChartData[] = ["title"=> "# late","value"=>$data['lateCount']];
+        }
+
+        $data['pieChartData'] = json_encode($pieChartData);
          
         return $data;
         

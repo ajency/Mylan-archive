@@ -117,15 +117,9 @@
                            <br>
                               <div class="row">
                                  <div class="col-sm-6">
-                                @if(!$totalSubmissionCount)
+                                
                                     <div class="row"><div id="piechart" class="piechart-height"></div></div>
-                                @else 
-                                <table class="table table-flip-scroll table-hover dashboard-tbl">
-                                <tbody>
-                                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                                </tbody>
-                                </table>
-                                @endif
+                                 
                                  </div>
                                  <div class="col-sm-6">
                                  <div class="row">
@@ -244,7 +238,7 @@
                             </div>
                           </div>
                            <div class="grid-body no-border table-data no-padding">
-                            @if(!$totalSubmissionCount)                              
+                            @if($totalSubmissionCount)                              
                               <div id="chartdiv" style="width:100%; height: 400px;"></div>
                             @else 
                               <table class="table table-flip-scroll table-hover dashboard-tbl">
@@ -660,37 +654,11 @@
       <?php 
     } 
   ?>
- 
+    
+    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>);
    });
         
-         
-         var chart = AmCharts.makeChart( "piechart", {
-         "type": "pie",
-         "theme": "light",
-           "dataProvider": [ {
-               "title": "# Missed",
-               "value": {{ $responseCount['missedCount'] }}
-             }, {
-               "title": "# Completed",
-               "value": {{ $responseCount['completedCount'] }}
-             } 
-             , {
-               "title": "# late",
-               "value": {{ $responseCount['lateCount'] }}
-             } ],
-             "titleField": "title",
-             "valueField": "value",
-             "labelRadius": 5,
 
-             "radius": "36%",
-             "innerRadius": "60%",
-             "labelText": "[[title]]",
-             "export": {
-               "enabled": true
-             }
-         } );
-         
- 
       </script>
       <style type="text/css">
          .grid-title h4 {

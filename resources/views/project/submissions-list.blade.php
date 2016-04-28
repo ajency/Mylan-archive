@@ -56,15 +56,9 @@
                            <div class="col-md-4">
                               <div class="tiles white added-margin">
                                  <div class="tiles-body">
-                                  @if(!empty($submissionsSummary))     
+                                  
                                     <div id="submissionschart"></div>
-                                  @else 
-                                  <table class="table">
-                                  <tbody>
-                                  <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                                  </tbody>
-                                  </table>
-                                  @endif
+                                  
                                  </div>
                               </div>
                            </div>
@@ -273,33 +267,9 @@
 var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
 var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
 
- var chart = AmCharts.makeChart( "submissionschart", {
-       "type": "pie",
-       "theme": "light",
-       "dataProvider": [ {
-         "title": "# Missed",
-         "value": {{ $responseRate['missedCount'] }}
-       }, {
-         "title": "# Completed",
-         "value": {{ $responseRate['completedCount'] }}
-       } 
-       , {
-         "title": "# late",
-         "value": {{ $responseRate['lateCount'] }}
-       } ],
-       "titleField": "title",
-       "valueField": "value",
-       "labelRadius": 5,
-
-       "radius": "36%",
-       "innerRadius": "60%",
-       "labelText": "[[title]]",
-       "export": {
-         "enabled": true
-       }
-     } );// Pie Chart
-
+ 
 $(document).ready(function() {
+    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>);
 
       $('select[name="submissionStatus"]').change(function (event) { 
          $(".submissionFilter").removeClass('hidden');
