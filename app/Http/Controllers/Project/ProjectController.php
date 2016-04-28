@@ -321,6 +321,35 @@ class ProjectController extends Controller
 
         $alertClases = [
         'compared_to_previous_red_flags'=>"danger",
+        'more_red_flags_compared_to_previous'=>"danger",
+        'more_red_flags_compared_to_baseline'=>"danger",
+        'more_or_equal_red_flags_compared_to_previous'=>"danger",
+        'more_or_equal_red_flags_compared_to_baseline'=>"danger",
+
+        'less_red_flags_compared_to_previous'=>"danger",
+        'less_red_flags_compared_to_baseline'=>"danger",
+        'less_or_equal_red_flags_compared_to_previous'=>"danger",
+        'less_or_equal_red_flags_compared_to_baseline'=>"danger",
+
+        'more_amber_flags_compared_to_previous'=>"warning",
+        'more_amber_flags_compared_to_baseline'=>"warning",
+        'more_or_equal_amber_flags_compared_to_previous'=>"warning",
+        'more_or_equal_amber_flags_compared_to_baseline'=>"warning",
+
+        'less_amber_flags_compared_to_previous'=>"warning",
+        'less_amber_flags_compared_to_baseline'=>"warning",
+        'less_or_equal_amber_flags_compared_to_previous'=>"warning",
+        'less_or_equal_amber_flags_compared_to_baseline'=>"warning",
+
+        'more_green_flags_compared_to_previous'=>"success",
+        'more_green_flags_compared_to_baseline'=>"success",
+        'more_or_equal_green_flags_compared_to_previous'=>"success",
+        'more_or_equal_green_flags_compared_to_baseline'=>"success",
+
+        'less_green_flags_compared_to_previous'=>"success",
+        'less_green_flags_compared_to_baseline'=>"success",
+        'less_or_equal_green_flags_compared_to_previous'=>"success",
+        'less_or_equal_green_flags_compared_to_baseline'=>"success",
         'new_patient'=>"info"
         ];
 
