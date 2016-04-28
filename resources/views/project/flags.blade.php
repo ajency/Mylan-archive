@@ -47,17 +47,16 @@
       <div>
          <!-- Nav tabs -->
          <div class="pull-right m-t-5">
-                  <form name="searchData" method="GET"> 
-  <input type="hidden" class="form-control" name="startDate"  >
-  <input type="hidden" class="form-control" name="endDate"  >
- 
-   <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;margin-right:10px;">
-          <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-          <span></span> <b class="caret"></b>
-      </div>
-                            
-
-  </form>
+      <form name="searchData" method="GET"> 
+      <input type="hidden" class="form-control" name="startDate"  >
+      <input type="hidden" class="form-control" name="endDate"  >
+      <input type="hidden" class="form-control" name="type"  value="{{ $filterType }}" >
+     
+       <div id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;margin-right:10px;">
+              <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+              <span></span> <b class="caret"></b>
+          </div>
+      </form>
   <input type="hidden" name="flag" value="0">
          </div>
          <ul class="nav nav-tabs" role="tablist">
@@ -75,6 +74,10 @@
                   <div class="col-md-3 text-right filter-dropdown submission-filter">
                     <span class="cf-loader hidden flagsFilter pull-right"></span>
                     <form name="filterData" method="get" class="pull-right">
+
+                    <input type="hidden" class="form-control" name="startDate" value="{{ $startDate }}"  >
+                    <input type="hidden" class="form-control" name="endDate" value="{{ $endDate }}" >
+
                     <label class="filter-label m-t-15 m-r-10">Filter</label>  
                      <select name="type" id="type" class=" select2 m-t-5 m-b-5 form-control inline filterby ">
                         <option value="">All</option>
