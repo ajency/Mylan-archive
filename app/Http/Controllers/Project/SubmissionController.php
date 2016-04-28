@@ -154,31 +154,16 @@ class SubmissionController extends Controller
                 }
                  
             }
-            // dd($timeDifference);
-
+ 
             $totalResponses = $responseRate['completedCount'] + $responseRate['missedCount'] + $responseRate['lateCount']; 
 
-            // $responseRate['completedCount'] = count($completedResponses);
+            $submissionCountData = getSubmissionCountData($totalResponses, $responseRate['missedCount'], $responseRate['completedCount'], $responseRate['lateCount']);
 
-            $completed = ($totalResponses) ? ($responseRate['completedCount']/$totalResponses) * 100 :0;
-            $responseRate['completed'] =  round($completed);
+            $responseRate['completed'] =  $submissionCountData['completed'];
+            $responseRate['missed'] =  $submissionCountData['missed'];
+            $responseRate['late'] =  $submissionCountData['late'];
+            $responseRate['pieChartData'] = $submissionCountData['pieChartData'];
 
-            $missed = ($totalResponses) ? ($responseRate['missedCount']/$totalResponses) * 100 :0;
-            $responseRate['missed'] =  round($missed);
-
-            $late = ($totalResponses) ? ($responseRate['lateCount']/$totalResponses) * 100 :0;
-            $responseRate['late'] =  round($late);
-
-            $pieChartData=[];
-            if($totalResponses)
-            {
-              $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
-              $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
-              $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
-            }
-
-            $responseRate['pieChartData'] = json_encode($pieChartData);
-            
             $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
             $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);

@@ -819,23 +819,13 @@ class ProjectController extends Controller
         $data['missedCount'] = count($missedResponses);
         $data['lateCount'] = count($lateResponses);
 
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $data['completed'] =  round($completed);
+        $submissionCountData = getSubmissionCountData($totalResponses, $data['missedCount'], $data['completedCount'], $data['lateCount']);
 
-        $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-        $data['missed'] =  round($missed);
+        $data['completed'] =  $submissionCountData['completed'];
+        $data['missed'] =  $submissionCountData['missed'];
+        $data['late'] =  $submissionCountData['late'];
+        $data['pieChartData'] = $submissionCountData['pieChartData'];
 
-        $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-        $data['late'] =  round($late);
-
-        $pieChartData=[];
-        if($totalResponses)
-        {
-          $pieChartData[] = ["title"=> "# Missed","value"=>$data['missedCount']];
-          $pieChartData[] = ["title"=> "# Completed","value"=>$data['completedCount']];
-          $pieChartData[] = ["title"=> "# late","value"=>$data['lateCount']];
-        }
-        
 
         $data['redBaseLine'] = (isset($redFlags['baseLine']))?array_sum($redFlags['baseLine']):0;
         $data['redPrevious'] = (isset($redFlags['previous']))?array_sum($redFlags['previous']):0;
@@ -844,12 +834,7 @@ class ProjectController extends Controller
         $data['unreviewedSubmission'] = count($unreviewed);
         $data['patientSubmissions'] = $patientSubmissions;
         $data['totalSubmissionCount'] = $totalResponses;
-        $data['pieChartData'] = json_encode($pieChartData);
-        
-        
 
-        
-         
         return $data;
     }
 
@@ -1331,24 +1316,12 @@ class ProjectController extends Controller
           $responseRate['missedCount'] = count($missedResponses);
           $responseRate['lateCount'] = count($lateResponses);
 
-          $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-          $responseRate['completed'] =  round($completed);
+          $submissionCountData = getSubmissionCountData($totalResponses, $responseRate['missedCount'], $responseRate['completedCount'], $responseRate['lateCount']);
 
-          $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-          $responseRate['missed'] =  round($missed);
-
-          $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-          $responseRate['late'] =  round($late);  
-
-          $pieChartData=[];
-          if($totalResponses)
-          {
-            $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
-            $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
-            $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
-          }
-
-          $responseRate['pieChartData'] = json_encode($pieChartData);
+          $responseRate['completed'] =  $submissionCountData['completed'];
+          $responseRate['missed'] =  $submissionCountData['missed'];
+          $responseRate['late'] =  $submissionCountData['late'];
+          $responseRate['pieChartData'] = $submissionCountData['pieChartData'];
 
           $baselineAnwers = $patientController->getPatientBaseLine($referenceCode);
           $allBaselineAnwers = $patientController->getAllPatientBaseLine($referenceCode);

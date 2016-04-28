@@ -35,7 +35,33 @@ function getProjectAttributes($attributes)
     }
 
     return $data;
-}   
+}  
+
+function getSubmissionCountData($totalSubmission, $missedCount, $completedCount, $lateCount)
+{
+    $data = [];
+
+    $completed = ($totalSubmission) ? ($completedCount/$totalSubmission) * 100 :0;
+    $data['completed'] =  round($completed);
+
+    $missed = ($totalSubmission) ? ($missedCount/$totalSubmission) * 100 :0;
+    $data['missed'] =  round($missed);
+
+    $late = ($totalSubmission) ? ($lateCount/$totalSubmission) * 100 :0;
+    $data['late'] =  round($late);
+
+    $pieChartData=[];
+    if($totalSubmission)
+    {
+      $pieChartData[] = ["title"=> "# Missed","value"=>$missedCount];
+      $pieChartData[] = ["title"=> "# Completed","value"=>$completedCount];
+      $pieChartData[] = ["title"=> "# late","value"=>$lateCount];
+    }
+
+    $data['pieChartData'] = json_encode($pieChartData);
+
+    return $data;
+} 
 
 // function secondsToTime($inputSeconds) {
 

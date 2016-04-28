@@ -432,24 +432,12 @@ class PatientController extends Controller
             $responseRate['missedCount'] = count($missedResponses);
             $responseRate['lateCount'] = count($lateResponses);
 
-            $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-            $responseRate['completed'] =  round($completed);
+            $submissionCountData = getSubmissionCountData($totalResponses, $responseRate['missedCount'], $responseRate['completedCount'], $responseRate['lateCount']);
 
-            $missed = ($totalResponses) ? (count($missedResponses)/$totalResponses) * 100 :0;
-            $responseRate['missed'] =  round($missed);
-
-            $late = ($totalResponses) ? (count($lateResponses)/$totalResponses) * 100 :0;
-            $responseRate['late'] =  round($late);
-
-            $pieChartData=[];
-            if($totalResponses)
-            {
-              $pieChartData[] = ["title"=> "# Missed","value"=>$responseRate['missedCount']];
-              $pieChartData[] = ["title"=> "# Completed","value"=>$responseRate['completedCount']];
-              $pieChartData[] = ["title"=> "# late","value"=>$responseRate['lateCount']];
-            }
-
-            $responseRate['pieChartData'] = json_encode($pieChartData);
+            $responseRate['completed'] =  $submissionCountData['completed'];
+            $responseRate['missed'] =  $submissionCountData['missed'];
+            $responseRate['late'] =  $submissionCountData['late'];
+            $responseRate['pieChartData'] = $submissionCountData['pieChartData'];
 
             $baselineAnwers = $this->getPatientBaseLine($patient['reference_code']);
 
@@ -1472,20 +1460,15 @@ class PatientController extends Controller
        
         $totalResponses = count($responses) + array_sum($missedResponses) + array_sum($lateResponses);
 
-        $completed = ($totalResponses) ? (count($completedResponses)/$totalResponses) * 100 :0;
-        $completed =  round($completed);
+        $submissionCountData = getSubmissionCountData($totalResponses, array_sum($missedResponses), count($completedResponses), array_sum($lateResponses));
 
-        $late = ($totalResponses) ? (array_sum($lateResponses)/$totalResponses) * 100 :0;
-        $late =  round($late);
-
-        $missed = ($totalResponses) ? (array_sum($missedResponses)/$totalResponses) * 100 :0;
-        $missed =  round($missed);
+        $completed =  $submissionCountData['completed'];
+        $missed =  $submissionCountData['missed'];
+        $late =  $submissionCountData['late'];
+        $data['pieChartData'] = $submissionCountData['pieChartData'];
 
         $patientMiniGraphData = $this->patientsMiniGraph($responses);
 
-             
-         
- 
         $data['patientResponses']=$patientResponses;
         $data['patientSortedData']=$patientSortedData;
         $data['completed']=$completed; 
@@ -1497,15 +1480,7 @@ class PatientController extends Controller
         $data['totalResponses']=$totalResponses;
         $data['patientMiniGraphData']=$patientMiniGraphData;
 
-        $pieChartData=[];
-        if($totalResponses)
-        {
-          $pieChartData[] = ["title"=> "# Missed","value"=>$data['missedCount']];
-          $pieChartData[] = ["title"=> "# Completed","value"=>$data['completedCount']];
-          $pieChartData[] = ["title"=> "# late","value"=>$data['lateCount']];
-        }
-
-        $data['pieChartData'] = json_encode($pieChartData);
+         
          
         return $data;
         
