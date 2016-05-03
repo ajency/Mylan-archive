@@ -50,6 +50,8 @@ angular.module 'PatientApp.Auth'
 								@loginerror = 'No password set for the reference code'
 							else if data.code == 'baseline_not_set'
 								@loginerror = 'Patient cannot be activated,due to missing activation data . Please contact your hospital administrator'
+							else if data.code == 'project_paused'
+								@loginerror = 'This project is paused. Please contact your hospital administrator'
 							else
 								CToast.show 'Please check credentials'
 								@loginerror = "Password entered is incorrect, Please try again"
