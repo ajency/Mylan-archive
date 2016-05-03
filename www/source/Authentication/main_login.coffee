@@ -1,15 +1,16 @@
 angular.module 'PatientApp.Auth'
 
 .controller 'main_loginCtr',['$scope', 'App', 'Storage'
-	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform'
+	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', 'RefcodeData'
 	 , ($scope, App, Storage,
-	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform)->
+	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform, RefcodeData)->
 
 		$scope.view =
 			temprefrencecode :''
 			loginerror: ''
 			password:''
 			readonly : ''
+			refrencecode : RefcodeData
 			
 
 			mainlogin : ->

@@ -1,11 +1,12 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', 'RefcodeData', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform, RefcodeData) {
     var onDeviceBack, onHardwareBackLogin;
     $scope.view = {
       temprefrencecode: '',
       loginerror: '',
       password: '',
       readonly: '',
+      refrencecode: RefcodeData,
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
           return this.loginerror = "Please enter your credentials ";
