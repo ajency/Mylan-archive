@@ -1974,6 +1974,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 				                        project: responseObj.get("project")
 				                        alertType : alert
 				                        referenceId : responseObj.id
+				                        referenceType : "Response"
 				                        cleared : false
 				                    Alerts = Parse.Object.extend("Alerts") 
 				                    alertObj = new Alerts AlertData
@@ -2066,6 +2067,7 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 	                        project: responseObj.get("project")
 	                        alertType : alert
 	                        referenceId : responseObj.id
+	                        referenceType : "Response"
 	                        cleared : false
 	                    Alerts = Parse.Object.extend("Alerts") 
 	                    alertObj = new Alerts AlertData
@@ -2189,6 +2191,7 @@ createAlerts = (patientId, project, alertType, referenceId) ->
 	alerts.set "project",project
 	alerts.set "alertType",alertType
 	alerts.set "referenceId",referenceId
+	alerts.set "referenceType","Response"
 	alerts.set 'cleared', false
 	alerts.save()
 	.then (alertObj) ->

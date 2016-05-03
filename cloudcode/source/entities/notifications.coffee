@@ -698,7 +698,7 @@ getNotificationSendObject = (scheduleObj, notification) ->
     promise = new Parse.Promise()
 
     getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
-    .then (questionnaireObj) ->
+    .then (settings) ->
         occurrenceDate = notification.get('occurrenceDate')
         graceDate =new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000))
         notificationType = notification.get('type')

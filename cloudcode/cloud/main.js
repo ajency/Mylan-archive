@@ -754,7 +754,7 @@
   getNotificationSendObject = function(scheduleObj, notification) {
     var promise;
     promise = new Parse.Promise();
-    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(questionnaireObj) {
+    getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       var graceDate, notificationSendObject, notificationType, occurrenceDate;
       occurrenceDate = notification.get('occurrenceDate');
       graceDate = new Date(scheduleObj.get('nextOccurrence').getTime() + (settings['gracePeriod'] * 1000));
@@ -3036,6 +3036,7 @@
                       project: responseObj.get("project"),
                       alertType: alert,
                       referenceId: responseObj.id,
+                      referenceType: "Response",
                       cleared: false
                     };
                     Alerts = Parse.Object.extend("Alerts");
@@ -3129,6 +3130,7 @@
                 project: responseObj.get("project"),
                 alertType: alert,
                 referenceId: responseObj.id,
+                referenceType: "Response",
                 cleared: false
               };
               Alerts = Parse.Object.extend("Alerts");
@@ -3264,6 +3266,7 @@
     alerts.set("project", project);
     alerts.set("alertType", alertType);
     alerts.set("referenceId", referenceId);
+    alerts.set("referenceType", "Response");
     alerts.set('cleared', false);
     alerts.save().then(function(alertObj) {
       return promise.resolve(alertObj);
