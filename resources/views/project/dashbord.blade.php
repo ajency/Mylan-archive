@@ -165,10 +165,10 @@
                            <div class="grid-body no-border" style="display: block;">
                            @if(!empty($projectAlerts['alertMsg']))
                             @foreach($projectAlerts['alertMsg'] as $projectAlert)
-                              <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $projectAlert['responseId'] }}';">
+                              <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
                                 <div class="message-wrapper msg-card">
                                      <div class="heading">Patient ID {{ $projectAlert['patient'] }}   </div>
-                                     <div class="description"> {{ sprintf($projectAlert['msg'], $projectAlert['previousTotalRedFlags'],$projectAlert['sequenceNumber'] ) }} </div>
+                                     <div class="description"> {{ $projectAlert['msg'] }} </div>
                                   </div>
                                   <!-- <div class="date pull-right"> Yesterday </div> -->
                                   <div class="clearfix"></div>
