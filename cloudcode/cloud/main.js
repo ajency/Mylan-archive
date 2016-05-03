@@ -273,6 +273,7 @@
               var scheduleQuery;
               scheduleQuery = new Parse.Query('Schedule');
               scheduleQuery.equalTo('patient', notification.get('patient'));
+              scheduleQuery.include('questionnaire');
               return scheduleQuery.first().then(function(scheduleObj) {
                 var tokenStorageQuery;
                 tokenStorageQuery = new Parse.Query('TokenStorage');
@@ -460,13 +461,10 @@
                       notificationObj.set('cleared', false);
                       notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                       return notificationObj.save().then(function(notificationObj) {
-                        scheduleQuery = new Parse.Query('Schedule');
-                        scheduleQuery.doesNotExist('patient');
-                        scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'));
-                        return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
+                        return getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
                           var newNextOccurrence;
                           newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-                          newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000);
+                          newNextOccurrence.setTime(newNextOccurrence.getTime()(+Number(settings['frequency']) * 1000));
                           scheduleObj.set('nextOccurrence', newNextOccurrence);
                           return scheduleObj.save();
                         }, function(error) {
@@ -714,6 +712,7 @@
     notificationQuery.equalTo('patient', patientId);
     notificationQuery.equalTo('cleared', false);
     notificationQuery.include('schedule');
+    notificationQuery.include('schedule.questionnaire');
     notificationQuery.limit(limit);
     notificationQuery.skip(page * limit);
     notificationQuery.descending('createdAt');
@@ -764,6 +763,7 @@
       notificationSendObject['graceDate'] = graceDate;
       notificationSendObject['id'] = notification.id;
       notificationSendObject['hasSeen'] = notification.get('hasSeen');
+      console.log(notificationSendObject);
       if (notificationType === "beforOccurrence") {
         notificationSendObject['type'] = "beforOccurrence";
         return promise.resolve(notificationSendObject);

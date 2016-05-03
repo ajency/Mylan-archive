@@ -210,6 +210,7 @@ sendNotifications = () ->
                         #console.log "---------------------"
                         scheduleQuery = new Parse.Query('Schedule')
                         scheduleQuery.equalTo('patient', notification.get('patient'))
+                        scheduleQuery.include('questionnaire')
                         scheduleQuery.first()
                         .then (scheduleObj) ->
                             #console.log "scheduleObj #{scheduleObj.id}"
@@ -392,13 +393,10 @@ createMissedResponse = () ->
                                         notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                         notificationObj.save()
                                         .then (notificationObj) ->
-                                            scheduleQuery = new Parse.Query('Schedule')
-                                            scheduleQuery.doesNotExist('patient')
-                                            scheduleQuery.equalTo('questionnaire', scheduleObj.get('questionnaire'))
-                                            scheduleQuery.first()
-                                            .then (scheduleQuestionnaireObj) ->
+                                            getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+                                            .then (settings) ->
                                                 newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                                                newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
+                                                newNextOccurrence.setTime(newNextOccurrence.getTime() +Number(settings['frequency']) * 1000)
                                                 scheduleObj.set 'nextOccurrence', newNextOccurrence
                                                 scheduleObj.save()
                                             , (error) ->
@@ -662,6 +660,7 @@ getPatientNotifications = (patientId,page,limit) ->
     notificationQuery.equalTo('patient', patientId)
     notificationQuery.equalTo('cleared', false)
     notificationQuery.include('schedule')
+    notificationQuery.include('schedule.questionnaire')
     notificationQuery.limit(limit)
     notificationQuery.skip(page*limit)
     notificationQuery.descending('createdAt')
@@ -715,6 +714,8 @@ getNotificationSendObject = (scheduleObj, notification) ->
         notificationSendObject['graceDate'] = graceDate
         notificationSendObject['id'] = notification.id
         notificationSendObject['hasSeen'] = notification.get('hasSeen')
+
+        console.log notificationSendObject
 
         if notificationType == "beforOccurrence"
             notificationSendObject['type'] = "beforOccurrence"
