@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
 use App\Hospital;
 use App\Projects;
+use App\UserDevice;
 use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
@@ -91,6 +92,7 @@ class AuthController extends Controller
             
         $newpassword = getPassword($referenceCode , $password);
 
+        //CHECK LOGIN ATTEMPTS
         $user = User::where('type','patient')->where('reference_code', $referenceCode)->first();
         if($user->login_attempts >3)
         {
@@ -99,7 +101,15 @@ class AuthController extends Controller
                 ]);  
         }
                  
-       
+        //CHECK SETUP LIMIT
+        $userDeviceCount = UserDevice::where('user_id',$user->id)->get()->count();
+        if($userDeviceCount >=SETUP_LIMIT)
+        {
+            return redirect('/login')->withErrors([
+                    'email' => 'Limit exceeded, cannot do setup more then '.SETUP_LIMIT.' times',
+                ]);  
+        }
+
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
             $project = Projects::find(Auth::user()->project_id)->toArray(); 
@@ -153,6 +163,18 @@ class AuthController extends Controller
                         $schedule->save();
 
                     }
+
+                    //USER DEVICE ENTRY
+                    $browserData = get_browser(null, true);
+                    $userDevice =  new UserDevice();
+                    $userDevice->user_id = Auth::user()->id;
+                    $userDevice->device_type = $browserData['browser'];
+                    $userDevice->device_identifier = $installationId;
+                    $userDevice->device_os = "";
+                    $userDevice->access_type = "web";
+                    $userDevice->save();
+
+                    createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                     
                     return redirect()->intended('dashboard');
                 }
@@ -172,6 +194,8 @@ class AuthController extends Controller
                     'email' => 'Account inactive, contact administrator',
                 ]);
             }
+
+            
         }
 
         if($user!=null)
@@ -190,7 +214,6 @@ class AuthController extends Controller
 
     public function getAdminLogin()
     {
-
         return view('auth.admin-login');
     }
 

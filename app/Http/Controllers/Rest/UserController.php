@@ -272,7 +272,7 @@ class UserController extends Controller
             {
                 $json_resp = array(
                     'code' => 'limit_exceeded' , 
-                    'message' => 'cannot do setup more then 5 times'
+                    'message' => 'cannot do setup more then '.SETUP_LIMIT.' times'
                     );
                     $status_code = 200;
             }

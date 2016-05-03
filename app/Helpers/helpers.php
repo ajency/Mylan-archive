@@ -17,7 +17,8 @@ function getRoles()
 
 
 //constatnts
-define("SETUP_LIMIT", 5);
+define("SETUP_LIMIT", 10);
+define("SETUP_ALERT", 5);
 define("DATE_DIFFERENCE", 90);
 
 function getUserApiKey( $userId ) {
@@ -62,6 +63,24 @@ function getSubmissionCountData($totalSubmission, $missedCount, $completedCount,
 
     return $data;
 } 
+
+function createSetupAlert($referenceCode,$setupCount,$project)
+{
+    $response = "alert_not_created";
+    if($setupCount == SETUP_ALERT)
+    {
+        $alert = new Parse\ParseObject("Alerts");
+        $alert->set("project", $project);
+        $alert->set("patient", $referenceCode);
+        $alert->set("alertType", "device_setup_alert");
+        $alert->set("referenceType", "patient");
+        $alert->set("cleared",false);
+        $alert->save(); 
+        $response = "alert_created";
+    }
+
+    return $response;
+}
 
 // function secondsToTime($inputSeconds) {
 
