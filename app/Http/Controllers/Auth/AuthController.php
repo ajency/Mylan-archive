@@ -165,10 +165,11 @@ class AuthController extends Controller
                     }
 
                     //USER DEVICE ENTRY
-                    $browserData = get_browser(null, true);
+                    
+                    $browserData = $_SERVER['HTTP_USER_AGENT'];
                     $userDevice =  new UserDevice();
                     $userDevice->user_id = Auth::user()->id;
-                    $userDevice->device_type = $browserData['browser'];
+                    $userDevice->device_type = $browserData;
                     $userDevice->device_identifier = $installationId;
                     $userDevice->device_os = "";
                     $userDevice->access_type = "web";
