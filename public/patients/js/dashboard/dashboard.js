@@ -4,7 +4,7 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       data: [],
       display: 'loader',
       QuestinnarieName: questionnaireName,
-      showMoreButton: true,
+      showMoreButton: false,
       limitTo: 5,
       errorStartQuestion: false,
       errorMsg: '',
