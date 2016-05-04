@@ -3,15 +3,21 @@ cronjobRunTime = 60 #secs
 Parse.Cloud.define "testNotifications", (request, response) ->
     getNotifications()
     .then () ->
-        sendNotifications() 
-        .then () ->
-            currentDate = moment().format()
-            convertedDate = convertToZone(currentDate,'Asia/Calcutta').format()
-            response.success ("moment = #{currentDate} date = #{convertedDate}")
-        , (error) ->
-            response.error error
+        currentDate = moment().format()
+        convertedDate = convertToZone(currentDate,'Asia/Calcutta').format()
+        response.success ("moment = #{currentDate} date = #{convertedDate}") 
     , (error) ->
         response.error error
+
+Parse.Cloud.define "testSendNotifications", (request, response) ->
+    sendNotifications() 
+    .then () ->
+        currentDate = moment().format()
+        convertedDate = convertToZone(currentDate,'Asia/Calcutta').format()
+        response.success ("moment = #{currentDate} date = #{convertedDate}")
+    , (error) ->
+        response.error error
+     
 
 
 getNotifications = () ->
@@ -121,10 +127,10 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             # "DD-MM-YYYY HH:mm HH:mm"
             graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
             if timeZone!=''
-                convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A')
+                convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A')
             else
                 # convertedGraceDate = graceDate
-                convertedGraceDate = moment(graceDate).format('DD-MM-YYYY hh:mm A')
+                convertedGraceDate = moment(graceDate).format('ddd, Do MMM YYYY hh:mm A')
 
             console.log "convertedGraceDate"
             console.log convertedGraceDate
@@ -228,7 +234,7 @@ sendNotifications = () ->
                                             #console.log "---------------------"
                                             getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'),tokenStorageObj.get('installationId'))
                                             .then (pushData) ->  
-                                                console.log "---------------------"                         
+                                                # console.log "---------------------"                         
                                                 installationQuery = new Parse.Query(Parse.Installation)
                                                 installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
                                                 # installationQuery.equalTo('installationId', 'e8c072c2-bf7d-48e3-aaf0-f3dc8eeafc4d')
@@ -295,7 +301,6 @@ Parse.Cloud.define 'deleteResponse', (request, response) ->
             _.each responses, (responseObj) ->
                 promise = promise
                 .then () ->
-                    console.log "111"
                     responseObj.destroy()
             promise
         getResponse()
@@ -367,10 +372,10 @@ createMissedResponse = () ->
             promise1 = Parse.Promise.as()
             _.each scheduleObjs, (scheduleObj) ->
                 if scheduleObj.get('questionnaire').get('pauseProject') == false
-                    console.log "PROJECT ACTIVE"
+                    # console.log "PROJECT ACTIVE"
                     promise1 = promise1
                     .then () ->
-                        getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+                        getValidTimeFrame(scheduleObj.get('patient'),scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
                         .then (timeObj) ->
                             # currentDate = new Date()
                             # if currentDate.getTime() > timeObj['upperLimit'].getTime()
@@ -389,14 +394,14 @@ createMissedResponse = () ->
                                         notificationObj.set 'type', 'missedOccurrence'
                                         notificationObj.set 'processed', false
                                         notificationObj.set 'schedule', scheduleObj
-                                        notificationObj.set 'cleared', false
+                                        notificationObj.set 'clear   ed', false
                                         notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                         notificationObj.save()
                                         .then (notificationObj) ->
                                             getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
                                             .then (settings) ->
                                                 newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
-                                                newNextOccurrence.setTime(newNextOccurrence.getTime() +Number(settings['frequency']) * 1000)
+                                                newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                                                 scheduleObj.set 'nextOccurrence', newNextOccurrence
                                                 scheduleObj.save()
                                             , (error) ->
@@ -419,8 +424,8 @@ createMissedResponse = () ->
                         console.log  "missed4"
                         promise1.reject error
                 else
-                    console.log "PROJECT PAUSED"
-                    console.log scheduleObj.get('questionnaire').get('project')
+                    # console.log "PROJECT PAUSED"
+                    # console.log scheduleObj.get('questionnaire').get('project')
                     promise1.resolve("project paused")
             promise1
         updateMissedResponse()
@@ -457,7 +462,7 @@ createLateResponses = () ->
 createLateResponse = (scheduleObj) ->
     promise = new Parse.Promise()
     if scheduleObj.get('questionnaire').get('pauseProject') == false
-        console.log "PROJECT ACTIVE"
+        # console.log "PROJECT ACTIVE"
         if isLateSubmission(scheduleObj.get('questionnaire'),scheduleObj.get('nextOccurrence'))
             createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
             .then (responseObj) ->
@@ -486,8 +491,8 @@ createLateResponse = (scheduleObj) ->
         else 
             promise.resolve("not missed")   
     else
-        console.log "PROJECT PAUSED"
-        console.log scheduleObj.get('questionnaire').get('project')
+        # console.log "PROJECT PAUSED"
+        # console.log scheduleObj.get('questionnaire').get('project')
         promise.resolve("project paused")   
     promise
 
@@ -508,7 +513,7 @@ Parse.Cloud.job 'commonJob', (request, response) ->
                     sendNotifications() 
                     .then (notifications) ->
                         console.log "notifications_sent = #{notifications}"
-                        console.log  (new Date())
+                        # console.log  (new Date())
                         response.success "job_run"
                     , (error) ->
                         response.error "not_run"
@@ -715,7 +720,7 @@ getNotificationSendObject = (scheduleObj, notification) ->
         notificationSendObject['id'] = notification.id
         notificationSendObject['hasSeen'] = notification.get('hasSeen')
 
-        console.log notificationSendObject
+        # console.log notificationSendObject
 
         if notificationType == "beforOccurrence"
             notificationSendObject['type'] = "beforOccurrence"
@@ -780,12 +785,13 @@ timeZoneConverter = (installationId,occurrenceDate) ->
         if !_.isEmpty(installationObj)
             console.log "******converted******"
             timeZone = installationObj.get("timeZone")
-            convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A')
+            # convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A')
+            convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A')
             console.log installationId
             console.log convertedTime
             console.log "******converted******"
 
-            convertedTimezoneObject['occurrenceDate'] = convertedTime
+            convertedTimezoneObject['occurrenceDate'] = convertedTime 
             convertedTimezoneObject['timeZone'] = timeZone
             promise.resolve convertedTimezoneObject
         else

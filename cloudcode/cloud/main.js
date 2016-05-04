@@ -88,14 +88,21 @@
 
   Parse.Cloud.define("testNotifications", function(request, response) {
     return getNotifications().then(function() {
-      return sendNotifications().then(function() {
-        var convertedDate, currentDate;
-        currentDate = moment().format();
-        convertedDate = convertToZone(currentDate, 'Asia/Calcutta').format();
-        return response.success("moment = " + currentDate + " date = " + convertedDate);
-      }, function(error) {
-        return response.error(error);
-      });
+      var convertedDate, currentDate;
+      currentDate = moment().format();
+      convertedDate = convertToZone(currentDate, 'Asia/Calcutta').format();
+      return response.success("moment = " + currentDate + " date = " + convertedDate);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define("testSendNotifications", function(request, response) {
+    return sendNotifications().then(function() {
+      var convertedDate, currentDate;
+      currentDate = moment().format();
+      convertedDate = convertToZone(currentDate, 'Asia/Calcutta').format();
+      return response.success("moment = " + currentDate + " date = " + convertedDate);
     }, function(error) {
       return response.error(error);
     });
@@ -193,9 +200,9 @@
         gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
-          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('DD-MM-YYYY hh:mm A');
+          convertedGraceDate = momenttimezone.tz(graceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A');
         } else {
-          convertedGraceDate = moment(graceDate).format('DD-MM-YYYY hh:mm A');
+          convertedGraceDate = moment(graceDate).format('ddd, Do MMM YYYY hh:mm A');
         }
         console.log("convertedGraceDate");
         console.log(convertedGraceDate);
@@ -289,7 +296,6 @@
                       return promise2 = promise2.then(function() {
                         return getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'), tokenStorageObj.get('installationId')).then(function(pushData) {
                           var installationQuery;
-                          console.log("---------------------");
                           installationQuery = new Parse.Query(Parse.Installation);
                           installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
                           installationQuery.limit(1);
@@ -359,7 +365,6 @@
         promise = Parse.Promise.as();
         _.each(responses, function(responseObj) {
           return promise = promise.then(function() {
-            console.log("111");
             return responseObj.destroy();
           });
         });
@@ -440,9 +445,8 @@
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
           if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
-            console.log("PROJECT ACTIVE");
             return promise1 = promise1.then(function() {
-              return getValidTimeFrame(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+              return getValidTimeFrame(scheduleObj.get('patient'), scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
                 var currentDateTime;
                 currentDateTime = moment().format();
                 if (moment(currentDateTime).isAfter(timeObj['upperLimit'], 'second')) {
@@ -458,13 +462,13 @@
                       notificationObj.set('type', 'missedOccurrence');
                       notificationObj.set('processed', false);
                       notificationObj.set('schedule', scheduleObj);
-                      notificationObj.set('cleared', false);
+                      notificationObj.set('clear   ed', false);
                       notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                       return notificationObj.save().then(function(notificationObj) {
                         return getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
                           var newNextOccurrence;
                           newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
-                          newNextOccurrence.setTime(newNextOccurrence.getTime()(+Number(settings['frequency']) * 1000));
+                          newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000);
                           scheduleObj.set('nextOccurrence', newNextOccurrence);
                           return scheduleObj.save();
                         }, function(error) {
@@ -493,8 +497,6 @@
               return promise1.reject(error);
             });
           } else {
-            console.log("PROJECT PAUSED");
-            console.log(scheduleObj.get('questionnaire').get('project'));
             return promise1.resolve("project paused");
           }
         });
@@ -537,7 +539,6 @@
     var promise;
     promise = new Parse.Promise();
     if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
-      console.log("PROJECT ACTIVE");
       if (isLateSubmission(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))) {
         createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
           console.log("LATE :{");
@@ -567,8 +568,6 @@
         promise.resolve("not missed");
       }
     } else {
-      console.log("PROJECT PAUSED");
-      console.log(scheduleObj.get('questionnaire').get('project'));
       promise.resolve("project paused");
     }
     return promise;
@@ -585,7 +584,6 @@
             console.log("notifications = " + notifications);
             return sendNotifications().then(function(notifications) {
               console.log("notifications_sent = " + notifications);
-              console.log(new Date());
               return response.success("job_run");
             }, function(error) {
               return response.error("not_run");
@@ -763,7 +761,6 @@
       notificationSendObject['graceDate'] = graceDate;
       notificationSendObject['id'] = notification.id;
       notificationSendObject['hasSeen'] = notification.get('hasSeen');
-      console.log(notificationSendObject);
       if (notificationType === "beforOccurrence") {
         notificationSendObject['type'] = "beforOccurrence";
         return promise.resolve(notificationSendObject);
@@ -832,7 +829,7 @@
       if (!_.isEmpty(installationObj)) {
         console.log("******converted******");
         timeZone = installationObj.get("timeZone");
-        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A');
+        convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A');
         console.log(installationId);
         console.log(convertedTime);
         console.log("******converted******");
@@ -1728,7 +1725,6 @@
         result['status'] = responseObj.get('status');
         return response.success(result);
       } else if (questionId === "") {
-        console.log("=================");
         return getLastQuestion(responseObj).then(function(questionObj) {
           console.log("questionObj " + questionObj);
           return getQuestionData(questionObj, responseObj, responseObj.get('patient')).then(function(questionData) {
@@ -1947,6 +1943,7 @@
     var responseId, responseQuery;
     responseId = request.params.responseId;
     responseQuery = new Parse.Query('Response');
+    responseQuery.include('questionnaire');
     responseQuery.equalTo("objectId", responseId);
     return responseQuery.first().then(function(responseObj) {
       return getSummary(responseObj).then(function(answerObjects) {
@@ -1955,6 +1952,7 @@
         result['answerObjects'] = answerObjects;
         result['submissionDate'] = responseObj.updatedAt;
         result['sequenceNumber'] = responseObj.get('sequenceNumber');
+        result['editable'] = responseObj.get('questionnaire').get('editable');
         return response.success(result);
       }, function(error) {
         return response.error(error);
@@ -2532,12 +2530,6 @@
   isValidMissedTime = function(timeObj) {
     var currentDateTime;
     currentDateTime = moment().format();
-    console.log('*-----------------*');
-    console.log("upperLimit");
-    console.log(timeObj['upperLimit']);
-    console.log("currentDateTime");
-    console.log(currentDateTime);
-    console.log('*-----------------*');
     if (moment(timeObj['upperLimit']).isBefore(currentDateTime, 'second')) {
       return true;
     } else {
@@ -3235,7 +3227,6 @@
         result = false;
       }
     }
-    console.log(result);
     return result;
   };
 
@@ -3254,7 +3245,6 @@
         result = false;
       }
     }
-    console.log(result);
     return result;
   };
 
@@ -3282,10 +3272,8 @@
     currentDateTime = moment().format();
     graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
     if (moment(currentDateTime).isAfter(graceDate, 'second')) {
-      console.log("LATE SUBMISSION");
       result = true;
     } else {
-      console.log("COMPLETED");
       result = false;
     }
     return result;
@@ -3301,10 +3289,8 @@
     resumeObj['occurrenceDate'] = occurrenceDate;
     resumeObj['currentDateTime'] = currentDateTime;
     if (moment(currentDateTime).isAfter(occurrenceDate, 'second')) {
-      console.log("LATE SUBMISSION");
       resumeObj['status'] = "LATE SUBMISSION";
     } else {
-      console.log("COMPLETED");
       resumeObj['status'] = "COMPLETED";
     }
     return response.success(resumeObj);
@@ -3592,11 +3578,6 @@
   saveSingleChoice = function(responseObj, questionsObj, options) {
     var promise;
     promise = new Parse.Promise();
-    console.log("---------------------");
-    console.log("responseObj " + responseObj.id);
-    console.log("questionsObj " + questionsObj.id);
-    console.log("options " + options.length);
-    console.log("---------------------");
     getCurrentAnswer(questionsObj, responseObj).then(function(hasAnswer) {
       var questionnaireQuery;
       questionnaireQuery = new Parse.Query('Questionnaire');
@@ -3849,9 +3830,6 @@
     questionId = request.params.questionId;
     options = request.params.options;
     value = request.params.value;
-    console.log("============================");
-    console.log(new Date());
-    console.log("===========================");
     responseQuery = new Parse.Query('Response');
     responseQuery.include('questionnaire');
     return responseQuery.get(responseId).then(function(responseObj) {
@@ -4220,8 +4198,6 @@
     var projectId, responseObject;
     responseObject = request.object;
     if (!responseObject.existed() && responseObject.get("status") !== 'started') {
-      console.log("RESPONSE STATUS :");
-      console.log(responseObject.get("status"));
       projectId = responseObject.get("project");
       Parse.Cloud.httpRequest({
         method: 'POST',
@@ -4232,7 +4208,6 @@
         }
       });
       console.log("cache cleared");
-      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
     } else {
 
     }
@@ -4250,7 +4225,6 @@
       }
     });
     console.log("cache cleared");
-    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
   });
 
   Parse.Cloud.define('getQuestionnaireSetting', function(request, response) {
@@ -4279,7 +4253,6 @@
       var settings;
       settings = {};
       if (!_.isEmpty(scheduleObj) && scheduleObj.get('frequency') !== '0') {
-        console.log("PATIENT FREQUENCY");
         settings['frequency'] = scheduleObj.get('frequency');
         settings['gracePeriod'] = scheduleObj.get('gracePeriod');
         settings['reminderTime'] = scheduleObj.get('reminderTime');
@@ -4289,7 +4262,6 @@
         scheduleQuery.doesNotExist('patient');
         scheduleQuery.equalTo('questionnaire', questionnaireObj);
         return scheduleQuery.first().then(function(scheduleQuestionnaireObj) {
-          console.log("QUESTIONNAIRE FREQUENCY");
           settings['frequency'] = scheduleQuestionnaireObj.get('frequency');
           settings['gracePeriod'] = questionnaireObj.get('gracePeriod');
           settings['reminderTime'] = questionnaireObj.get('reminderTime');

@@ -532,7 +532,7 @@ Parse.Cloud.define "getPreviousQuestion", (request, response) ->
 			result['status'] = responseObj.get('status')
 			response.success result
 		else if questionId == ""
-			console.log "================="
+			# console.log "================="
 			getLastQuestion(responseObj)
 			.then (questionObj) ->
 				console.log "questionObj #{questionObj}"
@@ -749,6 +749,7 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 #	else
 	responseId = request.params.responseId
 	responseQuery = new Parse.Query('Response')
+	responseQuery.include('questionnaire')
 	responseQuery.equalTo("objectId", responseId)
 	responseQuery.first()
 	.then (responseObj) ->
@@ -758,6 +759,7 @@ Parse.Cloud.define 'getSummary', (request, response) ->
 			result['answerObjects'] = answerObjects
 			result['submissionDate'] = responseObj.updatedAt
 			result['sequenceNumber'] = responseObj.get('sequenceNumber')
+			result['editable'] = responseObj.get('questionnaire').get('editable')
 			response.success result
 			# response.success answerObjects
 		, (error) ->
@@ -1383,12 +1385,12 @@ isValidUpcomingTime = (timeObj) ->
 
 isValidMissedTime = (timeObj) ->
 	currentDateTime = moment().format()
-	console.log '*-----------------*'
-	console.log  "upperLimit"
-	console.log timeObj['upperLimit']
-	console.log "currentDateTime"
-	console.log currentDateTime
-	console.log '*-----------------*'
+	# console.log '*-----------------*'
+	# console.log  "upperLimit"
+	# console.log timeObj['upperLimit']
+	# console.log "currentDateTime"
+	# console.log currentDateTime
+	# console.log '*-----------------*'
 	if moment(timeObj['upperLimit']).isBefore(currentDateTime, 'second')
 		true
 	else
@@ -2164,7 +2166,7 @@ greaterThan = (count, comapredValue, isEqual) ->
 		else
 			result = false
 
-	console.log result
+	# console.log result
 	result
 
 lessThan = (count, comapredValue, isEqual) ->
@@ -2179,7 +2181,7 @@ lessThan = (count, comapredValue, isEqual) ->
 		else
 			result = false
 
-	console.log result
+	# console.log result
 	result
 
 # *************************************************
@@ -2247,10 +2249,10 @@ isLateSubmission = (questionnaireObj,occurrenceDate) ->
 
 
 	if moment(currentDateTime).isAfter(graceDate, 'second')
-		console.log "LATE SUBMISSION"
+		# console.log "LATE SUBMISSION"
 		result = true
 	else
-		console.log "COMPLETED"
+		# console.log "COMPLETED"
 		result = false
 	result
 
@@ -2267,10 +2269,10 @@ Parse.Cloud.define "isLateSubmission", (request, response) ->
 	resumeObj['currentDateTime'] = currentDateTime
 
 	if moment(currentDateTime).isAfter(occurrenceDate, 'second')
-		console.log "LATE SUBMISSION"
+		# console.log "LATE SUBMISSION"
 		resumeObj['status'] = "LATE SUBMISSION"
 	else
-		console.log "COMPLETED"
+		# console.log "COMPLETED"
 		resumeObj['status'] = "COMPLETED"
 
 	response.success resumeObj
@@ -2580,11 +2582,11 @@ getPreviousValues = (responseObj, questionsObj, optionsObj) ->
 
 saveSingleChoice = (responseObj, questionsObj, options) ->
 	promise = new Parse.Promise()
-	console.log "---------------------"
-	console.log "responseObj #{responseObj.id}"
-	console.log "questionsObj #{questionsObj.id}"
-	console.log "options #{options.length}"
-	console.log "---------------------"
+	# console.log "---------------------"
+	# console.log "responseObj #{responseObj.id}"
+	# console.log "questionsObj #{questionsObj.id}"
+	# console.log "options #{options.length}"
+	# console.log "---------------------"
 	getCurrentAnswer(questionsObj, responseObj)
 	.then (hasAnswer) ->
 		questionnaireQuery = new Parse.Query('Questionnaire')
@@ -2825,9 +2827,9 @@ Parse.Cloud.define "baseLine", (request, response) ->
 	questionId = request.params.questionId
 	options = request.params.options
 	value = request.params.value
-	console.log "============================"
-	console.log (new Date())
-	console.log "==========================="
+	# console.log "============================"
+	# console.log (new Date())
+	# console.log "==========================="
 	responseQuery = new Parse.Query('Response')
 	responseQuery.include('questionnaire')
 	responseQuery.get(responseId)
@@ -3161,8 +3163,8 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 Parse.Cloud.afterSave 'Response', (request, response) ->
 	responseObject = request.object
 	if !responseObject.existed() and responseObject.get("status")!='started'
-		console.log "RESPONSE STATUS :"
-		console.log responseObject.get("status")
+		# console.log "RESPONSE STATUS :"
+		# console.log responseObject.get("status")
 		projectId = responseObject.get("project")
 		Parse.Cloud.httpRequest
 			method: 'POST'
@@ -3172,7 +3174,7 @@ Parse.Cloud.afterSave 'Response', (request, response) ->
 				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
 		console.log "cache cleared"
-		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		# console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
 		return
 	else
 		return
@@ -3188,7 +3190,7 @@ Parse.Cloud.define "clearProjectCache", (request, response) ->
 			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
 	console.log "cache cleared"
-	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+	# console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
 	return
  
 
@@ -3219,7 +3221,7 @@ getQuestionnaireSetting = (patientId, questionnaireObj) ->
 	.then (scheduleObj) ->
 		settings = {}
 		if !_.isEmpty(scheduleObj) and scheduleObj.get('frequency')!='0'
-			console.log "PATIENT FREQUENCY"
+			# console.log "PATIENT FREQUENCY"
 			settings['frequency'] = scheduleObj.get('frequency')
 			settings['gracePeriod'] = scheduleObj.get('gracePeriod')
 			settings['reminderTime'] = scheduleObj.get('reminderTime')
@@ -3230,7 +3232,7 @@ getQuestionnaireSetting = (patientId, questionnaireObj) ->
 			scheduleQuery.equalTo('questionnaire', questionnaireObj)
 			scheduleQuery.first()
 			.then (scheduleQuestionnaireObj) ->
-				console.log "QUESTIONNAIRE FREQUENCY"
+				# console.log "QUESTIONNAIRE FREQUENCY"
 				settings['frequency'] = scheduleQuestionnaireObj.get('frequency')
 				settings['gracePeriod'] = questionnaireObj.get('gracePeriod')
 				settings['reminderTime'] = questionnaireObj.get('reminderTime')
