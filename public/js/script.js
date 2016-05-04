@@ -1076,9 +1076,9 @@ function submissionBarChart(chartData,container)
     "valueAxes": [{
         "title": "Score",
         "maximum": 6,
-        "minimum": 1,
+        "minimum": 0,
     }],
-    "startDuration": 1,
+
     "graphs": [{
         "balloonText": "Previous [[category]] (: <b>[[value]]</b>",
         "fillAlphas": 0.9,
