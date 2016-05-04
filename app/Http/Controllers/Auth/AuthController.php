@@ -175,7 +175,8 @@ class AuthController extends Controller
                     $userDevice->access_type = "web";
                     $userDevice->save();
 
-                    createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
+                    $projectId = intval($projectId);
+                    $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                     
                     return redirect()->intended('dashboard');
                 }
