@@ -348,6 +348,7 @@ class UserController extends Controller
                         }
 
                         /**************************/
+                        createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                          
                         $json_resp = array( 
                             'user'=> $parseUser['result']['sessionToken'],
