@@ -17,11 +17,12 @@
 
 
     <div ng-switch-when="noError">
+          <h2>Summary</h2>
           <br>
-          <h2>Submission #{{ view.data.sequenceNumber }} </h2>
+          <h3>Submission #{{ view.data.sequenceNumber }} </h3>
           <br>
         <div class="alert alert-success" role="alert">
-           Submitted on : {{view.data.submissionDate}}
+           Submission date: {{view.data.submissionDate}}
         </div>
      
           <br><br>
