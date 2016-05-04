@@ -50,7 +50,9 @@ angular.module 'angularApp.dashboard',[]
 					@data = data
 					@display = 'noError'
 					arr = _.reject(@data, (d) -> d.status == 'base_line')
-					if arr.length <= 6
+					if arr.length < 6
+						@showMoreButton = false
+					else
 						@showMoreButton = true
 				,(error)=>
 					@display = 'error'

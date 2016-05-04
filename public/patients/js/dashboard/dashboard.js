@@ -42,7 +42,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
             arr = _.reject(_this.data, function(d) {
               return d.status === 'base_line';
             });
-            if (arr.length <= 6) {
+            if (arr.length < 6) {
+              return _this.showMoreButton = false;
+            } else {
               return _this.showMoreButton = true;
             }
           };
