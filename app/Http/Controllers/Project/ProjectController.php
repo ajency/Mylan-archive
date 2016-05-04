@@ -59,8 +59,8 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
-        // try
-        // {
+        try
+        {
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
@@ -199,16 +199,16 @@ class ProjectController extends Controller
                               
           // CACHE PATIENT ALERTS AND NOTIFICATION
           $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-          // if (Cache::has($patientsAlertsCacheKey)) {
+          if (Cache::has($patientsAlertsCacheKey)) {
 
-          //   $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+            $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
 
-          //   $projectAlerts = $cachePatientsAlerts['ALERTS'];
-          //   $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+            $projectAlerts = $cachePatientsAlerts['ALERTS'];
+            $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
 
-          // }
-          // else
-          // {
+          }
+          else
+          {
             
             $cond=['cleared'=>false];
             $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
@@ -218,15 +218,15 @@ class ProjectController extends Controller
             $cachePatientsAlerts['ALERTS'] = $projectAlerts;
             $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
             Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-          // } 
+          } 
 
-        // } 
-        // catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
 
-        //   Log::error($e->getMessage());
-        //   abort(404);  
+          Log::error($e->getMessage());
+          abort(404);  
 
-        // }
+        }
          
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('totalSubmissionCount', $totalSubmissionCount) 
