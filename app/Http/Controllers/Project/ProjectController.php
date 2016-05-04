@@ -212,7 +212,8 @@ class ProjectController extends Controller
             
             $cond=['cleared'=>false];
             $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-            $submissionNotifications = $this->getProjectAlerts($projectId,5,0); 
+            $subCond=['referenceType'=>"Response"];
+            $submissionNotifications = $this->getProjectAlerts($projectId,5,0,[],$subCond); 
 
             $cachePatientsAlerts['ALERTS'] = $projectAlerts;
             $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
@@ -268,6 +269,7 @@ class ProjectController extends Controller
             $alertQry->skip($page * $limit); 
         }
         
+
         if(!empty($dateCond))
         {
             $alertQry->greaterThanOrEqualTo("createdAt",$dateCond['startDate']);
@@ -300,17 +302,20 @@ class ProjectController extends Controller
             
             if(isset($alertTypes[$alertType]))
             {
+
+                $alertClass = (isset($alertClases[$alertType])) ? $alertClases[$alertType]:"";
+                $alertContent = (isset($alertTypes[$alertType])) ? $alertTypes[$alertType]:"";
                 
                 if($referenceType == "Response")
                 {
-                  $alertMsgData = $this->getResponseAlertMsg($referenceId,$alertType,$responseObject,$alertClases,$alertTypes,$responseflagColumns);
+                  $alertMsgData = $this->getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns);
                   $alertMsg[] = $alertMsgData['alertMsg'];
                   $responseObject = $alertMsgData['responseObject'];
                 }
-                // elseif($referenceType == "patient")
-                // {
-                //   $alertMsg = $this->getPatientAlertMsg($referenceId,$responseObject,$alertClases,$alertTypes)
-                // }
+                elseif($referenceType == "patient")
+                {
+                  $alertMsg = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
+                }
                 
 
             }
@@ -323,23 +328,13 @@ class ProjectController extends Controller
         return $data;
     }
 
-    public function getResponseAlertMsg($referenceId,$alertType,$responseObject,$alertClases,$alertTypes,$responseflagColumns)
+    public function getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns)
     {
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $referenceId); 
-        if(!empty($refCond))
-        {
-            foreach ($refCond as $key => $value) {
-                $responseQry->equalTo($key,$value);
-            }
-        }
         $response = $responseQry->first();
         $responseObject[$referenceId] = $response;
        
-        $alertClass = (isset($alertClases[$alertType])) ? $alertClases[$alertType]:"";
-        $alertContent = (isset($alertTypes[$alertType])) ? $alertTypes[$alertType]:"";
-
-
         if(!empty($response))
         {
             $responseFlagColumn ="";
@@ -374,12 +369,13 @@ class ProjectController extends Controller
 
     }
 
-    public function getPatientAlertMsg($patient,$referenceId,$alertContent,$alertClases)
+    public function getPatientAlertMsg($referenceId,$alertClass,$alertContent)
     {
 
-        $url = "patients/".$referenceId;
+        $patient = User::where('type','patient')->where('reference_code',$referenceId)->first()->toArray();
+        $url = "patients/".$patient['id'];
         $message = sprintf($alertContent, SETUP_ALERT ,SETUP_LIMIT);
-        $alertMsg = ['patient'=>$patient,'referenceId'=>$referenceId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
+        $alertMsg = ['patient'=>$referenceId,'referenceId'=>$patient['id'],'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
 
         return $alertMsg;
 
@@ -455,6 +451,8 @@ class ProjectController extends Controller
         'less_green_flags_compared_to_baseline'=>"success",
         'less_or_equal_green_flags_compared_to_previous'=>"success",
         'less_or_equal_green_flags_compared_to_baseline'=>"success",
+
+        'device_setup_alert'=>"warning",
         'new_patient'=>"info"
         ];
 

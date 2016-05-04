@@ -416,7 +416,7 @@
                           @if(!empty($submissionNotifications['alertMsg']))   
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
-                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                     <td class="text-center">{{ $submissionNotification['patient'] }}</td>
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
