@@ -782,52 +782,36 @@ class PatientController extends Controller
             $patient = $answer->get("patient");
             $isChild = $answer->get("question")->get("isChild");
 
+
             if($responseStatus!="completed")
-              continue;
-            
-            if($isChild)
               continue;
 
             if($questionType!='single-choice')
                 continue;
-
-            if($baseLineFlag=='no_colour' || $baseLineFlag=='')
-              continue;
-
-            if($previousFlag=='no_colour' || $previousFlag=='')
+            
+            if($isChild)
               continue;
 
             $responseBaseLineFlag = $answer->get("response")->get("baseLineFlag");
             $responsePreviousFlag = $answer->get("response")->get("previousFlag");
 
-            $responseStatus = $answer->get("response")->get("status");
+            $sequenceNumber = $answer->get("response")->get("sequenceNumber");
+            $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
 
-             $sequenceNumber = $answer->get("response")->get("sequenceNumber");
-             $occurrenceDate = $answer->get("response")->get("occurrenceDate")->format('d M');
 
-             if($responseStatus=='base_line' || $responseStatus=='missed' || $responseStatus=='started')
-                continue;
-
-             if($questionType!='single-choice')
-                continue;
-
-            if(!isset($answersList[$answerId]))                         //avoid duplication
-                $answersList[$answerId] = ['base'=>$baseLineFlag,'prev'=>$previousFlag];
-            else
-                continue;
-
+            //COMPARED AT QUESTIONNIARE LEVEL  
             if(!isset($responseFlags[$responseId]))
             {
                 $responseFlags[$responseId]=$responseId;
 
-                if($filterType=='baseline' || $filterType=='')
+                if(($filterType=='baseline' || $filterType=='') && ($responseBaseLineFlag!='no_colour' || $responseBaseLineFlag!=''))
                 {
                     $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>"Compared to <u>base line</u> total score set for questionnaire", 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
 
                     $patientsFlags[$responseBaseLineFlag][]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>base line</u> total score set for questionnaire', 'flag'=>$responseBaseLineFlag, 'date'=>$occurrenceDate];
                 }
                 
-                if($filterType=='previous' || $filterType=='')
+                if(($filterType=='previous' || $filterType=='') && ($responsePreviousFlag!='no_colour' || $responsePreviousFlag!=''))
                 { 
                     $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> total score set for questionnaire', 'flag'=>$responsePreviousFlag, 'date'=>$occurrenceDate];
 
@@ -835,7 +819,8 @@ class PatientController extends Controller
                 }
             }
 
-            if($filterType=='baseline' || $filterType=='')
+            //COMPARED AT QUESTION LEVEL  
+            if(($filterType=='baseline' || $filterType=='') && ($baseLineFlag!='no_colour' || $baseLineFlag!=''))
             {
                 $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>base line</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$baseLineFlag, 'date'=>$occurrenceDate];
 
@@ -843,7 +828,7 @@ class PatientController extends Controller
             }  
                 
  
-            if($filterType=='previous' || $filterType=='')
+            if(($filterType=='previous' || $filterType=='') && ($previousFlag!='no_colour' || $previousFlag!=''))
             {
                 $patientsallFlags[]= ['responseId'=>$responseId,'patient'=>$patient,'sequenceNumber'=>$sequenceNumber,'reason'=>'Compared to <u>previous</u> score of <u>'.$questionLabel.'</u>', 'flag'=>$previousFlag, 'date'=>$occurrenceDate, 'answerId'=>$answerId];
 
@@ -856,8 +841,6 @@ class PatientController extends Controller
         //dd($patientsallFlags); 
         $submissionFlags['all'] = $patientsallFlags;
         $submissionFlags['flags'] =$patientsFlags;
-
-
 
         return $submissionFlags;
     }
