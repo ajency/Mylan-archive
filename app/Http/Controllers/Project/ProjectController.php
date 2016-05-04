@@ -59,6 +59,7 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
+      
         try
         {
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
@@ -314,7 +315,7 @@ class ProjectController extends Controller
                 }
                 elseif($referenceType == "patient")
                 {
-                  $alertMsg = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
+                  $alertMsg[] = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
                 }
                 
 
