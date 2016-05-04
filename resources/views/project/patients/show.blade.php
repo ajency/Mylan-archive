@@ -405,13 +405,13 @@
                           @if(!empty($submissionNotifications['alertMsg']))   
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
-                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$submissionNotification['responseId']}}';">
+                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                     <!-- <td class="text-center">{{ $submissionNotification['patient'] }}</td> -->
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
                                    </td>
-                                   <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
+                                   <td class="text-center text-success">{{ $submissionNotification['msg'] }}</td> 
                                    <td class="text-center">{{ $submissionNotification['reviewNote'] }}</td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
