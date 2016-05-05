@@ -348,6 +348,7 @@ class UserController extends Controller
                         }
 
                         /**************************/
+                        $projectId = intval($projectId);
                         createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                          
                         $json_resp = array( 
@@ -529,6 +530,7 @@ class UserController extends Controller
             $patientPhone = $requestData['patientPhone'];
             $hospitalId = $requestData['hospitalId'];
             $projectId = $requestData['projectId'];
+            $message = $requestData['message'];
 
             $user = User::where('reference_Code',$referenceCode)->first(); 
             $hospital = Hospital::find($hospitalId)->toArray();
@@ -544,6 +546,7 @@ class UserController extends Controller
             $data['patient_email'] = $patientEmail;
             $data['patient_phone'] = $patientPhone;
             $data['patient_reference_code'] = $referenceCode;
+            $data['message'] = $message;
 
      
             Mail::send('patient.contactmail', ['data'=>$data], function($message)use($data)

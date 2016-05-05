@@ -16,6 +16,7 @@
                 <span>Phone:</span> {{ $data['patient_phone']}}<br>
                 <span>Reference Code:</span> {{ $data['patient_reference_code']}}<br>
                 <span>Project:</span> {{ $data['project']}}<br> 
+                <span>Message:</span> {{ $data['message']}}<br> 
                 <br>
                 <br>
                 
