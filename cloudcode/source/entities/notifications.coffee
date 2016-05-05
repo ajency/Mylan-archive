@@ -118,10 +118,14 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
         # console.log "-=-=-=-=-=-=-"
         timeZoneConverter(installationId,occurrenceDate)
         .then (convertedTimezoneObject) ->
-            newNextOccurrence = convertedTimezoneObject['occurrenceDate']
-            timeZone = convertedTimezoneObject['timeZone'] 
             console.log "**New newNextOccurrence**"
+            newNextOccurrence = convertedTimezoneObject['occurrenceDate']
             console.log newNextOccurrence
+            newNextOccurrence = moment(newNextOccurrence).format('ddd, Do MMM YYYY hh:mm A')
+            console.log newNextOccurrence
+            timeZone = convertedTimezoneObject['timeZone'] 
+
+            
             gracePeriod = settings['gracePeriod']
             # graceDate =new Date(newNextOccurrence.getTime() + (questionnaireObj.get('gracePeriod') * 1000))
             # "DD-MM-YYYY HH:mm HH:mm"
@@ -132,8 +136,8 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
                 # convertedGraceDate = graceDate
                 convertedGraceDate = moment(graceDate).format('ddd, Do MMM YYYY hh:mm A')
 
-            console.log "convertedGraceDate"
-            console.log convertedGraceDate
+            # console.log "convertedGraceDate"
+            # console.log convertedGraceDate
 
             if notificationType == "beforOccurrence"
                 message="Questionnaire is due on #{newNextOccurrence}"
@@ -144,8 +148,8 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             else
                 message=""
 
-            console.log "**Notification Msg occurrenceDate**"
-            console.log occurrenceDate
+            # console.log "**Notification Msg occurrenceDate**"
+            # console.log occurrenceDate
 
             getNotificationData(notificationId, installationId, message)
             .then (pushData) ->

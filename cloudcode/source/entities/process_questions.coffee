@@ -1240,8 +1240,105 @@ Parse.Cloud.define "dashboard", (request, response) ->
 	, (error) ->
 		response.error error 
 
+# TEST API
+Parse.Cloud.define "dashboard3", (request, response) ->
+	console.log "---------------------------"
+	console.log request
+	console.log "-------------------------------"
+#	if !request.user
+#		response.error('Must be logged in.')
+#	else
+	results = []
+	submissions ={}
+	patientId = request.params.patientId
+	scheduleQuery = new Parse.Query('Schedule')
+	scheduleQuery.include('questionnaire')
+	scheduleQuery.equalTo('patient', patientId)
+	scheduleQuery.first()
+	.then (scheduleObj) ->
+		updateMissedObjects scheduleObj, patientId
+		.then () ->
+			responseQuery = new Parse.Query('Response')
+			responseQuery.equalTo('patient', patientId)
+			responseQuery.descending('occurrenceDate')
+			responseQuery.find()
+			.then (responseObjs) ->
+				getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
+				.then (timeObj) ->
+					status =""
+					if isValidTime(timeObj)			
+						status ="due"
+					else if isValidUpcomingTime(timeObj)
+						status = "upcoming"
+					upcoming_due =
+						occurrenceDate: scheduleObj.get('nextOccurrence')
+						status: status 
+					results.push(upcoming_due)
 
+					for responseObj in responseObjs
+						result = {}
 
+						answeredQuestions = false
+						if responseObj.get('status')=='late' && !_.isEmpty(responseObj.get('answeredQuestions'))
+							answeredQuestions = true
+
+						result['status'] = responseObj.get('status')
+						result['occurrenceDate'] = responseObj.get('occurrenceDate')
+						result['occurrenceId'] = responseObj.id
+						result['answeredQuestions'] = answeredQuestions
+						results.push result
+
+					submissions['submissions'] = results
+					
+					getPatientSubmissionCount(patientId)
+					.then (submissionCount) ->
+						console.log submissionCount
+						submissions['submissionCount'] = submissionCount
+						response.success (submissions)
+					, (error) ->
+						response.error error 
+					
+				, (error) ->
+					response.error error 
+				#response.success (timeObj)
+			, (error) ->
+				response.error error 
+		, (error) ->
+			response.error error 
+	, (error) ->
+		response.error error 
+
+getPatientSubmissionCount = (patientId) ->
+	promise = new Parse.Promise()
+	submissionCount ={}
+	completedResponseQuery = new Parse.Query('Response')
+	completedResponseQuery.equalTo('patient', patientId)
+	completedResponseQuery.equalTo('status', 'completed')
+	completedResponseQuery.count()
+	.then (completedCount) ->
+		submissionCount['completed'] = completedCount
+
+		missedResponseQuery = new Parse.Query('Response')
+		missedResponseQuery.equalTo('patient', patientId)
+		missedResponseQuery.equalTo('status', 'missed')
+		missedResponseQuery.count()
+		.then (missedCount) ->
+			submissionCount['missed'] = missedCount
+
+			lateResponseQuery = new Parse.Query('Response')
+			lateResponseQuery.equalTo('patient', patientId)
+			lateResponseQuery.equalTo('status', 'late')
+			lateResponseQuery.count()
+			.then (lateCount) ->
+				submissionCount['late'] = lateCount
+				promise.resolve(submissionCount)
+			, (error) ->
+				promise.error error
+		, (error) ->
+			promise.error error
+	, (error) ->
+		promise.error error
+	promise
 
 
 updateMissedObjects = (scheduleObj, patientId) ->

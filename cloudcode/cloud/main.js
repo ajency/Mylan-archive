@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -193,10 +193,12 @@
     getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       return timeZoneConverter(installationId, occurrenceDate).then(function(convertedTimezoneObject) {
         var convertedGraceDate, graceDate, gracePeriod, message, newNextOccurrence, timeZone;
-        newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
-        timeZone = convertedTimezoneObject['timeZone'];
         console.log("**New newNextOccurrence**");
+        newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
         console.log(newNextOccurrence);
+        newNextOccurrence = moment(newNextOccurrence).format('ddd, Do MMM YYYY hh:mm A');
+        console.log(newNextOccurrence);
+        timeZone = convertedTimezoneObject['timeZone'];
         gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
         if (timeZone !== '') {
@@ -204,8 +206,6 @@
         } else {
           convertedGraceDate = moment(graceDate).format('ddd, Do MMM YYYY hh:mm A');
         }
-        console.log("convertedGraceDate");
-        console.log(convertedGraceDate);
         if (notificationType === "beforOccurrence") {
           message = "Questionnaire is due on " + newNextOccurrence;
         } else if (notificationType === "beforeGracePeriod") {
@@ -215,8 +215,6 @@
         } else {
           message = "";
         }
-        console.log("**Notification Msg occurrenceDate**");
-        console.log(occurrenceDate);
         return getNotificationData(notificationId, installationId, message).then(function(pushData) {
           return promise.resolve(pushData);
         }, function(error) {
@@ -2400,6 +2398,106 @@
       return response.error(error);
     });
   });
+
+  Parse.Cloud.define("dashboard3", function(request, response) {
+    var patientId, results, scheduleQuery, submissions;
+    console.log("---------------------------");
+    console.log(request);
+    console.log("-------------------------------");
+    results = [];
+    submissions = {};
+    patientId = request.params.patientId;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.include('questionnaire');
+    scheduleQuery.equalTo('patient', patientId);
+    return scheduleQuery.first().then(function(scheduleObj) {
+      return updateMissedObjects(scheduleObj, patientId).then(function() {
+        var responseQuery;
+        responseQuery = new Parse.Query('Response');
+        responseQuery.equalTo('patient', patientId);
+        responseQuery.descending('occurrenceDate');
+        return responseQuery.find().then(function(responseObjs) {
+          return getValidTimeFrame(patientId, scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
+            var answeredQuestions, j, len, responseObj, result, status, upcoming_due;
+            status = "";
+            if (isValidTime(timeObj)) {
+              status = "due";
+            } else if (isValidUpcomingTime(timeObj)) {
+              status = "upcoming";
+            }
+            upcoming_due = {
+              occurrenceDate: scheduleObj.get('nextOccurrence'),
+              status: status
+            };
+            results.push(upcoming_due);
+            for (j = 0, len = responseObjs.length; j < len; j++) {
+              responseObj = responseObjs[j];
+              result = {};
+              answeredQuestions = false;
+              if (responseObj.get('status') === 'late' && !_.isEmpty(responseObj.get('answeredQuestions'))) {
+                answeredQuestions = true;
+              }
+              result['status'] = responseObj.get('status');
+              result['occurrenceDate'] = responseObj.get('occurrenceDate');
+              result['occurrenceId'] = responseObj.id;
+              result['answeredQuestions'] = answeredQuestions;
+              results.push(result);
+            }
+            submissions['submissions'] = results;
+            return getPatientSubmissionCount(patientId).then(function(submissionCount) {
+              console.log(submissionCount);
+              submissions['submissionCount'] = submissionCount;
+              return response.success(submissions);
+            }, function(error) {
+              return response.error(error);
+            });
+          }, function(error) {
+            return response.error(error);
+          });
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  getPatientSubmissionCount = function(patientId) {
+    var completedResponseQuery, promise, submissionCount;
+    promise = new Parse.Promise();
+    submissionCount = {};
+    completedResponseQuery = new Parse.Query('Response');
+    completedResponseQuery.equalTo('patient', patientId);
+    completedResponseQuery.equalTo('status', 'completed');
+    completedResponseQuery.count().then(function(completedCount) {
+      var missedResponseQuery;
+      submissionCount['completed'] = completedCount;
+      missedResponseQuery = new Parse.Query('Response');
+      missedResponseQuery.equalTo('patient', patientId);
+      missedResponseQuery.equalTo('status', 'missed');
+      return missedResponseQuery.count().then(function(missedCount) {
+        var lateResponseQuery;
+        submissionCount['missed'] = missedCount;
+        lateResponseQuery = new Parse.Query('Response');
+        lateResponseQuery.equalTo('patient', patientId);
+        lateResponseQuery.equalTo('status', 'late');
+        return lateResponseQuery.count().then(function(lateCount) {
+          submissionCount['late'] = lateCount;
+          return promise.resolve(submissionCount);
+        }, function(error) {
+          return promise.error(error);
+        });
+      }, function(error) {
+        return promise.error(error);
+      });
+    }, function(error) {
+      return promise.error(error);
+    });
+    return promise;
+  };
 
   updateMissedObjects = function(scheduleObj, patientId) {
     var promise, responseQuery;
