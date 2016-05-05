@@ -39,8 +39,8 @@ angular.module 'angularApp.notification',[]
 				
 					@data = @data.concat data
 					_.each @data, (value)->
-						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
-						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('Do MMM YYYY hh:mm A')
+						value['graceDateDisplay'] = moment(value.graceDate).format('Do MMM YYYY hh:mm A')
 
 				,(error) =>
 					console.log 'inside notification page error'
