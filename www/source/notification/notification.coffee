@@ -44,8 +44,8 @@ angular.module 'PatientApp.notification',[]
 					@gotAllRequests = true if !@canLoadMore
 
 					_.each @data, (value)->
-						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('DD-MM-YYYY hh:mm A')
-						value['graceDateDisplay'] = moment(value.graceDate).format('DD-MM-YYYY hh:mm A')
+						value['occurrenceDateDisplay'] = moment(value.occurrenceDate).format('Do MMM YYYY hh:mm A')
+						value['graceDateDisplay'] = moment(value.graceDate).format('Do MMM YYYY hh:mm A')
 					@onScrollComplete()	
 					@disable = false
 				, (error)=>
