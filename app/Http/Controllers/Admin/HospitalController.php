@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Hospital;
+use App\User;
+use App\projects;
 use \File;
 use \Input;
 use \Session;
@@ -205,5 +207,34 @@ class HospitalController extends Controller
                     'message' => 'Image deleted' ,
                 
             ], 203 );
+    }
+
+    public function getHospitalPatients($hospitalId)
+    {
+        $hospital = Hospital::find($hospitalId)->toArray(); 
+        $patients = User::where('type',"patient")->where('hospital_id',$hospitalId)->orderBy('project_id')->get()->toArray();
+        $patientsData = [];
+        $project = [];
+        foreach ($patients as  $patient) {
+            $referenceCode = $patient['reference_code'];
+            $projectId = $patient['project_id'];
+            $date = date('d-m-y H:i:s', strtotime($patient['created_at']));
+
+            if(!isset($project[$projectId]))
+            {
+                $project[$projectId] = Projects::find($projectId)->name;
+                
+            }
+            
+            $projectName = $project[$projectId];
+
+            $referenceCode = $patient['reference_code'];
+            $patientsData[] = ['referenceCode' =>$referenceCode, 'date' =>$date, 'projectName' =>$projectName];
+        }
+        
+        return view('admin.hospital-patients')->with('active_menu', 'hospital')
+                                          ->with('hospital', $hospital)
+                                          ->with('patientsData', $patientsData);
+
     }
 }

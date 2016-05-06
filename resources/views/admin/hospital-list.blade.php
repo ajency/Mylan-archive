@@ -101,7 +101,7 @@
                               <!--    <p>
                                     {{ $hospital->users()->where('type','patient')->where('account_status','created')->count() }} newly registered patients since last week
                                  </p> -->
-                                 <a href="/{{ $hospital['url_slug'] }}/patients/" class="text-info">View Patients</a>
+                                 <a href="{{ url('/admin/hospital/'.$hospital['id'].'/patients/') }}" class="text-info">View Patients</a>
                               </div>
                            </div>
                         </div>

@@ -74,6 +74,8 @@ Route::resource( 'hospitals', 'Admin\HospitalController' );
 Route::resource( 'users', 'Admin\UserController' );
 Route::resource( 'user-access', 'Admin\UserAccessController' );
 
+Route::get( 'hospital/{hospital}/patients', 'Admin\HospitalController@getHospitalPatients' );
+
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
 Route::post( 'users/{id}/authuseremail', 'Admin\UserController@authUserEmail' );
