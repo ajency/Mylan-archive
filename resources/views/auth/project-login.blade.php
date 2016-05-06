@@ -13,7 +13,7 @@
         <h4 class="text-left m-t-15 semi-bold">{{ $project['name']}}</h4>
         <br>
         @if (count($errors) > 0)
-        <div class="alert alert-danger hidden">
+        <div class="alert alert-danger">
               <strong>Whoops!</strong> There were some problems with your input.<br><br>
                <ul>
                 @foreach ($errors->all() as $error)

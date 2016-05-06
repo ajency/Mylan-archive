@@ -260,7 +260,7 @@ class UserController extends Controller
 
             $project = Projects::find($user['project_id'])->toArray();  
             $loginAttempt = getUserLoginAttempts($referenceCode);
-            
+
             if($loginAttempt >3)
             {
                 $json_resp = array(
@@ -384,7 +384,7 @@ class UserController extends Controller
                     }
         
                    $json_resp = array(
-                    'code' => 'invalid_login' , 
+                    'code' => 'inactive_user' , 
                     'message' => 'Invalid Login details'
                     );
                     $status_code = 200; 

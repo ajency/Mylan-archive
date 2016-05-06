@@ -252,6 +252,14 @@ class AuthController extends Controller
             }
             else
             {
+                updateLoginAttemptforUser($email);
+                if($user!=null && $loginAttempt==3)
+                { 
+                    $user->account_status ='inactive';
+                    $user->save();
+                    
+                }
+
                 Auth::logout();
                 return redirect('/admin/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
@@ -290,7 +298,15 @@ class AuthController extends Controller
         else
            $remember = 0;
             
-        
+        $user = User::where('type','!=','patient')->where('email', $email)->first(); 
+        $loginAttempt = getUserLoginAttempts($email); 
+        if($loginAttempt >3)
+        {
+            return redirect($hospitalSlug.'/login')->withErrors([
+                    'email' => 'Account Blocked, contact administrator',
+                ]); 
+        }
+
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
             if(Auth::user()->account_status=='active' || Auth::user()->type=='mylan_admin' || Auth::user()->type=='hospital_user')
@@ -299,6 +315,14 @@ class AuthController extends Controller
             }
             else
             {
+                updateLoginAttemptforUser($email);
+                if($user!=null && $loginAttempt==3)
+                { 
+                    $user->account_status ='inactive';
+                    $user->save();
+                    
+                }
+
                 Auth::logout();
                 return redirect($hospitalSlug.'/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
@@ -306,6 +330,14 @@ class AuthController extends Controller
             }
         }
         
+        updateLoginAttemptforUser($email);
+        if($user!=null && $loginAttempt==3)
+        { 
+            $user->account_status ='inactive';
+            $user->save();
+            
+        }
+
         return redirect($hospitalSlug.'/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
@@ -335,7 +367,15 @@ class AuthController extends Controller
             $remember = $request->input('remember');
         else
            $remember = 0;
-            
+         
+        $user = User::where('type','!=','patient')->where('email', $email)->first(); 
+        $loginAttempt = getUserLoginAttempts($email); 
+        if($loginAttempt >3)
+        {
+            return redirect($hospitalSlug.'/'.$projectSlug.'/login')->withErrors([
+                    'email' => 'Account Blocked, contact administrator',
+                ]); 
+        }   
         
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
@@ -345,6 +385,13 @@ class AuthController extends Controller
             }
             else
             {
+                updateLoginAttemptforUser($email);
+                if($user!=null && $loginAttempt==3)
+                { 
+                    $user->account_status ='inactive';
+                    $user->save();
+                    
+                }
                 Auth::logout();
                 return redirect($hospitalSlug.'/'.$projectSlug.'/login')->withErrors([
                     'email' => 'Account inactive, contact administrator',
@@ -352,6 +399,14 @@ class AuthController extends Controller
             }
         }
         
+        updateLoginAttemptforUser($email);
+        if($user!=null && $loginAttempt==3)
+        { 
+            $user->account_status ='inactive';
+            $user->save();
+            
+        }
+
         return redirect($hospitalSlug.'/'.$projectSlug.'/login')->withErrors([
             'email' => 'The credentials you entered did not match our records. Try again?',
         ]);
