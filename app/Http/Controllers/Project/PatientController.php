@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Project;
 
 use Illuminate\Http\Request;
-
+use \Cache;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
@@ -313,6 +313,10 @@ class PatientController extends Controller
             $apiKey->user_id       = $user->id;
             $apiKey->key           = $apiKey->generateKey();
             $apiKey->save();
+
+            //CLEAR PATIENT SUMMAY CACHE 
+            $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+            Cache::forget($patientsSummaryCacheKey);
 
             Session::flash('success_message','Patient created successfully.');
 
@@ -888,7 +892,7 @@ class PatientController extends Controller
             $reminderTime = secondsToTime($patient->reminder_time);
             $settings['reminderTime']['day'] = $reminderTime['d']; 
             $settings['reminderTime']['hours'] = $reminderTime['h']; 
-             
+
              
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
