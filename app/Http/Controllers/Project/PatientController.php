@@ -888,7 +888,7 @@ class PatientController extends Controller
             $reminderTime = secondsToTime($patient->reminder_time);
             $settings['reminderTime']['day'] = $reminderTime['d']; 
             $settings['reminderTime']['hours'] = $reminderTime['h']; 
-
+             
              
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {

@@ -259,8 +259,9 @@ class UserController extends Controller
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
 
             $project = Projects::find($user['project_id'])->toArray();  
-
-            if($user->login_attempts >3)
+            $loginAttempt = getUserLoginAttempts($referenceCode);
+            
+            if($loginAttempt >3)
             {
                 $json_resp = array(
                     'code' => 'login_attempts' , 
@@ -374,9 +375,13 @@ class UserController extends Controller
                 else
                 {
                     
-                    $user->login_attempts = $user->login_attempts + 1 ;
-                    $user->account_status=='inactive';
-                    $user->save();
+                    updateLoginAttemptforUser($referenceCode);
+                    if($user!=null && $loginAttempt==3)
+                    { 
+                        $user->account_status ='inactive';
+                        $user->save();
+                        
+                    }
         
                    $json_resp = array(
                     'code' => 'invalid_login' , 

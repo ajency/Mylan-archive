@@ -94,7 +94,8 @@ class AuthController extends Controller
 
         //CHECK LOGIN ATTEMPTS
         $user = User::where('type','patient')->where('reference_code', $referenceCode)->first();
-        if($user->login_attempts >3)
+        $loginAttempt = getUserLoginAttempts($referenceCode); 
+        if($loginAttempt >3)
         {
             return redirect('/login')->withErrors([
                     'email' => 'Account Blocked, contact administrator',
@@ -177,7 +178,7 @@ class AuthController extends Controller
 
                     $projectId = intval($projectId);
                     $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
-                    
+
                     return redirect()->intended('dashboard');
                 }
                 else
@@ -200,11 +201,12 @@ class AuthController extends Controller
             
         }
 
-        if($user!=null)
+        updateLoginAttemptforUser($referenceCode);
+        if($user!=null && $loginAttempt==3)
         { 
-            $user->login_attempts = $user->login_attempts + 1 ;
-            $user->account_status=='inactive';
+            $user->account_status ='inactive';
             $user->save();
+            
         }
         
         return redirect('login')->withErrors([
@@ -228,16 +230,18 @@ class AuthController extends Controller
         else
            $remember = 0;
         
-        $user = User::where('type','!=','patient')->where('email', $email)->first();
-        if($user->login_attempts >3)
+        $user = User::where('type','!=','patient')->where('email', $email)->first(); 
+        $loginAttempt = getUserLoginAttempts($email); 
+        if($loginAttempt >3)
         {
             return redirect('/admin/login')->withErrors([
                     'email' => 'Account Blocked, contact administrator',
                 ]);  
-        }   
+        }
         
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) //'type' => 'mylan_admin',
         {   
+
             if(Auth::user()->account_status=='active' && Auth::user()->type=='mylan_admin')
             {  
                 return redirect()->intended('admin/dashboard');
@@ -255,12 +259,12 @@ class AuthController extends Controller
             }
         }
         
-        
-        if($user!=null)
+        updateLoginAttemptforUser($email);
+        if($user!=null && $loginAttempt==3)
         { 
-            $user->login_attempts = $user->login_attempts + 1 ;
-            $user->account_status=='inactive';
+            $user->account_status ='inactive';
             $user->save();
+            
         }
 
         return redirect('/admin/login')->withErrors([

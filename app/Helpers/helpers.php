@@ -28,6 +28,40 @@ function getUserApiKey( $userId ) {
     return $key[0];
 } 
 
+function updateLoginAttemptforUser($user)
+{
+    $cookieName = \Cookie::get("laravel_session");
+
+    $userLoginAttempt = App\UserLoginAttempt::where('user_token',$cookieName)->where('user',$user)->first();
+   
+    if($userLoginAttempt!=null)
+    {
+        $loginAttempt = $userLoginAttempt->login_attempts;
+        $userLoginAttempt->login_attempts = $loginAttempt+1;
+        $userLoginAttempt->save();
+    }
+    else
+    {
+        $userLoginAttempt =  new App\UserLoginAttempt();
+        $userLoginAttempt->user_token = $cookieName;
+        $userLoginAttempt->user = $user;
+        $userLoginAttempt->login_attempts = 1;
+        $userLoginAttempt->save();
+    }
+    
+ 
+    return $userLoginAttempt;
+}
+
+function getUserLoginAttempts($user)
+{
+    $cookieName = \Cookie::get("laravel_session");
+    $loginAttempt = App\UserLoginAttempt::where('user_token',$cookieName)->where('user',$user)->first(); 
+    $loginAttemptCount =  (!empty($loginAttempt))?intval($loginAttempt->login_attempts):0; 
+ 
+    return $loginAttemptCount;
+}
+
 function getProjectAttributes($attributes)
 {
     $data = [];
