@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Hospital;
 use App\User;
-use App\projects;
+use App\Projects;
 use \File;
 use \Input;
 use \Session;
