@@ -95,6 +95,9 @@
                                   
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
+                                    <?php
+                                        $value = (isset($patientProjectAttributes[ $attribute['label'] ][$default])) ? $patientProjectAttributes[ $attribute['label'] ][$default] : '';
+                                        ?>
                                    <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
@@ -104,14 +107,7 @@
                                           @endif
                                         </label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control  @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" 
-                                           
-                                          @if(('on' == $attribute['validate']) && count($defaults) == 1)
-                                           data-parsley-required 
-                                           @endif
-
-                                           value="{{ $value }}"
-                                            >
+                                          <input type="text" class="form-control  @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0"  @if(('on' == $attribute['validate']) && count($defaults) == 1) data-parsley-required @endif  value="{{ $value }}" >
                                           <div class="input-group-addon">{{ $default }}</div>
                                         </div>
                                       </div>
