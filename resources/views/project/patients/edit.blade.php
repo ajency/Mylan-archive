@@ -184,7 +184,7 @@
                                       <div class="form-group">
                                         <label class="">{{ $attribute['label'] }} <i class="fa fa-exclamation-circle p-l-5" data-toggle="tooltip" data-placement="top" title="Please enter your weight in KG or ST/LB"></i></label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" value="{{ $value }}" {{ $readOnly }}>
+                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" value="{{ $value }}" {{ $readOnly }} data-parsley-type="number" data-parsley-min="0" >
                                           <div class="input-group-addon">kg</div>
                                         </div>
                                       </div>
@@ -210,7 +210,7 @@
                                        @endif
                                       </label>
                                         <div class="input-group">
-                                           <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" data-parsley-group="block-{{ $key }}" value="{{ $stValue }}" {{ $readOnly }}>
+                                           <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" data-parsley-group="block-{{ $key }}" value="{{ $stValue }}" {{ $readOnly }} data-parsley-type="number" data-parsley-min="0" >
                                           <div class="input-group-addon">st</div>
                                         </div>
                                       </div>
@@ -219,7 +219,7 @@
                                       <div class="form-group">
                                         <label class="fade-0">{{ $attribute['label'] }} </label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" data-parsley-group="block-{{ $key }}" value="{{ $lbValue }}" {{ $readOnly }}>
+                                          <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" data-parsley-group="block-{{ $key }}" value="{{ $lbValue }}" {{ $readOnly }} data-parsley-type="number" data-parsley-min="0" >
                                           <div class="input-group-addon">lb</div>
                                         </div>
                                       </div>

@@ -59,6 +59,7 @@
                                 </div>
                             </div>
                            <?php $key = 0;?>
+                           @if(!empty($projectAttributes))
                            @foreach($projectAttributes as $key =>$attibute)
                             <div class="row allattributes attributeContainer">
                                 <div class="col-xs-3">
@@ -94,6 +95,8 @@
                                 </div>
                             </div>
                            @endforeach
+                           <?php $key = $key+1;?>
+                           @endif
 
                             <div class="row addAttributeBlock attributeContainer">
 
@@ -119,7 +122,7 @@
                                 </div>
                                 <div class="col-xs-1">
                                 <div class="validateCheck">
-                                    <input type="checkbox" name="validate[{{ ($key+1) }}]"  >
+                                    <input type="checkbox" name="validate[{{ $key }}]"  >
                                     </div>
                                 </div>
                                 <!-- <div class="deleteProject">
@@ -137,7 +140,7 @@
                             </div>
                              </div>
 
-                        <input type="hidden" name="counter" value="{{ ($key+1) }}">
+                        <input type="hidden" name="counter" value="{{ $key }}">
                         </div>
 
                         <div class="row">
