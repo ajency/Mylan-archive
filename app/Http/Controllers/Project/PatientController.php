@@ -473,7 +473,8 @@ class PatientController extends Controller
             $questionChartData = $questionsChartData['chartData'];
             //$questionBaseLine = $questionsChartData['questionBaseLine'];
 
-            $cond=['patient'=>$patient['reference_code']];
+            $cond=['patient'=>$patient['reference_code'],'referenceType'=>"Response"];
+     
             $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
 
         } catch (\Exception $e) {
