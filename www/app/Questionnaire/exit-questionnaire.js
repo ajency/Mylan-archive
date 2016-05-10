@@ -42,11 +42,9 @@ angular.module('PatientApp.Quest').controller('ExitQuestionnaireCtrl', [
     };
     deregisterExit = null;
     $scope.$on('$ionicView.enter', function() {
-      console.log('$ionicView.enter questionarie');
       return deregisterExit = $ionicPlatform.registerBackButtonAction(onDeviceBackExit, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      console.log('$ionicView.leave exit ....');
       if (deregisterExit) {
         return deregisterExit();
       }

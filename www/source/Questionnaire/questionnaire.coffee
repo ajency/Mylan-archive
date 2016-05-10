@@ -51,8 +51,6 @@ angular.module 'PatientApp.Quest',[]
 							param.responseId = responseId
 							QuestionAPI.getPrevQuest param
 							.then (data)=>
-								console.log 'previous data'
-								console.log @data	
 								@variables()
 								
 								@data = data
@@ -76,8 +74,6 @@ angular.module 'PatientApp.Quest',[]
 							param.responseId = responseId
 							QuestionAPI.getFirstQuest param
 							.then (data)=>
-								console.log 'previous data'
-								console.log @data	
 								@variables()
 								
 								@data = data
@@ -102,8 +98,6 @@ angular.module 'PatientApp.Quest',[]
 
 						QuestionAPI.getQuestion options
 						.then (data)=>
-							console.log 'inside then'
-							console.log data
 							@checkQuestinarieStatus(data)
 							@data = data
 							@pastAnswer()
@@ -128,9 +122,6 @@ angular.module 'PatientApp.Quest',[]
 
 						QuestionAPI.getQuestion options
 						.then (data)=>
-							console.log 'inside then'
-							console.log data
-							
 							@data = data
 							@questionLabel()
 							@checkQuestinarieStatus(data)
@@ -202,13 +193,7 @@ angular.module 'PatientApp.Quest',[]
 							else if valid == null
 								stValid = false
 		
-				# ***temp**
-				console.log '********inputt*********'
-				console.log weightInput
-				console.log validArr
-				console.log weightInput
-				console.log @firstText
-				console.log @secondText
+				
 
 				if (weightInput == 0) && (error == 1 || validArr.length > 0)
 					CToast.show 'Please enter the values'
@@ -246,8 +231,7 @@ angular.module 'PatientApp.Quest',[]
 					QuestionAPI.saveAnswer param
 					.then (data)=>
 						if @readonly == true then CToast.show 'Your answer is saved'
-						console.log '******next question******'
-						console.log data
+
 						if !_.isUndefined(data.status)
 							if data.status == 'saved_successfully'
 								App.navigate 'summary', summary:responseId
@@ -298,8 +282,6 @@ angular.module 'PatientApp.Quest',[]
 
 				if @data.questionType == 'input'
 					param = @vlaidateInput() 
-					console.log '******** param **********'
-					console.log param
 					if param != true then @loadNextQuestion(param)
 			
 				if @data.questionType == 'multi-choice'
@@ -339,8 +321,6 @@ angular.module 'PatientApp.Quest',[]
 					param.responseId = responseId
 					QuestionAPI.getPrevQuest param
 					.then (data)=>
-						console.log 'previous data'
-						console.log data
 						if !_.isUndefined(data.status)
 
 							if data.status == 'completed'
@@ -505,7 +485,6 @@ angular.module 'PatientApp.Quest',[]
 					_.each @data.hasAnswer.option, (val) =>
 						@val_answerValue[val.label] = Number(val.value)
 
-					console.log @val_answerValue
 					
 			navigateOnDevice:()->
 				if $('.popup-container').hasClass('active')
@@ -550,7 +529,7 @@ angular.module 'PatientApp.Quest',[]
 				else
 					edit = false
 				if edit == false
-					console.log 'inside firstrow click'
+
 					@firstText = 'selected'
 					@secondText = 'notSelected'
 					
@@ -565,7 +544,7 @@ angular.module 'PatientApp.Quest',[]
 				else
 					edit = false
 				if edit == false
-					console.log 'inside second row click'
+
 					@firstText = 'notSelected '
 					@secondText = 'selected'
 					
@@ -613,12 +592,10 @@ angular.module 'PatientApp.Quest',[]
 			$scope.view.reInit()
 			
 		$scope.$on '$ionicView.enter', ->
-			console.log '$ionicView.enter questionarie'
 			onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
 		
 
 		$scope.$on '$ionicView.leave', ->
-			console.log '$ionicView.leave'
 			if onHardwareBackButton1 then onHardwareBackButton1()
 
 ]

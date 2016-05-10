@@ -160,8 +160,6 @@ angular.module 'PatientApp.Global', []
 				defer.promise
 
 			callUs :(tel) ->
-				console.log 'call us'
-				console.log tel
 				document.location.href = "tel:"+tel
 
 

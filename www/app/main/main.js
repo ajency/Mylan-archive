@@ -2,7 +2,6 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
   '$scope', 'App', 'Storage', 'notifyAPI', '$ionicLoading', 'Push', '$rootScope', function($scope, App, Storage, notifyAPI, $ionicLoading, Push, $rootScope) {
     $scope.view = {
       init: function() {
-        console.log('inittt...');
         return Push.register();
       },
       getNotificationCount: function() {
@@ -13,8 +12,6 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
               "patientId": refcode
             };
             return notifyAPI.getNotificationCount(param).then(function(data) {
-              console.log('notificato data');
-              console.log(data);
               if (data > 0) {
                 App.notification.count = data;
                 return App.notification.badge = true;
@@ -87,8 +84,6 @@ angular.module('PatientApp.main', []).controller('MainCtr', [
     $rootScope.$on('push:notification:click', function(e, obj) {
       var param, payload;
       payload = obj.payload;
-      console.log('--iddd--');
-      console.log(payload);
       param = {
         "notificationId": payload.id
       };

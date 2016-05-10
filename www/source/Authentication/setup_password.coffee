@@ -23,25 +23,11 @@ angular.module 'PatientApp.Auth',[]
 			completesetup : ->
 					# passtext = document.getElementById("password").value
 					passtext = $('.password').val()
-				
 					reg = new RegExp('^[0-9]+$')
-					
 					boolPassword = reg.test(passtext)
-
 					# repasstext = document.getElementById("repassword").value
 					repasstext = $('.repassword').val()
-					
-					
 					boolRePassword = reg.test(repasstext)
-
-					console.log '--'
-					console.log boolPassword
-					console.log boolRePassword
-					console.log passtext.length <= 4 
-					console.log @Re_password
-
-					
-
 
 					if (@New_password =='' ||  @Re_password =='' ) || ((_.isUndefined(@New_password) && _.isUndefined(@New_password)) || (boolPassword == false) ||(boolRePassword == false) || passtext.length < 4 || repasstext.length < 4 )
 						@passwordmissmatch = "Please enter valid 4 digit password"		
@@ -51,11 +37,8 @@ angular.module 'PatientApp.Auth',[]
                         	CSpinner.show '', 'Please wait..'
                         	Storage.setData 'refcode', 'get'
                         	.then (refcode) =>
-                        		console.log refcode
-                        		console.log App.previousState
 		                        AuthAPI.setPassword(refcode, @Re_password)
 		                        .then (data)=>
-		                        	console.log data
 		                        	if App.previousState == 'setup' then  App.navigate "main_login" else CToast.show 'Your password is updated '
 		                        , (error)=>
 		                        	if error == 'offline'

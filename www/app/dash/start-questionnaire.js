@@ -2,7 +2,6 @@ angular.module('PatientApp.dashboard').controller('StartQuestionnaireCtrl', [
   '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', '$stateParams', function($scope, App, Storage, QuestionAPI, DashboardAPI, $stateParams) {
     return $scope.view = {
       startQuiz: function() {
-        console.log($stateParams.responseId);
         return App.navigate('questionnaire', {
           respStatus: $stateParams.responseId
         });

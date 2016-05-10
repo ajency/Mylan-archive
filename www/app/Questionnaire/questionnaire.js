@@ -46,8 +46,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return Storage.setData('responseId', 'get').then(function(responseId) {
                 param.responseId = responseId;
                 return QuestionAPI.getPrevQuest(param).then(function(data) {
-                  console.log('previous data');
-                  console.log(_this.data);
                   _this.variables();
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
@@ -70,8 +68,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               return Storage.setData('responseId', 'get').then(function(responseId) {
                 param.responseId = responseId;
                 return QuestionAPI.getFirstQuest(param).then(function(data) {
-                  console.log('previous data');
-                  console.log(_this.data);
                   _this.variables();
                   _this.data = data;
                   _this.checkQuestinarieStatus(data);
@@ -95,8 +91,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 "patientId": _this.refcode
               };
               return QuestionAPI.getQuestion(options).then(function(data) {
-                console.log('inside then');
-                console.log(data);
                 _this.checkQuestinarieStatus(data);
                 _this.data = data;
                 _this.pastAnswer();
@@ -121,8 +115,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
                 "patientId": _this.refcode
               };
               return QuestionAPI.getQuestion(options).then(function(data) {
-                console.log('inside then');
-                console.log(data);
                 _this.data = data;
                 _this.questionLabel();
                 _this.checkQuestinarieStatus(data);
@@ -204,12 +196,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             }
           });
         }
-        console.log('********inputt*********');
-        console.log(weightInput);
-        console.log(validArr);
-        console.log(weightInput);
-        console.log(this.firstText);
-        console.log(this.secondText);
         if ((weightInput === 0) && (error === 1 || validArr.length > 0)) {
           CToast.show('Please enter the values');
         } else if ((weightInput === 1) && (this.firstText === 'selected' && kgValid === false)) {
@@ -250,8 +236,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
               if (_this.readonly === true) {
                 CToast.show('Your answer is saved');
               }
-              console.log('******next question******');
-              console.log(data);
               if (!_.isUndefined(data.status)) {
                 if (data.status === 'saved_successfully') {
                   App.navigate('summary', {
@@ -308,8 +292,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
         }
         if (this.data.questionType === 'input') {
           param = this.vlaidateInput();
-          console.log('******** param **********');
-          console.log(param);
           if (param !== true) {
             this.loadNextQuestion(param);
           }
@@ -351,8 +333,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             CSpinner.show('', 'Please wait..');
             param.responseId = responseId;
             return QuestionAPI.getPrevQuest(param).then(function(data) {
-              console.log('previous data');
-              console.log(data);
               if (!_.isUndefined(data.status)) {
                 if (data.status === 'completed') {
                   _this.title = 'This questionnaire was completed';
@@ -536,12 +516,11 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
             this.firstText = 'selected';
             this.secondText = 'notSelected';
           }
-          _.each(this.data.hasAnswer.option, (function(_this) {
+          return _.each(this.data.hasAnswer.option, (function(_this) {
             return function(val) {
               return _this.val_answerValue[val.label] = Number(val.value);
             };
           })(this));
-          return console.log(this.val_answerValue);
         }
       },
       navigateOnDevice: function() {
@@ -606,7 +585,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           edit = false;
         }
         if (edit === false) {
-          console.log('inside firstrow click');
           this.firstText = 'selected';
           this.secondText = 'notSelected';
           a = {};
@@ -626,7 +604,6 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
           edit = false;
         }
         if (edit === false) {
-          console.log('inside second row click');
           this.firstText = 'notSelected ';
           this.secondText = 'selected';
           return _.each(this.data.options, (function(_this) {
@@ -681,11 +658,9 @@ angular.module('PatientApp.Quest', []).controller('questionnaireCtr', [
       return $scope.view.reInit();
     });
     $scope.$on('$ionicView.enter', function() {
-      console.log('$ionicView.enter questionarie');
       return onHardwareBackButton1 = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      console.log('$ionicView.leave');
       if (onHardwareBackButton1) {
         return onHardwareBackButton1();
       }

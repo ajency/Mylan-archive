@@ -22,8 +22,6 @@ angular.module 'PatientApp.Quest'
 				@display = 'loader'
 				QuestionAPI.getSummary param
 				.then (data)=>
-					console.log '****name***'
-					console.log data
 					@data = data
 					_.each @data, (value)->
 						a = value.input
@@ -137,13 +135,11 @@ angular.module 'PatientApp.Quest'
 
 		deregister = null	
 		$scope.$on '$ionicView.enter', ->
-			console.log '$ionicView.enter.summary'
 			#Device hardware back button for android
 			deregister = $ionicPlatform.registerBackButtonAction onDeviceBackSummary, 1000
 			# $ionicPlatform.onHardwareBackButton onDeviceBackSummary
 		
 		$scope.$on '$ionicView.leave', ->
-			console.log '$ionicView.enter.leave summary'
 			if deregister then deregister()
 			# $ionicPlatform.offHardwareBackButton onDeviceBackSummary
 

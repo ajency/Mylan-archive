@@ -35,12 +35,10 @@ angular.module 'PatientApp.Quest'
 
 		deregisterExit = null
 		$scope.$on '$ionicView.enter', ->
-			console.log '$ionicView.enter questionarie'
 			deregisterExit = $ionicPlatform.registerBackButtonAction onDeviceBackExit, 1000
 			# $ionicPlatform.onHardwareBackButton onDeviceBackExit
 		
 		$scope.$on '$ionicView.leave', ->
-			console.log '$ionicView.leave exit ....'
 			if deregisterExit then deregisterExit()
 ]
 
