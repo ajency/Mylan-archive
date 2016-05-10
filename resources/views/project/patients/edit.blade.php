@@ -294,6 +294,8 @@
                     </div>
                      
                      </div> 
+                @else 
+                <input name="status" type="hidden" value="{{ $patient['account_status'] }}">
                 @endif
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
