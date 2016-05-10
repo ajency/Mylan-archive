@@ -62,7 +62,7 @@
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Phone Number</label>
-                               <input name="phone" id="phoneNo" type="text" class="form-control"  value="{{ $hospital['phone'] }}" data-parsley-required>
+                               <input name="phone" id="phoneNo" type="text" class="form-control"  value="{{ $hospital['phone'] }}" data-parsley-required data-parsley-type="number"  data-parsley-trigger="change">
                            </div>
                        </div>
                    </div>
@@ -110,32 +110,32 @@
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Email</label>
-                               <input name="email" id="email" type="email" class="form-control"  value="{{ $hospital['email'] }}" data-parsley-required>
+                               <input name="email" id="email" type="email" class="form-control"  value="{{ $hospital['email'] }}" data-parsley-type="email" data-parsley-required data-parsley-trigger="change">
                            </div>
                        </div>
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Website URL</label>
-                               <input name="website" id="website" type="text" class="form-control"  value="{{ $hospital['website'] }}" data-parsley-required>
+                               <input name="website" id="website" type="text" class="form-control"  value="{{ $hospital['website'] }}" data-parsley-type="url" data-parsley-required data-parsley-trigger="change">
                            </div>
                        </div>
                    </div>
                    <hr>
                    <div class="form-row">
                        <label>Primary Contact</label>
-                       <input name="contact_person" id="contact_person" type="text" class="form-control"  value="{{ $hospital['contact_person_name'] }}" data-parsley-required>
+                       <input name="contact_person" id="contact_person" type="text" class="form-control"  value="{{ $hospital['contact_person_name'] }}" data-parsley-required >
                    </div>
                    <div class="row form-row">
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Email</label>
-                               <input name="primary_email" id="primary_email" type="email" class="form-control"  value="{{ $hospital['primary_email'] }}" data-parsley-required>
+                               <input name="primary_email" id="primary_email" type="email" class="form-control"  value="{{ $hospital['primary_email'] }}" data-parsley-type="email" data-parsley-required data-parsley-trigger="change">
                            </div>
                        </div>
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Phone Number</label>
-                               <input name="primary_phone" id="primary_phone" type="text" class="form-control"  value="{{ $hospital['primary_phone'] }}" data-parsley-required>
+                               <input name="primary_phone" id="primary_phone" type="text" class="form-control"  value="{{ $hospital['primary_phone'] }}" data-parsley-required data-parsley-type="number"  data-parsley-trigger="change">
                            </div>
                        </div>
                    </div>
