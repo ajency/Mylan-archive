@@ -56,31 +56,4 @@ PARSE_HEADERS =
 # 		"X-Parse-Application-Id" : APP_ID
 # 		"X-Parse-REST-API-KeY" : REST_API_KEY
 
-# mylan frequency ####
-
-# AUTH_URL = 'http://mylantest.ajency.in/api/v1'
-
-# AUTH_HEADERS = 
-# 	headers:
-# 		"X-API-KEY" : 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-# 		"X-Authorization" : 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-# 		"Content-Type" : 'application/json'
-
-
-
-
-# APP_ID       = 'Hptz1qgEP0UIMCpKCTkoTFfrFdQS0OC20irwZ6Yk'
-# JS_KEY       = 'qOE88HvevAwMR87zikkWbZeN6tUbmZ9KOBWlEMbJ'
-# REST_API_KEY = 'MPaKQyvyTAF61EX1JZX9wlwj5K4e94YngtQNJOSi'
-
-
-
-
-# PARSE_URL = 'https://api.parse.com/1/functions'
-
-
-# PARSE_HEADERS =
-# 	headers:
-# 		"X-Parse-Application-Id" : APP_ID
-# 		"X-Parse-REST-API-KeY" : REST_API_KEY
 
