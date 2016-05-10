@@ -1,11 +1,12 @@
 angular.module('PatientApp.Auth').controller('main_loginCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform) {
+  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', 'RefcodeData', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform, RefcodeData) {
     var onDeviceBack, onHardwareBackLogin;
     $scope.view = {
       temprefrencecode: '',
       loginerror: '',
       password: '',
       readonly: '',
+      refrencecode: RefcodeData,
       mainlogin: function() {
         if (this.refrencecode === '' || this.password === '') {
           return this.loginerror = "Please enter your credentials ";
@@ -16,7 +17,6 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
             CSpinner.show('', 'Checking credentials please wait');
             return AuthAPI.validateUser(this.refrencecode, this.password).then((function(_this) {
               return function(data) {
-                console.log(data);
                 if (data.code === 'successful_login') {
                   return Parse.User.become(data.user).then(function(user) {
                     return Storage.setData('logged', 'set', true);
@@ -32,11 +32,10 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                       back: false
                     });
                   }, function(error) {
-                    console.log('in error');
                     return console.log(error);
                   });
                 } else if (data.code === 'limit_exceeded') {
-                  return _this.loginerror = 'Cannot do setup more then 5 times';
+                  return _this.loginerror = 'Cannot do setup more then 10 times';
                 } else if (data.code === 'invalid_login') {
                   _this.password = '';
                   if (_this.readonly === false) {
@@ -47,6 +46,12 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
                   return _this.loginerror = 'No password set for the reference code';
                 } else if (data.code === 'baseline_not_set') {
                   return _this.loginerror = 'Patient cannot be activated,due to missing activation data . Please contact your hospital administrator';
+                } else if (data.code === 'project_paused') {
+                  return _this.loginerror = 'This project is paused. Please contact your hospital administrator';
+                } else if (data.code === 'login_attempts') {
+                  return _this.loginerror = 'You have exceeded the maximum login attempts.Please contact your hospital administrator';
+                } else if (data.code === 'inactive_user') {
+                  return _this.loginerror = 'This patient is inactive. Please contact your hospital administrator';
                 } else {
                   CToast.show('Please check credentials');
                   return _this.loginerror = "Password entered is incorrect, Please try again";
@@ -91,7 +96,6 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
       },
       onDeviceBack: function() {
         var count;
-        console.log('ondevice backk');
         if (App.previousState === 'setup_password') {
           return App.navigate("setup", {}, {
             animate: false,
@@ -105,7 +109,6 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
     };
     onDeviceBack = function() {
       var count;
-      console.log('ondevice backk');
       if (App.previousState === 'setup_password') {
         return App.navigate("setup", {}, {
           animate: false,
@@ -134,11 +137,9 @@ angular.module('PatientApp.Auth').controller('main_loginCtr', [
     });
     onHardwareBackLogin = null;
     $scope.$on('$ionicView.enter', function() {
-      console.log('$ionicView.enter questionarie');
       return onHardwareBackLogin = $ionicPlatform.registerBackButtonAction(onDeviceBack, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      console.log('$ionicView.leave');
       if (onHardwareBackLogin) {
         return onHardwareBackLogin();
       }

@@ -32,7 +32,7 @@ angular.module 'PatientApp.init'
 						else if @data.code == 'set_password'
 							App.navigate "setup_password"
 						else if @data.code == 'limit_exceeded'
-							@emptyfield = 'Cannot do setup more then 5 times'
+							@emptyfield = 'Cannot do setup more then 10 times'
 						else 
 							@emptyfield = 'Please check your reference code'
 					, (error)=>

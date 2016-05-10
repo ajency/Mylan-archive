@@ -1,15 +1,16 @@
 angular.module 'PatientApp.Auth'
 
 .controller 'main_loginCtr',['$scope', 'App', 'Storage'
-	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform'
+	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', 'RefcodeData'
 	 , ($scope, App, Storage,
-	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform)->
+	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform, RefcodeData)->
 
 		$scope.view =
 			temprefrencecode :''
 			loginerror: ''
 			password:''
 			readonly : ''
+			refrencecode : RefcodeData
 			
 
 			mainlogin : ->
@@ -22,7 +23,7 @@ angular.module 'PatientApp.Auth'
 						CSpinner.show '', 'Checking credentials please wait'
 						AuthAPI.validateUser(@refrencecode,@password )
 						.then (data)=>
-							console.log data
+							
 							if data.code == 'successful_login'
 								Parse.User.become data.user
 								.then (user)=>
@@ -36,10 +37,9 @@ angular.module 'PatientApp.Auth'
 								.then ()=>
 									App.navigate "dashboard", {}, {animate: false, back: false}
 								, (error)->
-									console.log 'in error'
 									console.log error
 							else if data.code == 'limit_exceeded'
-								@loginerror = 'Cannot do setup more then 5 times'
+								@loginerror = 'Cannot do setup more then 10 times'
 							else if data.code == 'invalid_login'
 								@password = ''
 								if @readonly == false 
@@ -49,6 +49,12 @@ angular.module 'PatientApp.Auth'
 								@loginerror = 'No password set for the reference code'
 							else if data.code == 'baseline_not_set'
 								@loginerror = 'Patient cannot be activated,due to missing activation data . Please contact your hospital administrator'
+							else if data.code == 'project_paused'
+								@loginerror = 'This project is paused. Please contact your hospital administrator'
+							else if data.code == 'login_attempts'
+								@loginerror = 'You have exceeded the maximum login attempts.Please contact your hospital administrator'
+							else if data.code == 'inactive_user'
+								@loginerror = 'This patient is inactive. Please contact your hospital administrator'
 							else
 								CToast.show 'Please check credentials'
 								@loginerror = "Password entered is incorrect, Please try again"
@@ -81,7 +87,6 @@ angular.module 'PatientApp.Auth'
 				App.callUs(MYLANPHONE)
 
 			onDeviceBack:->
-				console.log 'ondevice backk'
 				if App.previousState == 'setup_password'
 					App.navigate "setup", {}, {animate: false, back: false}
 				else
@@ -91,7 +96,6 @@ angular.module 'PatientApp.Auth'
 
 
 		onDeviceBack = ->
-			console.log 'ondevice backk'
 			if App.previousState == 'setup_password'
 				App.navigate "setup", {}, {animate: false, back: false}
 			else
@@ -114,12 +118,9 @@ angular.module 'PatientApp.Auth'
 		onHardwareBackLogin = null 
 
 		$scope.$on '$ionicView.enter', ->
-			console.log '$ionicView.enter questionarie'
 			onHardwareBackLogin = $ionicPlatform.registerBackButtonAction onDeviceBack, 1000
 		
-
 		$scope.$on '$ionicView.leave', ->
-			console.log '$ionicView.leave'
 			if onHardwareBackLogin then onHardwareBackLogin()
 		
 ]

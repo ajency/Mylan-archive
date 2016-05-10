@@ -20,8 +20,6 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
         this.display = 'loader';
         return QuestionAPI.getSummary(param).then((function(_this) {
           return function(data) {
-            console.log('****name***');
-            console.log(data);
             _this.data = data;
             _.each(_this.data, function(value) {
               var a;
@@ -122,11 +120,9 @@ angular.module('PatientApp.Quest').controller('SummaryCtr', [
     };
     deregister = null;
     $scope.$on('$ionicView.enter', function() {
-      console.log('$ionicView.enter.summary');
       return deregister = $ionicPlatform.registerBackButtonAction(onDeviceBackSummary, 1000);
     });
     return $scope.$on('$ionicView.leave', function() {
-      console.log('$ionicView.enter.leave summary');
       if (deregister) {
         return deregister();
       }

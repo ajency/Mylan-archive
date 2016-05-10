@@ -22,11 +22,6 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
         boolPassword = reg.test(passtext);
         repasstext = $('.repassword').val();
         boolRePassword = reg.test(repasstext);
-        console.log('--');
-        console.log(boolPassword);
-        console.log(boolRePassword);
-        console.log(passtext.length <= 4);
-        console.log(this.Re_password);
         if ((this.New_password === '' || this.Re_password === '') || ((_.isUndefined(this.New_password) && _.isUndefined(this.New_password)) || (boolPassword === false) || (boolRePassword === false) || passtext.length < 4 || repasstext.length < 4)) {
           return this.passwordmissmatch = "Please enter valid 4 digit password";
         } else {
@@ -34,10 +29,7 @@ angular.module('PatientApp.Auth', []).controller('setup_passwordCtr', [
             CSpinner.show('', 'Please wait..');
             return Storage.setData('refcode', 'get').then((function(_this) {
               return function(refcode) {
-                console.log(refcode);
-                console.log(App.previousState);
                 return AuthAPI.setPassword(refcode, _this.Re_password).then(function(data) {
-                  console.log(data);
                   if (App.previousState === 'setup') {
                     return App.navigate("main_login");
                   } else {

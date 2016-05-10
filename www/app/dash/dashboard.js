@@ -40,8 +40,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
             };
             return DashboardAPI.get(param).then(function(data) {
               var arr;
-              console.log('dashoard data');
-              console.log(data);
               _this.data = data;
               arr = _.reject(_this.data, function(d) {
                 return d.status === 'base_line';
@@ -143,9 +141,7 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       },
       getScrollPosition: function() {
         var scrollPosition;
-        console.log('getscroll position');
         scrollPosition = App.getScrollPosition();
-        console.log(scrollPosition);
         if (scrollPosition < 200) {
           return $scope.$apply(function() {
             return $scope.view.scroll = false;
@@ -163,7 +159,6 @@ angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
       }
     };
     $scope.$on('$ionicView.enter', function(event, viewData) {
-      console.log('view enter');
       $scope.view.displaydata();
       return Storage.setData('refcode', 'get').then(function(refcode) {
         return NotifyCount.getCount(refcode);

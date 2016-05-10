@@ -42,9 +42,6 @@ angular.module 'PatientApp.dashboard',[]
 						"patientId": refcode
 					DashboardAPI.get param
 					.then (data)=>
-
-						console.log 'dashoard data'
-						console.log data
 						@data = data
 						# arr = _.reject(@data, function(d){ return d.status === 'base_line'; })
 						arr = _.reject(@data, (d) -> d.status == 'base_line')
@@ -124,10 +121,7 @@ angular.module 'PatientApp.dashboard',[]
 				@scroll = false
 
 			getScrollPosition : ->
-
-				console.log 'getscroll position'
 				scrollPosition = App.getScrollPosition()
-				console.log scrollPosition
 				if scrollPosition < 200
 					$scope.$apply ->
 						$scope.view.scroll = false
@@ -143,7 +137,6 @@ angular.module 'PatientApp.dashboard',[]
 			
 
 		$scope.$on '$ionicView.enter', (event, viewData)->
-			console.log 'view enter'
 			$scope.view.displaydata()
 			Storage.setData 'refcode','get'
 				.then (refcode)->

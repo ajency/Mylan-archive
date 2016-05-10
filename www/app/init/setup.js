@@ -33,7 +33,7 @@ angular.module('PatientApp.init').controller('setupCtr', [
               } else if (_this.data.code === 'set_password') {
                 return App.navigate("setup_password");
               } else if (_this.data.code === 'limit_exceeded') {
-                return _this.emptyfield = 'Cannot do setup more then 5 times';
+                return _this.emptyfield = 'Cannot do setup more then 10 times';
               } else {
                 return _this.emptyfield = 'Please check your reference code';
               }

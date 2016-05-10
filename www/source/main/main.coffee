@@ -6,7 +6,6 @@ angular.module 'PatientApp.main', []
 		$scope.view =
 
 			init : ->
-				console.log 'inittt...'
 				Push.register()
 				
 
@@ -18,8 +17,7 @@ angular.module 'PatientApp.main', []
 
 					notifyAPI.getNotificationCount param
 					.then (data)=>	
-						console.log 'notificato data'
-						console.log data
+
 						if data > 0
 							App.notification.count = data
 							App.notification.badge = true
@@ -69,8 +67,6 @@ angular.module 'PatientApp.main', []
 
 		$rootScope.$on 'push:notification:click', (e, obj)->
 			payload = obj.payload
-			console.log '--iddd--'
-			console.log payload
 			param = 
 				"notificationId":payload.id
 			notifyAPI.setNotificationSeen param

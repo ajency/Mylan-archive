@@ -5,7 +5,6 @@ angular.module 'PatientApp.dashboard'
 
 		$scope.view =
 			startQuiz :() ->
-				console.log $stateParams.responseId
 				App.navigate 'questionnaire', respStatus: $stateParams.responseId
 ]
 

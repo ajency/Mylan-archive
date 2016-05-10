@@ -13,3 +13,19 @@ ionic plugin add https://github.com/avivais/phonegap-parse-plugin --variable APP
 
 
 ionic plugin add cordova-plugin-app-preferences
+
+final list of plugins that are added 
+
+com.parse.cordova.core.pushplugin 0.1.0 "phonegap-parse-plugin"
+com.phonegap.plugins.PushPlugin 2.5.0 "PushPlugin"
+cordova-plugin-app-preferences 0.7.7 "AppPreferences"
+cordova-plugin-console 1.0.2 "Console"
+cordova-plugin-device 1.1.1 "Device"
+cordova-plugin-dialogs 1.2.0 "Notification"
+cordova-plugin-network-information 1.1.0 "Network Information"
+cordova-plugin-splashscreen 3.1.0 "Splashscreen"
+cordova-plugin-statusbar 2.1.2 "StatusBar"
+cordova-plugin-whitelist 1.2.1 "Whitelist"
+cordova-plugin-x-toast 2.2.1 "Toast"
+hu.dpal.phonegap.plugins.SpinnerDialog 1.3.1 "SpinnerDialog"
+ionic-plugin-keyboard 2.0.1 "Keyboard"

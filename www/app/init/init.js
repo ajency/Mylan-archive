@@ -62,7 +62,17 @@ angular.module('PatientApp.init', []).controller('InitCtrl', [
       views: {
         "appContent": {
           templateUrl: 'views/authentication-view/Main-Screen-login.html',
-          controller: 'main_loginCtr'
+          controller: 'main_loginCtr',
+          resolve: {
+            RefcodeData: function($q, Storage) {
+              var defer;
+              defer = $q.defer();
+              Storage.setData('refcode', 'get').then(function(data) {
+                return defer.resolve(data);
+              });
+              return defer.promise;
+            }
+          }
         }
       }
     }).state('setup', {
