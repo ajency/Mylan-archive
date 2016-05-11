@@ -287,7 +287,7 @@ class SubmissionController extends Controller
             // get patient submissions
             $allSubmissions = [];
             $patientController = new PatientController();
-            $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed"]);
+            $completedResponses = $patientController->getPatientsResponses([$referenceCode],0,[],["completed","late"]);
 
             foreach ($completedResponses as $key => $response) {
                 $responseId = $response->getObjectId();
@@ -358,18 +358,12 @@ class SubmissionController extends Controller
         $responseQry->includeKey('questionnaire');
         $response = $responseQry->first();
         
-        $answers = [];
-        $status  = $response->get("status");
 
-        if($status=="completed" || $status=="base_line")
-        {
-            $answerQry = new ParseQuery("Answer");
-            $answerQry->equalTo("response",$response);
-            $answerQry->includeKey('question');
-            $answerQry->includeKey('option');
-            $answers = $answerQry->find(); 
-        }
-        
+        $answerQry = new ParseQuery("Answer");
+        $answerQry->equalTo("response",$response);
+        $answerQry->includeKey('question');
+        $answerQry->includeKey('option');
+        $answers = $answerQry->find(); 
          
         $answersList =[];
         $chartData =[];
