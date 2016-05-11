@@ -253,7 +253,7 @@ hr.broad {
 }
 .q-title {
   font-weight: 500;
-  display: table;
+  /*display: table;*/
 }
 .q-title .badge {
   width: 30px;
