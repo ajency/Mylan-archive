@@ -121,8 +121,6 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             console.log "**New newNextOccurrence**"
             newNextOccurrence = convertedTimezoneObject['occurrenceDate']
             console.log newNextOccurrence
-            newNextOccurrence = moment(newNextOccurrence).format('ddd, Do MMM YYYY hh:mm A')
-            console.log newNextOccurrence
             timeZone = convertedTimezoneObject['timeZone'] 
 
             
@@ -202,6 +200,7 @@ sendNotifications = () ->
     Arr = []
     promise = new Parse.Promise()
     notificationQuery = new Parse.Query('Notification')
+    # notificationQuery.equalTo('patient', "yellow10")
     notificationQuery.equalTo('processed', false)
     notificationQuery.find()
     .then (notifications) ->
@@ -289,6 +288,12 @@ Parse.Cloud.define "createMissedResponse", (request, response) ->
         response.error error
     
 
+Parse.Cloud.define "checkMissedResponses", (request, response) ->
+    checkMissedResponses()
+    .then (responses) ->
+        response.success responses
+    , (error) ->
+        response.error error
 
 
 
@@ -425,9 +430,9 @@ createMissedResponse = () ->
                         , (error) ->
                             promise1.reject error
                     else
-                        # console.log "PROJECT PAUSED"
+                        console.log "PROJECT PAUSED"
                         # console.log scheduleObj.get('questionnaire').get('project')
-                        promise1.resolve("project paused")
+                        # promise1.resolve("project paused")
                 , (error) ->
                     console.log  "missed4"
                     promise1.reject error

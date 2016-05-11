@@ -196,8 +196,6 @@
         console.log("**New newNextOccurrence**");
         newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
         console.log(newNextOccurrence);
-        newNextOccurrence = moment(newNextOccurrence).format('ddd, Do MMM YYYY hh:mm A');
-        console.log(newNextOccurrence);
         timeZone = convertedTimezoneObject['timeZone'];
         gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
@@ -351,6 +349,14 @@
     });
   });
 
+  Parse.Cloud.define("checkMissedResponses", function(request, response) {
+    return checkMissedResponses().then(function(responses) {
+      return response.success(responses);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   Parse.Cloud.define('deleteResponse', function(request, response) {
     var responseQuery;
     responseQuery = new Parse.Query('Response');
@@ -491,7 +497,7 @@
                 return promise1.reject(error);
               });
             } else {
-              return promise1.resolve("project paused");
+              return console.log("PROJECT PAUSED");
             }
           }, function(error) {
             console.log("missed4");
