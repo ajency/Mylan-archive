@@ -375,10 +375,10 @@ createMissedResponse = () ->
         updateMissedResponse = ->
             promise1 = Parse.Promise.as()
             _.each scheduleObjs, (scheduleObj) ->
-                if scheduleObj.get('questionnaire').get('pauseProject') == false
-                    # console.log "PROJECT ACTIVE"
-                    promise1 = promise1
-                    .then () ->
+                # console.log "PROJECT ACTIVE"
+                promise1 = promise1
+                .then () ->
+                    if scheduleObj.get('questionnaire').get('pauseProject') == false
                         getValidTimeFrame(scheduleObj.get('patient'),scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
                         .then (timeObj) ->
                             # currentDate = new Date()
@@ -424,13 +424,14 @@ createMissedResponse = () ->
                                 scheduleObj.save()
                         , (error) ->
                             promise1.reject error
-                    , (error) ->
-                        console.log  "missed4"
-                        promise1.reject error
-                else
-                    # console.log "PROJECT PAUSED"
-                    # console.log scheduleObj.get('questionnaire').get('project')
-                    promise1.resolve("project paused")
+                    else
+                        # console.log "PROJECT PAUSED"
+                        # console.log scheduleObj.get('questionnaire').get('project')
+                        promise1.resolve("project paused")
+                , (error) ->
+                    console.log  "missed4"
+                    promise1.reject error
+                
             promise1
         updateMissedResponse()
         .then () ->

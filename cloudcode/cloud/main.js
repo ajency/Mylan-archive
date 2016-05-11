@@ -442,8 +442,8 @@
         var promise1;
         promise1 = Parse.Promise.as();
         _.each(scheduleObjs, function(scheduleObj) {
-          if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
-            return promise1 = promise1.then(function() {
+          return promise1 = promise1.then(function() {
+            if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
               return getValidTimeFrame(scheduleObj.get('patient'), scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence')).then(function(timeObj) {
                 var currentDateTime;
                 currentDateTime = moment().format();
@@ -490,13 +490,13 @@
               }, function(error) {
                 return promise1.reject(error);
               });
-            }, function(error) {
-              console.log("missed4");
-              return promise1.reject(error);
-            });
-          } else {
-            return promise1.resolve("project paused");
-          }
+            } else {
+              return promise1.resolve("project paused");
+            }
+          }, function(error) {
+            console.log("missed4");
+            return promise1.reject(error);
+          });
         });
         return promise1;
       };
