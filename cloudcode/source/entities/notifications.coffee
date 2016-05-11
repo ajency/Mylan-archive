@@ -48,10 +48,10 @@ getNotifications = () ->
                                 notificationObj.set 'cleared', false
                                 notificationObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
                                 notificationObj.save()
-                            else
-                                dummy = new Parse.Promise()
-                                dummy.resolve()
-                                dummy
+                            # else
+                            #     dummy = new Parse.Promise()
+                            #     dummy.resolve()
+                            #     dummy
                         , (error) ->
                             promise.reject error
                     , (error) ->
@@ -118,9 +118,9 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
         # console.log "-=-=-=-=-=-=-"
         timeZoneConverter(installationId,occurrenceDate)
         .then (convertedTimezoneObject) ->
-            console.log "**New newNextOccurrence**"
+            # console.log "**New newNextOccurrence**"
             newNextOccurrence = convertedTimezoneObject['occurrenceDate']
-            console.log newNextOccurrence
+            # console.log newNextOccurrence
             timeZone = convertedTimezoneObject['timeZone'] 
 
             
@@ -146,15 +146,12 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             else
                 message=""
 
-            # console.log "**Notification Msg occurrenceDate**"
-            # console.log occurrenceDate
-
+            # console.log "message #{message}"
             getNotificationData(notificationId, installationId, message)
             .then (pushData) ->
                 promise.resolve(pushData)
             , (error) ->
                 promise.reject error
-
         , (error) ->
             promise.reject error
 
@@ -202,6 +199,7 @@ sendNotifications = () ->
     notificationQuery = new Parse.Query('Notification')
     # notificationQuery.equalTo('patient', "yellow10")
     notificationQuery.equalTo('processed', false)
+    notificationQuery.descending('createdAt')
     notificationQuery.find()
     .then (notifications) ->
         getNotifications = ->
@@ -793,20 +791,20 @@ timeZoneConverter = (installationId,occurrenceDate) ->
     installationQuery.first(useMasterKey: true)
     .then (installationObj) ->
         if !_.isEmpty(installationObj)
-            console.log "******converted******"
+            # console.log "******converted******"
             timeZone = installationObj.get("timeZone")
             # convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('DD-MM-YYYY hh:mm A')
             convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A')
-            console.log installationId
-            console.log convertedTime
-            console.log "******converted******"
+            # console.log installationId
+            # console.log convertedTime
+            # console.log "******converted******"
 
             convertedTimezoneObject['occurrenceDate'] = convertedTime 
             convertedTimezoneObject['timeZone'] = timeZone
             promise.resolve convertedTimezoneObject
         else
             # no timezone data found for this user
-            console.log "******Not converted******"
+            # console.log "******Not converted******"
             convertedTimezoneObject['occurrenceDate'] = occurrenceDate
             convertedTimezoneObject['timeZone'] = ''
             promise.resolve convertedTimezoneObject
@@ -818,10 +816,10 @@ timeZoneConverter = (installationId,occurrenceDate) ->
 
 
 convertToZone = (timeObj, timezone) ->
-    console.log "****timeObj****"
-    console.log timeObj
+    # console.log "****timeObj****"
+    # console.log timeObj
     convertedTime = momenttimezone.tz(timeObj, timezone)
-    console.log convertedTime
+    # console.log convertedTime
     convertedTime
 
 

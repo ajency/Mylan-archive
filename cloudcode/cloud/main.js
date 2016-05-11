@@ -123,7 +123,7 @@
           return promise1 = promise1.then(function() {
             return scheduleObj.fetch().then(function() {
               return getNotificationType(scheduleObj).then(function(notificationType) {
-                var dummy, notificationObj;
+                var notificationObj;
                 if (notificationType !== "") {
                   notificationObj = new Parse.Object('Notification');
                   notificationObj.set('hasSeen', false);
@@ -134,10 +134,6 @@
                   notificationObj.set('cleared', false);
                   notificationObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
                   return notificationObj.save();
-                } else {
-                  dummy = new Parse.Promise();
-                  dummy.resolve();
-                  return dummy;
                 }
               }, function(error) {
                 return promise.reject(error);
@@ -193,9 +189,7 @@
     getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
       return timeZoneConverter(installationId, occurrenceDate).then(function(convertedTimezoneObject) {
         var convertedGraceDate, graceDate, gracePeriod, message, newNextOccurrence, timeZone;
-        console.log("**New newNextOccurrence**");
         newNextOccurrence = convertedTimezoneObject['occurrenceDate'];
-        console.log(newNextOccurrence);
         timeZone = convertedTimezoneObject['timeZone'];
         gracePeriod = settings['gracePeriod'];
         graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
@@ -265,6 +259,7 @@
     promise = new Parse.Promise();
     notificationQuery = new Parse.Query('Notification');
     notificationQuery.equalTo('processed', false);
+    notificationQuery.descending('createdAt');
     notificationQuery.find().then(function(notifications) {
       getNotifications = function() {
         var promise1;
@@ -831,17 +826,12 @@
     }).then(function(installationObj) {
       var convertedTime, timeZone;
       if (!_.isEmpty(installationObj)) {
-        console.log("******converted******");
         timeZone = installationObj.get("timeZone");
         convertedTime = momenttimezone.tz(occurrenceDate, timeZone).format('ddd, Do MMM YYYY hh:mm A');
-        console.log(installationId);
-        console.log(convertedTime);
-        console.log("******converted******");
         convertedTimezoneObject['occurrenceDate'] = convertedTime;
         convertedTimezoneObject['timeZone'] = timeZone;
         return promise.resolve(convertedTimezoneObject);
       } else {
-        console.log("******Not converted******");
         convertedTimezoneObject['occurrenceDate'] = occurrenceDate;
         convertedTimezoneObject['timeZone'] = '';
         return promise.resolve(convertedTimezoneObject);
@@ -854,10 +844,7 @@
 
   convertToZone = function(timeObj, timezone) {
     var convertedTime;
-    console.log("****timeObj****");
-    console.log(timeObj);
     convertedTime = momenttimezone.tz(timeObj, timezone);
-    console.log(convertedTime);
     return convertedTime;
   };
 
@@ -2577,7 +2564,7 @@
       responseQuery.equalTo('questionnaire', questionnaireObj);
       responseQuery.equalTo('patient', patientId);
       responseQuery.descending('createdAt');
-      responseQuery.notEqualTo('status', 'base_line');
+      responseQuery.equalTo('status', 'completed');
       return responseQuery.first().then(function(responseObj_prev) {
         var baseLineQuery;
         baseLineQuery = new Parse.Query('Response');

@@ -1411,7 +1411,8 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 		responseQuery.equalTo('questionnaire', questionnaireObj)
 		responseQuery.equalTo('patient', patientId)
 		responseQuery.descending('createdAt')
-		responseQuery.notEqualTo('status', 'base_line')
+		responseQuery.equalTo('status', 'completed')
+		# responseQuery.notEqualTo('status', 'base_line')
 		responseQuery.first()
 		.then (responseObj_prev) ->
 			baseLineQuery = new Parse.Query('Response')
