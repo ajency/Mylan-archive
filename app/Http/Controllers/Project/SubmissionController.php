@@ -358,12 +358,18 @@ class SubmissionController extends Controller
         $responseQry->includeKey('questionnaire');
         $response = $responseQry->first();
         
+        $answers = [];
+        $status  = $response->get("status");
 
-        $answerQry = new ParseQuery("Answer");
-        $answerQry->equalTo("response",$response);
-        $answerQry->includeKey('question');
-        $answerQry->includeKey('option');
-        $answers = $answerQry->find(); 
+        if($status=="completed")
+        {
+            $answerQry = new ParseQuery("Answer");
+            $answerQry->equalTo("response",$response);
+            $answerQry->includeKey('question');
+            $answerQry->includeKey('option');
+            $answers = $answerQry->find(); 
+        }
+        
          
         $answersList =[];
         $chartData =[];
