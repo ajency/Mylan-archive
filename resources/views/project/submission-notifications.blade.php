@@ -97,8 +97,6 @@
                                     <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
                                    </td>
                                 </tr>
-                                 
-                        
                             @endforeach
                         @else 
                         <tr><td class="text-center no-data-found" colspan="20"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
