@@ -308,7 +308,7 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
-                if($user['account_status']=='created')
+                elseif($user['account_status']=='created')
                 {
                     $json_resp = array(
                         'code' => 'password_not_set' , 

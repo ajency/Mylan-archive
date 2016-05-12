@@ -221,17 +221,14 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
             $referenceCode = $request->input('reference_code');
-            $hospital = $hospital['id'];//$request->input('hospital');
+            $hospital = $hospital['id'];
             $project = $projectId;
-            //$weight = $request->input('weight');
-            //$height = $request->input('height');
             $age = $request->input('age');
             $attributes = $request->input('attributes');
             $attributes = serialize($attributes);
             
             $is_smoker = $request->input('is_smoker');
             $smoke_per_week = $request->input('smoke_per_week');
-            // $is_alcoholic = $request->input('is_alcoholic');
             $units_per_week = $request->input('units_per_week');
 
  
@@ -261,13 +258,10 @@ class PatientController extends Controller
             $user->hospital_id = $hospital;
             $user->project_id = $project;
             $user->type = 'patient';
-            //$user->patient_weight = $weight;
             $user->age = $age;
             $user->project_attributes = $attributes;
-            // $user->patient_height = $height;
             $user->patient_is_smoker = $is_smoker;
             $user->patient_smoker_per_week = $smoke_per_week;
-            // // $user->patient_is_alcoholic = $is_alcoholic;
             $user->patient_alcohol_units_per_week = $units_per_week;
 
             $user->frequency = $frequency;
@@ -938,17 +932,14 @@ class PatientController extends Controller
 
 
             $referenceCode = $request->input('reference_code');
-            $hospital = $hospital['id'];//$request->input('hospital');
+            $hospital = $hospital['id'];
             $project = $projectId;
-            // $weight = $request->input('weight');
-            // $height = $request->input('height');
             $age = $request->input('age');
             $status = $request->input('status');
              
             
             $is_smoker = $request->input('is_smoker');
             $smoke_per_week = $request->input('smoke_per_week');
-            // $is_alcoholic = $request->input('is_alcoholic');
              $units_per_week = $request->input('units_per_week');
 
             $attributes = $request->input('attributes');  
@@ -979,13 +970,10 @@ class PatientController extends Controller
             }
             
             $user->age = $age;
-            //$user->patient_weight = $weight;
-            //$user->patient_height = $height;
             $user->project_attributes = $attributes;
 
             $user->patient_is_smoker = $is_smoker;
             $user->patient_smoker_per_week = $smoke_per_week;
-            // $user->patient_is_alcoholic = $is_alcoholic;
             $user->patient_alcohol_units_per_week = $units_per_week;
             $user->account_status = $status;
             $user->frequency = $frequency;
