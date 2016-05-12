@@ -67,7 +67,7 @@
             </div>
             <div class="add_user_associates">
             <hr>
-            <div class="row project_users">
+            <div class="row project_users add-user-container">
                <div class="col-md-4">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
                      <option value="">Select Project</option>
