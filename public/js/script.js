@@ -553,7 +553,8 @@ $('.allProjectsAccess').on('change', 'select[name="projects[]"]', function(event
     authProjectList($(this) ,$(this));
 });
 
-$('.add-project-user').click(function (event) { 
+ 
+$('.add_user_associates').on('click', '.add-project-user', function(event) {
 
     var objectType = $(this).attr('object-type');
 
@@ -572,7 +573,7 @@ $('.add-project-user').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
 
-    html ='<div class="row project_users">';
+    html ='<div class="row project_users add-user-container">';
     html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="projects[]" id="projects" class="select2 form-control"  >';
@@ -588,12 +589,14 @@ $('.add-project-user').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-md-4 text-center">';
-    html +='<a class="deleteUserProjectAccess hidden"> Delete </a>';
+    html +='<a class="deleteUserProjectAccess hidden"> Delete </a><button type="button"  object-type="Project" object-id="" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>';
     html +='</div>';
     html +='<div class="col-md-12"><hr></div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".project_users:last").removeClass('add-user-container');
+    $(".project_users:last").find('.add-project-user').remove();
     $(".project_users:last").find('.deleteUserProjectAccess').removeClass('hidden');
     $(".project_users:last").after(html);
 

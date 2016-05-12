@@ -107,7 +107,7 @@
             @endforeach
 
             @if(hasHospitalPermission($hospital['url_slug'],['edit']))
-            <div class="row project_users">
+            <div class="row project_users add-user-container">
                <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
@@ -128,6 +128,7 @@
                </div>
                <div class="col-md-4 text-center">
                   <a class="deleteUserProjectAccess hidden" data-id="0"> Delete </a>
+                  <button type="button"  object-type="Project" object-id="{{ $project['id']}}" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                </div>
                 <div class="col-md-12">
                   <hr>
@@ -138,7 +139,7 @@
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="{{ $i }}">
-                  <button type="button"  object-type="Project" object-id="{{ $project['id']}}" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>
+                  
                </div>
                <div class="col-md-3">
                  
