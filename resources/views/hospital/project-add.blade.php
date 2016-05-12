@@ -60,7 +60,7 @@
                              
       
 
-                            <div class="row addAttributeBlock attributeContainer">
+                            <div class="row addAttributeBlock attributeContainer addAttribute">
                                 
                                 <div class="add-unit">
                             <div class="">
