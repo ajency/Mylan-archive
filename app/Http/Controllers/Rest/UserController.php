@@ -308,6 +308,14 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
+                if($user['account_status']=='created')
+                {
+                    $json_resp = array(
+                        'code' => 'password_not_set' , 
+                        'message' => 'Password not set for patient'
+                        );
+                        $status_code = 200;
+                }
                 elseif (Hash::check($newpassword, $user['password']) && $user['account_status']=='active')  
                 {
 
