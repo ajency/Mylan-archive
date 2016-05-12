@@ -167,12 +167,12 @@ class AuthController extends Controller
 
                     //USER DEVICE ENTRY
                     
-                    $browserData = $_SERVER['HTTP_USER_AGENT'];
+                    $browserData = getBrowser();
                     $userDevice =  new UserDevice();
                     $userDevice->user_id = Auth::user()->id;
-                    $userDevice->device_type = $browserData;
+                    $userDevice->device_type = $browserData['name'];
                     $userDevice->device_identifier = $installationId;
-                    $userDevice->device_os = "";
+                    $userDevice->device_os = $browserData['platform'];
                     $userDevice->access_type = "web";
                     $userDevice->save();
 
@@ -182,7 +182,7 @@ class AuthController extends Controller
                     return redirect()->intended('dashboard');
                 }
                 else
-                {
+                { 
                     Auth::logout();
                     return redirect('/login')->withErrors([
                         'email' => 'Account inactive, contact administrator',
