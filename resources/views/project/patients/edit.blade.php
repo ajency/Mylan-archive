@@ -358,7 +358,7 @@
                                     <textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control">{{ $visit['note'] }}</textarea> 
                                  </div>
                                  <div class="col-sm-1 text-right m-t-25">
-                                    <button type="button" class="btn btn-white delete-visit hidden"><i class="fa fa-trash"></i></button>
+                                    <button type="button" class="btn btn-white delete-visit"><i class="fa fa-trash"></i></button>
                                  </div>
                               </div>
                           @endforeach

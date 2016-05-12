@@ -395,7 +395,8 @@ $('.allHospitalsAccess').on('change', 'select[name="hospital[]"]', function(even
 
 
 
-$('.add-hospital-user').click(function (event) { 
+ 
+$('.add_user_associates').on('click', '.add-hospital-user', function(event) {
 
     var objectType = $(this).attr('object-type');
 
@@ -416,7 +417,7 @@ $('.add-hospital-user').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
 
-    html ='<div class="row hospital_users">';
+    html ='<div class="row hospital_users add-user-container">';
     html +='<div class="col-md-4">';
     html +='<input type="hidden" name="user_access[]" value="">';
     html +='<select name="hospital[]" id="hospital" class="select2 form-control"  >';
@@ -433,12 +434,14 @@ $('.add-hospital-user').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-md-4 text-center">';
-    html +='<a class="deleteUserHospitalAccess hidden"> Delete </a>';
+    html +='<a class="deleteUserHospitalAccess hidden"> Delete </a><button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>';
     html +='</div>';
     html +='<div class="col-md-12"><hr></div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);
+    $(".hospital_users:last").removeClass('add-user-container');
+    $(".hospital_users:last").find('.add-hospital-user').remove();
     $(".hospital_users:last").find('.deleteUserHospitalAccess').removeClass('hidden');
     $(".hospital_users:last").after(html);
     
@@ -513,7 +516,7 @@ $('.add-visit').click(function (event) {
 
     $(".patient-visit:last").after(html);
 
-    $(".patient-visit:last").find('input').datetimepicker({
+    $(".patient-visit:last").find('.datetime').datetimepicker({
         format: 'DD-MM-YYYY HH:mm'
 
       });

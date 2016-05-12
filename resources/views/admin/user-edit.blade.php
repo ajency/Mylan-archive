@@ -135,7 +135,7 @@
                $i++;
             ?>
             @endforeach
-            <div class="row hospital_users">
+            <div class="row hospital_users add-user-container">
                <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
                   <select name="hospital[]" id="hospital" class="select2 form-control"  >
@@ -156,6 +156,7 @@
                </div>
                <div class="col-md-4 text-center">
                   <a class="deleteUserHospitalAccess hidden" data-id="0"> Delete </a>
+                  <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
                </div>
                  <div class="col-md-12">
                     <hr>
@@ -165,7 +166,7 @@
             <div class="row">
                <div class="col-md-3">
                   <input type="hidden" name="counter" value="{{ $i }}">
-                  <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
+                  
                </div>
                <div class="col-md-3">
                  
