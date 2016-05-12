@@ -55,18 +55,27 @@
                   <label for="checkbox6"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future projects.)</small></h4></label>
                </div>
          </h4>
-         <br>
-             <div class="user-description-box allProjectsAccess">
-            <div class="row">
+         <hr>
+
+          <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Projects</h4></div>
                <div class="col-md-4 text-right">
                   
-                  <h4 class="user-sub-head">Access (Individual)</h5>
+                  <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
 
+         </div>
+
+         <div class="row">
+            <div class="allignHR">
+               <hr>
             </div>
+         </div>
+
+             <div class="user-description-box allProjectsAccess">
+              
             <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
-            <hr>
+         
             <!-- <br> -->
             <?php
                $i=0;
@@ -95,9 +104,7 @@
                <div class="col-md-4 text-center">
                   <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> Delete </a>
                </div>
-                <div class="col-md-12">
-                  <hr>
-               </div>
+
                @endif
             </div>
             <!-- <hr> -->
@@ -130,9 +137,7 @@
                   <a class="deleteUserProjectAccess hidden" data-id="0"> Delete </a>
                   <button type="button"  object-type="Project" object-id="{{ $project['id']}}" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                </div>
-                <div class="col-md-12">
-                  <hr>
-               </div>
+
             </div>
             <!-- <hr> -->
             

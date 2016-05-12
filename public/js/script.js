@@ -591,7 +591,6 @@ $('.add_user_associates').on('click', '.add-project-user', function(event) {
     html +='<div class="col-md-4 text-center">';
     html +='<a class="deleteUserProjectAccess hidden"> Delete </a><button type="button"  object-type="Project" object-id="" class="btn btn-link text-success pullleft  add-project-user"><i class="fa fa-plus"></i> Add Project</button>';
     html +='</div>';
-    html +='<div class="col-md-12"><hr></div>';
     html +='</div>';
 
     $('input[name="counter"]').val(i);

@@ -55,9 +55,8 @@
                   <label for="has_access"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future Projects.)</small></h4></label>
          </div>
          </h4>
-         <br>
-          
-             <div class="user-description-box allProjectsAccess">
+         <hr>
+
             <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Projects</h4></div>
                <div class="col-md-4 text-right">
@@ -65,8 +64,18 @@
                   <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
             </div>
+
+          <div class="row">
+               <div class="allignHR">
+                  <hr>
+               </div>
+         </div>
+
+          
+             <div class="user-description-box allProjectsAccess">
+           
             <div class="add_user_associates">
-            <hr>
+      
             <div class="row project_users add-user-container">
                <div class="col-md-4">
                   <select name="projects[]" id="projects" class="select2 form-control"  >
@@ -86,17 +95,16 @@
                   </div>
                </div>
                 <div class="col-md-4 text-center">
+                <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-project-user"><i class="fa fa-plus"></i> Add Project</button>
                   <a class="deleteUserProjectAccess hidden" data-id="0"> Delete </a>
                </div>
-               <div class="col-md-12">
-                    <hr>
-               </div>
+ 
             </div>
             <!-- <hr> -->
             <div class="row">
                <div class="col-md-4">
                   <input type="hidden" name="counter" value="0">
-                  <button type="button" object-type="Project" class="btn btn-link text-success pullleft add-project-user"><i class="fa fa-plus"></i> Add Project</button>
+                  
                </div>
                <div class="col-md-3">
                  
