@@ -436,7 +436,7 @@ $('.add_user_associates').on('click', '.add-hospital-user', function(event) {
     html +='<div class="col-md-4 text-center">';
     html +='<a class="deleteUserHospitalAccess hidden"> Delete </a><button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>';
     html +='</div>';
-    html +='<div class="col-md-12"><hr></div>';
+
     html +='</div>';
 
     $('input[name="counter"]').val(i);

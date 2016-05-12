@@ -56,7 +56,7 @@
                   <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
                </div>
          </h4>
-         <br>
+         <hr>
          <!-- <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Mylan</div>
@@ -85,15 +85,25 @@
 
          </div>
          <br> -->
-             <div class="user-description-box allHospitalsAccess">
             <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
                <div class="col-md-4 text-right">
                  <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
             </div>
+
+            <div class="row">
+               <div class="allignHR">
+                  <hr>
+               </div>
+            </div>
+
+
+             <div class="user-description-box allHospitalsAccess">
+           
+
             <div class="add_user_associates">
-            <hr>
+      
             <div class="row hospital_users add-user-container">
                <div class="col-md-4">
                   <select name="hospital[]" id="hospital" class="select2 form-control"  >
@@ -116,9 +126,7 @@
                   <a class="deleteUserHospitalAccess hidden" data-id="0"> Delete </a>
                   <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
                </div>
-               <div class="col-md-12">
-                    <hr>
-               </div>
+    
 
             </div>
           

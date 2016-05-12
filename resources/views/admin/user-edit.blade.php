@@ -57,7 +57,7 @@
          </div>
 
          </h4>
-         <br>
+         <hr>
          <!-- <div class="user-description-box">
             <div class="row">
                <div class="col-md-3">Mylan</div>
@@ -95,11 +95,16 @@
                <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
          </div>
+         <div class="row">
+            <div class="allignHR">
+               <hr>
+            </div>
+         </div>
 
              <div class="user-description-box allHospitalsAccess">
            
          <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
-            <hr>
+            
             <?php
                $i=0;
             ?>
@@ -126,9 +131,7 @@
                <div class="col-md-4 text-center">
                   <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> Delete </a>
                </div>
-               <div class="col-md-12">
-                  <hr>
-               </div>
+               
             </div>
             <!-- <hr> -->
             <?php
@@ -157,9 +160,6 @@
                <div class="col-md-4 text-center">
                   <a class="deleteUserHospitalAccess hidden" data-id="0"> Delete </a>
                   <button type="button"  object-type="Hospital" class="btn btn-link text-success pullleft add-hospital-user"><i class="fa fa-plus"></i> Add Hospital</button>
-               </div>
-                 <div class="col-md-12">
-                    <hr>
                </div>
             </div>
             <!-- <hr> -->
