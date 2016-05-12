@@ -1565,4 +1565,8 @@ ul .mcq_active div span {
 .platform-android .spinner .stop2 {
   stop-color: #4F8EF7;
 }
+.platform-ios .clm-list h6.f-w-400 {
+  font-size: 1em !important;
+
+}
 /*# sourceMappingURL=style.css.map */
