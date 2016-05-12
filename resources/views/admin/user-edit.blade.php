@@ -88,15 +88,16 @@
 
          </div>
          <br> -->
-             <div class="user-description-box allHospitalsAccess">
-            <div class="row">
+          <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
                <div class="col-md-4 text-right">
           
                <h4 class="user-sub-head">Access (Individual)</h4>
                </div>
+         </div>
 
-            </div>
+             <div class="user-description-box allHospitalsAccess">
+           
          <div class="add_user_associates {{ ($user['has_all_access']=='yes') ? 'hidden':''}}">
             <hr>
             <?php
