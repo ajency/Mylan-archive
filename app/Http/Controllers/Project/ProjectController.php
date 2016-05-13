@@ -116,9 +116,11 @@ class ProjectController extends Controller
           $responseCacheKey = "projectResponses_".$projectId;
           $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
-           
+          //if cache data exist for project 
           if (Cache::has($responseCacheKey)) {
               $cacheProjectResponses =  Cache::get($responseCacheKey); 
+
+              //if cache data exist for required date period 
               if(isset($cacheProjectResponses[$cacheDateKey]))
               {
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
@@ -162,6 +164,7 @@ class ProjectController extends Controller
             $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
             $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
 
+            //store cache data
             Cache:: forever($responseCacheKey, $cacheProjectResponses); 
           } 
           

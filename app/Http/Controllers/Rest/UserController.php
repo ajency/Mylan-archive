@@ -124,7 +124,7 @@ class UserController extends Controller
                 if($user['account_status'] =='created')
                 {
                     //New setup
-                    $this->addDevice($data,$userId,$hospitalData,'set_password');
+                     $this->addDevice($data,$userId,$hospitalData,'set_password');
                      $json_resp = array(
                         'code' => 'set_password' , 
                         'message' => 'New setup done',
