@@ -138,13 +138,13 @@ getNotificationMessage = (scheduleObj, notificationType, notificationId, occurre
             # console.log convertedGraceDate
 
             if notificationType == "beforOccurrence"
-                message="Questionnaire is due on #{newNextOccurrence}"
+                message= "Questionnaire is due on #{newNextOccurrence}"
             else if notificationType == "beforeGracePeriod"
-                message="Questionnaire was due on #{newNextOccurrence}. Please submit it by #{convertedGraceDate}"
+                message= "Questionnaire was due on #{newNextOccurrence}. Please submit it by #{convertedGraceDate}"
             else if notificationType == "missedOccurrence"
-                message="You have missed the questionnaire due on #{newNextOccurrence}"
+                message= "You have missed the questionnaire due on #{newNextOccurrence}"
             else
-                message=""
+                message= ""
 
             # console.log "message #{message}"
             getNotificationData(notificationId, installationId, message)

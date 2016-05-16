@@ -844,7 +844,7 @@ getAnswers = (answerObjects) ->
 		else if currentQuestion.get('type') == 'input'
 			index = (i for q,i in questions when currentQuestion.id == q.id)[0]
 			answers[index]['optionsSelected'].push({id:answerObj.get('option').id, label:answerObj.get('option').get('label'), value:answerObj.get('value'), score:answerObj.get('option').get('score')})
-    
+	
 	getUniqueQuestions answerObj for answerObj in answerObjects
 	results answerObj for answerObj in answers   
 
@@ -1140,9 +1140,9 @@ Parse.Cloud.define "dashboard1", (request, response) ->
 		responseQuery.find()
 		.then (responseObjs) ->
 			timeObj = getValidPeriod(scheduleObj)
-			status =""
+			status = ""
 			if isValidTime(timeObj)
-				status ="Start"
+				status = "Start"
 			else if isValidUpcomingTime(timeObj)
 				status = "Upcoming"
 
@@ -1208,9 +1208,9 @@ Parse.Cloud.define "dashboard", (request, response) ->
 			.then (responseObjs) ->
 				getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				.then (timeObj) ->
-					status =""
+					status = ""
 					if isValidTime(timeObj)			
-						status ="due"
+						status = "due"
 					else if isValidUpcomingTime(timeObj)
 						status = "upcoming"
 					upcoming_due =
@@ -1265,9 +1265,9 @@ Parse.Cloud.define "dashboard3", (request, response) ->
 			.then (responseObjs) ->
 				getValidTimeFrame(patientId,scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
 				.then (timeObj) ->
-					status =""
+					status = ""
 					if isValidTime(timeObj)			
-						status ="due"
+						status = "due"
 					else if isValidUpcomingTime(timeObj)
 						status = "upcoming"
 					upcoming_due =
@@ -2070,22 +2070,28 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 							else
 								_.each alerts, (alert) ->
 									AlertData=
-				                        patient: responseObj.get("patient")
-				                        project: responseObj.get("project")
-				                        alertType : alert
-				                        referenceId : responseObj.id
-				                        referenceType : "Response"
-				                        cleared : false
-				                    Alerts = Parse.Object.extend("Alerts") 
-				                    alertObj = new Alerts AlertData
-				                    alertsSaveArr.push(alertObj)
+										patient: responseObj.get("patient")
+										project: responseObj.get("project")
+										alertType : alert
+										referenceId : responseObj.id
+										referenceType : "Response"
+										cleared : false
 
-				                Parse.Object.saveAll alertsSaveArr
-			                    .then (alertsObjs) ->
-			                        # response.success alertsObjs	
-			                        response.success "submitted_successfully"
-			                    , (error) ->
-			                        response.error error	
+									Alerts = Parse.Object.extend("Alerts") 
+									alertObj = new Alerts AlertData
+									alertsSaveArr.push(alertObj)
+
+								Parse.Object.saveAll alertsSaveArr
+								.then (alertsObjs) ->
+									# response.success alertsObjs	
+									responseObj.set 'alert', true
+									responseObj.save()
+									.then (responseObj) ->
+										response.success "submitted_successfully"
+									, (error) ->
+										response.error error
+								, (error) ->
+									response.error error	
 
 							# response.success alerts						 
 						, (error) ->
@@ -2163,21 +2169,21 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 					alertsSaveArr =[]
 					_.each alerts, (alert) ->
 						AlertData=
-	                        patient: responseObj.get("patient")
-	                        project: responseObj.get("project")
-	                        alertType : alert
-	                        referenceId : responseObj.id
-	                        referenceType : "Response"
-	                        cleared : false
-	                    Alerts = Parse.Object.extend("Alerts") 
-	                    alertObj = new Alerts AlertData
-	                    alertsSaveArr.push(alertObj)
+							patient: responseObj.get("patient")
+							project: responseObj.get("project")
+							alertType : alert
+							referenceId : responseObj.id
+							referenceType : "Response"
+							cleared : false
+						Alerts = Parse.Object.extend("Alerts") 
+						alertObj = new Alerts AlertData
+						alertsSaveArr.push(alertObj)
 
-	                Parse.Object.saveAll alertsSaveArr
-                    .then (alertsObjs) ->
-                        response.success alertsObjs	
-                    , (error) ->
-                        response.error error	
+					Parse.Object.saveAll alertsSaveArr
+					.then (alertsObjs) ->
+						response.success alertsObjs	
+					, (error) ->
+						response.error error	
 
 					# response.success alerts						 
 				, (error) ->

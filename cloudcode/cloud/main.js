@@ -3112,7 +3112,7 @@
                 if (_.isEmpty(alerts)) {
                   return response.success("submitted_successfully");
                 } else {
-                  return _.each(alerts, function(alert) {
+                  _.each(alerts, function(alert) {
                     var AlertData, Alerts, alertObj;
                     AlertData = {
                       patient: responseObj.get("patient"),
@@ -3124,12 +3124,17 @@
                     };
                     Alerts = Parse.Object.extend("Alerts");
                     alertObj = new Alerts(AlertData);
-                    alertsSaveArr.push(alertObj);
-                    return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+                    return alertsSaveArr.push(alertObj);
+                  });
+                  return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+                    responseObj.set('alert', true);
+                    return responseObj.save().then(function(responseObj) {
                       return response.success("submitted_successfully");
                     }, function(error) {
                       return response.error(error);
                     });
+                  }, function(error) {
+                    return response.error(error);
                   });
                 }
               }, function(error) {
@@ -3206,7 +3211,7 @@
           return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
             var alertsSaveArr;
             alertsSaveArr = [];
-            return _.each(alerts, function(alert) {
+            _.each(alerts, function(alert) {
               var AlertData, Alerts, alertObj;
               AlertData = {
                 patient: responseObj.get("patient"),
@@ -3218,12 +3223,12 @@
               };
               Alerts = Parse.Object.extend("Alerts");
               alertObj = new Alerts(AlertData);
-              alertsSaveArr.push(alertObj);
-              return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
-                return response.success(alertsObjs);
-              }, function(error) {
-                return response.error(error);
-              });
+              return alertsSaveArr.push(alertObj);
+            });
+            return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+              return response.success(alertsObjs);
+            }, function(error) {
+              return response.error(error);
             });
           }, function(error) {
             return response.error(error);
