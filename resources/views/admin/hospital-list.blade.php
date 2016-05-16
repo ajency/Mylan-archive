@@ -85,7 +85,7 @@
                               </div>
                            </div> -->
                            <div class="col-md-4 b-r">
-                              <h3 class="pull-right text-info">{{ $hospital->users()->where('type','hospital_user')->count() }}</h3>
+                              <h3 class="pull-right text-info">{{ $hospital->users()->where('type','project_user')->count() }}</h3>
                               <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i>  USERS</h5>
                               <div>
                             <!--      <p>
