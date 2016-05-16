@@ -57,11 +57,8 @@ class PatientController extends Controller
              
             $activepatients = [];
             $patientReferenceCode = [];
-            foreach ($patients as  $patient) {
-                    
+            foreach ($patients as  $patient) {     
                 if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
-                    $patientReferenceCode[] = $patient['reference_code'];
-                else
                     $patientReferenceCode[] = $patient['reference_code'];
             }
 
