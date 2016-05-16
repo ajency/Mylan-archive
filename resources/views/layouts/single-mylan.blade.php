@@ -125,7 +125,7 @@
                         
                         <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
                            <a href="{{ url( 'admin/users/' ) }}">
-                           <span><i class="fa fa-users"></i> Users </span>
+                           <span><i class="fa fa-users"></i> Hospital Users </span>
                            </a>
                         </li>
                         <!-- <li>

@@ -136,7 +136,7 @@
                         </li> -->
                         <li class="{{ ( $active_menu == 'users')? 'active-item' : ''}}">
                            <a href="{{ url( $hospital['url_slug'].'/users/' ) }}">
-                           <span><i class="fa fa-users"></i> Users </span>
+                           <span><i class="fa fa-users"></i> Project Users </span>
                            </a>
                         </li>
          

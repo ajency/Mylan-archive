@@ -10,7 +10,7 @@
             <a href="{{ url( 'admin/users/' ) }}"> User</a>
          </li>
          <li>
-            <a href="#" class="active" > Add User</a>
+            <a href="#" class="active" > Add Hospital User</a>
          </li>
       </ul>
       </p>
@@ -19,8 +19,8 @@
 @section('content')
  
 <div class="page-title">
-   <h3><span class="semi-bold">Add User</span></h3>
-   <p>(Create a User)</p>
+   <h3><span class="semi-bold">Add Hospital User</span></h3>
+   <p>(Create a Hospital User)</p>
 </div>
 @include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url('admin/users') }}" data-parsley-validate>

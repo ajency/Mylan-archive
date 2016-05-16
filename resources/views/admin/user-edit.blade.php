@@ -10,7 +10,7 @@
             <a href="{{ url( 'admin/users/' ) }}"> User</a>
          </li>
          <li>
-            <a href="#" class="active"> Edit User</a>
+            <a href="#" class="active"> Edit Hospital User</a>
          </li>
       </ul>
       </p>
@@ -19,7 +19,7 @@
 @section('content')
  
 <div class="page-title">
-   <h3><span class="semi-bold">Edit User</span></h3>
+   <h3><span class="semi-bold">Edit Hospital User</span></h3>
    <p>(Update User under Mylan)</p>
 </div>
 @include('admin.flashmessage')

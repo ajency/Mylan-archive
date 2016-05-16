@@ -7,7 +7,7 @@
             <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
          </li>
          <li>
-            <a href="#" class="active">Users</a>
+            <a href="#" class="active">Hospital Users</a>
          </li>
       </ul>
       </p>
@@ -20,7 +20,7 @@
                      <a href="{{ url( 'admin/users/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add User</a>
                   </div>
 <div class="page-title">
-                     <h3><span class="semi-bold">Users</span></h3>
+                     <h3><span class="semi-bold">Hospital Users</span></h3>
                       <p>(Users on Mylan)</p>
                   </div>
                   <div class="grid simple">
