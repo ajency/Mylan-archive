@@ -379,7 +379,7 @@ class ProjectController extends Controller
         $patient = User::where('type','patient')->where('reference_code',$referenceId)->first()->toArray();
         $url = "patients/".$patient['id'];
         $message = sprintf($alertContent, SETUP_ALERT ,SETUP_LIMIT);
-        $alertMsg = ['patient'=>$referenceId,'referenceId'=>$patient['id'],'URL'=>$url,'msg'=>$message,"class"=>$alertClass,'occurrenceDate'=>""];
+        $alertMsg = ['patient'=>$referenceId,'referenceId'=>$patient['id'],'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
 
         return $alertMsg;
 
