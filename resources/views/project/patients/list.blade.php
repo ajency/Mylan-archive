@@ -167,15 +167,6 @@
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>
-                  
-                      <?php 
-    
-                   foreach ($patients as  $patient) {
-                    $patientReferenceCode[] = $patient['reference_code'];
-                    $patientIds[$patient['reference_code']] = $patient['id'];
-                  }
-                     
-                      ?>
                   @if(!empty($patientSortedData)) 
                      @foreach($patientSortedData as $referenceCode => $data)
                      
@@ -294,11 +285,12 @@ $(document).ready(function() {
          $('form').submit();
       });
 
-      <?php 
-    foreach($patients as $patient)
+       
+    <?php
+ 
+    foreach($patientSortedData as $referenceCode => $patient)
     {
-      $patientId = $patient['id'];
-      $referenceCode = $patient['reference_code'];
+      $patientId = $patientIds[$referenceCode]; 
                                           
       $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
       ?>
