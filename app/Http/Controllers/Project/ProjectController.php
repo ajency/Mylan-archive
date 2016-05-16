@@ -1676,9 +1676,11 @@ class ProjectController extends Controller
     {
         $responseCacheKey = "projectResponses_".$projectId;
         $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+        $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
 
         Cache::forget($responseCacheKey);
         Cache::forget($patientsSummaryCacheKey);
+        Cache::forget($patientsAlertsCacheKey);
 
         $json_resp = array(
                 'code' => 'cache_cleared' , 

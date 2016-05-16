@@ -162,6 +162,10 @@ class PatientController extends Controller
             $project = Projects::find($projectId); 
             $projectAttributes = $project->attributes->toArray();
 
+            //Clear patient summary cache
+            $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+            Cache::forget($patientsSummaryCacheKey);
+
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
 

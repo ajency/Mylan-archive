@@ -7,7 +7,7 @@
             <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
          </li>
          <li>
-            <a href="#" class="active">Users</a>
+            <a href="#" class="active">Project Users</a>
          </li>
       </ul>
       </p>
@@ -21,7 +21,7 @@
                      @endif
                   </div>
 <div class="page-title">
-                     <h3><span class="semi-bold">Users</span></h3>
+                     <h3><span class="semi-bold">Project Users</span></h3>
                       <p>(List User for {{ $hospital['name'] }})</p>
                   </div>
                   <div class="grid simple">
