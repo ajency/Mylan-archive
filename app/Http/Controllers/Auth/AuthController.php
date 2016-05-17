@@ -118,7 +118,7 @@ class AuthController extends Controller
             {
                 Auth::logout();
                 return redirect('/login')->withErrors([
-                    'email' => 'Account inactive, contact administrator',
+                    'email' => 'Activation data is missing. Please contact the administrator.',
                 ]);
             } 
             elseif(Auth::user()->account_status=='active' && $project['project_status'] !="paused")
