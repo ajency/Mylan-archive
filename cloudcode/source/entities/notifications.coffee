@@ -248,21 +248,21 @@ sendNotifications = () ->
                                             , (error) ->
                                                 promise1.reject error   
                                         ,(error) ->
-                                            console.log "send1"
+                                            # console.log "send1"
                                             promise2.reject error
                                     promise2
                                 sendToInstallations()
                             , (error) ->
-                                console.log "send2"
+                                # console.log "send2"
                                 promise1.reject error
                         , (error) ->
-                            console.log "send3"
+                            # console.log "send3"
                             promise1.reject error
                     , (error) ->
-                        console.log "send4"
+                        # console.log "send4"
                         promise1.reject error
                 , (error) ->
-                    console.log "send5"
+                    # console.log "send5"
                     promise1.reject error
             promise1
         getNotifications()
@@ -345,7 +345,7 @@ checkMissedResponses = () ->
                             notificationObj.set 'occurrenceDate', responseObj.get('occurrenceDate')
                             notificationObj.save()
                             .then (notificationObj) ->
-                                console.log  "MISSED :("
+                                # console.log  "MISSED :("
                                 responseObj.set 'status', 'missed'
                                 responseObj.save()
                         else
@@ -412,27 +412,27 @@ createMissedResponse = () ->
                                                 scheduleObj.set 'nextOccurrence', newNextOccurrence
                                                 scheduleObj.save()
                                             , (error) ->
-                                                console.log  "missed1"
+                                                # console.log  "missed1"
                                                 promise1.reject error
 
                                         , (error) ->
                                             promise1.reject error
                                     , (error) ->
-                                        console.log  "missed2"
+                                        # console.log  "missed2"
                                         promise1.reject error
                                 , (error) ->
-                                    console.log  "missed3"
+                                    # console.log  "missed3"
                                     promise1.reject error
                             else 
                                 scheduleObj.save()
                         , (error) ->
                             promise1.reject error
                     else
-                        console.log "PROJECT PAUSED"
+                        # console.log "PROJECT PAUSED"
                         # console.log scheduleObj.get('questionnaire').get('project')
                         # promise1.resolve("project paused")
                 , (error) ->
-                    console.log  "missed4"
+                    # console.log  "missed4"
                     promise1.reject error
                 
             promise1
@@ -444,6 +444,47 @@ createMissedResponse = () ->
     , (error) ->
         promise.reject error
     promise
+
+
+# TEST API ( NOT WORKING :P )
+Parse.Cloud.define "testPatientLateSubmission", (request, response) ->
+    patientId = request.params.patientId
+    
+    scheduleQuery = new Parse.Query('Schedule')
+    scheduleQuery.exists('patient')
+    scheduleQuery.include('questionnaire')
+    scheduleQuery.equalTo('patient', patientId)
+    scheduleQuery.first()
+    .then (scheduleObj) ->
+        getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+        .then (settings) ->
+
+            occurrenceDate = scheduleObj.get('nextOccurrence')
+            gracePeriod = settings['gracePeriod']
+            currentDateTime = moment().format()
+            graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
+            
+            result = {}
+
+            result['grace_Period'] = gracePeriod
+            result['current_DateTime'] = currentDateTime
+            result['grace_Date'] = graceDate  
+            result['occurrence_Date'] = moment(occurrenceDate).format() 
+
+            if scheduleObj.get('questionnaire').get('pauseProject') == false
+                if isLateSubmission(settings,scheduleObj.get('nextOccurrence'))
+                    result['status'] = "LATE "
+                else
+                    result['status'] = "DUE"
+            else
+                result['status'] = "PROJECT PAUSED"
+
+            response.success result
+        , (error) ->
+            response.error error
+        
+    , (error) ->
+        response.error error
 
 
 createLateResponses = () ->
@@ -471,16 +512,20 @@ createLateResponse = (scheduleObj) ->
     promise = new Parse.Promise()
     if scheduleObj.get('questionnaire').get('pauseProject') == false
         # console.log "PROJECT ACTIVE"
-        if isLateSubmission(scheduleObj.get('questionnaire'),scheduleObj.get('nextOccurrence'))
-            createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
-            .then (responseObj) ->
-                console.log  "LATE :{"
-                responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
-                responseObj.set 'status', 'late'
-                responseObj.save()
+        getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
+        .then (settings) ->
+            if isLateSubmission(settings,scheduleObj.get('nextOccurrence'))
+                createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj)
                 .then (responseObj) ->
-                    getQuestionnaireSetting(scheduleObj.get('patient'),scheduleObj.get('questionnaire'))
-                    .then (settings) ->
+                    console.log  "LATE :{"
+                    # console.log scheduleObj.get('nextOccurrence')
+                    # console.log settings['gracePeriod']
+                    # console.log moment(scheduleObj.get('nextOccurrence')).add(settings['gracePeriod'], 's').format()
+                    # console.log responseObj.get('patient')
+                    responseObj.set 'occurrenceDate', scheduleObj.get('nextOccurrence')
+                    responseObj.set 'status', 'late'
+                    responseObj.save()
+                    .then (responseObj) -> 
                         newNextOccurrence = new Date (scheduleObj.get('nextOccurrence').getTime())
                         newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000)
                         scheduleObj.set 'nextOccurrence', newNextOccurrence
@@ -488,20 +533,20 @@ createLateResponse = (scheduleObj) ->
                         .then (scheduleQuestionnaireObj) ->
                             promise.resolve("missed")   
                         , (error) ->
-                            promise.reject error
+                            promise.reject error   
                     , (error) ->
                         promise.reject error
                 , (error) ->
                     promise.reject error
-            , (error) ->
-                promise.reject error
 
-        else 
-            promise.resolve("not missed")   
+            else 
+                # promise.resolve("not missed") 
+        , (error) ->
+            promise.reject error  
     else
         # console.log "PROJECT PAUSED"
         # console.log scheduleObj.get('questionnaire').get('project')
-        promise.resolve("project paused")   
+        # promise.resolve("project paused")   
     promise
 
 

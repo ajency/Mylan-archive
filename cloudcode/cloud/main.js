@@ -299,7 +299,6 @@
                           return promise1.reject(error);
                         });
                       }, function(error) {
-                        console.log("send1");
                         return promise2.reject(error);
                       });
                     });
@@ -307,19 +306,15 @@
                   };
                   return sendToInstallations();
                 }, function(error) {
-                  console.log("send2");
                   return promise1.reject(error);
                 });
               }, function(error) {
-                console.log("send3");
                 return promise1.reject(error);
               });
             }, function(error) {
-              console.log("send4");
               return promise1.reject(error);
             });
           }, function(error) {
-            console.log("send5");
             return promise1.reject(error);
           });
         });
@@ -404,7 +399,6 @@
                 notificationObj.set('cleared', false);
                 notificationObj.set('occurrenceDate', responseObj.get('occurrenceDate'));
                 return notificationObj.save().then(function(notificationObj) {
-                  console.log("MISSED :(");
                   responseObj.set('status', 'missed');
                   return responseObj.save();
                 });
@@ -471,18 +465,15 @@
                           scheduleObj.set('nextOccurrence', newNextOccurrence);
                           return scheduleObj.save();
                         }, function(error) {
-                          console.log("missed1");
                           return promise1.reject(error);
                         });
                       }, function(error) {
                         return promise1.reject(error);
                       });
                     }, function(error) {
-                      console.log("missed2");
                       return promise1.reject(error);
                     });
                   }, function(error) {
-                    console.log("missed3");
                     return promise1.reject(error);
                   });
                 } else {
@@ -492,10 +483,9 @@
                 return promise1.reject(error);
               });
             } else {
-              return console.log("PROJECT PAUSED");
+
             }
           }, function(error) {
-            console.log("missed4");
             return promise1.reject(error);
           });
         });
@@ -511,6 +501,43 @@
     });
     return promise;
   };
+
+  Parse.Cloud.define("testPatientLateSubmission", function(request, response) {
+    var patientId, scheduleQuery;
+    patientId = request.params.patientId;
+    scheduleQuery = new Parse.Query('Schedule');
+    scheduleQuery.exists('patient');
+    scheduleQuery.include('questionnaire');
+    scheduleQuery.equalTo('patient', patientId);
+    return scheduleQuery.first().then(function(scheduleObj) {
+      return getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
+        var currentDateTime, graceDate, gracePeriod, occurrenceDate, result;
+        occurrenceDate = scheduleObj.get('nextOccurrence');
+        gracePeriod = settings['gracePeriod'];
+        currentDateTime = moment().format();
+        graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
+        result = {};
+        result['grace_Period'] = gracePeriod;
+        result['current_DateTime'] = currentDateTime;
+        result['grace_Date'] = graceDate;
+        result['occurrence_Date'] = moment(occurrenceDate).format();
+        if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+          if (isLateSubmission(settings, scheduleObj.get('nextOccurrence'))) {
+            result['status'] = "LATE ";
+          } else {
+            result['status'] = "DUE";
+          }
+        } else {
+          result['status'] = "PROJECT PAUSED";
+        }
+        return response.success(result);
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
 
   createLateResponses = function() {
     var data, promise, scheduleQuery;
@@ -538,13 +565,13 @@
     var promise;
     promise = new Parse.Promise();
     if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
-      if (isLateSubmission(scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))) {
-        createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
-          console.log("LATE :{");
-          responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
-          responseObj.set('status', 'late');
-          return responseObj.save().then(function(responseObj) {
-            return getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
+      getQuestionnaireSetting(scheduleObj.get('patient'), scheduleObj.get('questionnaire')).then(function(settings) {
+        if (isLateSubmission(settings, scheduleObj.get('nextOccurrence'))) {
+          return createResponse(scheduleObj.get('questionnaire').id, scheduleObj.get('patient'), scheduleObj).then(function(responseObj) {
+            console.log("LATE :{");
+            responseObj.set('occurrenceDate', scheduleObj.get('nextOccurrence'));
+            responseObj.set('status', 'late');
+            return responseObj.save().then(function(responseObj) {
               var newNextOccurrence;
               newNextOccurrence = new Date(scheduleObj.get('nextOccurrence').getTime());
               newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(settings['frequency']) * 1000);
@@ -560,14 +587,14 @@
           }, function(error) {
             return promise.reject(error);
           });
-        }, function(error) {
-          return promise.reject(error);
-        });
-      } else {
-        promise.resolve("not missed");
-      }
+        } else {
+
+        }
+      }, function(error) {
+        return promise.reject(error);
+      });
     } else {
-      promise.resolve("project paused");
+
     }
     return promise;
   };
@@ -3362,9 +3389,9 @@
     return promise;
   };
 
-  isLateSubmission = function(questionnaireObj, occurrenceDate) {
+  isLateSubmission = function(settings, occurrenceDate) {
     var currentDateTime, graceDate, gracePeriod, result;
-    gracePeriod = questionnaireObj.get('gracePeriod');
+    gracePeriod = settings['gracePeriod'];
     currentDateTime = moment().format();
     graceDate = moment(occurrenceDate).add(gracePeriod, 's').format();
     if (moment(currentDateTime).isAfter(graceDate, 'second')) {

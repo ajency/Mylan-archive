@@ -2345,12 +2345,11 @@ createAlerts = (patientId, project, alertType, referenceId) ->
 # 	, (error) ->
 # 		response.error error
 
-isLateSubmission = (questionnaireObj,occurrenceDate) ->
-	gracePeriod = questionnaireObj.get('gracePeriod')
+isLateSubmission = (settings,occurrenceDate) ->
+	gracePeriod = settings['gracePeriod']
 	currentDateTime = moment().format()
 
 	graceDate = moment(occurrenceDate).add(gracePeriod, 's').format()
-
 
 	if moment(currentDateTime).isAfter(graceDate, 'second')
 		# console.log "LATE SUBMISSION"
