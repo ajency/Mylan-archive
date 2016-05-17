@@ -1520,3 +1520,6 @@ $('.settings_block').on('click', '.deleteAlertSettings', function(event) {
     $(this).closest('.settingsContainer').remove();
  
 });
+
+
+
