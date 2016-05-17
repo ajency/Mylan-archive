@@ -63,7 +63,7 @@
       <div class="row">
          <div class="col-sm-6 ">
             <div class="tiles white">
-               <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
+               <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}">
                   <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                      <h4> <i class="fa fa-users"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
                      <hr>
@@ -167,15 +167,6 @@
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>
-                  
-                      <?php 
-    
-                   foreach ($patients as  $patient) {
-                    $patientReferenceCode[] = $patient['reference_code'];
-                    $patientIds[$patient['reference_code']] = $patient['id'];
-                  }
-                     
-                      ?>
                   @if(!empty($patientSortedData)) 
                      @foreach($patientSortedData as $referenceCode => $data)
                      
@@ -294,11 +285,12 @@ $(document).ready(function() {
          $('form').submit();
       });
 
-      <?php 
-    foreach($patients as $patient)
+       
+    <?php
+ 
+    foreach($patientSortedData as $referenceCode => $patient)
     {
-      $patientId = $patient['id'];
-      $referenceCode = $patient['reference_code'];
+      $patientId = $patientIds[$referenceCode]; 
                                           
       $chartData = (isset($patientMiniGraphData[$referenceCode]))?json_encode($patientMiniGraphData[$referenceCode]):'[]';
       ?>

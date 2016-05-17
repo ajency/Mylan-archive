@@ -51,22 +51,21 @@ class PatientController extends Controller
             $patientsStatus ='';
             
             
-            $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
-
+            
             $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
              
             $activepatients = [];
-            $patientReferenceCode = [];
-            foreach ($patients as  $patient) {
-                    
-                if(isset($inputs['patients']) && $patient['account_status']==$inputs['patients'])
-                    $patientReferenceCode[] = $patient['reference_code'];
-                else
-                    $patientReferenceCode[] = $patient['reference_code'];
-            }
+            $patientIds = [];
+                
+            if(isset($inputs['patients']))
+              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('account_status',$inputs['patients'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
+            else
+              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
+             
 
             foreach ($patientByDate as  $patient) {
-                
+                $patientIds[$patient['reference_code']] = $patient['id'];
+
                 if($patient['account_status']=='active')
                     $activepatients[]= $patient['reference_code'];
             }
@@ -82,10 +81,7 @@ class PatientController extends Controller
                           "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                          );
 
-            $patientResponses = $this->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-
-
-            
+            $patientResponses = $this->patientsSummary($patients ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
 
             $patientsSummary = $patientResponses['patientResponses'];
             $patientSortedData = $patientResponses['patientSortedData'];
@@ -124,7 +120,7 @@ class PatientController extends Controller
                                           ->with('active_menu', 'patients')
                                           ->with('activepatients', count($activepatients))
                                           ->with('allpatientscount', count($patientByDate))         
-                                          ->with('patients', $patients)
+                                          ->with('patientIds', $patientIds)
                                           ->with('allPatients', $allPatients)
                                           ->with('completed', $completed)
                                           ->with('late', $late)
@@ -161,6 +157,10 @@ class PatientController extends Controller
 
             $project = Projects::find($projectId); 
             $projectAttributes = $project->attributes->toArray();
+
+            //Clear patient summary cache
+            $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+            Cache::forget($patientsSummaryCacheKey);
 
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
@@ -2519,7 +2519,7 @@ class PatientController extends Controller
             }
 
             $projectController = new ProjectController(); 
-            $subCond=['referenceType'=>"Response"];
+            $subCond=['referenceType'=>"Response",'patient'=>$patient['reference_code']];
             $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$subCond); 
 
         } catch (\Exception $e) {

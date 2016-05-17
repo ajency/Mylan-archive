@@ -10,7 +10,7 @@
             <a href="#"> User</a>
          </li>
          <li>
-            <a href="#"> Edit User</a>
+            <a href="#"> Edit Project User</a>
          </li>
       </ul>
       </p>
@@ -19,7 +19,7 @@
 @section('content')
  
 <div class="page-title">
-   <h3><span class="semi-bold">Edit User</span></h3>
+   <h3><span class="semi-bold">Edit Project User</span></h3>
    <p>(Update User under {{ $hospital['name'] }})</p>
 </div>
 @include('admin.flashmessage')

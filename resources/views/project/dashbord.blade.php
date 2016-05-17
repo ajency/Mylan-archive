@@ -47,7 +47,7 @@
                   <div class="row">
             <div class="col-sm-6 ">
 <div class="tiles white">
-   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients?patients=created') }}">
+   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}">
                            <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
                           <h4> <i class="fa fa-users text-success m-r-5"></i> Total Recruited Patients: <b class="bigger text-success pull-right">{{ $allpatientscount }} </b> </h4>
                          </div>
