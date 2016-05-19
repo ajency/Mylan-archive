@@ -222,7 +222,7 @@ class PatientController extends Controller
           }
           else
           {
-              $referenceCode = $patient->referenceCode;
+              $referenceCode = $patient->reference_code;
               $password = trim(randomPatientPassword());
               $newpassword = getPassword($referenceCode , $password);
 
