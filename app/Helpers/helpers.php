@@ -253,6 +253,14 @@ function randomPassword() {
 	return $password;
 }
 
+function randomPatientPassword() {
+    $chars = "1234567890";
+    $password = substr( str_shuffle( $chars ), 0, 4 );
+    return $password;
+}
+
+
+
 // function hasMylanPermission($userPermission)
 // {  
 //     $userId =  Auth::user()->id;

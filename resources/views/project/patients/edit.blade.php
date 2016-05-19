@@ -282,7 +282,7 @@
                   <div class="col-sm-3">
                      <label>Status</label>
                      <div class="row">
-                       <div class="col-sm-4">
+                       ç
                        <input name="status" id="status_active" type="radio" class=" " {{ ($patient['account_status']=='active')?'checked':'' }} value="active"> <label for="status_active" style="display: inline-block;">Active</label>
                        </div>
                        <div class="col-sm-8">
@@ -297,6 +297,24 @@
                 @else 
                 <input name="status" type="hidden" value="{{ $patient['account_status'] }}">
                 @endif
+
+                @if(Auth::user()->type=='mylan_admin')
+                <hr>
+               <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>
+              
+               <div class="form-row">
+                 
+              <div class="row">
+                 <div class="col-sm-3 text-left">
+                    <button type="button" class="btn btn-white generate_new_password" object-id="{{ $patient['id'] }}">Generate New Password <i class="fa"></i></button> 
+                 </div>
+                 <div class="col-sm-3 text-left">
+                    <span id="generatePassword"></span>
+                 </div>
+              </div>
+            </div>
+              @endif
+
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               

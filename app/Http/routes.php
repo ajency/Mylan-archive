@@ -79,6 +79,10 @@ Route::get( 'hospital/{hospital}/patients', 'Admin\HospitalController@getHospita
 Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadLogo' );
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
 Route::post( 'users/{id}/authuseremail', 'Admin\UserController@authUserEmail' );
+
+Route::post( 'patients/{id}/resetpassword', 'Project\PatientController@resetPatientPassword' );
+
+
 });
 
 

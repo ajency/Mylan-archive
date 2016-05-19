@@ -83,6 +83,23 @@ $('.authUserEmail').change(function (event) {
  
 });
 
+$('.generate_new_password').click(function (event) { 
+
+    var PATIENT_ID = $(this).attr('object-id');
+ 
+    $.ajax({
+        url: "/admin/patients/"+PATIENT_ID+"/resetpassword",
+        type: "POST",
+        
+        dataType: "JSON",
+        success: function (response) {
+            $("#generatePassword").html(response.data); 
+        }
+    });
+    
+ 
+});
+
 
 
 $("input[name='has_all_access']").on("click", function(){
@@ -95,39 +112,39 @@ $("input[name='has_all_access']").on("click", function(){
 });
  
 
-    $('select[name="updateSubmissionStatus"]').change(function (event) { 
-       var status = $(this).val();
-       var responseId = $(this).attr('object-id');
-       $('input[name="updateSubmissionStatus"]').val(status);
-       
-       $('#myModal').modal({ backdrop: 'static', keyboard: false });
-      
+$('select[name="updateSubmissionStatus"]').change(function (event) { 
+   var status = $(this).val();
+   var responseId = $(this).attr('object-id');
+   $('input[name="updateSubmissionStatus"]').val(status);
+   
+   $('#myModal').modal({ backdrop: 'static', keyboard: false });
+  
 
-       // $("#statusLoader").removeClass('hidden');
+   // $("#statusLoader").removeClass('hidden');
 
-       //ajax call
+   //ajax call
 
-       // $(this).closest('form').submit();
-      //  $.ajax({
-      //   url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
-      //   type: "POST",
-      //   data: {
-      //       status: status
-      //   },
-      //   dataType: "JSON",
-      //   success: function (response) {
-      //     $("#statusLoader").addClass('hidden');
-      //       // if (!response.data)
-      //       // {   
-      //       //     alert('Reference Code Already Taken');
-      //       //     $("#reference_code").val('');
-      //       // }
+   // $(this).closest('form').submit();
+  //  $.ajax({
+  //   url: BASEURL+"/submissions/"+responseId+"/updatesubmissionstatus",
+  //   type: "POST",
+  //   data: {
+  //       status: status
+  //   },
+  //   dataType: "JSON",
+  //   success: function (response) {
+  //     $("#statusLoader").addClass('hidden');
+  //       // if (!response.data)
+  //       // {   
+  //       //     alert('Reference Code Already Taken');
+  //       //     $("#reference_code").val('');
+  //       // }
 
-      //       // $(".cf-loader").addClass('hidden');
-      //   }
-      // });
+  //       // $(".cf-loader").addClass('hidden');
+  //   }
+  // });
 
-    });
+});
 
 
 var uploader = new plupload.Uploader({

@@ -20,6 +20,7 @@ use App\Http\Controllers\Project\ProjectController;
 use \Input;
 use \Log;
 use Crypt;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -204,6 +205,45 @@ class PatientController extends Controller
                     'code' => 'reference_validation',
                     'message' => $msg,
                     'data' => $flag,
+                        ], $status);
+    }
+
+    public function resetPatientPassword(Request $request,$patientId) {
+        
+        if(\Auth::user()->type=='mylan_admin')
+        {
+          $patient = User::find($patientId);
+
+          
+          if ($patient==null) {
+              $msg = 'invalid data';
+              $data = "";
+              $status = 200;
+          }
+          else
+          {
+              $referenceCode = $patient->referenceCode;
+              $password = trim(randomPatientPassword());
+              $newpassword = getPassword($referenceCode , $password);
+
+              $patient->password = Hash::make($newpassword);
+              $patient->save();
+
+              $msg = 'Password updated';
+              $data = $password ;
+              $status = 200;
+          }
+        }
+        else
+        {
+          abort(403);
+        }
+
+
+        return response()->json([
+                    'code' => 'reset_patient_password',
+                    'message' => $msg,
+                    'data' => $data,
                         ], $status);
     }
 
