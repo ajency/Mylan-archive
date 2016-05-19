@@ -282,7 +282,6 @@
                   <div class="col-sm-3">
                      <label>Status</label>
                      <div class="row">
-                       ç
                        <input name="status" id="status_active" type="radio" class=" " {{ ($patient['account_status']=='active')?'checked':'' }} value="active"> <label for="status_active" style="display: inline-block;">Active</label>
                        </div>
                        <div class="col-sm-8">
