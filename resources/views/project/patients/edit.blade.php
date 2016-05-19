@@ -282,9 +282,10 @@
                   <div class="col-sm-3">
                      <label>Status</label>
                      <div class="row">
+                     <div class="col-sm-4">
                        <input name="status" id="status_active" type="radio" class=" " {{ ($patient['account_status']=='active')?'checked':'' }} value="active"> <label for="status_active" style="display: inline-block;">Active</label>
                        </div>
-                       <div class="col-sm-8">
+                       <div class="col-sm-5">
                        <input name="status" id="status_inactive" type="radio" class="" {{ ($patient['account_status']=='inactive')?'checked':'' }} value="inactive"> <label for="status_inactive" style="display: inline-block;">Inactive </label>
                        </div>
                      </div>
