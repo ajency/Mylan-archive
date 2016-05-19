@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Crypt;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -9,6 +10,8 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Contracts\Encryption\DecryptException;
+
 
 class User extends Model implements AuthenticatableContract,
                                     AuthorizableContract,
@@ -63,6 +66,33 @@ class User extends Model implements AuthenticatableContract,
 
     public function clinicVisit() {
         return $this->hasMany( 'App\PatientClinicVisit' );
+    }
+
+
+    public function getPatientIsSmokerAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
+
+        return $value;
+    }
+
+    public function setPatientIsSmokerAttribute( $value ) {  
+        $this->attributes['patient_is_smoker'] = Crypt::encrypt( $value );
+    }
+
+    public function getProjectAttributesAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
+
+        return $value;
+    }
+
+    public function setProjectAttributesAttribute( $value ) {  
+        $this->attributes['project_attributes'] = Crypt::encrypt( $value );
     }
 
     public function toArray()

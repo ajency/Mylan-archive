@@ -309,7 +309,7 @@
                        </div>
                         
                        <div class="col-sm-1 text-right m-t-25">
-                          <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
+                          <button type="button" class="btn btn-white delete-madication"><i class="fa fa-trash"></i></button>
                        </div>
                     </div>
                   @endforeach
