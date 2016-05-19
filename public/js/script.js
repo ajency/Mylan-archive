@@ -85,6 +85,10 @@ $('.authUserEmail').change(function (event) {
 
 $('.generate_new_password').click(function (event) { 
 
+    if (confirm('Are you sure you want to generate new password for patient ?') === false) {
+        return;
+    }
+
     var PATIENT_ID = $(this).attr('object-id');
  
     $.ajax({
@@ -371,6 +375,10 @@ $('.weightQuestion').change(function (event) {
 
 
 $('.attributes_block').on('click', '.deleteProjectAttributes', function(event) {
+    if (confirm('Are you sure you want to delete this project attribute?') === false) {
+        return;
+    }
+
      var attributeId = $(this).closest('.attributeContainer').find('input[name="attribute_id[]"]').val();
      var obj = $(this);
      if(attributeId=='')
