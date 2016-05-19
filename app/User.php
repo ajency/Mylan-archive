@@ -69,27 +69,27 @@ class User extends Model implements AuthenticatableContract,
     }
 
 
-    // public function getPatientIsSmokerAttribute( $value ) { 
-    //     if($this->attributes['type']=="patient")
-    //     {
-    //         $value = Crypt::decrypt( $value );
-    //     }
+    public function getPatientIsSmokerAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
 
-    //     return $value;
-    // }
+        return $value;
+    }
 
     public function setPatientIsSmokerAttribute( $value ) {  
         $this->attributes['patient_is_smoker'] = Crypt::encrypt( $value );
     }
 
-    // public function getProjectAttributesAttribute( $value ) { 
-    //     if($this->attributes['type']=="patient")
-    //     {
-    //         $value = Crypt::decrypt( $value );
-    //     }
+    public function getProjectAttributesAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
 
-    //     return $value;
-    // }
+        return $value;
+    }
 
     public function setProjectAttributesAttribute( $value ) {  
         $this->attributes['project_attributes'] = Crypt::encrypt( $value );
