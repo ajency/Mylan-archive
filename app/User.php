@@ -68,7 +68,7 @@ class User extends Model implements AuthenticatableContract,
         return $this->hasMany( 'App\PatientClinicVisit' );
     }
 
-
+    //**** crypt patient data  ***
     public function getPatientIsSmokerAttribute( $value ) { 
         if($this->attributes['type']=="patient")
         {
@@ -94,6 +94,7 @@ class User extends Model implements AuthenticatableContract,
     public function setProjectAttributesAttribute( $value ) {  
         $this->attributes['project_attributes'] = Crypt::encrypt( $value );
     }
+    //********//
 
     public function toArray()
     {

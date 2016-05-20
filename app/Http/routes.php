@@ -80,6 +80,9 @@ Route::post( 'hospital/{hospital}/uploadlogo', 'Admin\HospitalController@uploadL
 Route::post( 'hospital/{hospital}/deletelogo', 'Admin\HospitalController@deleteLogo' );
 Route::post( 'users/{id}/authuseremail', 'Admin\UserController@authUserEmail' );
 
+Route::get( 'changepassword', 'Admin\UserController@changePassword' );
+Route::post( 'changepassword', 'Admin\UserController@updateUserPassword' );
+
 Route::post( 'patients/{id}/resetpassword', 'Project\PatientController@resetPatientPassword' );
 
 
@@ -96,17 +99,10 @@ Route::resource( 'users', 'Hospital\UserController' );
 Route::post( 'users/{id}/authuseremail', 'Hospital\UserController@authUserEmail' );
 Route::resource( 'user-access', 'Admin\UserAccessController' );
 Route::delete( 'delete-user-access/{id}', 'Admin\UserAccessController@deleteProjectAccess' );
-// Route::resource( 'patients', 'Hospital\PatientController' );
-// Route::resource( 'submissions', 'Hospital\SubmissionController' );
 
+Route::get( 'changepassword', 'Hospital\UserController@changePassword' );
+Route::post( 'changepassword', 'Hospital\UserController@updateUserPassword' );
 
-
-// Route::get( 'patients/{id}/base-line-score', 'Hospital\PatientController@showpatientBaseLineScore' );
-// Route::get( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@getpatientBaseLineScore' );
-// Route::post( 'patients/{id}/base-line-score-edit', 'Hospital\PatientController@setPatientBaseLineScore' );
-// Route::get( 'patients/{id}/submissions', 'Hospital\PatientController@getPatientSubmission' );
-// Route::get( 'patients/{id}/submission-reports', 'Hospital\PatientController@getSubmissionReports' );
-// Route::post( 'patients/{id}/validatereferncecode', 'Hospital\PatientController@validateRefernceCode' );
 });
 
 /*****project***/ //
@@ -143,5 +139,8 @@ Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
 Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
 Route::get( '/questionnaire-setting', 'Project\ProjectController@questionnaireSetting' );
 Route::post( '/questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
+
+Route::get( 'changepassword', 'Project\UserController@changePassword' );
+Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );
 });
 

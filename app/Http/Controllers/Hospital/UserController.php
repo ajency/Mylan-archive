@@ -13,6 +13,7 @@ use App\Hospital;
 use App\Projects;
 use \Mail;
 use \Session;
+use \Auth;
 
 class UserController extends Controller
 {
@@ -234,6 +235,26 @@ class UserController extends Controller
                     'message' => $msg,
                     'data' => $flag,
                         ], $status);
+    }
+
+    public function changePassword($hospitalSlug) {
+        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+        return view('hospital.changepassword')->with('active_menu', '')
+                                            ->with('hospital', $hospital);
+    }
+
+    public function updateUserPassword(Request $request,$hospitalSlug) {
+        
+        $userId = Auth::user()->id;
+        $password = $request->input('password');
+
+        $user = User::find($userId);
+        $user->password = Hash::make($password);
+        $user->save(); 
+                
+        Session::flash('success_message','User password successfully updated');
+         
+        return redirect(url($hospitalSlug . '/changepassword'));
     }
 
     /**

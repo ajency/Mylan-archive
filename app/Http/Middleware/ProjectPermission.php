@@ -69,6 +69,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/patients/{id}/base-line-score-edit'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/validatereferncecode'=>['edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/submission-notifications'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/changepassword'=>['view','edit'],
                         ]; 
 
  

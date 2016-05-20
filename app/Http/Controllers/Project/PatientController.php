@@ -31,8 +31,8 @@ class PatientController extends Controller
      */
     public function index($hospitalSlug,$projectSlug)
     {
-        // try
-        // {
+        try
+        {
 
             $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
@@ -97,11 +97,11 @@ class PatientController extends Controller
             $patientMiniGraphData = $patientResponses['patientMiniGraphData'];//dd($patientMiniGraphData);
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray(); 
       
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     Log::error($e->getMessage());
-        //     abort(404);         
-        // }
+            Log::error($e->getMessage());
+            abort(404);         
+        }
     //code to be removed
       // User::where('type','patient')->get()->each( function($patient) {
       //       $referenceCode = $patient->reference_code;
@@ -894,7 +894,7 @@ class PatientController extends Controller
      */
     public function edit($hospitalSlug,$projectSlug,$patientId)
     {
-        // try{
+        try{
 
             $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
@@ -931,11 +931,11 @@ class PatientController extends Controller
 
              
             // $projectAttributes = getProjectAttributes($projectAttributes);
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     Log::error($e->getMessage());
-        //     abort(404);         
-        // }
+            Log::error($e->getMessage());
+            abort(404);         
+        }
  
         
         return view('project.patients.edit')->with('active_menu', 'patients')
@@ -961,8 +961,8 @@ class PatientController extends Controller
      */
     public function update(Request $request,$hospitalSlug,$projectSlug, $id)
     {
-        // try
-        // {
+        try
+        {
             $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
             $hospital = $hospitalProjectData['hospital'];
@@ -1071,11 +1071,11 @@ class PatientController extends Controller
 
             Session::flash('success_message','Patient details successfully updated.');
 
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     Log::error($e->getMessage());
-        //     abort(404);         
-        // }
+            Log::error($e->getMessage());
+            abort(404);         
+        }
  
  
         Session::flash('success_message','Patient details successfully updated.');

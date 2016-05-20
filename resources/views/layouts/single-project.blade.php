@@ -104,7 +104,7 @@
                            <div class="iconset top-settings-dark "></div>
                         </a>
                         <ul class="dropdown-menu  pull-right" role="menu" aria-labelledby="user-options">
-                           <li><a href="#"> My Account</a>
+                           <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/changepassword' ) }}"> Change Password</a>
                            </li>
                            <li class="divider"></li>
                            <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/logout' ) }}"><i class="fa fa-power-off"></i>&nbsp;&nbsp;Log Out</a></li>

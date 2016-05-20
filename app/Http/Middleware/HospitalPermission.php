@@ -38,6 +38,7 @@ class HospitalPermission
                     ]; 
         $uri        =[  '{hospitalslug}'=>['view','edit'],
                         '{hospitalslug}/dashboard'=>['view','edit'],
+                        '{hospitalslug}/changepassword'=>['view','edit'],
                         '{hospitalslug}/patients/{id}/validatereferncecode'=>['edit'],
                         '{hospitalslug}/users/{id}/authuseremail'=>['edit'],
                         '{hospitalslug}/delete-user-access/{id}'=>['edit'],
