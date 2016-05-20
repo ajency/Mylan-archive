@@ -298,7 +298,7 @@
                 <input name="status" type="hidden" value="{{ $patient['account_status'] }}">
                 @endif
 
-                @if(Auth::user()->type=='mylan_admin')
+                @if($patient['account_status']!='created' && Auth::user()->type=='mylan_admin')
                 <hr>
                <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>
               
