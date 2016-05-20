@@ -88,7 +88,7 @@ $('.generate_new_password').click(function (event) {
     if (confirm('Are you sure you want to generate new password for patient ?') === false) {
         return;
     }
-
+    $("#generatePassword").addClass('cf-loader'); 
     var PATIENT_ID = $(this).attr('object-id');
  
     $.ajax({
@@ -97,6 +97,7 @@ $('.generate_new_password').click(function (event) {
         
         dataType: "JSON",
         success: function (response) {
+            $("#generatePassword").removeClass('cf-loader'); 
             $("#generatePassword").html(response.data); 
         }
     });
