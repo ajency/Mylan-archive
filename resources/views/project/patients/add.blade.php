@@ -299,54 +299,102 @@
                   <hr>
                <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
                <br>
-                <div class="form-group">
-    <label for="frequency" class="col-sm-4 side-label">Frequency</label>
-    <div class="col-sm-4">
-      <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"> <h6 class="seconds">days</h6>
-    </div>
-    
-    <div class="col-sm-4">
-      <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
-    </div>
-   
-  </div>
- <div class="form-group">
-    <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="" data-parsley-type="number">
-      <h6 class="seconds">days</h6>
-    </div>
+
+    <div class="form-group quesSetting">
+      <label for="frequency" class="col-sm-4 side-label">Frequency</label>
       <div class="col-sm-4">
-      <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
-    </div>
-  </div>
-   <div class="form-group">
-    <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="" data-parsley-type="number">
-      <h6 class="seconds">days</h6>
-    </div>
+      <div class="row">
+        <div class="col-sm-9">
+          <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number">
+        </div>
+        <div class="col-md-3">
+          <h6 class="seconds">days</h6>
+        </div>
+      </div>
+      </div>
+      
       <div class="col-sm-4">
-      <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="" data-parsley-type="number"><h6 class="seconds">hours</h6>
+      <div class="row">
+        <div class="col-sm-9">
+          <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number">
+        </div>
+        <div class="col-sm-3">
+          <h6 class="seconds">hours</h6>
+        </div>
+      </div>
+      </div>
     </div>
-  </div>
-               
-     
-                  
-                
-        
-               
-        <div class="form-actions">
-          <div class="text-right">
-          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-            <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
-            <!-- <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button> -->
-            <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
-          </div>
-          </div>
-      </form>
+
+
+     <div class="form-group quesSetting">
+        <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
+
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="" data-parsley-type="number">
+            </div>
+            <div class="col-sm-3">
+               <h6 class="seconds">days</h6>
             </div>
           </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="" data-parsley-type="number">
+            </div>
+            <div class="col-sm-3">
+               <h6 class="seconds">hours</h6>
+            </div>
+          </div>
+        </div>
+
+    </div>
+
+
+     <div class="form-group quesSetting">
+      <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
+
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="" data-parsley-type="number">
+            </div>
+            <div class="col-sm-3">
+               <h6 class="seconds">days</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4">
+          <div class="row">
+            <div class="col-sm-9">
+             <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="" data-parsley-type="number">
+            </div>
+            <div class="col-sm-3">
+               <h6 class="seconds">hours</h6>
+            </div>
+          </div>
+        </div>        
+
+
+    </div>
+              
+               
+           <div class="form-actions quesSetting-actions">
+            <div class="text-right">
+            <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+              <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
+              <!-- <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button> -->
+              <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
+            </div>
+            </div>
+
+        </form>
+      </div>
+  </div>
  
 <script type="text/javascript">
   function validateOptionalInputs()
