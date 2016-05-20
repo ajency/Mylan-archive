@@ -20,12 +20,12 @@
  
 </div>
 @include('admin.flashmessage')
-<form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/changepassword') }}" data-parsley-validate>
+<form class="form-no-horizontal-spacing col-sm-9" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/changepassword') }}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed">
          <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-5">
                <div class="form-row form-group">
                   <label>New Password</label>
                   <input name="password" id="password" type="password"  class="form-control" data-parsley-required>
@@ -33,7 +33,7 @@
             </div>
          </div>
          <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-5">
                <div class="form-row">
                   <label>Confirm Password</label>
                   <input name="confirmpassword" id="confirmpassword" type="password" class="form-control" data-parsley-required data-parsley-equalto="#password"> 
