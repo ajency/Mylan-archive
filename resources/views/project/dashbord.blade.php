@@ -29,7 +29,7 @@
                   </div>
                   </div>
 
- <div id="page1">
+            <div id="page1" class="print-pdf"> 
                   <div class="grid simple ">
                      <div class="grid-body no-border table-data grid-data-table">
                         <div class="row">
