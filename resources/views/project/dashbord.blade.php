@@ -625,7 +625,6 @@
          })
     
 
-   
       </script>
 <style type="text/css">
          #chartdiv {
