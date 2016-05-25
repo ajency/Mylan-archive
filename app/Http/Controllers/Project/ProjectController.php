@@ -1713,7 +1713,7 @@ class ProjectController extends Controller
             $questionnaire->set('pauseProject',$pauseProject);
             $questionnaire->set('type',$type);
             $questionnaire->save();
-             
+
 
             $scheduleQry = new ParseQuery("Schedule");
             $scheduleQry->equalTo("questionnaire",$questionnaire);
@@ -1741,8 +1741,8 @@ class ProjectController extends Controller
 
     public function configureQuestions($hospitalSlug,$projectSlug,$questionnaireId)
     {
-        // try
-        // {
+        try
+        {
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
@@ -1786,10 +1786,10 @@ class ProjectController extends Controller
 
            
         
-        // } catch (\Exception $e) {
-        //     Log::error($e->getMessage());
-        //     abort(404);   
-        // }      
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            abort(404);   
+        }      
 
         
 
@@ -1804,76 +1804,81 @@ class ProjectController extends Controller
     public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
     {
 
-       // dd($request->all());
-      $questionsType = $request->input("questionType");
-      $titles = $request->input("title");
-      $questions = $request->input("question");
-      $questionIds = $request->input("questionId");
-      $options = $request->input("option");
-      $optionIds = $request->input("optionId");
-      $scores = $request->input("score");
+      try{
+            $questionsType = $request->input("questionType");
+            $titles = $request->input("title");
+            $questions = $request->input("question");
+            $questionIds = $request->input("questionId");
+            $options = $request->input("option");
+            $optionIds = $request->input("optionId");
+            $scores = $request->input("score");
 
-      $questionnaireObj = new ParseQuery("Questionnaire");
-      $questionnaire = $questionnaireObj->get($questionnaireId);
+            $questionnaireObj = new ParseQuery("Questionnaire");
+            $questionnaire = $questionnaireObj->get($questionnaireId);
 
-      foreach ($questionsType as $key => $questionType) {
-          
-          if($questionType=="")
-            continue;
+            foreach ($questionsType as $key => $questionType) {
+                
+                if($questionType=="")
+                  continue;
 
-          $title = $titles[$key];
-          $question = $questions[$key];
-          $questionId = $questionIds[$key];
-          $isChild = false;
+                $title = $titles[$key];
+                $question = $questions[$key];
+                $questionId = $questionIds[$key];
+                $isChild = false;
 
-          if($questionId !="")
-          {
-            $questionObject = new ParseQuery("Questions");
-            $questionObj = $questionObject->get($questionId);
-          }
-          else
-          {
-            $questionObj = new ParseObject("Questions");
-            $questionObj->set('questionnaire',$questionnaire);
-          }
-          
-          $questionObj->set("question",$question);
-          $questionObj->set('title',$title);
-          $questionObj->set('isChild',$isChild);
-          $questionObj->set('type',$questionType);
-          $questionObj->save();
-           
+                if($questionId !="")
+                {
+                  $questionObject = new ParseQuery("Questions");
+                  $questionObj = $questionObject->get($questionId);
+                }
+                else
+                {
+                  $questionObj = new ParseObject("Questions");
+                  $questionObj->set('questionnaire',$questionnaire);
+                }
+                
+                $questionObj->set("question",$question);
+                $questionObj->set('title',$title);
+                $questionObj->set('isChild',$isChild);
+                $questionObj->set('type',$questionType);
+                $questionObj->save();
+                 
 
-          if(isset($options[$key]))
-          { 
-            $questionOptions = $options[$key]; 
-            $optionScores = $scores[$key];
-            $optionId = $optionIds[$key];
+                if(isset($options[$key]))
+                { 
+                  $questionOptions = $options[$key]; 
+                  $optionScores = $scores[$key];
+                  $optionId = $optionIds[$key];
 
-            foreach ($questionOptions as $k => $option) {
-              if($option=="")
-                continue;
+                  foreach ($questionOptions as $k => $option) {
+                    if($option=="")
+                      continue;
 
-              if($optionId[$k] !="")
-              {
-                $optionObject = new ParseQuery("Options");
-                $optionObj = $optionObject->get($optionId[$k]);
-              }
-              else
-              {
-                $optionObj = new ParseObject("Options");
-                $optionObj->set("question",$questionObj);
-              }
+                    if($optionId[$k] !="")
+                    {
+                      $optionObject = new ParseQuery("Options");
+                      $optionObj = $optionObject->get($optionId[$k]);
+                    }
+                    else
+                    {
+                      $optionObj = new ParseObject("Options");
+                      $optionObj->set("question",$questionObj);
+                    }
 
-              $score = intval($optionScores[$k]);
-              
-              $optionObj->set('score',$score);
-              $optionObj->set('label',$option);
-              $optionObj->save();
+                    $score = intval($optionScores[$k]);
+                    
+                    $optionObj->set('score',$score);
+                    $optionObj->set('label',$option);
+                    $optionObj->save();
+                  }
+                }
+                
             }
-          }
-          
-      }
+
+         } catch (\Exception $e) {
+          Log::error($e->getMessage());
+          abort(404);   
+        } 
 
       return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
@@ -1881,17 +1886,23 @@ class ProjectController extends Controller
 
     public function deleteQuestion($hospitalSlug,$projectSlug,$questionId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+        try{
+              $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+              $hospital = $hospitalProjectData['hospital'];
+              $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+              $project = $hospitalProjectData['project'];
+              $projectId = intval($project['id']);
 
-        $questionObj = new ParseQuery("Questions");
-        $question = $questionObj->get($questionId);
-        $question->destroy();
+              $questionObj = new ParseQuery("Questions");
+              $question = $questionObj->get($questionId);
+              $question->destroy();
+
+         } catch (\Exception $e) {
+          Log::error($e->getMessage());
+          abort(404);   
+        } 
 
         return response()->json([
                     'code' => 'delete_question',
@@ -1901,17 +1912,24 @@ class ProjectController extends Controller
 
     public function deleteOption($hospitalSlug,$projectSlug,$optionId)
     {
-        $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+      try{
 
-        $hospital = $hospitalProjectData['hospital'];
-        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-        $project = $hospitalProjectData['project'];
-        $projectId = intval($project['id']);
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-        $optionObject = new ParseQuery("Options");
-        $optionObj = $optionObject->get($optionId);
-        $optionObj->destroy();
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+
+          $optionObject = new ParseQuery("Options");
+          $optionObj = $optionObject->get($optionId);
+          $optionObj->destroy();
+
+         } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            abort(404);   
+        } 
 
         return response()->json([
                     'code' => 'delete_option',
@@ -2074,6 +2092,55 @@ class ProjectController extends Controller
                         ], 203);
 
 
+    }
+
+
+    public function orderQuestions($hospitalSlug,$projectSlug,$questionnaireId)
+    {
+        // try
+        // {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+
+          $questionnaireObj = new ParseQuery("Questionnaire");
+          $questionnaire = $questionnaireObj->get($questionnaireId);
+
+          $questionObjs = new ParseQuery("Questions");
+          $questionObjs->equalTo("questionnaire",$questionnaire);
+          $questionObjs->ascending("createdAt");
+          $questions = $questionObjs->find();
+
+          $questionsList = [];
+          foreach ($questions as $question) {
+            $questionTxt = $question->get("question");
+            $title = $question->get("title");
+            $type = $question->get("type");
+            $questionId = $question->getObjectId();
+
+            $questionsList[$questionId] = ['question'=>$questionTxt, 'title'=>$title, 'type'=>$type];         
+          }
+
+          
+
+           
+        
+        // } catch (\Exception $e) {
+        //     Log::error($e->getMessage());
+        //     abort(404);   
+        // }      
+
+        
+
+        return view('project.order-questions')->with('active_menu', 'settings')
+                                        ->with('questionnaireId', $questionnaireId)
+                                        ->with('hospital', $hospital)
+                                        ->with('project', $project)
+                                        ->with('questionsList', $questionsList);
     }
 
     

@@ -144,6 +144,7 @@ Route::get( '/configure-questions/{id}', 'Project\ProjectController@configureQue
 Route::post( '/configure-questions/{id}', 'Project\ProjectController@StoreQuestions' );
 Route::delete( 'delete-question/{id}', 'Project\ProjectController@deleteQuestion' );
 Route::delete( 'delete-option/{id}', 'Project\ProjectController@deleteOption' );
+Route::get( '/order-questions/{id}', 'Project\ProjectController@orderQuestions' );
 
 Route::get( 'changepassword', 'Project\UserController@changePassword' );
 Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );
