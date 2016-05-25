@@ -48,11 +48,11 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        if($e instanceof \Parse\ParseException){
-            Log::error($e->getMessage());
-            abort(503);
+        // if($e instanceof \Parse\ParseException){
+        //     Log::error($e->getMessage());
+        //     abort(503);
         
-        } 
+        // } 
 
         // if($e instanceof \FatalErrorException){
         //     Log::error($e->getMessage());

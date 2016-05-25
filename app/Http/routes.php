@@ -138,7 +138,12 @@ Route::get( '/alert-setting', 'Project\ProjectController@alertSetting' );
 Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
 Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
 Route::get( '/questionnaire-setting', 'Project\ProjectController@questionnaireSetting' );
-Route::post( '/questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
+Route::post( '/store-questionnaire-setting', 'Project\ProjectController@storeQuestionnaireSetting' );
+Route::post( '/update-questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
+Route::get( '/configure-questions/{id}', 'Project\ProjectController@configureQuestions' );
+Route::post( '/configure-questions/{id}', 'Project\ProjectController@StoreQuestions' );
+Route::delete( 'delete-question/{id}', 'Project\ProjectController@deleteQuestion' );
+Route::delete( 'delete-option/{id}', 'Project\ProjectController@deleteOption' );
 
 Route::get( 'changepassword', 'Project\UserController@changePassword' );
 Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );

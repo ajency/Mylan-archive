@@ -257,7 +257,7 @@
                                     <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
                                  </div>
                               </div>
-</div>
+              </div>
                        
                     
                    
@@ -296,6 +296,7 @@
                         
                      
                   </div>
+                  <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
                   <hr>
                <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
                <br>

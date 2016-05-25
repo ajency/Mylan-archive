@@ -29,7 +29,8 @@
                       
                       <hr>
           @include('admin.flashmessage')
-         <form class="form-horizontal col-sm-8 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" data-parsley-validate>
+
+         <form class="form-horizontal col-sm-8 mri-form" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate>
   <div class="form-group">
     <label for="frequency" class="col-sm-4 side-label">Frequency</label>
     <div class="col-sm-4">
@@ -67,6 +68,12 @@
     data-parsley-type="digits"><h6 class="seconds">hours</h6>
     </div>
   </div>
+  <div class="form-group">
+    <label for="editable" class="col-sm-4 side-label">Name</label>
+    <div class="col-sm-6">
+    <input type="text" name="name" id="name" value="">
+    </div>
+  </div>
  <div class="form-group">
     <label for="editable" class="col-sm-4 side-label">Editable</label>
     <div class="col-sm-6">
@@ -100,6 +107,10 @@
     <div class="col-sm-10 text-center mri-submit">
     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
       <button type="submit" class="btn btn-success">Save</button>
+
+      @if($action =="update-questionnaire-setting")
+      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-success">Next</button></a>
+      @endif
     </div>
   </div>
 </form>
