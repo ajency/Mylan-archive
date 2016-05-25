@@ -71,7 +71,7 @@
   <div class="form-group">
     <label for="editable" class="col-sm-4 side-label">Name</label>
     <div class="col-sm-6">
-    <input type="text" name="name" id="name" value="">
+    <input type="text" name="name" id="name" value="{{ $settings['name'] }}">
     </div>
   </div>
  <div class="form-group">
