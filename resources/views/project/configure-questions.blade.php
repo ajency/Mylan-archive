@@ -125,7 +125,9 @@
         <div class="form-group">
           <div class="col-sm-10 text-center mri-submit">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><button type="button" class="btn btn-success">Previous</button></a>
             <button type="submit" class="btn btn-success">Save</button>
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-success">Next</button></a>
           </div>
         </div>
 
