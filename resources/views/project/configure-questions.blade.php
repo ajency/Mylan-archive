@@ -54,22 +54,23 @@
                    <div class="col-sm-6 m-t-25 ">
                       <input name="question[]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
                    </div>
-                   <div class="col-sm-1 text-right m-t-25 del-question-blk">
+                   <div class="col-sm-1 text-center m-t-25 del-question-blk">
                       <button type="button" class="btn btn-white delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
                    </div>
                    <!-- options -->
                    @if(isset($optionsList[$questionId]))
-                    <div class="col-sm-8 m-t-25 question-options-block @if($question['type']=='weight') hidden @endif " >
+                   <div>
+                    <div class="col-sm-8 question-options-block @if($question['type']=='weight') hidden @endif " >
                       @foreach($optionsList[$questionId] as $option)
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][]" value="{{ $option['optionId'] }}">
-                        <div class="col-sm-8 m-t-25 ">
+                        <div class="col-sm-7 m-t-25 ">
                         <input name="option[{{ $i }}][]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
                         <div class="col-sm-3 m-t-25 ">
                         <input name="score[{{ $i }}][]" id="question" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
                         </div> 
-                        <div class="col-sm-1 text-right m-t-25">
+                        <div class="col-sm-2 text-center m-t-25">
                         <button type="button" class="btn btn-white delete-option"><i class="fa fa-trash"></i></button>
                         
                         </div>
@@ -88,6 +89,7 @@
                         </div>
                       </div>
                       </div> 
+                      </div>
                       @endif
                     <!--  -->
               </div>
