@@ -137,14 +137,16 @@ Route::get( '/notifications', 'Project\ProjectController@getNotifications' );
 Route::get( '/alert-setting', 'Project\ProjectController@alertSetting' );
 Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
 Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
-Route::get( '/questionnaire-setting', 'Project\ProjectController@questionnaireSetting' );
-Route::post( '/store-questionnaire-setting', 'Project\ProjectController@storeQuestionnaireSetting' );
-Route::post( '/update-questionnaire-setting', 'Project\ProjectController@saveQuestionnaireSetting' );
-Route::get( '/configure-questions/{id}', 'Project\ProjectController@configureQuestions' );
-Route::post( '/configure-questions/{id}', 'Project\ProjectController@StoreQuestions' );
-Route::delete( 'delete-question/{id}', 'Project\ProjectController@deleteQuestion' );
-Route::delete( 'delete-option/{id}', 'Project\ProjectController@deleteOption' );
-Route::get( '/order-questions/{id}', 'Project\ProjectController@orderQuestions' );
+
+Route::get( '/questionnaire-setting', 'Project\QuestionnaireController@questionnaireSetting' );
+Route::post( '/store-questionnaire-setting', 'Project\QuestionnaireController@storeQuestionnaireSetting' );
+Route::post( '/update-questionnaire-setting', 'Project\QuestionnaireController@saveQuestionnaireSetting' );
+Route::get( '/configure-questions/{id}', 'Project\QuestionnaireController@configureQuestions' );
+Route::post( '/configure-questions/{id}', 'Project\QuestionnaireController@StoreQuestions' );
+Route::delete( 'delete-question/{id}', 'Project\QuestionnaireController@deleteQuestion' );
+Route::delete( 'delete-option/{id}', 'Project\QuestionnaireController@deleteOption' );
+Route::get( '/order-questions/{id}', 'Project\QuestionnaireController@getQuestionsOrder' );
+Route::post( '/order-questions/{id}', 'Project\QuestionnaireController@setQuestionsOrder' );
 
 Route::get( 'changepassword', 'Project\UserController@changePassword' );
 Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );

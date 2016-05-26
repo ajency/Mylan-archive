@@ -17,6 +17,7 @@ use App\PatientMedication;
 use App\PatientClinicVisit;
 use \Session;
 use App\Http\Controllers\Project\ProjectController;
+use App\Http\Controllers\Project\QuestionnaireController;
 use \Input;
 use \Log;
 use Crypt;
@@ -1733,7 +1734,12 @@ class PatientController extends Controller
         //     $questionsList[$questionId] = ['question'=>$name,'type'=>$questionType];
         // }
 
-        $questionsList = (!empty($questions))? $this->getSequenceQuestions($questions,true) :[];
+        $questionsList = [];
+        if(!empty($questions))
+        {
+          $questionnaireController = new QuestionnaireController();
+          $questionsList = $questionnaireController->getSequenceQuestions($questions,true);
+        }  
         // dd($firstQuestionId);
         $optionScore = [];
         foreach ($options as   $option) {
@@ -1810,84 +1816,7 @@ class PatientController extends Controller
         return $data;
     }
 
-    public function getFirstQuestion($questions)
-    {
-        $questionId ='';
-        foreach ($questions as   $question) {
-            if(is_null($question->get('previousQuestion')) && $question->get('isChild')==false)
-            {
-                $questionId = $question->getObjectId();
-                break;
-            }
-                
-            
-        }
-
-        return $questionId;
-    }
-
-    public function getSequenceQuestions($questions,$subQuestionsFlag=false)
-    {
-
-        $questionsList = [];
-        $sequenceQuestions = [];
-        $subQuestions = [];
-        foreach ($questions as   $question) {
-            $questionId = $question->getObjectId();
-            $nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
-            $previousQuestionId = (!is_null($question->get('previousQuestion')))? $question->get('previousQuestion')->getObjectId():'';
-            
-            $questionType = $question->get('type');
-            $title = $question->get('title');
-            $name = $question->get('question');
-            $isChild = $question->get('isChild');
-            if(!$isChild)
-                $questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
-            elseif($subQuestionsFlag)
-                $subQuestions[$previousQuestionId][$questionId] = ['previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
-
-
-        }
-
-        
-        $firstQuestionId = $this->getFirstQuestion($questions);
-
-        $orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
-
-        if(!empty($subQuestions))
-        {
-            $orderQuestions = $this->addSubQuestionToList($orderQuestions,$subQuestions);
-        }
-        
-        return $orderQuestions;
-    }
-
-    public function orderQuestions($questionsList,$firstQuestionId,$questions)
-    {
-        $questions[$firstQuestionId] = $questionsList[$firstQuestionId];
-        $nextQuestionId = $questionsList[$firstQuestionId]['nextQuestionId'];
-
-        if(count($questions)!=count($questionsList))
-            $questions = $this->orderQuestions($questionsList,$nextQuestionId,$questions);
-         
-        return $questions;
-
-    }
-
-    public function addSubQuestionToList($orderQuestions,$subQuestions)
-    {
-        $newOrder = [];
-        foreach ($orderQuestions as $questionId => $questionData) {
-
-            $newOrder[$questionId] = $questionData; 
-            if(isset($subQuestions[$questionId]))
-            {
-                $newOrder = array_merge($newOrder,$subQuestions[$questionId]); 
-            }
-        }
-
-        return $newOrder;
-    }
+    
 
      public function getpatientBaseLineScore($hospitalSlug ,$projectSlug ,$patientId)
     {
@@ -2248,9 +2177,12 @@ class PatientController extends Controller
              
         }
 
-
-
-        $sequentialQuestion = (!empty($questionObjs))? $this->getSequenceQuestions($questionObjs) :[];//used ly to get question in rt order
+        $sequentialQuestion = [];
+        if(!empty($questionObjs))
+        {
+          $questionnaireController = new QuestionnaireController();
+          $sequentialQuestion = $questionnaireController->getSequenceQuestions($questionObjs); //used ly to get question in rt order
+        }  
          
         foreach ($sequentialQuestion as $questionId => $questionData) {
             if(isset($questionArr[$questionId]))
@@ -2386,8 +2318,12 @@ class PatientController extends Controller
             
         }
 
-
-        $sequentialQuestion = (!empty($questionObjs))?$this->getSequenceQuestions($questionObjs):[];//used ly to get question in rt order
+        $sequentialQuestion = [];
+        if(!empty($questionObjs))
+        {
+          $questionnaireController = new QuestionnaireController();
+          $sequentialQuestion = $questionnaireController->getSequenceQuestions($questionObjs); //used ly to get question in rt order
+        }  
          
         foreach ($sequentialQuestion as $questionId => $questionData) {
             if(isset($questionLabels[$questionId]))
@@ -2440,7 +2376,12 @@ class PatientController extends Controller
            
         }
 
-         $sequentialQuestion =  (!empty($questionObjs))? $this->getSequenceQuestions($questionObjs):[]; //used ly to get question in rt order
+        $sequentialQuestion = [];
+        if(!empty($questionObjs))
+        {
+          $questionnaireController = new QuestionnaireController();
+          $sequentialQuestion = $questionnaireController->getSequenceQuestions($questionObjs); //used ly to get question in rt order
+        }  
 
         //baseline
         $allBaseChartData = $this->getBaseLineChartData($allBaselineAnwers);

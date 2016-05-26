@@ -13,6 +13,7 @@ use App\Projects;
 use App\User;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Project\PatientController;
+use App\Http\Controllers\Project\QuestionnaireController;
 use App\UserAccess;
 use \Input;
 use \Log;
@@ -473,8 +474,8 @@ class SubmissionController extends Controller
            
         }
 
-        $patientController = new PatientController();
-        $questionsList = $patientController->getSequenceQuestions($questions,true);
+        $questionnaireController = new QuestionnaireController();
+        $questionsList = $questionnaireController->getSequenceQuestions($questions,true);
        
         
         //sort data
