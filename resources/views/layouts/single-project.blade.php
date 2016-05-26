@@ -26,6 +26,7 @@
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
+      <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/jquery-nestable/jquery.nestable.min.css') }}">
 
    
       <!-- END CSS TEMPLATE -->
@@ -348,7 +349,7 @@
    
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/common.js') }}"></script>
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/css.js') }}"></script>
- 
+       <script type="text/javascript" src="{{ asset('project-admin-views/assets/plugins/jquery-nestable/jquery.nestable.min.js') }}"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>

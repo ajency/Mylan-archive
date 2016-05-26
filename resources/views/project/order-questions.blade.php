@@ -30,25 +30,23 @@
                       <hr>
           @include('admin.flashmessage')
         <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
-
-        <div class="form-row question-list">
+          <div class="dd draggableList dark">
+            <ol class="dd-list">
             <?php 
             $i=0;
             ?>
             @foreach($questionsList as $questionId => $question)
-                <div class="row question" row-count="{{ $i }}">
-                   <input type="hidden" name="questionId[]" value="{{ $questionId }}">
-                   <div class="col-sm-8 m-t-25 ">
-                      <span class="">{{ $question['title'] }}</span>
-                      {{ $question['question'] }}
-                   </div>
-
-              </div>
+                <li class="dd-item" data-id="{{ $i }}">
+                    <input type="hidden" name="questionId[]" value="{{ $questionId }}">
+                    <div class="dd-handle"><span class="">{{ $question['title'] }} : </span> {{ $question['question'] }}</div>
+                </li>
            <?php $i++; ?>
             @endforeach
-            
+
+            </ol>
+         </div>
+
  
-        </div>
       
         <div class="form-group">
           <div class="col-sm-10 text-center mri-submit">
@@ -70,20 +68,7 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-
- 
-     $('.input-days').change(function (event) {  
-      if($(this).val() >= 1)
-      { 
-         $(this).closest(".form-group").find('.input-hours').removeAttr("min"); 
-         $(this).closest(".form-group").find('.input-hours').removeAttr("data-parsley-validation-threshold");
-      }
-      else
-      {
-        $(this).closest(".form-group").find('.input-hours').attr("min","1"); 
-        $(this).closest(".form-group").find('.input-hours').attr("data-parsley-validation-threshold","1");
-      }
-    });
+    $('.dd').nestable({});
 });
 
 </script>
