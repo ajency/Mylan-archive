@@ -60,8 +60,9 @@
                    </div>
                    </div>
                    <!-- options -->
-                   @if(isset($optionsList[$questionId]))
-                    <div class="col-sm-8 col-sm-offset-2 question-options-block @if($question['type']=='weight') hidden @endif " >
+                   @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
+                    <div class="col-sm-8 col-sm-offset-2 question-options-block" >
+                    @if(isset($optionsList[$questionId]))
                       @foreach($optionsList[$questionId] as $option)
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][]" value="{{ $option['optionId'] }}">
@@ -76,6 +77,7 @@
                         </div>
                       </div>
                       @endforeach
+                    @endif
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][]" value="">
                         <div class="col-sm-7 m-t-10 m-b-10 ">
@@ -89,7 +91,7 @@
                         </div>
                       </div>
                       </div> 
-                      @endif
+                    @endif
                     <!--  -->
               </div>
            <?php $i++; ?>
