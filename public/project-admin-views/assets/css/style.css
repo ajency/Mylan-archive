@@ -8148,6 +8148,9 @@ body.rtl .footer-widget {
   right: 0;
   left: auto;
 }
+.container .content {
+  min-height: 100vh;
+}
 .site-nav .bar {
   background: #05A8A5;
 }
