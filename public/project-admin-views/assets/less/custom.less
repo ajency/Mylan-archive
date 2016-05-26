@@ -1435,6 +1435,8 @@ ul.ui-multiselect-checkboxes{
 
 // Questionnaire setting forms
 
+// First form
+
 .setQuestion{
 	margin: 10px 0;
 	.nameField{
@@ -1450,6 +1452,42 @@ ul.ui-multiselect-checkboxes{
 
 
 
+// Second form
+
+.question{
+	border: 2px solid #ddd;
+	margin-bottom: 30px;
+	.questionHead{
+		background: rgba(160, 160, 160, 0.23);
+		select,input[type="text"]{
+			margin-bottom: 0px;
+		}
+	}
+	.question-options-block{
+		.row{
+			border-bottom: 1px solid #eee;
+			select,input[type="text"]{
+				margin-bottom: 0px;
+			}
+			&:last-child{
+				border-bottom: 0;
+			}
+		}
+	}
+}
+
+.questionActions{
+	margin-top: 15px;
+	button{
+		margin:0 5px;
+	}
+}
+
+
+
+
+// Third form
+
 .quesTitle{
     font-size: 1.2em;
     text-transform: capitalize;
@@ -1457,8 +1495,6 @@ ul.ui-multiselect-checkboxes{
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
-
-
 
 .draggableList{
 	max-width: 100%;

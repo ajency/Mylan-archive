@@ -9325,6 +9325,33 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .setQuestion .questActions button {
   margin-right: 15px;
 }
+.question {
+  border: 2px solid #ddd;
+  margin-bottom: 30px;
+}
+.question .questionHead {
+  background: rgba(160, 160, 160, 0.23);
+}
+.question .questionHead select,
+.question .questionHead input[type="text"] {
+  margin-bottom: 0px;
+}
+.question .question-options-block .row {
+  border-bottom: 1px solid #eee;
+}
+.question .question-options-block .row select,
+.question .question-options-block .row input[type="text"] {
+  margin-bottom: 0px;
+}
+.question .question-options-block .row:last-child {
+  border-bottom: 0;
+}
+.questionActions {
+  margin-top: 15px;
+}
+.questionActions button {
+  margin: 0 5px;
+}
 .quesTitle {
   font-size: 1.2em;
   text-transform: capitalize;
