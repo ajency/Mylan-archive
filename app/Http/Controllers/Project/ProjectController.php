@@ -1602,7 +1602,6 @@ class ProjectController extends Controller
             abort(404);   
         }      
 
-        
 
         return view('project.questionnaire-setting')->with('active_menu', 'settings')
                                         ->with('hospital', $hospital)

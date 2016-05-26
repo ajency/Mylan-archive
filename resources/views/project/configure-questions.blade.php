@@ -139,26 +139,6 @@
                      </div>
                   </div>
  
-<!-- END PLACE PAGE CONTENT HERE -->
-<script type="text/javascript">
-
-$(document).ready(function() {
-
  
-     $('.input-days').change(function (event) {  
-      if($(this).val() >= 1)
-      { 
-         $(this).closest(".form-group").find('.input-hours').removeAttr("min"); 
-         $(this).closest(".form-group").find('.input-hours').removeAttr("data-parsley-validation-threshold");
-      }
-      else
-      {
-        $(this).closest(".form-group").find('.input-hours').attr("min","1"); 
-        $(this).closest(".form-group").find('.input-hours').attr("data-parsley-validation-threshold","1");
-      }
-    });
-});
-
-</script>
 
 @endsection
