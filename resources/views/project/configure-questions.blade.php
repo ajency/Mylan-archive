@@ -38,7 +38,8 @@
             @foreach($questionsList as $questionId => $question)
                 <div class="row question" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[]" value="{{ $questionId }}">
-                   <div class="col-sm-3 m-t-25 ">
+                   <div class="col-md-12 questionHead">
+                   <div class="col-sm-3 m-t-15 ">
                       <select name="questionType[]" class="select2-container select2 form-control">
                           <option selected value="">Select Question Type</option>
                           <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
@@ -48,48 +49,46 @@
                           <option @if($question['type']=="weight") selected @endif value="weight"> Weight </option>
                       </select>
                    </div>
-                   <div class="col-sm-2 m-t-25 ">
+                   <div class="col-sm-2 m-t-15">
                       <input name="title[]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" >
                    </div> 
-                   <div class="col-sm-6 m-t-25 ">
+                   <div class="col-sm-6 m-t-15">
                       <input name="question[]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
                    </div>
-                   <div class="col-sm-1 text-center m-t-25 del-question-blk">
+                   <div class="col-sm-1 text-center m-t-15 del-question-blk">
                       <button type="button" class="btn btn-white delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
+                   </div>
                    </div>
                    <!-- options -->
                    @if(isset($optionsList[$questionId]))
-                   <div>
-                    <div class="col-sm-8 question-options-block @if($question['type']=='weight') hidden @endif " >
+                    <div class="col-sm-8 col-sm-offset-2 question-options-block @if($question['type']=='weight') hidden @endif " >
                       @foreach($optionsList[$questionId] as $option)
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][]" value="{{ $option['optionId'] }}">
-                        <div class="col-sm-7 m-t-25 ">
+                        <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
-                        <div class="col-sm-3 m-t-25 ">
+                        <div class="col-sm-3 m-t-10 m-b-10">
                         <input name="score[{{ $i }}][]" id="question" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
                         </div> 
-                        <div class="col-sm-2 text-center m-t-25">
+                        <div class="col-sm-2 text-center m-t-10 m-b-10">
                         <button type="button" class="btn btn-white delete-option"><i class="fa fa-trash"></i></button>
-                        
                         </div>
                       </div>
                       @endforeach
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][]" value="">
-                        <div class="col-sm-8 m-t-25 ">
+                        <div class="col-sm-7 m-t-10 m-b-10 ">
                         <input name="option[{{ $i }}][]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
-                        <div class="col-sm-3 m-t-25 ">
+                        <div class="col-sm-3 m-t-10 m-b-10">
                         <input name="score[{{ $i }}][]" id="question" type="text" placeholder="Enter score" class="form-control" >
                         </div> 
-                        <div class="col-sm-1 text-right m-t-25">
+                        <div class="col-sm-2 text-center m-t-10 m-b-10">
                         <button type="button" class="btn btn-white add-option"><i class="fa fa-plus"></i></button>
                         </div>
                       </div>
                       </div> 
-                      </div>
                       @endif
                     <!--  -->
               </div>
@@ -98,7 +97,8 @@
             
             <div class="row question" row-count="{{ $i }}">
                <input type="hidden" name="questionId[]" value="">
-               <div class="col-sm-3 m-t-25 ">
+               <div class="col-md-12 questionHead">
+               <div class="col-sm-3 m-t-15">
                   <select name="questionType[]" class="select2-container select2 form-control">
                       <option value="">Select Question Type</option>
                       <option value="single-choice"> Single-choice</option>
@@ -108,26 +108,27 @@
                       <option value="weight"> Weight </option>
                   </select>
                </div>
-               <div class="col-sm-2 m-t-25 ">
+               <div class="col-sm-2 m-t-15">
                   <input name="title[]" id="title" type="text"   placeholder="Enter Title" class="form-control" >
                </div> 
-               <div class="col-sm-6 m-t-25 ">
+               <div class="col-sm-6 m-t-15">
                   <input name="question[]" id="question" type="text"   placeholder="Enter Question" class="form-control" >
                </div>
-               <div class="col-sm-1 text-right m-t-25 del-question-blk">
+               <div class="col-sm-1 text-center m-t-15 del-question-blk">
                   <button type="button" class="btn btn-white delete-question hidden" object-id=""><i class="fa fa-trash"></i></button>
                </div>
-
+            </div>
           </div>
         </div>
         <input type="hidden" name="counter" id="counter" value="{{ $i }}">
         <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
-          <div class="col-sm-10 text-center mri-submit">
+          <div class="col-sm-10 questionActions mri-submit">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><button type="button" class="btn btn-success">Previous</button></a>
-            <button type="submit" class="btn btn-success">Save</button>
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-success">Next</button></a>
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">
+            <button type="button" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i> Previous</button></a>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default">Next <i class="fa fa-forward" aria-hidden="true"></i></button></a>
           </div>
         </div>
 

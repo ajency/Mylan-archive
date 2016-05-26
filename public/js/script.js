@@ -1577,15 +1577,15 @@ $('.question-list').on('change', 'select[name="questionType[]"]', function(event
 
     if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
-        html +='<div class="col-sm-8 m-t-25 question-options-block">';
+        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-8 m-t-25 ">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
         html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-1 text-right m-t-25">';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
         html +='<button type="button" class="btn btn-white add-option"><i class="fa fa-plus"></i></button>';
         html +='</div>';
         html +='</div>';
@@ -1595,39 +1595,39 @@ $('.question-list').on('change', 'select[name="questionType[]"]', function(event
     }
     else if($(this).val()=="weight")
     {
-        html +='<div class="col-sm-8 m-t-25 question-options-block hidden">';
+        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block hidden">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-8 m-t-25 ">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="1" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-1 text-right m-t-25">';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
 
 
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-8 m-t-25 ">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="st" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="2" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-1 text-right m-t-25">';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
 
 
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-8 m-t-25 ">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="lb" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="3" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-1 text-right m-t-25">';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
 
@@ -1635,7 +1635,7 @@ $('.question-list').on('change', 'select[name="questionType[]"]', function(event
         html +='</div>';
     }
     
-    $(this).closest('.question').find('.del-question-blk').after(html);
+    $(this).closest('.question').find('.questionHead').after(html);
         
 });
 
@@ -1659,13 +1659,13 @@ $('.question-list').on('click', '.add-option', function(event) {
         $(this).removeClass("add-option").addClass("delete-option"); 
         $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
         html ='<div class="row"> <input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-8 m-t-25 ">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-sm-3 m-t-10 m-b-10  ">';
         html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-1 text-right m-t-25">';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
         html +='<button type="button" class="btn btn-white add-option" row-count="'+i+'" ><i class="fa fa-plus"></i></button>';
         html +='</div>';
         html +='</div>';
@@ -1729,7 +1729,8 @@ $('.add-question').click(function (event) {
         $(".question:last").find(".delete-question").removeClass("hidden");
 
         html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId[]" value="">';
-        html +='<div class="col-sm-3 m-t-25 ">';
+        html +='<div class="col-md-12 questionHead">';
+        html +='<div class="col-sm-3 m-t-15 m-b-15">';
         html +='<select name="questionType[]" class="select2-container select2 form-control">';
         html +='<option value="">Select Question Type</option>';
         html +='<option value="single-choice"> Single-choice</option>';
@@ -1739,15 +1740,16 @@ $('.add-question').click(function (event) {
         html +='<option value="weight"> Weight </option>';
         html +='</select>';
         html +='</div>';
-        html +='<div class="col-sm-2 m-t-25 ">';
+        html +='<div class="col-sm-2 m-t-15 m-b-15">';
         html +='<input name="title[]" id="title" type="text"   placeholder="Enter Title" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-6 m-t-25 ">';
+        html +='<div class="col-sm-6 m-t-15 m-b-15">';
         html +='<input name="question[]" id="question" type="text"   placeholder="Enter Question" class="form-control" >';
         html +='</div> ';
 
-        html +='<div class="col-sm-1 text-right m-t-25 del-question-blk">';
+        html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
         html +='<button type="button" class="btn btn-white delete-question hidden"><i class="fa fa-trash"></i></button>';
+        html +='</div>';
         html +='</div>';
         html +='</div>';
 
