@@ -115,8 +115,10 @@
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                       <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
 
-                      @if($action =="update-questionnaire-setting")
-                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default"> Next <i class="fa fa-forward" aria-hidden="true"></i></button></a>
+                      @if($settings['status'] =="published")
+                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnaireId ) }}"><button type="button" class="btn btn-default"> Questions <i class="fa fa-forward" aria-hidden="true"></i></button></a>
+                      @elseif($action =="update-questionnaire-setting")
+                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default"> Configure Questions <i class="fa fa-forward" aria-hidden="true"></i></button></a>
                       @endif
                     </div>
                   </div>

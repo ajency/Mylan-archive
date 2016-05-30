@@ -1713,9 +1713,16 @@ $('.add-question').click(function (event) {
     var question = $(".question:last").find("input[name='question[]']").val();
     var title = $(".question:last").find("input[name='title[]']").val();
 
+    
+
     if(questionType=='')
     {
         alert("Please Enter Question Type");
+    }
+    else if(questionType=='input' && !validateInputOptions($(".question:last").find("select[name='questionType[]']")))
+    {
+        alert("please enter alteast one option and score");
+         
     }
     else if(title=='')
     {
@@ -1800,3 +1807,21 @@ $('.publish-questionnaire').click(function (event) {
     
 
 });
+
+function validateInputOptions(inputTypeObject)
+{
+    var i = $(inputTypeObject).closest(".question").attr("row-count"); 
+    var firstOption = $(inputTypeObject).closest(".question").find('input[name="option['+i+'][]"]').val();
+    var firstOptionScore = $(inputTypeObject).closest(".question").find('input[name="score['+i+'][]"]').val();
+
+    var flag = true;
+
+    if(firstOption=="" && firstOptionScore=="")
+     {  
+        flag = false;
+     }           
+    
+
+    return flag;
+     
+}

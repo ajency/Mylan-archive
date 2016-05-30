@@ -147,6 +147,7 @@ Route::delete( 'delete-question/{id}', 'Project\QuestionnaireController@deleteQu
 Route::delete( 'delete-option/{id}', 'Project\QuestionnaireController@deleteOption' );
 Route::get( '/order-questions/{id}', 'Project\QuestionnaireController@getQuestionsOrder' );
 Route::post( '/order-questions/{id}', 'Project\QuestionnaireController@setQuestionsOrder' );
+Route::get( '/questions-summary/{id}', 'Project\QuestionnaireController@getQuestionsSummary' );
 
 Route::get( 'changepassword', 'Project\UserController@changePassword' );
 Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );

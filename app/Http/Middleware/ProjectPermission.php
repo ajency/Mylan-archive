@@ -64,6 +64,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/delete-question/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/delete-option/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/order-questions/{id}'=>['view','edit'],
+                        '{hospitalslug}/{projectslug}/questions-summary/{id}'=>['view'],
 
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-devices'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view','edit'],

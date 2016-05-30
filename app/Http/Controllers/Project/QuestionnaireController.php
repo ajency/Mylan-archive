@@ -201,6 +201,7 @@ class QuestionnaireController extends Controller
 		  $settings['type'] = ''; 
 		  $settings['name'] = ''; 
 		  $settings['pauseProject'] = '';  
+		  $settings['status'] = '';  
 		  
 		  $action ="store-questionnaire-setting";
 		  if(!empty($questionnaire))
@@ -217,6 +218,7 @@ class QuestionnaireController extends Controller
 			$settings['type'] = $questionnaire->get('type');
 			$settings['name'] = $questionnaire->get('name');
 			$settings['pauseProject'] = ($questionnaire->get('pauseProject')==true)?'yes':'no';
+			$settings['status'] = $questionnaire->get('status');
 
 			$scheduleQry = new ParseQuery("Schedule");
 			$scheduleQry->equalTo("questionnaire",$questionnaire);
@@ -376,6 +378,60 @@ class QuestionnaireController extends Controller
 			abort(404);         
 		}
 		return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+	}
+
+	public function getQuestionsSummary($hospitalSlug,$projectSlug,$questionnaireId)
+	{
+		try
+		{
+			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+			$hospital = $hospitalProjectData['hospital'];
+			$logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+			$project = $hospitalProjectData['project'];
+			$projectId = intval($project['id']);
+
+			$questionnaireObj = new ParseQuery("Questionnaire");
+			$questionnaire = $questionnaireObj->get($questionnaireId);
+
+			$questionObjs = new ParseQuery("Questions");
+			$questionObjs->equalTo("questionnaire",$questionnaire);
+			$questionObjs->ascending("createdAt");
+			$questions = $questionObjs->find();
+
+			$questionsList = $this->getSequenceQuestions($questions,true);
+
+			$optionObjs = new ParseQuery("Options");
+			$optionObjs->containedIn("question",$questions);
+			$optionObjs->ascending("score");
+			$options = $optionObjs->find();
+
+			$optionsList = [];
+			foreach ($options as $option) {
+				$label = $option->get("label");
+				$score = $option->get("score");
+				$optionId = $option->getObjectId();
+				$questionId = $option->get("question")->getObjectId();
+
+				$optionsList[$questionId][] = ['optionId'=>$optionId, 'score'=>$score, 'label'=>$label];         
+			}
+
+		   
+		
+		} catch (\Exception $e) {
+			Log::error($e->getMessage());
+			abort(404);   
+		}      
+
+		
+
+		return view('project.questions-summary')->with('active_menu', 'settings')
+										->with('questionnaireId', $questionnaireId)
+										->with('hospital', $hospital)
+										->with('project', $project)
+										->with('optionsList', $optionsList)
+										->with('questionsList', $questionsList);
 	}
 
 	public function configureQuestions($hospitalSlug,$projectSlug,$questionnaireId)
@@ -659,10 +715,12 @@ class QuestionnaireController extends Controller
 			$questionIds = $request->input("questionId");
 			$submitType = $request->input("submitType");
 
+			$path="";
 			if($submitType=="publish")
 			{
 				$questionnaire->set("status","published");
 				$questionnaire->save();
+				$path= url($hospitalSlug .'/'. $projectSlug .'/questions-summary/'.$questionnaireId);
 			}
 			else
 			{
@@ -697,6 +755,7 @@ class QuestionnaireController extends Controller
 
 				$questionnaire->set("status","completed");
 				$questionnaire->save();
+				$path= url($hospitalSlug .'/'. $projectSlug .'/order-questions/'.$questionnaireId);
 			}
 			
 
@@ -707,7 +766,7 @@ class QuestionnaireController extends Controller
 		    abort(404);   
 		}  
 
-		  return redirect(url($hospitalSlug .'/'. $projectSlug .'/order-questions/'.$questionnaireId)); 
+		  return redirect($path); 
 	}
 
 }
