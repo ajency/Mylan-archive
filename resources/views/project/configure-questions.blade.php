@@ -36,6 +36,11 @@
             $i=0;
             ?>
             @foreach($questionsList as $questionId => $question)
+                <?php 
+                $isWeight = false;
+               if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
+                  $isWeight = true;
+                ?>
                 <div class="row question" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[]" value="{{ $questionId }}">
                    <div class="col-md-12 questionHead">
@@ -45,8 +50,8 @@
                           <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
                           <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
                           <option @if($question['type']=="input") selected @endif value="input"> Input</option>
+                          <option @if($question['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
                           <option @if($question['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
-                          <option @if($question['type']=="weight") selected @endif value="weight"> Weight </option>
                       </select>
                    </div>
                    <div class="col-sm-2 m-t-15">
@@ -61,7 +66,7 @@
                    </div>
                    <!-- options -->
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                    <div class="col-sm-8 col-sm-offset-2 question-options-block" >
+                    <div class="col-sm-8 col-sm-offset-2 question-options-block @if($isWeight) hidden @endif" >
                     @if(isset($optionsList[$questionId]))
                       @foreach($optionsList[$questionId] as $option)
                       <div class="row">
@@ -107,7 +112,7 @@
                       <option value="multi-choice">Multi-choice</option>
                       <option value="input"> Input</option>
                       <option value="descriptive"> Descriptive </option>
-                      <option value="weight"> Weight </option>
+                      <option value="input" data-value="weight"> Weight </option>
                   </select>
                </div>
                <div class="col-sm-2 m-t-15">

@@ -1759,14 +1759,14 @@ class PatientController extends Controller
             $answersQry->includeKey("question");
             $answersQry->equalTo("response", $response); 
             $answers = $answersQry->find(); 
-
+             
             foreach ($answers as   $answer) {
                 $answersId = $answer->getObjectId();
                 $questionId = $answer->get('question')->getObjectId();
                 $questionType = $answer->get('question')->get('type');
                 $optionId = '';
                 $label = '';
-                if($questionType!='descriptive')
+                if($questionType!='descriptive' && !is_null($answer->get('option')))
                 {
                     $optionId = $answer->get('option')->getObjectId();
                     $label = $answer->get('option')->get('label');
@@ -1866,7 +1866,7 @@ class PatientController extends Controller
 
     public function setPatientBaseLineScore(Request $request, $hospitalSlug ,$projectSlug ,$id)
     {
-        try{
+        // try{
         
  
             // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
@@ -1995,6 +1995,8 @@ class PatientController extends Controller
                 }
                 elseif($questionType[$questionId]=='input')
                 {
+                  if(is_array($answers))
+                  {
                     foreach ($answers as $optionId => $value) {
 
                         if($value!='')
@@ -2013,7 +2015,19 @@ class PatientController extends Controller
                         }
                         
                     }
+                  }
+                  else
+                  { 
+                      $answer = new ParseObject("Answer");
+                      $answer->setAssociativeArray("question", $questionObj);
+                      $answer->set("response", $response);
+                      $answer->set("patient", $referenceCode);
+                      $answer->set("value", $answers);
+                      $answer->set("project", $projectId);
+                      $bulkAnswerInstances[] = $answer;
+                  }
                 }
+                
             }
 
             $response->set("totalScore", $totalScore);
@@ -2026,11 +2040,11 @@ class PatientController extends Controller
             ParseObject::saveAll($bulkAnswerInstances);
             
             Session::flash('success_message','Patient baseline successfully created.');
-        } catch (\Exception $e) {
+        // } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
-        }
+        //     Log::error($e->getMessage());
+        //     abort(404);         
+        // }
  
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 

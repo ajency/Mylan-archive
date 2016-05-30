@@ -444,7 +444,7 @@ class QuestionnaireController extends Controller
 	public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
 
-	  try{
+	  // try{
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
@@ -455,8 +455,8 @@ class QuestionnaireController extends Controller
 
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
-			$previousQuestionObj = null;
-			$nextQuestionObj = null;
+			$previousQuestionObj = NULL;
+			$nextQuestionObj = NULL;
 
 			foreach ($questionsType as $key => $questionType) {
 		
@@ -479,7 +479,7 @@ class QuestionnaireController extends Controller
 					$questionObj->set('questionnaire',$questionnaire);
 					$questionObj->set("previousQuestion",$previousQuestionObj);
 
-					if($previousQuestionObj!=null)
+					if($previousQuestionObj!=NULL)
 					{
 						$prevQuestionObject = new ParseQuery("Questions");
 						$prevQuestionObj = $prevQuestionObject->get($previousQuestionObj->getObjectId());
@@ -529,10 +529,10 @@ class QuestionnaireController extends Controller
 				
 			}
 
-		 } catch (\Exception $e) {
-		  Log::error($e->getMessage());
-		  abort(404);   
-		} 
+		//  } catch (\Exception $e) {
+		//   Log::error($e->getMessage());
+		//   abort(404);   
+		// } 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
@@ -671,14 +671,14 @@ class QuestionnaireController extends Controller
 					$previous = ($key-1);
 					$next = ($key+1);
 
-					$previousQuestion = null;
+					$previousQuestion = NULL;
 					if(isset($questionIds[$previous]))
 					{
 						$previousQuestionObj = new ParseQuery("Questions");
 						$previousQuestion = $previousQuestionObj->get($questionIds[$previous]);
 					}
 
-					$nextQuestion = null;
+					$nextQuestion = NULL;
 					if(isset($questionIds[$next]))
 					{
 						$nextQuestionObj = new ParseQuery("Questions");

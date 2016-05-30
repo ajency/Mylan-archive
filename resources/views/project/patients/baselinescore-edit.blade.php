@@ -46,7 +46,7 @@
           $questionOptions=[];
           if($questions['type']!='descriptive')
           {
-            $questionOptions = $optionScore[$questionId];
+            $questionOptions = (isset($optionScore[$questionId]))?$optionScore[$questionId]:[];
             asort($questionOptions);
           }
           
@@ -60,25 +60,36 @@
                     @if($questions['type']=='input')
                     <div class="row">
                     <?php $i=1;?>
-                      @foreach($questionOptions as $optionId=>$score)
+                      @if(!empty($questionOptions))
+                        @foreach($questionOptions as $optionId=>$score)
+                          <?php 
+                            $value = '';
+                            $option = $optionsList[$questionId][$optionId];
+
+                            if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']))
+                                $value = $answersList[$questionId]['value'];
+                          ?>
+                          <div class="col-md-4">
+                             <label>{{ $option['label'] }}</label>
+                             <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control inputBox" type="text"  {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
+
+                          </div>
+                           <?php $i++;?>
+                        @endforeach
+                      @else
                         <?php 
-                          $value = '';
-                          $option = $optionsList[$questionId][$optionId];
-
-                          if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']))
-                              $value = $answersList[$questionId]['value'];
-                        ?>
+                             
+                            if((isset($answersList[$questionId]['optionId'])))
+                                $value = $answersList[$questionId]['value'];
+                          ?>
                         <div class="col-md-4">
-                           <label>{{ $option['label'] }}</label>
-                           <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control inputBox" type="text" pla {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
+                            <input name="question[{{ $questionId }}]" value="{{ $value }}" class="form-control inputBox" type="text"  {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
 
-                        </div>
-                         <?php $i++;?>
-                      @endforeach
+                          </div>
+                      @endif
                       
                     </div>
                      
-                      
                     @elseif($questions['type']=='single-choice')
 
                       <select name="question[{{ $questionId }}]" id="question_{{ $questionId }}" class="select2 form-control" data-parsley-required>

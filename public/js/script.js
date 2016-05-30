@@ -1575,25 +1575,7 @@ $('.question-list').on('change', 'select[name="questionType[]"]', function(event
     $(this).closest('.question').find('.question-options-block').remove(); 
     var html = '';
 
-    if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
-    {
-        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block">';
-        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
-        html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
-        html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
-        html +='</div> ';
-        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
-        html +='<button type="button" class="btn btn-white add-option"><i class="fa fa-plus"></i></button>';
-        html +='</div>';
-        html +='</div>';
-        html +='</div> ';
-
-       
-    }
-    else if($(this).val()=="weight")
+    if($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight")
     {
         html +='<div class="col-sm-8 col-sm-offset-2 question-options-block hidden">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
@@ -1633,6 +1615,24 @@ $('.question-list').on('change', 'select[name="questionType[]"]', function(event
 
 
         html +='</div>';
+    }
+    else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
+    {
+        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block">';
+        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
+        html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
+        html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
+        html +='</div>';
+        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
+        html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
+        html +='</div> ';
+        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
+        html +='<button type="button" class="btn btn-white add-option"><i class="fa fa-plus"></i></button>';
+        html +='</div>';
+        html +='</div>';
+        html +='</div> ';
+
+       
     }
     
     $(this).closest('.question').find('.questionHead').after(html);
@@ -1738,7 +1738,7 @@ $('.add-question').click(function (event) {
         html +='<option value="multi-choice">Multi-choice</option>';
         html +='<option value="input"> Input</option>';
         html +='<option value="descriptive"> Descriptive </option>';
-        html +='<option value="weight"> Weight </option>';
+        html +='<option value="input" data-value="weight"> Weight </option>';
         html +='</select>';
         html +='</div>';
         html +='<div class="col-sm-2 m-t-15 m-b-15">';
