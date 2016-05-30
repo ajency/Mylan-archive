@@ -444,7 +444,7 @@ class QuestionnaireController extends Controller
 	public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
 
-	  // try{
+	  try{
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
@@ -529,10 +529,10 @@ class QuestionnaireController extends Controller
 				
 			}
 
-		//  } catch (\Exception $e) {
-		//   Log::error($e->getMessage());
-		//   abort(404);   
-		// } 
+		 } catch (\Exception $e) {
+		  Log::error($e->getMessage());
+		  abort(404);   
+		} 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
@@ -553,7 +553,7 @@ class QuestionnaireController extends Controller
 				$question = $questionObj->get($questionId);
 
 				$optionObjs = new ParseQuery("Options");
-				$optionObjs->containedIn("question",$questions);
+				$optionObjs->equalTo("question",$question);
 				$options = $optionObjs->find();
 
 				if(!empty($options))
@@ -605,8 +605,8 @@ class QuestionnaireController extends Controller
 
 	public function getQuestionsOrder($hospitalSlug,$projectSlug,$questionnaireId)
 	{
-		// try
-		// {
+		try
+		{
 				$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
 				$hospital = $hospitalProjectData['hospital'];
@@ -626,10 +626,10 @@ class QuestionnaireController extends Controller
 				$questionsList = $this->getSequenceQuestions($questions,true);
 		  
 
-		// } catch (\Exception $e) {
-		//     Log::error($e->getMessage());
-		//     abort(404);   
-		// }      
+		} catch (\Exception $e) {
+		    Log::error($e->getMessage());
+		    abort(404);   
+		}      
 
 		
 
@@ -642,8 +642,8 @@ class QuestionnaireController extends Controller
 
 	public function setQuestionsOrder(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
-		// try
-		// {
+		try
+		{
 		 
 			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
@@ -657,43 +657,55 @@ class QuestionnaireController extends Controller
 			$questionnaire = $questionnaireObj->get($questionnaireId);
 
 			$questionIds = $request->input("questionId");
+			$submitType = $request->input("submitType");
 
-			foreach ($questionIds as $key=> $questionId) {
-				$previous = ($key-1);
-				$next = ($key+1);
-
-				$previousQuestion = null;
-				if(isset($questionIds[$previous]))
-				{
-					$previousQuestionObj = new ParseQuery("Questions");
-					$previousQuestion = $previousQuestionObj->get($questionIds[$previous]);
-				}
-
-				$nextQuestion = null;
-				if(isset($questionIds[$next]))
-				{
-					$nextQuestionObj = new ParseQuery("Questions");
-					$nextQuestion = $nextQuestionObj->get($questionIds[$next]);
-				}
-				 
-				$questionObj = new ParseQuery("Questions");
-				$question = $questionObj->get($questionId);
-
-				$question->set("nextQuestion",$nextQuestion);
-				$question->set("previousQuestion",$previousQuestion);
-
-				$question->save();
-
+			if($submitType=="publish")
+			{
+				$questionnaire->set("status","published");
+				$questionnaire->save();
 			}
+			else
+			{
 
+				foreach ($questionIds as $key=> $questionId) {
+					$previous = ($key-1);
+					$next = ($key+1);
 
-			$questionnaire->set("status","completed");
-			$questionnaire->save();
+					$previousQuestion = null;
+					if(isset($questionIds[$previous]))
+					{
+						$previousQuestionObj = new ParseQuery("Questions");
+						$previousQuestion = $previousQuestionObj->get($questionIds[$previous]);
+					}
 
-		// } catch (\Exception $e) {
-		//     Log::error($e->getMessage());
-		//     abort(404);   
-		// }  
+					$nextQuestion = null;
+					if(isset($questionIds[$next]))
+					{
+						$nextQuestionObj = new ParseQuery("Questions");
+						$nextQuestion = $nextQuestionObj->get($questionIds[$next]);
+					}
+					 
+					$questionObj = new ParseQuery("Questions");
+					$question = $questionObj->get($questionId);
+
+					$question->set("nextQuestion",$nextQuestion);
+					$question->set("previousQuestion",$previousQuestion);
+
+					$question->save();
+
+				}
+
+				$questionnaire->set("status","completed");
+				$questionnaire->save();
+			}
+			
+
+			
+
+		} catch (\Exception $e) {
+		    Log::error($e->getMessage());
+		    abort(404);   
+		}  
 
 		  return redirect(url($hospitalSlug .'/'. $projectSlug .'/order-questions/'.$questionnaireId)); 
 	}

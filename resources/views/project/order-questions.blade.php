@@ -51,10 +51,11 @@
         <div class="form-group">
           <div class="col-sm-10 text-center mri-submit">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+          <input type="hidden" value="order" name="submitType"/>
             
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default"> Previous <i class="fa fa-forward" aria-hidden="true"></i></button></a> 
             <button type="submit" class="btn btn-success">Save</button>
-            <a href="#"><button type="button" class="btn btn-default">  <i class="fa fa-check" aria-hidden="true"></i>Publish</button></a> 
+            <a href="#"><button type="button" class="btn btn-default publish-questionnaire" >  <i class="fa fa-check" aria-hidden="true"></i>Publish</button></a> 
           </div>
         </div>
 

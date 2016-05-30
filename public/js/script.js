@@ -1685,6 +1685,7 @@ $('.question-list').on('click', '.delete-option', function(event) {
     var Obj = $(this);
     var i = $(this).closest('.question').attr("row-count");
     var optionId = Obj.closest(".row").find('input[name="optionId['+i+'][]"]').val();
+    Obj.closest('div').append('<span class="cf-loader"></span>');
 
     if(optionId!='')
     {
@@ -1692,7 +1693,7 @@ $('.question-list').on('click', '.delete-option', function(event) {
             url: BASEURL + "/delete-option/" + optionId,
             type: "DELETE",
             success: function (response) {
-                 Obj.closest('.row').remove(); 
+                Obj.closest('.row').remove(); 
             }
         });
     }
@@ -1766,6 +1767,7 @@ $('.question-list').on('click', '.delete-question', function(event) {
     }
     var Obj = $(this);
     var questionId = Obj.closest(".question").find('input[name="questionId[]"]').val();
+    Obj.closest('div').append('<span class="cf-loader"></span>');
 
     if(questionId!='')
     {
@@ -1774,6 +1776,7 @@ $('.question-list').on('click', '.delete-question', function(event) {
             type: "DELETE",
             success: function (response) {
                  Obj.closest('.question').remove(); 
+
             }
         });
     }
@@ -1785,3 +1788,15 @@ $('.question-list').on('click', '.delete-question', function(event) {
 
 });
 
+$('.publish-questionnaire').click(function (event) { 
+    
+    if (confirm('Are you sure you want to publish this questionnaire ?') === false) {
+        return;
+    }
+     
+    $("input[name='submitType']").val('publish');
+    $('form').submit();
+     
+    
+
+});
