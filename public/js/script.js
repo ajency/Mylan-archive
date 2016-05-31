@@ -1720,11 +1720,6 @@ $('.add-question').click(function (event) {
     {
         alert("Please Enter Question Type");
     }
-    else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
-    {
-        alert("please enter alteast one option and score");
-         
-    }
     else if(title=='')
     {
         alert("Please Enter Title");
@@ -1732,6 +1727,11 @@ $('.add-question').click(function (event) {
     else if(question=='')
     {
         alert("Please Enter Question");
+    }
+    else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
+    {
+        alert("please enter alteast one option and score for question "+title);
+         
     }
     else
     {
@@ -1812,31 +1812,61 @@ $('.publish-questionnaire').click(function (event) {
 
 $('.save-questions').click(function (event) { 
 
-    var i = $(".question:last").attr("row-count");
-    var questionType = $(".question:last").find("select[name='questionType["+i+"]']").val();
-    var question = $(".question:last").find("input[name='question["+i+"]']").val();
-    var title = $(".question:last").find("input[name='title["+i+"]']").val();
+    var err=0;
+    $('.question-list').find('.questionType').each(function () {
 
-    if(questionType!='')
-    {
-        if(!validateInputOptions($(".question:last").find("select[name='questionType["+i+"]']")))
+        if($(this).val()!='')
         {
-            alert("please enter alteast one option and score");
-            return;
+            var i = $(this).closest(".question").attr("row-count");
+            var question = $(this).closest(".question").find("input[name='question["+i+"]']").val();
+            var title = $(this).closest(".question").find("input[name='title["+i+"]']").val();
+
+            
+            if(title=='')
+            {
+                alert("Please Enter Title");
+                err++;
+            }
+            else if(question=='')
+            {
+                alert("Please Enter Question");
+                err++;
+            }
+            else if(!validateInputOptions($(this)))
+            {
+                alert("please enter alteast one option and score for question "+title);
+                err++;
+            }
         }
-        else if(title=='')
-        {
-            alert("Please Enter Title");
-            return;
-        }
-        else if(question=='')
-        {
-            alert("Please Enter Question");
-            return;
-        }
-    }
+    });
+
+    
+    // var questionType = $(".question:last").find("select[name='questionType["+i+"]']").val();
+    
+
+    // if(questionType!='')
+    // {
+    //     if(!validateInputOptions($(".question:last").find("select[name='questionType["+i+"]']")))
+    //     {
+    //         alert("please enter alteast one option and score");
+    //         return;
+    //     }
+    //     else if(title=='')
+    //     {
+    //         alert("Please Enter Title");
+    //         return;
+    //     }
+    //     else if(question=='')
+    //     {
+    //         alert("Please Enter Question");
+    //         return;
+    //     }
+    // }
+    
+    if(err==0)   
+        $('form').submit();
+     
        
-    $('form').submit();
      
     
 
@@ -1846,12 +1876,12 @@ $('.save-questions').click(function (event) {
 function validateInputOptions(inputTypeObject)
 {
     var i = $(inputTypeObject).closest(".question").attr("row-count"); 
-    var firstOption = $(inputTypeObject).closest(".question").find('input[name="option['+i+'][]"]').val();
-    var firstOptionScore = $(inputTypeObject).closest(".question").find('input[name="score['+i+'][]"]').val();
+    var firstOption = $(inputTypeObject).closest(".question").find('input[name="option['+i+'][]"]').val();  
+    var firstOptionScore = $(inputTypeObject).closest(".question").find('input[name="score['+i+'][]"]').val();  
 
     var flag = true;
 
-    if(firstOption=="" && firstOptionScore=="")
+    if(firstOption=="" || firstOptionScore=="")
      {  
         flag = false;
      }           
