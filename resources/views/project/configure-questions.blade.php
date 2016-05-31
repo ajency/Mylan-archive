@@ -134,7 +134,7 @@
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">
             <button type="button" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i> Questionnaire Settings</button></a>
-            <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+            <button type="button" class="btn btn-primary save-questions"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default">Order Questions <i class="fa fa-forward" aria-hidden="true"></i></button></a>
           </div>
         </div>

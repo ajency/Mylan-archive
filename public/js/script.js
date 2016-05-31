@@ -1719,7 +1719,7 @@ $('.add-question').click(function (event) {
     {
         alert("Please Enter Question Type");
     }
-    else if(questionType=='input' && !validateInputOptions($(".question:last").find("select[name='questionType[]']")))
+    else if(!validateInputOptions($(".question:last").find("select[name='questionType[]']")))
     {
         alert("please enter alteast one option and score");
          
@@ -1807,6 +1807,38 @@ $('.publish-questionnaire').click(function (event) {
     
 
 });
+
+$('.save-questions').click(function (event) { 
+
+    var questionType = $(".question:last").find("select[name='questionType[]']").val();
+    var question = $(".question:last").find("input[name='question[]']").val();
+    var title = $(".question:last").find("input[name='title[]']").val();
+
+    if(questionType!='')
+    {
+        if(!validateInputOptions($(".question:last").find("select[name='questionType[]']")))
+        {
+            alert("please enter alteast one option and score");
+            return;
+        }
+        else if(title=='')
+        {
+            alert("Please Enter Title");
+            return;
+        }
+        else if(question=='')
+        {
+            alert("Please Enter Question");
+            return;
+        }
+    }
+       
+    $('form').submit();
+     
+    
+
+});
+
 
 function validateInputOptions(inputTypeObject)
 {
