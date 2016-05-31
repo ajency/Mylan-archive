@@ -452,7 +452,7 @@ class QuestionnaireController extends Controller
 			$questionObjs = new ParseQuery("Questions");
 			$questionObjs->equalTo("questionnaire",$questionnaire);
 			$questionObjs->ascending("createdAt");
-			$questions = $questionObjs->find();
+			$questions = $questionObjs->find(); 
 
 			// $questionsList = [];
 			// foreach ($questions as $question) {
@@ -479,8 +479,7 @@ class QuestionnaireController extends Controller
 
 				$optionsList[$questionId][] = ['optionId'=>$optionId, 'score'=>$score, 'label'=>$label];         
 			}
-
-		   
+			
 		
 		} catch (\Exception $e) {
 			Log::error($e->getMessage());
@@ -500,7 +499,7 @@ class QuestionnaireController extends Controller
 	public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
 
-	  // try{
+	  try{
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
@@ -585,10 +584,10 @@ class QuestionnaireController extends Controller
 				
 			}
 
-		//  } catch (\Exception $e) {
-		//   Log::error($e->getMessage());
-		//   abort(404);   
-		// } 
+		 } catch (\Exception $e) {
+		  Log::error($e->getMessage());
+		  abort(404);   
+		} 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
@@ -607,6 +606,22 @@ class QuestionnaireController extends Controller
 
 				$questionObj = new ParseQuery("Questions");
 				$question = $questionObj->get($questionId);
+
+				$nextQuestionObj = $question->get("nextQuestion");  
+				$previousQuestionObj = $question->get("previousQuestion");
+
+				//REST SEQUENCE
+				if($nextQuestionObj!=null)
+				{
+					$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
+					$nextQuestionObj->save();
+				}
+				
+				if($previousQuestionObj!=null)
+				{
+					$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
+					$previousQuestionObj->save();
+				}
 
 				$optionObjs = new ParseQuery("Options");
 				$optionObjs->equalTo("question",$question);

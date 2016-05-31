@@ -38,14 +38,15 @@
             @foreach($questionsList as $questionId => $question)
                 <?php 
                 $isWeight = false;
+      
                if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
                   $isWeight = true;
                 ?>
                 <div class="row question" row-count="{{ $i }}">
-                   <input type="hidden" name="questionId[]" value="{{ $questionId }}">
+                   <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
                    <div class="col-md-12 questionHead">
                    <div class="col-sm-3 m-t-15 ">
-                      <select name="questionType[]" class="select2-container select2 form-control">
+                      <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
                           <option selected value="">Select Question Type</option>
                           <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
                           <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
@@ -55,10 +56,10 @@
                       </select>
                    </div>
                    <div class="col-sm-2 m-t-15">
-                      <input name="title[]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" >
+                      <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" >
                    </div> 
                    <div class="col-sm-6 m-t-15">
-                      <input name="question[]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
+                      <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
                    </div>
                    <div class="col-sm-1 text-center m-t-15 del-question-blk">
                       <button type="button" class="btn btn-white delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
@@ -103,10 +104,10 @@
             @endforeach
             
             <div class="row question" row-count="{{ $i }}">
-               <input type="hidden" name="questionId[]" value="">
+               <input type="hidden" name="questionId[{{ $i }}]" value="">
                <div class="col-md-12 questionHead">
                <div class="col-sm-3 m-t-15">
-                  <select name="questionType[]" class="select2-container select2 form-control">
+                  <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
                       <option value="">Select Question Type</option>
                       <option value="single-choice"> Single-choice</option>
                       <option value="multi-choice">Multi-choice</option>
@@ -116,10 +117,10 @@
                   </select>
                </div>
                <div class="col-sm-2 m-t-15">
-                  <input name="title[]" id="title" type="text"   placeholder="Enter Title" class="form-control" >
+                  <input name="title[{{ $i }}]" id="title" type="text"   placeholder="Enter Title" class="form-control" >
                </div> 
                <div class="col-sm-6 m-t-15">
-                  <input name="question[]" id="question" type="text"   placeholder="Enter Question" class="form-control" >
+                  <input name="question[{{ $i }}]" id="question" type="text"   placeholder="Enter Question" class="form-control" >
                </div>
                <div class="col-sm-1 text-center m-t-15 del-question-blk">
                   <button type="button" class="btn btn-white delete-question hidden" object-id=""><i class="fa fa-trash"></i></button>

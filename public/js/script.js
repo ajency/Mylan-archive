@@ -1567,7 +1567,7 @@ $('.settings_block').on('click', '.deleteAlertSettings', function(event) {
  
 });
 
-$('.question-list').on('change', 'select[name="questionType[]"]', function(event) { 
+$('.question-list').on('change', '.questionType', function(event) { 
 
     var counter = $(this).closest(".question").attr("row-count");
     var i = parseInt(counter); 
@@ -1709,9 +1709,10 @@ $('.add-question').click(function (event) {
     
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
-    var questionType = $(".question:last").find("select[name='questionType[]']").val();
-    var question = $(".question:last").find("input[name='question[]']").val();
-    var title = $(".question:last").find("input[name='title[]']").val();
+    var j = $(".question:last").attr("row-count");
+    var questionType = $(".question:last").find("select[name='questionType["+j+"]']").val();
+    var question = $(".question:last").find("input[name='question["+j+"]']").val();
+    var title = $(".question:last").find("input[name='title["+j+"]']").val();
 
     
 
@@ -1719,7 +1720,7 @@ $('.add-question').click(function (event) {
     {
         alert("Please Enter Question Type");
     }
-    else if(!validateInputOptions($(".question:last").find("select[name='questionType[]']")))
+    else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
     {
         alert("please enter alteast one option and score");
          
@@ -1736,10 +1737,10 @@ $('.add-question').click(function (event) {
     {
         $(".question:last").find(".delete-question").removeClass("hidden");
 
-        html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId[]" value="">';
+        html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="col-md-12 questionHead">';
         html +='<div class="col-sm-3 m-t-15 m-b-15">';
-        html +='<select name="questionType[]" class="select2-container select2 form-control">';
+        html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType">';
         html +='<option value="">Select Question Type</option>';
         html +='<option value="single-choice"> Single-choice</option>';
         html +='<option value="multi-choice">Multi-choice</option>';
@@ -1749,10 +1750,10 @@ $('.add-question').click(function (event) {
         html +='</select>';
         html +='</div>';
         html +='<div class="col-sm-2 m-t-15 m-b-15">';
-        html +='<input name="title[]" id="title" type="text"   placeholder="Enter Title" class="form-control" >';
+        html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-6 m-t-15 m-b-15">';
-        html +='<input name="question[]" id="question" type="text"   placeholder="Enter Question" class="form-control" >';
+        html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" >';
         html +='</div> ';
 
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
@@ -1773,7 +1774,8 @@ $('.question-list').on('click', '.delete-question', function(event) {
         return;
     }
     var Obj = $(this);
-    var questionId = Obj.closest(".question").find('input[name="questionId[]"]').val();
+    var i = Obj.closest(".question").attr('row-count');
+    var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
     Obj.closest('div').append('<span class="cf-loader"></span>');
 
     if(questionId!='')
@@ -1810,13 +1812,14 @@ $('.publish-questionnaire').click(function (event) {
 
 $('.save-questions').click(function (event) { 
 
-    var questionType = $(".question:last").find("select[name='questionType[]']").val();
-    var question = $(".question:last").find("input[name='question[]']").val();
-    var title = $(".question:last").find("input[name='title[]']").val();
+    var i = $(".question:last").attr("row-count");
+    var questionType = $(".question:last").find("select[name='questionType["+i+"]']").val();
+    var question = $(".question:last").find("input[name='question["+i+"]']").val();
+    var title = $(".question:last").find("input[name='title["+i+"]']").val();
 
     if(questionType!='')
     {
-        if(!validateInputOptions($(".question:last").find("select[name='questionType[]']")))
+        if(!validateInputOptions($(".question:last").find("select[name='questionType["+i+"]']")))
         {
             alert("please enter alteast one option and score");
             return;
