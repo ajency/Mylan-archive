@@ -84,6 +84,23 @@
     });
   });
 
+  Parse.Cloud.define("importData", function(request, response) {
+    var results, saveArr;
+    results = request.params.results;
+    saveArr = [];
+    _.each(results, function(result) {
+      var Schedule, scheduleObj;
+      Schedule = Parse.Object.extend("Schedule");
+      scheduleObj = new Schedule(result);
+      return saveArr.push(scheduleObj);
+    });
+    return Parse.Object.saveAll(saveArr).then(function(Objs) {
+      return response.success(Objs);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
   cronjobRunTime = 60;
 
   Parse.Cloud.define("testNotifications", function(request, response) {
@@ -1375,7 +1392,7 @@
       return questionsQuery.find().then(function(questionsObjs) {
         var checkAll, checkIfFirstQuestion, questionObj;
         checkIfFirstQuestion = function(questionObj) {
-          if (_.isUndefined(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+          if (_.isNull(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
             return true;
           } else {
             return false;
@@ -1480,7 +1497,7 @@
       questionData['questionId'] = questionObj.id;
       questionData['questionType'] = questionObj.get('type');
       questionData['question'] = questionObj.get('question');
-      questionData['previous'] = !_.isUndefined(questionObj.get('previousQuestion')) ? true : false;
+      questionData['previous'] = !_.isNull(questionObj.get('previousQuestion')) ? true : false;
       questionData['options'] = [];
       questionData['hasAnswer'] = {};
       questionData['previousQuestionnaireAnswer'] = {};
@@ -1641,9 +1658,9 @@
     promise = new Parse.Promise();
     getRequiredQuestion = function() {
       var questionQuery;
-      if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+      if (!_.isNull(questionObj.get('nextQuestion'))) {
         return promise.resolve(questionObj.get('nextQuestion'));
-      } else if ((_.isUndefined(questionObj.get('nextQuestion'))) && !questionObj.get('isChild')) {
+      } else if ((_.isNull(questionObj.get('nextQuestion'))) && !questionObj.get('isChild')) {
         return promise.resolve({});
       } else {
         questionQuery = new Parse.Query('Questions');

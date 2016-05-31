@@ -163,7 +163,8 @@ firstQuestion = (questionnaireId) ->
 		questionsQuery.find()
 		.then (questionsObjs) ->
 			checkIfFirstQuestion = (questionObj) ->
-				if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+				# if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+				if _.isNull(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
 					true
 				else
 					false
@@ -260,7 +261,7 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		questionData['questionId'] = questionObj.id
 		questionData['questionType'] = questionObj.get('type')
 		questionData['question'] = questionObj.get('question')
-		questionData['previous'] =  if (!_.isUndefined(questionObj.get('previousQuestion'))) then true else false
+		questionData['previous'] =  if (!_.isNull(questionObj.get('previousQuestion'))) then true else false
 		questionData['options'] = []
 		questionData['hasAnswer'] = {}
 		questionData['previousQuestionnaireAnswer'] = {}
@@ -430,10 +431,10 @@ getNextQuestion = (questionObj, option) ->
 	promise = new Parse.Promise()
 
 	getRequiredQuestion = () ->
-		if !_.isUndefined questionObj.get('nextQuestion')
+		if !_.isNull questionObj.get('nextQuestion')
 			promise.resolve(questionObj.get('nextQuestion'))
 
-		else if (_.isUndefined questionObj.get('nextQuestion')) and !questionObj.get('isChild')
+		else if (_.isNull questionObj.get('nextQuestion')) and !questionObj.get('isChild')
 #			console.log "=========================================="
 #			console.log questionObj.get('isChild')
 #			console.log 
