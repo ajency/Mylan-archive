@@ -1239,9 +1239,15 @@ class PatientController extends Controller
                 $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
             }
 
+            $isQuestionnaireSet =false;
             $questionnaireQry = new ParseQuery("Questionnaire");
             $questionnaireQry->equalTo("project", $projectId);
-            $isQuestionnaireSet = $questionnaireQry->count();  
+            $questionnaire = $questionnaireQry->first();  
+            if(!empty($questionnaire))
+            {
+              $isQuestionnaireSet = ($questionnaire->get("status")=="published")?true:false;
+            }
+             
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
         } catch (\Exception $e) {
@@ -1693,7 +1699,12 @@ class PatientController extends Controller
     {
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
-        $questionnaire = $questionnaireQry->first();  
+        $questionnaire = $questionnaireQry->first();
+
+        if(!empty($questionnaire) && $questionnaire->get("status")!="published")
+        {
+          abort(404);
+        }
 
         $questions =[];
         $options =[];
