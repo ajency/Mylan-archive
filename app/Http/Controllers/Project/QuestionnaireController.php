@@ -454,8 +454,8 @@ class QuestionnaireController extends Controller
 
 	public function configureQuestions($hospitalSlug,$projectSlug,$questionnaireId)
 	{
-		// try
-		// {
+		try
+		{
 			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
 			$hospital = $hospitalProjectData['hospital'];
@@ -504,10 +504,10 @@ class QuestionnaireController extends Controller
 			}
 			
 		
-		// } catch (\Exception $e) {
-		// 	Log::error($e->getMessage());
-		// 	abort(404);   
-		// }      
+		} catch (\Exception $e) {
+			Log::error($e->getMessage());
+			abort(404);   
+		}      
 
 
 		return view('project.configure-questions')->with('active_menu', 'settings')
@@ -524,7 +524,7 @@ class QuestionnaireController extends Controller
 	public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
 
-	  // try{
+	  try{
 	  		// dd($request->all());
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
@@ -588,7 +588,7 @@ class QuestionnaireController extends Controller
 							$isChild = true;
 
 							$subQuestionObj = $this->saveQuestion($questionType, $questionTitle, $question, $isChild, $subquestionId, $questionnaire, $previousQuestionObj,false);
-							$subQuestionOjectId = $subQuestionObj->getObjectId(); 
+							$subQuestionObjectId = $subQuestionObj->getObjectId(); 
 
 							if(isset($options[$subquestionKey]))
 							{ 
@@ -606,7 +606,7 @@ class QuestionnaireController extends Controller
 							  	}
 							}
 
-							$optionQuestionIds[] =['optionId'=>$optionOjectId,'questionId'=>$subQuestionOjectId];
+							$optionQuestionIds[] =['optionId'=>$optionOjectId,'questionId'=>$subQuestionObjectId];
 
 						}
 						// ***
@@ -628,10 +628,10 @@ class QuestionnaireController extends Controller
 				
 			}
 
-		//  } catch (\Exception $e) {
-		//   Log::error($e->getMessage());
-		//   abort(404);   
-		// } 
+		 } catch (\Exception $e) {
+		  Log::error($e->getMessage());
+		  abort(404);   
+		} 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
@@ -650,6 +650,7 @@ class QuestionnaireController extends Controller
 			$questionObj = new ParseObject("Questions");
 			$questionObj->set('questionnaire',$questionnaire);
 			$questionObj->set("previousQuestion",$previousQuestionObj);
+			$questionObj->set('nextQuestion',NULL);
 
 			if($previousQuestionObj!=NULL && $isParent)
 			{

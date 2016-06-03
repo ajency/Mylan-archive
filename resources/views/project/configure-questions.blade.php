@@ -74,7 +74,7 @@
                       ?>
                       @foreach($optionsList[$questionId] as $option)
                       <div class="row">
-                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" value="{{ $option['optionId'] }}">
+                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
@@ -96,7 +96,10 @@
                           </div>
                         @endif
                         <div class="subQuestion-container">
-                        <!-- sub Question -->
+                        <!-- 
+
+                        *****sub Question***
+                         -->
                         @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
                           <?php
                           $subQuestionId = $question['condition'][$option['optionId']];
@@ -143,12 +146,12 @@
                                   ?>
                                   @foreach($optionsList[$subQuestionId] as $option)
                                   <div class="row">
-                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" value="{{ $option['optionId'] }}">
+                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
                                     <div class="col-sm-7 m-t-10 m-b-10">
-                                    <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
+                                    <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                                     </div>
                                     <div class="col-sm-3 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
+                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
                                     </div> 
                                      <div class="col-sm-2 text-center m-t-10 m-b-10">
                                       <button type="button" class="btn btn-white delete-option" counter-key="{{ $l }}"><i class="fa fa-trash"></i></button>
@@ -163,7 +166,7 @@
                                   @endforeach
                                 @endif
                                   <div class="row">
-                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" value="">
+                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
                                     <div class="col-sm-7 m-t-10 m-b-10 ">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                                     </div>
@@ -184,7 +187,9 @@
 
 
                         @endif
-                          <!-- /sub Question  -->
+                          <!-- 
+                          ****/sub Question ****
+                           -->
                         </div>
                       </div>
                       <?php 
@@ -193,7 +198,7 @@
                       @endforeach
                     @endif
                       <div class="row">
-                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" value="">
+                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                         <div class="col-sm-7 m-t-10 m-b-10 ">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
@@ -262,9 +267,7 @@
         </div>
 
         </form>
-                       
-                  
-                                   
+              
                      </div>
                   </div>
  

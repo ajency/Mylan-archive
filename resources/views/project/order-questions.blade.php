@@ -13,21 +13,20 @@
 
 @section('content')
 <!-- BEGIN PAGE TITLE -->
-<div>
-                    
-                     <div class="page-title">
-                        <h3><span class="semi-bold">Settings</span></h3>
-                     </div>
-                  </div>
+<div>                   
+   <div class="page-title">
+      <h3><span class="semi-bold">Settings</span></h3>
+   </div>
+</div>
                                    
                    
                           
-                           <div class="grid simple">
-                        <div class="grid-body no-border table-data">
-                           <br>
-                       <h3 class="">{{ $project['name'] }}</h3>
-                      
-                      <hr>
+    <div class="grid simple">
+      <div class="grid-body no-border table-data">
+             <br>
+         <h3 class="">{{ $project['name'] }}</h3>
+        
+        <hr>
           @include('admin.flashmessage')
         <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
           <div class="dd draggableList dark">
@@ -60,11 +59,9 @@
         </div>
 
         </form>
-                       
-                  
-                                   
-                     </div>
-                  </div>
+                           
+       </div>
+    </div>
  
 <!-- END PLACE PAGE CONTENT HERE -->
 <script type="text/javascript">

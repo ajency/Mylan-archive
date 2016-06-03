@@ -1892,10 +1892,10 @@ $('.publish-questionnaire').click(function (event) {
 $('.save-questions').click(function (event) { 
 
     var err=0;
-    $('.question-list').find('.questionType').each(function () {
+    $('.question-list').find('select').each(function () { 
 
         if($(this).val()!='')
-        {
+        { 
             var i = $(this).closest(".question").attr("row-count");
             var question = $(this).closest(".question").find("input[name='question["+i+"]']").val();
             var title = $(this).closest(".question").find("input[name='title["+i+"]']").val();
@@ -1954,9 +1954,9 @@ $('.save-questions').click(function (event) {
 
 function validateInputOptions(inputTypeObject)
 {
-    var i = $(inputTypeObject).closest(".question").attr("row-count"); 
-    var firstOption = $(inputTypeObject).closest(".question").find('input[name="option['+i+'][]"]').val();  
-    var firstOptionScore = $(inputTypeObject).closest(".question").find('input[name="score['+i+'][]"]').val();  
+    var i = $(inputTypeObject).closest(".question").attr("row-count");  
+    var firstOption = $(inputTypeObject).closest(".question").find('input[name="option['+i+'][0]"]').val();  
+    var firstOptionScore = $(inputTypeObject).closest(".question").find('input[name="score['+i+'][0]"]').val(); 
 
     var flag = true;
 
