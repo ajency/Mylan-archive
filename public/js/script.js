@@ -1578,36 +1578,36 @@ $('.question-list').on('change', '.questionType', function(event) {
     if($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight")
     {
         html +='<div class="col-sm-8 col-sm-offset-2 question-options-block hidden">';
-        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
+        html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
-        html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
+        html +='<input name="option['+i+'][0]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="1" class="form-control" >';
+        html +='<input name="score['+i+'][0]" id="question" type="hidden" placeholder="Enter score" value="1" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
 
 
-        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
+        html +='<div class="row"><input type="hidden" name="optionId['+i+'][1]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
-        html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="st" class="form-control" >';
+        html +='<input name="option['+i+'][1]" id="question" type="hidden" placeholder="Enter option" value="st" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="2" class="form-control" >';
+        html +='<input name="score['+i+'][1]" id="question" type="hidden" placeholder="Enter score" value="2" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
 
 
-        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
+        html +='<div class="row"><input type="hidden" name="optionId['+i+'][2]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
-        html +='<input name="option['+i+'][]" id="question" type="hidden" placeholder="Enter option" value="lb" class="form-control" >';
+        html +='<input name="option['+i+'][2]" id="question" type="hidden" placeholder="Enter option" value="lb" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][]" id="question" type="hidden" placeholder="Enter score" value="3" class="form-control" >';
+        html +='<input name="score['+i+'][2]" id="question" type="hidden" placeholder="Enter score" value="3" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
@@ -1619,16 +1619,30 @@ $('.question-list').on('change', '.questionType', function(event) {
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
         html +='<div class="col-sm-8 col-sm-offset-2 question-options-block">';
-        html +='<div class="row"><input type="hidden" name="optionId['+i+'][]" value="">';
+        html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
-        html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
+        html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
+        html +='<input name="score['+i+'][0]" id="question" type="text" placeholder="Enter score" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
-        html +='<button type="button" class="btn btn-white add-option"><i class="fa fa-plus"></i></button>';
-        html +='</div>';
+
+        if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
+        {
+            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
+            html +='<input type="checkbox" class="hasSubQuestion" name="hasSubQuestion['+i+'][0]">';
+            html +='</div>';
+            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
+            html +='</div>';
+        }
+        else
+        {
+            html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
+            html +='</div>';
+        }
+        html +='<div class="subQuestion-container"></div> ';
         html +='</div>';
         html +='</div> ';
 
@@ -1639,12 +1653,62 @@ $('.question-list').on('change', '.questionType', function(event) {
         
 });
 
+$('.question-list').on('click', '.hasSubQuestion', function(event) { 
+
+    var optionKey1 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
+    var optionKey2 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
+
+    if($(this).prop("checked") == true){
+        var counter = $('input[name="counter"]').val();
+        var i = parseInt(counter) + 1;
+
+        html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+        html +='<div class="col-md-12 questionHead">';
+        html +='<div class="col-sm-3 m-t-15 m-b-15"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
+        html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType">';
+        html +='<option value="">Select Question Type</option>';
+        html +='<option value="single-choice"> Single-choice</option>';
+        html +='<option value="multi-choice">Multi-choice</option>';
+        html +='<option value="input"> Input</option>';
+        html +='<option value="descriptive"> Descriptive </option>';
+        html +='<option value="input" data-value="weight"> Weight </option>';
+        html +='</select>';
+        html +='</div>';
+        html +='<div class="col-sm-2 m-t-15 m-b-15">';
+        html +='<input name="subquestionTitle['+i+']" id="subquestionTitle" type="text"   placeholder="Enter Title" class="form-control" >';
+        html +='</div> ';
+        html +='<div class="col-sm-6 m-t-15 m-b-15">';
+        html +='<input name="subquestion['+i+']" id="subquestion" type="text"   placeholder="Enter Question" class="form-control" >';
+        html +='</div> ';
+
+        html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
+        html +='<button type="button" class="btn btn-white delete-question hidden"><i class="fa fa-trash"></i></button>';
+        html +='</div>';
+        html +='</div>';
+        html +='</div>';
+
+        $('input[name="counter"]').val(i);
+    }
+    else
+    {
+        html ='';
+    }
+
+    $(this).closest('.row').find('.subQuestion-container').html(html);
+    
+    
+
+});
+
 $('.question-list').on('click', '.add-option', function(event) { 
     
     var counter = $(this).closest(".question").attr("row-count");
     var i = parseInt(counter);
     var question = $(this).closest(".row").find("input[name='option["+i+"][]']").val();
     var score = $(this).closest(".row").find("input[name='score["+i+"][]']").val();
+
+    var counterKey = $(this).attr("counter-key");
+    var j = parseInt(counterKey) + 1;
 
     if(question=='')
     {
@@ -1658,20 +1722,34 @@ $('.question-list').on('click', '.add-option', function(event) {
     {
         $(this).removeClass("add-option").addClass("delete-option"); 
         $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
-        html ='<div class="row"> <input type="hidden" name="optionId['+i+'][]" value="">';
+        html ='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
-        html +='<input name="option['+i+'][]" id="question" type="text" placeholder="Enter option" class="form-control" >';
+        html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10  ">';
-        html +='<input name="score['+i+'][]" id="question" type="text" placeholder="Enter score" class="form-control" >';
-        html +='</div> ';
-        html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
-        html +='<button type="button" class="btn btn-white add-option" row-count="'+i+'" ><i class="fa fa-plus"></i></button>';
-        html +='</div>';
-        html +='</div>';
+        html +='<input name="score['+i+']['+j+']" id="question" type="text" placeholder="Enter score" class="form-control" >';
         html +='</div> ';
 
-        $(this).closest('.question').find('.question-options-block').append(html);
+        if($(this).closest(".question").find(".hasSubQuestion").length)
+        {
+            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
+            html +='<input type="checkbox" class="hasSubQuestion" name="hasSubQuestion['+i+']['+j+']">';
+            html +='</div>';
+            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
+            html +='</div>';
+        }
+        else
+        {
+            html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
+            html +='</div>';
+        }
+
+        html +='<div class="subQuestion-container"></div> ';
+        html +='</div> ';
+
+        $(this).closest('.question-options-block').append(html);
     }
 
 });
@@ -1684,7 +1762,8 @@ $('.question-list').on('click', '.delete-option', function(event) {
 
     var Obj = $(this);
     var i = $(this).closest('.question').attr("row-count");
-    var optionId = Obj.closest(".row").find('input[name="optionId['+i+'][]"]').val();
+    var counterKey = $(this).attr("counter-key");
+    var optionId = Obj.closest(".row").find('input[name="optionId['+i+']['+counterKey+']"]').val();
     Obj.closest('div').append('<span class="cf-loader"></span>');
 
     if(optionId!='')
@@ -1735,9 +1814,9 @@ $('.add-question').click(function (event) {
     }
     else
     {
-        $(".question:last").find(".delete-question").removeClass("hidden");
+        $(".parentQuestion:last").find(".delete-parent-question").removeClass("hidden");
 
-        html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+        html ='<div class="row parentQuestion question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="col-md-12 questionHead">';
         html +='<div class="col-sm-3 m-t-15 m-b-15">';
         html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType">';
@@ -1757,7 +1836,7 @@ $('.add-question').click(function (event) {
         html +='</div> ';
 
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
-        html +='<button type="button" class="btn btn-white delete-question hidden"><i class="fa fa-trash"></i></button>';
+        html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
         html +='</div>';
         html +='</div>';

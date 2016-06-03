@@ -109,23 +109,33 @@ class QuestionnaireController extends Controller
 		return $questionId;
 	}
 
-	public function getSequenceQuestions($questions,$subQuestionsFlag=false)
+	public function getSequenceQuestions($questions,$subQuestionsFlag=false,$includeSubQuestion=true)
 	{
 
 		$questionsList = [];
 		$sequenceQuestions = [];
 		$subQuestions = [];
+		$questionConditions = [];
 		foreach ($questions as   $question) {
 			$questionId = $question->getObjectId();
 			$nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
 			$previousQuestionId = (!is_null($question->get('previousQuestion')))? $question->get('previousQuestion')->getObjectId():'';
+			
+			if(!is_null($question->get('condition')))
+			{
+				$conditions = $question->get('condition');
+				foreach ($conditions as $key => $condition) {
+					$questionConditions[$condition['optionId']] = $condition['questionId'];
+				}
+				
+			}  
 			
 			$questionType = $question->get('type');
 			$title = $question->get('title');
 			$name = $question->get('question');
 			$isChild = $question->get('isChild');
 			if(!$isChild)
-				$questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
+				$questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType,'condition'=>$questionConditions];
 			elseif($subQuestionsFlag)
 				$subQuestions[$previousQuestionId][$questionId] = ['previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
 
@@ -137,11 +147,19 @@ class QuestionnaireController extends Controller
 
 		$orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
 
+		 
+		$orderQuestions['parentQuestions'] = $orderQuestions;
+
 		if(!empty($subQuestions))
 		{
-			$orderQuestions = $this->addSubQuestionToList($orderQuestions,$subQuestions);
+			if($includeSubQuestion)
+				$orderQuestions = $this->addSubQuestionToList($orderQuestions,$subQuestions);
+			else
+			{
+				$orderQuestions['subQuestions'] = $subQuestions;
+			}
 		}
-		
+
 		return $orderQuestions;
 	}
 
@@ -436,8 +454,8 @@ class QuestionnaireController extends Controller
 
 	public function configureQuestions($hospitalSlug,$projectSlug,$questionnaireId)
 	{
-		try
-		{
+		// try
+		// {
 			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
 			$hospital = $hospitalProjectData['hospital'];
@@ -463,7 +481,12 @@ class QuestionnaireController extends Controller
 
 			//   $questionsList[$questionId] = ['question'=>$questionTxt, 'title'=>$title, 'type'=>$type];         
 			// }
-			$questionsList = $this->getSequenceQuestions($questions,true);
+ 
+			$questionsList = $this->getSequenceQuestions($questions,true,false);  
+
+			$subQuestions = (isset($questionsList['subQuestions'])) ? $questionsList['subQuestions']:[];  
+			$questionsList = (isset($questionsList['parentQuestions'])) ?$questionsList['parentQuestions']:[]; 
+
 
 			$optionObjs = new ParseQuery("Options");
 			$optionObjs->containedIn("question",$questions);
@@ -481,25 +504,28 @@ class QuestionnaireController extends Controller
 			}
 			
 		
-		} catch (\Exception $e) {
-			Log::error($e->getMessage());
-			abort(404);   
-		}      
+		// } catch (\Exception $e) {
+		// 	Log::error($e->getMessage());
+		// 	abort(404);   
+		// }      
 
-		
 
 		return view('project.configure-questions')->with('active_menu', 'settings')
 										->with('questionnaireId', $questionnaireId)
 										->with('hospital', $hospital)
 										->with('project', $project)
 										->with('optionsList', $optionsList)
+										->with('subQuestions', $subQuestions)
 										->with('questionsList', $questionsList);
 	}
+
+	//TODO : optimize code  
 
 	public function StoreQuestions(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
 
-	  try{
+	  // try{
+	  		// dd($request->all());
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
@@ -507,6 +533,10 @@ class QuestionnaireController extends Controller
 			$options = $request->input("option");
 			$optionIds = $request->input("optionId");
 			$scores = $request->input("score");
+			$optionKeys = $request->input("optionKeys");
+			$subquestionType = $request->input("subquestionType");
+			$subquestionTitle = $request->input("subquestionTitle");
+			$subquestion = $request->input("subquestion");
 
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
@@ -523,75 +553,142 @@ class QuestionnaireController extends Controller
 				if($questionType=="" || $title=="" || $question=="")
 					continue;
 
-				if($questionId !="")
-				{
-				  $questionObject = new ParseQuery("Questions");
-				  $questionObj = $questionObject->get($questionId);
-				}
-				else
-				{
-					$questionObj = new ParseObject("Questions");
-					$questionObj->set('questionnaire',$questionnaire);
-					$questionObj->set("previousQuestion",$previousQuestionObj);
-
-					if($previousQuestionObj!=NULL)
-					{
-						$prevQuestionObject = new ParseQuery("Questions");
-						$prevQuestionObj = $prevQuestionObject->get($previousQuestionObj->getObjectId());
-						$prevQuestionObj->set('nextQuestion',$questionObj);
-						$prevQuestionObj->save();
-					}
-					
-				}
-				
-				$questionObj->set("question",$question);
-				$questionObj->set('title',$title);
-				$questionObj->set('isChild',$isChild);
-				$questionObj->set('type',$questionType);
-				$questionObj->save();
+				$questionObj = $this->saveQuestion($questionType, $title, $question, $isChild, $questionId, $questionnaire, $previousQuestionObj);
 
 				$previousQuestionObj = $questionObj;
 
-				 
+				 //options
+				$optionQuestionIds =[];
 				if(isset($options[$key]))
 				{ 
 				  $questionOptions = $options[$key]; 
 				  $optionScores = $scores[$key];
 				  $optionId = $optionIds[$key];
 
-				  foreach ($questionOptions as $k => $option) {
-					if($option=="")
-					  continue;
+				  	foreach ($questionOptions as $k => $option)
+				  	{
+						if($option=="")
+						  continue;
 
-					if($optionId[$k] !="")
-					{
-					  $optionObject = new ParseQuery("Options");
-					  $optionObj = $optionObject->get($optionId[$k]);
-					}
-					else
-					{
-					  $optionObj = new ParseObject("Options");
-					  $optionObj->set("question",$questionObj);
-					}
-
-					$score = intval($optionScores[$k]);
+						$score = intval($optionScores[$k]);
 					
-					$optionObj->set('score',$score);
-					$optionObj->set('label',$option);
-					$optionObj->save();
-				  }
+						$optionObj = $this->saveOption($optionId[$k],$questionObj,$score,$option);
+						$optionOjectId = $optionObj->getObjectId();
+
+						//**SAVE SUB QUESTION ***
+						
+						if(isset($optionKeys[$key][$k]))
+						{
+							$subquestionKey = $optionKeys[$key][$k];
+
+							$questionType = $subquestionType[$subquestionKey];
+							$questionTitle = $subquestionTitle[$subquestionKey];
+							$question = $subquestion[$subquestionKey];
+							$subquestionId = $questionIds[$subquestionKey];
+							$isChild = true;
+
+							$subQuestionObj = $this->saveQuestion($questionType, $questionTitle, $question, $isChild, $subquestionId, $questionnaire, $previousQuestionObj,false);
+							$subQuestionOjectId = $subQuestionObj->getObjectId(); 
+
+							if(isset($options[$subquestionKey]))
+							{ 
+								$subQuestionOptions = $options[$subquestionKey]; 
+								$subQuestionOptionScores = $scores[$subquestionKey];
+								$subQuestionOptionId = $optionIds[$subquestionKey];
+
+							  	foreach ($subQuestionOptions as $sk => $subQuestionOption) {
+									if($subQuestionOption=="")
+									  continue;
+
+									$score = intval($subQuestionOptionScores[$sk]);
+								
+									$optionObj = $this->saveOption($subQuestionOptionId[$sk],$subQuestionObj,$score,$subQuestionOption);
+							  	}
+							}
+
+							$optionQuestionIds[] =['optionId'=>$optionOjectId,'questionId'=>$subQuestionOjectId];
+
+						}
+						// ***
+
+
+				  	}
 				}
+
+				/*Sub question condition
+				 [{"optionId":"ScCtxfHL5W","questionId":"iYycS8dwYj"}]
+				*/
+				 if(!empty($optionQuestionIds))
+				 {
+				 	$questionObj->setArray('condition',$optionQuestionIds);
+				 	$questionObj->save();
+				 }
+				 
+
 				
 			}
 
-		 } catch (\Exception $e) {
-		  Log::error($e->getMessage());
-		  abort(404);   
-		} 
+		//  } catch (\Exception $e) {
+		//   Log::error($e->getMessage());
+		//   abort(404);   
+		// } 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
 
 	} 
+
+	public function saveQuestion($questionType, $title, $question, $isChild, $questionId, $questionnaire, $previousQuestionObj, $isParent=true)
+	{
+		
+		if($questionId !="")
+		{
+		  $questionObject = new ParseQuery("Questions");
+		  $questionObj = $questionObject->get($questionId);
+		}
+		else
+		{
+			$questionObj = new ParseObject("Questions");
+			$questionObj->set('questionnaire',$questionnaire);
+			$questionObj->set("previousQuestion",$previousQuestionObj);
+
+			if($previousQuestionObj!=NULL && $isParent)
+			{
+				$prevQuestionObject = new ParseQuery("Questions");
+				$prevQuestionObj = $prevQuestionObject->get($previousQuestionObj->getObjectId());
+				$prevQuestionObj->set('nextQuestion',$questionObj);
+				$prevQuestionObj->save();
+			}
+			
+		}
+		
+		$questionObj->set("question",$question);
+		$questionObj->set('title',$title);
+		$questionObj->set('isChild',$isChild);
+		$questionObj->set('type',$questionType);
+		$questionObj->save();
+
+		return $questionObj;
+	}
+
+	public function saveOption($optionId,$questionObj,$score,$option)
+	{
+		if($optionId !="")
+		{
+		  $optionObject = new ParseQuery("Options");
+		  $optionObj = $optionObject->get($optionId);
+		}
+		else
+		{
+		  $optionObj = new ParseObject("Options");
+		  $optionObj->set("question",$questionObj);
+		}
+		
+		$optionObj->set('score',$score);
+		$optionObj->set('label',$option);
+		$optionObj->save();
+
+		return $optionObj;
+	}
 
 	public function deleteQuestion($hospitalSlug,$projectSlug,$questionId)
 	{
