@@ -724,15 +724,19 @@ class QuestionnaireController extends Controller
 		$previousQuestionObj = $question->get("previousQuestion");
 		$conditions = $question->get("condition");
 		$isChild = $question->get("isChild");
-
-		if(!$isChild && !empty($condition))
-		{
-			foreach ($conditions as $key => $condition) {
-				$subquestionId = $condition['questionId'];
-				$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
+		
+		if(!$isChild)
+		{  
+			if(!empty($conditions))
+			{
+				foreach ($conditions as $key => $condition) {
+					$subquestionId = $condition['questionId'];
+					$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
+				}
 			}
+			
 		}
-
+		 
 		//REST SEQUENCE
 		if($nextQuestionObj!=null)
 		{
@@ -764,24 +768,50 @@ class QuestionnaireController extends Controller
 
 	public function deleteOption($hospitalSlug,$projectSlug,$optionId)
 	{
-	  try{
+	  	try{
 
-		  $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+				$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-		  $hospital = $hospitalProjectData['hospital'];
-		  $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+				$hospital = $hospitalProjectData['hospital'];
+				$logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-		  $project = $hospitalProjectData['project'];
-		  $projectId = intval($project['id']);
+				$project = $hospitalProjectData['project'];
+				$projectId = intval($project['id']);
 
-		  $optionObject = new ParseQuery("Options");
-		  $optionObj = $optionObject->get($optionId);
-		  $optionObj->destroy();
+				$optionObject = new ParseQuery("Options");
+				$optionObject->includeKey("question");
+				$optionObj = $optionObject->get($optionId);
 
-		 } catch (\Exception $e) {
-			Log::error($e->getMessage());
-			abort(404);   
-		} 
+				$question = $optionObj->get('question'); 
+				$conditions = $question->get("condition");
+				$isChild = $question->get("isChild");
+
+				$updatedCondition = [];
+				if(!$isChild)
+				{  
+					if(!empty($conditions))
+					{
+						foreach ($conditions as $key => $condition) {
+							$subquestionId = $condition['questionId'];
+							$questionOptionId = $condition['optionId'];
+							if($optionId == $questionOptionId)
+								$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
+							else
+								$updatedCondition[]=$condition;
+						}
+
+						$question->setArray('condition',$updatedCondition);
+				 		$question->save();
+					}
+					
+				}
+	 
+				$optionObj->destroy();
+
+		 	} catch (\Exception $e) {
+				Log::error($e->getMessage());
+				abort(404);   
+			} 
 
 		return response()->json([
 					'code' => 'delete_option',
@@ -793,23 +823,23 @@ class QuestionnaireController extends Controller
 	{
 		try
 		{
-				$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
-				$hospital = $hospitalProjectData['hospital'];
-				$logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+			$hospital = $hospitalProjectData['hospital'];
+			$logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
-				$project = $hospitalProjectData['project'];
-				$projectId = intval($project['id']);
+			$project = $hospitalProjectData['project'];
+			$projectId = intval($project['id']);
 
-				$questionnaireObj = new ParseQuery("Questionnaire");
-				$questionnaire = $questionnaireObj->get($questionnaireId);
+			$questionnaireObj = new ParseQuery("Questionnaire");
+			$questionnaire = $questionnaireObj->get($questionnaireId);
 
-				$questionObjs = new ParseQuery("Questions");
-				$questionObjs->equalTo("questionnaire",$questionnaire);
-				$questionObjs->ascending("createdAt");
-				$questions = $questionObjs->find();
+			$questionObjs = new ParseQuery("Questions");
+			$questionObjs->equalTo("questionnaire",$questionnaire);
+			$questionObjs->ascending("createdAt");
+			$questions = $questionObjs->find();
 
-				$questionsList = $this->getSequenceQuestions($questions,false);
+			$questionsList = $this->getSequenceQuestions($questions,false);
 			 
 		  
 

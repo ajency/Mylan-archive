@@ -131,7 +131,7 @@
                                   <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" >
                                </div>
                                <div class="col-sm-1 text-center m-t-15 del-question-blk">
-                                  <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $subQuestionId }}"><i class="fa fa-trash"></i></button>
+                                  <button type="button" class="btn btn-white delete-question hidden" object-id="{{ $subQuestionId }}"><i class="fa fa-trash"></i></button>
                                </div>
                                </div>
                                <!-- options -->
