@@ -147,8 +147,8 @@ class QuestionnaireController extends Controller
 
 		$orderQuestions = (!empty($questionsList))? $this->orderQuestions($questionsList,$firstQuestionId,[]) :[];
 
-		 
-		$orderQuestions['parentQuestions'] = $orderQuestions;
+		if(!$includeSubQuestion) 
+			$orderQuestions['parentQuestions'] = $orderQuestions;
 
 		if(!empty($subQuestions))
 		{
@@ -701,37 +701,8 @@ class QuestionnaireController extends Controller
 				$project = $hospitalProjectData['project'];
 				$projectId = intval($project['id']);
 
-				$questionObj = new ParseQuery("Questions");
-				$question = $questionObj->get($questionId);
-
-				$nextQuestionObj = $question->get("nextQuestion");  
-				$previousQuestionObj = $question->get("previousQuestion");
-
-				//REST SEQUENCE
-				if($nextQuestionObj!=null)
-				{
-					$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
-					$nextQuestionObj->save();
-				}
+				$deleteQuestion = $this->deleteQuestionAndOptions($questionId);
 				
-				if($previousQuestionObj!=null)
-				{
-					$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
-					$previousQuestionObj->save();
-				}
-
-				$optionObjs = new ParseQuery("Options");
-				$optionObjs->equalTo("question",$question);
-				$options = $optionObjs->find();
-
-				if(!empty($options))
-				{
-					foreach ($options as $key => $option) {
-						$option->destroy();
-					}
-				}
-
-				$question->destroy();
 
 		 } catch (\Exception $e) {
 		  Log::error($e->getMessage());
@@ -743,6 +714,53 @@ class QuestionnaireController extends Controller
 					'message' => "question deleted",
 						], 203);
 	}
+
+	public function deleteQuestionAndOptions($questionId)
+	{
+		$questionObj = new ParseQuery("Questions");
+		$question = $questionObj->get($questionId);
+
+		$nextQuestionObj = $question->get("nextQuestion");  
+		$previousQuestionObj = $question->get("previousQuestion");
+		$conditions = $question->get("condition");
+		$isChild = $question->get("isChild");
+
+		if(!$isChild && !empty($condition))
+		{
+			foreach ($conditions as $key => $condition) {
+				$subquestionId = $condition['questionId'];
+				$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
+			}
+		}
+
+		//REST SEQUENCE
+		if($nextQuestionObj!=null)
+		{
+			$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
+			$nextQuestionObj->save();
+		}
+		
+		if($previousQuestionObj!=null)
+		{
+			$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
+			$previousQuestionObj->save();
+		}
+
+		$optionObjs = new ParseQuery("Options");
+		$optionObjs->equalTo("question",$question);
+		$options = $optionObjs->find();
+
+		if(!empty($options))
+		{
+			foreach ($options as $key => $option) {
+				$option->destroy();
+			}
+		}
+
+		$question->destroy();
+
+		return true;
+	}  
 
 	public function deleteOption($hospitalSlug,$projectSlug,$optionId)
 	{
@@ -791,7 +809,8 @@ class QuestionnaireController extends Controller
 				$questionObjs->ascending("createdAt");
 				$questions = $questionObjs->find();
 
-				$questionsList = $this->getSequenceQuestions($questions,true);
+				$questionsList = $this->getSequenceQuestions($questions,false);
+			 
 		  
 
 		} catch (\Exception $e) {
