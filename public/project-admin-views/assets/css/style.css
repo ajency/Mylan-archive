@@ -9357,16 +9357,32 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   margin: 0;
 }
 .question .question-options-block .subQuestion-row:last-child {
-  border: 1px solid #F1F1F1;
-  box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  border: 0;
+  box-shadow: none;
+}
+.question .question-options-block .opionsInnerchild {
+  padding: 0 15px;
+  border: 1px solid rgba(160, 160, 160, 0.23);
+  margin-bottom: 25px;
+}
+.question .question-options-block .opionsInnerchild .optionsDesc {
+  position: relative;
+  background: rgba(160, 160, 160, 0.23);
+}
+.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:before {
+  border-width: 10px;
+  margin-left: -10px;
+}
+.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:before,
+.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:after {
+  top: 100.87%;
 }
 .question .sub-question.sub-question ul.parsley-errors-list {
   margin-bottom: 15px;
 }
-.question .subQuestion-container {
-  width: 90%;
-  margin: 15px auto 0 auto;
+.question .subQuestion-container .subQuestion-row .sub-question {
+  background: transparent;
+  border-bottom: 2px solid #eee;
 }
 .questionActions {
   margin-top: 15px;

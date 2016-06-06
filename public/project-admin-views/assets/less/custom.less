@@ -1488,11 +1488,29 @@ ul.ui-multiselect-checkboxes{
 		}
 		.subQuestion-row{
 			&:last-child{
-				border: 1px solid #F1F1F1;
-    			box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
-    			margin-bottom: 30px;
+    			border: 0;
+    			box-shadow: none;
 			}
 		}
+		.opionsInnerchild{
+			padding: 0 15px;
+    		border: 1px solid rgba(160, 160, 160, 0.23);
+    		margin-bottom: 25px;
+    		.optionsDesc{
+    			position: relative;
+    			background: rgba(160, 160, 160, 0.23);
+    			&.arrow_box{
+    				&:before{
+    					border-width: 10px;
+    					margin-left: -10px;
+    				}
+    				&:before,&:after{
+    					top: 100.87%;
+    				}
+    			}
+    		}
+		}
+
 	}
 	.sub-question.sub-question{
 		ul.parsley-errors-list{
@@ -1500,8 +1518,12 @@ ul.ui-multiselect-checkboxes{
 		}			
 	}
 	.subQuestion-container{
-		width: 90%;
-    	margin: 15px auto 0 auto;
+		.subQuestion-row{
+			.sub-question{
+				background: transparent;
+				border-bottom: 2px solid #eee;
+			}
+		}    	
 	}
 }
 

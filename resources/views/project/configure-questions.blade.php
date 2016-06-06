@@ -69,14 +69,15 @@
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                    <div class="row">
                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10 question-options-block m-t-15 @if($isWeight) hidden @endif" >
+                    <div class="col-sm-10 question-options-block m-t-20 @if($isWeight) hidden @endif" >
                     @if(isset($optionsList[$questionId]))
                       <?php 
                       $j=0;
                       ?>
                       @foreach($optionsList[$questionId] as $option)
-                      <div class="option-block">
-                      <div class="row test">
+                      <div class="option-block opionsInnerchild">
+                      <div class="row">
+                      <div class="optionsDesc arrow_box">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
@@ -100,7 +101,8 @@
                           <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
                           </div>
                         @endif
-                        
+                        <div class="clearfix"></div>
+                        </div>
                       </div>
 
                       <div class="subQuestion-container">
@@ -124,7 +126,7 @@
 
                             <div class="row question subQuestion-row" row-count="{{ $k }}">
                                <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
-                               <div class="col-md-12 questionHead sub-question arrow_box">
+                               <div class="col-md-12 questionHead sub-question">
                                <div class="col-sm-3 m-t-15 ">
                                   <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
                                   <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType">
@@ -206,8 +208,9 @@
                       ?>
                       @endforeach
                     @endif
-                    <div class="option-block">
+                    <div class="option-block opionsInnerchild">
                       <div class="row">
+                        <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                         <div class="col-sm-7 m-t-10 m-b-10 ">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
@@ -227,8 +230,8 @@
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
                           </div>
                         @endif
-                        
-                        
+                        <div class="clearfix"></div>
+                        </div>
                       </div>
                         <div class="subQuestion-container"></div>
                     </div>
