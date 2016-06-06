@@ -116,22 +116,20 @@ class ProjectController extends Controller
           $responseCacheKey = "projectResponses_".$projectId;
           $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
-          //if cache data exist for project 
-          if (Cache::has($responseCacheKey)) {
-              $cacheProjectResponses =  Cache::get($responseCacheKey); 
+          //if cache data exist for project       
 
-              //if cache data exist for required date period 
-              if(isset($cacheProjectResponses[$cacheDateKey]))
-              {
+            if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
+                $cacheProjectResponses =  Cache::get($responseCacheKey); 
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
                 $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
+ 
 
-              }
-              else
-              {
+             }
+            else
+            {
                 $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-            
+                
                 $responseCount = $this->getProjectResponseCounts($projectResponses);
                 $cacheProjectResponses[$cacheDateKey]['responseCount'] = $responseCount;
                 
@@ -144,85 +142,52 @@ class ProjectController extends Controller
                 $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
                 $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
 
-                Cache:: forever($responseCacheKey, $cacheProjectResponses);
-              }
-
-          }
-          else
-          {
-            $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
-            
-            $responseCount = $this->getProjectResponseCounts($projectResponses);
-            $cacheProjectResponses[$cacheDateKey]['responseCount'] = $responseCount;
-            
-            //red flags,amber flags ,unreviwed submission , submission
-            $projectFlagsChart = $this->projectFlagsChart($projectResponses);
-            $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'] = $projectFlagsChart;
-
-             //patient completed  and late submissions 
-            $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
-            $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
-            $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
-
-            //store cache data
-            Cache:: forever($responseCacheKey, $cacheProjectResponses); 
-          } 
+                //store cache data
+                Cache:: forever($responseCacheKey, $cacheProjectResponses); 
+            } 
           
-          
-          // CACHE PATIENT SUMMARY
-          $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-          if (Cache::has($patientsSummaryCacheKey)) {
-              $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
-              if(isset($cachePatientsSummary[$cacheDateKey]))
-              {
+            // CACHE PATIENT SUMMARY
+            $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+            if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
+                $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
                 $patientsSummary = $cachePatientsSummary[$cacheDateKey];
-              }
-              else
-              {
+                  
+            }
+            else
+            {
                 $patientController = new PatientController();
                 $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
-                Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary);
-              }
+                Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
+            } 
 
-          }
-          else
-          {
-            $patientController = new PatientController();
-            $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
-            $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
-            Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
-          } 
-
-          $patientResponses = $patientsSummary['patientResponses'];
-          $patientSortedData = $patientsSummary['patientSortedData'];
-          $totalSubmissionCount = $responseCount['totalSubmissionCount'];
+            $patientResponses = $patientsSummary['patientResponses'];
+            $patientSortedData = $patientsSummary['patientSortedData'];
+            $totalSubmissionCount = $responseCount['totalSubmissionCount'];
    
-          $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+            $patientSortedData = array_slice($patientSortedData, 0, 5, true);
 
                               
           // CACHE PATIENT ALERTS AND NOTIFICATION
-          $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-          if (Cache::has($patientsAlertsCacheKey)) {
+            $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+            if (Cache::has($patientsAlertsCacheKey)) {
 
-            $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+                $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
+                $projectAlerts = $cachePatientsAlerts['ALERTS'];
+                $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
 
-            $projectAlerts = $cachePatientsAlerts['ALERTS'];
-            $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
+            }
+            else
+            {
+                $cond=['cleared'=>false];
+                $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
+                $subCond=['referenceType'=>"Response"];
+                $submissionNotifications = $this->getProjectAlerts($projectId,5,0,[],$subCond); 
 
-          }
-          else
-          {
-            
-            $cond=['cleared'=>false];
-            $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-            $subCond=['referenceType'=>"Response"];
-            $submissionNotifications = $this->getProjectAlerts($projectId,5,0,[],$subCond); 
-
-            $cachePatientsAlerts['ALERTS'] = $projectAlerts;
-            $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
-            Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-          } 
+                $cachePatientsAlerts['ALERTS'] = $projectAlerts;
+                $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
+                Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
+            } 
 
         } 
         catch (\Exception $e) {
