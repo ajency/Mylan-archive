@@ -44,7 +44,7 @@
                 ?>
                 <div class="row question parentQuestion" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                   <div class="col-md-12 questionHead arrow_box">
+                   <div class="col-md-12 questionHead @if(!$isWeight && $question['type']=='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
                       <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
                           <option selected value="">Select Question Type</option>
@@ -260,7 +260,7 @@
                </div>
             </div>
           </div>
-        </div>
+  </div>
         <input type="hidden" name="counter" id="counter" value="{{ $i }}">
         <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">

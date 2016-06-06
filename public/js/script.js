@@ -1697,6 +1697,8 @@ $('.question-list').on('click', '.hasSubQuestion', function(event) {
         html ='';
     }
 
+    alert(html)
+
     $(this).closest('.row').find('.subQuestion-container').html(html);
     
     
