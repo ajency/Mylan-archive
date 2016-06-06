@@ -1972,3 +1972,16 @@ function validateInputOptions(inputTypeObject)
     return flag;
      
 }
+
+
+// Ios switch
+
+$(function(){
+
+var elem = document.querySelector('.js-switch');
+var init = new Switchery(elem, { color: '#0aa699', size: 'small' });
+
+});
+
+
+

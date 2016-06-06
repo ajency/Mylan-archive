@@ -84,10 +84,11 @@
                         <input name="score[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
                         </div> 
                         @if($question['type']=="single-choice")
-                          <div class="col-sm-1 text-center m-t-10 m-b-10">
-                          <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          <div class="col-sm-1 text-center m-t-15 m-b-15">
+                          <input type="checkbox" class="js-switch" @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif />
+                          <!-- <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
-                          >
+                          > -->
                           </div>
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
                           <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
@@ -192,7 +193,7 @@
                           ****/sub Question ****
                            -->
                         </div>
-                        
+
                         <!-- <hr class="customHR"> -->
 
 
