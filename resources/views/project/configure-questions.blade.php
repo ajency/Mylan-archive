@@ -75,9 +75,9 @@
                       $j=0;
                       ?>
                       @foreach($optionsList[$questionId] as $option)
-                      <div class="option-block opionsInnerchild">
+                      <div class="option-block">
                       <div class="row">
-                      <div class="optionsDesc arrow_box">
+                      <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
@@ -126,7 +126,7 @@
 
                             <div class="row question subQuestion-row" row-count="{{ $k }}">
                                <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
-                               <div class="col-md-12 questionHead sub-question">
+                               <div class="col-md-12 questionHead sub-question arrow_box-top">
                                <div class="col-sm-3 m-t-15 ">
                                   <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
                                   <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType">
@@ -208,7 +208,7 @@
                       ?>
                       @endforeach
                     @endif
-                    <div class="option-block opionsInnerchild">
+                    <div class="option-block">
                       <div class="row">
                         <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
