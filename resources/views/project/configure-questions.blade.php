@@ -75,6 +75,7 @@
                       $j=0;
                       ?>
                       @foreach($optionsList[$questionId] as $option)
+                      <div class="option-block">
                       <div class="row test">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
@@ -85,7 +86,8 @@
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-15 m-b-15">
-                          <input type="checkbox" class="js-switch" @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif />
+                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                           <!-- <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
                           > -->
@@ -102,6 +104,7 @@
                       </div>
 
                       <div class="subQuestion-container">
+
                         <!-- 
 
                         *****sub Question***
@@ -193,7 +196,7 @@
                           ****/sub Question ****
                            -->
                         </div>
-
+                      </div>
                         <!-- <hr class="customHR"> -->
 
 
@@ -203,6 +206,7 @@
                       ?>
                       @endforeach
                     @endif
+                    <div class="option-block">
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                         <div class="col-sm-7 m-t-10 m-b-10 ">
@@ -213,7 +217,7 @@
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
-                          <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
+                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
                           </div>
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
@@ -224,8 +228,10 @@
                           </div>
                         @endif
                         
-                        <div class="subQuestion-container"></div>
+                        
                       </div>
+                        <div class="subQuestion-container"></div>
+                    </div>
                       </div> 
                     @endif
                     <div class="col-sm-1"></div>

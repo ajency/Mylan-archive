@@ -1621,7 +1621,9 @@ $('.question-list').on('change', '.questionType', function(event) {
     }
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
-        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block">';
+        html +='<div class="col-sm-1"></div>';
+        html +='<div class="col-sm-10 m-t-15 question-options-block">';
+        html +='<div class="option-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
         html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" >';
@@ -1633,7 +1635,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
         {
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
-            html +='<input type="checkbox" class="hasSubQuestion" name="hasSubQuestion['+i+'][0]">';
+            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]">';
             html +='</div>';
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
             html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
@@ -1645,9 +1647,13 @@ $('.question-list').on('change', '.questionType', function(event) {
             html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
-        html +='<div class="subQuestion-container"></div> ';
+        
         html +='</div>';
+        html +='<div class="subQuestion-container"></div> ';
         html +='</div> ';
+        html +='</div> ';
+        html +='<div class="col-sm-1"></div>';
+
 
        
     }
@@ -1656,7 +1662,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         
 });
 
-$('.question-list').on('click', '.hasSubQuestion', function(event) { 
+$('.question-list').on('change', '.hasSubQuestion', function(event) { 
 
     var optionKey1 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
     var optionKey2 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
@@ -1697,9 +1703,7 @@ $('.question-list').on('click', '.hasSubQuestion', function(event) {
         html ='';
     }
 
-    alert(html)
-
-    $(this).closest('.row').find('.subQuestion-container').html(html);
+    $(this).closest('.option-block').find('.subQuestion-container').html(html);
     
     
 
@@ -1727,7 +1731,8 @@ $('.question-list').on('click', '.add-option', function(event) {
     {
         $(this).removeClass("add-option").addClass("delete-option"); 
         $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
-        html ='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
+        html ='<div class="option-block">';
+        html +='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
@@ -1738,7 +1743,7 @@ $('.question-list').on('click', '.add-option', function(event) {
         if($(this).closest(".question").find(".hasSubQuestion").length)
         {
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
-            html +='<input type="checkbox" class="hasSubQuestion" name="hasSubQuestion['+i+']['+j+']">';
+            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+']['+j+']">';
             html +='</div>';
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
             html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
@@ -1751,6 +1756,7 @@ $('.question-list').on('click', '.add-option', function(event) {
             html +='</div>';
         }
 
+        html +='</div> ';
         html +='<div class="subQuestion-container"></div> ';
         html +='</div> ';
 
