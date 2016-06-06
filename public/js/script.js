@@ -1577,7 +1577,9 @@ $('.question-list').on('change', '.questionType', function(event) {
 
     if($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight")
     {
-        html +='<div class="col-sm-8 col-sm-offset-2 question-options-block hidden">';
+        
+        html +='<div class="col-sm-1"></div>';
+        html +='<div class="col-sm-10 question-options-block m-t-15 hidden">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][0]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
@@ -1588,6 +1590,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
         html +='</div>';
         html +='</div>';
+        html +='<div class="col-sm-1"></div>';
 
 
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][1]" value="">';

@@ -1486,6 +1486,22 @@ ul.ui-multiselect-checkboxes{
 				margin: 0;
 			}
 		}
+		.subQuestion-row{
+			&:last-child{
+				border: 1px solid #F1F1F1;
+    			box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
+    			margin-bottom: 30px;
+			}
+		}
+	}
+	.sub-question.sub-question{
+		ul.parsley-errors-list{
+			margin-bottom: 15px;
+		}			
+	}
+	.subQuestion-container{
+		width: 90%;
+    	margin: 15px auto 0 auto;
 	}
 }
 
@@ -1497,6 +1513,34 @@ ul.ui-multiselect-checkboxes{
 }
 
 
+.arrow_box {
+	&:after,&:before{
+		top: 100%;
+		left: 50%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;	
+	}
+	&:after{
+		border-color: rgba(136, 183, 213, 0);
+		border-width: 10px;
+		margin-left: -10px;		
+	}
+	&:before{
+		border-color: rgba(0, 0, 0, 0);
+		border-top-color: rgba(160, 160, 160, 0.23);
+		border-width: 13px;
+		margin-left: -13px;		
+	}
+}
+
+// .customHR{
+// 	margin: 20px -60px;
+//     border: 1px dashed rgba(221, 221, 221, 0.76);
+// }
 
 
 // Third form
@@ -1581,16 +1625,6 @@ ul.ui-multiselect-checkboxes{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.photographer-filters, .makeup-filter{
+		color: #fff;
+}

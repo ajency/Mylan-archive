@@ -44,7 +44,7 @@
                 ?>
                 <div class="row question parentQuestion" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                   <div class="col-md-12 questionHead">
+                   <div class="col-md-12 questionHead arrow_box">
                    <div class="col-sm-3 m-t-15 ">
                       <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
                           <option selected value="">Select Question Type</option>
@@ -67,13 +67,15 @@
                    </div>
                    <!-- options -->
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                    <div class="col-sm-8 col-sm-offset-2 question-options-block @if($isWeight) hidden @endif" >
+                   <div class="row">
+                   <div class="col-sm-1"></div>
+                    <div class="col-sm-10 question-options-block m-t-15 @if($isWeight) hidden @endif" >
                     @if(isset($optionsList[$questionId]))
                       <?php 
                       $j=0;
                       ?>
                       @foreach($optionsList[$questionId] as $option)
-                      <div class="row">
+                      <div class="row test">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
@@ -95,7 +97,10 @@
                           <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
                           </div>
                         @endif
-                        <div class="subQuestion-container">
+                        
+                      </div>
+
+                      <div class="subQuestion-container">
                         <!-- 
 
                         *****sub Question***
@@ -113,9 +118,9 @@
                          }
                           ?>
 
-                            <div class="row question" row-count="{{ $k }}">
+                            <div class="row question subQuestion-row" row-count="{{ $k }}">
                                <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
-                               <div class="col-md-12 questionHead">
+                               <div class="col-md-12 questionHead sub-question arrow_box">
                                <div class="col-sm-3 m-t-15 ">
                                   <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
                                   <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType">
@@ -139,7 +144,7 @@
                                </div>
                                <!-- options -->
                                @if($subQuestion['type']=="single-choice" || $subQuestion['type']=="multi-choice" || $subQuestion['type']=="input")
-                                <div class="col-sm-8 col-sm-offset-2 question-options-block @if($isWeight) hidden @endif" >
+                                <div class="col-sm-8 col-sm-offset-2 m-t-15 question-options-block @if($isWeight) hidden @endif" >
                                 @if(isset($optionsList[$subQuestionId]))
                                   <?php 
                                   $l=0;
@@ -182,16 +187,16 @@
                                 @endif
                                 <!--  -->
                           </div>
-
-
-
-
                         @endif
                           <!-- 
                           ****/sub Question ****
                            -->
                         </div>
-                      </div>
+                        
+                        <!-- <hr class="customHR"> -->
+
+
+
                       <?php 
                       $j++;
                       ?>
@@ -222,6 +227,8 @@
                       </div>
                       </div> 
                     @endif
+                    <div class="col-sm-1"></div>
+                    </div>
                     <!--  -->
               </div>
            <?php 
