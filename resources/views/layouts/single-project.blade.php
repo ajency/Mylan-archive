@@ -27,7 +27,7 @@
       <link href="{{ asset('project-admin-views/assets/css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('project-admin-views/assets/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
       <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/jquery-nestable/jquery.nestable.min.css') }}">
-
+      <link rel="stylesheet" type="text/css" href="{{ asset('project-admin-views/assets/plugins/switchery/switchery.min.css') }}">
    
       <!-- END CSS TEMPLATE -->
       <script src="{{ asset('bower_components/jquery/dist/jquery.js') }}"></script>
@@ -350,6 +350,7 @@
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/common.js') }}"></script>
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/css.js') }}"></script>
        <script type="text/javascript" src="{{ asset('project-admin-views/assets/plugins/jquery-nestable/jquery.nestable.min.js') }}"></script>
+       <script src="{{ asset('project-admin-views/assets/plugins/switchery/switchery.min.js') }}" type="text/javascript"></script>
       
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
@@ -358,6 +359,7 @@
       <script src="{{ asset('js/tabs_accordian.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
+
 
  
 </html>
