@@ -9356,33 +9356,19 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .question .question-options-block .row ul.parsley-errors-list {
   margin: 0;
 }
+.question .question-options-block .option-block:last-child .row {
+  border-bottom: 0;
+}
 .question .question-options-block .subQuestion-row:last-child {
-  border: 0;
-  box-shadow: none;
-}
-.question .question-options-block .opionsInnerchild {
-  padding: 0 15px;
-  border: 1px solid rgba(160, 160, 160, 0.23);
-  margin-bottom: 25px;
-}
-.question .question-options-block .opionsInnerchild .optionsDesc {
-  position: relative;
-  background: rgba(160, 160, 160, 0.23);
-}
-.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:before {
-  border-width: 10px;
-  margin-left: -10px;
-}
-.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:before,
-.question .question-options-block .opionsInnerchild .optionsDesc.arrow_box:after {
-  top: 100.87%;
+  border-bottom: 1px solid #F1F1F1;
+  margin-bottom: 30px;
 }
 .question .sub-question.sub-question ul.parsley-errors-list {
   margin-bottom: 15px;
 }
-.question .subQuestion-container .subQuestion-row .sub-question {
-  background: transparent;
-  border-bottom: 2px solid #eee;
+.question .subQuestion-container {
+  width: 90%;
+  margin: 15px auto 0 auto;
 }
 .questionActions {
   margin-top: 15px;
@@ -9409,6 +9395,28 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .arrow_box:before {
   border-color: rgba(0, 0, 0, 0);
   border-top-color: rgba(160, 160, 160, 0.23);
+  border-width: 13px;
+  margin-left: -13px;
+}
+.arrow_box-top:after,
+.arrow_box-top:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.arrow_box-top:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-width: 10px;
+  margin-left: -10px;
+}
+.arrow_box-top:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: #E9E9E9;
   border-width: 13px;
   margin-left: -13px;
 }
