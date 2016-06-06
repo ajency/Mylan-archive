@@ -44,7 +44,7 @@
                 ?>
                 <div class="row question parentQuestion" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                   <div class="col-md-12 questionHead arrow_box">
+                   <div class="col-md-12 questionHead @if(!$isWeight && $question['type']=='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
                       <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
                           <option selected value="">Select Question Type</option>
@@ -69,13 +69,14 @@
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                    <div class="row">
                    <div class="col-sm-1"></div>
-                    <div class="col-sm-10 question-options-block m-t-15 m-b-15 @if($isWeight) hidden @endif" >
+                    <div class="col-sm-10 question-options-block m-t-15 @if($isWeight) hidden @endif" >
                     @if(isset($optionsList[$questionId]))
                       <?php 
                       $j=0;
                       ?>
                       @foreach($optionsList[$questionId] as $option)
-                      <div class="row">
+                      <div class="option-block">
+                      <div class="row test">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-7 m-t-10 m-b-10">
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
@@ -85,7 +86,8 @@
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-15 m-b-15">
-                          <input type="checkbox" class="js-switch" @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif />
+                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                           <!-- <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
                           > -->
@@ -102,6 +104,7 @@
                       </div>
 
                       <div class="subQuestion-container">
+
                         <!-- 
 
                         *****sub Question***
@@ -193,7 +196,7 @@
                           ****/sub Question ****
                            -->
                         </div>
-
+                      </div>
                         <!-- <hr class="customHR"> -->
 
 
@@ -203,6 +206,7 @@
                       ?>
                       @endforeach
                     @endif
+                    <div class="option-block">
                       <div class="row">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                         <div class="col-sm-7 m-t-10 m-b-10 ">
@@ -213,7 +217,7 @@
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
-                          <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
+                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
                           </div>
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
@@ -224,8 +228,10 @@
                           </div>
                         @endif
                         
-                        <div class="subQuestion-container"></div>
+                        
                       </div>
+                        <div class="subQuestion-container"></div>
+                    </div>
                       </div> 
                     @endif
                     <div class="col-sm-1"></div>
@@ -261,7 +267,7 @@
                </div>
             </div>
           </div>
-        </div>
+  </div>
         <input type="hidden" name="counter" id="counter" value="{{ $i }}">
         <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
