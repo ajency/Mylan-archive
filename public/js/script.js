@@ -1659,6 +1659,18 @@ $('.question-list').on('change', '.questionType', function(event) {
     }
     
     $(this).closest('.question').find('.questionHead').after(html);
+    
+    if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
+    {
+
+        $('.js-switch').each(function() {  
+            if(_.isUndefined($(this).attr('data-switchery')))
+            {
+                var switchery = new Switchery(this, { color: '#0aa699', size: 'small' });
+            }
+             
+        });
+    }
         
 });
 
@@ -1761,6 +1773,18 @@ $('.question-list').on('click', '.add-option', function(event) {
         html +='</div> ';
 
         $(this).closest('.question-options-block').append(html);
+
+        if($(this).closest(".question").find(".hasSubQuestion").length)
+        {
+
+            $('.js-switch').each(function() {  
+                if(_.isUndefined($(this).attr('data-switchery')))
+                {
+                    var switchery = new Switchery(this, { color: '#0aa699', size: 'small' });
+                }
+                 
+            });
+        }
     }
 
 });
@@ -1980,9 +2004,6 @@ function validateInputOptions(inputTypeObject)
     return flag;
      
 }
-
-
-// Ios switch
 
 
 
