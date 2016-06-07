@@ -301,5 +301,5 @@ $(function(){
 
 });
   
-</script>>
+</script>
 @endsection
