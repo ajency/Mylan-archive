@@ -1684,7 +1684,7 @@ $('.question-list').on('change', '.hasSubQuestion', function(event) {
         var i = parseInt(counter) + 1;
 
         html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-        html +='<div class="col-md-12 questionHead">';
+        html +='<div class="col-md-12 questionHead sub-question arrow_box-top">';
         html +='<div class="col-sm-3 m-t-15 m-b-15"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
         html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType">';
         html +='<option value="">Select Question Type</option>';
