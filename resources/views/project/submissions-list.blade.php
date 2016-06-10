@@ -269,7 +269,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
 
  
 $(document).ready(function() {
-    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>);
+    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>,1);
 
       $('select[name="submissionStatus"]').change(function (event) { 
          $(".submissionFilter").removeClass('hidden');

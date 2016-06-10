@@ -1213,22 +1213,22 @@ function amchartsNoData(chart)
 }
 
 
-function drawPieChart(container,chartData)
+function drawPieChart(container,chartData,startDuration)
 {
     var chart = AmCharts.makeChart( container, {
-     "type": "pie",
-     "theme": "light",
-       "dataProvider": chartData,
-         "titleField": "title",
-         "valueField": "value",
-         "labelRadius": 5,
-
-         "radius": "36%",
-         "innerRadius": "60%",
-         "labelText": "[[title]]",
-         "export": {
-           "enabled": true
-         }
+        "type": "pie",
+        "theme": "light",
+        "dataProvider": chartData,
+        "titleField": "title",
+        "valueField": "value",
+        "labelRadius": 5,
+        "startDuration" : startDuration,
+        "radius": "36%",
+        "innerRadius": "60%",
+        "labelText": "[[title]]",
+        "export": {
+            "enabled": true
+        }
      } );
     
     pieChartNoData(chart); 

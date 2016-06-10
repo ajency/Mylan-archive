@@ -535,7 +535,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     //question chart
     shadedLineChartWithBaseLine(<?php echo $inputJson;?>,'{{$questionLabel}}',0,'questionChart','Submissions','Score');
  
-    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>);
+    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>),1;
         
     $('select[name="generateChart"]').change(function (event) { 
       if($(this).val()=='total_score')

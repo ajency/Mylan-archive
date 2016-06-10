@@ -260,7 +260,7 @@
             </div>
             <div class="clearfix"></div>
               <div class="container m-b-50">
-                 <div class="content">
+                 <div class="content" id="dashboardblock">
                    @yield('breadcrumb')
                    @yield('content')
                  </div>
@@ -349,9 +349,16 @@
    
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/common.js') }}"></script>
       <script type='text/javascript' src="{{ asset('project-admin-views/assets/js/css.js') }}"></script>
+
        <script type="text/javascript" src="{{ asset('project-admin-views/assets/plugins/jquery-nestable/jquery.nestable.min.js') }}"></script>
        <script src="{{ asset('project-admin-views/assets/plugins/switchery/switchery.min.js') }}" type="text/javascript"></script>
-      
+
+      <!-- html to pdf -->
+      <script type='text/javascript' src="{{ asset('js/htmltopdf/canvg.js') }}"></script>
+      <script type='text/javascript' src="{{ asset('js/htmltopdf/rgbcolor.js') }}"></script>
+      <script type='text/javascript' src="{{ asset('js/htmltopdf/html2canvas.js') }}"></script>
+      <script type='text/javascript' src="{{ asset('js/htmltopdf/jspdf.js') }}"></script>
+      <!-- html to pdf -->
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
 

@@ -270,7 +270,7 @@ $(document).ready(function() {
        format: 'dd-mm-yyyy'
    }); 
 
-   drawPieChart("piechart",<?php echo  $pieChartData; ?>);
+   drawPieChart("piechart",<?php echo  $pieChartData; ?>,1);
 }); 
 
 

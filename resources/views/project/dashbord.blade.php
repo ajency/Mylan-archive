@@ -16,13 +16,20 @@
                      <h1>Dashboard</h1>
                 </div>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-sm-3">
                   <div class="row">
                   @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
                      <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create') }}" class="btn btn-primary pull-right m-t-10"><i class="fa fa-plus"></i> Add Patient</a>
                   @endif
                   </div>
                   </div>
+                  <div class="col-sm-1">
+                  <div class="row">
+                     <a class="btn btn-primary pull-right m-t-10" id="btnSave"><i class="fa fa-print"></i> Print</a>
+                  </div>
+                  </div>
+
+            <div id="page1" class="print-pdf"> 
                   <div class="grid simple ">
                      <div class="grid-body no-border table-data grid-data-table">
                         <div class="row">
@@ -44,6 +51,7 @@
                         </div>
                      </div>
                   </div>
+ 
                   <div class="row">
             <div class="col-sm-6 ">
 <div class="tiles white">
@@ -216,11 +224,14 @@
                         </div>
          </div>
       </div>
-
+</div>
+<!-- /page 1 -->
 
 
 
                   <br>
+<!-- page 2 -->
+<div id="page2">
                   <div class="grid simple ">
                           <div class="grid-title no-border">
                             <div class="row health-tracker-grid">
@@ -249,6 +260,11 @@
                             @endif
                            </div>
                         </div>
+ </div>
+<!-- /page 2 -->    
+
+<!-- page 3 -->
+<div id="page3">
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
                         <h4>
@@ -389,6 +405,12 @@
                               </div>
                            </div>
                         </div>
+   </div>
+<!-- /page 3 -->  
+
+<!-- page 4 --> 
+ <div id="page4">
+
                   <div class="grid simple grid-table">
                            <div class="grid-title no-border">
                         <h4>
@@ -444,6 +466,12 @@
                               </div>
                            </div>
                         </div>
+
+   </div>
+<!-- /page 4 -->  
+
+<!-- page 5 --> 
+ <div id="page5">
                   <div class="row">
                      <div class="col-sm-12">
                         <div class="grid simple grid-table grid-table-sort">
@@ -583,7 +611,14 @@
                         </div>
                      </div>
                   </div>
+    </div>
+<!-- /page 5 -->  
  
+
+<!-- print pdf -->
+<div id="img-out"></div>
+<!-- /print pdf -->
+
 <script type="text/javascript">
   var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
   var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
@@ -593,9 +628,9 @@
 
        // submission chart
        var legends = {Baseline: "Baseline Flags",Previous: "Previous Flags"};
-        lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Project Submissions','Total Red Flags');
+       lineChartWithOutBaseLine(<?php echo $projectFlagsChart['redFlags'];?>,legends,"chartdiv" ,'Project Submissions','Total Red Flags');
 
-        $('select[name="generateChart"]').change(function (event) { 
+        $('select[name="generateChart"]').change(function (event) {  
             if($(this).val()=='unreviewed')
             { 
              var legends = {score: "Unreviewed Submission"};
@@ -654,7 +689,8 @@
     } 
   ?>
     
-    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>);
+    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,1);
+
    });
         
 
@@ -678,4 +714,87 @@
 
 
       </style>
+    <!-- html to pdf -->
+<script type="text/javascript">
+  $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+
+
+ 
+
+      //convert image to pdf
+          var pdf = new jsPDF("l", "mm", "a4");
+          $("#page1").css("background-color", "#fff");
+          html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+
+                   var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
+                   pdf.addImage(imgData1, 'JPEG', 5, 5, 0, 0);
+              }
+          });
+          
+          html2canvas($("#page2"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                   var imgData2 = canvas.toDataURL("image/jpeg", 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData2, 'JPEG',5, 5, 0, 0);
+              }
+          });
+
+          html2canvas($("#page3"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                   var imgData3 = canvas.toDataURL("image/jpeg", 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData3, 'JPEG',5, 5, 0, 0);
+              }
+          });
+
+          html2canvas($("#page4"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                   var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData4, 'JPEG',5, 5, 0, 0);
+              }
+          });
+          
+          html2canvas($("#page5"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                   var imgData5 = canvas.toDataURL("image/jpeg", 1.0);
+                    pdf.addPage();
+                    pdf.addImage(imgData5, 'JPEG',5, 5, 0, 0);
+                    var download = document.getElementById('download');
+                    pdf.save("download.pdf");
+                    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,0);
+                    var generateChartValue =  $('select[name="generateChart"]').val();
+                    $('select[name="generateChart"]').val(generateChartValue).change();
+                    $("#page1").css("background-color", "");
+              }
+          });
+          
+          
+          
+      
+      });
+    }); 
+  
+
+</script>
 @endsection

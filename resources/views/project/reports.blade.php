@@ -326,7 +326,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     // });
 
          
-      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>);
+      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>,1);
       
     });
          
