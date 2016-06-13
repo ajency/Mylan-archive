@@ -547,7 +547,7 @@ function exceptionError($error)
     }
     else
     {
-        Log::error($error->getMessage());
+        \Log::error($error->getMessage());
         abort(404);
     }
 }

@@ -623,8 +623,7 @@ class QuestionnaireController extends Controller
 			}
 
 		 } catch (\Exception $e) {
-		  Log::error($e->getMessage());
-		  abort(404);   
+		  exceptionError($e);     
 		} 
 
 	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
@@ -700,8 +699,7 @@ class QuestionnaireController extends Controller
 				
 
 		 } catch (\Exception $e) {
-		  Log::error($e->getMessage());
-		  abort(404);   
+		  exceptionError($e);       
 		} 
 
 		return response()->json([
@@ -804,8 +802,7 @@ class QuestionnaireController extends Controller
 				$optionObj->destroy();
 
 		 	} catch (\Exception $e) {
-				Log::error($e->getMessage());
-				abort(404);   
+				exceptionError($e);    
 			} 
 
 		return response()->json([
@@ -839,8 +836,7 @@ class QuestionnaireController extends Controller
 		  
 
 		} catch (\Exception $e) {
-		    Log::error($e->getMessage());
-		    abort(404);   
+		    exceptionError($e);      
 		}      
 
 		
@@ -918,8 +914,7 @@ class QuestionnaireController extends Controller
 			
 
 		} catch (\Exception $e) {
-		    Log::error($e->getMessage());
-		    abort(404);   
+		    exceptionError($e);      
 		}  
 
 		  return redirect($path); 

@@ -1866,7 +1866,7 @@ class PatientController extends Controller
 
     public function setPatientBaseLineScore(Request $request, $hospitalSlug ,$projectSlug ,$id)
     {
-        // try{
+        try{
         
  
             // $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
@@ -2040,11 +2040,10 @@ class PatientController extends Controller
             ParseObject::saveAll($bulkAnswerInstances);
             
             Session::flash('success_message','Patient baseline successfully created.');
-        // } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-        //     Log::error($e->getMessage());
-        //     abort(404);         
-        // }
+            exceptionError($e);           
+        }
  
 
         return redirect(url($hospitalSlug .'/'.$projectSlug. '/patients/' . $id . '/base-line-score/'.$responseId)); 
