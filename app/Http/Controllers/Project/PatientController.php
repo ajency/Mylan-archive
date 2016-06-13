@@ -100,8 +100,7 @@ class PatientController extends Controller
       
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
     //code to be removed
       // User::where('type','patient')->get()->each( function($patient) {
@@ -168,8 +167,7 @@ class PatientController extends Controller
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
 
@@ -358,8 +356,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
          
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
@@ -515,8 +512,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
        
         return view('project.patients.show')->with('active_menu', 'patients')
@@ -934,8 +930,7 @@ class PatientController extends Controller
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
  
         
@@ -1074,8 +1069,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
  
  
@@ -1139,8 +1133,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.patients.submissions')->with('active_menu', 'patients')
@@ -1195,8 +1188,7 @@ class PatientController extends Controller
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
 
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
         return view('project.patients.flags')->with('active_menu', 'patients')
                                                 ->with('active_tab', 'flags')
@@ -1252,8 +1244,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.patients.baseline-list')->with('active_menu', 'patients')
@@ -1292,8 +1283,7 @@ class PatientController extends Controller
         
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         } 
         
         return view('project.patients.baselinescore')->with('active_menu', 'patients')
@@ -1856,8 +1846,7 @@ class PatientController extends Controller
             //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
         
         return view('project.patients.baselinescore-edit')->with('active_menu', 'patients')
@@ -2141,8 +2130,7 @@ class PatientController extends Controller
        
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
      
         return view('project.patients.reports')->with('active_menu', 'patients')
@@ -2531,8 +2519,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.patients.submission-notifications')->with('active_menu', 'patients')
@@ -2563,8 +2550,7 @@ class PatientController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.patients.user-devices')->with('active_menu', 'patients')

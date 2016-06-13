@@ -257,8 +257,7 @@ class QuestionnaireController extends Controller
 	   
 		
 		} catch (\Exception $e) {
-			Log::error($e->getMessage());
-			abort(404);   
+			exceptionError($e);  
 		}      
 
 
@@ -322,9 +321,7 @@ class QuestionnaireController extends Controller
 			Session::flash('success_message','Project settings successfully created.');
 			
 		} catch (\Exception $e) {
-
-			Log::error($e->getMessage());
-			abort(404);         
+			exceptionError($e);           
 		}
 		return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
 	}
@@ -392,8 +389,7 @@ class QuestionnaireController extends Controller
 			
 		} catch (\Exception $e) {
 
-			Log::error($e->getMessage());
-			abort(404);         
+			exceptionError($e);           
 		}
 		return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
 	}
@@ -438,8 +434,7 @@ class QuestionnaireController extends Controller
 		   
 		
 		} catch (\Exception $e) {
-			Log::error($e->getMessage());
-			abort(404);   
+			exceptionError($e);     
 		}      
 
 		
@@ -505,8 +500,7 @@ class QuestionnaireController extends Controller
 			
 		
 		} catch (\Exception $e) {
-			Log::error($e->getMessage());
-			abort(404);   
+			exceptionError($e);     
 		}      
 
 

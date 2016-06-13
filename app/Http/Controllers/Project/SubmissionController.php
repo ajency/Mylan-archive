@@ -171,8 +171,7 @@ class SubmissionController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.submissions-list')->with('active_menu', 'submission')
@@ -325,8 +324,7 @@ class SubmissionController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
         
         return view('project.submissions-view')->with('active_menu', 'patients')
@@ -546,8 +544,7 @@ class SubmissionController extends Controller
         
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.flags')->with('active_menu', 'flags')
@@ -660,8 +657,7 @@ class SubmissionController extends Controller
         
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
            
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/submissions/' . $responseId));
@@ -697,8 +693,7 @@ class SubmissionController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.submission-notifications')->with('active_menu', 'submission-notification')

@@ -192,8 +192,7 @@ class ProjectController extends Controller
         } 
         catch (\Exception $e) {
 
-          Log::error($e->getMessage());
-          abort(404);  
+          exceptionError($e);    
 
         }
          
@@ -1424,8 +1423,7 @@ class ProjectController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.reports')->with('active_menu', 'reports')
@@ -1485,8 +1483,7 @@ class ProjectController extends Controller
 
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.notifications')->with('active_menu', '')
@@ -1560,8 +1557,7 @@ class ProjectController extends Controller
         
         } catch (\Exception $e) {
 
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
 
         return view('project.alert-settings')->with('active_menu', 'settings')
@@ -1630,8 +1626,7 @@ class ProjectController extends Controller
             
         } catch (\Exception $e) {
             
-            Log::error($e->getMessage());
-            abort(404);         
+            exceptionError($e);           
         }
         return redirect(url($hospitalSlug .'/'. $projectSlug .'/alert-setting')); 
     }

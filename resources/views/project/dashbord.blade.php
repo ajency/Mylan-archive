@@ -732,9 +732,6 @@
         canvg(c, div.innerHTML);
       }
 
-
- 
-
       //convert image to pdf
           var pdf = new jsPDF("l", "mm", "a4");
           $("#page1").css("background-color", "#fff");
@@ -782,16 +779,15 @@
                     pdf.addImage(imgData5, 'JPEG',5, 5, 0, 0);
                     var download = document.getElementById('download');
                     pdf.save("download.pdf");
+
+
                     drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,0);
                     var generateChartValue =  $('select[name="generateChart"]').val();
                     $('select[name="generateChart"]').val(generateChartValue).change();
                     $("#page1").css("background-color", "");
               }
           });
-          
-          
-          
-      
+                
       });
     }); 
   

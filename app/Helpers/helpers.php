@@ -539,6 +539,18 @@ function getBrowser()
     );
 } 
  
+function exceptionError($error)
+{
+    if(env('APP_ENV')=="local")
+    {
+        dd($error);
+    }
+    else
+    {
+        Log::error($error->getMessage());
+        abort(404);
+    }
+}
  
 
 
