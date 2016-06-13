@@ -559,6 +559,8 @@ class QuestionnaireController extends Controller
 				  $optionScores = $scores[$key];
 				  $optionId = $optionIds[$key];
 
+				  // $optionQuestionIds = $this->saveOptions($key,$questionnaire,$questionObj,$previousQuestionObj,$questionOptions,$optionScores,$optionId,true,$questionIds,$optionIds,$optionKeys,$subquestionType,$subquestionTitle,$subquestion);
+
 				  	foreach ($questionOptions as $k => $option)
 				  	{
 						if($option=="")
@@ -606,7 +608,8 @@ class QuestionnaireController extends Controller
 						// ***
 
 
-				  	}
+				  	}	
+				
 				}
 
 				/*Sub question condition
@@ -662,6 +665,56 @@ class QuestionnaireController extends Controller
 		$questionObj->save();
 
 		return $questionObj;
+	}
+
+	public function saveOptions($key,$questionnaire,$questionObj,$previousQuestionObj,$questionOptions,$optionScores,$optionId,$hasSubQuestion=true,$questionIds=[],$optionIds=[],$optionKeys=[],$subquestionType=[],$subquestionTitle=[],$subquestion=[])
+	{
+		$optionQuestionIds =[];
+		foreach ($questionOptions as $k => $option)
+	  	{
+			if($option=="")
+			  continue;
+
+			$score = intval($optionScores[$k]);
+		
+			$optionObj = $this->saveOption($optionId[$k],$questionObj,$score,$option);
+			$optionOjectId = $optionObj->getObjectId();
+
+			//**SAVE SUB QUESTION ***
+			
+			if($hasSubQuestion==true)
+			{
+				if(isset($optionKeys[$key][$k]))
+				{
+					$subquestionKey = $optionKeys[$key][$k];
+
+					$questionType = $subquestionType[$subquestionKey];
+					$questionTitle = $subquestionTitle[$subquestionKey];
+					$question = $subquestion[$subquestionKey];
+					$subquestionId = $questionIds[$subquestionKey];
+					$isChild = true;
+
+					$subQuestionObj = $this->saveQuestion($questionType, $questionTitle, $question, $isChild, $subquestionId, $questionnaire, $previousQuestionObj,false);
+					$subQuestionObjectId = $subQuestionObj->getObjectId(); 
+
+					if(isset($options[$subquestionKey]))
+					{ 
+						$subQuestionOptions = $options[$subquestionKey]; 
+						$subQuestionOptionScores = $scores[$subquestionKey];
+						$subQuestionOptionId = $optionIds[$subquestionKey];
+
+						$saveOptions = $this->saveOptions($key,$subQuestionObj,null,$subQuestionOptions,$subQuestionOptionScores,$subQuestionOptionId,false);
+					}
+
+					$optionQuestionIds[] =['optionId'=>$optionOjectId,'questionId'=>$subQuestionObjectId];
+
+				}
+			}
+			
+			
+	  	}
+
+	  	return $optionQuestionIds;
 	}
 
 	public function saveOption($optionId,$questionObj,$score,$option)
@@ -919,5 +972,6 @@ class QuestionnaireController extends Controller
 
 		  return redirect($path); 
 	}
+
 
 }

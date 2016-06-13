@@ -739,8 +739,8 @@
           background: '#FFFFFF',
               onrendered: function(canvas) {
 
-                   var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
-                   pdf.addImage(imgData1, 'JPEG', 5, 5, 0, 0);
+                 var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
+                 pdf.addImage(imgData1, 'JPEG', 5, 5, 0, 0);
               }
           });
           
