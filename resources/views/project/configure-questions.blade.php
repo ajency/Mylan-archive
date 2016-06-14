@@ -84,7 +84,7 @@
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
                         <div class="col-sm-3 m-t-10 m-b-10">
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
+                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1">
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-15 m-b-15">
@@ -165,7 +165,7 @@
                                     <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                                     </div>
                                     <div class="col-sm-3 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="text" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" >
+                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1">
                                     </div> 
                                      <div class="col-sm-2 text-center m-t-10 m-b-10">
                                       <button type="button" class="btn btn-white delete-option" counter-key="{{ $l }}"><i class="fa fa-trash"></i></button>
@@ -186,7 +186,7 @@
                                     <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                                     </div>
                                     <div class="col-sm-3 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter score" class="form-control" >
+                                    <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
                                     </div> 
                                     <div class="col-sm-2 text-center m-t-10 m-b-10">
                                     <button type="button" class="btn btn-white add-option" counter-key="{{ $l }}"><i class="fa fa-plus"></i></button>
@@ -220,7 +220,7 @@
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
                         <div class="col-sm-3 m-t-10 m-b-10">
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter score" class="form-control" >
+                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
