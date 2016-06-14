@@ -497,6 +497,8 @@ class QuestionnaireController extends Controller
 
 				$optionsList[$questionId][] = ['optionId'=>$optionId, 'score'=>$score, 'label'=>$label];         
 			}
+
+
 			
 		
 		} catch (\Exception $e) {
@@ -624,6 +626,8 @@ class QuestionnaireController extends Controller
 
 				
 			}
+
+			Session::flash('success_message','Project Questionnaire successfully updated.');
 
 		 } catch (\Exception $e) {
 		  exceptionError($e);     
@@ -779,21 +783,20 @@ class QuestionnaireController extends Controller
 					$subquestionId = $condition['questionId'];
 					$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
 				}
+			}	
+		 
+			//REST SEQUENCE
+			if($nextQuestionObj!=null)
+			{
+				$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
+				$nextQuestionObj->save();
 			}
 			
-		}
-		 
-		//REST SEQUENCE
-		if($nextQuestionObj!=null)
-		{
-			$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
-			$nextQuestionObj->save();
-		}
-		
-		if($previousQuestionObj!=null)
-		{
-			$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
-			$previousQuestionObj->save();
+			if($previousQuestionObj!=null)
+			{
+				$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
+				$previousQuestionObj->save();
+			}
 		}
 
 		$optionObjs = new ParseQuery("Options");
@@ -964,7 +967,7 @@ class QuestionnaireController extends Controller
 			}
 			
 
-			
+		Session::flash('success_message','Project Questionnaire successfully ordered.');	
 
 		} catch (\Exception $e) {
 		    exceptionError($e);      

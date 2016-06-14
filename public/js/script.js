@@ -1796,7 +1796,7 @@ $('.question-list').on('click', '.delete-option', function(event) {
     }
 
     var Obj = $(this);
-    var i = $(this).closest('.question').attr("row-count"); alert(i);
+    var i = $(this).closest('.question').attr("row-count"); 
     var counterKey = $(this).attr("counter-key");
     var optionId = Obj.closest(".row").find('input[name="optionId['+i+']['+counterKey+']"]').val();
     Obj.closest('div').append('<span class="cf-loader"></span>');

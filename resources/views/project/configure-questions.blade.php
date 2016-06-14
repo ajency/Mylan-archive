@@ -70,10 +70,11 @@
                    <div class="row">
                    <div class="col-sm-1"></div>
                     <div class="col-sm-10 question-options-block m-t-20 @if($isWeight) hidden @endif" >
-                    @if(isset($optionsList[$questionId]))
-                      <?php 
+                    <?php 
                       $j=0;
                       ?>
+                    @if(isset($optionsList[$questionId]))
+                      
                       @foreach($optionsList[$questionId] as $option)
                       <div class="option-block">
                       <div class="row">
@@ -151,11 +152,13 @@
                                <!-- options -->
                                @if($subQuestion['type']=="single-choice" || $subQuestion['type']=="multi-choice" || $subQuestion['type']=="input")
                                 <div class="col-sm-8 col-sm-offset-2 m-t-15 question-options-block @if($isWeight) hidden @endif" >
-                                @if(isset($optionsList[$subQuestionId]))
-                                  <?php 
+                                <?php 
                                   $l=0;
                                   ?>
+                                @if(isset($optionsList[$subQuestionId]))
+                                  
                                   @foreach($optionsList[$subQuestionId] as $option)
+                                  <div class="option-block">
                                   <div class="row">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
                                     <div class="col-sm-7 m-t-10 m-b-10">
@@ -170,6 +173,7 @@
                                     <div class="subQuestion-container">
           
                                     </div>
+                                  </div>
                                   </div>
                                   <?php 
                                   $l++;
