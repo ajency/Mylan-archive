@@ -30,12 +30,12 @@
                       <hr>
           @include('admin.flashmessage')
 
-            <form class="form-horizontal col-sm-9 mri-form setQuestion" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate>
+            <form class="form-horizontal col-sm-9 mri-form setQuestion" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate onsubmit="return validatefrequencySettings(true);">
 
                   <div class="form-group">
                     <label for="editable" class="col-sm-4 side-label">Name</label>
                     <div class="col-sm-6">
-                    <input type="text" name="name" id="name" class="nameField" value="{{ $settings['name'] }}">
+                    <input type="text" name="name" id="name" class="nameField" value="{{ $settings['name'] }}" data-parsley-required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -53,8 +53,8 @@
                    <div class="form-group">
                     <label for="Frequency" class="col-sm-4 side-label">Questionnaire Type</label>
                     <div class="col-sm-6">
-                    <select id="type" name="type" style="width:100%" class="">
-                    <option value="random" {{ ($settings['type']=='random')?'selected':'' }}>Random</option>
+                    <select id="type" name="type" style="width:100%" class="" data-parsley-required>
+                    <!-- <option value="random" {{ ($settings['type']=='random')?'selected':'' }}>Random</option> -->
                     <option value="sequence" {{ ($settings['type']=='sequence')?'selected':'' }}>Sequence</option>
                     </select>
                     </div>

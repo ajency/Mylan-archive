@@ -2005,6 +2005,70 @@ function validateInputOptions(inputTypeObject)
      
 }
 
+function validatefrequencySettings(frequencyRequired)
+{  
+    var flag =  true;
+    var frequencyDay = $('input[name="frequencyDay"]').val();
+    frequencyDay = (frequencyDay=='') ? 0 : parseInt(frequencyDay);
+    var frequencyHours = $('input[name="frequencyHours"]').val();
+    frequencyHours = (frequencyHours=='')? 0 : parseInt(frequencyHours);  
+    var totalFrequencyHours = (frequencyDay*24) + frequencyHours;  
+
+    var expectedGracePeriod = parseInt(totalFrequencyHours)/2; 
+
+    var gracePeriodDay = $('input[name="gracePeriodDay"]').val();
+    gracePeriodDay = (gracePeriodDay=='') ? 0 : parseInt(gracePeriodDay);
+    var gracePeriodHours = $('input[name="gracePeriodHours"]').val();
+    gracePeriodHours = (gracePeriodHours=='') ? 0 : parseInt(gracePeriodHours);
+
+    var totalGPHours = (gracePeriodDay*24) + gracePeriodHours; 
+
+    var reminderTimeDay = $('input[name="reminderTimeDay"]').val();
+    reminderTimeDay = (reminderTimeDay=='') ? 0 : parseInt(reminderTimeDay);
+    var reminderTimeHours = $('input[name="reminderTimeHours"]').val();
+    reminderTimeHours = (reminderTimeHours=='') ? 0 : parseInt(reminderTimeHours);
+
+    var totalRTHours = (reminderTimeDay*24) + reminderTimeHours;
+
+    if(frequencyRequired && totalFrequencyHours==0)
+    {
+        $('input[name="frequencyHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Frequency</li>');
+        flag = false;
+    }
+
+    if(totalFrequencyHours > 0)
+    {
+        $('input[name="frequencyHours"]').closest('div').find('.parsley-errors-list').html('');
+        $('input[name="gracePeriodHours"]').closest('div').find('.parsley-errors-list').html('');
+        $('input[name="reminderTimeHours"]').closest('div').find('.parsley-errors-list').html('');
+        if(totalFrequencyHours>=1 && totalGPHours==0)
+        {
+         
+            $('input[name="gracePeriodHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Grace peroid</li>');
+            flag = false;
+        }
+        else if(totalGPHours >= expectedGracePeriod)
+        {
+      
+            $('input[name="gracePeriodHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Grace peroid should be less then '+ expectedGracePeriod.toString() +' hours</li>');
+            flag = false;
+        }
+        else if(totalGPHours>=1 && totalRTHours==0)
+        {
+            $('input[name="reminderTimeHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Reminder Time</li>');
+            flag = false;
+        }
+        else if(totalRTHours>=totalGPHours)
+        {
+            $('input[name="reminderTimeHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Reminder time should be less then '+ totalGPHours.toString() +' hours</li>');
+            flag = false;
+        }
+    }
+
+    return flag;
+     
+}
+
 
 
 

@@ -22,7 +22,7 @@
      <div class="grid simple">
            <div class="grid-body">
       
-      <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" onsubmit="return validateOptionalInputs();">
+      <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" onsubmit="return validateOptionalInputs(false);">
               <div class="row form-group edit-add">
                 <div class="col-md-4">
                   <div class="form-row">
@@ -440,7 +440,7 @@
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+              <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">days</h6>
@@ -451,7 +451,7 @@
             <div class="col-sm-4">
             <div class="row">
               <div class="col-sm-9">
-                <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+                <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
               </div>
               <div class="col-sm-3">
                 <h6 class="seconds">hours</h6>
@@ -467,7 +467,7 @@
         <div class="col-sm-4">
         <div class="row">
           <div class="col-sm-9">
-            <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+            <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
           </div>
           <div class="col-sm-3">
             <h6 class="seconds">days</h6>
@@ -478,7 +478,7 @@
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+              <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
             </div>
             <div class="col-sm-3">
               <h6 class="seconds">hours</h6>
@@ -507,7 +507,26 @@
             </div>
           </div>
 
+<script type="text/javascript">
 
+$(document).ready(function() {
+
+ 
+     $('.input-days').change(function (event) {  
+      if($(this).val() >= 1)
+      { 
+         $(this).closest(".form-group").find('.input-hours').removeAttr("min"); 
+         $(this).closest(".form-group").find('.input-hours').removeAttr("data-parsley-validation-threshold");
+      }
+      else
+      {
+        $(this).closest(".form-group").find('.input-hours').attr("min","1"); 
+        $(this).closest(".form-group").find('.input-hours').attr("data-parsley-validation-threshold","1");
+      }
+    });
+});
+
+</script>
 
 <script type="text/javascript">
   function validateOptionalInputs()
@@ -548,8 +567,10 @@
            controlObj[index].closest('div').find('.parsley-errors-list').html('');
 
     }); 
-        
-    
+       
+    var settings = validatefrequencySettings();
+
+    return settings;
   }
 
   $('.optionalInputs').change(function (event) { 

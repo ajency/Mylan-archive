@@ -288,8 +288,8 @@ class PatientController extends Controller
             $reminderTimeHours = $request->input('reminderTimeHours');
 
             $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
-            $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
-            $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
+            $gracePeriod = ($frequency==0)? 0 : intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+            $reminderTime = ($frequency==0)? 0 : intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
             
             $user = new User();
             $user->reference_code = $referenceCode;
@@ -991,8 +991,8 @@ class PatientController extends Controller
             $reminderTimeHours = $request->input('reminderTimeHours');
 
             $frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
-            $gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
-            $reminderTime = intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
+            $gracePeriod = ($frequency==0)? 0 : intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
+            $reminderTime = ($frequency==0)? 0 : intval(convertToSeconds($reminderTimeDay,$reminderTimeHours));
             
             $user = User::find($id);
             if($user->account_status=='created')
