@@ -59,7 +59,7 @@
                     </select>
                     </div>
                   </div>
-
+                  @if($settings['status'] =="published")
                   <div class="form-group">
                     <label for="Frequency" class="col-sm-4 side-label">Pause Project</label>
                     <div class="col-sm-6">
@@ -69,7 +69,7 @@
                       </select>
                     </div>
                   </div>  
-
+                  @endif
                     <div class="form-group">
                       <label for="frequency" class="col-sm-4 side-label">Frequency</label>
                       <div class="col-sm-3">
