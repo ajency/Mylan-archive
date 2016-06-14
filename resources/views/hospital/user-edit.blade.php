@@ -30,19 +30,19 @@
          <div class="row">
             <div class="col-sm-3">
                <div class="form-row form-group">
-                  <label>Name</label>
+                  <label>Name <span class="text-primary">*</span></label>
                   <input name="name" id="name" type="text"  value="{{ $user['name'] }}" class="form-control" data-parsley-required>
                </div>
             </div>
             <div class="col-sm-3">
                <div class="form-row">
-                  <label>Email</label>
+                  <label>Email <span class="text-primary">*</span></label>
                   <input name="email" id="email" type="email"  value="{{ $user['email'] }}" objectId="{{ $user['id'] }}" objectType="project" class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
                </div>
             </div>
             <div class="col-sm-3">
                <div class="form-row">
-                  <label>Phone Number</label>
+                  <label>Phone Number <span class="text-primary">*</span></label>
                   <input name="phone" id="phone" type="text"  value="{{ $user['phone'] }}"  class="form-control" data-parsley-required>
                </div>
             </div>

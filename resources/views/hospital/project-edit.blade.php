@@ -29,11 +29,11 @@
                            <div class="row column-seperation projectAdd">
                               <div class="col-md-12">
                                  <div class="form-row">
-                                    <label>Project Name</label>
+                                    <label>Project Name <span class="text-primary">*</span></label>
                                     <input name="name" id="name" type="text"  class="form-control" data-parsley-required placeholder="Project Name" value="{{ $project['name'] }}">
                                  </div>
                                  <div class="form-row">
-                                    <label>Description</label>
+                                    <label>Description <span class="text-primary">*</span></label>
                                     <textarea name="description" id="description" rows="3" data-parsley-required placeholder="Write a short summary to describe the projects.">{{ $project['description'] }}</textarea>
                                  </div>
                                  <hr>

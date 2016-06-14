@@ -436,7 +436,10 @@
            controlObj[index].closest('div').find('.parsley-errors-list').html('');
 
     }); 
-        
+      
+    var settings = validatefrequencySettings();
+
+    return settings;  
     
   }
 
