@@ -42,16 +42,16 @@
                      </div>
                    </div>                                   
                    <div class="col-md-8 col-md-offset-2 questionSummary__options">
+                   @if(isset($optionsList[$questionId]))
                    <span class="text-center semi-bold col-md-2">Options</span>
                      <div class="col-md-10">
                         <ul>
-                          @if(isset($optionsList[$questionId]))
                             @foreach($optionsList[$questionId] as $option)
                              <li>{{ $option['label'] }}</li>
                             @endforeach
-                          @endif
                         </ul>
                      </div>
+                     @endif
                    </div> 
                 </div>
                 
