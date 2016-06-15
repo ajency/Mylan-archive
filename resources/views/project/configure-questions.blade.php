@@ -85,7 +85,7 @@
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
                         <div class="col-sm-3 m-t-10 m-b-10">
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1">
+                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0">
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-15 m-b-15">
@@ -127,7 +127,7 @@
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
                         <div class="col-sm-3 m-t-10 m-b-10">
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
+                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-10">

@@ -1629,7 +1629,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
-        html +='<input name="score['+i+'][0]" id="question" type="number" min="1" placeholder="Enter score" class="form-control" >';
+        html +='<input name="score['+i+'][0]" id="question" type="number" min="0" placeholder="Enter score" class="form-control" >';
         html +='</div> ';
 
         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
@@ -1754,7 +1754,7 @@ $('.question-list').on('click', '.add-option', function(event) {
         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-3 m-t-10 m-b-10  ">';
-        html +='<input name="score['+i+']['+j+']" id="question" type="number" placeholder="Enter score" class="form-control" min="1">';
+        html +='<input name="score['+i+']['+j+']" id="question" type="number" placeholder="Enter score" class="form-control" min="0">';
         html +='</div> ';
 
         if($(this).closest(".question").find(".hasSubQuestion").length)
