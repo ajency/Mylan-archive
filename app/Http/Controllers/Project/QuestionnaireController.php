@@ -768,6 +768,7 @@ class QuestionnaireController extends Controller
 	public function deleteQuestionAndOptions($questionId)
 	{
 		$questionObj = new ParseQuery("Questions");
+		$questionObj->includeKey("previousQuestion");
 		$question = $questionObj->get($questionId);
 
 		$nextQuestionObj = $question->get("nextQuestion");  
@@ -797,6 +798,25 @@ class QuestionnaireController extends Controller
 				$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
 				$previousQuestionObj->save();
 			}
+		}
+		else
+		{
+			//remove sub question id from parent question condition
+			$parentQuestionsObj = $previousQuestionObj;
+			$parentQuestionsCondition = $parentQuestionsObj->get("condition");
+			$optionQuestionIds = [];
+			foreach ($parentQuestionsCondition as $key => $parentQuestionCondition) {
+				if($questionId != $parentQuestionCondition['questionId'])
+				{
+					$optionQuestionIds[] = $parentQuestionCondition;
+				}
+				 
+			}
+
+			$parentQuestionsObj->setArray('condition',$optionQuestionIds);
+			$parentQuestionsObj->save();
+
+
 		}
 
 		$optionObjs = new ParseQuery("Options");

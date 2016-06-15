@@ -1703,7 +1703,7 @@ $('.question-list').on('change', '.hasSubQuestion', function(event) {
         html +='</div> ';
 
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
-        html +='<button type="button" class="btn btn-white delete-question hidden"><i class="fa fa-trash"></i></button>';
+        html +='<button type="button" class="btn btn-white delete-question"><i class="fa fa-trash"></i></button>';
         html +='</div>';
         html +='</div>';
         html +='</div>';
@@ -1894,9 +1894,15 @@ $('.question-list').on('click', '.delete-question', function(event) {
         return;
     }
     var Obj = $(this);
+
     var i = Obj.closest(".question").attr('row-count');
     var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
     Obj.closest('div').append('<span class="cf-loader"></span>');
+
+    if(!Obj.hasClass('delete-parent-question'))
+    {  
+        Obj.closest('.option-block').find('.hasSubQuestion').trigger('click');
+    }
 
     if(questionId!='')
     {
@@ -1913,6 +1919,9 @@ $('.question-list').on('click', '.delete-question', function(event) {
     {
         Obj.closest('.question').remove(); 
     }
+
+
+
     
 
 });
