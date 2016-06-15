@@ -1725,11 +1725,13 @@ $('.question-list').on('click', '.add-option', function(event) {
     
     var counter = $(this).closest(".question").attr("row-count");
     var i = parseInt(counter);
-    var question = $(this).closest(".row").find("input[name='option["+i+"][]']").val();
-    var score = $(this).closest(".row").find("input[name='score["+i+"][]']").val();
+    
 
     var counterKey = $(this).attr("counter-key");
     var j = parseInt(counterKey) + 1;
+
+    var question = $(this).closest(".row").find("input[name='option["+i+"]["+counterKey+"]']").val();
+    var score = $(this).closest(".row").find("input[name='score["+i+"]["+counterKey+"]']").val();
 
     if(question=='')
     {
@@ -1741,8 +1743,11 @@ $('.question-list').on('click', '.add-option', function(event) {
     }
     else
     {
-        $(this).removeClass("add-option").addClass("delete-option"); 
+        $(this).removeClass("add-option").addClass("delete-option");
         $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
+        // var optionBlockCount = $(this).closest(".question-options-block").find('.option-block').length; alert(optionBlockCount);
+        // $(this).closest(".question-options-block").find('.option-block:eq(-2)').find(".delete-option").removeClass("hidden");
+
         html ='<div class="option-block">';
         html +='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
@@ -1771,6 +1776,7 @@ $('.question-list').on('click', '.add-option', function(event) {
         html +='</div> ';
         html +='<div class="subQuestion-container"></div> ';
         html +='</div> ';
+
 
         $(this).closest('.question-options-block').append(html);
 
