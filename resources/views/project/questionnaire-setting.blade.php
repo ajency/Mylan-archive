@@ -81,6 +81,7 @@
                     </div>
                   </div>  
                   @endif
+                  <div class="questionnaire-setting">
                     <div class="form-group">
                       <label for="frequency" class="col-sm-2 side-label">Frequency</label>
                       <div class="col-sm-5">
@@ -120,7 +121,7 @@
                     data-parsley-type="digits"><h6 class="seconds">hours</h6>
                     </div>
                   </div>
-
+                  </div>
                   <div class="form-group questActions">
                     <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
@@ -156,8 +157,15 @@ $(document).ready(function() {
         $(this).closest(".form-group").find('.input-hours').attr("min","1"); 
         $(this).closest(".form-group").find('.input-hours').attr("data-parsley-validation-threshold","1");
       }
+
+    });
+
+    $(".questionnaire-setting").find('input').change(function (event) { 
+      validatefrequencySettings(true);
     });
 });
+
+
 
 </script>
 
