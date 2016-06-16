@@ -549,9 +549,9 @@ class QuestionnaireController extends Controller
 				if($questionType=="" || $title=="" || $question=="")
 					continue;
 
-				$questionObj = $this->saveQuestion($questionType, $title, $question, $isChild, $questionId, $questionnaire, $previousQuestionObj);
+				$parentQuestionObj = $this->saveQuestion($questionType, $title, $question, $isChild, $questionId, $questionnaire, $previousQuestionObj);
 
-				$previousQuestionObj = $questionObj;
+				$previousQuestionObj = $parentQuestionObj;
 
 				 //options
 				$optionQuestionIds =[];
@@ -570,8 +570,8 @@ class QuestionnaireController extends Controller
 
 						$score = intval($optionScores[$k]);
 					
-						$optionObj = $this->saveOption($optionId[$k],$questionObj,$score,$option);
-						$optionOjectId = $optionObj->getObjectId();
+						$optionObj = $this->saveOption($optionId[$k],$parentQuestionObj,$score,$option);
+						$optionObjectId = $optionObj->getObjectId();
 
 						//**SAVE SUB QUESTION ***
 						
@@ -587,6 +587,7 @@ class QuestionnaireController extends Controller
 
 							$subQuestionObj = $this->saveQuestion($questionType, $questionTitle, $question, $isChild, $subquestionId, $questionnaire, $previousQuestionObj,false);
 							$subQuestionObjectId = $subQuestionObj->getObjectId(); 
+							$optionQuestionIds[] =['optionId'=>$optionObjectId,'questionId'=>$subQuestionObjectId];
 
 							if(isset($options[$subquestionKey]))
 							{ 
@@ -604,7 +605,6 @@ class QuestionnaireController extends Controller
 							  	}
 							}
 
-							$optionQuestionIds[] =['optionId'=>$optionOjectId,'questionId'=>$subQuestionObjectId];
 
 						}
 						// ***
@@ -619,8 +619,8 @@ class QuestionnaireController extends Controller
 				*/
 				 if(!empty($optionQuestionIds))
 				 {
-				 	$questionObj->setArray('condition',$optionQuestionIds);
-				 	$questionObj->save();
+				 	$parentQuestionObj->setArray('condition',$optionQuestionIds);
+				 	$parentQuestionObj->save();
 				 }
 				 
 
