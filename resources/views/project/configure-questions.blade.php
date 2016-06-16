@@ -44,10 +44,18 @@
                 ?>
                 <div class="row question parentQuestion" row-count="{{ $i }}">
                    <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
+                    <!-- test -->
+                    <div class="panel-group create-quest-accordion" id="accordion">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="panel-title">
+                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                    <!-- /test -->
                    <div class="col-md-12 questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
+                   <label>Type of question</label>
                       <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled>
-                          <option selected value="">Select Question Type</option>
+                          <option selected value="">Select the question type</option>
                           <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
                           <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
                           <option @if($question['type']=="input") selected @endif value="input"> Input</option>
@@ -56,16 +64,28 @@
                       </select>
                       <input type="hidden" name="questionType[{{ $i }}]"  value="{{ $question['type'] }}">
                    </div>
-                   <div class="col-sm-2 m-t-15">
+                   <div class="col-sm-3 m-t-15">
+                   <label for="">A short question identifier</label>
                       <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" >
                    </div> 
-                   <div class="col-sm-6 m-t-15">
+                   <div class="col-sm-5 m-t-15">
+                   <label for="">What do you need to ask</label>
                       <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
                    </div>
-                   <div class="col-sm-1 text-center m-t-15 del-question-blk">
+                   <div class="col-sm-1 text-center m-t-40 del-question-blk">
                       <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
                    </div>
                    </div>
+                   <!--test-->
+                   </a>
+                   </div>
+                   </div>
+                   <!--/test-->
+
+                   <!-- test -->
+                   <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+                   <!-- /test -->
                    <!-- options -->
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                    <div class="row">
@@ -75,22 +95,35 @@
                       $j=0;
                       ?>
                     @if(isset($optionsList[$questionId]))
+                    <div class="row gray-section">
+                      <div class="col-md-6">
+                        <strong>Enter the options for this question</strong>
+                        <p>You can add a sub question too</p>
+                      </div>
+                      <div class="col-md-4">
+                        <strong>For the sub question</strong>
+                        <p>Add the sub question for this option</p>
+                      </div>
+                    </div>
                       
                       @foreach($optionsList[$questionId] as $option)
                       <div class="option-block">
                       <div class="row">
                       <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                        <div class="col-sm-7 m-t-10 m-b-10">
+                        <div class="col-sm-6 m-t-10 m-b-10">
+                        
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
                         </div>
-                        <div class="col-sm-3 m-t-10 m-b-10">
+                        <div class="col-sm-4 m-t-10 m-b-10">
+                        
                         <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0">
                         </div> 
                         @if($question['type']=="single-choice")
-                          <div class="col-sm-1 text-center m-t-15 m-b-15">
+                          <div class="col-sm-1 text-center m-t-10 m-b-15">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
+                          <small class="help-text">Add sub question</small>
                           <!-- <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
                           > -->
@@ -123,15 +156,18 @@
                       <div class="row">
                         <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
-                        <div class="col-sm-7 m-t-10 m-b-10 ">
+                        <div class="col-sm-6 m-t-10 m-b-10 ">
+                        
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
-                        <div class="col-sm-3 m-t-10 m-b-10">
+                        <div class="col-sm-4 m-t-10 m-b-10">
+                        
                         <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
+                          <small class="help-text">Add sub question</small>
                           </div>
                           <div class="col-sm-1 text-center m-t-10 m-b-10">
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
@@ -149,6 +185,11 @@
                   </div> 
                     <div class="col-sm-1"></div>
                   </div>
+                  <!-- test -->
+                  </div>
+                  </div>
+                  </div>
+                  <!-- /test -->
                     @endif
                     
                     <!--  -->
