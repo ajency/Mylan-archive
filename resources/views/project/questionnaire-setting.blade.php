@@ -30,39 +30,50 @@
                       <hr>
           @include('admin.flashmessage')
 
-            <form class="form-horizontal col-sm-9 mri-form setQuestion" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate onsubmit="return validatefrequencySettings(true);">
+            <form class="form-horizontal col-sm-12 mri-form setQuestion" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate onsubmit="return validatefrequencySettings(true);">
 
-                  <div class="form-group">
-                    <label for="editable" class="col-sm-4 side-label">Name</label>
-                    <div class="col-sm-6">
-                    <input type="text" name="name" id="name" class="nameField" value="{{ $settings['name'] }}" data-parsley-required>
-                    </div>
+            <!-- test -->
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="editable" class="col-sm-4 side-label">Name</label>
+                  <div class="col-sm-6" style="padding-right: 0;">
+                  <input type="text" name="name" id="name" class="nameField"  value="{{ $settings['name'] }}" data-parsley-required>
                   </div>
-                  <div class="form-group">
-                    <label for="editable" class="col-sm-4 side-label">Editable</label>
-                    <div class="col-sm-6">
-                    <div class="radio">
-                    <input id="YES" type="radio" name="editable" value="yes" checked="checked">
-                    <label for="YES">Yes</label>
-                    <input id="NO" type="radio" name="editable" value="no" {{ ($settings['editable']==false)?'checked':'' }}>
-                    <label for="NO">No</label>
-                    </div>
-                    </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="editable" class="col-sm-4 side-label text-right">Editable</label>
+                  <div class="col-sm-6">
+                  <div class="radio">
+                  <input id="YES" type="radio" name="editable" value="yes" checked="checked">
+                  <label for="YES">Yes</label>
+                  <input id="NO" type="radio" name="editable" value="no" {{ ($settings['editable']==false)?'checked':'' }}>
+                  <label for="NO">No</label>
                   </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /test -->
 
-                   <div class="form-group">
+                  
+                  
+
+                   <!-- <div class="form-group">
                     <label for="Frequency" class="col-sm-4 side-label">Questionnaire Type</label>
                     <div class="col-sm-6">
-                    <select id="type" name="type" style="width:100%" class="" data-parsley-required>
+                    <select id="type" name="type" style="width:100%" class="" data-parsley-required> -->
                     <!-- <option value="random" {{ ($settings['type']=='random')?'selected':'' }}>Random</option> -->
-                    <option value="sequence" {{ ($settings['type']=='sequence')?'selected':'' }}>Sequence</option>
-                    </select>
+                    <!-- <option value="sequence" {{ ($settings['type']=='sequence')?'selected':'' }}>Sequence</option> -->
+                    <!-- </select>
                     </div>
-                  </div>
+                  </div> -->
                   @if($settings['status'] =="published")
                   <div class="form-group">
-                    <label for="Frequency" class="col-sm-4 side-label">Pause Project</label>
-                    <div class="col-sm-6">
+                    <label for="Frequency" class="col-sm-2 side-label">Pause Project</label>
+                    <div class="col-sm-3" style="padding-right:0;">
                       <select id="pauseProject" name="pauseProject" style="width:100%" class="">
                       <option value="yes" {{ ($settings['pauseProject']=='yes')?'selected':'' }}>Yes</option>
                       <option value="no" {{ ($settings['pauseProject']=='no')?'selected':'' }}>No</option>
@@ -71,47 +82,47 @@
                   </div>  
                   @endif
                     <div class="form-group">
-                      <label for="frequency" class="col-sm-4 side-label">Frequency</label>
-                      <div class="col-sm-3">
-                        <input type="text" name="frequencyDay" class="form-control input-days" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+                      <label for="frequency" class="col-sm-2 side-label">Frequency</label>
+                      <div class="col-sm-5">
+                        <input type="text" name="frequencyDay" class="form-control input-days" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                       data-parsley-type="digits"> <h6 class="seconds">days</h6>
                       </div>
                       
-                      <div class="col-sm-3">
-                        <input type="text" name="frequencyHours" class="form-control input-hours" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" @if($settings['frequency']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
+                      <div class="col-sm-5">
+                        <input type="text" name="frequencyHours" class="form-control input-hours" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['hours']  }}" @if($settings['frequency']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
                     </div>
 
 
                    <div class="form-group">
-                      <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
-                      <div class="col-sm-3">
-                        <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+                      <label for="gracePeriod" class="col-sm-2 side-label">Grace Period</label>
+                      <div class="col-sm-5">
+                        <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="No .of" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                       data-parsley-type="digits">
                         <h6 class="seconds">days</h6>
                       </div>
-                        <div class="col-sm-3">
-                        <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
+                        <div class="col-sm-5">
+                        <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="No. of" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
                     </div>
 
                    <div class="form-group">
-                    <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
+                    <label for="reminderTime" class="col-sm-2 side-label">Reminder Time</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="No. of" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                     data-parsley-type="digits">
                       <h6 class="seconds">days</h6>
                     </div>
-                      <div class="col-sm-3">
-                      <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['reminderTime']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
+                      <div class="col-sm-5">
+                      <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="No. of" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['reminderTime']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                     data-parsley-type="digits"><h6 class="seconds">hours</h6>
                     </div>
                   </div>
 
                   <div class="form-group questActions">
-                    <div class="col-sm-10 text-center mri-submit p-t-25">
+                    <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                       <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
 
