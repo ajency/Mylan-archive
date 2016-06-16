@@ -1797,33 +1797,74 @@ $('.question-list').on('click', '.add-option', function(event) {
 
 $('.question-list').on('click', '.delete-option', function(event) { 
     
-    if (confirm('Are you sure you want to delete this option?') === false) {
-        return;
-    }
+    
 
     var Obj = $(this);
     var i = $(this).closest('.question').attr("row-count"); 
     var counterKey = $(this).attr("counter-key");
     var optionId = Obj.closest(".row").find('input[name="optionId['+i+']['+counterKey+']"]').val();
-    Obj.closest('div').append('<span class="cf-loader"></span>');
+    
+    
+    var count= 0; 
+    var title = '';
+    var i= 0;
+    if(Obj.closest('.question').hasClass("parentQuestion"))
+    {  
+        count=getOptionsCount(Obj);
+        i = Obj.closest('.parentQuestion').attr("row-count");
+        title = Obj.closest('.parentQuestion').find('input[name="title['+i+']"]').val();
+    }
+    else
+    {  
+        count=Obj.closest('.subQuestion-row').find('.option-block').length;
+        i = Obj.closest('.subQuestion-row').attr("row-count"); 
+        title = Obj.closest('.subQuestion-row').find('input[name="subquestionTitle['+i+']"]').val();
+    }
 
-    if(optionId!='')
+
+    if(count > 2)
     {
-        $.ajax({
-            url: BASEURL + "/delete-option/" + optionId,
-            type: "DELETE",
-            success: function (response) {
-                Obj.closest('.option-block').remove(); 
-            }
-        });
+        if (confirm('Are you sure you want to delete this option?') === false) {
+            return;
+        }
+
+        Obj.closest('div').append('<span class="cf-loader"></span>');
+        if(optionId!='')
+        {
+            $.ajax({
+                url: BASEURL + "/delete-option/" + optionId,
+                type: "DELETE",
+                success: function (response) {
+                    Obj.closest('.option-block').remove(); 
+                }
+            });
+        }
+        else
+        {
+            Obj.closest('.option-block').remove(); 
+        }
     }
     else
     {
-        Obj.closest('.option-block').remove(); 
+        alert("Please make sure at least one option is present for question "+title+".");
     }
-  
+
 
 });
+
+function getOptionsCount(Obj)
+{
+    var count = 0;
+    Obj.closest('.parentQuestion').find('.option-block').each(function () { 
+
+        if($(this).closest('.question').hasClass("parentQuestion"))
+        {   
+            count ++;
+        } 
+    });
+
+    return count;
+}
 
 $('.add-question').click(function (event) { 
     
@@ -2045,10 +2086,28 @@ function validatefrequencySettings(frequencyRequired)
 
     var totalRTHours = (reminderTimeDay*24) + reminderTimeHours;
 
-    if(frequencyRequired && totalFrequencyHours==0)
+    if(frequencyRequired)
     {
-        $('input[name="frequencyHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Frequency</li>');
-        flag = false;
+        if(totalFrequencyHours==0)
+        {
+            $('input[name="frequencyHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Frequency</li>');
+            flag = false;
+        }
+
+        if(totalGPHours==0)
+        {
+         
+            $('input[name="gracePeriodHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Grace peroid</li>');
+            flag = false;
+        }
+
+        if(totalRTHours==0)
+        {
+            $('input[name="reminderTimeHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Reminder Time</li>');
+            flag = false;
+        }
+
+        
     }
 
     if(totalFrequencyHours > 0)
@@ -2068,7 +2127,8 @@ function validatefrequencySettings(frequencyRequired)
             $('input[name="gracePeriodHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Grace peroid should be less then '+ expectedGracePeriod.toString() +' hours</li>');
             flag = false;
         }
-        else if(totalGPHours>=1 && totalRTHours==0)
+
+        if(totalGPHours>=1 && totalRTHours==0)
         {
             $('input[name="reminderTimeHours"]').closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Please Enter Reminder Time</li>');
             flag = false;
