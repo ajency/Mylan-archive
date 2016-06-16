@@ -30,10 +30,12 @@
           @include('admin.flashmessage')
         <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
           <div class="dd draggableList dark">
-            <ol class="dd-list">
+            
             <?php 
             $i=0;
             ?>
+            @if(!empty($questionsList))
+            <ol class="dd-list">
             @foreach($questionsList as $questionId => $question)
                 <li class="dd-item" data-id="{{ $i }}">
                     <input type="hidden" name="questionId[]" value="{{ $questionId }}">
@@ -41,8 +43,11 @@
                 </li>
            <?php $i++; ?>
             @endforeach
-
             </ol>
+            @else
+              <div>No Questions Created</div>
+            @endif
+            
          </div>
 
  
@@ -52,9 +57,10 @@
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i> Previous</button></a> 
+            @if(!empty($questionsList))
             <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
             <a href="#"><button type="button" class="btn btn-default publish-questionnaire">  <i class="fa fa-check-square-o" aria-hidden="true"></i> Publish</button></a> 
-
+            @endif
           </div>
         </div>
 
