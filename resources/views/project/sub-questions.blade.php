@@ -12,11 +12,11 @@
    }
     ?>
 
-      <div class="row question subQuestion-row" row-count="{{ $k }}">
+      <div class="row question subQuestion-row" row-count="{{ $k }}">{{ $k }}
          <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
          <div class="col-md-12 questionHead sub-question arrow_box-top">
          <div class="col-sm-3 m-t-15 ">
-            <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
+            <input type="text" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
             <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="">
                 <option selected value="">Select Question Type</option>
                 <option @if($subQuestion['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
