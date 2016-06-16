@@ -32,7 +32,7 @@
 
             <form class="form-horizontal col-sm-12 mri-form setQuestion" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/'.$action.'/' ) }}" data-parsley-validate onsubmit="return validatefrequencySettings(true);">
 
-            <!-- test -->
+            
             <div class="row">
               <div class="col-sm-6">
                 <div class="form-group">
@@ -56,7 +56,8 @@
                 </div>
               </div>
             </div>
-            <!-- /test -->
+            <hr class="m-t-0">
+            
 
                   
                   
@@ -81,8 +82,10 @@
                     </div>
                   </div>  
                   @endif
+
                   <div class="questionnaire-setting">
-                    <div class="form-group">
+                    <div class="form-group m-b-0">
+ 
                       <label for="frequency" class="col-sm-2 side-label">Frequency</label>
                       <div class="col-sm-5">
                         <input type="text" name="frequencyDay" class="form-control input-days" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
@@ -94,9 +97,10 @@
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
                     </div>
+                    <span class="col-md-offset-2 help-block m-t-5 m-b-25">Specify the interval after which the patient should be able to answer the questionnaire again.</span>
 
 
-                   <div class="form-group">
+                   <div class="form-group m-b-0">
                       <label for="gracePeriod" class="col-sm-2 side-label">Grace Period</label>
                       <div class="col-sm-5">
                         <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="No .of" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
@@ -108,8 +112,9 @@
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
                     </div>
+                     <span class="col-md-offset-2 help-block m-t-5 m-b-25">The time duration in which a patient is allowed to answer a questionnaire after it is Due.</span>
 
-                   <div class="form-group">
+                   <div class="form-group m-b-0">
                     <label for="reminderTime" class="col-sm-2 side-label">Reminder Time</label>
                     <div class="col-sm-5">
                       <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="No. of" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
@@ -121,7 +126,12 @@
                     data-parsley-type="digits"><h6 class="seconds">hours</h6>
                     </div>
                   </div>
+
                   </div>
+
+                  <span class="col-md-offset-2 help-block m-t-5 m-b-25">Mention the time period before the next occurrence when the reminder notification should be triggered.</span>
+
+
                   <div class="form-group questActions">
                     <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
