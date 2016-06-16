@@ -49,7 +49,7 @@
                       <div class="panel panel-default">
                         <div class="panel-heading">
                           <div class="panel-title">
-                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
                     <!-- /test -->
                    <div class="col-md-12 questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
@@ -83,7 +83,7 @@
                    <!--/test-->
 
                    <!-- test -->
-                   <div id="collapseOne" class="panel-collapse collapse in">
+                   <div id="collapse-{{ $i }}" class="panel-collapse collapse in">
       <div class="panel-body">
                    <!-- /test -->
                    <!-- options -->
