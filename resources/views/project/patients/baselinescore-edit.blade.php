@@ -138,7 +138,7 @@
         @endforeach
         <div class="text-right">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-           <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score') }}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
+           <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score/list') }}" class="btn btn-default"><i class="fa fa-times"></i> Cancel</a>
            <button class="btn btn-primary"><i class="fa fa-check"></i> Save</button>
         </div>
       </form>
