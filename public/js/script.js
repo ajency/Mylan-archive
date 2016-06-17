@@ -1621,8 +1621,17 @@ $('.question-list').on('change', '.questionType', function(event) {
     }
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
+
+        html +='<div class="row panel-collapse collapse in" id="collapse-'+i+'">';
         html +='<div class="col-sm-1"></div>';
         html +='<div class="col-sm-10 m-t-15 question-options-block">';
+        html +='<div class="row gray-section">';
+        html +='<div class="col-md-6">';
+        html +='<strong>Enter the options for this question</strong>';
+        html +='<p>You can add a sub question too</p>';
+        html +='</div>';
+              
+        html +='</div>';
         html +='<div class="option-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
@@ -1635,7 +1644,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
         {
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
-            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]">';
+            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]"><small class="help-text">Add sub question</small>';
             html +='</div>';
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
             html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
@@ -1653,6 +1662,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         html +='</div> ';
         html +='</div> ';
         html +='<div class="col-sm-1"></div>';
+        html +='</div> ';
 
 
        
@@ -1898,9 +1908,10 @@ $('.add-question').click(function (event) {
     {
         $(".parentQuestion:last").find(".delete-parent-question").removeClass("hidden");
 
-        html ='<div class="row parentQuestion question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-        html +='<div class="col-md-12 questionHead">';
-        html +='<div class="col-sm-3 m-t-15 m-b-15">';
+        html ='<div class="row parentQuestion question  panel panel-default" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+        html +='<div class="col-md-12 questionHead  panel-heading">';
+        html +='<div class="col-sm-3 m-t-15">';
+        html +='<label>Type of question</label>';
         html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType">';
         html +='<option value="">Select Question Type</option>';
         html +='<option value="single-choice"> Single-choice</option>';
@@ -1910,16 +1921,21 @@ $('.add-question').click(function (event) {
         html +='<option value="input" data-value="weight"> Weight </option>';
         html +='</select>';
         html +='</div>';
-        html +='<div class="col-sm-2 m-t-15 m-b-15">';
+        html +='<div class="col-sm-3 m-t-15">';
+        html +='<label for="">A short question identifier</label>';
         html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" >';
         html +='</div> ';
-        html +='<div class="col-sm-6 m-t-15 m-b-15">';
+        html +='<div class="col-sm-5 m-t-15">';
+        html +='<label for="">What do you need to ask</label>';
         html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" >';
         html +='</div> ';
 
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
         html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
+        html +='<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
+        html +='Collapsible Group Item #'+i+' ';
+        html +='</a>';
         html +='</div>';
         html +='</div>';
 
