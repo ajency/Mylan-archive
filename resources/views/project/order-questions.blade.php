@@ -5,7 +5,7 @@
       <p>
       <ul class="breadcrumb">
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
-        <li><a href="#" class="active">Questionnaire Settings</a> </li>
+        <li><a href="#" class="active">Question Sorting</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->
@@ -15,7 +15,7 @@
 <!-- BEGIN PAGE TITLE -->
 <div>                   
    <div class="page-title">
-      <h3><span class="semi-bold">Settings</span></h3>
+      <h3><span class="semi-bold">Question Sorting</span></h3>
    </div>
 </div>
                                    

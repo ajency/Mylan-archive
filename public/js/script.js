@@ -1622,6 +1622,7 @@ $('.question-list').on('change', '.questionType', function(event) {
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
 
+        $(this).closest('questionHead').find('.accordion-toggle').removeClass('hidden');
         html +='<div class="row panel-collapse collapse in" id="collapse-'+i+'">';
         html +='<div class="col-sm-1"></div>';
         html +='<div class="col-sm-10 m-t-15 question-options-block">';
@@ -1937,12 +1938,15 @@ $('.add-question').click(function (event) {
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
         html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
-        html +='<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
+        html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
         html +='Collapsible Group Item #'+i+' ';
         html +='</a>';
         html +='</div>';
         html +='</div>';
 
+        if($('.question-list').find('.no_question').length)
+            $('.question-list').find('.no_question').addClass('hidden');
+            
         $('.question-list').append(html);
         $('input[name="counter"]').val(i);
     }

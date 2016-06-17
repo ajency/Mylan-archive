@@ -5,7 +5,7 @@
       <p>
       <ul class="breadcrumb">
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
-        <li><a href="#" class="active">Questionnaire Settings</a> </li>
+        <li><a href="#" class="active">Configure Questionnaire</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->
@@ -16,10 +16,10 @@
 <div>
                     
                      <div class="page-title">
-                        <h3><span class="semi-bold">Settings</span></h3>
+                        <h3><span class="semi-bold">Configure Questionnaire</span></h3>
                      </div>
                   </div>
-                                   
+                  Add questions to your questionnaire by selecting the required question type from the drop-down. You can also add sub questions for question type 'Single choice'. Once questions are added your can reorder the questions and proceed to publish.                 
                    
                           
                            <div class="grid simple">
@@ -35,6 +35,9 @@
             <?php 
             $i=0;
             ?>
+            @if(empty($questionsList))
+              <div class="no_question">No Questions added</div>
+            @else
             @foreach($questionsList as $questionId => $question)
                 <?php 
                 $isWeight = false;
@@ -271,6 +274,7 @@
             $i= ($k==0)?$i+1:$k+1;
             ?>
             @endforeach
+            @endif
             
             <!-- <div class="row question parentQuestion  panel panel-default" row-count="{{ $i }}">
                <input type="hidden" name="questionId[{{ $i }}]" value="">

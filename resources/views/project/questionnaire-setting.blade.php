@@ -16,7 +16,7 @@
 <div>
                     
                      <div class="page-title">
-                        <h3><span class="semi-bold">Settings</span></h3>
+                        <h3><span class="semi-bold">Questionnaire Settings</span></h3>
                      </div>
                   </div>
                                    
