@@ -9507,12 +9507,18 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   background: none;
 }
 .create-quest-accordion .panel-heading .panel-title a:after {
-  content: "";
+  font-family: FontAwesome;
+  content: "\f077";
   float: left;
+  margin-top: -60px;
+  margin-left: 5px;
 }
 .create-quest-accordion .panel-heading .panel-title a.collapsed:after {
-  content: "";
+  font-family: FontAwesome;
+  content: "\f078";
   float: left;
+  margin-top: -60px;
+  margin-left: 5px;
 }
 .help-block.m-t-5 {
   margin-top: 5px;
