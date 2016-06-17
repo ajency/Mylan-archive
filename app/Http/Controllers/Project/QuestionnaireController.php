@@ -908,7 +908,7 @@ class QuestionnaireController extends Controller
 			$questionObjs->ascending("createdAt");
 			$questions = $questionObjs->find();
 
-			$questionsList = $this->getSequenceQuestions($questions,true);
+			$questionsList = $this->getSequenceQuestions($questions);
 			 
 		  
 
