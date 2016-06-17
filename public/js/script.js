@@ -1630,7 +1630,7 @@ $('.question-list').on('change', '.questionType', function(event) {
             html +='<div class="row gray-section">';
             html +='<div class="col-md-6">';
             html +='<strong>Enter the options for this question</strong>';
-            html +='<p>You can add a sub question too</p>';
+            html +='<p>You can add a sub question too. The score declares the severity of the patient</p>';
             html +='</div>';
             html +='</div>';
         }
@@ -1938,7 +1938,8 @@ $('.add-question').click(function (event) {
         html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
         html +='<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
-        html +='Collapsible Group Item #'+i+' ';
+        html +='<i class="indicator glyphicon glyphicon-chevron-down pull-right chevron"></i>';
+        
         html +='</a>';
         html +='</div>';
         html +='</div>';

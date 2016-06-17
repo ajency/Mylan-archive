@@ -70,7 +70,7 @@
                       <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
                    </div>
                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
-                    Collapsible Group Item #{{ $i }} 
+                     <i class="indicator glyphicon glyphicon-chevron-up  pull-right" style="margin-top: -25px; color: #333;"></i>
                   </a>
                    </div>
       
@@ -86,7 +86,7 @@
                     <div class="row gray-section">
                       <div class="col-md-6">
                         <strong>Enter the options for this question</strong>
-                        <p>You can add a sub question too</p>
+                        <p>You can add a sub question too. The score declares the severity of the patient</p>
                       </div>
                       <!-- <div class="col-md-4">
                         <strong>For the sub question</strong>
@@ -329,6 +329,16 @@ $(function(){
   });
 
 });
-  
+
+$( document ).ready(function() {
+    function toggleChevron(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find("i.indicator")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+}
+$('#accordion').on('hidden.bs.collapse', toggleChevron);
+$('#accordion').on('shown.bs.collapse', toggleChevron);
+});  
 </script>
 @endsection

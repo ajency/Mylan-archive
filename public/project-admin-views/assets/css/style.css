@@ -9535,3 +9535,17 @@ small.help-text {
   line-height: 12px;
   margin-top: 5px;
 }
+.chevron {
+  margin-top: 15px;
+  color: #333;
+}
+button.add-question {
+  border: 1px solid;
+  font-weight: bold;
+  text-decoration: none;
+}
+button.add-question:hover {
+  border: 1px solid;
+  font-weight: bold;
+  text-decoration: none;
+}
