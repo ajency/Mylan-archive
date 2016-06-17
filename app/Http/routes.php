@@ -31,7 +31,7 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     
 } );
 
-Route::group( ['prefix' => 'api/v3', function() {
+Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\apiDataController@apiLogin');
 	Route::get('fillproject', 'Rest\apiDataController@projectList');
 	Route::get('mapping-data', 'Rest\apiDataController@mappingList');
