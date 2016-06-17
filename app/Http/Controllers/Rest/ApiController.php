@@ -144,5 +144,6 @@ class ApiController extends Controller
             $data['projectName'] = $projectName['name'][0];
         }       
         $data['referCode'] = $reference;
-        
+        return $data;
+    }
 }
