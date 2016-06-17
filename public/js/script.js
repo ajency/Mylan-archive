@@ -1625,13 +1625,17 @@ $('.question-list').on('change', '.questionType', function(event) {
         html +='<div class="row panel-collapse collapse in" id="collapse-'+i+'">';
         html +='<div class="col-sm-1"></div>';
         html +='<div class="col-sm-10 m-t-15 question-options-block">';
-        html +='<div class="row gray-section">';
-        html +='<div class="col-md-6">';
-        html +='<strong>Enter the options for this question</strong>';
-        html +='<p>You can add a sub question too</p>';
-        html +='</div>';
+        if(!$(this).hasClass('subquestionType'))
+        {
+            html +='<div class="row gray-section">';
+            html +='<div class="col-md-6">';
+            html +='<strong>Enter the options for this question</strong>';
+            html +='<p>You can add a sub question too</p>';
+            html +='</div>';
+            html +='</div>';
+        }
               
-        html +='</div>';
+        
         html +='<div class="option-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
         html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
