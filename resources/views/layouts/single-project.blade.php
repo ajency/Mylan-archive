@@ -8,6 +8,8 @@
       <meta content="" name="description" />
       <meta content="" name="author" />
       <meta name="csrf-token" content="{{ csrf_token() }}" />
+	  <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
+	 
       <!-- BEGIN PLUGIN CSS -->
       <link href="{{ asset('project-admin-views/assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       <link href="{{ asset('project-admin-views/assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
@@ -318,7 +320,6 @@
       });
    </script>
        
-      <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
 
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
@@ -366,7 +367,35 @@
       <script src="{{ asset('js/tabs_accordian.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
-
-
+	  <script>
+	  $(document).ready(function() { 
+		$.ajax({
+			url: '{{ url() }}/admin/API/reference-code',
+			crossDomain : true,
+			type: 'GET',
+			data: {'referencevalues' : 1},
+			success: function(data){
+				// for(var i=0; i<data.referCode.length; i++){
+					// var myVar = "";
+					// var storage = chrome.storage.local;
+					
+					// console.log(data.referCode[i]);
+					// myVar = data.referCode[i];
+					// storage.get( myVar, function (result) {
+					
+						// var key = "";
+						// key = Object.keys(result);
+						// console.log(key);
+						//if(result[key] != ""){
+							// $(".patientId-"+key).html(result[key]);
+						//}	
+					// });	
+				// }
+			
+			}
+		});
+	 });
+		 
+	  </script>
  
 </html>

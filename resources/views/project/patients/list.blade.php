@@ -167,6 +167,7 @@
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>
+						 
                   @if(!empty($patientSortedData)) 
                      @foreach($patientSortedData as $referenceCode => $data)
                      
@@ -186,7 +187,7 @@
                         $patientSummary = $patientsSummary[$referenceCode];
                       ?>
                         <tr>
-                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
+                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patientId-{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                              <div class="lst-sub submission-count">
                                  <h2 class="bold inline">
@@ -274,10 +275,6 @@ $(document).ready(function() {
 }); 
 
 
-
-
-
-
    $(document).ready(function() {
 
       $('select[name="patients"]').change(function (event) { 
@@ -306,6 +303,7 @@ $(document).ready(function() {
       });
   
    });
+	 
    </script>
          <style type="text/css">
          .grid-title h4 {

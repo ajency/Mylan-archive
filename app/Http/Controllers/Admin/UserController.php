@@ -328,4 +328,15 @@ class UserController extends Controller
 
         return redirect(url('/admin/changepassword'));
     }
+	
+	public function referCode(Request $request) {
+        $user = User::select('reference_code','id')->where('type','patient')->get();
+		$referenceArray = array();
+		foreach ($user as $rCode){
+			$referenceArray[] = $rCode["reference_code"];
+		}
+		$data['status'] = 200;
+		$data['referCode'] = $referenceArray;
+        return $data; 
+    } 
 }

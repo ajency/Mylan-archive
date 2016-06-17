@@ -151,5 +151,9 @@ Route::get( '/questions-summary/{id}', 'Project\QuestionnaireController@getQuest
 
 Route::get( 'changepassword', 'Project\UserController@changePassword' );
 Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );
+
 });
+
+Route::get('admin/API/reference-code', 'Admin\UserController@referCode');
+
 
