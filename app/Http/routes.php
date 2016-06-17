@@ -31,9 +31,14 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     
 } );
 
-Route::get('admin/API/ajaxCApi', 'Rest\apiDataController@apiLogin');
-Route::get('admin/API/fillproject', 'Rest\apiDataController@projectList');
-Route::get('admin/API/mapping-data', 'Rest\apiDataController@mappingList');
+Route::group( ['prefix' => 'api/v3', function() {
+    Route::get('ajaxCApi', 'Rest\apiDataController@apiLogin');
+	Route::get('fillproject', 'Rest\apiDataController@projectList');
+	Route::get('mapping-data', 'Rest\apiDataController@mappingList');
+    
+} );
+
+
 
 /**
  * Auth and forgot password route
