@@ -72,9 +72,11 @@
                    <div class="col-sm-1 text-center m-t-40 del-question-blk">
                       <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
                    </div>
+                  @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
                      <i class="indicator glyphicon glyphicon-chevron-up  pull-right" style="margin-top: -25px; color: #333;"></i>
                   </a>
+                  @endif
                    </div>
       
                    <!-- options -->

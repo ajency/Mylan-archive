@@ -1622,7 +1622,7 @@ $('.question-list').on('change', '.questionType', function(event) {
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
 
-        $(this).closest('questionHead').find('.accordion-toggle').removeClass('hidden');
+        $(this).closest('.questionHead').find('.accordion-toggle').removeClass('hidden');
         html +='<div class="row panel-collapse collapse in" id="collapse-'+i+'">';
         html +='<div class="col-sm-1"></div>';
         html +='<div class="col-sm-10 m-t-15 question-options-block">';
@@ -1671,6 +1671,11 @@ $('.question-list').on('change', '.questionType', function(event) {
 
 
        
+    }
+
+    if(($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight") || $(this).val()=="descriptive")
+    {
+        $(this).closest('.questionHead').find('.accordion-toggle').addClass('hidden');
     }
     
     $(this).closest('.question').find('.questionHead').after(html);
@@ -1938,7 +1943,7 @@ $('.add-question').click(function (event) {
         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
         html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
-        html +='<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
+        html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
         html +='<i class="indicator glyphicon glyphicon-chevron-down pull-right chevron"></i>';
         html +='</a>';
         html +='</div>';
