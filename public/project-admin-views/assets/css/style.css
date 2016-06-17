@@ -9520,6 +9520,10 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   margin-top: -60px;
   margin-left: 5px;
 }
+#accordion label {
+  color: #a99d9d;
+  font-size: 12px;
+}
 .help-block.m-t-5 {
   margin-top: 5px;
 }
@@ -9534,6 +9538,7 @@ small.help-text {
   display: inline-block;
   line-height: 12px;
   margin-top: 5px;
+  color: #a99d9d;
 }
 .chevron {
   margin-top: 15px;
@@ -9559,4 +9564,8 @@ button.add-question:hover {
   background: #05A8A5;
   font-weight: bold;
   color: #ffffff;
+}
+.no_question {
+  font-size: 18px;
+  color: #333;
 }

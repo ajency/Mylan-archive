@@ -1629,7 +1629,7 @@ $('.question-list').on('change', '.questionType', function(event) {
         if(!$(this).hasClass('subquestionType'))
         {
             html +='<div class="row gray-section">';
-            html +='<div class="col-md-6">';
+            html +='<div class="col-md-12">';
             html +='<strong>Enter the options for this question</strong>';
             html +='<p>You can add a sub question too. The score declares the severity of the patient</p>';
             html +='</div>';
@@ -1944,7 +1944,7 @@ $('.add-question').click(function (event) {
         html +='<button type="button" class="btn btn-white delete-parent-question delete-question hidden"><i class="fa fa-trash"></i></button>';
         html +='</div>';
         html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
-        html +='<i class="indicator glyphicon glyphicon-chevron-down pull-right chevron"></i>';
+        html +='<i class="indicator glyphicon glyphicon-chevron-up pull-right chevron"></i>';
         html +='</a>';
         html +='</div>';
         html +='</div>';

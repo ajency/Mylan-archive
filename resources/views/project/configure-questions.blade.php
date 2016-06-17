@@ -36,7 +36,8 @@
             $i=0;
             ?>
             @if(empty($questionsList))
-              <div class="no_question">No Questions added</div>
+              <div class="no_question">No Questions added yet !</div>
+              <div class="m-b-20">Add a Question to continue</div>
             @else
             @foreach($questionsList as $questionId => $question)
                 <?php 
@@ -74,14 +75,14 @@
                    </div>
                   @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
-                     <i class="indicator glyphicon glyphicon-chevron-up  pull-right" style="margin-top: -25px; color: #333;"></i>
+                     <i class="indicator glyphicon glyphicon-chevron-down  pull-right" style="margin-top: -25px; color: #333;"></i>
                   </a>
                   @endif
                    </div>
       
                    <!-- options -->
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                   <div class="row panel-collapse collapse in" id="collapse-{{ $i }}">
+                   <div class="row panel-collapse collapse" id="collapse-{{ $i }}">
                    <div class="col-sm-1"></div>
                     <div class="col-sm-10 question-options-block m-t-20 @if($isWeight) hidden @endif" >
                     <?php 
@@ -89,7 +90,7 @@
                       ?>
                     @if(isset($optionsList[$questionId]))
                     <div class="row gray-section">
-                      <div class="col-md-6">
+                      <div class="col-md-12">
                         <strong>Enter the options for this question</strong>
                         <p>You can add a sub question too. The score declares the severity of the patient</p>
                       </div>
