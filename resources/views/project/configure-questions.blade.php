@@ -285,7 +285,7 @@
   ?>
   @endforeach
 
-  <div class="row question parentQuestion" row-count="{{ $i }}">
+<!--   <div class="row question parentQuestion" row-count="{{ $i }}">
    <input type="hidden" name="questionId[{{ $i }}]" value="">
    <div class="col-md-12 questionHead">
      <div class="col-sm-3 m-t-15">
@@ -308,7 +308,7 @@
       <button type="button" class="btn btn-white delete-question delete-parent-question hidden" object-id=""><i class="fa fa-trash"></i></button>
     </div>
   </div>
-</div>
+</div> -->
 </div>
 <input type="hidden" name="counter" id="counter" value="{{ $i }}">
 <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
