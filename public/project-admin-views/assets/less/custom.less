@@ -1665,3 +1665,55 @@ ul.ui-multiselect-checkboxes{
 .photographer-filters, .makeup-filter{
 		color: #fff;
 }
+
+.create-quest-accordion{
+  .panel-heading{
+    background: none;
+    padding: 0;
+    &.collapsed{
+      background: none;
+    }
+    .panel-title{
+      a{
+        &:after{
+          font-family: FontAwesome;
+          content: "\f077";
+          float: left;
+          margin-top: -60px;
+          margin-left: 5px;
+        }
+        &.collapsed{
+          &:after{
+            font-family: FontAwesome;
+            content: "\f078";
+            float: left;
+            margin-top: -60px;
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.help-block{
+  &.m-t-5{
+    margin-top: 5px;
+  }
+}
+
+.row{
+  &.gray-section{
+    background: #eee;
+    padding-top: 10px;
+    strong{
+      color: @color-black;
+    }
+  }
+}
+
+small.help-text{
+  display: inline-block;
+  line-height: 12px;
+  margin-top: 5px;
+}

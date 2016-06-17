@@ -31,6 +31,15 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     
 } );
 
+Route::group( ['prefix' => 'api/v3'], function() {
+    Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
+	Route::get('fillproject', 'Rest\ApiController@projectList');
+	Route::get('mapping-data', 'Rest\ApiController@mappingList');
+    
+} );
+
+
+
 /**
  * Auth and forgot password route
  */

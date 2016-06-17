@@ -210,11 +210,11 @@ class QuestionnaireController extends Controller
 		  $questionnaireId ="";
 		  $settings =[];
 		  $settings['frequency']['day'] = ''; 
-		  $settings['frequency']['hours'] = ''; 
+		  $settings['frequency']['hours'] = '10'; 
 		  $settings['gracePeriod']['day'] = '';
-		  $settings['gracePeriod']['hours'] = '';
+		  $settings['gracePeriod']['hours'] = '4';
 		  $settings['reminderTime']['day'] = '';
-		  $settings['reminderTime']['hours'] = '';
+		  $settings['reminderTime']['hours'] = '2';
 		  $settings['editable'] = '';
 		  $settings['type'] = ''; 
 		  $settings['name'] = ''; 
@@ -908,7 +908,7 @@ class QuestionnaireController extends Controller
 			$questionObjs->ascending("createdAt");
 			$questions = $questionObjs->find();
 
-			$questionsList = $this->getSequenceQuestions($questions,false);
+			$questionsList = $this->getSequenceQuestions($questions,true);
 			 
 		  
 

@@ -9328,6 +9328,9 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .setQuestion .questActions button {
   margin-right: 15px;
 }
+.print-pdf {
+  margin-top: 73px;
+}
 .question {
   border: 2px solid rgba(160, 160, 160, 0.23);
   margin-bottom: 30px;
@@ -9492,7 +9495,43 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
 .questionSummary__options ul li {
   list-style: none;
 }
-
-.print-pdf{
-  margin-top:73px
+.photographer-filters,
+.makeup-filter {
+  color: #fff;
+}
+.create-quest-accordion .panel-heading {
+  background: none;
+  padding: 0;
+}
+.create-quest-accordion .panel-heading.collapsed {
+  background: none;
+}
+.create-quest-accordion .panel-heading .panel-title a:after {
+  font-family: FontAwesome;
+  content: "\f077";
+  float: left;
+  margin-top: -60px;
+  margin-left: 5px;
+}
+.create-quest-accordion .panel-heading .panel-title a.collapsed:after {
+  font-family: FontAwesome;
+  content: "\f078";
+  float: left;
+  margin-top: -60px;
+  margin-left: 5px;
+}
+.help-block.m-t-5 {
+  margin-top: 5px;
+}
+.row.gray-section {
+  background: #eee;
+  padding-top: 10px;
+}
+.row.gray-section strong {
+  color: #1b1e24;
+}
+small.help-text {
+  display: inline-block;
+  line-height: 12px;
+  margin-top: 5px;
 }
