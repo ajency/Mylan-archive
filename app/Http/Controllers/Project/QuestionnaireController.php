@@ -207,6 +207,7 @@ class QuestionnaireController extends Controller
 		  $questionnaireQry->equalTo("project",$projectId);
 		  $questionnaire = $questionnaireQry->first();
 
+		  $nextPage = "yes";
 		  $questionnaireId ="";
 		  $settings =[];
 		  $settings['frequency']['day'] = ''; 
@@ -224,6 +225,7 @@ class QuestionnaireController extends Controller
 		  $action ="store-questionnaire-setting";
 		  if(!empty($questionnaire))
 		  {
+		  	$nextPage = "no";
 			$gracePeriod = secondsToTime($questionnaire->get('gracePeriod'));
 			$settings['gracePeriod']['day'] = $gracePeriod['d']; 
 			$settings['gracePeriod']['hours'] = $gracePeriod['h']; 
@@ -265,6 +267,7 @@ class QuestionnaireController extends Controller
 										->with('hospital', $hospital)
 										->with('project', $project)
 										->with('action', $action)
+										->with('nextPage', $nextPage)
 										->with('questionnaireId', $questionnaireId)
 										->with('settings', $settings);
 	}
@@ -288,7 +291,8 @@ class QuestionnaireController extends Controller
 			$gracePeriodHours = $request->input('gracePeriodHours');
 			$reminderTimeDay = $request->input('reminderTimeDay');
 			$reminderTimeHours = $request->input('reminderTimeHours');
-			$name = $request->input('name');   
+			$name = $request->input('name');  
+			$nextPage = $request->input('next_page');   
 
 			$frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
 			$gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
@@ -311,6 +315,7 @@ class QuestionnaireController extends Controller
 			$questionnaire->set('type',$type);
 			$questionnaire->set('status',"draft");
 			$questionnaire->save();
+			$questionnaireId = $questionnaire->getObjectId();
 
 	 
 			$schedule = new ParseObject("Schedule");
@@ -323,7 +328,10 @@ class QuestionnaireController extends Controller
 		} catch (\Exception $e) {
 			exceptionError($e);           
 		}
-		return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+ 
+		return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
+
+		// return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
 	}
 
 	public function saveQuestionnaireSetting(Request $request,$hospitalSlug,$projectSlug)
