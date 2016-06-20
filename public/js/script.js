@@ -683,6 +683,8 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         return graphObj;
     })
    
+    // chartDataLength = Object.keys(chartData).length;
+
 
     var chart = AmCharts.makeChart(container, {
         "type": "serial",
@@ -723,7 +725,7 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         "categoryAxis": {
             "gridPosition": "start",
             "markPeriodChange": false,
-            "minHorizontalGap": 100,
+            "minHorizontalGap": 115,
             // "labelRotation": 45,
             "axisAlpha": 0,
              "fillColor": "#000000",
@@ -816,7 +818,7 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           "categoryAxis": {
               "gridPosition": "start",
               "markPeriodChange": false,
-              "minHorizontalGap": 100,
+              "minHorizontalGap": 115,
               // "labelRotation": 45,
               "axisAlpha": 0,
                "fillColor": "#000000",
@@ -907,7 +909,7 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          "categoryAxis": {
              "gridPosition": "start",
              "markPeriodChange": false,
-              "minHorizontalGap": 100,
+              "minHorizontalGap": 115,
              "axisAlpha": 0,
               "fillColor": "#000000",
              "gridAlpha": 0,
