@@ -475,6 +475,8 @@ class QuestionnaireController extends Controller
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
 
+			$questionnaireName = $questionnaire->get("name");
+
 			$questionObjs = new ParseQuery("Questions");
 			$questionObjs->equalTo("questionnaire",$questionnaire);
 			$questionObjs->ascending("createdAt");
@@ -523,6 +525,7 @@ class QuestionnaireController extends Controller
 										->with('questionnaireId', $questionnaireId)
 										->with('hospital', $hospital)
 										->with('project', $project)
+										->with('questionnaireName', $questionnaireName)
 										->with('optionsList', $optionsList)
 										->with('subQuestions', $subQuestions)
 										->with('questionsList', $questionsList);
@@ -939,6 +942,8 @@ class QuestionnaireController extends Controller
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
 
+			$questionnaireName = $questionnaire->get("name");
+
 			$questionObjs = new ParseQuery("Questions");
 			$questionObjs->equalTo("questionnaire",$questionnaire);
 			$questionObjs->ascending("createdAt");
@@ -957,6 +962,7 @@ class QuestionnaireController extends Controller
 		return view('project.order-questions')->with('active_menu', 'settings')
 										->with('questionnaireId', $questionnaireId)
 										->with('hospital', $hospital)
+										->with('questionnaireName', $questionnaireName)
 										->with('project', $project)
 										->with('questionsList', $questionsList);
 	}

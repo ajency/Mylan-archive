@@ -24,7 +24,7 @@
     <div class="grid simple">
       <div class="grid-body no-border table-data">
              <br>
-         <h3 class="">{{ $project['name'] }}</h3>
+          <h3 class="">{{ $questionnaireName }}</h3>
         
         <hr>
           @include('admin.flashmessage')
@@ -57,9 +57,9 @@
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
           <input type="hidden" value="" name="redirect_url"/>
-            <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> -->
-            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><i class="fa fa-backward" aria-hidden="true"></i> Previous</button>
-            <!-- </a>  -->
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
+            <button type="button" class="btn btn-default" ><i class="fa fa-backward" aria-hidden="true"></i> Previous</button>
+            </a> 
             @if(!empty($questionsList))
             <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
             <a href="#"><button type="button" class="btn btn-default publish-questionnaire">  <i class="fa fa-check-square-o" aria-hidden="true"></i> Publish</button></a> 
