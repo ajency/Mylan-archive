@@ -26,7 +26,7 @@
                            <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                       <h3 class="">{{ $project['name'] }}</h3>
+                       <h3 class="">{{ $settings['name'] }}</h3>
                       
                       <hr>
           @include('admin.flashmessage')
@@ -157,9 +157,9 @@
                       <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnaireId ) }}" class="pull-right"><button type="button" class="btn btn-link cust-link"> Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
                       @elseif($action =="update-questionnaire-setting")
 
-                      <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> -->
-                      <button type="button" class="btn btn-link pull-right cust-link validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
-                      <!-- </a> -->
+                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
+                      <button type="button" class="btn btn-link pull-right cust-link "> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                      </a>
 
                       @endif
                     </div>

@@ -25,7 +25,7 @@
                            <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                       <h3 class="">{{ $project['name'] }}</h3>
+                       <h3 class="">{{ $questionnaireName }}</h3>
                       
                       <hr>
           @include('admin.flashmessage')
