@@ -353,7 +353,8 @@ class QuestionnaireController extends Controller
 			$gracePeriodHours = $request->input('gracePeriodHours');
 			$reminderTimeDay = $request->input('reminderTimeDay');
 			$reminderTimeHours = $request->input('reminderTimeHours');
-			$name = $request->input('name');   
+			$name = $request->input('name');  
+			$redirectUrl = $request->input("redirect_url"); 
 
 			$frequency = strval(convertToSeconds($frequencyDay,$frequencyHours));   
 			$gracePeriod = intval(convertToSeconds($gracePeriodDay,$gracePeriodHours));   
@@ -399,7 +400,11 @@ class QuestionnaireController extends Controller
 
 			exceptionError($e);           
 		}
-		return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+		// return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+		if($redirectUrl=='')
+			return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+		else
+			return redirect($redirectUrl);
 	}
 
 	public function getQuestionsSummary($hospitalSlug,$projectSlug,$questionnaireId)
@@ -974,6 +979,7 @@ class QuestionnaireController extends Controller
 
 			$questionIds = $request->input("questionId");
 			$submitType = $request->input("submitType");
+			$redirectUrl = $request->input("redirect_url"); 
 
 			$path="";
 			if($submitType=="publish")
@@ -1025,7 +1031,12 @@ class QuestionnaireController extends Controller
 		    exceptionError($e);      
 		}  
 
-		  return redirect($path); 
+		
+		if($redirectUrl=='')
+			return redirect($path); 
+		else
+			return redirect($redirectUrl);
+			  
 	}
 
 

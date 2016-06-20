@@ -152,6 +152,7 @@
                   <div class="form-group questActions">
                     <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+                    <input type="hidden" value="" name="redirect_url"/>
                       <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
 
                       @if($settings['status'] =="published")

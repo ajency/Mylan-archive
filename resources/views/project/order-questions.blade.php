@@ -56,6 +56,7 @@
           <div class="col-sm-10 m-t-10 mri-submit questionSubmitBtn">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
+          <input type="hidden" value="" name="redirect_url"/>
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> -->
             <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"><i class="fa fa-backward" aria-hidden="true"></i> Previous</button>
             <!-- </a>  -->
