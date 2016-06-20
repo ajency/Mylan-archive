@@ -1581,10 +1581,10 @@ $('.question-list').on('change', '.questionType', function(event) {
         html +='<div class="col-sm-1"></div>';
         html +='<div class="col-sm-10 question-options-block m-t-15 hidden">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][0]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][0]" id="question" type="hidden" placeholder="Enter score" value="1" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
@@ -1594,10 +1594,10 @@ $('.question-list').on('change', '.questionType', function(event) {
 
 
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][1]" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][1]" id="question" type="hidden" placeholder="Enter option" value="st" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][1]" id="question" type="hidden" placeholder="Enter score" value="2" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
@@ -1606,10 +1606,10 @@ $('.question-list').on('change', '.questionType', function(event) {
 
 
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][2]" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+'][2]" id="question" type="hidden" placeholder="Enter option" value="lb" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][2]" id="question" type="hidden" placeholder="Enter score" value="3" class="form-control" >';
         html +='</div> ';
         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
@@ -1639,10 +1639,10 @@ $('.question-list').on('change', '.questionType', function(event) {
         
         html +='<div class="option-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10  ">';
+        html +='<div class="col-sm-6 m-t-10 m-b-10  ">';
         html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" data-parsley-required>';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][0]" id="question" type="number" min="0" placeholder="Enter score" class="form-control" data-parsley-required>';
         html +='</div> ';
 
@@ -1775,10 +1775,10 @@ $('.question-list').on('click', '.add-option', function(event) {
 
         html ='<div class="option-block">';
         html +='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
-        html +='<div class="col-sm-7 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-3 m-t-10 m-b-10  ">';
+        html +='<div class="col-sm-4 m-t-10 m-b-10  ">';
         html +='<input name="score['+i+']['+j+']" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >';
         html +='</div> ';
 

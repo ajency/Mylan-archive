@@ -176,7 +176,7 @@
                                </div>
                                <!-- options -->
                                @if($subQuestion['type']=="single-choice" || $subQuestion['type']=="multi-choice" || $subQuestion['type']=="input")
-                                <div class="col-sm-8 col-sm-offset-2 m-t-15 question-options-block @if($isWeight) hidden @endif" >
+                                <div class="col-sm-10 col-sm-offset-1 m-t-15 question-options-block @if($isWeight) hidden @endif" >
                                 <?php 
                                   $l=0;
                                   ?>
@@ -186,10 +186,10 @@
                                   <div class="option-block">
                                   <div class="row">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                                    <div class="col-sm-7 m-t-10 m-b-10">
+                                    <div class="col-sm-6 m-t-10 m-b-10">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
                                     </div>
-                                    <div class="col-sm-3 m-t-10 m-b-10">
+                                    <div class="col-sm-4 m-t-10 m-b-10">
                                     <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
                                     </div> 
                                      <div class="col-sm-2 text-center m-t-10 m-b-10">
@@ -208,10 +208,10 @@
                                 <div class="option-block">
                                   <div class="row">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
-                                    <div class="col-sm-7 m-t-10 m-b-10 ">
+                                    <div class="col-sm-6 m-t-10 m-b-10 ">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                                     </div>
-                                    <div class="col-sm-3 m-t-10 m-b-10">
+                                    <div class="col-sm-4 m-t-10 m-b-10">
                                     <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
                                     </div> 
                                     <div class="col-sm-2 text-center m-t-10 m-b-10">
