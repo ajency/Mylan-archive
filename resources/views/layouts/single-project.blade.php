@@ -323,6 +323,7 @@
       <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/plupload/js/plupload.full.min.js' ) }}" type="text/javascript"></script>
       <script src="{{ asset('bower_components/underscore/underscore-min.js') }}" type="text/javascript"></script>
+       <script src="{{ asset('bower_components/jquery-confirm/jquery.confirm.min.js') }}" type="text/javascript"></script>
       
       
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>

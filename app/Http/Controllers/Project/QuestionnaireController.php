@@ -541,6 +541,7 @@ class QuestionnaireController extends Controller
 			$subquestionType = $request->input("subquestionType");
 			$subquestionTitle = $request->input("subquestionTitle");
 			$subquestion = $request->input("subquestion");
+			$redirectUrl = $request->input("redirect_url");
 
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
@@ -642,7 +643,10 @@ class QuestionnaireController extends Controller
 		  exceptionError($e);     
 		} 
 
-	  return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
+		if($redirectUrl=='')
+			return redirect(url($hospitalSlug .'/'. $projectSlug .'/configure-questions/'.$questionnaireId)); 
+		else
+			return redirect($redirectUrl);
 
 	} 
 

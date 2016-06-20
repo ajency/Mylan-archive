@@ -2004,6 +2004,34 @@ $('.question-list').on('click', '.delete-question', function(event) {
 
 });
 
+$('.validateAndRedirect').click(function (event) { 
+
+    var url = $(this).attr('url');
+    
+    $.confirm({
+        text: "Would like to save and redirect?",
+        title: "Confirmation required",
+        confirm: function(button) {
+            $("input[name='redirect_url']").val(url);
+            $('form').submit();
+        },
+        cancel: function(button) {
+            window.location = url;
+        },
+        confirmButton: "Yes",
+        cancelButton: "No",
+        post: true,
+        // confirmButtonClass: "btn-danger",
+        // cancelButtonClass: "btn-default",
+    
+    });
+
+     
+    
+
+});
+
+
 $('.publish-questionnaire').click(function (event) { 
     
     if (confirm('Are you sure you want to publish this questionnaire ?') === false) {
