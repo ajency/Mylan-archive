@@ -16,7 +16,8 @@
 <div>
                     
                      <div class="page-title">
-                        <h3><span class="semi-bold">Questionnaire Settings</span></h3>
+                        <h3 class="m-b-0"><span class="semi-bold">Questionnaire Settings</span></h3>
+                        <small class="db">Set the Questionnaire Parameters</small>
                      </div>
                   </div>
                                    
@@ -34,7 +35,7 @@
 
             
             <div class="row">
-              <div class="col-sm-5">
+              <div class="col-sm-4">
                 <div class="form-group">
                   <label for="editable" class="side-label bold">Name</label>
                   
@@ -42,7 +43,7 @@
                   
                 </div>
               </div>
-              <div class="col-sm-6">
+              <div class="col-sm-2">
                 <div class="form-group">
                   <label for="editable" class="side-label bold">Editable</label>
                   
@@ -54,6 +55,20 @@
                   </div>
                   
                 </div>
+              </div>
+
+              <div class="col-sm-4">
+                @if($settings['status'] =="published")
+                  <div class="form-group">
+                    <label for="Frequency" class="col-sm-2 side-label">Pause Project</label>
+                    <div class="col-sm-3" style="padding-right:0;">
+                      <select id="pauseProject" name="pauseProject" style="width:100%" class="">
+                      <option value="yes" {{ ($settings['pauseProject']=='yes')?'selected':'' }}>Yes</option>
+                      <option value="no" {{ ($settings['pauseProject']=='no')?'selected':'' }}>No</option>
+                      </select>
+                    </div>
+                  </div>  
+                  @endif
               </div>
             </div>
             <hr class="m-t-0">
@@ -80,17 +95,7 @@
                     <!-- </select>
                     </div>
                   </div> -->
-                  @if($settings['status'] =="published")
-                  <div class="form-group">
-                    <label for="Frequency" class="col-sm-2 side-label">Pause Project</label>
-                    <div class="col-sm-3" style="padding-right:0;">
-                      <select id="pauseProject" name="pauseProject" style="width:100%" class="">
-                      <option value="yes" {{ ($settings['pauseProject']=='yes')?'selected':'' }}>Yes</option>
-                      <option value="no" {{ ($settings['pauseProject']=='no')?'selected':'' }}>No</option>
-                      </select>
-                    </div>
-                  </div>  
-                  @endif
+                  
 
                   <div class="questionnaire-setting">
                     <div class="form-group clearfix">
