@@ -103,6 +103,13 @@ class SubmissionController extends Controller
             //   $cond = ['reviewed'=>'unreviewed'];
              
             // }
+
+            if($submissionStatus=='unreviewed')
+            {
+
+              $cond['status'] = 'completed';
+             
+            }
         }
         else
         {
@@ -110,7 +117,7 @@ class SubmissionController extends Controller
             $submissionStatus = 'completed';
             $responseStatus = ["completed"];
         }
-
+         
         if(isset($inputs['sort']))
         {
             $sortBy = $inputs['sort'];
