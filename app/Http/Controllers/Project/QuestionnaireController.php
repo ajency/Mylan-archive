@@ -210,12 +210,12 @@ class QuestionnaireController extends Controller
 		  $nextPage = "yes";
 		  $questionnaireId ="";
 		  $settings =[];
-		  $settings['frequency']['day'] = ''; 
-		  $settings['frequency']['hours'] = '10'; 
+		  $settings['frequency']['day'] = '1'; 
+		  $settings['frequency']['hours'] = '0'; 
 		  $settings['gracePeriod']['day'] = '';
-		  $settings['gracePeriod']['hours'] = '4';
+		  $settings['gracePeriod']['hours'] = '8';
 		  $settings['reminderTime']['day'] = '';
-		  $settings['reminderTime']['hours'] = '2';
+		  $settings['reminderTime']['hours'] = '1';
 		  $settings['editable'] = '';
 		  $settings['type'] = ''; 
 		  $settings['name'] = ''; 
@@ -864,27 +864,46 @@ class QuestionnaireController extends Controller
 				$conditions = $question->get("condition");
 				$isChild = $question->get("isChild");
 
-				$updatedCondition = [];
-				if(!$isChild)
-				{  
-					if(!empty($conditions))
-					{
-						foreach ($conditions as $key => $condition) {
-							$subquestionId = $condition['questionId'];
-							$questionOptionId = $condition['optionId'];
-							if($optionId == $questionOptionId)
-								$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
-							else
-								$updatedCondition[]=$condition;
-						}
+				//get options count for the question (server side verification)
 
-						$question->setArray('condition',$updatedCondition);
-				 		$question->save();
+				$questionOptions = new ParseQuery("Options");
+				$questionOptions->equalTo("question",$question);
+				$optionsCount = $questionOptions->count(); 
+
+				if($optionsCount > 1)
+				{
+					$updatedCondition = [];
+					if(!$isChild)
+					{  
+						if(!empty($conditions))
+						{
+							foreach ($conditions as $key => $condition) {
+								$subquestionId = $condition['questionId'];
+								$questionOptionId = $condition['optionId'];
+								if($optionId == $questionOptionId)
+									$deleteQuestion = $this->deleteQuestionAndOptions($subquestionId);
+								else
+									$updatedCondition[]=$condition;
+							}
+
+							$question->setArray('condition',$updatedCondition);
+					 		$question->save();
+						}
+						
 					}
-					
+		 
+					$optionObj->destroy();
+
+					$message = "option deleted";
+					$statusCode = 203;
 				}
-	 
-				$optionObj->destroy();
+				else
+				{
+					$message = "failed option deleted";
+					$statusCode = 200;
+				}
+
+				
 
 		 	} catch (\Exception $e) {
 				exceptionError($e);    
@@ -892,8 +911,8 @@ class QuestionnaireController extends Controller
 
 		return response()->json([
 					'code' => 'delete_option',
-					'message' => "option deleted",
-						], 203);
+					'message' => $message,
+						], $statusCode);
 	}
 
 	public function getQuestionsOrder($hospitalSlug,$projectSlug,$questionnaireId)
