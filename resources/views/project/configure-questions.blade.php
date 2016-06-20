@@ -52,7 +52,7 @@
                    <div class="col-md-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
                    <label>Type of question</label>
-                      <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled>
+                      <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
                           <option selected value="">Select the question type</option>
                           <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
                           <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
@@ -64,11 +64,11 @@
                    </div>
                    <div class="col-sm-3 m-t-15">
                    <label for="">A short question identifier</label>
-                      <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" >
+                      <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
                    </div> 
                    <div class="col-sm-5 m-t-15">
                    <label for="">What do you need to ask</label>
-                      <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" >
+                      <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
                    </div>
                    <div class="col-sm-1 text-center m-t-40 del-question-blk">
                       <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
@@ -107,11 +107,11 @@
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                         <div class="col-sm-6 m-t-10 m-b-10">
                         
-                        <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
+                        <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
                         </div>
                         <div class="col-sm-4 m-t-10 m-b-10">
                         
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0">
+                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required> 
                         </div> 
                         @if($question['type']=="single-choice")
                           <div class="col-sm-1 text-center m-t-10 m-b-15">
@@ -154,7 +154,7 @@
                                <div class="col-md-12 questionHead sub-question arrow_box-top">
                                <div class="col-sm-3 m-t-15 ">
                                   <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
-                                  <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="">
+                                  <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="" data-parsley-required>
                                       <option selected value="">Select Question Type</option>
                                       <option @if($subQuestion['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
                                       <option @if($subQuestion['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
@@ -165,10 +165,10 @@
                                   <input type="hidden" name="subquestionType[{{ $k }}]"  value="{{ $question['type'] }}">
                                </div>
                                <div class="col-sm-2 m-t-15">
-                                  <input name="subquestionTitle[{{ $k }}]" id="subquestionTitle" type="text" value="{{ $subQuestion['title'] }}"   placeholder="Enter Title" class="form-control" >
+                                  <input name="subquestionTitle[{{ $k }}]" id="subquestionTitle" type="text" value="{{ $subQuestion['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
                                </div> 
                                <div class="col-sm-6 m-t-15">
-                                  <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" >
+                                  <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
                                </div>
                                <div class="col-sm-1 text-center m-t-15 del-question-blk">
                                   <button type="button" class="btn btn-white delete-question" object-id="{{ $subQuestionId }}"><i class="fa fa-trash"></i></button>
@@ -187,10 +187,10 @@
                                   <div class="row">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
                                     <div class="col-sm-7 m-t-10 m-b-10">
-                                    <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" >
+                                    <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
                                     </div>
                                     <div class="col-sm-3 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1">
+                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
                                     </div> 
                                      <div class="col-sm-2 text-center m-t-10 m-b-10">
                                       <button type="button" class="btn btn-white delete-option" counter-key="{{ $l }}"><i class="fa fa-trash"></i></button>
@@ -314,7 +314,7 @@
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">
             <button type="button" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i> Questionnaire Settings</button></a>
-            <button type="button" class="btn btn-primary save-questions"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
             <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"><button type="button" class="btn btn-default">Order Questions <i class="fa fa-forward" aria-hidden="true"></i></button></a>
           </div>
         </div>
