@@ -1859,8 +1859,11 @@ $('.question-list').on('click', '.delete-option', function(event) {
             $.ajax({
                 url: BASEURL + "/delete-option/" + optionId,
                 type: "DELETE",
-                success: function (response) {
-                    Obj.closest('.option-block').remove(); 
+                success: function (response, status, xhr) { 
+                 
+                    if(xhr.status==203)
+                        Obj.closest('.option-block').remove(); 
+                
                 }
             });
         }
