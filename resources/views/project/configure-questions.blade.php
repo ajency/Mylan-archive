@@ -65,7 +65,53 @@
                 <div class="row question parentQuestion panel panel-default" row-count="{{ $i }}"> 
                    <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
 
-                   <div class="col-md-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
+                   <!-- test -->
+                   <div class="col-sm-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
+                     <div class="row">
+                       <div class="col-sm-3">
+                         <label>Type of question</label>
+                          <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
+                              <option selected value="">Select the question type</option>
+                              <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
+                              <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
+                              <option @if($question['type']=="input") selected @endif value="input"> Input</option>
+                              <option @if($question['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
+                              <option @if($question['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
+                          </select>
+                          <input type="hidden" name="questionType[{{ $i }}]"  value="{{ $question['type'] }}">
+                       </div>
+                       <div class="col-sm-3">
+                        <label for="">A short question identifier</label>
+                        <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
+                       </div>
+                       <div class="col-sm-6">
+                         <span class="label label-default">HAS 7 OPTIONS</span>
+                         <span class="label label-default">HAS SUB QUESTIONS</span>
+
+                         <div class="clearfix">
+                           <div class="pull-right del-question-blk">
+                             <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+
+                     <div class="row">
+                       <div class="col-sm-9">
+                         <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
+                       </div>
+                       <div class="col-sm-3">
+                          @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
+                           <a class="accordion-toggle {{ $anchor }}" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
+                             <i class="indicator glyphicon glyphicon-chevron-{{ $indicator }}  pull-right"></i>
+                          </a>
+                          @endif
+                       </div>
+                     </div>
+                   </div>
+                   <!-- /test -->
+
+                   <!-- <div class="col-md-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
                    <div class="col-sm-3 m-t-15 ">
                    <label>Type of question</label>
                       <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
@@ -94,13 +140,13 @@
                      <i class="indicator glyphicon glyphicon-chevron-{{ $indicator }}  pull-right" style="margin-top: -25px; color: #333;"></i>
                   </a>
                   @endif
-                   </div>
+                   </div> --><!--/panel-heading-->
       
                    <!-- options -->
                    @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                   <div class="row panel-collapse collapse {{ $containerCollapse }}" id="collapse-{{ $i }}">
-                   <div class="col-sm-1"></div>
-                    <div class="col-sm-10 question-options-block m-t-20 @if($isWeight) hidden @endif" >
+                   <div class="row panel-collapse collapse {{ $containerCollapse }} p-l-15 p-r-15" id="collapse-{{ $i }}">
+                   <!-- <div class="col-sm-1"></div> -->
+                    <div class="col-sm-12 question-options-block m-t-20 @if($isWeight) hidden @endif" >
                     <?php 
                       $j=0;
                       ?>
@@ -119,18 +165,25 @@
                       @foreach($optionsList[$questionId] as $option)
                       <div class="option-block">
                       <div class="row">
+                      <div class="col-sm-1">
+                        option
+                      </div>
+                      <div class="col-sm-11">
                       <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                        <div class="col-sm-6 m-t-10 m-b-10">
-                        
-                        <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
-                        </div>
-                        <div class="col-sm-4 m-t-10 m-b-10">
-                        
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required> 
-                        </div> 
-                        @if($question['type']=="single-choice")
-                          <div class="col-sm-1 text-center m-t-10 m-b-15">
+                        <!-- test -->
+                        <div class="row">
+
+                          <div class="col-sm-5 m-t-10 m-b-10">
+                          <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
+                          </div>
+
+                          <div class="col-sm-2 m-t-10 m-b-10">
+                          <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required> 
+                          </div> 
+
+                          @if($question['type']=="single-choice")
+                          <div class="col-sm-3 text-center m-t-10 m-b-15">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                           <small class="help-text">Add sub question</small>
@@ -138,16 +191,22 @@
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
                           > -->
                           </div>
-                          <div class="col-sm-1 text-center m-t-10 m-b-10">
+                          <div class="col-sm-2 text-right m-t-10 m-b-10">
                           <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
                           </div>
                         @else
-                          <div class="col-sm-2 text-center m-t-10 m-b-10">
+                          <div class="col-sm-5 text-right m-t-10 m-b-10">
                           <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
                           </div>
                         @endif
                         <div class="clearfix"></div>
-                        </div>
+
+                        </div><!--/row-->
+                        <!-- /test -->
+                        
+                        
+                        </div><!--/optionsDesc-->
+                        </div><!--col-sm-11-->
                       </div>
 
                       <!--****sub Question ****-->
@@ -167,8 +226,11 @@
 
                             <div class="row question subQuestion-row" row-count="{{ $k }}"> 
                                <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
-                               <div class="col-md-12 questionHead sub-question arrow_box-top">
-                               <div class="col-sm-3 m-t-15 ">
+                               <div class="col-sm-1"></div>
+                               <div class="col-sm-10 questionHead sub-question arrow_box-top gray-rbor-section">
+                               
+                               <div class="col-sm-3">
+                               <label>Type of question</label>
                                   <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
                                   <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="" data-parsley-required>
                                       <option selected value="">Select Question Type</option>
@@ -180,19 +242,23 @@
                                   </select>
                                   <input type="hidden" name="subquestionType[{{ $k }}]"  value="{{ $question['type'] }}">
                                </div>
-                               <div class="col-sm-2 m-t-15">
+                               <div class="col-sm-3">
+                               <label for="">A short question identifier</label>
                                   <input name="subquestionTitle[{{ $k }}]" id="subquestionTitle" type="text" value="{{ $subQuestion['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
                                </div> 
-                               <div class="col-sm-6 m-t-15">
+                               <div class="col-sm-5 m-t-25">
                                   <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
                                </div>
-                               <div class="col-sm-1 text-center m-t-15 del-question-blk">
+                               <div class="col-sm-1 text-center m-t-25 del-question-blk">
                                   <button type="button" class="btn btn-white delete-question" object-id="{{ $subQuestionId }}"><i class="fa fa-trash"></i></button>
                                </div>
                                </div>
+                               <div class="clearfix"></div>
                                <!-- options -->
                                @if($subQuestion['type']=="single-choice" || $subQuestion['type']=="multi-choice" || $subQuestion['type']=="input")
-                                <div class="col-sm-10 col-sm-offset-1 m-t-15 question-options-block @if($isWeight) hidden @endif" >
+                               <div class="row p-l-15 p-r-15">
+                               <div class="col-sm-1"></div>
+                                <div class="col-sm-10 gray-rbor-section question-options-block @if($isWeight) hidden @endif" >
                                 <?php 
                                   $l=0;
                                   ?>
@@ -200,15 +266,18 @@
                                   
                                   @foreach($optionsList[$subQuestionId] as $option)
                                   <div class="option-block">
-                                  <div class="row">
+                                  <div class="row p-l-15 p-r-15">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                                    <div class="col-sm-6 m-t-10 m-b-10">
+                                    <div class="col-sm-2">
+                                      options
+                                    </div>
+                                    <div class="col-sm-5 m-t-10 m-b-10">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
                                     </div>
-                                    <div class="col-sm-4 m-t-10 m-b-10">
+                                    <div class="col-sm-2 m-t-10 m-b-10">
                                     <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
                                     </div> 
-                                     <div class="col-sm-2 text-center m-t-10 m-b-10">
+                                     <div class="col-sm-2 text-right m-t-10 m-b-10 width-23">
                                       <button type="button" class="btn btn-white delete-option" counter-key="{{ $l }}"><i class="fa fa-trash"></i></button>
                                       </div>
                                     <div class="subQuestion-container">
@@ -222,20 +291,22 @@
                                   @endforeach
                                 @endif
                                 <div class="option-block">
-                                  <div class="row">
+                                  <div class="row p-l-15 p-r-15">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
-                                    <div class="col-sm-6 m-t-10 m-b-10 ">
+                                    <div class="col-sm-2">options</div>
+                                    <div class="col-sm-5 m-t-10 m-b-10 ">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                                     </div>
-                                    <div class="col-sm-4 m-t-10 m-b-10">
+                                    <div class="col-sm-2 m-t-10 m-b-10">
                                     <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
                                     </div> 
-                                    <div class="col-sm-2 text-center m-t-10 m-b-10">
-                                    <button type="button" class="btn btn-white add-option" counter-key="{{ $l }}"><i class="fa fa-plus"></i></button>
+                                    <div class="col-sm-2 text-center m-t-10 m-b-10 width-23">
+                                    <button type="button" class="btn btn-white add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></button>
                                     </div>
                                     <div class="subQuestion-container"></div>
                                   </div>
                                 </div> 
+                              </div>
                               </div> 
                                 @endif
                                 <!--  -->
@@ -243,7 +314,7 @@
                         @endif
                       </div>
                       <!--****/sub Question ****-->
-                      </div>
+                      </div><!--/option-block-->
                         <!-- <hr class="customHR"> -->
                       <?php 
                       $j++;
@@ -282,12 +353,12 @@
                     </div>
                   </div> 
                     <div class="col-sm-1"></div>
-                  </div>
+                  </div><!-- /panel-collapse -->
    
                     @endif
                     
                     <!--  -->
-              </div>
+              </div><!--/parentQuestion-->
            <?php 
  
             $i= ($k==0)?$i+1:$k+1;
@@ -322,7 +393,7 @@
                </div>
             </div>
           </div> -->
-  </div>
+  </div><!--/form-row-->
         <input type="hidden" name="counter" id="counter" value="{{ $i }}">
         <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
