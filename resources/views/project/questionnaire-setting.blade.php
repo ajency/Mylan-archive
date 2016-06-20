@@ -150,12 +150,17 @@
                   <div class="form-group questActions clearfix">
                     <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+                    <input type="hidden" value="" name="redirect_url"/>
                       <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
 
                       @if($settings['status'] =="published")
                       <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnaireId ) }}" class="pull-right"><button type="button" class="btn btn-link cust-link"> Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
                       @elseif($action =="update-questionnaire-setting")
-                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" class="pull-right"><button type="button" class="btn btn-link cust-link"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
+
+                      <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> -->
+                      <button type="button" class="btn btn-link pull-right cust-link validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                      <!-- </a> -->
+
                       @endif
                     </div>
                   </div>
