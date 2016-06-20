@@ -9528,7 +9528,6 @@ ul.ui-multiselect-checkboxes li label.ui-corner-all span {
   margin-top: 5px;
 }
 .row.gray-section {
-  background: #eee;
   padding-top: 10px;
 }
 .row.gray-section strong {
@@ -9580,4 +9579,13 @@ button.add-question:hover {
 }
 .db {
   display: block;
+}
+.cust-link {
+  color: #0aa699;
+  font-weight: 600;
+}
+.cust-link:focus,
+.cust-link:hover {
+  color: #0aa699;
+  text-decoration: none;
 }
