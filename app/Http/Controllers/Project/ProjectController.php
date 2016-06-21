@@ -78,7 +78,7 @@ class ProjectController extends Controller
             $questionnaireQry->equalTo("project",$projectId);
             $questionnaire = $questionnaireQry->first();
 
-            $questionnaireStatus = $questionnaire->get("status");
+            $questionnaireStatus = (!empty($questionnaire))?$questionnaire->get("status"):'';
 
             if($questionnaireStatus!="published")
             {
