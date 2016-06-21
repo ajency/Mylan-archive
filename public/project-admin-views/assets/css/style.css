@@ -9596,6 +9596,7 @@ button.add-question:hover {
   background: #FAFAFA;
   border-left: 2px solid #E7E7E7;
   padding-top: 15px;
+  padding-bottom: 15px;
 }
 .parentQuestion .arrow_box:before {
   border: none;
@@ -9620,4 +9621,9 @@ button.add-question:hover {
 }
 .parentQuestion .subQuestion-container .subQuestion-row:last-child {
   border-bottom: none;
+}
+.parentQuestion .question {
+  border: none;
+  box-shadow: none;
+  margin: 0;
 }
