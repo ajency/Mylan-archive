@@ -1623,9 +1623,9 @@ $('.question-list').on('change', '.questionType', function(event) {
     {
 
         $(this).closest('.questionHead').find('.accordion-toggle').removeClass('hidden');
-        html +='<div class="row panel-collapse collapse in" id="collapse-'+i+'">';
-        html +='<div class="col-sm-1"></div>';
-        html +='<div class="col-sm-10 m-t-15 question-options-block">';
+        html +='<div class="row panel-collapse collapse in p-l-15 p-r-15" id="collapse-'+i+'">';
+        // html +='<div class="col-sm-1"></div>';
+        html +='<div class="col-sm-12 question-options-block">';
         if(!$(this).hasClass('subquestionType'))
         {
             html +='<div class="row gray-section">';
@@ -1639,29 +1639,34 @@ $('.question-list').on('change', '.questionType', function(event) {
         
         html +='<div class="option-block">';
         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
-        html +='<div class="col-sm-6 m-t-10 m-b-10  ">';
+        html +='<div class="col-md-1"><labels>option</labels></div>';
+        html +='<div class="col-md-11">';
+        html +='<div class="row">';
+        html +='<div class="col-sm-5 m-t-10 m-b-10  ">';
         html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" data-parsley-required>';
         html +='</div>';
-        html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-2 m-t-10 m-b-10 ">';
         html +='<input name="score['+i+'][0]" id="question" type="number" min="0" placeholder="Enter score" class="form-control" data-parsley-required>';
         html +='</div> ';
 
         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
         {
-            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
-            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]"><small class="help-text">Add sub question</small>';
+            html +='<div class="col-sm-3 text-center m-t-10 m-b-10 ">';
+            html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]"><small class="help-text">HAS SUB-QUESTION</small>';
             html +='</div>';
-            html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
+            html +='<div class="col-sm-2 text-right m-t-10 m-b-10 ">';
             html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
         else
         {
-            html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
+            html +='<div class="col-sm-5 text-right m-t-10 m-b-10 ">';
             html +='<button type="button" class="btn btn-white add-option" counter-key="0"><i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
-        
+        html +='</div>';
+        html +='</div>';
+
         html +='</div>';
         html +='<div class="subQuestion-container"></div> ';
         html +='</div> ';
@@ -1704,9 +1709,10 @@ $('.question-list').on('change', '.hasSubQuestion', function(event) {
         var i = parseInt(counter) + 1;
 
         html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-        html +='<div class="col-md-12 questionHead sub-question arrow_box-top">';
-        html +='<div class="col-sm-3 m-t-15 m-b-15"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
-        html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
+        html +='<div class="col-md-1"></div>';
+        html +='<div class="col-md-10 questionHead sub-question arrow_box-top gray-rbor-section">';
+        html +='<div class="col-sm-3"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
+        html +='<label>Type of question</label><select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
         html +='<option value="">Select Question Type</option>';
         html +='<option value="single-choice"> Single-choice</option>';
         html +='<option value="multi-choice">Multi-choice</option>';
@@ -1715,14 +1721,14 @@ $('.question-list').on('change', '.hasSubQuestion', function(event) {
         html +='<option value="input" data-value="weight"> Weight </option>';
         html +='</select>';
         html +='</div>';
-        html +='<div class="col-sm-2 m-t-15 m-b-15">';
+        html +='<div class="col-sm-3"><label for="">A short question identifier</label>';
         html +='<input name="subquestionTitle['+i+']" id="subquestionTitle" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
         html +='</div> ';
-        html +='<div class="col-sm-6 m-t-15 m-b-15">';
+        html +='<div class="col-sm-5 m-t-25">';
         html +='<input name="subquestion['+i+']" id="subquestion" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
         html +='</div> ';
 
-        html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
+        html +='<div class="col-sm-1 text-center m-t-25 del-question-blk">';
         html +='<button type="button" class="btn btn-white delete-question"><i class="fa fa-trash"></i></button>';
         html +='</div>';
         html +='</div>';

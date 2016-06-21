@@ -9621,3 +9621,8 @@ button.add-question:hover {
 .parentQuestion .subQuestion-container .subQuestion-row:last-child {
   border-bottom: none;
 }
+.parentQuestion .question {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
