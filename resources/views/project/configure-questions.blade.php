@@ -85,8 +85,10 @@
                         <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
                        </div>
                        <div class="col-sm-6">
+                        @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                          <span class="label label-default">HAS 7 OPTIONS</span>
                          <span class="label label-default">HAS SUB QUESTIONS</span>
+                        @endif
 
                          <div class="clearfix">
                            <div class="pull-right del-question-blk">
