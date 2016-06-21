@@ -9608,22 +9608,6 @@ button.add-question:hover {
 .parentQuestion .questionHead:before {
   border: none;
 }
-.parentQuestion .questionHead .accordion-toggle .glyphicon-chevron-down:before {
-  content: "SHOW ALL OPTIONS";
-  text-decoration: underline;
-  font-family: 'Open Sans';
-  color: #05a8a5;
-  font-size: 12px;
-  font-weight: 600;
-}
-.parentQuestion .questionHead .accordion-toggle .glyphicon-chevron-up:before {
-  content: "HIDE ALL OPTIONS";
-  text-decoration: underline;
-  font-family: 'Open Sans';
-  color: #05a8a5;
-  font-size: 12px;
-  font-weight: 600;
-}
 .parentQuestion .question-options-block .row {
   border-bottom: none;
 }
@@ -9642,4 +9626,20 @@ button.add-question:hover {
   border: none;
   box-shadow: none;
   margin: 0;
+}
+.create-quest.accordion-toggle .glyphicon-chevron-down:before {
+  content: "HIDE ALL OPTIONS";
+  text-decoration: underline;
+  font-family: 'Open Sans';
+  color: #05a8a5;
+  font-size: 12px;
+  font-weight: 600;
+}
+.create-quest.accordion-toggle.collapsed .glyphicon-chevron-up:before {
+  content: "SHOW ALL OPTIONS";
+  text-decoration: underline;
+  font-family: 'Open Sans';
+  color: #05a8a5;
+  font-size: 12px;
+  font-weight: 600;
 }

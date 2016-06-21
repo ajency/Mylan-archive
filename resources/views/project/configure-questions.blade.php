@@ -108,7 +108,7 @@
                        </div>
                        <div class="col-sm-3 m-t-10">
                           @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                           <a class="accordion-toggle {{ $anchor }}" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
+                           <a class="accordion-toggle {{ $anchor }} create-quest" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
                              <i class="indicator glyphicon glyphicon-chevron-{{ $indicator }}  pull-right"></i>
                           </a>
                           @endif

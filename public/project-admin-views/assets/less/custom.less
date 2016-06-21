@@ -1812,24 +1812,6 @@ button.add-question{
     &:before{
       border: none;
     }
-    .accordion-toggle{
-      .glyphicon-chevron-down:before{
-        content: "SHOW ALL OPTIONS";
-        text-decoration: underline;
-        font-family: 'Open Sans';
-        color: @color-secondary;
-        font-size: 12px;
-        font-weight: 600;
-      }
-      .glyphicon-chevron-up:before{
-        content: "HIDE ALL OPTIONS";
-        text-decoration: underline;
-        font-family: 'Open Sans';
-        color: @color-secondary;
-        font-size: 12px;
-        font-weight: 600;
-      }
-    }
   }
   .question-options-block{
     .row{
@@ -1851,5 +1833,28 @@ button.add-question{
     border: none;
     box-shadow: none;
     margin: 0;
+  }
+}
+
+.create-quest{
+  &.accordion-toggle{
+    .glyphicon-chevron-down:before{
+      content: "HIDE ALL OPTIONS";
+      text-decoration: underline;
+      font-family: 'Open Sans';
+      color: @color-secondary;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    &.collapsed{
+      .glyphicon-chevron-up:before{
+        content: "SHOW ALL OPTIONS";
+        text-decoration: underline;
+        font-family: 'Open Sans';
+        color: @color-secondary;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
   }
 }
