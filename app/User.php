@@ -106,7 +106,7 @@ class User extends Model implements AuthenticatableContract,
         }
         else
         {
-            $data['reference_code'] = strtoupper($data['reference_code']);
+            // $data['reference_code'] = strtoupper($data['reference_code']);
             $data['project_attributes'] = unserialize($data['project_attributes']);
         }
 
