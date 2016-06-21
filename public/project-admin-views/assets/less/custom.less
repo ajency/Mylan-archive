@@ -1,3 +1,5 @@
+@color-secondary: #05a8a5;
+
 .container{
 	.content{
 		min-height: 100vh;
@@ -1809,6 +1811,24 @@ button.add-question{
     border-bottom: none;
     &:before{
       border: none;
+    }
+    .accordion-toggle{
+      .glyphicon-chevron-down:before{
+        content: "SHOW ALL OPTIONS";
+        text-decoration: underline;
+        font-family: 'Open Sans';
+        color: @color-secondary;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .glyphicon-chevron-up:before{
+        content: "HIDE ALL OPTIONS";
+        text-decoration: underline;
+        font-family: 'Open Sans';
+        color: @color-secondary;
+        font-size: 12px;
+        font-weight: 600;
+      }
     }
   }
   .question-options-block{
