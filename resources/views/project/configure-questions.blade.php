@@ -83,15 +83,17 @@
                        <div class="col-sm-3">
                         <label for="">A short question identifier</label>
                         <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
-                       </div>
-                       <div class="col-sm-6">
+                       </div> 
+                       <div class="col-sm-4 m-t-30">
                         @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                          <span class="label label-default">HAS 7 OPTIONS</span>
                           @if($question['type']=="single-choice")
                             <span class="label label-default">HAS SUB QUESTIONS</span>
                           @endif
                         @endif
-
+                        </div>
+                        
+                        <div class="col-md-2 m-t-25">
                          <div class="clearfix">
                            <div class="pull-right del-question-blk">
                              <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
@@ -187,7 +189,7 @@
                           </div> 
 
                           @if($question['type']=="single-choice")
-                          <div class="col-sm-3 text-center m-t-10 m-b-15">
+                          <div class="col-sm-3 text-center m-t-20">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                           <small class="help-text">Add sub question</small>
@@ -344,7 +346,7 @@
                         <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
                         </div> 
                         @if($question['type']=="single-choice")
-                          <div class="col-sm-3 text-center m-t-10 m-b-10">
+                          <div class="col-sm-3 text-center m-t-20">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
                           <small class="help-text">Add sub question</small>
                           </div>

@@ -1651,7 +1651,7 @@ $('.question-list').on('change', '.questionType', function(event) {
 
         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
         {
-            html +='<div class="col-sm-3 text-center m-t-10 m-b-10 ">';
+            html +='<div class="col-sm-3 text-center m-t-20">';
             html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]"><small class="help-text">HAS SUB-QUESTION</small>';
             html +='</div>';
             html +='<div class="col-sm-2 text-right m-t-10 m-b-10 ">';
@@ -1794,7 +1794,7 @@ $('.question-list').on('click', '.add-option', function(event) {
 
         if($(this).closest(".question").find(".hasSubQuestion").length)
         {
-            html +='<div class="col-sm-3 text-center m-t-10 m-b-10 ">';
+            html +='<div class="col-sm-3 text-center m-t-20">';
             html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+']['+j+']"><small class="help-text">Add sub question</small>';
             html +='</div>';
             html +='<div class="col-sm-2 text-right m-t-10 m-b-10 width-23">';
