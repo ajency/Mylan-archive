@@ -131,9 +131,9 @@ class ProjectController extends Controller
           $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
           //if cache data exist for project       
-
+            // Cache::forget($responseCacheKey);
             if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
-                $cacheProjectResponses =  Cache::get($responseCacheKey); 
+                $cacheProjectResponses =  Cache::get($responseCacheKey);  
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
                 $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
@@ -141,7 +141,7 @@ class ProjectController extends Controller
 
              }
             else
-            {
+            {  
                 $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
                 
                 $responseCount = $this->getProjectResponseCounts($projectResponses);
@@ -1515,6 +1515,8 @@ class ProjectController extends Controller
 
     public function clearCache($projectId)
     {
+        $projectId = intval($projectId);
+        
         $responseCacheKey = "projectResponses_".$projectId;
         $patientsSummaryCacheKey = "patientsSummary_".$projectId;
         $patientsAlertsCacheKey = "patientsAlerts_".$projectId;

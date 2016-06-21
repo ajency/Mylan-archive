@@ -649,6 +649,7 @@ class SubmissionController extends Controller
             $response->save(); 
 
             $projectId = $response->get("project");
+            $projectId = intval($projectId);
 
             if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed')
             {
@@ -661,7 +662,7 @@ class SubmissionController extends Controller
                     $alertObj->save();
                 }
 
-                $responseCacheKey = "projectResponses_".$projectId;
+                $responseCacheKey = "projectResponses_".$projectId; 
                 Cache::forget($responseCacheKey);
                
             }
