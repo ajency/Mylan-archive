@@ -87,7 +87,9 @@
                        <div class="col-sm-6">
                         @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                          <span class="label label-default">HAS 7 OPTIONS</span>
-                         <span class="label label-default">HAS SUB QUESTIONS</span>
+                          @if($question['type']=="single-choice")
+                            <span class="label label-default">HAS SUB QUESTIONS</span>
+                          @endif
                         @endif
 
                          <div class="clearfix">
