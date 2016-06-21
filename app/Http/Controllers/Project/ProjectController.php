@@ -335,6 +335,7 @@ class ProjectController extends Controller
             $sequenceNumber = $response->get("sequenceNumber");
             $reviewStatus = $response->get("reviewed");
             $reviewNote = $response->get("reviewNote");
+            $reviewNote = ($reviewNote=='')?'NA':$reviewNote;
 
             $responseFlagType = $response->get($responseFlagColumn);
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
@@ -883,7 +884,7 @@ class ProjectController extends Controller
                 $missedResponses[]= $responseId;
             }
 
-            if($reviewed=='unreviewed' && $responseStatus!='missed')
+            if($reviewed=='unreviewed' && $responseStatus!='missed' && $responseStatus!='late')
             {
                 $unreviewed []= $responseId;
             }
