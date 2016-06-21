@@ -9593,6 +9593,31 @@ button.add-question:hover {
   width: 23%;
 }
 .gray-rbor-section {
-  background: #e9e9e9 !important;
-  border-left: 2px solid #05a8a5;
+  background: #FAFAFA;
+  border-left: 2px solid #E7E7E7;
+  padding-top: 15px;
+}
+.parentQuestion .arrow_box:before {
+  border: none;
+}
+.parentQuestion .questionHead {
+  background: #FAFAFA;
+  border-bottom: none;
+}
+.parentQuestion .questionHead:before {
+  border: none;
+}
+.parentQuestion .question-options-block .row {
+  border-bottom: none;
+}
+.parentQuestion .subQuestion-container {
+  width: 100%;
+  margin: 0;
+}
+.parentQuestion .subQuestion-container .subQuestion-row {
+  border: none;
+  box-shadow: none;
+}
+.parentQuestion .subQuestion-container .subQuestion-row:last-child {
+  border-bottom: none;
 }
