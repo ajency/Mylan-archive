@@ -83,7 +83,7 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     { 
 
-        $referenceCode = $request->input('reference_code');
+        $referenceCode = strtolower($request->input('reference_code'));
         $password = trim($request->input('password'));
         if($request->has('remember'))
             $remember = $request->input('remember');

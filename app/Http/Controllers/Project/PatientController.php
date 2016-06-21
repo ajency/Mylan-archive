@@ -56,12 +56,13 @@ class PatientController extends Controller
             
             
             $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+            dd($patientByDate);
              
             $activepatients = [];
             $patientIds = [];
                 
             if(isset($inputs['patients']))
-              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('account_status',$inputs['patients'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
+              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('account_status',$inputs['patients'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->lists('reference_code')->toArray();
             else
               $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
              
@@ -260,7 +261,7 @@ class PatientController extends Controller
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
-            $referenceCode = $request->input('reference_code');
+            $referenceCode = strtolower($request->input('reference_code'));
             $hospital = $hospital['id'];
             $project = $projectId;
             $age = $request->input('age');
@@ -968,7 +969,7 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
 
-            $referenceCode = $request->input('reference_code');
+            $referenceCode = strtolower($request->input('reference_code'));
             $hospital = $hospital['id'];
             $project = $projectId;
             $age = $request->input('age');
