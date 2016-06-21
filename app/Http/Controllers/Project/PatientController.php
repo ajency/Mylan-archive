@@ -56,7 +56,6 @@ class PatientController extends Controller
             
             
             $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
-            dd($patientByDate);
              
             $activepatients = [];
             $patientIds = [];
@@ -85,6 +84,7 @@ class PatientController extends Controller
                           "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                          );
 
+            // dd($patients);
             $patientResponses = $this->patientsSummary($patients ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
 
             $patientsSummary = $patientResponses['patientResponses'];
