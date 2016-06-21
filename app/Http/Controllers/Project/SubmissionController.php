@@ -17,6 +17,7 @@ use App\Http\Controllers\Project\QuestionnaireController;
 use App\UserAccess;
 use \Input;
 use \Log;
+use \Cache;
 
 class SubmissionController extends Controller
 {
@@ -647,6 +648,8 @@ class SubmissionController extends Controller
             $response->set('reviewNote',$reviewNote);
             $response->save(); 
 
+            $projectId = $response->get("project");
+
             if($reviewStatus=='reviewed_no_action' || $reviewStatus=='reviewed_call_done' || $reviewStatus=='reviewed_appointment_fixed')
             {
                 $alertQry = new ParseQuery("Alerts");
@@ -657,6 +660,9 @@ class SubmissionController extends Controller
                     $alertObj->set('cleared',true);
                     $alertObj->save();
                 }
+
+                $responseCacheKey = "projectResponses_".$projectId;
+                Cache::forget($responseCacheKey);
                
             }
         
