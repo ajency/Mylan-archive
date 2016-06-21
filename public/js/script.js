@@ -1783,8 +1783,8 @@ $('.question-list').on('click', '.add-option', function(event) {
         html ='<div class="option-block">';
         html +='<div class="row p-l-15 p-r-15"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
         html +='<div class="col-sm-2"><label>option</label></div>';
-        html +='<div class="col-sm-10">';
-        html +='<div class="row">';
+        // html +='<div class="col-sm-10">';
+        // html +='<div class="row">';
         html +='<div class="col-sm-5 m-t-10 m-b-10">';
         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
@@ -1807,8 +1807,8 @@ $('.question-list').on('click', '.add-option', function(event) {
             html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
-        html +='</div>';
-        html +='</div>';
+        // html +='</div>';
+        // html +='</div>';
 
         html +='</div> ';
         html +='<div class="subQuestion-container"></div> ';

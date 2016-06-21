@@ -304,7 +304,7 @@
                                     <div class="col-sm-2 m-t-10 m-b-10">
                                     <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
                                     </div> 
-                                    <div class="col-sm-2 text-center m-t-10 m-b-10 width-23">
+                                    <div class="col-sm-2 text-right m-t-10 m-b-10 width-23">
                                     <button type="button" class="btn btn-white add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></button>
                                     </div>
                                     <div class="subQuestion-container"></div>
