@@ -381,7 +381,7 @@ class AuthController extends Controller
         {   
             if(Auth::user()->account_status=='active' || Auth::user()->type=='mylan_admin' || Auth::user()->type=='hospital_user' || Auth::user()->type=='project_user')
             {
-                return redirect()->intended($hospitalSlug.'/'.$projectSlug.'/dashboard');
+                return redirect()->intended($hospitalSlug.'/'.$projectSlug.'/dashboard?login=project');
             }
             else
             {
