@@ -9596,6 +9596,7 @@ button.add-question:hover {
   background: #FAFAFA;
   border-left: 2px solid #E7E7E7;
   padding-top: 15px;
+  padding-bottom: 15px;
 }
 .parentQuestion .arrow_box:before {
   border: none;

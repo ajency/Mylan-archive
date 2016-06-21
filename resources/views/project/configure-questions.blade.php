@@ -330,30 +330,35 @@
                         <div class="col-sm-1">
                           option {{ ($j+1) }}
                         </div>
+
+                        <div class="col-sm-11">
                         <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
-                        <div class="col-sm-6 m-t-10 m-b-10 ">
+                        <div class="row">
+                        <div class="col-sm-5 m-t-10 m-b-10 ">
                         
                         <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                         </div>
-                        <div class="col-sm-4 m-t-10 m-b-10">
+                        <div class="col-sm-2 m-t-10 m-b-10">
                         
                         <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
                         </div> 
                         @if($question['type']=="single-choice")
-                          <div class="col-sm-1 text-center m-t-10 m-b-10">
+                          <div class="col-sm-3 text-center m-t-10 m-b-10">
                           <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
                           <small class="help-text">Add sub question</small>
                           </div>
-                          <div class="col-sm-1 text-center m-t-10 m-b-10">
+                          <div class="col-sm-2 text-right m-t-10 m-b-10">
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
                           </div>
                         @else
-                          <div class="col-sm-2 text-center m-t-10 m-b-10">
+                          <div class="col-sm-5 text-right m-t-10 m-b-10">
                           <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
                           </div>
                         @endif
                         <div class="clearfix"></div>
+                        </div>
+                        </div>
                         </div>
                       </div>
                         <div class="subQuestion-container"></div>
