@@ -662,8 +662,8 @@ class SubmissionController extends Controller
                     $alertObj->save();
                 }
 
-                $responseCacheKey = "projectResponses_".$projectId; 
-                Cache::forget($responseCacheKey);
+                $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+                Cache::forget($patientsAlertsCacheKey);
                
             }
         
