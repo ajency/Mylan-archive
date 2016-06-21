@@ -1703,8 +1703,8 @@ $('.question-list').on('change', '.hasSubQuestion', function(event) {
         var counter = $('input[name="counter"]').val();
         var i = parseInt(counter) + 1;
 
-        html ='<div class="row question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-        html +='<div class="col-md-12 questionHead sub-question arrow_box-top">';
+        html ='<div class="row question subQuestion-row" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+        html +='<div class="col-md-12 questionHead sub-question arrow_box-top  gray-rbor-section">';
         html +='<div class="col-sm-3 m-t-15 m-b-15"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
         html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
         html +='<option value="">Select Question Type</option>';
@@ -1769,15 +1769,17 @@ $('.question-list').on('click', '.add-option', function(event) {
     // else
     // {
         $(this).removeClass("add-option").addClass("delete-option");
-        $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
+        // $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
+        $(this).html('<i class="fa fa-trash"></i></button>'); 
   
 
         html ='<div class="option-block">';
         html +='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
-        html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
+        html +='<div class="col-sm-2">options</div>';
+        html +='<div class="col-sm-5 m-t-10 m-b-10 ">';
         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
         html +='</div>';
-        html +='<div class="col-sm-4 m-t-10 m-b-10  ">';
+        html +='<div class="col-sm-2 m-t-10 m-b-10  ">';
         html +='<input name="score['+i+']['+j+']" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >';
         html +='</div> ';
 
