@@ -107,6 +107,11 @@ class SubmissionController extends Controller
                 //   $cond = ['reviewed'=>'unreviewed'];
                  
                 // }
+
+                if($submissionStatus=='unreviewed')
+                {
+                  $cond['status'] = 'completed';
+                }
             }
             else
             {

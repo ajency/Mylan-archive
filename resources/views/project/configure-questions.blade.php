@@ -85,8 +85,12 @@
                         <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
                        </div>
                        <div class="col-sm-6">
+                        @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                          <span class="label label-default">HAS 7 OPTIONS</span>
-                         <span class="label label-default">HAS SUB QUESTIONS</span>
+                          @if($question['type']=="single-choice")
+                            <span class="label label-default">HAS SUB QUESTIONS</span>
+                          @endif
+                        @endif
 
                          <div class="clearfix">
                            <div class="pull-right del-question-blk">
@@ -166,7 +170,7 @@
                       <div class="option-block">
                       <div class="row">
                       <div class="col-sm-1">
-                        option
+                        option {{ ($j+1) }}
                       </div>
                       <div class="col-sm-11">
                       <div class="optionsDesc">
@@ -269,7 +273,7 @@
                                   <div class="row p-l-15 p-r-15">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
                                     <div class="col-sm-2">
-                                      options
+                                      options {{ ($l+1) }}
                                     </div>
                                     <div class="col-sm-5 m-t-10 m-b-10">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
@@ -293,7 +297,7 @@
                                 <div class="option-block">
                                   <div class="row p-l-15 p-r-15">
                                     <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
-                                    <div class="col-sm-2">options</div>
+                                    <div class="col-sm-2">options {{ ($l+1) }}</div>
                                     <div class="col-sm-5 m-t-10 m-b-10 ">
                                     <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
                                     </div>
@@ -323,6 +327,9 @@
                     @endif
                     <div class="option-block">
                       <div class="row">
+                        <div class="col-sm-1">
+                          option {{ ($j+1) }}
+                        </div>
                         <div class="optionsDesc">
                         <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                         <div class="col-sm-6 m-t-10 m-b-10 ">
