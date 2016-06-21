@@ -1770,8 +1770,7 @@ $('.question-list').on('click', '.add-option', function(event) {
     // {
         $(this).removeClass("add-option").addClass("delete-option");
         $(this).find('i').removeClass("fa-plus").addClass("fa-trash"); 
-        // var optionBlockCount = $(this).closest(".question-options-block").find('.option-block').length; alert(optionBlockCount);
-        // $(this).closest(".question-options-block").find('.option-block:eq(-2)').find(".delete-option").removeClass("hidden");
+  
 
         html ='<div class="option-block">';
         html +='<div class="row"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
@@ -1788,13 +1787,13 @@ $('.question-list').on('click', '.add-option', function(event) {
             html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+']['+j+']"><small class="help-text">Add sub question</small>';
             html +='</div>';
             html +='<div class="col-sm-1 text-center m-t-10 m-b-10 ">';
-            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'">Another Option <i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
         else
         {
             html +='<div class="col-sm-2 text-center m-t-10 m-b-10 ">';
-            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'"><i class="fa fa-plus"></i></button>';
+            html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'">Another Option <i class="fa fa-plus"></i></button>';
             html +='</div>';
         }
 
