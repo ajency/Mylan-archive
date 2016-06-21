@@ -100,12 +100,12 @@
  
                       <label for="frequency" class="side-label bold m-b-0">Frequency</label>
                       <span class="help-block m-t-5">Specify the interval after which the patient should be able to answer the questionnaire again.</span>
-                      <div class="col-sm-5 p-l-0">
+                      <div class="col-sm-3 p-l-0">
                         <input type="text" name="frequencyDay" class="form-control input-days" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                       data-parsley-type="digits"> <h6 class="seconds">days</h6>
                       </div>
                       
-                      <div class="col-sm-5">
+                      <div class="col-sm-3">
                         <input type="text" name="frequencyHours" class="form-control input-hours" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['hours']  }}" @if($settings['frequency']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
@@ -116,12 +116,12 @@
                    <div class="form-group clearfix">
                       <label for="gracePeriod" class="side-label bold m-b-0">Grace Period</label>
                       <span class="help-block m-t-5">The time duration in which a patient is allowed to answer a questionnaire after it is Due.</span>
-                      <div class="col-sm-5 p-l-0">
+                      <div class="col-sm-3 p-l-0">
                         <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="No .of" value="{{ $settings['gracePeriod']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                       data-parsley-type="digits">
                         <h6 class="seconds">days</h6>
                       </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-3">
                         <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="No. of" value="{{ $settings['gracePeriod']['hours'] }}" @if($settings['gracePeriod']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                       data-parsley-type="digits"><h6 class="seconds">hours</h6>
                       </div>
@@ -131,12 +131,12 @@
                    <div class="form-group clearfix">
                     <label for="reminderTime" class="side-label bold m-b-0">Reminder Time</label>
                     <span class="help-block m-t-5">Mention the time period before the next occurrence when the reminder notification should be triggered.</span>
-                    <div class="col-sm-5 p-l-0">
+                    <div class="col-sm-3 p-l-0">
                       <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="No. of" value="{{ $settings['reminderTime']['day'] }}"  data-parsley-validation-threshold="1" data-parsley-trigger="keyup" 
                     data-parsley-type="digits">
                       <h6 class="seconds">days</h6>
                     </div>
-                      <div class="col-sm-5">
+                      <div class="col-sm-3">
                       <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="No. of" value="{{ $settings['reminderTime']['hours'] }}" @if($settings['reminderTime']['day'] <= 0) min="1" data-parsley-validation-threshold="1" @endif data-parsley-trigger="keyup" 
                     data-parsley-type="digits"><h6 class="seconds">hours</h6>
                     </div>
