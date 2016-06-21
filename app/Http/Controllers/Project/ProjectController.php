@@ -72,6 +72,20 @@ class ProjectController extends Controller
 
           $inputs = Input::get(); 
 
+          if(isset($inputs['login']) && $inputs['login']=="project")
+          {
+            $questionnaireQry = new ParseQuery("Questionnaire");
+            $questionnaireQry->equalTo("project",$projectId);
+            $questionnaire = $questionnaireQry->first();
+
+            $questionnaireStatus = $questionnaire->get("status");
+
+            if($questionnaireStatus!="published")
+            {
+              return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
+            }
+          }
+
 
           $startDate = (isset($inputs['startDate']))?$inputs['startDate']:date('d-m-Y', strtotime('today - '.DATE_DIFFERENCE.' days'));
           $endDate = (isset($inputs['endDate']))?$inputs['endDate']: date('d-m-Y');

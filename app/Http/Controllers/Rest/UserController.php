@@ -247,7 +247,7 @@ class UserController extends Controller
     {
         try{
             $data = $request->all();  
-            $referenceCode = $data['referenceCode'];
+            $referenceCode = strtolower($data['referenceCode']);
             $installationId = $data['installationId'];
             $password = trim($data['password']);
             $newpassword = getPassword($referenceCode , $password);

@@ -31,7 +31,7 @@
                         @foreach($projects as $project)
                         <div>
                            <div class="pull-right">
-                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}" ><button class="btn btn-default btn-small m-r-15">Login as {{$project['name']}}</button></a>
+                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}?login=project" ><button class="btn btn-default btn-small m-r-15">Login as {{$project['name']}}</button></a>
                               <!-- <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span> -->
                            </div>
