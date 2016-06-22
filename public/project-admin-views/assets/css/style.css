@@ -9643,3 +9643,56 @@ button.add-question:hover {
   font-size: 12px;
   font-weight: 600;
 }
+.questionSummary.accord-questionSummary {
+  margin-bottom: 0;
+  border: none;
+  box-shadow: none;
+}
+.questionSummary.accord-questionSummary .questionSummary__head {
+  border-top: 2px solid #ddd;
+  background: #FAFAFA;
+}
+.questionSummary.accord-questionSummary .questionSummary__head span {
+  font-size: 10px;
+}
+.questionSummary.accord-questionSummary .questionSummary__head .ttuc {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #1b1e24;
+}
+.questionSummary.accord-questionSummary a.accordion-toggle .chev-icons:before {
+  font-family: FontAwesome;
+  content: "\f068";
+  padding-right: 15px;
+}
+.questionSummary.accord-questionSummary a.accordion-toggle.collapsed .chev-icons:before {
+  content: "\f067";
+  padding-right: 15px;
+}
+.questionSummary.accord-questionSummary .gray-header {
+  background: #FAFAFA;
+  padding: 5px;
+}
+.questionSummary.accord-questionSummary .questionSummary__options {
+  padding: 0 15px;
+}
+.questionSummary.accord-questionSummary .accord-subquestions {
+  padding: 15px;
+}
+.accord-subquetions-container .accord-questions {
+  font-size: 14px;
+}
+.accord-subquetions-container .accord-questions .ttuc {
+  color: #1b1e24;
+  font-weight: 600;
+}
+.accord-subquetions-container .accord-questions span.label {
+  font-size: 10px;
+}
+.accord-subquetions-container .gray-accord-questions {
+  background: #FAFAFA;
+  padding: 10px;
+}
+.p-t-0 {
+  padding-top: 0 !important;
+}
