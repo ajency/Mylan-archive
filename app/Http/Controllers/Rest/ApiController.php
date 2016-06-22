@@ -107,6 +107,16 @@ class ApiController extends Controller
             return $data;
         }
     }
+	
+	public function hospitalData(){
+		$data['status'] = 200;
+		$hospitalData = Hospital::get();
+		$data['hospital'] = "<option value='0'>Please select</option>";
+		foreach($hospitalData as $hospital){
+			$data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+		}
+		return $data;
+    }
     
     public function projectList(Request $request){
         $hospitalId = $request->hospitalId;
@@ -132,7 +142,7 @@ class ApiController extends Controller
                 $data['projectName']  = $userList['projectName'];
                 $data['content']     .= "<tr>
                                             <td>".$userList["reference_code"]."</td>
-                                            <td class='patientId-".$userList["reference_code"]."'>".$userList["username"]."</td>
+                                            <td class='patientId-".$userList["reference_code"]." getData-".$userList["reference_code"]."'>".$userList["username"]."</td>
                                             <td><span class='text-right edit-case' id='".$userList["reference_code"]."'><i class='fa fa-pencil' id='".$userList["reference_code"]."' ></i></span></td>
                                         </tr>";
                 $reference[] =  $userList["reference_code"];                    
@@ -142,8 +152,9 @@ class ApiController extends Controller
             $hospitalName = Hospital::where("id",$hospitalId)->get();
             $data['hospitalName'] = $hospitalName['name'][0];
             $data['projectName'] = $projectName['name'][0];
-        }       
-        $data['referCode'] = $reference;
+        }      
+		
+		$data['referCode'] = $reference;
         return $data;
     }
 }

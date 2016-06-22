@@ -35,7 +35,7 @@
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option value="">-select patient-</option>
            @foreach($allPatients as $patientData)
-             <option  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+             <option  value="{{ $patientData['id'] }}" class="patient-refer{{ $patientData['reference_code'] }}">{{ $patientData['reference_code'] }}</option>
            @endforeach
           </select>
        </div>
@@ -186,7 +186,7 @@
                         $patientSummary = $patientsSummary[$referenceCode];
                       ?>
                         <tr>
-                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
+                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                              <div class="lst-sub submission-count">
                                  <h2 class="bold inline">

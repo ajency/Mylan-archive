@@ -35,6 +35,9 @@ Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
 	Route::get('fillproject', 'Rest\ApiController@projectList');
 	Route::get('mapping-data', 'Rest\ApiController@mappingList');
+	// Route::get('referenceCode/mapping', 'Rest\ApiController@mappingData');
+	// Route::get('referenceCode/save-mapping', 'Rest\ApiController@saveMappingData');
+	Route::get('hospital-data', 'Rest\ApiController@hospitalData');
     
 } );
 
