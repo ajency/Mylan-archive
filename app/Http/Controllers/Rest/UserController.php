@@ -453,7 +453,7 @@ class UserController extends Controller
     {
         try{
             $data = $request->all();  
-            $referenceCode = $data['referenceCode'];
+            $referenceCode = strtolower($data['referenceCode']);
             $password = trim($data['password']);
             $newpassword = getPassword($referenceCode , $password);
      

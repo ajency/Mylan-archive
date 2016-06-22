@@ -88,7 +88,7 @@ class WelcomeController extends Controller {
 
     public function doSetup(Request $request)
     {
-        $referenceCode = $request->input('reference_code'); 
+        $referenceCode = strtolower($request->input('reference_code'));
         $password = $request->input('password'); 
         $newpassword = getPassword($referenceCode , $password);
 
