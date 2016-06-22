@@ -664,6 +664,8 @@ class SubmissionController extends Controller
 
                 $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
                 Cache::forget($patientsAlertsCacheKey);
+                $responseCacheKey = "projectResponses_".$projectId;
+                Cache::forget($responseCacheKey);
                
             }
         
