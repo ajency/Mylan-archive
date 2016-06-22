@@ -455,7 +455,7 @@ getNextQuestion = (questionObj, option) ->
 				.then ->
 #					console.log ".........................................."
 #					console.log questionObj
-					if !_.isUndefined questionObj.get('nextQuestion')
+					if !_.isNull questionObj.get('nextQuestion')
 						console.log "*****************************************"
 						console.log questionObj.get('nextQuestion').id
 						promise.resolve(questionObj.get('nextQuestion'))
@@ -503,7 +503,7 @@ getLastQuestion = (questionnaireObj) ->
 	.then (questionObjects) ->
 		lastQuestion = ""
 		for questionObj in questionObjects
-			if !questionObj.get('isChild') and _.isUndefined(questionObj.get('nextQuestion'))
+			if !questionObj.get('isChild') and _.isNull(questionObj.get('nextQuestion'))
 				lastQuestion = questionObj
 		promise.resolve lastQuestion
 	, (error) ->
@@ -1412,8 +1412,8 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 		responseQuery.equalTo('questionnaire', questionnaireObj)
 		responseQuery.equalTo('patient', patientId)
 		responseQuery.descending('createdAt')
-		responseQuery.equalTo('status', 'completed')
-		# responseQuery.notEqualTo('status', 'base_line')
+		# responseQuery.equalTo('status', 'completed')
+		responseQuery.notEqualTo('status', 'base_line')
 		responseQuery.first()
 		.then (responseObj_prev) ->
 			baseLineQuery = new Parse.Query('Response')
@@ -1436,7 +1436,7 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 				responseObj.set 'baseLine', baseLineObj
 				responseObj.set 'alert', false
 
-				if _.isUndefined(responseObj_prev)
+				if _.isEmpty(responseObj_prev) || _.isNull(responseObj_prev)
 					responseObj.set 'sequenceNumber', (1)
 				else
 					responseObj.set 'sequenceNumber', (responseObj_prev.get('sequenceNumber') + 1)
@@ -2167,26 +2167,26 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 	
 				getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
 				.then (alerts) ->
-					alertsSaveArr =[]
-					_.each alerts, (alert) ->
-						AlertData=
-							patient: responseObj.get("patient")
-							project: responseObj.get("project")
-							alertType : alert
-							referenceId : responseObj.id
-							referenceType : "Response"
-							cleared : false
-						Alerts = Parse.Object.extend("Alerts") 
-						alertObj = new Alerts AlertData
-						alertsSaveArr.push(alertObj)
+					# alertsSaveArr =[]
+					# _.each alerts, (alert) ->
+					# 	AlertData=
+					# 		patient: responseObj.get("patient")
+					# 		project: responseObj.get("project")
+					# 		alertType : alert
+					# 		referenceId : responseObj.id
+					# 		referenceType : "Response"
+					# 		cleared : false
+					# 	Alerts = Parse.Object.extend("Alerts") 
+					# 	alertObj = new Alerts AlertData
+					# 	alertsSaveArr.push(alertObj)
 
-					Parse.Object.saveAll alertsSaveArr
-					.then (alertsObjs) ->
-						response.success alertsObjs	
-					, (error) ->
-						response.error error	
+					# Parse.Object.saveAll alertsSaveArr
+					# .then (alertsObjs) ->
+					# 	response.success alertsObjs	
+					# , (error) ->
+					# 	response.error error	
 
-					# response.success alerts						 
+					response.success alerts						 
 				, (error) ->
 					response.error error	
 				
@@ -2246,12 +2246,14 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 					alerts.push(compareType)
 			else if operator == "less_than"
 				compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
-				if greaterThan(flagCount,comparisonCount,false)
+				if lessThan(flagCount,comparisonCount,false)
 					alerts.push(compareType)
 			else if operator == "less_than_equal_to"
 				compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
-				if greaterThan(flagCount,comparisonCount,true)
+				if lessThan(flagCount,comparisonCount,true)
 					alerts.push(compareType)
+
+			console.log compareType
 							
 		promise.resolve(alerts)
 	, (error) ->

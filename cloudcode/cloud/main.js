@@ -1673,7 +1673,7 @@
             questionObj = questionObj.get('previousQuestion');
           }
           return questionObj.fetch().then(function() {
-            if (!_.isUndefined(questionObj.get('nextQuestion'))) {
+            if (!_.isNull(questionObj.get('nextQuestion'))) {
               console.log("*****************************************");
               console.log(questionObj.get('nextQuestion').id);
               return promise.resolve(questionObj.get('nextQuestion'));
@@ -1736,7 +1736,7 @@
   	.then (questionObjects) ->
   		lastQuestion = ""
   		for questionObj in questionObjects
-  			if !questionObj.get('isChild') and _.isUndefined(questionObj.get('nextQuestion'))
+  			if !questionObj.get('isChild') and _.isNull(questionObj.get('nextQuestion'))
   				lastQuestion = questionObj
   		promise.resolve lastQuestion
   	, (error) ->
@@ -2608,7 +2608,7 @@
       responseQuery.equalTo('questionnaire', questionnaireObj);
       responseQuery.equalTo('patient', patientId);
       responseQuery.descending('createdAt');
-      responseQuery.equalTo('status', 'completed');
+      responseQuery.notEqualTo('status', 'base_line');
       return responseQuery.first().then(function(responseObj_prev) {
         var baseLineQuery;
         baseLineQuery = new Parse.Query('Response');
@@ -2629,7 +2629,7 @@
           responseObj.set('reviewed', 'unreviewed');
           responseObj.set('baseLine', baseLineObj);
           responseObj.set('alert', false);
-          if (_.isUndefined(responseObj_prev)) {
+          if (_.isEmpty(responseObj_prev) || _.isNull(responseObj_prev)) {
             responseObj.set('sequenceNumber', 1.);
           } else {
             responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
@@ -3253,27 +3253,7 @@
           occurrenceDate = responseObj.get("occurrenceDate");
           scheduleObj = responseObj.get("schedule");
           return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
-            var alertsSaveArr;
-            alertsSaveArr = [];
-            _.each(alerts, function(alert) {
-              var AlertData, Alerts, alertObj;
-              AlertData = {
-                patient: responseObj.get("patient"),
-                project: responseObj.get("project"),
-                alertType: alert,
-                referenceId: responseObj.id,
-                referenceType: "Response",
-                cleared: false
-              };
-              Alerts = Parse.Object.extend("Alerts");
-              alertObj = new Alerts(AlertData);
-              return alertsSaveArr.push(alertObj);
-            });
-            return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
-              return response.success(alertsObjs);
-            }, function(error) {
-              return response.error(error);
-            });
+            return response.success(alerts);
           }, function(error) {
             return response.error(error);
           });
@@ -3326,24 +3306,25 @@
         if (operator === "greater_than") {
           compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
           if (greaterThan(flagCount, comparisonCount, false)) {
-            return alerts.push(compareType);
+            alerts.push(compareType);
           }
         } else if (operator === "greater_than_equal_to") {
           compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
           if (greaterThan(flagCount, comparisonCount, true)) {
-            return alerts.push(compareType);
+            alerts.push(compareType);
           }
         } else if (operator === "less_than") {
           compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
-          if (greaterThan(flagCount, comparisonCount, false)) {
-            return alerts.push(compareType);
+          if (lessThan(flagCount, comparisonCount, false)) {
+            alerts.push(compareType);
           }
         } else if (operator === "less_than_equal_to") {
           compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
-          if (greaterThan(flagCount, comparisonCount, true)) {
-            return alerts.push(compareType);
+          if (lessThan(flagCount, comparisonCount, true)) {
+            alerts.push(compareType);
           }
         }
+        return console.log(compareType);
       });
       return promise.resolve(alerts);
     }, function(error) {
