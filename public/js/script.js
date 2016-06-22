@@ -517,6 +517,7 @@ $('.add-visit').click(function (event) {
         return;
     }
 
+
     html ='<div class="row patient-visit">';
     html +='<div class="datetime">'; 
     html +='<div class="col-sm-3 m-t-25 form-group">';
@@ -540,7 +541,7 @@ $('.add-visit').click(function (event) {
 
     $(".patient-visit:last").after(html);
 
-    $(".patient-visit:last").find('.datetime').datetimepicker({
+    $(".patient-visit:last").find('.datetimepicker').datetimepicker({
         format: 'DD-MM-YYYY HH:mm'
     });
 
