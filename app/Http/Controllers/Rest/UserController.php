@@ -101,6 +101,7 @@ class UserController extends Controller
         {
             $data = $request->all();  
             $referenceCode = $data['referenceCode'];
+            $referenceCode = strtolower($data['referenceCode']);
             $deviceIdentifier = $data['deviceIdentifier'];
             $user = User::where('type','patient')->where('reference_Code',$referenceCode)->first(); 
             
