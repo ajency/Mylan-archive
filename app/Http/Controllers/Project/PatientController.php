@@ -103,19 +103,7 @@ class PatientController extends Controller
 
             exceptionError($e);           
         }
-    //code to be removed
-      // User::where('type','patient')->get()->each( function($patient) {
-      //       $referenceCode = $patient->reference_code;
-      //       $responseQry = new ParseQuery("Response");
-      //       $responseQry->equalTo("patient", $referenceCode); 
-      //       $responseQry->equalTo("status", 'base_line'); 
-      //       $response = $responseQry->first();  
 
-      //       $baselineSet = (empty($response))?'no':'yes';
-      //       $patient->baseline_set = $baselineSet;
-      //       $patient->save();
-           
-      //   });
 
         return view('project.patients.list')->with('hospital', $hospital)
                                           ->with('logoUrl', $logoUrl)

@@ -243,12 +243,12 @@ class AuthController extends Controller
         {   
 
             if(Auth::user()->account_status=='active' && Auth::user()->type=='mylan_admin')
-            {  
-                return redirect()->intended('admin/dashboard');
+            {   
+                return redirect('/admin/dashboard');
             }
             elseif(Auth::user()->account_status=='active' && (Auth::user()->type =='hospital_user' || Auth::user()->type =='project_user') )
             {  
-                return redirect()->intended('admin/login-links');
+                return redirect('/admin/login-links');
             }
             else
             {
