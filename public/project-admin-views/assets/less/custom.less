@@ -1858,3 +1858,69 @@ button.add-question{
     }
   }
 }
+
+// publish questions
+.questionSummary{
+  &.accord-questionSummary{
+    margin-bottom: 0;
+    border: none;
+    box-shadow: none;
+    .questionSummary__head{
+      border-top: 2px solid #ddd;
+      background: #FAFAFA;
+      span{
+        font-size: 10px;
+      }
+      .ttuc{
+        text-transform: uppercase;
+        font-size: 14px;
+        color: @color-black;
+      }
+    }
+    a.accordion-toggle{
+      .chev-icons:before{
+        font-family: FontAwesome;
+        content:"\f068";
+        padding-right: 15px;
+      }
+      &.collapsed{
+        .chev-icons:before{
+          content: "\f067";
+          padding-right: 15px;
+        }
+      }
+    }
+    .gray-header{
+      background: #FAFAFA;
+      padding: 5px;
+    }
+    .questionSummary__options{
+      padding: 0 15px;
+    }
+    .accord-subquestions{
+      padding: 15px;
+      // border-bottom: 1px solid #ddd;
+    }
+  }
+}
+
+.accord-subquetions-container{
+  .accord-questions{
+    font-size: 14px;
+    .ttuc{
+      color: @color-black;
+      font-weight: 600;
+    }
+    span.label{
+      font-size: 10px;
+    }
+  }
+  .gray-accord-questions{
+    background: #FAFAFA;
+    padding: 10px;
+  }
+}
+
+.p-t-0{
+  padding-top: 0 !important;
+}
