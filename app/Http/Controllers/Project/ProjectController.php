@@ -340,7 +340,7 @@ class ProjectController extends Controller
 
             $responseFlagType = $response->get($responseFlagColumn);
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
-            $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
+            $message = ($responseFlagType) ? sprintf($alertContent, $responseFlagType,$sequenceNumber ) : sprintf($alertContent, $sequenceNumber );
 
             $responseId = $response->getObjectId();
             $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
@@ -373,17 +373,24 @@ class ProjectController extends Controller
         'more_red_flags_compared_to_baseline'=>"More than %u red flags have been raised for submission number %d in comparison with baseline submission",
         'more_or_equal_red_flags_compared_to_previous'=>"%u or more red flags have been raised for submission number %d in comparison with previous submission",
         'more_or_equal_red_flags_compared_to_baseline'=>"%u or more red flags have been raised for submission number %d in comparison with baseline submission",
+        
+        'no_red_flags_compared_to_baseline'=>"No red flags have been raised for submission number %d in comparison with baseline submission",
+        'no_red_flags_compared_to_previous'=>"No red flags have been raised for submission number %d in comparison with previous submission",
 
 
         'less_red_flags_compared_to_previous'=>"Less than %u red flags have been raised for submission number %d in comparison with previous submission",
         'less_red_flags_compared_to_baseline'=>"Less than %u red flags have been raised for submission number %d in comparison with baseline submission",
         'less_or_equal_red_flags_compared_to_previous'=>"%u or less red flags have been raised for submission number %d in comparison with previous submission",
         'less_or_equal_red_flags_compared_to_baseline'=>"%u or less red flags have been raised for submission number %d in comparison with baseline submission",
+        
 
         'more_amber_flags_compared_to_previous'=>"More than %u amber flags have been raised for submission number %d in comparison with previous submission",
         'more_amber_flags_compared_to_baseline'=>"More than %u amber flags have been raised for submission number %d in comparison with baseline submission",
         'more_or_equal_amber_flags_compared_to_previous'=>"%u or more amber flags have been raised for submission number %d in comparison with previous submission",
         'more_or_equal_amber_flags_compared_to_baseline'=>"%u or more amber flags have been raised for submission number %d in comparison with baseline submission",
+        
+        'no_amber_flags_compared_to_baseline'=>"No amber flags have been raised for submission number %d in comparison with baseline submission",
+        'no_amber_flags_compared_to_previous'=>"No amber flags have been raised for submission number %d in comparison with previous submission",
 
         'less_amber_flags_compared_to_previous'=>"Less than %u amber flags have been raised for submission number %d in comparison with previous submission",
         'less_amber_flags_compared_to_baseline'=>"Less than %u amber flags have been raised for submission number %d in comparison with baseline submission",
@@ -394,6 +401,9 @@ class ProjectController extends Controller
         'more_green_flags_compared_to_baseline'=>"More than %u green flags have been raised for submission number %d in comparison with baseline submission",
         'more_or_equal_green_flags_compared_to_previous'=>"%u or more green flags have been raised for submission number %d in comparison with previous submission",
         'more_or_equal_green_flags_compared_to_baseline'=>"%u or more green flags have been raised for submission number %d in comparison with baseline submission",
+
+        'no_green_flags_compared_to_baseline'=>"No green flags have been raised for submission number %d in comparison with baseline submission",
+        'no_green_flags_compared_to_previous'=>"No green flags have been raised for submission number %d in comparison with previous submission",
 
         'less_green_flags_compared_to_previous'=>"Less than %u green flags have been raised for submission number %d in comparison with previous submission",
         'less_green_flags_compared_to_baseline'=>"Less than %u green flags have been raised for submission number %d in comparison with baseline submission",
