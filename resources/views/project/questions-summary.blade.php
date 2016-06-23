@@ -95,11 +95,7 @@
                            <span class="bold">4</span>
                          </div>
                          <div class="col-sm-2 text-center">
-                           <div class="checkbox p-t-0 subquest-checkbox">
-                              <label>
-                                <input type="checkbox">
-                              </label>
-                            </div>
+                           <i class="fa fa-check-square-o"></i>
                          </div>
                          </div><!--/row-->
                        </div><!-- /question-options -->
