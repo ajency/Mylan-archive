@@ -427,7 +427,13 @@ class QuestionnaireController extends Controller
 			$questionObjs->ascending("createdAt");
 			$questions = $questionObjs->find();
 
-			$questionsList = $this->getSequenceQuestions($questions,true);
+			
+
+			$questionsList = $this->getSequenceQuestions($questions,true,false);  
+
+			$subQuestions = (isset($questionsList['subQuestions'])) ? $questionsList['subQuestions']:[];  
+			$questionsList = (isset($questionsList['parentQuestions'])) ?$questionsList['parentQuestions']:[]; 
+
 
 			$optionObjs = new ParseQuery("Options");
 			$optionObjs->containedIn("question",$questions);
@@ -457,6 +463,7 @@ class QuestionnaireController extends Controller
 										->with('hospital', $hospital)
 										->with('project', $project)
 										->with('optionsList', $optionsList)
+										->with('subQuestions', $subQuestions)
 										->with('questionsList', $questionsList);
 	}
 

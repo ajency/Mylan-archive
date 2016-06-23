@@ -994,7 +994,7 @@ class PatientController extends Controller
             if($user->account_status=='inactive' && $status=='active')
             {
                // $user->login_attempts = 0;
-               $loginAttempt = UserLoginAttempt::where('user',$referenceCode)->first(); 
+               $loginAttempt = UserLoginAttempt::where('user',$referenceCode)->orderBy('id', 'desc')->first(); 
                $loginAttempt->delete(); 
             }
             
@@ -1447,6 +1447,8 @@ class PatientController extends Controller
                     $patientSortedData = $previousTotalRedFlagsCount;
                 elseif($value=='previousTotalAmberFlags')
                     $patientSortedData = $previousTotalAmberFlagsCount;
+                elseif($value=='previousTotalGreenFlags')
+                  $patientSortedData = $previousTotalGreenFlagsCount;
                 elseif($value=='completed')
                     $patientSortedData = $patientCompletedCount;
                 elseif($value=='late')

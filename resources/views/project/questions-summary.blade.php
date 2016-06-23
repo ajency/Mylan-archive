@@ -37,20 +37,35 @@
                 <div class="row questionSummary accord-questionSummary">
 
 
-
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
+                  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i }}">
                    <div class="col-md-12 questionSummary__head clearfix">
                      <div>
                      <span class="chev-icons"></span>
                         <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+
                             {{ $question['question'] }}
-                            <span class="label label-default pull-right m-t-5">4 OPTIONS</span>
+                            @if(isset($optionsList[$questionId]))
+                            &nbsp; <span class="label label-default pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
+                            @endif
+
+                            <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;
                      </div>
                    </div>
-                   </a>
+                  </a>
+                  @else
+                  <div class="col-md-12 questionSummary__head clearfix">
+                     <div>
+                     <span class="chev-icons"></span>
+                        <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+                            {{ $question['question'] }}
+                         <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;    
+                     </div>
+                   </div>
+                  @endif
                   
-                  
-                   <div class="col-md-11 col-md-offset-1 questionSummary__options panel-collapse collapse in m-b-15" id="collapseOne">
+                  @if(isset($optionsList[$questionId]))
+                   <div class="col-md-11 col-md-offset-1 questionSummary__options panel-collapse collapse m-b-15" id="collapse{{ $i }}">
                    <!-- @if(isset($optionsList[$questionId]))
                    <span class="text-center semi-bold col-md-2">Options</span>
                      <div class="col-md-10">
@@ -71,85 +86,105 @@
 
                      <!-- test -->
                      <div class="question-options-container">
+                      @foreach($optionsList[$questionId] as $option)
 
-                     <div class="question-options">
-                     <div class="row">
-                       <div class="col-sm-8">
-                       <span class="chev-icons"style="padding-right: 20px;">&nbsp;</span>
-                         Pain still there, even after medication 
-                       </div>
-                       <div class="col-sm-2 text-center">
-                         <span class="bold">4</span>
-                       </div>
-                       </div><!--/row-->
-                     </div><!-- /question-options -->
-
-                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                       <div class="question-options">
-                       <div class="row">
-                         <div class="col-sm-8">
-                         <span class="chev-icons"></span>
-                           Pain still there, even after medication 
-                         </div>
-                         <div class="col-sm-2 text-center">
-                           <span class="bold">4</span>
-                         </div>
-                         <div class="col-sm-2 text-center">
-                           <i class="fa fa-check-square-o"></i>
-                         </div>
-                         </div><!--/row-->
-                       </div><!-- /question-options -->
-                       </a>
-
-                       <div class="row panel-collapse collapse question-options_subquestion__container" id="collapseTwo">
-
-                      <div class="col-sm-11 col-md-offset-1 ">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                          <div class="question-options_subquestion">
-                            <span class="chev-icons"></span>
-                            <span class="ttuc p-r-15">PAIN</span>
-                            which statement describe best of your pain in last month?
-                            <span class="label label-default pull-right m-t-5">4 OPTIONS</span>
-                         </div>
-                         </a>
-
-                         <div class="row panel-collapse collapse question-options_subquestion__options" id="collapseThree">
-                         <div class="col-md-11 col-md-offset-1">
-                           <div class="row">
-                             <div class="col-md-12">
-                               <div class="row gray-header">
-                                 <div class="col-sm-8">Options</div>
-                                 <div class="col-md-2 text-center">Score</div>
-                                 
+                        @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
+                           
+                            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $option['optionId'] }}">
+                             <div class="question-options">
+                             <div class="row">
+                               <div class="col-sm-8">
+                               <span class="chev-icons"></span>
+                                  {{ $option['label'] }}
                                </div>
-                             </div>
-                           </div>
+                               <div class="col-sm-2 text-center">
+                                 <span class="bold">{{ $option['score'] }}</span>
+                               </div>
+                               <div class="col-sm-2 text-center">
+                                 <i class="fa fa-check-square-o"></i>
+                               </div>
+                               </div><!--/row-->
+                             </div><!-- /question-options -->
+                             </a>
 
-                           <div class="question-options">
-                           <div class="row">
-                             <div class="col-sm-8">
-                             <span class="chev-icons"style="padding-right: 20px;">&nbsp;</span>
-                               Pain still there, even after medication 
-                             </div>
-                             <div class="col-sm-2 text-center">
-                               <span class="bold">4</span>
-                             </div>
-                             </div><!--/row-->
-                           </div><!-- /question-options -->
+                             <?php
+                              $subQuestionId = $question['condition'][$option['optionId']];
+                              $subQuestion = $subQuestions[$questionId][$subQuestionId];
+                              ?>
 
-                         </div>
-                         </div><!--/question-options_subquestion__options-->
-                        </div>
+                              <div class="row panel-collapse collapse question-options_subquestion__container" id="collapse{{ $option['optionId'] }}">
+
+                                <div class="col-sm-11 col-md-offset-1 ">
+                                  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $subQuestionId }}">
+                                    <div class="question-options_subquestion">
+                                      <span class="chev-icons"></span>
+                                      <span class="ttuc p-r-15">{{ $subQuestion['title'] }}</span>
+                                        {{ $subQuestion['question'] }}
+                                        @if(isset($optionsList[$subQuestionId]))
+                                          <span class="label label-default pull-right m-t-5">{{ count($optionsList[$subQuestionId])}} OPTIONS</span>
+                                        @endif
+                                   </div>
+                                   </a>
+
+                                   <div class="row panel-collapse collapse question-options_subquestion__options" id="collapse{{ $subQuestionId }}">
+                                   <div class="col-md-11 col-md-offset-1">
+                                     <div class="row">
+                                       <div class="col-md-12">
+                                         <div class="row gray-header">
+                                           <div class="col-sm-8">Options</div>
+                                           <div class="col-md-2 text-center">Score</div>
+                                           
+                                         </div>
+                                       </div>
+                                     </div>
+
+                                     @if(isset($optionsList[$subQuestionId]))
+                                  
+                                      @foreach($optionsList[$subQuestionId] as $option)
+                                       <div class="question-options">
+                                       <div class="row">
+                                         <div class="col-sm-8">
+                                         <span class="chev-icons"style="padding-right: 20px;">&nbsp;</span>
+                                           {{ $option['label'] }}
+                                         </div>
+                                         <div class="col-sm-2 text-center">
+                                           <span class="bold">{{ $option['score'] }}</span>
+                                         </div>
+                                         </div><!--/row-->
+                                       </div><!-- /question-options -->
+                                      @endforeach 
+                                    @endif
+                                   </div>
+                                   </div><!--/question-options_subquestion__options-->
+                                  </div>
 
 
-                       </div><!-- /question-options_subquestion -->
+                                 </div><!-- /question-options_subquestion -->
+
+                        @else
+                            <div class="question-options">
+                             <div class="row">
+                               <div class="col-sm-8">
+                               <span class="chev-icons"style="padding-right: 20px;">&nbsp;</span>
+                                 {{ $option['label'] }}
+                               </div>
+                               <div class="col-sm-2 text-center">
+                                 <span class="bold">{{ $option['score'] }}</span>
+                               </div>
+                               </div><!--/row-->
+                             </div><!-- /question-options -->
+                        @endif
+                      @endforeach
+                      
+
+                      
                          
                        
                      </div><!-- question-options-container -->
                      <!-- /test -->
 
                    </div> <!-- /questionSummary__options -->
-                   
+                  @endif
                    
                 </div><!--/accord-questionSummary-->
                 
