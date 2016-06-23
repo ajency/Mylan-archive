@@ -10,6 +10,8 @@ use App\Hospital;
 use App\Projects;
 use App\Attributes;
 use \Session;
+use Parse\ParseObject;
+use Parse\ParseQuery;
 
 class ProjectController extends Controller
 {
@@ -93,6 +95,22 @@ class ProjectController extends Controller
         if (!empty($attributes)) {
             $project->attributes()->saveMany($attributes);
         }
+
+
+        //create default alert for project
+        $flagCountVal = 2;
+        $operationVal = 'greater_than_equal_to';
+        $flagColourVal = 'red';
+        $comparedToVal = 'previous';
+
+        $alertsetting = new ParseObject("AlertSettings");
+        $alertsetting->set("project", $projectId);
+        $alertsetting->set("flagCount", $flagCountVal);
+        $alertsetting->set("operation", $operationVal);
+        $alertsetting->set("flagColour", $flagColourVal);
+        $alertsetting->set("comparedTo", $comparedToVal);
+        $alertsetting->save();
+
 
         Session::flash('success_message','Project successfully created.');
          

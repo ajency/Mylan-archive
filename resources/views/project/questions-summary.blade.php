@@ -59,7 +59,7 @@
                      <span class="chev-icons"></span>
                         <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
                             {{ $question['question'] }}
-                             
+                         <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;    
                      </div>
                    </div>
                   @endif
