@@ -339,7 +339,7 @@ class ProjectController extends Controller
             $reviewNote = ($reviewNote=='')?'NA':$reviewNote;
 
             $responseFlagType = $response->get($responseFlagColumn);
-            $responseFlagType = ($responseFlagType) ? $responseFlagType :"No";
+            $responseFlagType = ($responseFlagType == 0) ? $responseFlagType :"No";
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
             // $message = ($responseFlagType) ? sprintf($alertContent, $responseFlagType,$sequenceNumber ) : sprintf($alertContent, $sequenceNumber );
             $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
