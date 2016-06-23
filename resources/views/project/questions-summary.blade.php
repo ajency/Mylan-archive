@@ -37,19 +37,32 @@
                 <div class="row questionSummary accord-questionSummary">
 
 
-
+                  @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                   <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i }}">
                    <div class="col-md-12 questionSummary__head clearfix">
                      <div>
                      <span class="chev-icons"></span>
                         <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+
                             {{ $question['question'] }}
                             @if(isset($optionsList[$questionId]))
-                            <span class="label label-default pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span>
+                            &nbsp; <span class="label label-default pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
                             @endif
+
+                            <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;
                      </div>
                    </div>
-                   </a>
+                  </a>
+                  @else
+                  <div class="col-md-12 questionSummary__head clearfix">
+                     <div>
+                     <span class="chev-icons"></span>
+                        <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+                            {{ $question['question'] }}
+                             
+                     </div>
+                   </div>
+                  @endif
                   
                   @if(isset($optionsList[$questionId]))
                    <div class="col-md-11 col-md-offset-1 questionSummary__options panel-collapse collapse m-b-15" id="collapse{{ $i }}">
