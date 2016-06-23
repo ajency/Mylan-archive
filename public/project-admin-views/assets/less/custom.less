@@ -1,4 +1,5 @@
 @color-secondary: #05a8a5;
+@light-gray: #FAFAFA;
 
 .container{
 	.content{
@@ -2000,5 +2001,135 @@ button.add-question{
 .accord-questionSummary{
   .col-md-offset-1{
     margin-left: 30px;
+  }
+}
+
+// create questionary
+.questions-list_container{
+  margin-bottom: 30px;
+  .questions-list__header{
+    background: #fafafa;
+    padding: 10px;
+  }
+  .questions-list{
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    &:last-child{
+      border-bottom: none;
+    }
+    .type{
+      font-size: 12px;
+    }
+    .edit-link{
+      color: @color-secondary;
+      text-decoration: underline;
+      font-size: 12px;
+    }
+  }
+}
+
+.main-question_container{
+  margin-bottom: 30px;
+  box-shadow: 0 0 8px #ccc;
+  .main-question__header{
+    background: #fafafa;
+    padding: 10px 5px;
+  }
+  .form-group,
+  .row{
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .type-questions{
+    padding: 15px 5px;
+    input[type="text"],
+    select{
+      border: none !important;
+      box-shadow: none;
+      border-bottom: 1px solid #ddd !important;
+      border-radius: 0;
+      &:focus{
+        background: none;
+        border-color: @color-secondary;
+      }
+    }
+    label{
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+    .form-group{
+      margin-bottom: 0;
+    }
+  }
+
+  .options-container{
+    background: @light-gray;
+    padding: 15px 5px;
+    .options-list_container{
+      .sh-link,
+      .add-link{
+        font-size: 11px;
+        color: @color-secondary;
+        text-decoration: underline;
+        display: block;
+        margin-top: -10px;
+      }
+      .add-link{
+        color: grey;
+      }
+    }
+    .subquestion-container{
+      background: @color-white;
+      padding: 15px;
+      margin-top: 15px;
+      position: relative;
+      box-shadow: 0 0 16px #e5e9ec;
+      &:before{
+        top: -20px;
+        content: " ";
+        display: block;
+        height: 20px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+      &:after{
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid @color-white;
+        top: -10px;
+        content: " ";
+        height: 0;
+        left: 60px;
+        margin-left: -13px;
+        position: absolute;
+        width: 0;
+      }
+      .type-questions{
+        padding: 15px 0;
+      }
+      .options-list_container{
+        .options-list{
+          .option-label{
+            width: 90px;
+          }
+        }
+      }
+    }
+    .outline-btn{
+      background: @color-white;
+      border: 1px solid #ddd;
+      border-radius: 0;
+    }
+  }
+  .options-container_footer{
+    padding: 15px 5px;
+    background: @color-white;
+    a{
+      &:last-child{
+        margin-right: 10px;
+      }
+    }
   }
 }
