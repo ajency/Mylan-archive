@@ -49,7 +49,7 @@
                             &nbsp; <span class="label label-default pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
                             @endif
 
-                            <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;
+                            <span class="pull-right m-t-5 quest-type">{{ ucfirst($question['type'])}}</span> &nbsp;
                      </div>
                    </div>
                   </a>
@@ -114,7 +114,7 @@
 
                               <div class="row panel-collapse collapse question-options_subquestion__container" id="collapse{{ $option['optionId'] }}">
 
-                                <div class="col-sm-11 col-md-offset-1 ">
+                                <div class="col-sm-11 col-md-offset-1 gray-area">
                                   <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $subQuestionId }}">
                                     <div class="question-options_subquestion">
                                       <span class="chev-icons"></span>
@@ -127,12 +127,13 @@
                                    </a>
 
                                    <div class="row panel-collapse collapse question-options_subquestion__options" id="collapse{{ $subQuestionId }}">
-                                   <div class="col-md-11 col-md-offset-1">
-                                     <div class="row">
+                                   <div class="col-md-11 col-md-offset-1" style="width:91.66666667%;">
+                                     <div class="row subQuestion-option">
                                        <div class="col-md-12">
-                                         <div class="row gray-header">
-                                           <div class="col-sm-8">Options</div>
+                                         <div class="row">
+                                           <div class="col-sm-8 ">Options</div>
                                            <div class="col-md-2 text-center">Score</div>
+                                           
                                            
                                          </div>
                                        </div>
