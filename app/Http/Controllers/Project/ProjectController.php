@@ -374,6 +374,7 @@ class ProjectController extends Controller
         'more_or_equal_red_flags_compared_to_previous'=>"%u or more red flags have been raised for submission number %d in comparison with previous submission",
         'more_or_equal_red_flags_compared_to_baseline'=>"%u or more red flags have been raised for submission number %d in comparison with baseline submission",
 
+
         'less_red_flags_compared_to_previous'=>"Less than %u red flags have been raised for submission number %d in comparison with previous submission",
         'less_red_flags_compared_to_baseline'=>"Less than %u red flags have been raised for submission number %d in comparison with baseline submission",
         'less_or_equal_red_flags_compared_to_previous'=>"%u or less red flags have been raised for submission number %d in comparison with previous submission",
@@ -674,9 +675,9 @@ class ProjectController extends Controller
 
 
         $patientController = new PatientController();
-        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,$cond,$sort); 
+        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,$cond,$sort);
         $patientResponses = $patientsSummary['patientResponses'];
-        $patientSortedData = $patientsSummary['patientSortedData'];
+        $patientSortedData = $patientsSummary['patientSortedData']; 
         $patientMiniGraphData = $patientsSummary['patientMiniGraphData'];
  
       $str = '';
@@ -1516,15 +1517,15 @@ class ProjectController extends Controller
 
     public function clearCache($projectId)
     {
-        $projectId = intval($projectId);
+      $projectId = intval($projectId);
 
-        $responseCacheKey = "projectResponses_".$projectId;
-        $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-        $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+      $responseCacheKey = "projectResponses_".$projectId;
+      $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+      $patientsSummaryCacheKey = "patientsSummary_".$projectId;
 
-        Cache::forget($responseCacheKey);
-        Cache::forget($patientsSummaryCacheKey);
-        Cache::forget($patientsAlertsCacheKey);
+      Cache::forget($responseCacheKey);
+      Cache::forget($patientsSummaryCacheKey);
+      Cache::forget($patientsAlertsCacheKey);
 
         $json_resp = array(
                 'code' => 'cache_cleared' , 

@@ -1447,6 +1447,8 @@ class PatientController extends Controller
                     $patientSortedData = $previousTotalRedFlagsCount;
                 elseif($value=='previousTotalAmberFlags')
                     $patientSortedData = $previousTotalAmberFlagsCount;
+                elseif($value=='previousTotalGreenFlags')
+                  $patientSortedData = $previousTotalGreenFlagsCount;
                 elseif($value=='completed')
                     $patientSortedData = $patientCompletedCount;
                 elseif($value=='late')
