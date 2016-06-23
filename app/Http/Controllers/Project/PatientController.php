@@ -22,6 +22,7 @@ use \Input;
 use \Log;
 use Crypt;
 use Illuminate\Support\Facades\Hash;
+use App\UserLoginAttempt;
 
 class PatientController extends Controller
 {
@@ -992,7 +993,9 @@ class PatientController extends Controller
 
             if($user->account_status=='inactive' && $status=='active')
             {
-               $user->login_attempts = 0;
+               // $user->login_attempts = 0;
+               $loginAttempt = UserLoginAttempt::where('user',$referenceCode)->first(); 
+               $loginAttempt->delete(); 
             }
             
             $user->age = $age;
