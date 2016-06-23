@@ -28,7 +28,7 @@
                        <h3 class="">{{ ucfirst($project['name']) }}</h3>
                       
                       <hr>
-          @include('admin.flashmessage')
+        @include('admin.flashmessage')
          <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}" data-parsley-validate>
   
           <div class="col-md-12 settings_block">
