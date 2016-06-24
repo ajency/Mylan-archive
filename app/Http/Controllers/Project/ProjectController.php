@@ -317,6 +317,8 @@ class ProjectController extends Controller
         $responseQry->equalTo("objectId", $referenceId); 
         $response = $responseQry->first();
         $responseObject[$referenceId] = $response;
+
+        $noFlagAlerts = ['no_red_flags_compared_to_baseline','no_red_flags_compared_to_previous','no_amber_flags_compared_to_baseline','no_amber_flags_compared_to_previous','no_green_flags_compared_to_baseline','no_green_flags_compared_to_previous'];
        
         if(!empty($response))
         {
@@ -340,7 +342,12 @@ class ProjectController extends Controller
 
             $responseFlagType = $response->get($responseFlagColumn);
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
-            $message = ($responseFlagType) ? sprintf($alertContent, $responseFlagType,$sequenceNumber ) : sprintf($alertContent, $sequenceNumber );
+            
+            if(in_array($alertType, $noFlagAlerts))
+              $message = sprintf($alertContent, $sequenceNumber );
+            else
+              $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
+
 
             $responseId = $response->getObjectId();
             $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
@@ -414,6 +421,7 @@ class ProjectController extends Controller
 
         'new_patient'=>"New Patient Created"
         ];
+
 
         $alertClases = [
         'compared_to_previous_red_flags'=>"danger",
