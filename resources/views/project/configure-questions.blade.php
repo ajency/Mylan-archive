@@ -417,11 +417,11 @@
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"> -->
             <button type="button" class="btn btn-link cust-link validateAndRedirect pull-left" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-chevron-left" aria-hidden="true" style="font-size: 10px;"></i> Questionnaire Settings</button>
             <!-- </a> -->
-            <button type="submit" class="btn btn-primary"> SAVE</button>
+            <button type="submit" class="btn btn-primary fw600"> SAVE</button>
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"> -->
-            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Reorder the Questions </button>
+            <button type="button" class="btn btn-default validateAndRedirect fw600" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Reorder the Questions </button>
 
-            <button class="btn btn-primary pull-right">PUBLISH</button>
+            <button class="btn btn-primary pull-right fw600">PUBLISH</button>
             <!-- </a> -->
           </div>
         </div>
