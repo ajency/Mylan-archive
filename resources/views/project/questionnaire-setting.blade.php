@@ -158,7 +158,7 @@
                       @elseif($action =="update-questionnaire-setting")
 
                       <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
-                      <button type="button" class="btn btn-link pull-right cust-link "> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                      <button type="button" class="btn btn-link pull-right outline-btn"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
                       </a>
 
                       @endif
