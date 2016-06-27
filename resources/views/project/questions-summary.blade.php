@@ -46,7 +46,7 @@
 
                             {{ $question['question'] }}
                             @if(isset($optionsList[$questionId]))
-                            &nbsp; <span class="label label-default pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
+                            &nbsp; <span class="label label-default cust-label pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
                             @endif
 
                             <span class="pull-right m-t-5 quest-type">{{ ucfirst($question['type'])}}</span> &nbsp;
@@ -197,7 +197,7 @@
           <div class="col-sm-10 m-t-10 mri-submit questionSubmitBtn">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><button type="button" class="btn btn-default"><i class="fa fa-backward" aria-hidden="true"></i> Back</button></a> 
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><button type="button" class="btn btn-link cust-link"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button></a> 
              
 
           </div>
@@ -215,6 +215,18 @@
 
 $(document).ready(function() {
     $('.dd').nestable({});
+
+    $('.collapse').on('show.bs.collapse', function () {
+      $(this).parent('.questionSummary').siblings('.questionSummary').find('.questionSummary__options.in').collapse('hide');
+      $(this).parent('.questionSummary').siblings('.questionSummary').addClass('rest-are-closed').find('.accordion-toggle').addClass('collapsed');
+      $(this).parent('.questionSummary').addClass('hasopened')
+    })
+    $('.collapse').on('hide.bs.collapse', function () {
+      $(this).parent('.questionSummary').siblings('.questionSummary').removeClass('rest-are-closed');
+      $(this).parent('.questionSummary').removeClass('hasopened')
+    })
+
+
 });
 
 </script>

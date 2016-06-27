@@ -1933,7 +1933,7 @@ button.add-question{
     &.collapsed{
       .questionSummary__head{
         background: #FAFAFA;
-        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
       }
     }
     .questionSummary__head{
@@ -2169,4 +2169,49 @@ button.add-question{
       }
     }
   }
+}
+
+.outline-btn{
+  border: 2px solid @color-secondary;
+  color: @color-secondary;
+  background: @color-white;
+  font-weight: 600;
+  &:focus,
+  &:hover{
+    text-decoration: none;
+    border: 2px solid @color-secondary;
+    color: @color-secondary;
+  }
+}
+
+.btn-link{
+  .cust-link{
+    color: @color-secondary;
+    font-weight: 600;
+  }
+}
+
+.fw600{
+  font-weight: 600;
+}
+
+.cust-label{
+  background: none;
+  font-weight: bold;
+  &:before{
+    font-family: FontAwesome;
+    content: "\f111";
+    font-size: 6px;
+    margin-right: 10px;
+    color: @color-secondary;
+  }
+}
+
+.accord-questionSummary.hasopened{
+  box-shadow: 0 0 16px #ccc;
+  padding: 15px;
+}
+
+.accord-questionSummary.rest-are-closed{
+  opacity: .4;
 }

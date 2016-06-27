@@ -9698,7 +9698,7 @@ button.add-question:hover {
 }
 .accord-questionSummary a.accordion-toggle.collapsed .questionSummary__head {
   background: #FAFAFA;
-  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 .accord-questionSummary a.accordion-toggle .questionSummary__head {
   background: none;
@@ -9875,4 +9875,41 @@ button.add-question:hover {
 }
 .main-question_container .options-container_footer a:last-child {
   margin-right: 10px;
+}
+.outline-btn {
+  border: 2px solid #05a8a5;
+  color: #05a8a5;
+  background: #ffffff;
+  font-weight: 600;
+}
+.outline-btn:focus,
+.outline-btn:hover {
+  text-decoration: none;
+  border: 2px solid #05a8a5;
+  color: #05a8a5;
+}
+.btn-link .cust-link {
+  color: #05a8a5;
+  font-weight: 600;
+}
+.fw600 {
+  font-weight: 600;
+}
+.cust-label {
+  background: none;
+  font-weight: bold;
+}
+.cust-label:before {
+  font-family: FontAwesome;
+  content: "\f111";
+  font-size: 6px;
+  margin-right: 10px;
+  color: #05a8a5;
+}
+.accord-questionSummary.hasopened {
+  box-shadow: 0 0 16px #ccc;
+  padding: 15px;
+}
+.accord-questionSummary.rest-are-closed {
+  opacity: .4;
 }
