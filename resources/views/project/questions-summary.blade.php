@@ -40,26 +40,40 @@
                   @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
                   <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i }}">
                    <div class="col-md-12 questionSummary__head clearfix">
-                     <div>
-                     <span class="chev-icons"></span>
+                     <div class="row">
+                      <div class="col-sm-1" style="width: 1.33%;">
+                        <span class="chev-icons"></span>
+                      </div>
+                      <div class="col-md-7">
                         <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+                        {{ $question['question'] }}
+                      </div>
 
-                            {{ $question['question'] }}
-                            @if(isset($optionsList[$questionId]))
-                            &nbsp; <span class="label label-default cust-label pull-right m-t-5">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
-                            @endif
+                      <div class="col-md-4" style="width: 38.33%;">
+                        @if(isset($optionsList[$questionId]))
+                        &nbsp; <span class="label label-default cust-label pull-right m-t-5 test">{{ count($optionsList[$questionId])}} OPTIONS</span> &nbsp;
+                        @endif
 
-                            <span class="pull-right m-t-5 quest-type">{{ ucfirst($question['type'])}}</span> &nbsp;
+                        <span class="pull-right m-t-5 quest-type">{{ ucfirst($question['type'])}}</span>
+                      </div>
                      </div>
                    </div>
                   </a>
                   @else
                   <div class="col-md-12 questionSummary__head clearfix">
-                     <div>
-                     <span class="chev-icons"></span>
-                        <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
-                            {{ $question['question'] }}
-                         <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;    
+                     <div class="row">
+                      <div class="col-sm-1" style="width: 1.33%;">
+                        <span class="chev-icons"></span>
+
+                        <div class="col-sm-7">
+                          <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+                          
+                        </div>
+                        
+                        <div class="col-sm-4" style="width: 38.33%;">
+                          <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;
+                        </div>    
+                            
                      </div>
                    </div>
                   @endif
@@ -116,13 +130,21 @@
 
                                 <div class="col-sm-11 col-md-offset-1 gray-area">
                                   <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $subQuestionId }}">
-                                    <div class="question-options_subquestion">
-                                      <span class="chev-icons"></span>
-                                      <span class="ttuc p-r-15">{{ $subQuestion['title'] }}</span>
+                                    <div class="question-options_subquestion row">
+                                      <div class="col-sm-1" style="width: 1.33%;">
+                                        <span class="chev-icons"></span>
+                                      </div> 
+                                      
+                                      <div class="col-md-7">
+                                        <span class="ttuc p-r-15">{{ $subQuestion['title'] }}</span>
                                         {{ $subQuestion['question'] }}
+                                      </div>
+
+                                      <div class="col-md-4" style="width: 38.33%">
                                         @if(isset($optionsList[$subQuestionId]))
                                           <span class="label label-default pull-right m-t-5">{{ count($optionsList[$subQuestionId])}} OPTIONS</span>
                                         @endif
+                                      </div> 
                                    </div>
                                    </a>
 
