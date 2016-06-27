@@ -64,7 +64,7 @@
                     <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
                   </div>
                   <div class="col-sm-2">
-                    <div class="text-center">
+                    <div class="text-center has-subquestion">
                       @if(isset($subQuestions[$questionId]))
                         Yes
                       @else
@@ -259,7 +259,7 @@
                               <label for="" class="m-t-10">score</label>
                             </div>
                             <div class="col-sm-1">
-                              <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
+                              <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required>
                             </div>
 
                             <div class="col-sm-4">
@@ -287,7 +287,7 @@
                               <label for="" class="m-t-10">score</label>
                             </div>
                             <div class="col-sm-1">
-                              <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0">
+                              <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" value="0" class="form-control" min="0">
                             </div>
 
                             <div class="col-sm-4 add-delete-container">
@@ -326,7 +326,7 @@
                       <label for="" class="m-t-10">score</label>
                     </div>
                     <div class="col-sm-1">
-                      <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
+                      <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >
                     </div>
 
                     <div class="col-sm-5 add-delete-container">

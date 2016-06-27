@@ -694,6 +694,9 @@ class QuestionnaireController extends Controller
 			$responseOptionIds = [];
 			$responseQuestionIds = [];
 
+			$hasSubQuestion = 'No';
+			$questioOptionCount = 0;
+
 			//1 level 
 			foreach ($questionsType as $key => $questionType) {
 		
@@ -745,9 +748,12 @@ class QuestionnaireController extends Controller
 
 				  	foreach ($questionOptions as $k => $option)
 				  	{
+
 						if($option=="")
 						  continue;
 
+						$questioOptionCount++;
+						 
 						$score = intval($optionScores[$k]);
 					
 						$optionObj = $this->saveOption($optionId[$k],$parentQuestionObj,$score,$option);
@@ -758,6 +764,7 @@ class QuestionnaireController extends Controller
 						
 						if(isset($optionKeys[$key][$k]))
 						{
+							$hasSubQuestion = 'Yes';
 							$subquestionKey = $optionKeys[$key][$k];
 
 							$questionType = $subquestionType[$subquestionKey];
@@ -808,7 +815,10 @@ class QuestionnaireController extends Controller
 				 	$parentQuestionObj->save();
 				 }
 				 
-
+				 
+				 
+				$responseData['questioOptionCount'] = $questioOptionCount;
+				$responseData['hasSubQuestion'] = $hasSubQuestion; 
 				$responseData['responseOptionIds'] = $responseOptionIds;
 				$responseData['responseQuestionIds'] = $responseQuestionIds;
 			}

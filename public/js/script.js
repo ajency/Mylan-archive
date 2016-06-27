@@ -2196,7 +2196,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center question-option-count"></div>';
     html +='</div>';
     html +='<div class="col-sm-2">';
-    html +='<div class="text-center">';
+    html +='<div class="text-center has-subquestion">';
 
     html +='</div>';
     html +='</div>';
@@ -2233,10 +2233,10 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='<div class="col-sm-1">';
-    html +='<div class="text-center question-option-count">0</div>';
+    html +='<div class="text-center question-option-count"></div>';
     html +='</div>';
     html +='<div class="col-sm-2">';
-    html +='<div class="text-center">No</div>';
+    html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2">';
     html +='<i class="fa fa-trash text-danger delete-parent-question delete-question" object-id=""></i>';
@@ -2533,6 +2533,10 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text(questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-title").text(response.data.title);
+                Obj.closest(".question-view-edit").find(".question-view").find(".question-option-count").text(response.data.questioOptionCount);
+                Obj.closest(".question-view-edit").find(".question-view").find(".has-subquestion").text(response.data.hasSubQuestion);
+                
+                
 
                 Obj.closest(".question-view-edit").find(".question-view").removeClass("hidden");
                 Obj.closest(".question-view-edit").find(".question-edit").addClass("hidden");
@@ -2620,7 +2624,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-1">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-5 add-delete-container">';
@@ -2658,7 +2662,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-1">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-4  add-delete-container">';
