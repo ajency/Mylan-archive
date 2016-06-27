@@ -136,6 +136,8 @@ window.addEventListener("load", function(e) {
 					 $( ".step-3 span.projectName, .step-3-edit span.projectName" ).html(data.projectName);	
 				}
 			});
+		$('.menu-item').removeClass('current');
+		$(this).addClass('current');
 	});
 	
 	$('#mapping-form').submit(function(e) { 
