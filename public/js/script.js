@@ -2302,9 +2302,9 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.question').remove();
                     Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
+                    Obj.closest('.question').remove();
                 }
                 else
                 {
@@ -2320,10 +2320,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     {
         if(!Obj.hasClass('delete-parent-question'))
         {  
-            Obj.closest('.question').remove();
+            
             Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
             Obj.closest('.sub-question').find('.toggle-subquestion').remove();
-            
+            Obj.closest('.question').remove();
             
         }
         else
