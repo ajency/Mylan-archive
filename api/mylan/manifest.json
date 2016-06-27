@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Mylan app",
+  "version": "0.01",
+  "minimum_chrome_version": "31",
+  "icons":{
+	"128": "mylan.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://mylan.local/*","http://mylantest.ajency.in/*"],
+      "js": ["jQuery v1.12.2.js","myscript.js"]
+    }
+  ],
+ "browser_action": {
+      "default_popup": "index.html"        // optional
+  },
+  "permissions": [
+    "http://mylantest.ajency.in/api/v3/ajaxCApi","http://mylan.local/api/v3/ajaxCApi",
+	"storage","tabs","cookies"
+  ]
+}
+
