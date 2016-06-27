@@ -9892,6 +9892,10 @@ button.add-question:hover {
   color: #05a8a5;
   font-weight: 600;
 }
+.btn-link .cust-link:focus,
+.btn-link .cust-link:active {
+  outline: none;
+}
 .fw600 {
   font-weight: 600;
 }
