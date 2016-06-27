@@ -29,404 +29,360 @@
                       
                       <hr>
           @include('admin.flashmessage')
-        <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" data-parsley-validate>
-
-        <div class="form-row question-list" id="accordion">
-            <?php 
-            $i=0;
-            ?>
-            @if(empty($questionsList))
-              <div class="no_question">No Questions added yet !</div>
-              <div class="m-b-20">Add a Question to continue</div>
-            @else
+        
+        
+        <div class="questions-list_container">
+          <div class="row questions-list__header">
+            <div class="col-sm-3">Question Identifier</div>
+            <div class="col-sm-4">The Question</div>
+            <div class="col-sm-1 text-center">Options</div>
+            <div class="col-sm-2 text-center">Sub Questions</div>
+            <div class="col-sm-2"></div>
+          </div>
+          <?php 
+          $i=0;
+          ?>
+          @if(!empty($questionsList))
             @foreach($questionsList as $questionId => $question)
-            <?php 
-            if($i==0)
-            {
-              $anchor = "";
-              $indicator = "down";
-              $containerCollapse = "in";
-            }
-            else
-            {
-              $anchor = "collapsed";
-              $indicator = "up";
-              $containerCollapse = "";
-            }
+              <?php 
+              $isWeight = false;
+              $k = 0;
+             if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
+                $isWeight = true;
+              ?>
+            <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" data-parsley-validate>
+            <div class="question-view-edit">
+                <div class="row questions-list question-view">
+                  <div class="col-sm-3">
+                    <div class="black question-title">{{ $question['title'] }}</div>
+                    <div class="type question-type">TYPE: {{ strtoupper($question['type']) }}</div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="bold question-text">{{ $question['question'] }}</div>
+                  </div>
+                  <div class="col-sm-1">
+                    <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="text-center">
+                      @if(isset($subQuestions[$questionId]))
+                        Yes
+                      @else
+                        No
+                      @endif
+                    </div>
+                  </div>
+                  <div class="col-sm-2">
+                    <div class="clearfix">
+                     <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
+                      <span class="pull-left edit-link edit-question">EDIT</span>
+                      <a href="" class="pull-right fa fa-trash"></a>
+                    </div>
+                  </div>
+                </div>
             
-            ?>
-            
-                <?php 
-                $isWeight = false;
-                $k = 0;
-               if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
-                  $isWeight = true;
-                ?>
-                <div class="row question parentQuestion panel panel-default" row-count="{{ $i }}"> 
-                   <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
 
-                   <!-- test -->
-                   <div class="col-sm-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
-                     <div class="row">
-                       <div class="col-sm-3">
-                         <label>Type of question</label>
-                          <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
-                              <option selected value="">Select the question type</option>
-                              <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
-                              <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
-                              <option @if($question['type']=="input") selected @endif value="input"> Input</option>
-                              <option @if($question['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
-                              <option @if($question['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
-                          </select>
-                          <input type="hidden" name="questionType[{{ $i }}]"  value="{{ $question['type'] }}">
-                       </div>
-                       <div class="col-sm-3">
-                        <label for="">A short question identifier</label>
-                        <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
-                       </div> 
-                       <div class="col-sm-4 m-t-30">
-                        @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                         <span class="label label-default">HAS 7 OPTIONS</span>
-                          @if($question['type']=="single-choice")
-                            <span class="label label-default">HAS SUB QUESTIONS</span>
-                          @endif
-                        @endif
-                        </div>
-                        
-                        <div class="col-md-2 m-t-25">
-                         <div class="clearfix">
-                           <div class="pull-right del-question-blk">
-                             <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
-                           </div>
-                         </div>
-                       </div>
-                     </div>
+            <div class="main-question_container question-edit hidden question" row-count="{{ $i }}">
+          
+            <!-- <div class="row main-question__header">
+              <div class="col-sm-3">Question Identifier</div>
+              <div class="col-sm-4">The Question</div>
+              <div class="col-sm-1 text-center">Options</div>
+              <div class="col-sm-2 text-center">Sub Questions</div>
+              <div class="col-sm-2"></div>
+            </div> -->
+          
 
-                     <div class="row">
-                       <div class="col-sm-9">
-                         <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
-                       </div>
-                       <div class="col-sm-3 m-t-10">
-                          @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                           <a class="accordion-toggle {{ $anchor }} create-quest" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
-                             <i class="indicator glyphicon glyphicon-chevron-{{ $indicator }}  pull-right"></i>
-                          </a>
-                          @endif
-                       </div>
-                     </div>
-                   </div>
-                   <!-- /test -->
-
-                   <!-- <div class="col-md-12 panel-heading questionHead @if(!$isWeight && $question['type']!='descriptive')arrow_box @endif">
-                   <div class="col-sm-3 m-t-15 ">
-                   <label>Type of question</label>
-                      <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
-                          <option selected value="">Select the question type</option>
-                          <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
-                          <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
-                          <option @if($question['type']=="input") selected @endif value="input"> Input</option>
-                          <option @if($question['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
-                          <option @if($question['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
-                      </select>
-                      <input type="hidden" name="questionType[{{ $i }}]"  value="{{ $question['type'] }}">
-                   </div>
-                   <div class="col-sm-3 m-t-15">
-                   <label for="">A short question identifier</label>
-                      <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
-                   </div> 
-                   <div class="col-sm-5 m-t-15">
-                   <label for="">What do you need to ask</label>
-                      <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
-                   </div>
-                   <div class="col-sm-1 text-center m-t-40 del-question-blk">
-                      <button type="button" class="btn btn-white delete-parent-question delete-question" object-id="{{ $questionId }}"><i class="fa fa-trash"></i></button>
-                   </div>
-                  @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                   <a class="accordion-toggle {{ $anchor }}" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{ $i }}">
-                     <i class="indicator glyphicon glyphicon-chevron-{{ $indicator }}  pull-right" style="margin-top: -25px; color: #333;"></i>
+            <div class="type-questions parentQuestion">
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <label for="">Type of question</label>
+                    <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
+                        <option selected value="">Select the question type</option>
+                        <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
+                        <option @if($question['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
+                        <option @if($question['type']=="input") selected @endif value="input"> Input</option>
+                        <option @if($question['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
+                        <option @if($question['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
+                    </select>
+                    <input type="hidden" name="questionType[{{ $i }}]"  value="{{ $question['type'] }}">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <label for="">A short question identifier</label>
+                    <input name="title[{{ $i }}]" id="title" type="text" value="{{ $question['title'] }}"   placeholder="Enter Identifier" class="form-control" data-parsley-required>
+                  </div>
+                </div>
+                <div class="col-sm-1">
+                  <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="text-center">
+                    @if(isset($subQuestions[$questionId]))
+                      Yes
+                    @else
+                      No
+                    @endif
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <a href="" class="pull-right">
+                    <i class="fa fa-trash text-danger delete-parent-question delete-question" object-id="{{ $questionId }}"></i>
                   </a>
-                  @endif
-                   </div> --><!--/panel-heading-->
-      
-                   <!-- options -->
-                   @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
-                   <div class="row panel-collapse collapse {{ $containerCollapse }} p-l-15 p-r-15" id="collapse-{{ $i }}">
-                   <!-- <div class="col-sm-1"></div> -->
-                    <div class="col-sm-12 question-options-block m-t-20 @if($isWeight) hidden @endif" >
-                    <?php 
-                      $j=0;
-                      ?>
-                    @if(isset($optionsList[$questionId]))
-                    <div class="row gray-section">
-                      <div class="col-md-12">
-                        <strong>Enter the options for this question</strong>
-                        <p>You can add a sub question too. The score declares the severity of the patient</p>
-                      </div>
-                      <!-- <div class="col-md-4">
-                        <strong>For the sub question</strong>
-                        <p>Add the sub question for this option</p>
-                      </div> -->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <input name="question[{{ $i }}]" id="question" type="text" value="{{ $question['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
+                  </div>
+                </div>
+              </div>
+              </div><!--/type-question-->
+              <?php 
+                $j=0;
+                ?>
+              @if(isset($optionsList[$questionId]))
+              <div class="options-container parent-question-options question-options-block @if($isWeight) hidden @endif">
+                <div class="row heading-title">
+                  <div class="col-md-12">
+                    <span class="bold">Enter the options for this question</span>
+                    <div>You can add a subquestion too. The score declairs severity of patient.</div>
+                  </div>
+                </div>
+                
+                @foreach($optionsList[$questionId] as $option)
+                <div class="options-list_container">
+                  <div class="row options-list m-t-15">
+                    <div class="col-sm-1">
+                      <label for="" class="m-t-10">option {{ ($j+1) }}</label>
+                      <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                     </div>
+                    <div class="col-sm-4">
+                      <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
+                    </div>
+
+                    <div class="col-sm-1 text-right">
+                      <label for="" class="m-t-10">score</label>
+                    </div>
+                    <div class="col-sm-1">
+                      <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required>
+                    </div>
+
+                    <div class="col-sm-5">
+                      <i class="fa fa-remove m-t-10 delete-option" counter-key="{{ $j }}"></i>
+                    </div>
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-sm-11 col-sm-offset-1 sub-question">
                       
-                      @foreach($optionsList[$questionId] as $option)
-                      <div class="option-block">
-                      <div class="row">
-                      <div class="col-sm-1">
-                        <label class="p-t-15">option {{ ($j+1) }}</label>
-                      </div>
-                      <div class="col-sm-11">
-                      <div class="optionsDesc">
-                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                        <!-- test -->
-                        <div class="row">
+                      <!-- sub question -->
+                    @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
+                      <span class="sh-link toggle-subquestion">SHOW SUB QUESTION</span>
+                      <?php
+                      $subQuestionId = $question['condition'][$option['optionId']];
+                      $subQuestion = $subQuestions[$questionId][$subQuestionId];
+                      $k = ($k==0)? $i+1 : $k+1;
 
-                          <div class="col-sm-5 m-t-10 m-b-10">
-                          <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
-                          </div>
-
-                          <div class="col-sm-2 m-t-10 m-b-10">
-                          <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required> 
-                          </div> 
-
-                          @if($question['type']=="single-choice")
-                          <div class="col-sm-3 text-center m-t-20">
-                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
-                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
-                          <small class="help-text">Add sub question</small>
-                          <!-- <input type="checkbox" class="hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
-                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif
-                          > -->
-                          </div>
-                          <div class="col-sm-2 text-right m-t-10 m-b-10">
-                          <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
-                          </div>
-                        @else
-                          <div class="col-sm-5 text-right m-t-10 m-b-10">
-                          <button type="button" class="btn btn-white delete-option" counter-key="{{ $j }}"><i class="fa fa-trash"></i></button>
-                          </div>
-                        @endif
-                        <div class="clearfix"></div>
-
-                        </div><!--/row-->
-                        <!-- /test -->
-                        
-                        
-                        </div><!--/optionsDesc-->
-                        </div><!--col-sm-11-->
-                      </div>
-
-                      <!--****sub Question ****-->
-                      <div class="subQuestion-container">
-                        @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                          <?php
-                          $subQuestionId = $question['condition'][$option['optionId']];
-                          $subQuestion = $subQuestions[$questionId][$subQuestionId];
-                          $k = ($k==0)? $i+1 : $k+1;
-
-                          $isWeight = false;
-                         if(isset($optionsList[$subQuestionId][0]['label'])  && $optionsList[$subQuestionId][0]['label']=="kg" && $optionsList[$subQuestionId][1]['label']=="st" && $optionsList[$subQuestionId][2]['label']=="lb")
-                         {
-                            $isWeight = true;
-                         }
-                          ?>
-
-                            <div class="row question subQuestion-row" row-count="{{ $k }}"> 
-                               <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
-                               <div class="col-sm-1"></div>
-                               <div class="col-sm-10 questionHead sub-question arrow_box-top gray-rbor-section">
-                               
-                               <div class="col-sm-3">
-                               <label>Type of question</label>
-                                  <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
-                                  <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="" data-parsley-required>
-                                      <option selected value="">Select Question Type</option>
-                                      <option @if($subQuestion['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
-                                      <option @if($subQuestion['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
-                                      <option @if($subQuestion['type']=="input") selected @endif value="input"> Input</option>
-                                      <option @if($subQuestion['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
-                                      <option @if($subQuestion['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
-                                  </select>
-                                  <input type="hidden" name="subquestionType[{{ $k }}]"  value="{{ $question['type'] }}">
-                               </div>
-                               <div class="col-sm-3">
-                               <label for="">A short question identifier</label>
-                                  <input name="subquestionTitle[{{ $k }}]" id="subquestionTitle" type="text" value="{{ $subQuestion['title'] }}"   placeholder="Enter Title" class="form-control" data-parsley-required>
-                               </div> 
-                               <div class="col-sm-5 m-t-25">
-                                  <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
-                               </div>
-                               <div class="col-sm-1 text-center m-t-25 del-question-blk">
-                                  <button type="button" class="btn btn-white delete-question" object-id="{{ $subQuestionId }}"><i class="fa fa-trash"></i></button>
-                               </div>
-                               </div>
-                               <div class="clearfix"></div>
-                               <!-- options -->
-                               @if($subQuestion['type']=="single-choice" || $subQuestion['type']=="multi-choice" || $subQuestion['type']=="input")
-                               <div class="row p-l-15 p-r-15">
-                               <div class="col-sm-1"></div>
-                                <div class="col-sm-10 gray-rbor-section question-options-block @if($isWeight) hidden @endif" >
-                                <?php 
-                                  $l=0;
-                                  ?>
-                                @if(isset($optionsList[$subQuestionId]))
-                                  
-                                  @foreach($optionsList[$subQuestionId] as $option)
-                                  <div class="option-block">
-                                  <div class="row p-l-15 p-r-15">
-                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
-                                    <div class="col-sm-2">
-                                      <label class="p-t-15">option {{ ($l+1) }}</label>
-                                    </div>
-                                    <div class="col-sm-5 m-t-10 m-b-10">
-                                    <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
-                                    </div>
-                                    <div class="col-sm-2 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
-                                    </div> 
-                                     <div class="col-sm-2 text-right m-t-10 m-b-10 width-23">
-                                      <button type="button" class="btn btn-white delete-option" counter-key="{{ $l }}"><i class="fa fa-trash"></i></button>
-                                      </div>
-                                    <div class="subQuestion-container">
-
-                                    </div>
-                                  </div>
-                                  </div>
-                                  <?php 
-                                  $l++;
-                                  ?>
-                                  @endforeach
-                                @endif
-                                <div class="option-block">
-                                  <div class="row p-l-15 p-r-15">
-                                    <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
-                                    <div class="col-sm-2"><label class="p-t-15">option {{ ($l+1) }}</label></div>
-                                    <div class="col-sm-5 m-t-10 m-b-10 ">
-                                    <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
-                                    </div>
-                                    <div class="col-sm-2 m-t-10 m-b-10">
-                                    <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="1">
-                                    </div> 
-                                    <div class="col-sm-2 text-right m-t-10 m-b-10 width-23">
-                                    <button type="button" class="btn btn-white add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></button>
-                                    </div>
-                                    <div class="subQuestion-container"></div>
-                                  </div>
-                                </div> 
-                              </div>
-                              </div> 
-                                @endif
-                                <!--  -->
-                          </div>
-                        @endif
-                      </div>
-                      <!--****/sub Question ****-->
-                      </div><!--/option-block-->
-                        <!-- <hr class="customHR"> -->
-                      <?php 
-                      $j++;
+                      $isWeight = false;
+                      if(isset($optionsList[$subQuestionId][0]['label'])  && $optionsList[$subQuestionId][0]['label']=="kg" && $optionsList[$subQuestionId][1]['label']=="st" && $optionsList[$subQuestionId][2]['label']=="lb")
+                       {
+                          $isWeight = true;
+                       }
                       ?>
-                      @endforeach
-                    @endif
-                    <div class="option-block">
-                      <div class="row">
-                        <div class="col-sm-1">
-                          <label class="p-t-15">option {{ ($j+1) }}</label>
+                      <div class="subquestion-container question hidden " row-count="{{ $k }}">
+                        <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
+                        <div class="clearfix">
+                          <span class="bold pull-left">Edit this Subquestion</span>
+                          <a href="" class="fa fa-trash text-danger pull-right delete-question" object-id="{{ $subQuestionId }}"></a>
                         </div>
 
-                        <div class="col-sm-11">
-                        <div class="optionsDesc">
-                        <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
-                        <div class="row">
-                        <div class="col-sm-5 m-t-10 m-b-10 ">
-                        
-                        <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
-                        </div>
-                        <div class="col-sm-2 m-t-10 m-b-10">
-                        
-                        <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
-                        </div> 
-                        @if($question['type']=="single-choice")
-                          <div class="col-sm-3 text-center m-t-20">
-                          <input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" >
-                          <small class="help-text">Add sub question</small>
+                        <div class="type-questions">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <div class="form-group">
+                                <label for="">Type of question</label>
+                                    <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
+                                    <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="" data-parsley-required>
+                                        <option selected value="">Select Question Type</option>
+                                        <option @if($subQuestion['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
+                                        <option @if($subQuestion['type']=="multi-choice") selected @endif value="multi-choice">Multi-choice</option>
+                                        <option @if($subQuestion['type']=="input") selected @endif value="input"> Input</option>
+                                        <option @if($subQuestion['type']=="input" && $isWeight) selected @endif value="input" data-value="weight"> Weight </option>
+                                        <option @if($subQuestion['type']=="descriptive") selected @endif value="descriptive"> Descriptive </option>
+                                    </select>
+                                    <input type="hidden" name="subquestionType[{{ $k }}]"  value="{{ $question['type'] }}">
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                <label for="">A short question identifier</label>
+                                <input name="subquestionTitle[{{ $k }}]" id="subquestionTitle" type="text" value="{{ $subQuestion['title'] }}"   placeholder="Enter Identifier" class="form-control" data-parsley-required>
+                              </div>
+                            </div>
                           </div>
-                          <div class="col-sm-2 text-right m-t-10 m-b-10">
-                          <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
+
+                          <div class="row">
+                            <div class="col-md-9">
+                              <div class="form-group">
+                                <input name="subquestion[{{ $k }}]" id="subquestion" type="text" value="{{ $subQuestion['question'] }}"  placeholder="Enter Question" class="form-control" data-parsley-required>
+                              </div>
+                            </div>
                           </div>
-                        @else
-                          <div class="col-sm-5 text-right m-t-10 m-b-10">
-                          <button type="button" class="btn btn-white add-option" counter-key="{{ $j }}"><i class="fa fa-plus"></i></button>
+                        </div><!--/type-question-->
+                        <?php 
+                          $l=0;
+                          ?>
+                        <div class="question-options-block">
+                        <span class="bold m-t-15">Enter the option for this sub question</span>
+                        @if(isset($optionsList[$subQuestionId]))
+
+                        @foreach($optionsList[$subQuestionId] as $option)
+                        <div class="options-list_container m-t-5 m-b-5">
+                          <div class="row options-list">
+                            <div class="col-sm-2 option-label">
+                              <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]" class="optionId"  value="{{ $option['optionId'] }}">
+                              <label for="" class="m-t-10">option {{ ($l+1) }}</label>
+                            </div>
+                            <div class="col-sm-4">
+                              <input name="option[{{ $k }}][{{ $l }}]" id="option" type="text" placeholder="Enter option" value="{{ $option['label'] }}" class="form-control" data-parsley-required>
+                            </div>
+                            <div class="col-sm-1 text-right">
+                              <label for="" class="m-t-10">score</label>
+                            </div>
+                            <div class="col-sm-1">
+                              <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="1" data-parsley-required>
+                            </div>
+
+                            <div class="col-sm-4">
+                             <i class="fa fa-close m-t-10 delete-option" counter-key="{{ $l }}"></i> 
+                            </div>
                           </div>
+                        </div><!--/options-list_container-->
+                        <?php 
+                          $l++;
+                          ?>
+                          @endforeach
+
                         @endif
-                        <div class="clearfix"></div>
-                        </div>
-                        </div>
-                        </div>
-                      </div>
-                        <div class="subQuestion-container"></div>
-                    </div>
-                  </div> 
-                    <div class="col-sm-1"></div>
-                  </div><!-- /panel-collapse -->
-   
+                         
+                        <div class="options-list_container m-b-5">
+                          <div class="row options-list">
+                            <div class="col-sm-2 option-label">
+                            <input type="hidden" name="optionId[{{ $k }}][{{ $l }}]"  class="optionId" value="">
+                              <label for="" class="m-t-10">option {{ ($l+1) }}</label>
+                            </div>
+                            <div class="col-sm-4">
+                              <input name="option[{{ $k }}][{{ $l }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
+                            </div>
+                            <div class="col-sm-1 text-right">
+                              <label for="" class="m-t-10">score</label>
+                            </div>
+                            <div class="col-sm-1">
+                              <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0">
+                            </div>
+
+                            <div class="col-sm-4 add-delete-container">
+                            <span href="" class="btn btn-default outline-btn add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
+
+                            </div>
+                          </div>
+                        </div><!--/options-list_container-->
+                         </div> 
+
+                      </div><!--/subquestion-container-->
+                    @else
+                      @if($question['type']=="single-choice")
+                      <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
+                      <span  class="add-link add-sub-question">ADD SUB QUESTION</span>
+                      @endif
                     @endif
-                    
-                    <!--  -->
-              </div><!--/parentQuestion-->
-           <?php 
- 
-            $i= ($k==0)?$i+1:$k+1;
-            ?>
-            @endforeach
-            @endif
-            
-            <!-- <div class="row question parentQuestion  panel panel-default" row-count="{{ $i }}">
-               <input type="hidden" name="questionId[{{ $i }}]" value="">
-               <div class="col-md-12 questionHead panel-heading">
-               <div class="col-sm-3 m-t-15">
-                  <label>Type of question</label>
-                  <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType">
-                      <option value="">Select Question Type</option>
-                      <option value="single-choice"> Single-choice</option>
-                      <option value="multi-choice">Multi-choice</option>
-                      <option value="input"> Input</option>
-                      <option value="descriptive"> Descriptive </option>
-                      <option value="input" data-value="weight"> Weight </option>
-                  </select>
-               </div>
-               <div class="col-sm-3 m-t-15">
-                  <label for="">A short question identifier</label>
-                  <input name="title[{{ $i }}]" id="title" type="text"   placeholder="Enter Title" class="form-control" >
-               </div> 
-               <div class="col-sm-5 m-t-15">
-               <label for="">What do you need to ask</label>
-                  <input name="question[{{ $i }}]" id="question" type="text"   placeholder="Enter Question" class="form-control" >
-               </div>
-               <div class="col-sm-1 text-center m-t-15 del-question-blk">
-                  <button type="button" class="btn btn-white delete-question delete-parent-question hidden" object-id=""><i class="fa fa-trash"></i></button>
-               </div>
-            </div>
-          </div> -->
-  </div><!--/form-row-->
+
+                    </div>
+                  </div>
+                </div><!--/options-list_container-->
+                <?php 
+                  $j++;
+                  ?>
+                @endforeach
+                <div class="options-list_container">
+                  <div class="row options-list m-t-30">
+                    <div class="col-sm-1">
+                      <label for="" class="m-t-10">option {{ ($j+1) }}</label>
+                      <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
+                    </div>
+                    <div class="col-sm-4">
+                      <input name="option[{{ $i }}][{{ $j }}]" id="question" type="text" placeholder="Enter option"  class="form-control" >
+                    </div>
+
+                    <div class="col-sm-1 text-right">
+                      <label for="" class="m-t-10">score</label>
+                    </div>
+                    <div class="col-sm-1">
+                      <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >
+                    </div>
+
+                    <div class="col-sm-5 add-delete-container">
+                      <div class="clearfix">
+                        <span class="btn btn-default pull-right outline-btn add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
+                      </div>
+                    </div>
+                     
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-11 col-sm-offset-1">
+                      <a href="" class="add-link">ADD SUB QUESTION</a>
+                      
+                    </div>
+                  </div>
+                </div><!--/options-list_container-->
+
+              </div><!--/options-container-->
+              @endif
+
+              <div class="row options-container_footer">
+                <div class="col-md-12">
+                  <div class="clearfix">
+                    <button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>
+                    <button type="button" class="btn btn-default pull-right cancel-question">CANCEL</button>
+                  </div>
+                </div>
+              </div>
+              
+
+            </div><!-- /main-question_container -->
+        </div>
+        </form>
+          <?php 
+          $i= ($k==0)?$i+1:$k+1;
+          ?>
+          @endforeach
+        @endif
         <input type="hidden" name="counter" id="counter" value="{{ $i }}">
-        <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
+
+        </div><!--/question-lists_contaoner-->
+
+        <!-- test -->
+              <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
-          <div class="col-sm-12 questionActions mri-submit text-center">
+          <div class="col-sm-10 questionActions mri-submit">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"> -->
-            <button type="button" class="btn btn-link cust-link validateAndRedirect pull-left" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-chevron-left" aria-hidden="true" style="font-size: 10px;"></i> Questionnaire Settings</button>
+            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-backward" aria-hidden="true"></i> Questionnaire Settings</button>
             <!-- </a> -->
-            <button type="submit" class="btn btn-primary fw600"> SAVE</button>
+      
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"> -->
-            <button type="button" class="btn btn-default validateAndRedirect fw600" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Reorder the Questions </button>
-
-            <button class="btn btn-primary pull-right fw600">PUBLISH</button>
+            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Order Questions <i class="fa fa-forward" aria-hidden="true"></i></button>
             <!-- </a> -->
           </div>
         </div>
-
-        </form>
+ 
               
                      </div>
                   </div>

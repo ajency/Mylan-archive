@@ -100,6 +100,7 @@ class ApiController extends Controller
             foreach($hospitalData as $hospital){
                 $data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
             }
+			$data['userEmail'] = $email;
             return $data;
         }else{
             $data['status'] = 404;
@@ -119,18 +120,25 @@ class ApiController extends Controller
     }
     
     public function projectList(Request $request){
-        $hospitalId = $request->hospitalId;
+        $hospitalId = intval($request->hospitalId);
         $projectData = Projects::where("hospital_id",$hospitalId)->get();
         $data['projects'] = "<option value='0'>Please select</option>";
+		$data['projectItem'] = "<ul>";
         foreach($projectData as $project){
             $data['projects'] .= "<option value='".$project['id']."'>".$project['name']."</option>";
+			$data['projectItem'] .= "<li id='".$project['id']."'>".$project['name']."</li>";
         }
+		
+		$data['projectItem'] .= "</ul>";
+		
+		
+		
         return $data;
     }
     
     public function mappingList(Request $request){
-        $hospitalId = $request->input('hospitalList');
-        $projectId = $request->input('projectList');
+        $hospitalId = intval($request->input('hospitalList'));
+        $projectId = intval($request->input('projectList'));
         $whereCondition = [ 'users.hospital_id' => $hospitalId, 'users.project_id' => $projectId ];
         $userData = User::select('*','users.name as username','hospitals.name as hospitalName','projects.name as projectName')->join('hospitals','hospitals.id','=','users.hospital_id')->join('projects','projects.id','=','users.project_id')->where($whereCondition)->get();
         $data['content'] ='';
