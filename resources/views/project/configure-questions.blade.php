@@ -77,7 +77,7 @@
                      <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
                       <span class="pull-left edit-link edit-question">EDIT</span>
-                      <a href="" class="pull-right fa fa-trash"></a>
+                      <i class="pull-right fa fa-trash delete-parent-question delete-question" object-id="{{ $questionId }}"></i>
                     </div>
                   </div>
                 </div>
@@ -179,7 +179,10 @@
                   </div>
                   
                   <div class="row">
+                    <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                     <div class="col-sm-11 col-sm-offset-1 sub-question">
+
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
@@ -298,8 +301,6 @@
                       </div><!--/subquestion-container-->
                     @else
                       @if($question['type']=="single-choice")
-                          <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
-                          @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                       <span  class="add-link add-sub-question">ADD SUB QUESTION</span>
                       @endif
                     @endif

@@ -711,8 +711,14 @@ class QuestionnaireController extends Controller
 					$previousQuestion->exists("nextQuestion");
 					$previousQuestion->equalTo("isChild",false);
 					$previousQuestionObj = $previousQuestion->first();
+
+					if(empty($previousQuestionObj))
+						$previousQuestionObj = NULL;
+
 					 
 				}
+
+
 
 				$responseData['questionType'] = $questionType;
 				$responseData['title'] = $title;

@@ -2123,7 +2123,8 @@ $('.publish-questionnaire').click(function (event) {
 
 /*******New Questionnaire script*******/
 
-$('.questions-list_container').find('.edit-question').click(function (event) { 
+ 
+$('.questions-list_container').on('click', '.edit-question', function(event) { 
     $(this).closest(".question-view-edit").find(".question-view").addClass("hidden");
     $(this).closest(".question-view-edit").find(".question-edit").removeClass("hidden");
 
@@ -2134,7 +2135,8 @@ $('.questions-list_container').find('.edit-question').click(function (event) {
     $('.add-question').addClass("hidden");
 
 });
-$('.questions-list_container').find('.cancel-question').click(function (event) { 
+ 
+$('.questions-list_container').on('click', '.cancel-question', function(event) { 
     $(this).closest(".question-view-edit").find(".question-view").removeClass("hidden");
     $(this).closest(".question-view-edit").find(".question-edit").addClass("hidden");
     $('.questions-list_container').find('.edit-question').each(function () { 
@@ -2144,7 +2146,8 @@ $('.questions-list_container').find('.cancel-question').click(function (event) {
 });
 
 
-$('.questions-list_container').find('.toggle-subquestion').click(function (event) { 
+ 
+$('.questions-list_container').on('click', '.toggle-subquestion', function(event) { 
 
     if($(this).hasClass('hideSubquestion'))
     {
@@ -2273,6 +2276,69 @@ $('.add-question').click(function (event) {
 
 });
 
+$('.questions-list_container').on('click', '.delete-question', function(event) { 
+    
+    if (confirm('Are you sure you want to delete this question?') === false) {
+        return;
+    }
+    var Obj = $(this);
+
+    var i = Obj.closest(".question").attr('row-count');
+    // var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
+    var questionId = Obj.attr("object-id") ;
+    Obj.closest('div').append('<span class="cf-loader"></span>');
+
+    if(!Obj.hasClass('delete-parent-question'))
+    {  
+        Obj.closest('.options-list_container').find('.hasSubQuestion').trigger('click');
+    }
+
+    if(questionId!='')
+    {
+        $.ajax({
+            url: BASEURL + "/delete-question/" + questionId,
+            type: "DELETE",
+            success: function (response) {
+
+                if(!Obj.hasClass('delete-parent-question'))
+                {  
+                    Obj.closest('.question').remove();
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').remove();
+                }
+                else
+                {
+                    Obj.closest('form').remove();
+                }
+                  
+
+            }
+                 
+        });
+    }
+    else
+    {
+        if(!Obj.hasClass('delete-parent-question'))
+        {  
+            Obj.closest('.question').remove();
+            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
+            Obj.closest('.sub-question').find('.toggle-subquestion').remove();
+            
+            
+        }
+        else
+        {
+            Obj.closest('form').remove();
+        }
+    }
+
+
+
+    
+
+});
+
+
 $('.questions-list_container').on('change', '.questionType', function(event) { 
 
     var counter = $(this).closest(".question").attr("row-count");
@@ -2380,10 +2446,10 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
 
 $('.questions-list_container').on('click', '.add-sub-question', function(event) { 
 
-    $(this).closest('div').find('.hasSubQuestion').attr('checked','checked');
+    $(this).closest('.row').find('.hasSubQuestion').attr('checked','checked');
 
-    var optionKey1 = $(this).closest('div').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
-    var optionKey2 = $(this).closest('div').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
+    var optionKey1 = $(this).closest('.row').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
+    var optionKey2 = $(this).closest('.row').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
 
 
     var counter = $('input[name="counter"]').val(); 
@@ -2391,7 +2457,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<a href="" class="sh-link">HIDE SUB QUESTION</a><div class="subquestion-container question" row-count="'+i+'">';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion">HIDE SUB QUESTION</span><div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
         html +='<span class="bold pull-left">Edit this Subquestion</span>';
@@ -2437,9 +2503,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='</div> ';
 
         html +='</div>';
-        alert(html);
-                    
-    
+       
     $('input[name="counter"]').val(i);
  
 
@@ -2475,6 +2539,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 $('.questions-list_container').find('.edit-question').each(function () { 
                     $(this).removeClass("hidden");
                 });
+                 $('.add-question').removeClass("hidden");
 
                 var responseOptionIds = response.data.responseOptionIds;
                 var responseQuestionIds = response.data.responseQuestionIds;
@@ -2566,10 +2631,10 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
                          
         html +='</div>';
         html +='<div class="row">';
+        html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
         html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
         if(hasSubQuestion)
         {
-            html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
             html +='<span  class="add-link add-sub-question">ADD SUB QUESTION</span>';
         }
                           
