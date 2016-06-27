@@ -135,9 +135,9 @@ class QuestionnaireController extends Controller
 			$name = $question->get('question');
 			$isChild = $question->get('isChild');
 			if(!$isChild)
-				$questionsList[$questionId] = ['nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType,'condition'=>$questionConditions];
+				$questionsList[$questionId] = ['previousQuestionId'=>$previousQuestionId,'nextQuestionId'=>$nextQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType,'condition'=>$questionConditions];
 			elseif($subQuestionsFlag)
-				$subQuestions[$previousQuestionId][$questionId] = ['previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
+				$subQuestions[$previousQuestionId][$questionId] = ['nextQuestionId'=>$nextQuestionId,'previousQuestionId'=>$previousQuestionId,'question'=>$name,'title'=>$title,'type'=>$questionType];
 
 
 		}
@@ -505,6 +505,7 @@ class QuestionnaireController extends Controller
 			$questionsList = (isset($questionsList['parentQuestions'])) ?$questionsList['parentQuestions']:[]; 
 
 
+
 			$optionObjs = new ParseQuery("Options");
 			$optionObjs->containedIn("question",$questions);
 			$optionObjs->ascending("score");
@@ -674,6 +675,7 @@ class QuestionnaireController extends Controller
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
+			$previousquestionIds = $request->input("previousquestionId");
 			$questionIds = $request->input("questionId");
 			$options = $request->input("option");
 			$optionIds = $request->input("optionId");
@@ -692,12 +694,25 @@ class QuestionnaireController extends Controller
 			$responseOptionIds = [];
 			$responseQuestionIds = [];
 
+			//1 level 
 			foreach ($questionsType as $key => $questionType) {
 		
 				$title = $titles[$key]; 
 				$question = $questions[$key];
 				$questionId = $questionIds[$key];
+				$previousquestionId = $previousquestionIds[$key];
 				$isChild = false;
+
+				if($previousquestionId=='')
+				{
+					// find last question
+					$previousQuestion = new ParseQuery("Questions");
+					$previousQuestion->equalTo("questionnaire",$questionnaire);
+					$previousQuestion->exists("nextQuestion");
+					$previousQuestion->equalTo("isChild",false);
+					$previousQuestionObj = $previousQuestion->first();
+					 
+				}
 
 				$responseData['questionType'] = $questionType;
 				$responseData['title'] = $title;

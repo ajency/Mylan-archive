@@ -1908,77 +1908,77 @@ function getOptionsCount(Obj)
     return count;
 }
 
-$('.add-question').click(function (event) { 
+// $('.add-question').click(function (event) { 
     
-    var counter = $('input[name="counter"]').val();
-    var i = parseInt(counter) + 1;
-    var j = $(".question:last").attr("row-count");
-    var questionType = $(".question:last").find("select[name='questionType["+j+"]']").val();
-    var question = $(".question:last").find("input[name='question["+j+"]']").val();
-    var title = $(".question:last").find("input[name='title["+j+"]']").val();
+//     var counter = $('input[name="counter"]').val();
+//     var i = parseInt(counter) + 1;
+//     var j = $(".question:last").attr("row-count");
+//     var questionType = $(".question:last").find("select[name='questionType["+j+"]']").val();
+//     var question = $(".question:last").find("input[name='question["+j+"]']").val();
+//     var title = $(".question:last").find("input[name='title["+j+"]']").val();
 
     
 
-    // if(questionType=='')
-    // {
-    //     alert("Please Enter Question Type");
-    // }
-    // else if(title=='')
-    // {
-    //     alert("Please Enter Title");
-    // }
-    // else if(question=='')
-    // {
-    //     alert("Please Enter Question");
-    // }
-    // else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
-    // {
-    //     alert("please enter alteast one option and score for question "+title);
+//     // if(questionType=='')
+//     // {
+//     //     alert("Please Enter Question Type");
+//     // }
+//     // else if(title=='')
+//     // {
+//     //     alert("Please Enter Title");
+//     // }
+//     // else if(question=='')
+//     // {
+//     //     alert("Please Enter Question");
+//     // }
+//     // else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
+//     // {
+//     //     alert("please enter alteast one option and score for question "+title);
          
-    // }
-    // else
-    // {
-        // $(".parentQuestion:last").find(".delete-parent-question").removeClass("hidden");
+//     // }
+//     // else
+//     // {
+//         // $(".parentQuestion:last").find(".delete-parent-question").removeClass("hidden");
 
-        html ='<div class="row parentQuestion question  panel panel-default" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-        html +='<div class="col-md-12 questionHead  panel-heading">';
-        html +='<div class="col-sm-3 m-t-15">';
-        html +='<label>Type of question</label>';
-        html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
-        html +='<option value="">Select Question Type</option>';
-        html +='<option value="single-choice"> Single-choice</option>';
-        html +='<option value="multi-choice">Multi-choice</option>';
-        html +='<option value="input"> Input</option>';
-        html +='<option value="descriptive"> Descriptive </option>';
-        html +='<option value="input" data-value="weight"> Weight </option>';
-        html +='</select>';
-        html +='</div>';
-        html +='<div class="col-sm-3 m-t-15">';
-        html +='<label for="">A short question identifier</label>';
-        html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
-        html +='</div> ';
-        html +='<div class="col-sm-5 m-t-15">';
-        html +='<label for="">What do you need to ask</label>';
-        html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
-        html +='</div> ';
+//         html ='<div class="row parentQuestion question  panel panel-default" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+//         html +='<div class="col-md-12 questionHead  panel-heading">';
+//         html +='<div class="col-sm-3 m-t-15">';
+//         html +='<label>Type of question</label>';
+//         html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
+//         html +='<option value="">Select Question Type</option>';
+//         html +='<option value="single-choice"> Single-choice</option>';
+//         html +='<option value="multi-choice">Multi-choice</option>';
+//         html +='<option value="input"> Input</option>';
+//         html +='<option value="descriptive"> Descriptive </option>';
+//         html +='<option value="input" data-value="weight"> Weight </option>';
+//         html +='</select>';
+//         html +='</div>';
+//         html +='<div class="col-sm-3 m-t-15">';
+//         html +='<label for="">A short question identifier</label>';
+//         html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
+//         html +='</div> ';
+//         html +='<div class="col-sm-5 m-t-15">';
+//         html +='<label for="">What do you need to ask</label>';
+//         html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
+//         html +='</div> ';
 
-        html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
-        html +='<button type="button" class="btn btn-white delete-parent-question delete-question"><i class="fa fa-trash"></i></button>';
-        html +='</div>';
-        html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
-        html +='<i class="indicator glyphicon glyphicon-chevron-up pull-right chevron"></i>';
-        html +='</a>';
-        html +='</div>';
-        html +='</div>';
+//         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
+//         html +='<button type="button" class="btn btn-white delete-parent-question delete-question"><i class="fa fa-trash"></i></button>';
+//         html +='</div>';
+//         html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
+//         html +='<i class="indicator glyphicon glyphicon-chevron-up pull-right chevron"></i>';
+//         html +='</a>';
+//         html +='</div>';
+//         html +='</div>';
 
-        if($('.question-list').find('.no_question').length)
-            $('.question-list').find('.no_question').addClass('hidden');
+//         if($('.question-list').find('.no_question').length)
+//             $('.question-list').find('.no_question').addClass('hidden');
             
-        $('.question-list').append(html);
-        $('input[name="counter"]').val(i);
-    // }
+//         $('.question-list').append(html);
+//         $('input[name="counter"]').val(i);
+//     // }
 
-});
+// });
 
 $('.question-list').on('click', '.delete-question', function(event) { 
     
@@ -2130,7 +2130,9 @@ $('.questions-list_container').find('.edit-question').click(function (event) {
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).addClass("hidden");
     });
- 
+
+    $('.add-question').addClass("hidden");
+
 });
 $('.questions-list_container').find('.cancel-question').click(function (event) { 
     $(this).closest(".question-view-edit").find(".question-view").removeClass("hidden");
@@ -2138,7 +2140,7 @@ $('.questions-list_container').find('.cancel-question').click(function (event) {
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).removeClass("hidden");
     });
- 
+    $('.add-question').removeClass("hidden");
 });
 
 
@@ -2161,20 +2163,55 @@ $('.questions-list_container').find('.toggle-subquestion').click(function (event
 });
 
 $('.add-question').click(function (event) { 
+
+    $(this).closest(".question-view-edit").find(".question-view").addClass("hidden");
+    $(this).closest(".question-view-edit").find(".question-edit").removeClass("hidden");
+
+    $('.questions-list_container').find('.edit-question').each(function () { 
+        $(this).addClass("hidden");
+    });
+
+
+
+    $('.add-question').addClass("hidden");
     
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
     var j = $(".question:last").attr("row-count");
-    var questionType = $(".question:last").find("select[name='questionType["+j+"]']").val();
-    var question = $(".question:last").find("input[name='question["+j+"]']").val();
-    var title = $(".question:last").find("input[name='title["+j+"]']").val();
-
-    
  
-    html ='<div class="row parentQuestion question  panel panel-default" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-    html +='<div class="col-md-12 questionHead  panel-heading">';
-    html +='<div class="col-sm-3 m-t-15">';
-    html +='<label>Type of question</label>';
+    html ='<form class="form-horizontal col-sm-12" method="post" action="'+ submitUrl +'" data-parsley-validate>';
+    html +='<div class="question-view-edit">';
+    html +='<div class="row questions-list hidden question-view">';
+    html +='<div class="col-sm-3">';
+    html +='<div class="black question-title"></div>';
+    html +='<div class="type question-type"></div>';
+    html +='</div>';
+    html +='<div class="col-sm-4">';
+    html +='<div class="bold question-text"></div>';
+    html +='</div>';
+    html +='<div class="col-sm-1">';
+    html +='<div class="text-center question-option-count"></div>';
+    html +='</div>';
+    html +='<div class="col-sm-2">';
+    html +='<div class="text-center">';
+
+    html +='</div>';
+    html +='</div>';
+    html +='<div class="col-sm-2">';
+    html +='<div class="clearfix">';
+    html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
+    html +='<input type="hidden" name="questionId['+i+']" value="">';
+    html +='<span class="pull-left edit-link edit-question">EDIT</span>';
+    html +='<a href="" class="pull-right fa fa-trash"></a>';
+    html +='</div>';
+    html +='</div>';
+    html +='</div> ';
+    html +='<div class="main-question_container question-edit question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+    html +='<div class="type-questions parentQuestion">';
+    html +='<div class="row">';
+    html +='<div class="col-sm-3">';
+    html +='<div class="form-group">';
+    html +='<label for="">Type of question</label>';
     html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
     html +='<option value="">Select Question Type</option>';
     html +='<option value="single-choice"> Single-choice</option>';
@@ -2183,29 +2220,54 @@ $('.add-question').click(function (event) {
     html +='<option value="descriptive"> Descriptive </option>';
     html +='<option value="input" data-value="weight"> Weight </option>';
     html +='</select>';
+
     html +='</div>';
-    html +='<div class="col-sm-3 m-t-15">';
+    html +='</div>';
+    html +='<div class="col-sm-4">';
+    html +='<div class="form-group">';
     html +='<label for="">A short question identifier</label>';
     html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
-    html +='</div> ';
-    html +='<div class="col-sm-5 m-t-15">';
-    html +='<label for="">What do you need to ask</label>';
+    html +='</div>';
+    html +='</div>';
+    html +='<div class="col-sm-1">';
+    html +='<div class="text-center question-option-count">0</div>';
+    html +='</div>';
+    html +='<div class="col-sm-2">';
+    html +='<div class="text-center">No</div>';
+    html +='</div>';
+    html +='<div class="col-sm-2">';
+    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question" object-id=""></i>';
+    html +='</div>';
+    html +='</div>';
+    html +='<div class="row">';
+    html +='<div class="col-md-9">';
+    html +='<div class="form-group">';
     html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
+    html +='</div>';
+    html +='</div>';
+    html +='</div>';
     html +='</div> ';
-
-    html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
-    html +='<button type="button" class="btn btn-white delete-parent-question delete-question"><i class="fa fa-trash"></i></button>';
-    html +='</div>';
-    html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
-    html +='<i class="indicator glyphicon glyphicon-chevron-up pull-right chevron"></i>';
-    html +='</a>';
+    html +='<div class="options-container parent-question-options question-options-block hidden ">';
+    html +='<div class="row heading-title">';
+    html +='<div class="col-md-12">';
+    html +='<span class="bold">Enter the options for this question</span>';
+    html +='<div>You can add a subquestion too. The score declairs severity of patient.</div>';
     html +='</div>';
     html +='</div>';
-
-    if($('.question-list').find('.no_question').length)
-        $('.question-list').find('.no_question').addClass('hidden');
-        
-    $('.question-list').append(html);
+    html +='</div>';
+    html +='<div class="row options-container_footer">';
+    html +='<div class="col-md-12">';
+    html +='<div class="clearfix">';
+    html +='<button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>';
+    html +='<button type="button" class="btn btn-default pull-right cancel-question">CANCEL</button>';
+    html +='</div>';
+    html +='</div>';
+    html +='</div>';
+    html +='</div> ';
+    html +='</div>';
+    html +='</form>';
+           
+    $('.questions-list_container').append(html);
     $('input[name="counter"]').val(i);
      
 
@@ -2304,7 +2366,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
     {
         var isSubQuestionOption = ($(this).hasClass('subquestionType'))?'yes':'no'; 
-        var hasSubQuestion = ($(this).hasClass('subquestionType'))?0:1; 
+        var hasSubQuestion = ($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))?1:0;  
         html += getOptionHtml(isSubQuestionOption, hasSubQuestion, i, 0)
         $(this).closest('.question').find('.question-options-block').removeClass('hidden');
     }
@@ -2324,7 +2386,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
     var optionKey2 = $(this).closest('div').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
 
 
-    var counter = $('input[name="counter"]').val();
+    var counter = $('input[name="counter"]').val(); 
     var i = parseInt(counter) + 1;
 
 
@@ -2350,7 +2412,6 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='<option value="descriptive"> Descriptive </option>';
         html +='<option value="input" data-value="weight"> Weight </option>';
         html +='</select>';
-        html +='<input type="hidden" name="subquestionType[{{ $k }}]" >';
         html +='</div>';
         html +='</div>';
         html +='<div class="col-sm-4">';
@@ -2376,6 +2437,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='</div> ';
 
         html +='</div>';
+        alert(html);
                     
     
     $('input[name="counter"]').val(i);
@@ -2388,7 +2450,8 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 });
 
 
-$('.save-question').click(function (event) { 
+ 
+$('.questions-list_container').on('click', '.save-question', function(event) {  
     var Obj = $(this);
     var form = Obj.closest('form');
 
@@ -2503,10 +2566,11 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
                          
         html +='</div>';
         html +='<div class="row">';
-        html +='<div class="col-sm-11 col-sm-offset-1">';
+        html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
         if(hasSubQuestion)
         {
-            html +='<a href="" class="add-link">ADD SUB QUESTION</a>';
+            html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
+            html +='<span  class="add-link add-sub-question">ADD SUB QUESTION</span>';
         }
                           
         html +='</div>';

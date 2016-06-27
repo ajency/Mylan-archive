@@ -123,15 +123,11 @@ class ApiController extends Controller
         $hospitalId = intval($request->hospitalId);
         $projectData = Projects::where("hospital_id",$hospitalId)->get();
         $data['projects'] = "<option value='0'>Please select</option>";
-		$data['projectItem'] = "<ul>";
+		$data['projectItem'] = "";
         foreach($projectData as $project){
             $data['projects'] .= "<option value='".$project['id']."'>".$project['name']."</option>";
-			$data['projectItem'] .= "<li id='".$project['id']."'>".$project['name']."</li>";
+			$data['projectItem'] .= "<li class='menu-item' id='".$project['id']."'>".$project['name']."</li>";
         }
-		
-		$data['projectItem'] .= "</ul>";
-		
-		
 		
         return $data;
     }

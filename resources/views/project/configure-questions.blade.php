@@ -74,6 +74,7 @@
                   </div>
                   <div class="col-sm-2">
                     <div class="clearfix">
+                     <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
                       <span class="pull-left edit-link edit-question">EDIT</span>
                       <a href="" class="pull-right fa fa-trash"></a>
@@ -97,7 +98,7 @@
               <div class="row">
                 <div class="col-sm-3">
                   <div class="form-group">
-                    <label for="">Type of question</label>
+                    <label for="">Type of question</label> 
                     <select name="questionType[{{ $i }}]" class="select2-container select2 form-control questionType" disabled data-parsley-required>
                         <option selected value="">Select the question type</option>
                         <option @if($question['type']=="single-choice") selected @endif value="single-choice"> Single-choice</option>
@@ -297,7 +298,7 @@
                       </div><!--/subquestion-container-->
                     @else
                       @if($question['type']=="single-choice")
-                      <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
+                          <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
                       <span  class="add-link add-sub-question">ADD SUB QUESTION</span>
                       @endif
@@ -363,7 +364,10 @@
           ?>
           @endforeach
         @endif
-        <input type="hidden" name="counter" id="counter" value="{{ $i }}">
+
+        
+
+        
 
         </div><!--/question-lists_contaoner-->
 
@@ -371,6 +375,7 @@
               <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
           <div class="col-sm-10 questionActions mri-submit">
+          <input type="hidden" name="counter" id="counter" value="{{ $i }}">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"> -->
@@ -399,6 +404,8 @@ $(function(){
   });
 
 });
+
+var submitUrl = "{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}";
 
 $( document ).ready(function() {
     function toggleChevron(e) {
