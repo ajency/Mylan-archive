@@ -374,16 +374,19 @@
         <!-- test -->
               <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
         <div class="form-group">
-          <div class="col-sm-10 questionActions mri-submit">
+          <div class="col-sm-12 questionActions mri-submit text-center">
           <input type="hidden" name="counter" id="counter" value="{{ $i }}">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"> -->
-            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-backward" aria-hidden="true"></i> Questionnaire Settings</button>
+            <button type="button" class="btn btn-link cust-link validateAndRedirect pull-left" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
             <!-- </a> -->
       
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"> -->
-            <button type="button" class="btn btn-default validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Order Questions <i class="fa fa-forward" aria-hidden="true"></i></button>
+            <button type="submit" class="btn btn-primary"> SAVE</button>
+            <button type="button" class="btn btn-link cust-link validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Reorder the Questions</button>
+
+            <button class="btn btn-primary pull-right">PUBLISH</button>
             <!-- </a> -->
           </div>
         </div>
