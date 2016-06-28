@@ -2517,7 +2517,7 @@ class PatientController extends Controller
 
             $projectController = new ProjectController(); 
             $subCond=['referenceType'=>"Response",'patient'=>$patient['reference_code']];
-            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$subCond); 
+            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$subCond,$refCond); 
 
         } catch (\Exception $e) {
 

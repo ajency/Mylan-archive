@@ -2457,7 +2457,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message text-warning alert alert-warning cust-alert-padd"></span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"></span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
@@ -2566,11 +2566,11 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
         form.find('.subquestion-container').filter('.hidden').each(function () { 
             if($(this).find('.parsley-required').length)  
             {
-                $(this).closest('.sub-question').find('.subquestion-error-message').text('Please fill required fields for these sub-question');
+                $(this).closest('.sub-question').find('.subquestion-error-message').removeClass('hidden');
             }
             else
             {
-                $(this).closest('.sub-question').find('.subquestion-error-message').text('');
+                $(this).closest('.sub-question').find('.subquestion-error-message').addClass('hidden');
             }
 
         });

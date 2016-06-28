@@ -291,9 +291,13 @@ class ProjectController extends Controller
                 
                 if($referenceType == "Response")
                 {
-                  $alertMsgData = $this->getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns);
-                  $alertMsg[] = $alertMsgData['alertMsg'];
-                  $responseObject = $alertMsgData['responseObject'];
+                  $alertMsgData = $this->getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond);
+                  if(!empty($alertMsgData['alertMsg']))
+                  {
+                    $alertMsg[] = $alertMsgData['alertMsg'];
+                    $responseObject = $alertMsgData['responseObject'];
+                  }
+                  
                 }
                 elseif($referenceType == "patient")
                 {
@@ -305,23 +309,34 @@ class ProjectController extends Controller
            
         }
  
-        $data['alertMsg']=$alertMsg;
+        $data['alertMsg']=$alertMsg; 
         $data['alertCount']=$alertCount;
 
         return $data;
     }
 
-    public function getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns)
+    public function getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond)
     {
+       
         $responseQry = new ParseQuery("Response");
         $responseQry->equalTo("objectId", $referenceId); 
+        if(!empty($refCond))
+        {
+            foreach ($refCond as $key => $value) {
+                $responseQry->equalTo($key,$value);
+            }
+        }
         $response = $responseQry->first();
-        $responseObject[$referenceId] = $response;
+        
 
         $noFlagAlerts = ['no_red_flags_compared_to_baseline','no_red_flags_compared_to_previous','no_amber_flags_compared_to_baseline','no_amber_flags_compared_to_previous','no_green_flags_compared_to_baseline','no_green_flags_compared_to_previous'];
        
+        $alertMsg=[];
+        $responseObject = [];
         if(!empty($response))
         {
+            $responseObject[$referenceId] = $response;
+
             $responseFlagColumn ="";
             foreach ($responseflagColumns as $key => $values) {
 

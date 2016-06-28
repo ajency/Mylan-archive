@@ -703,7 +703,7 @@ class SubmissionController extends Controller
 
             $projectController = new ProjectController(); 
             $subCond=['referenceType'=>"Response"];
-            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$subCond);
+            $submissionNotifications = $projectController->getProjectAlerts($projectId,"",0,[],$subCond,$refCond);
 
         } catch (\Exception $e) {
 
