@@ -34,10 +34,15 @@
             $i=0;
             ?>
             @foreach($questionsList as $questionId => $question)
+                <?php 
+                $isWeight = false;
+               if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
+                  $isWeight = true;
+                ?>
                 <div class="row questionSummary accord-questionSummary">
 
 
-                  @if($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input")
+                  @if(($question['type']=="single-choice" || $question['type']=="multi-choice" || $question['type']=="input") && !$isWeight)
                   <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $i }}">
                    <div class="col-md-12 questionSummary__head clearfix">
                      <div class="row">
@@ -64,18 +69,18 @@
                      <div class="row">
                       <div class="col-sm-1" style="width: 1.33%;">
                         <span class="chev-icons"></span>
+                      </div>
+                      <div class="col-md-7">
+                        <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
+                        {{ $question['question'] }}
+                      </div>
 
-                        <div class="col-sm-7">
-                          <span class="text-center semi-bold ttuc p-r-15">{{ $question['title'] }} </span>
-                          
-                        </div>
-                        
-                        <div class="col-sm-4" style="width: 38.33%;">
-                          <span class="pull-right m-t-5">{{ ucfirst($question['type'])}}</span> &nbsp;
-                        </div>    
-                            
+                      <div class="col-md-4" style="width: 38.33%;">
+                          <span class="pull-right m-t-5 quest-type">{{ ($isWeight)?'weight':ucfirst($question['type']) }}</span>
+                      </div>
                      </div>
                    </div>
+                   
                   @endif
                   
                   @if(isset($optionsList[$questionId]))
@@ -93,7 +98,9 @@
                      <div class="row gray-header">
                        <div class="col-sm-8">Options</div>
                        <div class="col-md-2 text-center">Score</div>
+                       @if(isset($subQuestions[$questionId]))
                        <div class="col-sm-2 text-center">Sub Question</div>
+                       @endif
                      </div>
                     
 

@@ -397,16 +397,7 @@
  
 <script type="text/javascript">
   
-$(function(){
-
-  var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-  elems.forEach(function(html) {
-    var switchery = new Switchery(html, { color: '#0aa699', size: 'small' });
-  });
-
-});
-
+ 
 var submitUrl = "{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}";
 
 $( document ).ready(function() {
