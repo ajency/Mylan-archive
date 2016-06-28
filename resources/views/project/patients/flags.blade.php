@@ -20,6 +20,7 @@
     <form name="searchData" method="GET"> 
        <input type="hidden" class="form-control" name="startDate"  >
       <input type="hidden" class="form-control" name="endDate"  >
+      <input type="hidden" class="form-control" name="type"  value="{{ $filterType }}" >
         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; height:34px;border-radius:6px;">
            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
            <span></span> <b class="caret"></b>
@@ -64,6 +65,8 @@
                                      <span class="cf-loader hidden flagsFilter pull-right"></span>
                                      <form name="filterData" method="get" class="pull-right">
                                      <label class="filter-label m-t-15 m-r-10">Filter</label>  
+                                      <input type="hidden" class="form-control" name="startDate" value="{{ $startDate }}"  >
+                                      <input type="hidden" class="form-control" name="endDate" value="{{ $endDate }}" >
                                        <select name="type" id="type" class=" select2  form-control inline filterby ">
                                           <option value="">All</option>
                                           <option {{ ($filterType=='previous')?'selected':''}} value="previous">Previous</option>
