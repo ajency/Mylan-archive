@@ -1484,7 +1484,7 @@ ul.ui-multiselect-checkboxes{
 	}
 	.question-options-block{
 		.row{
-			border-bottom: 1px solid #eee;
+			// border-bottom: 1px solid #eee;
 			select,input[type="text"]{
 				margin-bottom: 0px;
 			}
@@ -1733,16 +1733,6 @@ small.help-text{
   color: #333;
 }
 
-button.add-question{
-  border:1px solid;
-  font-weight: bold;
-  text-decoration: none;
-  &:hover{
-    border:1px solid;
-    font-weight: bold;
-    text-decoration: none;
-  }
-}
 
 .quest-options{
   display: inline-block;
@@ -2050,7 +2040,7 @@ button.add-question{
   }
   .questions-list{
     padding: 15px 0;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #eee;
     &:last-child{
       border-bottom: none;
     }
@@ -2068,6 +2058,7 @@ button.add-question{
 .main-question_container{
   margin-bottom: 30px;
   box-shadow: 0 0 8px #ccc;
+  margin-top: 10px; 
   .main-question__header{
     background: #fafafa;
     padding: 10px 5px;
@@ -2104,16 +2095,26 @@ button.add-question{
     background: @light-gray;
     padding: 15px 5px;
     .options-list_container{
+      border-bottom: 1px solid #eee;
+      margin-bottom: 15px;
+      &:last-child{
+        border-bottom: none;
+      }
       .sh-link,
       .add-link{
         font-size: 11px;
         color: @color-secondary;
         text-decoration: underline;
-        display: block;
+        // display: block;
         margin-top: -10px;
       }
       .add-link{
         color: grey;
+      }
+      .subquestion-container{
+        &.question{
+          margin-bottom: 0;
+        }
       }
     }
     .subquestion-container{
@@ -2176,11 +2177,16 @@ button.add-question{
   color: @color-secondary;
   background: @color-white;
   font-weight: 600;
-  &:focus,
-  &:hover{
+  &:hover,
+  &:active{
     text-decoration: none;
     border: 2px solid @color-secondary;
     color: @color-secondary;
+    outline: none;
+  }
+  &:focus,
+  &:active:focus{
+    outline: none;
   }
 }
 
@@ -2218,4 +2224,8 @@ button.add-question{
 
 .accord-questionSummary.rest-are-closed{
   opacity: .4;
+}
+
+.cp{
+  cursor: pointer;
 }

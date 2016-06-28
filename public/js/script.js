@@ -2262,7 +2262,7 @@ $('.add-question').click(function (event) {
     html +='<div class="col-md-12">';
     html +='<div class="clearfix">';
     html +='<button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>';
-    html +='<button type="button" class="btn btn-default pull-right cancel-question">CANCEL</button>';
+    html +='<button type="button" class="btn btn-default pull-right cancel-question m-r-10">CANCEL</button>';
     html +='</div>';
     html +='</div>';
     html +='</div>';
@@ -2457,7 +2457,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion">HIDE SUB QUESTION</span> <span class="subquestion-error-message"></span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message text-warning"></span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
@@ -2597,7 +2597,7 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     $(this).closest(".row").find("input[name='score["+i+"]["+counterKey+"]']").attr('data-parsley-required', 'true');
 
     var containerObj = $(this).closest(".add-delete-container");
-    containerObj.html('<i class="fa fa-remove m-t-10 delete-option" counter-key="'+counterKey+'"></i>');
+    containerObj.html('<i class="fa fa-remove m-t-10 delete-option cp" counter-key="'+counterKey+'"></i>');
     
     if(containerObj.closest('.question-options-block').hasClass('parent-question-options'))
     {
@@ -2620,8 +2620,8 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
     if(isSubQuestionOption=='no')
     {  
         //parent question Option html
-        html ='<div class="options-list_container">';
-        html +='<div class="row options-list m-t-30">';
+        html ='<div class="options-list_container p-b-10">';
+        html +='<div class="row options-list">';
         html +='<div class="col-sm-1">';
         html +='<label for="" class="m-t-10">option '+ (j+1) +'</label>';
         html +='<input type="hidden" name="optionId['+i+']['+j+']" class="optionId"  value="">';
@@ -2633,11 +2633,11 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
-        html +='<div class="col-sm-1">';
+        html +='<div class="col-sm-2">';
         html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
         html +='</div>';
 
-        html +='<div class="col-sm-5 add-delete-container">';
+        html +='<div class="col-sm-4 add-delete-container">';
         html +='<div class="clearfix">';
         html +='<span class="btn btn-default pull-right outline-btn add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
@@ -2671,11 +2671,11 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
-        html +='<div class="col-sm-1">';
+        html +='<div class="col-sm-2">';
         html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
         html +='</div>';
 
-        html +='<div class="col-sm-4  add-delete-container">';
+        html +='<div class="col-sm-3  add-delete-container">';
         html +='<span class="btn btn-default pull-right outline-btn add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
