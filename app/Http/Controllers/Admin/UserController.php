@@ -172,6 +172,7 @@ class UserController extends Controller
  
         Mail::send('admin.registermail', ['user'=>$data], function($message)use($data)
         {  
+            $message->from(Auth::user()->email, Auth::user()->name);
             $message->to($data['email'], $data['name'])->subject('Welcome to Mylan!');
         });
         

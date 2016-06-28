@@ -2177,7 +2177,7 @@ class PatientController extends Controller
             $answerDate = strtotime($answerDate);
 
             
-            if($responseStatus=='missed' || $responseStatus=='started'|| $responseStatus=='base_line')
+            if($responseStatus!='completed')
                 continue;
 
             $questionObjs[$questionId] =$questionobj;
