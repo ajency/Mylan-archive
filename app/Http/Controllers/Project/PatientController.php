@@ -60,19 +60,27 @@ class PatientController extends Controller
              
             $activepatients = [];
             $patientIds = [];
-                
-            if(isset($inputs['patients']))
-              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('account_status',$inputs['patients'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->lists('reference_code')->toArray();
-            else
-              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
-             
 
             foreach ($patientByDate as  $patient) {
+                $patients[] = $patient['reference_code'];
+                
                 $patientIds[$patient['reference_code']] = $patient['id'];
 
                 if($patient['account_status']=='active')
                     $activepatients[]= $patient['reference_code'];
             }
+                
+            if(isset($inputs['patients']))
+            {
+              $patients = [];
+              $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('account_status',$inputs['patients'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->lists('reference_code')->toArray();
+            }
+
+            // else
+            //   $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->lists('reference_code')->toArray();
+             
+
+            
             
 
             $startDateObj = array(
