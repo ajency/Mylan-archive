@@ -101,6 +101,7 @@ class SubmissionController extends Controller
                 elseif(in_array($submissionStatus, $allReviewStatus))
                 {
                     $cond = ['reviewed'=>$submissionStatus];
+                    $cond['status'] = 'completed';
                 }
                 // elseif($submissionStatus=='unreviewed')
                 // {
@@ -109,10 +110,10 @@ class SubmissionController extends Controller
                  
                 // }
 
-                if($submissionStatus=='unreviewed')
-                {
-                  $cond['status'] = 'completed';
-                }
+                // if($submissionStatus=='unreviewed')
+                // {
+                //   $cond['status'] = 'completed';
+                // }
             }
             else
             {

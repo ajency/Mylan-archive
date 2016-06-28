@@ -516,11 +516,14 @@ class ProjectController extends Controller
                       "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
                      );
 
+        $allReviewStatus = ['reviewed','reviewed_no_action','reviewed_call_done','reviewed_appointment_fixed','unreviewed'];
+        $allResponseStatus = ['completed','missed','late'];
+
         $cond = [];
-        if($inputs['object_type']=="submission")
-            $status=["completed"];
-        else
-            $status=["completed","late","missed"];
+        // if($inputs['object_type']=="submission")
+        //     $status=["completed"];
+        // else
+        //     $status=["completed","late","missed"];
 
  
         if(isset($inputs['sort']))
@@ -534,23 +537,52 @@ class ProjectController extends Controller
             
         }
 
+ 
+
+        $responseStatus = $allResponseStatus;
         if(isset($inputs['cond']))
-        { 
+        {
             $filterBy = $inputs['cond'];
             $filterData = explode('-', $inputs['cond']);
-            if(count($filterData)==2 && $filterData[0]!='')
+
+            $submissionStatus = $filterData[0];
+
+            if(in_array($submissionStatus, $allResponseStatus))
             {
-              if($filterData[0]!='all')
-              {
-                if($filterData[0]=='unreviewed')
-                    $cond = ['reviewed'=>'unreviewed'];
-                else
-                    $cond = [$filterData[1]=>$filterData[0]];
-              }
-                
+                $responseStatus = [$submissionStatus];
             }
-            
+            elseif(in_array($submissionStatus, $allReviewStatus))
+            {
+                $cond = ['reviewed'=>$submissionStatus];
+                $cond['status'] = 'completed';
+            }
+ 
         }
+        else
+        {
+             // get completed count
+            $submissionStatus = 'completed';
+            $responseStatus = ["completed"];
+        }
+
+
+        // if(isset($inputs['cond']))
+        // { 
+        //     $filterBy = $inputs['cond'];
+        //     $filterData = explode('-', $inputs['cond']);
+        //     if(count($filterData)==2 && $filterData[0]!='')
+        //     {
+        //       if($filterData[0]!='all')
+        //       {
+        //         if($filterData[0]=='unreviewed')
+        //             $cond = ['reviewed'=>'unreviewed'];
+        //         else
+        //             $cond = [$filterData[1]=>$filterData[0]];
+        //       }
+                
+        //     }
+            
+        // }
 
         
 
@@ -558,11 +590,11 @@ class ProjectController extends Controller
         {
             $patients[] =$inputs['object_id'];
             $patientController = new PatientController();
-            $responses = $patientController->getPatientsResponseByDate($patients,0,[] ,$startDateObj,$endDateObj,$status,$cond,$sort,$inputs['limit']);
+            $responses = $patientController->getPatientsResponseByDate($patients,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond,$sort,$inputs['limit']);
         }
         else
         {
-            $responses = $this->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$status,$cond,$sort,$inputs['limit']);
+            $responses = $this->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond,$sort,$inputs['limit']);
         }
        
 
