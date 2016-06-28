@@ -76,8 +76,8 @@
                     <div class="clearfix">
                      <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                      <span class="pull-left edit-link edit-question">EDIT</span>
-                      <i class="pull-right fa fa-trash delete-parent-question delete-question" object-id="{{ $questionId }}"></i>
+                      <span class="pull-left edit-link edit-question cp">EDIT</span>
+                      <i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id="{{ $questionId }}"></i>
                     </div>
                   </div>
                 </div>
@@ -169,12 +169,12 @@
                     <div class="col-sm-1 text-right">
                       <label for="" class="m-t-10">score</label>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                       <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required>
                     </div>
 
-                    <div class="col-sm-5">
-                      <i class="fa fa-remove m-t-10 delete-option" counter-key="{{ $j }}"></i>
+                    <div class="col-sm-4">
+                      <i class="fa fa-remove m-t-10 delete-option cp" counter-key="{{ $j }}"></i>
                     </div>
                   </div>
                   
@@ -186,7 +186,7 @@
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                      <span class="sh-link toggle-subquestion">SHOW SUB QUESTION</span> <span class="subquestion-error-message"></span>
+                      <span class="sh-link toggle-subquestion cp">SHOW SUB QUESTION</span> <span class="subquestion-error-message text-warning"></span>
                       <?php
                       $subQuestionId = $question['condition'][$option['optionId']];
                       $subQuestion = $subQuestions[$questionId][$subQuestionId];
@@ -258,12 +258,12 @@
                             <div class="col-sm-1 text-right">
                               <label for="" class="m-t-10">score</label>
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                               <input name="score[{{ $k }}][{{ $l }}]" id="score" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required>
                             </div>
 
-                            <div class="col-sm-4">
-                             <i class="fa fa-close m-t-10 delete-option" counter-key="{{ $l }}"></i> 
+                            <div class="col-sm-3">
+                             <i class="fa fa-close m-t-10 delete-option cp" counter-key="{{ $l }}"></i> 
                             </div>
                           </div>
                         </div><!--/options-list_container-->
@@ -286,11 +286,11 @@
                             <div class="col-sm-1 text-right">
                               <label for="" class="m-t-10">score</label>
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                               <input name="score[{{ $k }}][{{ $l }}]" id="question" type="number" placeholder="Enter score" value="0" class="form-control" min="0">
                             </div>
 
-                            <div class="col-sm-4 add-delete-container">
+                            <div class="col-sm-3 add-delete-container">
                             <span href="" class="btn btn-default outline-btn add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
 
                             </div>
@@ -312,8 +312,8 @@
                   $j++;
                   ?>
                 @endforeach
-                <div class="options-list_container">
-                  <div class="row options-list m-t-30">
+                <div class="options-list_container p-b-10">
+                  <div class="row options-list">
                     <div class="col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
                       <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
@@ -325,11 +325,11 @@
                     <div class="col-sm-1 text-right">
                       <label for="" class="m-t-10">score</label>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-2">
                       <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >
                     </div>
 
-                    <div class="col-sm-5 add-delete-container">
+                    <div class="col-sm-4 add-delete-container">
                       <div class="clearfix">
                         <span class="btn btn-default pull-right outline-btn add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
                       </div>
@@ -351,7 +351,7 @@
                 <div class="col-md-12">
                   <div class="clearfix">
                     <button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>
-                    <button type="button" class="btn btn-default pull-right cancel-question">CANCEL</button>
+                    <button type="button" class="btn btn-default pull-right cancel-question m-r-10">CANCEL</button>
                   </div>
                 </div>
               </div>
@@ -370,7 +370,9 @@
         </div><!--/question-lists_contaoner-->
 
         <!-- test -->
-              <button type="button" class="btn btn-link text-success add-question"><i class="fa fa-plus"></i> Add Question</button>
+        <div class="clearfix">
+          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add another Question</button>
+        </div>
         <div class="form-group">
           <div class="col-sm-12 questionActions mri-submit text-center">
           <input type="hidden" name="counter" id="counter" value="{{ $i }}">
