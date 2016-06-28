@@ -2457,7 +2457,8 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion">HIDE SUB QUESTION</span><div class="subquestion-container question" row-count="'+i+'">';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion">HIDE SUB QUESTION</span> <span class="subquestion-error-message"></span>';
+        html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
         html +='<span class="bold pull-left">Edit this Subquestion</span>';
@@ -2564,6 +2565,21 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                // alert(data); // show response from the php script.
            }
          });
+    }
+    else
+    {
+        //notify errors in hidden container 
+        form.find('.subquestion-container').filter('.hidden').each(function () { 
+            if($(this).find('.parsley-required').length)  
+            {
+                $(this).closest('.sub-question').find('.subquestion-error-message').text('error here');
+            }
+            else
+            {
+                $(this).closest('.sub-question').find('.subquestion-error-message').text('');
+            }
+
+        });
     }
 
 
