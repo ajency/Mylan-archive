@@ -2457,7 +2457,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message text-warning"></span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message text-warning alert alert-warning cust-alert-padd"></span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';

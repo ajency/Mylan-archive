@@ -186,7 +186,7 @@
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                      <span class="sh-link toggle-subquestion cp">SHOW SUB QUESTION</span> <span class="subquestion-error-message text-warning"></span>
+                      <span class="sh-link toggle-subquestion cp">SHOW SUB QUESTION</span> <span class="subquestion-error-message text-warning alert alert-warning cust-alert-padd"><i class="fa fa-exclamation-triangle"></i> error</span>
                       <?php
                       $subQuestionId = $question['condition'][$option['optionId']];
                       $subQuestion = $subQuestions[$questionId][$subQuestionId];
