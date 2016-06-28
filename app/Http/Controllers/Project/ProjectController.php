@@ -540,10 +540,14 @@ class ProjectController extends Controller
             $filterData = explode('-', $inputs['cond']);
             if(count($filterData)==2 && $filterData[0]!='')
             {
+              if($filterData[0]!='all')
+              {
                 if($filterData[0]=='unreviewed')
                     $cond = ['reviewed'=>'unreviewed'];
                 else
                     $cond = [$filterData[1]=>$filterData[0]];
+              }
+                
             }
             
         }
@@ -560,7 +564,7 @@ class ProjectController extends Controller
         {
             $responses = $this->getProjectResponsesByDate($projectId,0,[] ,$startDateObj,$endDateObj,$status,$cond,$sort,$inputs['limit']);
         }
- 
+       
 
      $submissionsSummary = $this->getSubmissionsSummary($responses);
       $str = '';

@@ -46,6 +46,7 @@
                                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
                                      <span></span> <b class="caret"></b>
                                   </div>
+                                <input type="hidden" class="form-control" name="submissionStatus" value="{{ $submissionStatus }}" >
 
                                </form>
                                <input type="hidden" name="flag" value="0">
@@ -107,7 +108,8 @@
                                 <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
-                             
+                             <input type="hidden" class="form-control" name="startDate" value="{{ $startDate }}"  >
+                             <input type="hidden" class="form-control" name="endDate" value="{{ $endDate }}" >
                              </form>
                              
                            </div>
