@@ -801,7 +801,7 @@ class ProjectController extends Controller
         $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $answersQry->lessThan("occurrenceDate",$endDate);
         $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+        $anwsersData = array_merge($anwsersData,$anwsers); 
 
         if(!empty($anwsers))
         {

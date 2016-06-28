@@ -63,7 +63,7 @@ class PatientController extends Controller
 
             foreach ($patientByDate as  $patient) {
                 $patients[] = $patient['reference_code'];
-                
+
                 $patientIds[$patient['reference_code']] = $patient['id'];
 
                 if($patient['account_status']=='active')
@@ -802,6 +802,7 @@ class PatientController extends Controller
         $patientsFlags['amber'] = [];
         $patientsFlags['green'] = [];
         $questionsTypes = ['single-choice','input']; 
+        
  
         foreach ($projectAnwers as $answer)
         {
@@ -874,7 +875,7 @@ class PatientController extends Controller
             
         }
         //dd($patientsallFlags); 
-        $submissionFlags['all'] = $patientsallFlags;
+        $submissionFlags['all'] = $patientsallFlags; 
         $submissionFlags['flags'] =$patientsFlags;
 
         return $submissionFlags;
@@ -1182,7 +1183,7 @@ class PatientController extends Controller
             $filterType = (isset($inputs['type']))?$inputs['type']:'';
 
             $responseStatus = ["completed"]; //,"late"
-            $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
+            $patientAnwers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj); 
 
             $submissionFlags =  $this->getsubmissionFlags($patientAnwers,$filterType); 
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
@@ -1645,7 +1646,7 @@ class PatientController extends Controller
         $answersQry->ascending("occurrenceDate");
  
         $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+        $anwsersData = array_merge($anwsersData,$anwsers); 
 
         if(!empty($anwsers))
         {
@@ -1659,7 +1660,7 @@ class PatientController extends Controller
 
 
     public function getPatientAnwersByDate($patient,$projectId,$page=0,$anwsersData,$startDate,$endDate)
-    {
+    {  
         $displayLimit = 90; 
 
         $answersQry = new ParseQuery("Answer");
@@ -1675,12 +1676,12 @@ class PatientController extends Controller
         $answersQry->descending("occurrenceDate");
  
         $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+        $anwsersData = array_merge($anwsersData,$anwsers); 
 
         if(!empty($anwsers))
         {
             $page++;
-            $anwsersData = $this->getPatientAnwers($patient,$projectId,$page,$anwsersData,$startDate,$endDate);
+            $anwsersData = $this->getPatientAnwersByDate($patient,$projectId,$page,$anwsersData,$startDate,$endDate);
         }  
         
         return $anwsersData;
