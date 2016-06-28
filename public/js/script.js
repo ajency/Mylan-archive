@@ -2566,7 +2566,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
         form.find('.subquestion-container').filter('.hidden').each(function () { 
             if($(this).find('.parsley-required').length)  
             {
-                $(this).closest('.sub-question').find('.subquestion-error-message').text('error here');
+                $(this).closest('.sub-question').find('.subquestion-error-message').text('Please fill required fields for these sub-question');
             }
             else
             {
