@@ -2253,7 +2253,7 @@ class PatientController extends Controller
             $submissionsNumberByDate[$sequenceNumber]=$answerDate;
             $questionTypes[$questionId] =$questionType;
             
-            if($responseStatus=='missed' || $responseStatus=='started' || $responseStatus=='base_line')
+            if($responseStatus!='completed')
                 continue;
 
             if($questionType=='descriptive')
@@ -2323,7 +2323,7 @@ class PatientController extends Controller
 
                 $date = $submissionsNumberByDate[$sequenceNumber];
                 
-                $chartData[$questionId][$i]['Date'] = date('d M',$date). ' ('.$sequenceNumber.')';
+                $chartData[$questionId][$i]['Date'] = date('d M',$date);//. ' ('.$sequenceNumber.')'
                 $chartData[$questionId][$i]['score'] = intval($value);
                 $chartData[$questionId][$i]['baseLine'] = intval($baslineScore);
                
