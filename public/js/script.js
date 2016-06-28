@@ -2123,26 +2123,35 @@ $('.publish-questionnaire').click(function (event) {
 
 /*******New Questionnaire script*******/
 
- 
-$('.questions-list_container').on('click', '.edit-question', function(event) { 
-    $(this).closest(".question-view-edit").find(".question-view").addClass("hidden");
-    $(this).closest(".question-view-edit").find(".question-edit").removeClass("hidden");
+function hideEditButtons(Obj)
+{
+    Obj.closest(".question-view-edit").find(".question-view").addClass("hidden");
+    Obj.closest(".question-view-edit").find(".question-edit").removeClass("hidden");
 
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).addClass("hidden");
     });
 
     $('.add-question').addClass("hidden");
+}
 
-});
- 
-$('.questions-list_container').on('click', '.cancel-question', function(event) { 
-    $(this).closest(".question-view-edit").find(".question-view").removeClass("hidden");
-    $(this).closest(".question-view-edit").find(".question-edit").addClass("hidden");
+function showEditButtons(Obj)
+{
+    Obj.closest(".question-view-edit").find(".question-view").removeClass("hidden");
+    Obj.closest(".question-view-edit").find(".question-edit").addClass("hidden");
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).removeClass("hidden");
     });
     $('.add-question').removeClass("hidden");
+}
+ 
+$('.questions-list_container').on('click', '.edit-question', function(event) { 
+    hideEditButtons($(this));
+});
+ 
+$('.questions-list_container').on('click', '.cancel-question', function(event) { 
+    showEditButtons($(this));
+    
 });
 
 
@@ -2167,16 +2176,7 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
 
 $('.add-question').click(function (event) { 
 
-    $(this).closest(".question-view-edit").find(".question-view").addClass("hidden");
-    $(this).closest(".question-view-edit").find(".question-edit").removeClass("hidden");
-
-    $('.questions-list_container').find('.edit-question').each(function () { 
-        $(this).addClass("hidden");
-    });
-
-
-
-    $('.add-question').addClass("hidden");
+    hideEditButtons($(this));
     
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
@@ -2333,7 +2333,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     }
 
 
-
+    showEditButtons($(this));
     
 
 });
@@ -2538,14 +2538,8 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 Obj.closest(".question-view-edit").find(".question-view").find(".has-subquestion").text(response.data.hasSubQuestion);
                 
                 
-
-                Obj.closest(".question-view-edit").find(".question-view").removeClass("hidden");
-                Obj.closest(".question-view-edit").find(".question-edit").addClass("hidden");
-                $('.questions-list_container').find('.edit-question').each(function () { 
-                    $(this).removeClass("hidden");
-                });
-                 $('.add-question').removeClass("hidden");
-
+                showEditButtons(Obj);
+                 
                 var responseOptionIds = response.data.responseOptionIds;
                 var responseQuestionIds = response.data.responseQuestionIds;
                 

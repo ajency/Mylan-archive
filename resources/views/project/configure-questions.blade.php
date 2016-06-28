@@ -379,16 +379,14 @@
           <input type="hidden" name="counter" id="counter" value="{{ $i }}">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>
-            <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"> -->
-            <button type="button" class="btn btn-link cust-link validateAndRedirect pull-left" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
-            <!-- </a> -->
+             <button type="button" class="btn btn-link cust-link validateAndRedirect pull-left" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}"><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
+         
       
-            <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}"> -->
-            <button type="submit" class="btn btn-primary"> SAVE</button>
+            
             <button type="button" class="btn btn-link cust-link validateAndRedirect" url="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">Reorder the Questions</button>
 
             <button class="btn btn-primary pull-right">PUBLISH</button>
-            <!-- </a> -->
+       
           </div>
         </div>
  
