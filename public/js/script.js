@@ -2194,6 +2194,10 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
         $(this).text('HIDE SUB QUESTION');
         $(this).closest('.options-list_container').find('.subquestion-container').removeClass('hidden');
         $(this).addClass('hideSubquestion');
+
+        if(!$(this).closest('.options-list_container').find('.subquestion-error-message').hasClass('hidden'))
+            $(this).closest('.options-list_container').find('.subquestion-error-message').addClass('hidden')
+        
     }
  
 });
@@ -2497,7 +2501,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"></span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
