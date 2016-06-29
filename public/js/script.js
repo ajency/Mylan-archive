@@ -2239,7 +2239,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2">';
-    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question" object-id=""></i>';
+    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='<div class="row">';
@@ -2639,7 +2639,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
 
         html +='<div class="col-sm-4 add-delete-container">';
         html +='<div class="clearfix">';
-        html +='<span class="btn btn-default pull-right outline-btn add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
                          
@@ -2676,7 +2676,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';
-        html +='<span class="btn btn-default pull-right outline-btn add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
         html +='</div>';
