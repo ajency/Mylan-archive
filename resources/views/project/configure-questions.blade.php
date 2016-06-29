@@ -374,12 +374,16 @@
           @endforeach
         @endif
 
+         <div class="no_question @if(!empty($questionsList)) hidden @endif">
+            <div >No Questions added yet !</div>
+            <div class="m-b-20">Add a Question to continue</div>
+          </div>
 
         </div><!--/question-lists_contaoner-->
 
         <!-- test -->
         <div class="clearfix">
-          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add another Question</button>
+          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
         </div>
         <div class="form-group">
           <div class="col-sm-12 questionActions mri-submit text-center">
@@ -387,15 +391,15 @@
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>
 
-          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">
+          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" class="questionnaire-settings @if(empty($questionsList)) hidden @endif">
              <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
          </a>
       
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}">
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="question-reorder @if(empty($questionsList)) hidden @endif">
             <button type="button" class="btn btn-link cust-link">Reorder the Questions</button>
             </a>
 
-            <button class="btn btn-primary pull-right">PUBLISH</button>
+            <button class="btn btn-primary pull-right @if(empty($questionsList)) hidden @endif publish-question">PUBLISH</button>
        
           </div>
         </div>
