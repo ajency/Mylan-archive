@@ -156,7 +156,7 @@
                 ?>
               @if(isset($optionsList[$questionId]))
               <div class="options-container parent-question-options question-options-block @if($isWeight) hidden @endif">
-                <div class="row heading-title">
+                <div class="row heading-title m-b-15">
                   <div class="col-md-12">
                     <span class="bold">Enter the options for this question</span>
                     <div>You can add a subquestion too. The score declairs severity of patient.</div>

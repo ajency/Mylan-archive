@@ -2276,7 +2276,7 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='</div> ';
     html +='<div class="options-container parent-question-options question-options-block hidden ">';
-    html +='<div class="row heading-title">';
+    html +='<div class="row heading-title m-b-15">';
     html +='<div class="col-md-12">';
     html +='<span class="bold">Enter the options for this question</span>';
     html +='<div>You can add a subquestion too. The score declairs severity of patient.</div>';
@@ -2392,7 +2392,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         var questionType = $(this).val();
 
-        html +='<div class="row heading-title">';
+        html +='<div class="row heading-title m-b-15">';
         html +='<div class="col-md-12">';
         html +='<span class="bold">Enter the options for this question</span>';
         if(questionType=='single-choice')
