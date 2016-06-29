@@ -93,13 +93,23 @@ class ApiController extends Controller
     public function apiLogin(Request $request){
         $email = $request->input('email');
         $password = trim($request->input('password'));
+		$data['hospitalid'] ="";
+		$data['countHospitalId'] = "";
         if (Auth::attempt(['email' => $email, 'password' => $password])){
             $data['status'] = 200;
-            $hospitalData = Hospital::get();
+            // $hospitalData = Hospital::get();
+			$whereCondition  = [ 'users.email' => $email ];
+            $hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
             $data['hospital'] = "<option value='0'>Please select</option>";
+			$counter = 0;
             foreach($hospitalData as $hospital){
                 $data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+				$counter = $counter + 1;
+				if($counter == 1){
+					$data['hospitalid'] = $hospital['id'];
+				}
             }
+			$data['countHospitalId'] = $counter;
 			$data['userEmail'] = $email;
             return $data;
         }else{
@@ -109,13 +119,22 @@ class ApiController extends Controller
         }
     }
 	
-	public function hospitalData(){
+	public function hospitalData(Request $request){
 		$data['status'] = 200;
-		$hospitalData = Hospital::get();
+		$email = $request->input('email');
+		// $hospitalData = Hospital::get();
+		$whereCondition  = [ 'users.email' => $email ];
+        $hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
 		$data['hospital'] = "<option value='0'>Please select</option>";
+		$counter = 0;
 		foreach($hospitalData as $hospital){
 			$data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+			$counter = $counter + 1;
+			if($counter == 1){
+				$data['hospitalid'] = $hospital['id'];
+			}
 		}
+		$data['countHospitalId'] = $counter;
 		return $data;
     }
     
@@ -151,11 +170,16 @@ class ApiController extends Controller
                                         </tr>";
                 $reference[] =  $userList["reference_code"];                    
             }
-        }else{
-            $projectName = Projects::where("id",$projectId)->get();
-            $hospitalName = Hospital::where("id",$hospitalId)->get();
-            $data['hospitalName'] = $hospitalName['name'][0];
-            $data['projectName'] = $projectName['name'][0];
+        }
+		if( $data['content'] == ""){
+            $projectNames = Projects::where("id",$projectId)->get();
+            $hospitalNames = Hospital::where("id",$hospitalId)->get();
+			foreach($hospitalNames as $hname){
+				$data['hospitalName'] = $hname['name'];
+			}
+			foreach($projectNames as $pname){
+				$data['projectName'] = $pname['name'];
+			}
         }      
 		
 		$data['referCode'] = $reference;
