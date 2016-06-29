@@ -2150,7 +2150,16 @@ $('.questions-list_container').on('click', '.edit-question', function(event) {
 });
  
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
+
+    var i = $(this).closest(".question").attr('row-count'); 
+    var questionId = $(this).closest('.question-view-edit').find('input[name="questionId['+i+']"]').val();  
     showEditButtons($(this));
+
+    if(questionId=='')
+    { 
+        $(this).closest('form').remove();
+    }
+
     
 });
 
