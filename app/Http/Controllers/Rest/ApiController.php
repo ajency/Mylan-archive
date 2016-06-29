@@ -96,7 +96,6 @@ class ApiController extends Controller
 		$data['hospitalid'] ="";
 		$data['countHospitalId'] = "";
 		$userType = 0;//1 admin 0 other user 
-		//$whereCondition  = [ 'email' => $email ];
 		$userTypeData = User::select('type')->where('email',$email)->get();
 		foreach($userTypeData as $Udatatye){
 			if($Udatatye['type'] == "mylan_admin"){
@@ -108,7 +107,7 @@ class ApiController extends Controller
         if (Auth::attempt(['email' => $email, 'password' => $password])){
             $data['status'] = 200;
 			$whereCondition  = [ 'users.email' => $email ];
-			if($userType == 0){
+			if($userType == 1){
 				$hospitalData = Hospital::get();
 			}else{	
 				$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
@@ -146,7 +145,7 @@ class ApiController extends Controller
 			}
 		}
 		$whereCondition  = [ 'users.email' => $email ];
-		if($userType == 0){
+		if($userType == 1){
 				$hospitalData = Hospital::get();
 		}else{	
 			$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
