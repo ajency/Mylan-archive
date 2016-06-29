@@ -158,7 +158,7 @@
                 @foreach($optionsList[$questionId] as $option)
                 <div class="options-list_container">
                   <div class="row options-list m-t-15">
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
                       <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
                     </div>
@@ -169,7 +169,7 @@
                     <div class="col-sm-1 text-right">
                       <label for="" class="m-t-10">score</label>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 cust-col-sm-2">
                       <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="{{ $option['score'] }}" class="form-control" min="0" data-parsley-required>
                     </div>
 
@@ -186,7 +186,7 @@
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                      <span class="sh-link toggle-subquestion cp">SHOW SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>
+                      <span class="sh-link toggle-subquestion cp p-l-20">SHOW SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>
                       <?php
                       $subQuestionId = $question['condition'][$option['optionId']];
                       $subQuestion = $subQuestions[$questionId][$subQuestionId];
@@ -301,7 +301,7 @@
                       </div><!--/subquestion-container-->
                     @else
                       @if($question['type']=="single-choice")
-                      <span  class="add-link add-sub-question">ADD SUB QUESTION</span>
+                      <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
                       @endif
                     @endif
 
@@ -314,7 +314,7 @@
                 @endforeach
                 <div class="options-list_container p-b-10">
                   <div class="row options-list">
-                    <div class="col-sm-1">
+                    <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
                       <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="">
                     </div>
@@ -325,7 +325,7 @@
                     <div class="col-sm-1 text-right">
                       <label for="" class="m-t-10">score</label>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 cust-col-sm-2">
                       <input name="score[{{ $i }}][{{ $j }}]" id="question" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >
                     </div>
 
@@ -338,7 +338,7 @@
                   </div>
                   <div class="row">
                     <div class="col-sm-11 col-sm-offset-1">
-                      <a href="" class="add-link">ADD SUB QUESTION</a>
+                      <a href="" class="add-link p-l-20">ADD SUB QUESTION</a>
                       
                     </div>
                   </div>
