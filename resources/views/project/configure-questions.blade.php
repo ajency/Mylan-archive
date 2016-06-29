@@ -61,14 +61,18 @@
                     <div class="bold question-text">{{ $question['question'] }}</div>
                   </div>
                   <div class="col-sm-1">
-                    <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
+                    <div class="text-center question-option-count">{{ (isset($optionsList[$questionId]))? count($optionsList[$questionId]):'' }}</div>
                   </div>
                   <div class="col-sm-2">
                     <div class="text-center has-subquestion">
-                      @if(isset($subQuestions[$questionId]))
-                        Yes
+                      @if($question['type']=="single-choice")
+                        @if(isset($subQuestions[$questionId]))
+                          Yes
+                        @else
+                          No
+                        @endif
                       @else
-                        No
+                        NA
                       @endif
                     </div>
                   </div>
@@ -117,15 +121,19 @@
                   </div>
                 </div>
                 <div class="col-sm-1">
-                  <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
+                  <div class="text-center question-option-count">{{ (isset($optionsList[$questionId]))? count($optionsList[$questionId]):'' }}</div>
                 </div>
                 <div class="col-sm-2">
                   <div class="text-center">
+                  @if($question['type']=="single-choice")
                     @if(isset($subQuestions[$questionId]))
                       Yes
                     @else
                       No
                     @endif
+                  @else
+                    NA
+                  @endif
                   </div>
                 </div>
                 <div class="col-sm-2">

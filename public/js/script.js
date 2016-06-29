@@ -2150,7 +2150,16 @@ $('.questions-list_container').on('click', '.edit-question', function(event) {
 });
  
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
+
+    var i = $(this).closest(".question").attr('row-count'); 
+    var questionId = $(this).closest('.question-view-edit').find('input[name="questionId['+i+']"]').val();  
     showEditButtons($(this));
+
+    if(questionId=='')
+    { 
+        $(this).closest('form').remove();
+    }
+
     
 });
 
@@ -2205,7 +2214,7 @@ $('.add-question').click(function (event) {
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
     html +='<span class="pull-left edit-link edit-question">EDIT</span>';
-    html +='<a href="" class="pull-right fa fa-trash"></a>';
+    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='</div> ';
@@ -2214,6 +2223,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row">';
     html +='<div class="col-sm-3">';
     html +='<div class="form-group">';
+    html +='<input type="hidden" name="questionType['+i+']" >';
     html +='<label for="">Type of question</label>';
     html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
     html +='<option value="">Select Question Type</option>';
@@ -2352,12 +2362,15 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
     }
-    else
+    else if(($(this).val()=='single-choice') || ($(this).val()=='multi-choice') || ($(this).val()=='input'))
     {
+        var questionType = $(this).val();
+
         html +='<div class="row heading-title">';
         html +='<div class="col-md-12">';
         html +='<span class="bold">Enter the options for this question</span>';
-        html +='<div>You can add a subquestion too. The score declairs severity of patient.</div>';
+        if(questionType=='single-choice')
+            html +='<div>You can add a subquestion too. The score declares severity of the option.</div>';
         html +='</div>';
         html +='</div>';
     }
@@ -2433,7 +2446,8 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         var isSubQuestionOption = ($(this).hasClass('subquestionType'))?'yes':'no'; 
         var hasSubQuestion = ($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))?1:0;  
-        html += getOptionHtml(isSubQuestionOption, hasSubQuestion, i, 0)
+
+        html += getOptionHtml(isSubQuestionOption, hasSubQuestion,'data-parsley-required', i, 0)
         $(this).closest('.question').find('.question-options-block').removeClass('hidden');
     }
 
@@ -2469,6 +2483,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='<div class="row">';
         html +='<div class="col-sm-3">';
         html +='<div class="form-group">';
+        html +='<input type="hidden" name="subquestionType['+i+']" >';
         html +='<label for="">Type of question</label>';
         html +='<input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
         html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
@@ -2499,7 +2514,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='</div> ';
 
         html +='<div class="question-options-block hidden">';
-        html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
+        // html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
 
         html +='</div> ';
 
@@ -2530,6 +2545,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            data: form.serialize(), // serializes the form's elements.
            success: function(response)
            {  
+                
                 var questionType = (response.data.questionType).toUpperCase();
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text(questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
@@ -2544,12 +2560,28 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 var responseQuestionIds = response.data.responseQuestionIds;
                 
                
-                $.each(responseOptionIds, function (index1, array) {  
+                $.each(responseOptionIds, function (index1, array) {   
   
                     Obj.closest(".question-view-edit").find("input[name='questionId["+index1+"]']").val(responseQuestionIds[index1]);
+                    
+                    if(Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').length)
+                    {
+                        var questionType = Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').val();
+                        Obj.closest('.question-view-edit').find('input[name="questionType['+index1+']"]').val(questionType); 
+                        Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').attr('disabled','disabled') 
+                    }
+                    else
+                    {   //sub-question
+                        var subquestionType = Obj.closest('.question-view-edit').find('select[name="subquestionType['+index1+']"]').val();
+                        Obj.closest('.question-view-edit').find('input[name="subquestionType['+index1+']"]').val(subquestionType); 
+                        Obj.closest('.question-view-edit').find('select[name="subquestionType['+index1+']"]').attr('disabled','disabled') 
+                    }
+                   
 
                     $.each(array, function (index2, value) {  
                         Obj.closest(".question-view-edit").find("input[name='optionId["+index1+"]["+index2+"]']").val(value);
+
+                        
                          
                     });
 
@@ -2602,11 +2634,11 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     if(containerObj.closest('.question-options-block').hasClass('parent-question-options'))
     {
         var hasSubQuestion = containerObj.closest(".question-options-block").find(".hasSubQuestion").length;
-        var html = getOptionHtml('no', hasSubQuestion, i, j);
+        var html = getOptionHtml('no', hasSubQuestion,'', i, j);
     }
     else
     {
-        var html = getOptionHtml('yes', 0, i, j);
+        var html = getOptionHtml('yes', 0,'', i, j);
     }
 
     containerObj.closest('.options-list_container').after(html);
@@ -2615,8 +2647,9 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
 
 });
 
-function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
+function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 {
+   
     if(isSubQuestionOption=='no')
     {  
         //parent question Option html
@@ -2627,14 +2660,14 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<input type="hidden" name="optionId['+i+']['+j+']" class="optionId"  value="">';
         html +='</div>';
         html +='<div class="col-sm-4">';
-        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option"  class="form-control" >';
+        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option" '+required+' class="form-control" >';
         html +='</div>';
 
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-2 cust-col-sm-2">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" '+required+' class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-4 add-delete-container">';
@@ -2645,14 +2678,13 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
                          
         html +='</div>';
         html +='<div class="row">';
-        html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
-        html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
         if(hasSubQuestion)
         {
+            html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
+            html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
             html +='<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>';
+            html +='</div>';
         }
-                          
-        html +='</div>';
         html +='</div>';
         html +='</div>';
     }
@@ -2666,13 +2698,13 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<label for="" class="m-t-10">option '+ (j+1) +'</label>';
         html +='</div>';
         html +='<div class="col-sm-4">';
-        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option"  class="form-control" >';
+        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option" '+required+'  class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-2">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" '+required+' class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';

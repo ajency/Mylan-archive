@@ -44,7 +44,7 @@
                                  </tr>
                                  @endif
                                  <tr class="odd gradeX" >
-                                    <td>{{ $patient['referenceCode'] }}</td>
+                                    <td class="patient-refer{{ $patient['referenceCode'] }}">{{ $patient['referenceCode'] }}</td>
                                     <td>{{ $patient['date'] }}</td>
                                  </tr>
                                  <?php 

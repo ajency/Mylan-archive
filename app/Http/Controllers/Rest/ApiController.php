@@ -93,13 +93,35 @@ class ApiController extends Controller
     public function apiLogin(Request $request){
         $email = $request->input('email');
         $password = trim($request->input('password'));
+		$data['hospitalid'] ="";
+		$data['countHospitalId'] = "";
+		$userType = 0;//1 admin 0 other user 
+		$userTypeData = User::select('type')->where('email',$email)->get();
+		foreach($userTypeData as $Udatatye){
+			if($Udatatye['type'] == "mylan_admin"){
+				$userType = 1;
+			}else{
+				$userType = 0;
+			}
+		}
         if (Auth::attempt(['email' => $email, 'password' => $password])){
             $data['status'] = 200;
-            $hospitalData = Hospital::get();
+			$whereCondition  = [ 'users.email' => $email ];
+			if($userType == 1){
+				$hospitalData = Hospital::get();
+			}else{	
+				$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+			}	
             $data['hospital'] = "<option value='0'>Please select</option>";
+			$counter = 0;
             foreach($hospitalData as $hospital){
                 $data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+				$counter = $counter + 1;
+				if($counter == 1){
+					$data['hospitalid'] = $hospital['id'];
+				}
             }
+			$data['countHospitalId'] = $counter;
 			$data['userEmail'] = $email;
             return $data;
         }else{
@@ -109,13 +131,36 @@ class ApiController extends Controller
         }
     }
 	
-	public function hospitalData(){
+	public function hospitalData(Request $request){
 		$data['status'] = 200;
-		$hospitalData = Hospital::get();
+		$email = $request->input('email');
+		$userType = 0;//1 admin 0 other user 
+		//$whereCondition  = [ 'email' => $email ];
+		$userTypeData = User::select('type')->where('email',$email)->get();
+		foreach($userTypeData as $Udatatye){
+			if($Udatatye['type'] == "mylan_admin"){
+				$userType = 1;
+			}else{
+				$userType = 0;
+			}
+		}
+		$whereCondition  = [ 'users.email' => $email ];
+		if($userType == 1){
+				$hospitalData = Hospital::get();
+		}else{	
+			$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+		}	
 		$data['hospital'] = "<option value='0'>Please select</option>";
+		$counter = 0;
 		foreach($hospitalData as $hospital){
 			$data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+			$counter = $counter + 1;
+			if($counter == 1){
+				$data['hospitalid'] = $hospital['id'];
+			}
 		}
+		$data['countHospitalId'] = $counter; 
+		
 		return $data;
     }
     
@@ -151,11 +196,16 @@ class ApiController extends Controller
                                         </tr>";
                 $reference[] =  $userList["reference_code"];                    
             }
-        }else{
-            $projectName = Projects::where("id",$projectId)->get();
-            $hospitalName = Hospital::where("id",$hospitalId)->get();
-            $data['hospitalName'] = $hospitalName['name'][0];
-            $data['projectName'] = $projectName['name'][0];
+        }
+		if( $data['content'] == ""){
+            $projectNames = Projects::where("id",$projectId)->get();
+            $hospitalNames = Hospital::where("id",$hospitalId)->get();
+			foreach($hospitalNames as $hname){
+				$data['hospitalName'] = $hname['name'];
+			}
+			foreach($projectNames as $pname){
+				$data['projectName'] = $pname['name'];
+			}
         }      
 		
 		$data['referCode'] = $reference;
