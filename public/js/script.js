@@ -2501,7 +2501,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
@@ -2617,6 +2617,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
 
                 }); 
 
+                // show buttons
                 if($('.questionnaire-settings').hasClass('hidden'))
                 {
                     $('.questionnaire-settings').removeClass('hidden');
@@ -2627,8 +2628,10 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     $('.add-question').text('Add another Question');
                 }
 
-
-               // alert(data); // show response from the php script.
+                //keep last option empty
+                optionCount=Obj.closest('.question-view-edit').find('.options-list_container').length;
+                console.log(optionCount);
+               
            }
          });
     }

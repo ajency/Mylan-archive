@@ -308,9 +308,10 @@
 
                       </div><!--/subquestion-container-->
                     @else
-                      @if($question['type']=="single-choice")
+                      <!-- @if($question['type']=="single-choice")
+                      sds
                       <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
-                      @endif
+                      @endif -->
                     @endif
 
                     </div>
@@ -345,9 +346,11 @@
                      
                   </div>
                   <div class="row">
-                    <div class="col-sm-11 col-sm-offset-1">
-                      <a href="" class="add-link p-l-20">ADD SUB QUESTION</a>
-                      
+                    <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" />
+                    <div class="col-sm-11 col-sm-offset-1 sub-question">
+                    @if($question['type']=="single-choice")
+                      <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                    @endif 
                     </div>
                   </div>
                 </div><!--/options-list_container-->
