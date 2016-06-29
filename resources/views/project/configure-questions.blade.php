@@ -187,8 +187,10 @@
                   </div>
                   
                   <div class="row">
+                  @if($question['type']=="single-choice")
                     <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]"
                           @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']])) checked @endif/>
+                  @endif
                     <div class="col-sm-11 col-sm-offset-1 sub-question">
 
                       
@@ -346,12 +348,13 @@
                      
                   </div>
                   <div class="row">
-                    <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" />
-                    <div class="col-sm-11 col-sm-offset-1 sub-question">
+                        
                     @if($question['type']=="single-choice")
+                      <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" />
+                      <div class="col-sm-11 col-sm-offset-1 sub-question">
                       <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
-                    @endif 
                     </div>
+                     @endif 
                   </div>
                 </div><!--/options-list_container-->
 
