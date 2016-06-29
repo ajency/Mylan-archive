@@ -2447,7 +2447,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
         var isSubQuestionOption = ($(this).hasClass('subquestionType'))?'yes':'no'; 
         var hasSubQuestion = ($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))?1:0;  
 
-        html += getOptionHtml(isSubQuestionOption, hasSubQuestion, i, 0)
+        html += getOptionHtml(isSubQuestionOption, hasSubQuestion,'data-parsley-required', i, 0)
         $(this).closest('.question').find('.question-options-block').removeClass('hidden');
     }
 
@@ -2634,11 +2634,11 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     if(containerObj.closest('.question-options-block').hasClass('parent-question-options'))
     {
         var hasSubQuestion = containerObj.closest(".question-options-block").find(".hasSubQuestion").length;
-        var html = getOptionHtml('no', hasSubQuestion, i, j);
+        var html = getOptionHtml('no', hasSubQuestion,'', i, j);
     }
     else
     {
-        var html = getOptionHtml('yes', 0, i, j);
+        var html = getOptionHtml('yes', 0,'', i, j);
     }
 
     containerObj.closest('.options-list_container').after(html);
@@ -2647,9 +2647,9 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
 
 });
 
-function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
+function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 {
-    console.log(hasSubQuestion);
+   
     if(isSubQuestionOption=='no')
     {  
         //parent question Option html
@@ -2660,14 +2660,14 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<input type="hidden" name="optionId['+i+']['+j+']" class="optionId"  value="">';
         html +='</div>';
         html +='<div class="col-sm-4">';
-        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option"  class="form-control" >';
+        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option" '+required+' class="form-control" >';
         html +='</div>';
 
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-2 cust-col-sm-2">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" '+required+' class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-4 add-delete-container">';
@@ -2698,13 +2698,13 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<label for="" class="m-t-10">option '+ (j+1) +'</label>';
         html +='</div>';
         html +='<div class="col-sm-4">';
-        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option"  class="form-control" >';
+        html +='<input name="option['+i+']['+j+']" id="option" type="text" placeholder="Enter option" '+required+'  class="form-control" >';
         html +='</div>';
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
         html +='<div class="col-sm-2">';
-        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
+        html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" '+required+' class="form-control" min="0" >';
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';
