@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -96,21 +96,26 @@ class ApiController extends Controller
 		$data['hospitalid'] ="";
 		$data['countHospitalId'] = "";
 		$userType = 0;//1 admin 0 other user 
-		$userTypeData = User::select('type')->where('email',$email)->get();
+		$userTypeData = User::select('*')->where('email',$email)->get();
+		$userpassword = "";
+		$userId = "";
 		foreach($userTypeData as $Udatatye){
+			$userpassword = $Udatatye['password'];
+			$userId  = $Udatatye['id'];
+			$userstatus  = $Udatatye['account_status'];
 			if($Udatatye['type'] == "mylan_admin"){
 				$userType = 1;
 			}else{
 				$userType = 0;
 			}
 		}
-        if (Auth::attempt(['email' => $email, 'password' => $password])){
+        if (Hash::check($password, $userpassword) && $userstatus =='active'){
             $data['status'] = 200;
-			$whereCondition  = [ 'users.email' => $email ];
+			$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
 			if($userType == 1){
 				$hospitalData = Hospital::get();
 			}else{	
-				$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+				$hospitalData = $userData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
 			}	
             $data['hospital'] = "<option value='0'>Please select</option>";
 			$counter = 0;
@@ -135,20 +140,24 @@ class ApiController extends Controller
 		$data['status'] = 200;
 		$email = $request->input('email');
 		$userType = 0;//1 admin 0 other user 
-		//$whereCondition  = [ 'email' => $email ];
-		$userTypeData = User::select('type')->where('email',$email)->get();
+		$userTypeData = User::select('*')->where('email',$email)->get();
+		$userpassword = "";
+		$userId = "";
 		foreach($userTypeData as $Udatatye){
+			$userpassword = $Udatatye['password'];
+			$userId  = $Udatatye['id'];
+			$userstatus  = $Udatatye['account_status'];
 			if($Udatatye['type'] == "mylan_admin"){
 				$userType = 1;
 			}else{
 				$userType = 0;
 			}
 		}
-		$whereCondition  = [ 'users.email' => $email ];
+		$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
 		if($userType == 1){
 				$hospitalData = Hospital::get();
 		}else{	
-			$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+			$hospitalData = $userData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
 		}	
 		$data['hospital'] = "<option value='0'>Please select</option>";
 		$counter = 0;
