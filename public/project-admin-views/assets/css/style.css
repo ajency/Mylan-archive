@@ -9761,6 +9761,7 @@ small.help-text {
 }
 .questions-list_container .questions-list .type {
   font-size: 12px;
+  letter-spacing: 0.5px;
 }
 .questions-list_container .questions-list .edit-link {
   color: #05a8a5;
@@ -9961,6 +9962,11 @@ small.help-text {
 }
 .dd.draggableList.dark .dd-list .dd-item > .dd-handle {
   background: none;
+  font-family: 'Open Sans';
+  color: #0d638f;
+}
+.dd.draggableList.dark .dd-list .dd-item > .dd-handle span {
+  color: #1b1e24;
 }
 .dd.draggableList.dark .dd-list .dd-item > .dd-handle:before {
   background: none;

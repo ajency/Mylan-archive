@@ -39,7 +39,7 @@
             @foreach($questionsList as $questionId => $question)
                 <li class="dd-item" data-id="{{ $i }}">
                     <input type="hidden" name="questionId[]" value="{{ $questionId }}">
-                    <div class="dd-handle"><span class="semi-bold ttuc p-r-15" style="color: #1b1e24;">{{ $question['title'] }}  </span> {{ $question['question'] }}</div>
+                    <div class="dd-handle"><span class="semi-bold ttuc p-r-15">{{ $question['title'] }}  </span> {{ $question['question'] }}</div>
                 </li>
            <?php $i++; ?>
             @endforeach
