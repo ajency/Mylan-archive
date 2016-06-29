@@ -2302,7 +2302,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
                     Obj.closest('.question').remove();
                 }
@@ -2321,7 +2321,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         if(!Obj.hasClass('delete-parent-question'))
         {  
             
-            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question">ADD SUB QUESTION</span>');
+            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>');
             Obj.closest('.sub-question').find('.toggle-subquestion').remove();
             Obj.closest('.question').remove();
             
@@ -2622,7 +2622,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         //parent question Option html
         html ='<div class="options-list_container p-b-10">';
         html +='<div class="row options-list">';
-        html +='<div class="col-sm-1">';
+        html +='<div class="col-sm-1 cust-col-sm-1">';
         html +='<label for="" class="m-t-10">option '+ (j+1) +'</label>';
         html +='<input type="hidden" name="optionId['+i+']['+j+']" class="optionId"  value="">';
         html +='</div>';
@@ -2633,7 +2633,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<div class="col-sm-1 text-right">';
         html +='<label for="" class="m-t-10">score</label>';
         html +='</div>';
-        html +='<div class="col-sm-2">';
+        html +='<div class="col-sm-2 cust-col-sm-2">';
         html +='<input name="score['+i+']['+j+']" id="score" type="number" placeholder="Enter score" value="0" class="form-control" min="0" >';
         html +='</div>';
 
@@ -2649,7 +2649,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
         html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
         if(hasSubQuestion)
         {
-            html +='<span  class="add-link add-sub-question">ADD SUB QUESTION</span>';
+            html +='<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>';
         }
                           
         html +='</div>';
