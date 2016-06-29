@@ -2160,7 +2160,8 @@ $('.questions-list_container').on('click', '.cancel-question', function(event) {
         $(this).closest('form').remove();
     }
 
-    
+    if($('.questions-list_container').find('form').length)
+        $('.questions-list_container').find('.no_question').removeClass('hidden'); 
 });
 
 
@@ -2279,7 +2280,10 @@ $('.add-question').click(function (event) {
     html +='</div> ';
     html +='</div>';
     html +='</form>';
-           
+    
+    if($('.questions-list_container').find('.no_question').length)
+        $('.questions-list_container').find('.no_question').addClass('hidden'); 
+
     $('.questions-list_container').append(html);
     $('input[name="counter"]').val(i);
      
@@ -2342,6 +2346,9 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         }
     }
 
+    alert($('.questions-list_container').find('form').length);
+    if(!$('.questions-list_container').find('form').length)
+        $('.questions-list_container').find('.no_question').removeClass('hidden'); 
 
     showEditButtons($(this));
     
@@ -2547,7 +2554,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            {  
                 
                 var questionType = (response.data.questionType).toUpperCase();
-                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text(questionType);
+                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('TYPE: '+questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-title").text(response.data.title);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-option-count").text(response.data.questioOptionCount);
@@ -2586,6 +2593,15 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     });
 
                 }); 
+
+                if($('.questionnaire-settings').hasClass('hidden'))
+                {
+                    $('.questionnaire-settings').removeClass('hidden');
+                    $('.question-reorder').removeClass('hidden');
+                    $('.publish-question').removeClass('hidden');
+
+                    $('.add-question').text('Add another Question');
+                }
 
 
                // alert(data); // show response from the php script.
