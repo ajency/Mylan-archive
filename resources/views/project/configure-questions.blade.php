@@ -182,7 +182,7 @@
                     </div>
 
                     <div class="col-sm-4">
-                      <i class="fa fa-remove m-t-10 delete-option cp" counter-key="{{ $j }}"></i>
+                      <i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="{{ $j }}"></i>
                     </div>
                   </div>
                   
@@ -310,10 +310,9 @@
 
                       </div><!--/subquestion-container-->
                     @else
-                      <!-- @if($question['type']=="single-choice")
-                      sds
-                      <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
-                      @endif -->
+                      @if($question['type']=="single-choice")
+                        <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                      @endif  
                     @endif
 
                     </div>
