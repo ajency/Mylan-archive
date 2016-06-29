@@ -32,7 +32,7 @@
         
         
         <div class="questions-list_container">
-          <div class="row questions-list__header">
+          <div class="row questions-list__header @if(empty($questionsList)) hidden @endif ">
             <div class="col-sm-3">Question Identifier</div>
             <div class="col-sm-4">The Question</div>
             <div class="col-sm-1 text-center">Options</div>
@@ -52,7 +52,7 @@
               ?>
             <form class="form-horizontal col-sm-12 p-l-0 p-r-0" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" data-parsley-validate>
             <div class="question-view-edit">
-                <div class="row questions-list question-view">
+                <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
                     <div class="type question-type">TYPE: {{ strtoupper($question['type']) }}</div>
