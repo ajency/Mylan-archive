@@ -2339,7 +2339,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
                     Obj.closest('.question').remove();
                 }
@@ -2359,7 +2359,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         if(!Obj.hasClass('delete-parent-question'))
         {  
             
-            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>');
+            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
             Obj.closest('.sub-question').find('.toggle-subquestion').remove();
             Obj.closest('.question').remove();
             
@@ -2725,7 +2725,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         {
             html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
             html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
-            html +='<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>';
+            html +='<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>';
             html +='</div>';
         }
         html +='</div>';

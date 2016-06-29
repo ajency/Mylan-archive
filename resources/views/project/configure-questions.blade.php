@@ -31,7 +31,7 @@
           @include('admin.flashmessage')
         
         
-        <div class="questions-list_container">
+        <div class="questions-list_container clearfix">
           <div class="row questions-list__header @if(empty($questionsList)) hidden @endif ">
             <div class="col-sm-3">Question Identifier</div>
             <div class="col-sm-4">The Question</div>
@@ -379,7 +379,7 @@
 
          <div class="no_question @if(!empty($questionsList)) hidden @endif">
             <div >No Questions added yet !</div>
-            <div class="m-b-20">Add a Question to continue</div>
+            <small class="m-b-20">Add a Question to continue</small>
           </div>
 
         </div><!--/question-lists_contaoner-->
@@ -387,7 +387,7 @@
         <!-- test -->
         <div class="clearfix">
  
-          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn m-t-30 m-b-30">Add @if(!empty($questionsList)) another @endif Question</button>
+          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn m-b-30">Add @if(!empty($questionsList)) another @endif Question</button>
  
         </div>
         <div class="form-group">
