@@ -546,7 +546,7 @@
                         $patientSummary = $patientResponses[$referenceCode];
                       ?>
                         <tr>
-                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">{{ $referenceCode }}</td>
+                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="lst-sub submission-count">
                                  <h2 class="bold inline">
