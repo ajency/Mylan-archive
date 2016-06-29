@@ -2671,15 +2671,18 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     $(this).closest(".row").find("input[name='score["+i+"]["+counterKey+"]']").attr('data-parsley-required', 'true');
 
     var containerObj = $(this).closest(".add-delete-container");
-    containerObj.html('<i class="fa fa-remove m-t-10 delete-option cp" counter-key="'+counterKey+'"></i>');
+    
     
     if(containerObj.closest('.question-options-block').hasClass('parent-question-options'))
     {
+        containerObj.html('<i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="'+counterKey+'"></i>');
         var hasSubQuestion = containerObj.closest(".question-options-block").find(".hasSubQuestion").length;
         var html = getOptionHtml('no', hasSubQuestion,'', i, j);
+        
     }
     else
     {
+        containerObj.html('<i class="fa fa-remove m-t-10 delete-option cp" counter-key="'+counterKey+'"></i>');
         var html = getOptionHtml('yes', 0,'', i, j);
     }
 
@@ -2765,6 +2768,7 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
     
 
     var Obj = $(this);
+    var maincontainerObj = $(this).closest('.main-question_container');
     var i = $(this).closest('.question').attr("row-count"); 
     var counterKey = $(this).attr("counter-key");
     var optionId = Obj.closest(".row").find('input[name="optionId['+i+']['+counterKey+']"]').val();  
@@ -2787,11 +2791,22 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
         title = Obj.closest('.subquestion-container').find('input[name="subquestionTitle['+i+']"]').val();
     }
 
+     
+
 
     if(count > 2)
     {
         if (confirm('Are you sure you want to delete this option?') === false) {
             return;
+        }
+
+        if(Obj.closest('.question').hasClass("main-question_container"))
+        {  
+            Obj.closest('.main-question_container').find('.delete-parent-question-option').addClass('hidden'); 
+        }
+        else
+        {  
+            Obj.closest('.subquestion-container').find('.delete-option').addClass('hidden'); 
         }
 
         Obj.closest('div').append('<span class="cf-loader"></span>');
@@ -2803,15 +2818,22 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                 success: function (response, status, xhr) { 
                  
                     if(xhr.status==203)
+                    {
                         Obj.closest('.options-list_container').remove(); 
+                        maincontainerObj.find('.delete-option').removeClass('hidden'); 
+                    }
+
                 
                 }
             });
         }
         else
         {
-            Obj.closest('.options-list_container').remove(); 
+            Obj.closest('.options-list_container').remove();
+            maincontainerObj.find('.delete-option').removeClass('hidden');  
         }
+
+
     }
     else
     {
