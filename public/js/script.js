@@ -2214,7 +2214,7 @@ $('.add-question').click(function (event) {
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
     html +='<span class="pull-left edit-link edit-question">EDIT</span>';
-    html +='<a href="" class="pull-right fa fa-trash"></a>';
+    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='</div> ';
@@ -2223,6 +2223,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row">';
     html +='<div class="col-sm-3">';
     html +='<div class="form-group">';
+    html +='<input type="hidden" name="questionType['+i+']" >';
     html +='<label for="">Type of question</label>';
     html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
     html +='<option value="">Select Question Type</option>';
@@ -2478,6 +2479,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='<div class="row">';
         html +='<div class="col-sm-3">';
         html +='<div class="form-group">';
+        html +='<input type="hidden" name="subquestionType['+i+']" >';
         html +='<label for="">Type of question</label>';
         html +='<input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
         html +='<select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
@@ -2539,6 +2541,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            data: form.serialize(), // serializes the form's elements.
            success: function(response)
            {  
+                
                 var questionType = (response.data.questionType).toUpperCase();
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text(questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
@@ -2553,12 +2556,28 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 var responseQuestionIds = response.data.responseQuestionIds;
                 
                
-                $.each(responseOptionIds, function (index1, array) {  
+                $.each(responseOptionIds, function (index1, array) {  alert(index1)
   
                     Obj.closest(".question-view-edit").find("input[name='questionId["+index1+"]']").val(responseQuestionIds[index1]);
+                    
+                    if(Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').length)
+                    {
+                        var questionType = Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').val();
+                        Obj.closest('.question-view-edit').find('input[name="questionType['+index1+']"]').val(questionType); 
+                        Obj.closest('.question-view-edit').find('select[name="questionType['+index1+']"]').attr('disabled','disabled') 
+                    }
+                    else
+                    {   //sub-question
+                        var subquestionType = Obj.closest('.question-view-edit').find('select[name="subquestionType['+index1+']"]').val();
+                        Obj.closest('.question-view-edit').find('input[name="subquestionType['+index1+']"]').val(subquestionType); 
+                        Obj.closest('.question-view-edit').find('select[name="subquestionType['+index1+']"]').attr('disabled','disabled') 
+                    }
+                   
 
                     $.each(array, function (index2, value) {  
                         Obj.closest(".question-view-edit").find("input[name='optionId["+index1+"]["+index2+"]']").val(value);
+
+                        
                          
                     });
 
