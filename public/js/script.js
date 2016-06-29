@@ -2128,6 +2128,8 @@ function hideEditButtons(Obj)
     Obj.closest(".question-view-edit").find(".question-view").addClass("hidden");
     Obj.closest(".question-view-edit").find(".question-edit").removeClass("hidden");
 
+    $('.question-view').addClass('disable-question-view');
+
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).addClass("hidden");
     });
@@ -2142,6 +2144,7 @@ function showEditButtons(Obj)
     $('.questions-list_container').find('.edit-question').each(function () { 
         $(this).removeClass("hidden");
     });
+    $('.question-view').removeClass('disable-question-view');
     $('.add-question').removeClass("hidden");
 }
 
@@ -2628,8 +2631,25 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 }
 
                 //keep last option empty
-                optionCount=Obj.closest('.question-view-edit').find('.options-list_container').length;
-                console.log(optionCount);
+
+                // //subquestions
+                // Obj.closest('.question-view-edit').find('.subquestion-container').each(function () {   
+                //      if($(this).find(".options-list_container:last").find("input[type='text']").val()!='')
+                //      {
+                //         $(this).find(".options-list_container:last").find(".add-option").click();
+                //      }
+                // });
+                // //parent options
+                 
+                // console.log(Obj.find(".options-list_container:last").find("input[type='text']").val());
+                // // if(Obj.find(".options-list_container:last").find("input[type='text']").val()!='')
+                // //  {
+                // //     $(this).find(".options-list_container:last").find(".add-option").click();
+                // //  }
+                
+
+                 
+                // console.log(optionCount);
                
            }
          });
