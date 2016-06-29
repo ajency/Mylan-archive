@@ -2144,6 +2144,20 @@ function showEditButtons(Obj)
     });
     $('.add-question').removeClass("hidden");
 }
+
+function showNoQuestionMsg()
+{
+    if(!$('.questions-list_container').find('form').length)
+    {
+        $('.questions-list_container').find('.no_question').removeClass('hidden'); 
+        $('.questionnaire-settings').addClass('hidden');
+        $('.question-reorder').addClass('hidden');
+        $('.publish-question').addClass('hidden');
+        $('.questions-list__header').addClass('hidden');
+
+        $('.add-question').text('Add Question');
+    }
+}
  
 $('.questions-list_container').on('click', '.edit-question', function(event) { 
     hideEditButtons($(this));
@@ -2160,8 +2174,8 @@ $('.questions-list_container').on('click', '.cancel-question', function(event) {
         $(this).closest('form').remove();
     }
 
-    if($('.questions-list_container').find('form').length)
-        $('.questions-list_container').find('.no_question').removeClass('hidden'); 
+    showNoQuestionMsg();
+     
 });
 
 
@@ -2194,7 +2208,7 @@ $('.add-question').click(function (event) {
  
     html ='<form class="form-horizontal col-sm-12" method="post" action="'+ submitUrl +'" data-parsley-validate>';
     html +='<div class="question-view-edit">';
-    html +='<div class="row questions-list hidden question-view">';
+    html +='<div class="row questions-list hidden question-view question" row-count="'+i+'">';
     html +='<div class="col-sm-3">';
     html +='<div class="black question-title"></div>';
     html +='<div class="type question-type"></div>';
@@ -2219,7 +2233,7 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='</div>';
     html +='</div> ';
-    html +='<div class="main-question_container question-edit question" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
+    html +='<div class="main-question_container question-edit question" row-count="'+i+'">';
     html +='<div class="type-questions parentQuestion">';
     html +='<div class="row">';
     html +='<div class="col-sm-3">';
@@ -2281,6 +2295,7 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='</form>';
     
+    $('.questions-list__header').removeClass('hidden');
     if($('.questions-list_container').find('.no_question').length)
         $('.questions-list_container').find('.no_question').addClass('hidden'); 
 
@@ -2297,15 +2312,19 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     }
     var Obj = $(this);
 
-    var i = Obj.closest(".question").attr('row-count');
-    // var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
-    var questionId = Obj.attr("object-id") ;
+    var i = Obj.closest(".question").attr('row-count');  
+    
+
     Obj.closest('div').append('<span class="cf-loader"></span>');
 
     if(!Obj.hasClass('delete-parent-question'))
     {  
         Obj.closest('.options-list_container').find('.hasSubQuestion').trigger('click');
+        var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
     }
+    else
+        var questionId = Obj.closest(".question-view-edit").find('input[name="questionId['+i+']"]').val();
+        
 
     if(questionId!='')
     {
@@ -2323,6 +2342,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                 else
                 {
                     Obj.closest('form').remove();
+                    showNoQuestionMsg();
                 }
                   
 
@@ -2343,12 +2363,11 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         else
         {
             Obj.closest('form').remove();
+            showNoQuestionMsg();
         }
     }
 
-    alert($('.questions-list_container').find('form').length);
-    if(!$('.questions-list_container').find('form').length)
-        $('.questions-list_container').find('.no_question').removeClass('hidden'); 
+    
 
     showEditButtons($(this));
     
@@ -2599,6 +2618,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     $('.questionnaire-settings').removeClass('hidden');
                     $('.question-reorder').removeClass('hidden');
                     $('.publish-question').removeClass('hidden');
+                 
 
                     $('.add-question').text('Add another Question');
                 }
