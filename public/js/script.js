@@ -2362,7 +2362,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
     }
-    else
+    else if(($(this).val()=='single-choice') || ($(this).val()=='multi-choice') || ($(this).val()=='input'))
     {
         var questionType = $(this).val();
 
@@ -2446,7 +2446,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         var isSubQuestionOption = ($(this).hasClass('subquestionType'))?'yes':'no'; 
         var hasSubQuestion = ($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))?1:0;  
-        console.log(hasSubQuestion);
+
         html += getOptionHtml(isSubQuestionOption, hasSubQuestion, i, 0)
         $(this).closest('.question').find('.question-options-block').removeClass('hidden');
     }
@@ -2514,7 +2514,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='</div> ';
 
         html +='<div class="question-options-block hidden">';
-        html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
+        // html +='<span class="bold m-t-15">Enter the option for this sub question</span>';
 
         html +='</div> ';
 
@@ -2649,6 +2649,7 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
 
 function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
 {
+    console.log(hasSubQuestion);
     if(isSubQuestionOption=='no')
     {  
         //parent question Option html
@@ -2677,14 +2678,13 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion, i, j)
                          
         html +='</div>';
         html +='<div class="row">';
-        html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
-        html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
         if(hasSubQuestion)
         {
+            html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
+            html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
             html +='<span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>';
+            html +='</div>';
         }
-                          
-        html +='</div>';
         html +='</div>';
         html +='</div>';
     }
