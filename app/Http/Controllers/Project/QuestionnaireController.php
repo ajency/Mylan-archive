@@ -694,8 +694,9 @@ class QuestionnaireController extends Controller
 			$responseOptionIds = [];
 			$responseQuestionIds = [];
 
-			$hasSubQuestion = 'No';
-			$questioOptionCount = 0;
+			
+			
+			$weightArray=['kg','st','lb'];
 
 			//1 level 
 			foreach ($questionsType as $key => $questionType) {
@@ -721,6 +722,16 @@ class QuestionnaireController extends Controller
 					 
 				}
 
+				if($questionType=='single-choice')
+				{
+					$hasSubQuestion = 'No';
+					$questioOptionCount = 0;
+				}
+				else
+				{
+					$hasSubQuestion = 'NA';
+					$questioOptionCount = '';
+				}
 
 
 				$responseData['questionType'] = $questionType;
@@ -752,7 +763,8 @@ class QuestionnaireController extends Controller
 						if($option=="")
 						  continue;
 
-						$questioOptionCount++;
+						if(!in_array($option, $weightArray))
+							$questioOptionCount++;
 						 
 						$score = intval($optionScores[$k]);
 					
@@ -764,7 +776,9 @@ class QuestionnaireController extends Controller
 						
 						if(isset($optionKeys[$key][$k]))
 						{
-							$hasSubQuestion = 'Yes';
+							if($questionType=='single-choice')
+								$hasSubQuestion = 'Yes';
+
 							$subquestionKey = $optionKeys[$key][$k];
 
 							$questionType = $subquestionType[$subquestionKey];
