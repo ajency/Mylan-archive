@@ -2206,7 +2206,7 @@ $('.add-question').click(function (event) {
     var i = parseInt(counter) + 1;
     var j = $(".question:last").attr("row-count");
  
-    html ='<form class="form-horizontal col-sm-12" method="post" action="'+ submitUrl +'" data-parsley-validate>';
+    html ='<form class="form-horizontal col-sm-12 p-l-0 p-r-0" method="post" action="'+ submitUrl +'" data-parsley-validate>';
     html +='<div class="question-view-edit">';
     html +='<div class="row questions-list hidden question-view question" row-count="'+i+'">';
     html +='<div class="col-sm-3">';
