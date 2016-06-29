@@ -117,7 +117,7 @@
                   </div>
                 </div>
                 <div class="col-sm-1">
-                  <div class="text-center question-option-count">{{ count($optionsList[$questionId])}}</div>
+                  <div class="text-center question-option-count">{{ (isset($optionsList[$questionId]))? count($optionsList[$questionId]):'' }}</div>
                 </div>
                 <div class="col-sm-2">
                   <div class="text-center">
