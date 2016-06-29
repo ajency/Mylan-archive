@@ -2364,10 +2364,13 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     }
     else
     {
+        var questionType = $(this).val();
+
         html +='<div class="row heading-title">';
         html +='<div class="col-md-12">';
         html +='<span class="bold">Enter the options for this question</span>';
-        html +='<div>You can add a subquestion too. The score declairs severity of patient.</div>';
+        if(questionType=='single-choice')
+            html +='<div>You can add a subquestion too. The score declares severity of the option.</div>';
         html +='</div>';
         html +='</div>';
     }
@@ -2443,6 +2446,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
     {
         var isSubQuestionOption = ($(this).hasClass('subquestionType'))?'yes':'no'; 
         var hasSubQuestion = ($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))?1:0;  
+        console.log(hasSubQuestion);
         html += getOptionHtml(isSubQuestionOption, hasSubQuestion, i, 0)
         $(this).closest('.question').find('.question-options-block').removeClass('hidden');
     }
@@ -2556,7 +2560,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 var responseQuestionIds = response.data.responseQuestionIds;
                 
                
-                $.each(responseOptionIds, function (index1, array) {  alert(index1)
+                $.each(responseOptionIds, function (index1, array) {   
   
                     Obj.closest(".question-view-edit").find("input[name='questionId["+index1+"]']").val(responseQuestionIds[index1]);
                     
