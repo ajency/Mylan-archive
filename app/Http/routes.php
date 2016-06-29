@@ -35,6 +35,9 @@ Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
 	Route::get('fillproject', 'Rest\ApiController@projectList');
 	Route::get('mapping-data', 'Rest\ApiController@mappingList');
+	// Route::get('referenceCode/mapping', 'Rest\ApiController@mappingData');
+	// Route::get('referenceCode/save-mapping', 'Rest\ApiController@saveMappingData');
+	Route::get('hospital-data', 'Rest\ApiController@hospitalData');
     
 } );
 
@@ -163,6 +166,8 @@ Route::post( 'changepassword', 'Project\UserController@updateUserPassword' );
 
 });
 
-Route::get('admin/API/reference-code', 'Admin\UserController@referCode');
+//Route::get('admin/API/reference-code', 'Admin\UserController@referCode');
+// Route::get('api/v3/referenceCode/mapping', 'Admin\UserController@mappingData');
+// Route::get('api/v3/referenceCode/save-mapping', 'Admin\UserController@saveMappingData');
 
 

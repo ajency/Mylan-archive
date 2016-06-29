@@ -115,7 +115,8 @@ class PatientController extends Controller
       //       $patient->save();
            
       //   });
-
+		
+		
         return view('project.patients.list')->with('hospital', $hospital)
                                           ->with('logoUrl', $logoUrl)
                                           ->with('project', $project)
@@ -137,6 +138,7 @@ class PatientController extends Controller
                                           ->with('patientMiniGraphData', $patientMiniGraphData)
                                           ->with('patientsSummary', $patientsSummary)
                                           ->with('patientSortedData', $patientSortedData);
+                                          /*->with('referenceArray', $referenceEmptyArr);*/
     }
 
 

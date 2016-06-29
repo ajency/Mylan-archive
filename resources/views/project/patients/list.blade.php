@@ -35,7 +35,7 @@
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option value="">-select patient-</option>
            @foreach($allPatients as $patientData)
-             <option  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+             <option  value="{{ $patientData['id'] }}" class="patient-refer{{ $patientData['reference_code'] }}">{{ $patientData['reference_code'] }}</option>
            @endforeach
           </select>
        </div>
@@ -187,7 +187,7 @@
                         $patientSummary = $patientsSummary[$referenceCode];
                       ?>
                         <tr>
-                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patientId-{{ $referenceCode }}">{{ $referenceCode }}</td>
+                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                              <div class="lst-sub submission-count">
                                  <h2 class="bold inline">
@@ -261,7 +261,7 @@
       </div>
    </div>
 </div>
-                 
+              
 <script type="text/javascript">    
 var STARTDATE = ' {{ date("D M d Y", strtotime($startDate)) }} '; 
 var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} '; 
@@ -306,24 +306,20 @@ $(document).ready(function() {
 	 
    </script>
          <style type="text/css">
-         .grid-title h4 {
-         width: 57% !important;
-         white-space: inherit;
-         overflow: hidden;
-         text-overflow: initial;
-         }
-         .bigger{
-            font-size: 25px;
-         }
-         .top-data .col-md-2 {
-             width: 33% !important;
-         }
-         .top-data .tiles {
-             height: 115px;
-          }
-
-
-
+			 .grid-title h4 {
+			 width: 57% !important;
+			 white-space: inherit;
+			 overflow: hidden;
+			 text-overflow: initial;
+			 }
+			 .bigger{
+				font-size: 25px;
+			 }
+			 .top-data .col-md-2 {
+				 width: 33% !important;
+			 }
+			 .top-data .tiles {
+				 height: 115px;
+			  }
       </style>
-
 @endsection

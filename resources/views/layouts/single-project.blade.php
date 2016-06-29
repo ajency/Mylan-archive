@@ -43,8 +43,9 @@
          var BASEURL = '{{ url() }}/{{ $hospital["url_slug"] }}/{{ $project["project_slug"] }}';
          var STARTDATE = '';
          var ENDDATE = '';
+		 
       </script>
-
+		
       <!-- BEGIN TRACKJS -->
 <!--       <script type="text/javascript">window._trackJs = { token: '21aaf9c6cfae433389d70210a39dabaf' };</script>
       <script type="text/javascript" src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"></script> -->
@@ -367,35 +368,6 @@
       <script src="{{ asset('js/tabs_accordian.js') }}" type="text/javascript"></script>
       <script src="{{ asset('js/script.js') }}" type="text/javascript"></script>
       <!-- END CORE TEMPLATE JS --> 
-	  <script>
-	  $(document).ready(function() { 
-		$.ajax({
-			url: '{{ url() }}/admin/API/reference-code',
-			crossDomain : true,
-			type: 'GET',
-			data: {'referencevalues' : 1},
-			success: function(data){
-				// for(var i=0; i<data.referCode.length; i++){
-					// var myVar = "";
-					// var storage = chrome.storage.local;
-					
-					// console.log(data.referCode[i]);
-					// myVar = data.referCode[i];
-					// storage.get( myVar, function (result) {
-					
-						// var key = "";
-						// key = Object.keys(result);
-						// console.log(key);
-						//if(result[key] != ""){
-							// $(".patientId-"+key).html(result[key]);
-						//}	
-					// });	
-				// }
-			
-			}
-		});
-	 });
-		 
-	  </script>
+	  
  
 </html>
