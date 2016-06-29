@@ -9753,6 +9753,12 @@ small.help-text {
 .questions-list_container .questions-list__header {
   background: #fafafa;
   padding: 10px;
+  margin-left: 0;
+  margin-right: 0;
+}
+.questions-list_container .questions-list__header [class*='col-'] {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .questions-list_container .questions-list {
   padding: 15px 0;
@@ -9976,4 +9982,11 @@ small.help-text {
 }
 .ttuc {
   text-transform: uppercase;
+}
+.questions-list.question-view {
+  margin-left: 0;
+  margin-right: 0;
+}
+.p-r-0 {
+  padding-right: 0;
 }

@@ -50,7 +50,7 @@
              if(isset($optionsList[$questionId][0]['label'])  && $optionsList[$questionId][0]['label']=="kg" && $optionsList[$questionId][1]['label']=="st" && $optionsList[$questionId][2]['label']=="lb")
                 $isWeight = true;
               ?>
-            <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" data-parsley-validate>
+            <form class="form-horizontal col-sm-12 p-l-0 p-r-0" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" data-parsley-validate>
             <div class="question-view-edit">
                 <div class="row questions-list question-view">
                   <div class="col-sm-3">
