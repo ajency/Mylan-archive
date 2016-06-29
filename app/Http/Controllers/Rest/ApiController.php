@@ -95,11 +95,23 @@ class ApiController extends Controller
         $password = trim($request->input('password'));
 		$data['hospitalid'] ="";
 		$data['countHospitalId'] = "";
+		$userType = 0;//1 admin 0 other user 
+		$userTypeData = User::select('type')->where('email' => $email)->get();
+		foreach($userTypeData as $Udatatye){
+			if($Udatatye['type'] == "mylan_admin"){
+				$userType = 1;
+			}else{
+				$userType = 0;
+			}
+		}
         if (Auth::attempt(['email' => $email, 'password' => $password])){
             $data['status'] = 200;
-            // $hospitalData = Hospital::get();
 			$whereCondition  = [ 'users.email' => $email ];
-            $hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+			if($userType == 0){
+				$hospitalData = Hospital::get();
+			}else{	
+				$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+			}	
             $data['hospital'] = "<option value='0'>Please select</option>";
 			$counter = 0;
             foreach($hospitalData as $hospital){
@@ -122,9 +134,21 @@ class ApiController extends Controller
 	public function hospitalData(Request $request){
 		$data['status'] = 200;
 		$email = $request->input('email');
-		// $hospitalData = Hospital::get();
+		$userType = 0;//1 admin 0 other user 
+		$userTypeData = User::select('type')->where('email' => $email)->get();
+		foreach($userTypeData as $Udatatye){
+			if($Udatatye['type'] == "mylan_admin"){
+				$userType = 1;
+			}else{
+				$userType = 0;
+			}
+		}
 		$whereCondition  = [ 'users.email' => $email ];
-        $hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+		if($userType == 0){
+				$hospitalData = Hospital::get();
+		}else{	
+			$hospitalData = $userData = User::select('users.email','hospitals.name','hospitals.id')->join('hospitals','hospitals.id','=','users.hospital_id')->where($whereCondition)->get();
+		}	
 		$data['hospital'] = "<option value='0'>Please select</option>";
 		$counter = 0;
 		foreach($hospitalData as $hospital){
