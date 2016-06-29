@@ -109,7 +109,7 @@
                                   $patientSummary = $patientsSummary[$referenceCode];
                                 ?>
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/patients/{{ $patientId }}';">
-                                    <td>{{ $referenceCode }}</td> 
+                                    <td class="patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td> 
                                     <td>
                                        <div class="lst-sub">
                                           <h2 class="bold pull-left">{{ count($patientSummary['count']) }}</h2>
