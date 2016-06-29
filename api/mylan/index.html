@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Mylan</title>
+		<link rel="stylesheet" href="bootstrap.min.css" />
+		<link rel="stylesheet" href="font-awesome.min.css" />
+		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="font.css" />
+		
+		<script src="jQuery v1.12.2.js"></script>
+		<script src="assets/js/parsley.min.js"></script>
+		<script src="ajaxCalls.js"></script>
+		
+	</head>
+	<body>
+	  <!-- tooltip -->
+		<div class="step-wrap step-1">
+			<div class="mylan-section">
+				<header>
+					<img src="assets/img/mylan_logo.png" class="logo" alt=""> <span class="pull-right si">Login</span>
+				</header>
+				<div class="h-info">
+					Login to map the patient data. Once you map, you can see the patient's mapped details while accessing Mylan Dashboard
+				</div>
+				<div class="content login-content">
+					<form id="login-form" data-parsley-validate>
+						<div class="form-group">
+							<label for="">Email</label>
+							<input type="email" value="admin@mylan.com" id="email" name="email" placeholder="Enter your email address" data-parsley-required>
+						</div>
+						<div class="form-group">
+							<label for="">Password</label>
+							<input type="password" value="admin" name="password" placeholder="Password" data-parsley-required>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-success" value="Login" />
+						</div>	
+					</form>
+				</div> <!-- /content -->
+			</div>
+		</div>
+	  
+	  	<!-- /tooltip -->
+		
+	  	<!-- sections select Hospital-->
+		<!--div class="step-wrap selectHospital">
+			<div class="mylan-section">
+				<header>
+					<img src="assets/img/mylan_logo.png" class="logo" alt="">
+				</header>
+				<div class="h-info">
+					Please select the hospital
+				</div>
+				<div class="content login-content">
+					<form id="select-hospital-form" data-parsley-validate>
+						<div class="form-group">
+							<label for="">Choose Hospital</label>
+							<select name="hospitalList" class="form-control" id="hospitalList" data-parsley-required="true" data-parsley-min="1">
+							</select>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-success" value="Submit" />
+						</div>	
+					</form>
+				</div> 
+			</div>
+		</div-->
+	  	<!-- sections ends-->
+		<!-- new select hosp -->
+		<div class="step-wrap step-mid selectHospital">
+			<div class="mylan-section">
+				<header>
+					<img src="assets/img/mylan_logo.png" class="logo" alt=""> 
+					<span class="pull-right si">Hospital</span>
+				</header>
+				<div class="h-info withalert">
+					<!--div class="alert alert-danger">
+	                    <i class="fa fa-exclamation-triangle"></i> Select the hospital for which you wish to map the data.<br> Once you save, <strong>you will not be able to change the hospital!</strong>
+	                </div-->	
+				</div>
+				<div class="content login-content">
+					<form id="select-hospital-form" data-parsley-validate>
+						<div class="col-md-6 col-md-push-3">
+							<div class="form-group">
+								<label for="">Choose Hospital</label>
+								<select name="hospitalList" class="form-control" id="hospitalList" data-parsley-required="true" data-parsley-min="1">
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-success" value="Confirm this Hospital" />
+						</div>	
+					</form>
+				</div> <!-- /content -->
+			</div>
+		</div>
+		<!--  -->
+		
+	  	<!-- sections -->
+	  	<div class="step-wrap step-2 with-sidebar">
+			<div class="mylan-section setwidth768 row">
+				<div class="col-md-2 col-sm-3 left-sidebar">
+					<h1 class="sec-title"><img src="assets/img/mylan_logo.png" class="logo" alt=""></h1>
+					<ul class="v-menu">
+						<li class="menu-item title">
+							<span class="menu-nonlink"><span class="lesseropa">Projects in:</span> <span class="hname">Hospital Name</span></span>
+						</li>
+						<div class="logoutClass">
+						</div>
+					</ul>
+					<div class="v-footer">
+						<span class="menu-item" class="">
+							<span class="" id="logout">Logout</span>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-10 col-sm-9 right-area col-md-push-2 col-sm-push-3">
+					<div class="panels" id="newmap">
+			  			<header>Map Project</header>
+			  			<form id="mapping-form" class="form-center" data-parsley-validate>
+				  			<div class="row">
+								<div class="col-md-6 col-md-push-3">
+								</div>
+								<!-- <div class="clearfix"></div> -->
+								<!--div class="col-md-6 col-md-push-3">
+					  				<div class="form-group">
+										<label for="">Choose Project</label>
+										<select name="projectList" class="form-control" id="projectList" data-parsley-required="true" data-parsley-min="1" disabled>
+										</select>
+					  				</div>
+								</div-->
+								<!-- <div class="clearfix"></div> -->
+								<!--div class="col-md-6 col-md-push-3">
+						  			<div align="right" class="form-group startmap">
+										<input type="submit" value="Start Mapping" class="submit-btn btn btn-primary" />
+						  			</div>
+						  		</div-->
+				  			</div>
+						</form>
+					</div>
+					<div class="panels step-3" id="mapdata" style="display: none;">
+						<header><!-- <button class="btn btn-link goback gbst"><i class="fa fa-angle-left"></i></button> --> Mapping for: <strong><span class="hospitalName"></span></strong></header>
+						<div class="content mapp-labels">
+							<!-- <div class="group">
+								<label>HOSPITAL </label> 
+							</div> -->
+							<div class="group text-left">
+								<label>PROJECT </label> <strong><span class="projectName"></span></strong>
+							</div>
+						</div> <!-- /content -->
+
+						<div class="table-cover">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>PATIENT ID</th>
+										<th>PATIENT NAME</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="mapping-tbody">
+								</tbody>
+							</table>
+						</div>
+						<div align="center" class="form-group">
+							<!-- <input type="button" value="Back" id="back-step2" class="submit-btn btn btn-link gobackbtnst" style="display:inline-block;" /> -->
+						</div>
+					</div>
+					<div class="panels step-3-edit" id="editdata" style="display: none;">
+						<header><button class="btn btn-link gobackpop gbst"><i class="fa fa-angle-left"></i></button> Edit Patient Details</header>
+						<!-- <div class="text-center">
+							<label for="">Edit Patient Details</label>
+						</div> -->
+						<form id="edit-patient-form" class="form-center" data-parsley-validate>
+							<div class="content mapp-labels lastpopup">
+								<div class="group">
+									<label>HOSPITAL </label>  <strong><span class="hospitalName"></span></strong>
+								</div>
+								<div class="group text-left">
+									<label>PROJECT </label> <strong><span class="projectName"></span></strong>
+								</div>
+							</div> <!-- /content -->
+							<div class="content" style=""> 
+								<div class="alert alert-success" style="width:80%;">
+								  You have successfully saved the data.
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 col-md-push-3">
+									<label>Patient ID</label>
+									<div class="form-group">
+										<input type="text" value="" name="patient_edit_id" id="patient_edit_id" readonly data-parsley-required="true" class="disabled form-control" />
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-6 col-md-push-3">
+									<label>Name</label>
+									<div class="form-group">
+										<input type="text" value="" placeholder="Please enter the name" name="patient_edit_name" id="patient_edit_name" class="form-control" data-parsley-required="true" />
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-6 col-md-push-3">
+									<div align="center" class="form-group">
+										<input type="submit" value="Save" class="submit-btn btn btn-primary pull-right save-btn" style="display:inline-block;"/>
+										<!-- <input type="button" value="Back" id="step-3-edit-back" class="submit-btn btn btn-link gobackbtnst" style="display:inline-block;" /> -->
+									</div>
+								</div>
+							</div>
+
+						</form>	
+					</div>
+
+					<!--div class="panels" id="lastmap" style="display: none;">
+						<header>Last Mapped Patients</header>
+
+						<div class="table-cover">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>PATIENT ID</th>
+										<th>PATIENT NAME</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="last-mapped-tbody">
+									<tr>
+										<td>alpha101</td>
+										<td class="patientId-alpha101"></td>
+										<td><span class="text-right edit-case-lastmap" id="alpha101"><i class="fa fa-pencil" id="alpha101"></i></span></td>
+									</tr>
+								</tbody>
+							</table>
+						</div-->
+						<div align="center" class="form-group">
+							<!-- <input type="button" value="Back" id="back-step2" class="submit-btn btn btn-primary" style="display:inline-block;" /> -->
+						</div>
+					</div>
+					<div class="panels lastmap-edit" id="lastmap-edit" style="display: none;">
+						<header><button class="btn btn-link lastmap-goback gbst"><i class="fa fa-angle-left"></i></button> Edit Patient Details</header>
+						<!-- <div class="text-center">
+							<label for="">Edit Patient Details</label>
+						</div> -->
+						<form id="edit-patient-form" class="form-center" data-parsley-validate>
+							<div class="content mapp-labels lastpopup">
+								<div class="group">
+									<label>HOSPITAL </label>  <strong><span class="hospitalName">Hospital Name</span></strong>
+								</div>
+								<div class="group text-left">
+									<label>PROJECT </label> <strong><span class="projectName">Project Name</span></strong>
+								</div>
+							</div> <!-- /content -->
+							<div class="content" style=""> 
+								<div class="alert alert-success" style="width:80%;">
+								  You have successfully saved the data.
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 col-md-push-3">
+									<label>Patient ID</label>
+									<div class="form-group">
+										<input type="text" value="" name="patient_edit_id" id="patient_edit_id" readonly data-parsley-required="true" class="disabled form-control" />
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-6 col-md-push-3">
+									<label>Name</label>
+									<div class="form-group">
+										<input type="text" value="" placeholder="Please enter the name" name="patient_edit_name" id="patient_edit_name" class="form-control" data-parsley-required="true" />
+									</div>
+								</div>
+								<div class="clearfix"></div>
+								<div class="col-md-6 col-md-push-3">
+									<div align="center" class="form-group">
+										<input type="submit" value="Save" class="submit-btn btn btn-primary pull-right save-btn" style="display:inline-block;"/>
+										<!-- <input type="button" value="Back" id="step-3-ed it-back" class="submit-btn btn btn-link gobackbtnst lastmap-goback" style="display:inline-block;" /> -->
+									</div>
+								</div>
+							</div> <!-- /content -->
+						</form>	
+					</div>
+				</div>
+			</div>
+	  	</div><!-- /mylan-section -->
+	  
+	 	<input type="hidden" id="hiddenHospitalId" value="" />
+	  	<input type="hidden" id="hiddenProjectId" value="" />
+	  	<input type="hidden" id="userEmail" value="" />
+		
+	</body>
+</html>
