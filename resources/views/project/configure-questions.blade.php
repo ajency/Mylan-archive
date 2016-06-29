@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-sm-2">
                   <a href="" class="pull-right">
-                    <i class="fa fa-trash text-danger delete-parent-question delete-question" object-id="{{ $questionId }}"></i>
+                    <i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id="{{ $questionId }}"></i>
                   </a>
                 </div>
               </div>
@@ -299,7 +299,7 @@
                             </div>
 
                             <div class="col-sm-3 add-delete-container">
-                            <span href="" class="btn btn-default outline-btn add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
+                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
 
                             </div>
                           </div>
@@ -339,7 +339,7 @@
 
                     <div class="col-sm-4 add-delete-container">
                       <div class="clearfix">
-                        <span class="btn btn-default pull-right outline-btn add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
+                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
                       </div>
                     </div>
                      
@@ -383,10 +383,12 @@
 
         <!-- test -->
         <div class="clearfix">
-          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
+ 
+          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn m-t-30 m-b-30">Add @if(!empty($questionsList)) another @endif Question</button>
+ 
         </div>
         <div class="form-group">
-          <div class="col-sm-12 questionActions mri-submit text-center">
+          <div class="questionActions mri-submit text-center">
           <input type="hidden" name="counter" id="counter" value="{{ $i }}">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="" name="redirect_url"/>

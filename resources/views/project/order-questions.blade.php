@@ -39,7 +39,7 @@
             @foreach($questionsList as $questionId => $question)
                 <li class="dd-item" data-id="{{ $i }}">
                     <input type="hidden" name="questionId[]" value="{{ $questionId }}">
-                    <div class="dd-handle"><span class="">{{ $question['title'] }} : </span> {{ $question['question'] }}</div>
+                    <div class="dd-handle"><span class="semi-bold ttuc p-r-15" style="color: #1b1e24;">{{ $question['title'] }}  </span> {{ $question['question'] }}</div>
                 </li>
            <?php $i++; ?>
             @endforeach
@@ -53,16 +53,16 @@
  
       
         <div class="form-group">
-          <div class="col-sm-10 m-t-10 mri-submit questionSubmitBtn">
+          <div class="m-t-10 mri-submit questionSubmitBtn text-center clearfix col-md-12">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
           <input type="hidden" value="" name="redirect_url"/>
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
-            <button type="button" class="btn btn-default" ><i class="fa fa-backward" aria-hidden="true"></i> Previous</button>
+            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}" class="pull-left">
+            <button type="button" class="btn btn-link cust-link" ><i class="fa fa-angle-left" aria-hidden="true"></i> Previous</button>
             </a> 
             @if(!empty($questionsList))
-            <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save</button>
-            <a href="#"><button type="button" class="btn btn-default publish-questionnaire">  <i class="fa fa-check-square-o" aria-hidden="true"></i> Publish</button></a> 
+            <button type="submit" class="btn btn-default"> SAVE</button>
+            <a href="#" class="pull-right"><button type="button" class="btn btn-primary publish-questionnaire">PUBLISH</button></a> 
             @endif
           </div>
         </div>

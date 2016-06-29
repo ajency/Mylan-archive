@@ -2241,3 +2241,48 @@ small.help-text{
 .cust-col-sm-2{
   width: 12.666667%;
 }
+
+.outline-btn-gray{
+  border: 2px solid #ddd;
+  color: #999;
+  background: @color-white;
+  font-weight: 600;
+  &:hover,
+  &:active{
+    background: @color-white;
+    text-decoration: none;
+    border: 2px solid #ddd;
+    color: #999;
+    outline: none;
+  }
+  &:focus,
+  &:active:focus{
+    outline: none;
+  }
+}
+
+.dd.draggableList.dark{
+  .dd-list{
+    .dd-item{
+      margin: 0;
+      background: #FAFAFA;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 5px;
+      .dd-handle{
+        margin: 0;
+        background: none;
+      }
+      & > .dd-handle{
+        background: none;
+        &:before{
+          background: none;
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+
+.ttuc{
+  text-transform: uppercase;
+}
