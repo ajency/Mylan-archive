@@ -205,14 +205,17 @@ class ApiController extends Controller
 			$userstatus  = $Udatatye['account_status'];
 			if($Udatatye['type'] == "mylan_admin"){
 				$userType = 1;
+			}else if($Udatatye['type'] == "hospital_user"){
+				$userType = 2;
 			}else{
-				$userType = 0;
+				$userType = 0; //project_user
 			}
 		}
 		$whereCond = "";
 		if($userType == 1){
-			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
-			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
+			//$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
+			// $projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
+			$projectData = Projects::select('projects.name','projects.id')where('hospital_id',$hospitalId)->get();
 		}else{
 			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
 			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
