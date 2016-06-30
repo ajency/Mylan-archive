@@ -387,9 +387,9 @@
         </div><!--/question-lists_contaoner-->
 
         <!-- test -->
-        <div class="clearfix">
+        <div class="clearfix m-b-30">
  
-          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn m-b-30">Add @if(!empty($questionsList)) another @endif Question</button>
+          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
  
         </div>
         <div class="form-group">
@@ -406,10 +406,10 @@
             <button type="button" class="btn btn-link cust-link">Reorder the Questions</button>
             </a>
 
-            <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
+            <form class="pull-right" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
               <input type="hidden" value="publish" name="submitType"/>
               <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-              <button class="btn btn-primary pull-right @if(empty($questionsList)) hidden @endif publish-questionnaire">PUBLISH</button>
+              <button class="btn btn-primary @if(empty($questionsList)) hidden @endif publish-questionnaire">PUBLISH</button>
             </form>
        
           </div>
