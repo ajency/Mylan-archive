@@ -2365,7 +2365,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                     showNoQuestionMsg();
                 }
                   
-
+                showEditButtons($(this));
             }
                  
         });
@@ -2385,9 +2385,11 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
             Obj.closest('form').remove();
             showNoQuestionMsg();
         }
+
+        showEditButtons($(this));
     }
 
-    showEditButtons($(this));
+    
 
 });
 
@@ -2580,6 +2582,8 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 $('.questions-list_container').on('click', '.save-question', function(event) {  
     var Obj = $(this);
     var form = Obj.closest('form');
+    
+    Obj.before('<span class="cf-loader pull-right  p-l-10"></span>');
 
     form.parsley().validate();
 

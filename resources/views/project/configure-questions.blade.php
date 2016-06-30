@@ -137,10 +137,8 @@
                   </div>
                 </div>
                 <div class="col-sm-2">
-                  <a href="" class="pull-right">
                     <i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id="{{ $questionId }}"></i>
-                    
-                  </a>
+ 
                 </div>
               </div>
 
@@ -213,7 +211,7 @@
                         <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
                         <div class="clearfix">
                           <span class="bold pull-left">Edit this Subquestion</span>
-                          <a href="" class="fa fa-trash text-danger pull-right delete-question" object-id="{{ $subQuestionId }}"></a>
+                          <i class="fa fa-trash text-danger pull-right delete-question" object-id="{{ $subQuestionId }}"></i>
                         </div>
 
                         <div class="type-questions">
@@ -364,6 +362,7 @@
               <div class="row options-container_footer">
                 <div class="col-md-12">
                   <div class="clearfix">
+                    
                     <button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>
                     <button type="button" class="btn btn-default pull-right cancel-question m-r-10">CANCEL</button>
                   </div>
