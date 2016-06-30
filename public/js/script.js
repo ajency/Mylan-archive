@@ -2662,8 +2662,15 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     Obj.closest('.question-view-edit').find(".parent-option-container:last").find(".add-option").click();
                  }
                 
+                //hide sub question conatiner
+                Obj.closest('.question-view-edit').find('.hideSubquestion').each(function () {   
+                      
+                    $(this).click();
+                      
+                });
+
                 // console.log(optionCount);
-               
+                Obj.closest('div').find('.cf-loader').remove();
            }
          });
     }
