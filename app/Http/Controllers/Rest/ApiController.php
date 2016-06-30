@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use App\Hospital;
 use App\Projects;
+use App\UserAccess;
 use \Auth;
 
 class ApiController extends Controller
@@ -95,7 +96,7 @@ class ApiController extends Controller
         $password = trim($request->input('password'));
 		$data['hospitalid'] ="";
 		$data['countHospitalId'] = "";
-		$userType = 0;//1 admin 0 other user 
+		$userType = 0;//1 admin 2 hospital user/ else project user/other user 
 		$userTypeData = User::select('*')->where('email',$email)->get();
 		$userpassword = "";
 		$userId = "";
@@ -105,18 +106,28 @@ class ApiController extends Controller
 			$userstatus  = $Udatatye['account_status'];
 			if($Udatatye['type'] == "mylan_admin"){
 				$userType = 1;
+			}else if($Udatatye['type'] == "hospital_user"){
+				$userType = 2;
 			}else{
-				$userType = 0;
+				$userType = 0; //project_user
 			}
 		}
         if (Hash::check($password, $userpassword) && $userstatus =='active'){
             $data['status'] = 200;
-			$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
 			if($userType == 1){
 				$hospitalData = Hospital::get();
-			}else{	
-				$hospitalData = $userData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
-			}	
+			}else if($userType == 2){	
+				$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
+				$hospitalData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
+			}else{
+				$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'project' ];
+				$getProjectHospId = UserAccess::select('projects.hospital_id as hospitalsID')->join('projects','user_access.object_id','=','projects.id')->where($whereCondition)->get();
+				$hospId = "";
+				foreach($getProjectHospId as $getHospId){
+					$hospId = $getHospId['hospitalsID'];
+				}
+				$hospitalData = Hospital::where('id',$hospId)->get();
+			}			
             $data['hospital'] = "<option value='0'>Please select</option>";
 			$counter = 0;
             foreach($hospitalData as $hospital){
@@ -149,16 +160,26 @@ class ApiController extends Controller
 			$userstatus  = $Udatatye['account_status'];
 			if($Udatatye['type'] == "mylan_admin"){
 				$userType = 1;
+			}else if($Udatatye['type'] == "hospital_user"){
+				$userType = 2;
 			}else{
-				$userType = 0;
+				$userType = 0; //project_user
 			}
 		}
 		$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
 		if($userType == 1){
 				$hospitalData = Hospital::get();
-		}else{	
-			$hospitalData = $userData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
-		}	
+		}else if($userType == 2){	
+			$hospitalData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
+		}else{
+			$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'project' ];
+			$getProjectHospId = UserAccess::select('projects.hospital_id as hospitalsID')->join('projects','user_access.object_id','=','projects.id')->where($whereCondition)->get();
+			$hospId = "";
+			foreach($getProjectHospId as $getHospId){
+				$hospId = $getHospId['hospitalsID'];
+			}
+			$hospitalData = Hospital::where('id',$hospId)->get();
+		}		
 		$data['hospital'] = "<option value='0'>Please select</option>";
 		$counter = 0;
 		foreach($hospitalData as $hospital){
@@ -174,15 +195,34 @@ class ApiController extends Controller
     }
     
     public function projectList(Request $request){
+        $uEmail = $request->uEmail;
         $hospitalId = intval($request->hospitalId);
-        $projectData = Projects::where("hospital_id",$hospitalId)->get();
+		$userType = 0;//1 admin 0 other user 
+		$userTypeData = User::select('*')->where('email',$uEmail)->get();
+		$userId = "";
+		foreach($userTypeData as $Udatatye){
+			$userId  = $Udatatye['id'];
+			$userstatus  = $Udatatye['account_status'];
+			if($Udatatye['type'] == "mylan_admin"){
+				$userType = 1;
+			}else{
+				$userType = 0;
+			}
+		}
+		$whereCond = "";
+		if($userType == 1){
+			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
+			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
+		}else{
+			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId, 'user_access.access_type' => 'edit'];
+			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
+		}
         $data['projects'] = "<option value='0'>Please select</option>";
 		$data['projectItem'] = "";
         foreach($projectData as $project){
             $data['projects'] .= "<option value='".$project['id']."'>".$project['name']."</option>";
 			$data['projectItem'] .= "<li class='menu-item' id='".$project['id']."'>".$project['name']."</li>";
         }
-		
         return $data;
     }
     
