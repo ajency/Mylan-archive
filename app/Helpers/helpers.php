@@ -118,7 +118,7 @@ function createSetupAlert($referenceCode,$setupCount,$project)
 
 function getQuestionnaireData($projectId)
 {
-     
+    $projectId = intval($projectId); 
     $questionnaireQry = new Parse\ParseQuery("Questionnaire");
     $questionnaireQry->equalTo("project",$projectId);
     $questionnaire = $questionnaireQry->first();
