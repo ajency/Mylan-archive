@@ -2235,7 +2235,7 @@ $('.add-question').click(function (event) {
     html +='<div class="clearfix">';
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
-    html +='<span class="pull-left edit-link edit-question">EDIT</span>';
+    html +='<span class="pull-left edit-link edit-question cp">EDIT</span>';
     html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
     html +='</div>';
     html +='</div>';
@@ -2270,8 +2270,9 @@ $('.add-question').click(function (event) {
     html +='<div class="col-sm-2">';
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
-    html +='<div class="col-sm-2">';
-    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id=""></i>';
+    html +='<div class="col-sm-2 text-right">';
+    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id=""></i>';
+    html +='<i class="fa fa-close cancel-question cp" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='<div class="row">';
