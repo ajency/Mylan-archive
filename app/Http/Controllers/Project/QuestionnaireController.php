@@ -765,6 +765,8 @@ class QuestionnaireController extends Controller
 
 						if(!in_array($option, $weightArray))
 							$questioOptionCount++;
+						else
+							$responseData['questionType'] = 'Weight';
 						 
 						$score = intval($optionScores[$k]);
 					
