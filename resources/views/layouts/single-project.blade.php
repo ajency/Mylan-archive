@@ -180,15 +180,15 @@
                         <?php 
                         $questionnairedata = getQuestionnaireData($project["id"]); 
                         ?>
-                        <!-- @if(!empty($questionnairedata) && $questionnairedata['status']!='published') -->
+                         
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnairedata['questionnaireId'] ) }}">Configure Questionnaire</a>
                         </li>
-                        <!-- @elseif(!empty($questionnairedata) && $questionnairedata['status']=='published') -->
+                         
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnairedata['questionnaireId'] ) }}">Questionnaire Summary</a>
                         </li>
-                        <!-- @endif -->
+                         
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}">Alert Setting</a>
                         </li>
