@@ -2272,7 +2272,9 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
     html +='<i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id=""></i>';
-    html +='<i class="fa fa-close cancel-question cp" object-id=""></i>';
+    html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
+    html +='<i class="fa fa-close"></i>';
+    html +='</a>';
     html +='</div>';
     html +='</div>';
     html +='<div class="row">';
