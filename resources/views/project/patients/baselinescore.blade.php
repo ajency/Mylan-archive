@@ -34,7 +34,7 @@
                    
                            </div>
                            <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
-                           <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
+                           <p>(Baseline score for Patient Id <span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span>)</p>
                            <br>
                            @include('admin.flashmessage')
                           <div class="user-description-box">

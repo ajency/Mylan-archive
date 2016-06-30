@@ -109,6 +109,31 @@ class QuestionnaireController extends Controller
 		return $questionId;
 	}
 
+	public function getLastQuestion($questions,$questionnaire,$flag=false)
+	{
+		if(empty($questions))
+		{
+			$question = new ParseQuery("Questions");
+			$question->equalTo("questionnaire",$questionnaire);
+			$question->equalTo("isChild",false);
+			$questionObjs = $question->find();
+
+		}
+
+		$questionId ='';
+		foreach ($questionObjs as   $questionObj) {
+			if(is_null($questionObj->get('nextQuestion')) && $questionObj->get('isChild')==false)
+			{
+				$questionId = ($flag)?$questionObj->getObjectId():$questionObj;
+				break;
+			}
+				
+			
+		}
+
+		return $questionId;
+	}
+
 	public function getSequenceQuestions($questions,$subQuestionsFlag=false,$includeSubQuestion=true)
 	{
 
@@ -467,10 +492,14 @@ class QuestionnaireController extends Controller
 										->with('questionsList', $questionsList);
 	}
 
+	
+
 	public function configureQuestions($hospitalSlug,$projectSlug,$questionnaireId)
 	{
 		try
 		{
+			
+
 			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
 			$hospital = $hospitalProjectData['hospital'];
@@ -710,12 +739,8 @@ class QuestionnaireController extends Controller
 				if($previousquestionId=='')
 				{
 					// find last question
-					$previousQuestion = new ParseQuery("Questions");
-					$previousQuestion->equalTo("questionnaire",$questionnaire);
-					$previousQuestion->exists("nextQuestion");
-					$previousQuestion->equalTo("isChild",false);
-					$previousQuestionObj = $previousQuestion->first();
-
+					$previousQuestionObj = $this->getLastQuestion([],$questionnaire);
+	
 					if(empty($previousQuestionObj))
 						$previousQuestionObj = NULL;
 
