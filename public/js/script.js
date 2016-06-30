@@ -2583,12 +2583,17 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
     var Obj = $(this);
     var form = Obj.closest('form');
     
-    Obj.before('<span class="cf-loader pull-right  p-l-10"></span>');
+    
 
     form.parsley().validate();
 
     url = form.attr("href");
     if (form.parsley().isValid()){
+
+        Obj.before('<span class="cf-loader pull-right  p-l-10"></span>');
+        Obj.attr('disabled','true');
+        Obj.closest('div').find('.cancel-question').attr('disabled','true');
+
         $.ajax({
            type: "POST",
            url: url,
@@ -2671,6 +2676,8 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
 
                 // console.log(optionCount);
                 Obj.closest('div').find('.cf-loader').remove();
+                Obj.removeAttr('disabled');
+                Obj.closest('div').find('.cancel-question').removeAttr('disabled');
            }
          });
     }
