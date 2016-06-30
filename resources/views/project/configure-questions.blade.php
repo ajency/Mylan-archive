@@ -55,7 +55,7 @@
                 <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
-                    <div class="type question-type">TYPE: {{ strtoupper($question['type']) }}</div>
+                    <div class="type question-type">TYPE: {{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</div>
                   </div>
                   <div class="col-sm-4">
                     <div class="bold question-text">{{ $question['question'] }}</div>
@@ -362,7 +362,7 @@
               <div class="row options-container_footer">
                 <div class="col-md-12">
                   <div class="clearfix">
-                    
+
                     <button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>
                     <button type="button" class="btn btn-default pull-right cancel-question m-r-10">CANCEL</button>
                   </div>
