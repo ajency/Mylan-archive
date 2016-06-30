@@ -85,7 +85,7 @@
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
-                                    <td class="text-center">{{ $submissionNotification['patient'] }}</td>
+                                    <td class="text-center patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>

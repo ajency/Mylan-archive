@@ -170,7 +170,7 @@
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
-                                      <td class="text-center">{{ $submission['patient'] }}</td>
+                                      <td class="text-center patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
                                        <td>
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
