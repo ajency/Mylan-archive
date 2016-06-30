@@ -2048,7 +2048,7 @@ $('.validateAndRedirect').click(function (event) {
 
 $('.publish-questionnaire').click(function (event) { 
     
-    if (confirm('Are you sure you want to publish this questionnaire ?') === false) {
+    if (confirm('Are you sure you want to publish the questionnaire? You will not be able to make any changes to the questionnaire once published.') === false) {
         return;
     }
      
@@ -2158,7 +2158,7 @@ function showNoQuestionMsg()
         $('.publish-questionnaire').addClass('hidden');
         $('.questions-list__header').addClass('hidden');
 
-        $('.add-question').text('Add Question');
+        $('.add-question').text('Add Question').removeClass('pull-right').addClass('pull-left');
     }
 }
  
@@ -2651,7 +2651,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     $('.publish-questionnaire').removeClass('hidden');
                  
 
-                    $('.add-question').text('Add another Question');
+                    $('.add-question').text('Add another Question').removeClass('pull-left').addClass('pull-right');
                 }
 
                 //keep last option empty after save so user can delete saved record

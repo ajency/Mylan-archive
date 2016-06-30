@@ -42,7 +42,15 @@
                                     <td>{{ $user['name'] }}</td>
                                     <td>{{ $user['email'] }}</td>
                                     <td class="center">{{ $user['phone'] }}</td>
-                                    <td class="center"><i class="fa fa-eye"></i>&nbsp;&nbsp;<a href="#"><i class="fa fa-pencil-square-o"></i></a></td>
+                                    <td class="center">
+                                       @if($user['view'])
+                                       <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                                       @endif
+                                       
+                                       @if($user['edit'])
+                                          <i class="fa fa-pencil-square-o"></i>
+                                       @endif
+                                    </td>
                                  </tr>
                               @endforeach
                                  
