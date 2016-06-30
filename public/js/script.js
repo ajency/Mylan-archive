@@ -2322,7 +2322,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     var i = Obj.closest(".question").attr('row-count');  
     
 
-    Obj.closest('div').append('<span class="cf-loader"></span>');
+    Obj.closest('div').append('<span class="cf-loader pull-right"></span>');
 
     if(!Obj.hasClass('delete-parent-question'))
     {  

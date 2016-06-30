@@ -139,6 +139,7 @@
                 <div class="col-sm-2">
                   <a href="" class="pull-right">
                     <i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id="{{ $questionId }}"></i>
+                    
                   </a>
                 </div>
               </div>
