@@ -2053,7 +2053,7 @@ $('.publish-questionnaire').click(function (event) {
     }
      
     $("input[name='submitType']").val('publish');
-    $('form').submit();
+    $(this).closest('form').submit();
      
     
 
@@ -2155,7 +2155,7 @@ function showNoQuestionMsg()
         $('.questions-list_container').find('.no_question').removeClass('hidden'); 
         $('.questionnaire-settings').addClass('hidden');
         $('.question-reorder').addClass('hidden');
-        $('.publish-question').addClass('hidden');
+        $('.publish-questionnaire').addClass('hidden');
         $('.questions-list__header').addClass('hidden');
 
         $('.add-question').text('Add Question');
@@ -2640,7 +2640,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 {
                     $('.questionnaire-settings').removeClass('hidden');
                     $('.question-reorder').removeClass('hidden');
-                    $('.publish-question').removeClass('hidden');
+                    $('.publish-questionnaire').removeClass('hidden');
                  
 
                     $('.add-question').text('Add another Question');

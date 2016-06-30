@@ -62,7 +62,7 @@
             </a> 
             @if(!empty($questionsList))
             <button type="submit" class="btn btn-default"> SAVE</button>
-            <a href="#" class="pull-right"><button type="button" class="btn btn-primary publish-questionnaire">PUBLISH</button></a> 
+            <button type="button" class="btn btn-primary publish-questionnaire pull-right">PUBLISH</button> 
             @endif
           </div>
         </div>

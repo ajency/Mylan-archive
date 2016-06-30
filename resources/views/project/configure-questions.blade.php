@@ -406,7 +406,11 @@
             <button type="button" class="btn btn-link cust-link">Reorder the Questions</button>
             </a>
 
-            <button class="btn btn-primary pull-right @if(empty($questionsList)) hidden @endif publish-question">PUBLISH</button>
+            <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
+              <input type="hidden" value="publish" name="submitType"/>
+              <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+              <button class="btn btn-primary pull-right @if(empty($questionsList)) hidden @endif publish-questionnaire">PUBLISH</button>
+            </form>
        
           </div>
         </div>
