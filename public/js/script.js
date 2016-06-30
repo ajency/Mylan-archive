@@ -2328,6 +2328,19 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     {  
         Obj.closest('.options-list_container').find('.hasSubQuestion').trigger('click');
         var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
+
+        //remove validation of last option
+        if(Obj.closest(".parent-option-container").find('.add-option').length)
+        {
+            var optionKey1 = $(this).closest(".parent-option-container").find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
+            var optionKey2 = $(this).closest(".parent-option-container").find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
+                         
+            //add validation for option and score 
+            $(this).closest(".parent-option-container").find('input[name="option['+optionKey1+']['+optionKey2+']"]').removeAttr('data-parsley-required');
+            $(this).closest(".parent-option-container").find('input[name="score['+optionKey1+']['+optionKey2+']"]').removeAttr('data-parsley-required');
+        }
+
+        
     }
     else
         var questionId = Obj.closest(".question-view-edit").find('input[name="questionId['+i+']"]').val();
@@ -2374,10 +2387,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         }
     }
 
-    
-
     showEditButtons($(this));
-    
 
 });
 
@@ -2497,7 +2507,11 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
 
     var optionKey1 = $(this).closest('.row').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
     var optionKey2 = $(this).closest('.row').find('.hasSubQuestion').prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
-
+     
+    //add validation for option and score 
+    $(this).closest('.options-list_container').find('input[name="option['+optionKey1+']['+optionKey2+']"]').attr('data-parsley-required', 'true');
+    $(this).closest('.options-list_container').find('input[name="score['+optionKey1+']['+optionKey2+']"]').attr('data-parsley-required', 'true');
+     
 
     var counter = $('input[name="counter"]').val(); 
     var i = parseInt(counter) + 1;
@@ -2612,9 +2626,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
 
                     $.each(array, function (index2, value) {  
                         Obj.closest(".question-view-edit").find("input[name='optionId["+index1+"]["+index2+"]']").val(value);
-
                         
-                         
                     });
 
                 }); 
