@@ -213,14 +213,14 @@ class ApiController extends Controller
 		}
 		$whereCond = "";
 		if($userType == 1 || $userType == 2){
-		
 			$projectData = Projects::select('projects.name','projects.id')->where('hospital_id',$hospitalId)->get();
-		}else if($userType == 3){
-			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
+		}else{
+			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project'];
 			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
 		}	
         $data['projects'] = "<option value='0'>Please select</option>";
 		$data['projectItem'] = "";
+		
         foreach($projectData as $project){
             $data['projects'] .= "<option value='".$project['id']."'>".$project['name']."</option>";
 			$data['projectItem'] .= "<li class='menu-item' id='".$project['id']."'>".$project['name']."</li>";
