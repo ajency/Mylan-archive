@@ -330,11 +330,13 @@
   padding: 0;
 }
 .v-menu {
-  height: 450px;
+  /*height: 450px;*/
+  height: 434px;
   overflow-y: auto;
   overflow-x: hidden;
   margin: 0 -15px;
   padding: 0 15px;
+  margin-bottom: 51px;
 }
 .menu-item {
   padding: 15px;
@@ -917,7 +919,22 @@ html {
   left: 15px;
   right: 15px;
   border-top: 1px solid rgba(255,255,255,0.3);
+  background: #05a8a5;
 }
 .v-footer #logout {
   opacity: 0.7;
+}
+
+.loggedUser:before {
+  content: 'Welcome!';
+  font-weight: normal;
+  display: block;
+}
+.loggedUser {
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: right;
+  line-height: 14px;
+  display: block;
+  font-weight: bold;
 }
