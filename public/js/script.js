@@ -2630,25 +2630,22 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     $('.add-question').text('Add another Question');
                 }
 
-                //keep last option empty
+                //keep last option empty after save so user can delete saved record
 
-                // //subquestions
-                // Obj.closest('.question-view-edit').find('.subquestion-container').each(function () {   
-                //      if($(this).find(".options-list_container:last").find("input[type='text']").val()!='')
-                //      {
-                //         $(this).find(".options-list_container:last").find(".add-option").click();
-                //      }
-                // });
-                // //parent options
-                 
-                // console.log(Obj.find(".options-list_container:last").find("input[type='text']").val());
-                // // if(Obj.find(".options-list_container:last").find("input[type='text']").val()!='')
-                // //  {
-                // //     $(this).find(".options-list_container:last").find(".add-option").click();
-                // //  }
+                //subquestions
+                Obj.closest('.question-view-edit').find('.subquestion-container').each(function () {   
+                     if($(this).find(".options-list_container:last").find("input[type='text']").val()!='')
+                     {
+                        $(this).find(".options-list_container:last").find(".add-option").click();
+                     }
+                });
+                //parent options
+ 
+                if(Obj.closest('.question-view-edit').find(".parent-option-container:last").find("input[type='text']").val()!='')
+                 {
+                    Obj.closest('.question-view-edit').find(".parent-option-container:last").find(".add-option").click();
+                 }
                 
-
-                 
                 // console.log(optionCount);
                
            }
@@ -2718,7 +2715,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
     if(isSubQuestionOption=='no')
     {  
         //parent question Option html
-        html ='<div class="options-list_container p-b-10">';
+        html ='<div class="parent-option-container options-list_container p-b-10">';
         html +='<div class="row options-list">';
         html +='<div class="col-sm-1 cust-col-sm-1">';
         html +='<label for="" class="m-t-10">option '+ (j+1) +'</label>';

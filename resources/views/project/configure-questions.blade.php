@@ -164,7 +164,7 @@
                 </div>
                 
                 @foreach($optionsList[$questionId] as $option)
-                <div class="options-list_container">
+                <div class="parent-option-container options-list_container">
                   <div class="row options-list m-t-15">
                     <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
@@ -322,7 +322,7 @@
                   $j++;
                   ?>
                 @endforeach
-                <div class="options-list_container p-b-10">
+                <div class="parent-option-container options-list_container p-b-10">
                   <div class="row options-list">
                     <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
