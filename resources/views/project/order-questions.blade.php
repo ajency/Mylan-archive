@@ -14,10 +14,12 @@
 @section('content')
 <!-- BEGIN PAGE TITLE -->
 <div>                   
-   <div class="page-title">
-      <h3><span class="semi-bold">Question Sorting</span></h3>
+   <div class="page-title m-b-0">
+      <h3 class="m-b-0"><span class="semi-bold">Question Sorting</span></h3>
    </div>
 </div>
+
+<p>Order the questions in the sequence in which you want the patients to answer the questionnaire.</p>
                                    
                    
                           
@@ -53,7 +55,7 @@
  
       
         <div class="form-group">
-          <div class="m-t-10 mri-submit questionSubmitBtn text-center clearfix col-md-12">
+          <div class="m-t-30 mri-submit questionSubmitBtn text-center clearfix col-md-12">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
           <input type="hidden" value="order" name="submitType"/>
           <input type="hidden" value="" name="redirect_url"/>

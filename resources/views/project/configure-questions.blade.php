@@ -15,18 +15,22 @@
 <!-- BEGIN PAGE TITLE -->
 <div>
                     
-                     <div class="page-title">
-                        <h3><span class="semi-bold">Configure Questionnaire</span></h3>
+                     <div class="page-title m-b-0">
+                        <h3 class="m-b-0"><span class="semi-bold">Configure Questionnaire</span></h3>
                      </div>
                   </div>
-                  Add questions to your questionnaire by selecting the required question type from the drop-down. You can also add sub questions for question type 'Single choice'. Once questions are added your can reorder the questions and proceed to publish.                 
+                  <p>Add questions to your questionnaire by selecting the required question type from the drop-down. You can also add sub questions for question type 'Single choice'. Once questions are added your can reorder the questions and proceed to publish.</p>                 
                    
                           
                            <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                       <h3 class="">{{ $questionnaireName }}</h3>
-                      
+                      <div class="clearfix">
+                       <h3 class="pull-left">{{ $questionnaireName }}</h3>
+                        <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="pull-right btn btn-link cust-link m-t-15 question-reorder @if(empty($questionsList)) hidden @endif">
+                        Reorder the Questions <i class="fa fa-random"></i>
+                        </a>
+                        </div>
                       <hr>
           @include('admin.flashmessage')
         
@@ -138,8 +142,11 @@
                 </div>
                 <div class="col-sm-2 text-right">
                     <i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
-
-                    <i class="fa fa-close cancel-question cp" object-id="{{ $questionId }}"></i>
+                      
+                    <a href="javascript:void(0);" class="cancel-question cancel-question-btn" object-id="{{ $questionId }}">
+                      <i class="fa fa-close"></i>
+                    </a>
+                    
  
                 </div>
               </div>
@@ -406,14 +413,14 @@
              <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
          </a>
       
-            <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="question-reorder @if(empty($questionsList)) hidden @endif">
+            <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="question-reorder @if(empty($questionsList)) hidden @endif">
             <button type="button" class="btn btn-link cust-link">Reorder the Questions</button>
-            </a>
+            </a> -->
 
             <form class="pull-right" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
               <input type="hidden" value="publish" name="submitType"/>
               <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-              <button class="btn btn-primary @if(empty($questionsList)) hidden @endif publish-questionnaire">PUBLISH</button>
+              <button class="btn btn-primary @if(empty($questionsList)) hidden @endif publish-questionnaire" style="width: 180px; margin: 0;">PUBLISH</button>
             </form>
        
           </div>

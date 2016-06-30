@@ -2067,7 +2067,8 @@ small.help-text{
 .main-question_container{
   margin-bottom: 30px;
   box-shadow: 0 0 8px #ccc;
-  margin-top: 10px; 
+  //margin-top: 10px; 
+  border: none;
   .main-question__header{
     background: #fafafa;
     padding: 10px 5px;
@@ -2322,3 +2323,30 @@ small.help-text{
     opacity: .3;
   }
 }
+
+.cancel-question-btn{
+    display: block;
+    height: 30px;
+    width: 30px;
+    text-align: Center;
+    border-radius: 50%;
+    border: 1px solid #Ccc;
+    line-height: 30px;
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    background: #fff;
+    box-shadow: 0 0px 4px #CCC;
+    i{
+      color: #ccc;
+    }
+}
+
+.questions-list_container{
+  .questions-list{
+    border-bottom: 1px solid #ddd;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+} 
