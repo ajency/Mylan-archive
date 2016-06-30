@@ -391,7 +391,7 @@
         <!-- test -->
         <div class="clearfix m-b-30">
  
-          <button type="button" class="btn btn-link text-success add-question pull-right outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
+          <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
  
         </div>
         <div class="form-group">
