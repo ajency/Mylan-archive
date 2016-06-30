@@ -2048,7 +2048,7 @@ $('.validateAndRedirect').click(function (event) {
 
 $('.publish-questionnaire').click(function (event) { 
     
-    if (confirm('Are you sure you want to publish this questionnaire ?') === false) {
+    if (confirm('Are you sure you want to publish the questionnaire? You will not be able to make any changes to the questionnaire once published.') === false) {
         return;
     }
      

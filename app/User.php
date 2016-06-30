@@ -101,8 +101,32 @@ class User extends Model implements AuthenticatableContract,
         $data = parent::toArray();
         if($data['type']!='patient')
         {
-            $userAccess =  $this->access()->get()->toArray();
+            $userAccess =  $this->access()->get()->toArray(); 
             $data['access'] = $userAccess;
+            if($data['has_all_access']=='yes')
+            {
+                $data['view'] = true;
+                $data['edit'] = true;
+
+            }
+            else
+            {
+                $data['view'] = false;
+                $data['edit'] = false;
+
+                foreach ($userAccess as $access) {
+                    if($data['view']==true && $data['edit']==true)
+                        break;
+
+                    if($access['access_type']=='view')
+                        $data['view'] = true;
+
+                    if($access['access_type']=='edit')
+                        $data['edit'] = true;
+                     
+                }
+            }
+            
         }
         else
         {
