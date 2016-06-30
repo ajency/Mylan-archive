@@ -9779,7 +9779,6 @@ small.help-text {
 .main-question_container {
   margin-bottom: 30px;
   box-shadow: 0 0 8px #ccc;
-  margin-top: 10px;
   border: none;
 }
 .main-question_container .main-question__header {
@@ -10015,4 +10014,10 @@ small.help-text {
 }
 .cancel-question-btn i {
   color: #ccc;
+}
+.questions-list_container .questions-list {
+  border-bottom: 1px solid #ddd;
+}
+.questions-list_container .questions-list:last-child {
+  border-bottom: none;
 }

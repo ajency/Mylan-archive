@@ -28,7 +28,7 @@
                       <div class="clearfix">
                        <h3 class="pull-left">{{ $questionnaireName }}</h3>
                         <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="pull-right btn btn-link cust-link m-t-15 question-reorder @if(empty($questionsList)) hidden @endif">
-                        Reorder the Questions
+                        Reorder the Questions <i class="fa fa-random"></i>
                         </a>
                         </div>
                       <hr>
