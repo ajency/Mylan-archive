@@ -214,7 +214,7 @@ class ApiController extends Controller
 			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
 			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
 		}else{
-			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId, 'user_access.access_type' => 'edit'];
+			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
 			$projectData = UserAccess::select('projects.name','projects.id')->join('projects','projects.id','=','user_access.object_id')->where($whereCond)->get();
 		}
         $data['projects'] = "<option value='0'>Please select</option>";
