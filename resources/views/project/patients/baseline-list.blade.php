@@ -40,7 +40,7 @@
       <div class="tab-pane active" id="baseline">
 
          <h4><span class="semi-bold">Base Lines</span></h4>
-         <p>(Baseline score for Patient Id {{ $patient['reference_code']}})</p>
+         <p>(Baseline score for Patient Id <span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}})</span></p>
          <br>
           <div class="pull-right">
           @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']) && $isQuestionnaireSet)

@@ -178,7 +178,7 @@
                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
                       
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
-                        <td>{{ $submissionFlag['patient'] }}</td>
+                        <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
@@ -211,7 +211,7 @@
                       @foreach($submissionFlags['flags']['green'] as $submissionFlag)
                       
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
-                        <td>{{ $submissionFlag['patient'] }}</td>
+                        <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>

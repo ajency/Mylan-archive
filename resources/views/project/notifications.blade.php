@@ -47,7 +47,7 @@
          </div>
          <div class="info-wrapper small-width">
             <div class="info text-black ">
-               <p>Patient ID  <b>{{ $prejectAlert['patient'] }}</b>
+               <p>Patient ID  <b class="patient-refer{{ $prejectAlert['patient'] }}">{{ $prejectAlert['patient'] }}</b>
                </p>
                <p class="muted small-text">  {{ $prejectAlert['msg'] }} </p>
             </div>

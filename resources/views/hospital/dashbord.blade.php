@@ -132,7 +132,7 @@
                               <tbody>
                               @foreach($patientFlagSummary as $flagSummary)
                                  <tr>
-                                    <td>{{ $flagSummary['patient'] }}</td>
+                                    <td class="patient-refer{{ $flagSummary['patient'] }}">{{ $flagSummary['patient'] }}</td>
                                     <td>
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
                                            <h4 class="text-muted no-margin bold"> {{ $flagSummary['sequenceNumber'] }}<span class="sm text-muted"> On {{ $flagSummary['occurrenceDate'] }} </span></h4>                                        
@@ -191,7 +191,7 @@
                               <tbody>
                               @foreach($submissionFlags as $submissionFlag)
                                  <tr>
-                                    <td>{{ $submissionFlag['patient'] }}</td>
+                                    <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                                     <td width="110px">
                                        <div class="p-t-20 p-l-20 p-r-20 p-b-20">
                                             <h4 class="text-muted no-margin bold"> {{ $submissionFlag['sequenceNumber'] }} <span class="sm text-muted"> On {{ $submissionFlag['occurrenceDate'] }} </span></h4>
@@ -253,7 +253,7 @@
                               <tbody>
                               @foreach($patientsSummary as $patientId => $patientSummary)
                                  <tr>
-                                    <td>{{ $patientId }}</td>
+                                    <td class="patient-refer{{ $patientId }}">{{ $patientId }}</td>
                                     <td>
                                        <div class="lst-sub">
                                           <h2 class="bold pull-left">{{ count($patientSummary['count']) }}</h2>
