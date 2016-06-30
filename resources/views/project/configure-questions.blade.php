@@ -136,8 +136,10 @@
                   @endif
                   </div>
                 </div>
-                <div class="col-sm-2">
-                    <i class="fa fa-trash text-danger delete-parent-question delete-question pull-right cp" object-id="{{ $questionId }}"></i>
+                <div class="col-sm-2 text-right">
+                    <i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
+
+                    <i class="fa fa-close cancel-question cp" object-id="{{ $questionId }}"></i>
  
                 </div>
               </div>
