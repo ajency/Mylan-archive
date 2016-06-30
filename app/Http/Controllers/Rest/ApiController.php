@@ -213,6 +213,7 @@ class ApiController extends Controller
 		}
 		$whereCond = "";
 		if($userType == 1 || $userType == 2){
+		
 			$projectData = Projects::select('projects.name','projects.id')->where('hospital_id',$hospitalId)->get();
 		}else if($userType == 3){
 			$whereCond = ['user_access.user_id' => $userId, 'user_access.object_type' => 'project','projects.hospital_id' => $hospitalId];
