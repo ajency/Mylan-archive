@@ -396,8 +396,8 @@
           @endforeach
         @endif
 
-         <div class="no_question @if(!empty($questionsList)) hidden @endif">
-            <h2>No Questions added yet !</h2>
+         <div class="no_question @if(!empty($questionsList)) hidden @endif text-center">
+            <h2 style="font-size: 22px; font-weight: 600; margin-bottom: -5px;">No Questions added yet !</h2>
             <h5>Add a Question to continue</h5>
           </div>
 
@@ -406,7 +406,8 @@
         <!-- test -->
         <div class="clearfix m-b-30">
  
-          <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif question</button>
+          <button type="button" class="btn btn-link text-success add-question @if(!empty($questionsList))pull-right @endif text-center outline-btn" @if(empty($questionsList))style="margin: 0 auto; display: block;"@endif>Add @if(!empty($questionsList)) another @endif question</button>
+          <!-- <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif question</button> -->
  
         </div>
         <div class="form-group">

@@ -2160,7 +2160,9 @@ function showNoQuestionMsg()
         $('.publish-questionnaire').addClass('hidden');
         $('.questions-list__header').addClass('hidden');
 
-        $('.add-question').text('Add Question').removeClass('pull-right').addClass('pull-left');
+        // $('.add-question').text('Add Question').removeClass('pull-right').addClass('pull-left');
+        $('.add-question').text('Add Question').removeClass('pull-right').css({"margin": "0 auto", "display": "block"});
+        
     }
 }
  
