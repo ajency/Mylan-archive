@@ -141,7 +141,7 @@
                   </div>
                 </div>
                 <div class="col-sm-2 text-right">
-                    <i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
+                    <i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
                       
                     <a href="javascript:void(0);" class="cancel-question cancel-question-btn" object-id="{{ $questionId }}">
                       <i class="fa fa-close"></i>
@@ -168,7 +168,7 @@
                   <div class="col-md-12">
                     <span class="bold">Enter the options for this question</span>
                     @if($question['type']=="single-choice")
-                    <div>You can add a subquestion too. The score declairs severity of patient.</div>
+                    <div>You can add a sub question too. The score declairs severity of patient.</div>
                     @endif
                   </div>
                 </div>
@@ -208,7 +208,7 @@
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                      <span class="sh-link toggle-subquestion cp p-l-20">SHOW SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>
+                      <span class="sh-link toggle-subquestion cp p-l-20">Show sub question</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub question</span>
                       <?php
                       $subQuestionId = $question['condition'][$option['optionId']];
                       $subQuestion = $subQuestions[$questionId][$subQuestionId];
@@ -223,8 +223,8 @@
                       <div class="subquestion-container question hidden " row-count="{{ $k }}">
                         <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
                         <div class="clearfix">
-                          <span class="bold pull-left">Edit this Subquestion</span>
-                          <i class="fa fa-trash text-danger pull-right delete-question" object-id="{{ $subQuestionId }}"></i>
+                          <span class="bold pull-left">Edit this Sub question</span>
+                          <i class="fa fa-trash pull-right delete-question" object-id="{{ $subQuestionId }}"></i>
                         </div>
 
                         <div class="type-questions">
@@ -313,7 +313,7 @@
                             </div>
 
                             <div class="col-sm-3 add-delete-container">
-                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
+                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Add Another Option <i class="fa fa-plus"></i></span>
 
                             </div>
                           </div>
@@ -323,7 +323,7 @@
                       </div><!--/subquestion-container-->
                     @else
                       @if($question['type']=="single-choice")
-                        <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                        <span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>
                       @endif  
                     @endif
 
@@ -353,7 +353,7 @@
 
                     <div class="col-sm-4 add-delete-container">
                       <div class="clearfix">
-                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
+                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Add Another Option <i class="fa fa-plus"></i></span>
                       </div>
                     </div>
                      
@@ -363,7 +363,7 @@
                     @if($question['type']=="single-choice")
                       <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" />
                       <div class="col-sm-11 col-sm-offset-1 sub-question">
-                      <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                      <span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>
                     </div>
                      @endif 
                   </div>
@@ -402,7 +402,7 @@
         <!-- test -->
         <div class="clearfix m-b-30">
  
-          <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
+          <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif question</button>
  
         </div>
         <div class="form-group">

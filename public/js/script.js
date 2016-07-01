@@ -2188,13 +2188,13 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
     if($(this).hasClass('hideSubquestion'))
     {
         
-        $(this).text('SHOW SUB QUESTION');
+        $(this).text('Show sub question');
         $(this).closest('.options-list_container').find('.subquestion-container').addClass("hidden");
         $(this).removeClass('hideSubquestion');
     }
     else
     {
-        $(this).text('HIDE SUB QUESTION');
+        $(this).text('Hide sub question');
         $(this).closest('.options-list_container').find('.subquestion-container').removeClass('hidden');
         $(this).addClass('hideSubquestion');
 
@@ -2271,7 +2271,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
-    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id=""></i>';
+    html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
     html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';
@@ -2289,7 +2289,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row heading-title m-b-15">';
     html +='<div class="col-md-12">';
     html +='<span class="bold">Enter the options for this question</span>';
-    html +='<div>You can add a subquestion too. The score declairs severity of patient.</div>';
+    html +='<div>You can add a sub question too. The score declairs severity of patient.</div>';
     html +='</div>';
     html +='</div>';
     html +='</div>';
@@ -2358,7 +2358,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
                     Obj.closest('.question').remove();
                 }
@@ -2378,7 +2378,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         if(!Obj.hasClass('delete-parent-question'))
         {  
             
-            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
+            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>');
             Obj.closest('.sub-question').find('.toggle-subquestion').remove();
             Obj.closest('.question').remove();
             
@@ -2418,7 +2418,7 @@ $('.questions-list_container').on('change', '.questionType', function(event) {
         html +='<div class="col-md-12">';
         html +='<span class="bold">Enter the options for this question</span>';
         if(questionType=='single-choice')
-            html +='<div>You can add a subquestion too. The score declares severity of the option.</div>';
+            html +='<div>You can add a sub question too. The score declares severity of the option.</div>';
         html +='</div>';
         html +='</div>';
     }
@@ -2522,12 +2522,12 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
     var i = parseInt(counter) + 1;
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">Hide sub question</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
-        html +='<span class="bold pull-left">Edit this Subquestion</span>';
-        html +='<span class="fa fa-trash text-danger pull-right delete-question" object-id=""></span>';
+        html +='<span class="bold pull-left">Edit this sub question</span>';
+        html +='<span class="fa fa-trash pull-right delete-question" object-id=""></span>';
         html +='</div>';
 
         html +='<div class="type-questions">';
@@ -2651,7 +2651,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                     $('.publish-questionnaire').removeClass('hidden');
                  
 
-                    $('.add-question').text('Add another Question').removeClass('pull-left').addClass('pull-right');
+                    $('.add-question').text('Add another question').removeClass('pull-left').addClass('pull-right');
                 }
 
                 //keep last option empty after save so user can delete saved record
@@ -2767,7 +2767,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 
         html +='<div class="col-sm-4 add-delete-container">';
         html +='<div class="clearfix">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
                          
@@ -2777,7 +2777,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         {
             html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
             html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
-            html +='<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>';
+            html +='<span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>';
             html +='</div>';
         }
         html +='</div>';
@@ -2803,7 +2803,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option <i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
         html +='</div>';
