@@ -1211,6 +1211,7 @@ class QuestionnaireController extends Controller
 				$questionnaire->set("status","published");
 				$questionnaire->save();
 				$path= url($hospitalSlug .'/'. $projectSlug .'/questions-summary/'.$questionnaireId);
+				Session::flash('success_message','Project Questionnaire successfully Published.');	
 			}
 			else
 			{
@@ -1246,10 +1247,11 @@ class QuestionnaireController extends Controller
 				$questionnaire->set("status","completed");
 				$questionnaire->save();
 				$path= url($hospitalSlug .'/'. $projectSlug .'/order-questions/'.$questionnaireId);
+				Session::flash('success_message','Project Questionnaire successfully ordered.');	
 			}
 			
 
-		Session::flash('success_message','Project Questionnaire successfully ordered.');	
+		
 
 		} catch (\Exception $e) {
 		    exceptionError($e);      

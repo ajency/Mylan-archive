@@ -16,6 +16,8 @@ use Parse\ParseObject;
 use Parse\ParseQuery;
 use Parse\ParseUser;
 use \Session;
+use Illuminate\Http\Response;
+use Cookie;
 
 use App\Http\Controllers\Rest\UserController;
 
@@ -166,20 +168,23 @@ class AuthController extends Controller
                     }
 
                     //USER DEVICE ENTRY
-                    
-                    $browserData = getBrowser();
-                    $userDevice =  new UserDevice();
-                    $userDevice->user_id = Auth::user()->id;
-                    $userDevice->device_type = $browserData['name'];
-                    $userDevice->device_identifier = $installationId;
-                    $userDevice->device_os = $browserData['platform'];
-                    $userDevice->access_type = "web";
-                    $userDevice->save();
+                    $referenceCodeCookie= $request->cookie('referenceCode');
+                    if($referenceCode != $referenceCodeCookie)
+                    {
+                        $browserData = getBrowser();
+                        $userDevice =  new UserDevice();
+                        $userDevice->user_id = Auth::user()->id;
+                        $userDevice->device_type = $browserData['name'];
+                        $userDevice->device_identifier = $installationId;
+                        $userDevice->device_os = $browserData['platform'];
+                        $userDevice->access_type = "web";
+                        $userDevice->save();
 
-                    $projectId = intval($projectId);
-                    $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
+                        $projectId = intval($projectId);
+                        $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
+                    }
 
-                    return redirect('/dashboard');
+                    return redirect('/dashboard')->withCookie(cookie()->forever('referenceCode', $referenceCode));
                 }
                 else
                 { 
