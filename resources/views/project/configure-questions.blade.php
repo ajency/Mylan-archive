@@ -391,8 +391,8 @@
         @endif
 
          <div class="no_question @if(!empty($questionsList)) hidden @endif">
-            <div >No Questions added yet !</div>
-            <small class="m-b-20">Add a Question to continue</small>
+            <h2>No Questions added yet !</h2>
+            <h5>Add a Question to continue</h5>
           </div>
 
         </div><!--/question-lists_contaoner-->
