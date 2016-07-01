@@ -193,7 +193,7 @@
 
                     <div class="col-sm-4">
                       <i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="{{ $j }}"></i> 
-                      <span class="delete-option-error-message alert alert-danger cust-alert-padd "><i class="fa fa-exclamation-triangle"></i> Option cannot be deleted as its is last saved option for the question</span>
+                      <span class="delete-option-error-message alert alert-danger cust-alert-padd "><i class="fa fa-exclamation-triangle"></i> You cannot delete this option before saving newly added options.</span>
                     </div>
 
                   </div>
