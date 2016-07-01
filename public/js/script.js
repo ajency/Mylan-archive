@@ -2872,6 +2872,13 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                         Obj.closest('.options-list_container').remove(); 
                         maincontainerObj.find('.delete-option').removeClass('hidden'); 
                     }
+                    else
+                    {
+                        Obj.removeClass('hidden');
+                        Obj.closest('div').find('.cf-loader').remove();
+                        Obj.closest('div').append('<span class="delete-option-error-message alert alert-danger cust-alert-padd "><i class="fa fa-exclamation-triangle"></i> Option cannot be deleted as its is last saved option for the question</span>');
+                        
+                    }
 
                 
                 }
