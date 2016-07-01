@@ -9769,7 +9769,7 @@ small.help-text {
 }
 .questions-list_container .questions-list .type {
   font-size: 12px;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 .questions-list_container .questions-list .edit-link {
   color: #05a8a5;
@@ -10029,4 +10029,11 @@ small.help-text {
 }
 .questions-list_container .questions-list:last-child {
   border-bottom: none;
+}
+.subquestion-container .cancel-question-btn {
+  top: -15px;
+  right: -15px;
+}
+.ttlc {
+  text-transform: lowercase;
 }

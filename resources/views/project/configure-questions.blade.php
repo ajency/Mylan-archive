@@ -28,7 +28,7 @@
                       <div class="clearfix">
                        <h3 class="pull-left">{{ $questionnaireName }}</h3>
                         <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="pull-right btn btn-link cust-link m-t-15 question-reorder @if(empty($questionsList)) hidden @endif">
-                        Reorder the Questions <i class="fa fa-random"></i>
+                        Reorder the questions <i class="fa fa-random"></i>
                         </a>
                         </div>
                       <hr>
@@ -59,7 +59,7 @@
                 <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
-                    <div class="type question-type">TYPE: {{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</div>
+                    <div class="type question-type">Type: <span class="ttlc">{{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</span></div>
                   </div>
                   <div class="col-sm-4">
                     <div class="bold question-text">{{ $question['question'] }}</div>
@@ -84,7 +84,7 @@
                     <div class="clearfix">
                      <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                      <span class="pull-left edit-link edit-question cp">EDIT</span>
+                      <span class="pull-left edit-link edit-question cp">Edit</span>
                       <i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id="{{ $questionId }}"></i>
                     </div>
                   </div>
@@ -225,7 +225,10 @@
                         <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
                         <div class="clearfix">
                           <span class="bold pull-left">Edit this Sub question</span>
-                          <i class="fa fa-trash pull-right delete-question" object-id="{{ $subQuestionId }}"></i>
+                          <i class="fa fa-trash pull-right delete-question cp p-r-30" object-id="{{ $subQuestionId }}"></i>
+                          <a href="javascript:void(0);" class="cancel-sub-question cancel-question-btn" object-id="{{ $questionId }}">
+                            <i class="fa fa-close"></i>
+                          </a>
                         </div>
 
                         <div class="type-questions">
@@ -314,7 +317,7 @@
                             </div>
 
                             <div class="col-sm-3 add-delete-container">
-                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Add Another Option <i class="fa fa-plus"></i></span>
+                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>
 
                             </div>
                           </div>
@@ -354,7 +357,7 @@
 
                     <div class="col-sm-4 add-delete-container">
                       <div class="clearfix">
-                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Add Another Option <i class="fa fa-plus"></i></span>
+                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>
                       </div>
                     </div>
                      
@@ -413,7 +416,7 @@
           <input type="hidden" value="" name="redirect_url"/>
 
           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" class="questionnaire-settings @if(empty($questionsList)) hidden @endif">
-             <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
+             <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire settings</button>
          </a>
       
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="question-reorder @if(empty($questionsList)) hidden @endif">

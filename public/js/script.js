@@ -2208,6 +2208,17 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
  
 });
 
+$('.questions-list_container').on('click', '.cancel-sub-question', function(event) { 
+
+    $(this).closest('.sub-question').find('.toggle-subquestion').text('SHOW SUB QUESTION');
+    $(this).closest('.sub-question').find('.subquestion-container').addClass("hidden");
+    $(this).closest('.sub-question').find('.toggle-subquestion').removeClass('hideSubquestion');
+    removeOptionErrorMessages($(this));
+ 
+});
+
+
+
 $('.add-question').click(function (event) { 
 
     hideEditButtons($(this));
@@ -2238,7 +2249,7 @@ $('.add-question').click(function (event) {
     html +='<div class="clearfix">';
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
-    html +='<span class="pull-left edit-link edit-question cp">EDIT</span>';
+    html +='<span class="pull-left edit-link edit-question cp">Edit</span>';
     html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
     html +='</div>';
     html +='</div>';
@@ -2529,8 +2540,11 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
-        html +='<span class="bold pull-left">Edit this Subquestion</span>';
-        html +='<span class="fa fa-trash text-danger pull-right delete-question" object-id=""></span>';
+        html +='<span class="bold pull-left">Edit this sub question</span>';
+        html +='<span class="fa fa-trash pull-right delete-question cp p-r-30" object-id=""></span>';
+        html +='<a href="javascript:void(0);" class="cancel-sub-question cancel-question-btn" object-id="">';
+        html +='<i class="fa fa-close"></i>';
+        html +='</a>';
         html +='</div>';
 
         html +='<div class="type-questions">';
@@ -2770,7 +2784,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 
         html +='<div class="col-sm-4 add-delete-container">';
         html +='<div class="clearfix">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
                          
@@ -2806,7 +2820,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
         html +='</div>';
