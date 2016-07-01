@@ -121,8 +121,16 @@
                                <div class="col-sm-2 text-center">
                                  <span class="bold">{{ $option['score'] }}</span>
                                </div>
-                               <div class="col-sm-2 text-center">
-                                 <i class="fa fa-check-square-o"></i>
+                               <div class="col-sm-2 text-center has-subquestion">
+                                 @if($question['type']=="single-choice")
+                                  @if(isset($subQuestions[$questionId]))
+                                    Yes
+                                  @else
+                                    No
+                                  @endif
+                                  @else
+                                    NA
+                                  @endif
                                </div>
                                </div><!--/row-->
                              </div><!-- /question-options -->
