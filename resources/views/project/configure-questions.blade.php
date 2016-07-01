@@ -59,7 +59,7 @@
                 <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
-                    <div class="type question-type">TYPE: {{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</div>
+                    <div class="type question-type">Type: <span class="ttlc">{{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</span></div>
                   </div>
                   <div class="col-sm-4">
                     <div class="bold question-text">{{ $question['question'] }}</div>
@@ -84,7 +84,7 @@
                     <div class="clearfix">
                      <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                      <span class="pull-left edit-link edit-question cp">EDIT</span>
+                      <span class="pull-left edit-link edit-question cp">Edit</span>
                       <i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id="{{ $questionId }}"></i>
                     </div>
                   </div>
