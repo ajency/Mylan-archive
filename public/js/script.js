@@ -2191,13 +2191,13 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
     if($(this).hasClass('hideSubquestion'))
     {
         
-        $(this).text('SHOW SUB QUESTION');
+        $(this).text('Show Sub Question');
         $(this).closest('.options-list_container').find('.subquestion-container').addClass("hidden");
         $(this).removeClass('hideSubquestion');
     }
     else
     {
-        $(this).text('HIDE SUB QUESTION');
+        $(this).text('Hide Sub Question');
         $(this).closest('.options-list_container').find('.subquestion-container').removeClass('hidden');
         $(this).addClass('hideSubquestion');
 
@@ -2210,7 +2210,7 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
 
 $('.questions-list_container').on('click', '.cancel-sub-question', function(event) { 
 
-    $(this).closest('.sub-question').find('.toggle-subquestion').text('SHOW SUB QUESTION');
+    $(this).closest('.sub-question').find('.toggle-subquestion').text('Show Sub Question');
     $(this).closest('.sub-question').find('.subquestion-container').addClass("hidden");
     $(this).closest('.sub-question').find('.toggle-subquestion').removeClass('hideSubquestion');
     removeOptionErrorMessages($(this));
