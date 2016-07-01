@@ -511,6 +511,9 @@ class QuestionnaireController extends Controller
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
 
+			if($questionnaire->get('status')=='published')
+				return redirect(url($hospitalSlug .'/'. $projectSlug .'/questions-summary/'.$questionnaireId)); 
+
 			$questionnaireName = $questionnaire->get("name");
 
 			$questionObjs = new ParseQuery("Questions");
