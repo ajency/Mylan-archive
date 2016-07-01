@@ -8,6 +8,8 @@
       <meta content="" name="description" />
       <meta content="" name="author" />
       <meta name="csrf-token" content="{{ csrf_token() }}" />
+      <meta name="useremail" content="{{ Auth::user()->email }}" />
+      <meta name="userid" content="{{ Auth::user()->id }}" />
       <!-- BEGIN PLUGIN CSS -->
       <link href="{{ asset('project-admin-views/assets/plugins/pace/pace-theme-flash.css') }}" rel="stylesheet" type="text/css" media="screen"/>
       <link href="{{ asset('project-admin-views/assets/plugins/bootstrap-select2/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>
@@ -175,6 +177,18 @@
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}">Questionnaire Setting</a>
                         </li>
+                        <?php 
+                        $questionnairedata = getQuestionnaireData($project["id"]); 
+                        ?>
+                        @if(!empty($questionnairedata) && $questionnairedata['status']!='published')
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnairedata['questionnaireId'] ) }}">Configure Questionnaire</a>
+                        </li>
+                        @elseif(!empty($questionnairedata) && $questionnairedata['status']=='published')
+                        <li>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnairedata['questionnaireId'] ) }}">Questionnaire Summary</a>
+                        </li>
+                        @endif
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}">Alert Setting</a>
                         </li>

@@ -116,6 +116,25 @@ function createSetupAlert($referenceCode,$setupCount,$project)
     return $response;
 }
 
+function getQuestionnaireData($projectId)
+{
+    $projectId = intval($projectId); 
+    $questionnaireQry = new Parse\ParseQuery("Questionnaire");
+    $questionnaireQry->equalTo("project",$projectId);
+    $questionnaire = $questionnaireQry->first();
+
+    $data=[];
+
+    if(!empty($questionnaire))
+    {
+        $data['questionnaireId'] = $questionnaire->getObjectId();
+        $data['status'] = $questionnaire->get('status');
+    }
+    
+
+    return $data;
+}
+
 // function secondsToTime($inputSeconds) {
 
 //     $secondsInAMinute = 60;
