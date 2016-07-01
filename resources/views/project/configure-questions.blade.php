@@ -176,6 +176,10 @@
                 @foreach($optionsList[$questionId] as $option)
                 <div class="parent-option-container options-list_container">
                   <div class="row options-list m-t-15">
+                  <div class="col-md-12">
+                    <div class="delete-option-error-message text-danger m-b-10"><i class="fa fa-exclamation-triangle"></i> You cannot delete this option before saving newly added options</div>
+                  </div>
+                  <div class="clearfix"></div>
                     <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
                       <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
@@ -193,7 +197,6 @@
 
                     <div class="col-sm-4">
                       <i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="{{ $j }}"></i> 
-                      <span class="delete-option-error-message alert alert-danger cust-alert-padd "><i class="fa fa-exclamation-triangle"></i> Option cannot be deleted as its is last saved option for the question</span>
                     </div>
 
                   </div>
