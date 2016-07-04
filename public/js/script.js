@@ -23,11 +23,11 @@ $.ajaxSetup({
  
 $('.validateRefernceCode').change(function (event) { 
     // $(".cf-loader").removeClass('hidden');
-    var controlObj = $(".reference_code");
+    var controlObj = $(this);
     controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
     controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
     controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
-
+    
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
         type: "POST",
@@ -2228,6 +2228,7 @@ $('.add-question').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
     var j = $(".question:last").attr("row-count");
+    // var previousquestionId = $('input[name="questionId['+j+']"]').val(); 
  
     html ='<form class="form-horizontal col-sm-12 p-l-0 p-r-0" method="post" action="'+ submitUrl +'" data-parsley-validate>';
     html +='<div class="question-view-edit">';
@@ -2374,7 +2375,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">Add Sub Question</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
                     Obj.closest('.question').remove();
                 }
@@ -2626,7 +2627,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            {  
                 
                 var questionType = response.data.questionType;
-                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('TYPE: '+questionType);
+                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('Type: '+questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-title").text(response.data.title);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-option-count").text(response.data.questioOptionCount);

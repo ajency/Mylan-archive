@@ -750,6 +750,17 @@ class QuestionnaireController extends Controller
 					 
 				}
 
+				// if($questionId=='')
+				// {
+				// 	$previousQuestion = new ParseQuery("Questions");
+				// 	$previousQuestionObj = $previousQuestion->get($previousquestionId);
+						
+				// 	if(empty($previousQuestionObj))
+				// 		$previousQuestionObj = NULL;
+
+					 
+				// }
+
 				if($questionType=='single-choice')
 				{
 					$hasSubQuestion = 'No';
