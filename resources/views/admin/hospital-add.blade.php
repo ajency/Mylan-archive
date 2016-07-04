@@ -116,10 +116,12 @@
                            </div>
                        </div>
                    </div>
+                   <br>
+                   <h4 class="m-b-0"><span class="semi-bold">Primary Contact Details</span></h4>
                    <hr>
                    <div class="form-row">
-                       <label>Primary Contact</label>
-                       <input name="contact_person" id="contact_person" type="text" class="form-control" data-parsley-required data-parsley-type="number"  data-parsley-trigger="change">
+                       <label>Contact name</label>
+                       <input name="contact_person" id="contact_person" type="text" class="form-control" data-parsley-required data-parsley-trigger="change">
                    </div>
                    <div class="row form-row">
                        <div class="col-md-6">
@@ -135,17 +137,7 @@
                            </div>
                        </div>
                    </div>
-                   <!-- <div class="row form-row">
-                       <div class="col-sm-6">
-                           <label>Specialities</label>
-                           <select name="form3Gender" id="form3Gender" class="select2 form-control">
-                               <option value="1">Select</option>
-                               <option value="2">Skin Care</option>
-                               <option value="2">Carciac Care Care</option>
-                           </select>
-                       </div>
-                       <div class="col-md-6 m-t-30"><a href="#" class="text-success"><i class="fa fa-plus"></i> Add More</a></div>
-                   </div> -->
+                  
                
                <div class="text-right m-t-20">
                    <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
