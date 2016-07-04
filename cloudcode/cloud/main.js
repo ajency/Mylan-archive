@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, answeredQuestionsArray, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -522,6 +522,7 @@
   Parse.Cloud.define("testPatientLateSubmission", function(request, response) {
     var patientId, scheduleQuery;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.exists('patient');
     scheduleQuery.include('questionnaire');
@@ -661,6 +662,7 @@
   Parse.Cloud.define("getAllNotifications", function(request, response) {
     var notificationMessages, page, patientId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     notificationMessages = [];
     page = 0;
     return getAllNotifications(patientId, notificationMessages, page).then(function(notifications) {
@@ -724,6 +726,7 @@
   Parse.Cloud.define("getPatientNotificationCount", function(request, response) {
     var notificationQuery, patientId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     notificationQuery = new Parse.Query('Notification');
     notificationQuery.equalTo('patient', patientId);
     notificationQuery.equalTo('cleared', false);
@@ -737,6 +740,7 @@
   Parse.Cloud.define("getPatientNotifications", function(request, response) {
     var limit, page, patientId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     page = request.params.page;
     limit = request.params.limit;
     return getPatientNotifications(patientId, page, limit).then(function(notifications) {
@@ -911,6 +915,7 @@
   Parse.Cloud.define("clearAllNotifications", function(request, response) {
     var notificationQuery, patientId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     notificationQuery = new Parse.Query('Notification');
     notificationQuery.equalTo('cleared', false);
     return notificationQuery.find().then(function(notifications) {
@@ -933,6 +938,7 @@
   Parse.Cloud.define("clearAllPatientNotifications", function(request, response) {
     var patientId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     return getAllPatientNotifications(patientId).then(function(notificationSaveObj) {
       var notificationSaveArr;
       notificationSaveArr = [];
@@ -1246,6 +1252,8 @@
     responseId = request.params.responseId;
     questionnaireId = request.params.questionnaireId;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
+    console.log(patientId);
     if ((responseId !== "") && (!_.isUndefined(responseId)) && (!_.isUndefined(questionnaireId)) && (!_.isUndefined(patientId))) {
       responseQuery = new Parse.Query("Response");
       return responseQuery.get(responseId).then(function(responseObj) {
@@ -2145,6 +2153,7 @@
   Parse.Cloud.define("dashboard2", function(request, response) {
     var patientId, results, scheduleQuery;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     results = [];
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.equalTo('patient', patientId);
@@ -2321,6 +2330,7 @@
   Parse.Cloud.define("dashboard1", function(request, response) {
     var patientId, results, scheduleQuery;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     results = [];
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.equalTo('patient', patientId);
@@ -2364,6 +2374,7 @@
   Parse.Cloud.define("updateMissedObjects", function(request, response) {
     var patientId, scheduleQuery;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.equalTo('patient', patientId);
     scheduleQuery.include('questionnaire');
@@ -2385,6 +2396,7 @@
     console.log("-------------------------------");
     results = [];
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.include('questionnaire');
     scheduleQuery.equalTo('patient', patientId);
@@ -2444,6 +2456,7 @@
     results = [];
     submissions = {};
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     scheduleQuery = new Parse.Query('Schedule');
     scheduleQuery.include('questionnaire');
     scheduleQuery.equalTo('patient', patientId);
@@ -2629,11 +2642,10 @@
           responseObj.set('reviewed', 'unreviewed');
           responseObj.set('baseLine', baseLineObj);
           responseObj.set('alert', false);
-          if (_.isEmpty(responseObj_prev) || _.isNull(responseObj_prev)) {
+          if (_.isUndefined(responseObj_prev)) {
             responseObj.set('sequenceNumber', 1.);
           } else {
             responseObj.set('sequenceNumber', responseObj_prev.get('sequenceNumber') + 1);
-            responseObj.set("previousSubmission", responseObj_prev);
           }
           return responseObj.save().then(function(responseObj) {
             return promise.resolve(responseObj);
@@ -2846,6 +2858,7 @@
       var questionsQuery;
       questionsQuery = new Parse.Query('Questions');
       questionsQuery.include('questionnaire');
+      questionsQuery.include('previousQuestion');
       return questionsQuery.get(questionId).then(function(questionsObj) {
         return saveAnswer(responseObj, questionsObj, options, value).then(function(answerObjs) {
           return response.success(answerObjs);
@@ -2860,6 +2873,21 @@
     });
   });
 
+  answeredQuestionsArray = function(questionsObj, answeredQuestions) {
+    var index, parentIndex, parentQuestionId, questionId;
+    questionId = questionsObj.id;
+    console.log(answeredQuestions);
+    if (questionsObj.get('isChild') === true) {
+      parentQuestionId = questionsObj.get('previousQuestion').id;
+      parentIndex = answeredQuestions.indexOf(parentQuestionId);
+      index = parseInt(parentIndex) + 1;
+      answeredQuestions.splice(index, 0, questionId);
+    } else {
+      answeredQuestions.push(questionId);
+    }
+    return answeredQuestions;
+  };
+
   saveAnswer = function(responseObj, questionsObj, options, value) {
     var promise;
     promise = new Parse.Promise();
@@ -2868,7 +2896,7 @@
         var answeredQuestions, ref;
         answeredQuestions = responseObj.get('answeredQuestions');
         if (ref = questionsObj.id, indexOf.call(answeredQuestions, ref) < 0) {
-          answeredQuestions.push(questionsObj.id);
+          answeredQuestions = answeredQuestionsArray(questionsObj, answeredQuestions);
         }
         responseObj.set('answeredQuestions', answeredQuestions);
         return responseObj.save().then(function(responseObj) {
@@ -2884,7 +2912,7 @@
         var answeredQuestions, ref;
         answeredQuestions = responseObj.get('answeredQuestions');
         if (ref = questionsObj.id, indexOf.call(answeredQuestions, ref) < 0) {
-          answeredQuestions.push(questionsObj.id);
+          answeredQuestions = answeredQuestionsArray(questionsObj, answeredQuestions);
         }
         responseObj.set('answeredQuestions', answeredQuestions);
         return responseObj.save().then(function(responseObj) {
@@ -2900,7 +2928,7 @@
         var answeredQuestions, ref;
         answeredQuestions = responseObj.get('answeredQuestions');
         if (ref = questionsObj.id, indexOf.call(answeredQuestions, ref) < 0) {
-          answeredQuestions.push(questionsObj.id);
+          answeredQuestions = answeredQuestionsArray(questionsObj, answeredQuestions);
         }
         responseObj.set('answeredQuestions', answeredQuestions);
         return responseObj.save().then(function(responseObj) {
@@ -2916,7 +2944,7 @@
         var answeredQuestions, ref;
         answeredQuestions = responseObj.get('answeredQuestions');
         if (ref = questionsObj.id, indexOf.call(answeredQuestions, ref) < 0) {
-          answeredQuestions.push(questionsObj.id);
+          answeredQuestions = answeredQuestionsArray(questionsObj, answeredQuestions);
         }
         responseObj.set('answeredQuestions', answeredQuestions);
         return responseObj.save().then(function(responseObj) {
@@ -3303,6 +3331,7 @@
         } else {
           comparisonCount = baseLineFlags[comaparisonCountIndex];
         }
+        console.log(comparisonCount);
         if (operator === "greater_than") {
           compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
           if (greaterThan(flagCount, comparisonCount, false)) {
@@ -3314,13 +3343,23 @@
             alerts.push(compareType);
           }
         } else if (operator === "less_than") {
-          compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
-          if (lessThan(flagCount, comparisonCount, false)) {
+          if (comparisonCount !== 0) {
+            compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
+            if (lessThan(flagCount, comparisonCount, false)) {
+              alerts.push(compareType);
+            }
+          } else {
+            compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
             alerts.push(compareType);
           }
         } else if (operator === "less_than_equal_to") {
-          compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
-          if (lessThan(flagCount, comparisonCount, true)) {
+          if (comparisonCount !== 0) {
+            compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+            if (lessThan(flagCount, comparisonCount, true)) {
+              alerts.push(compareType);
+            }
+          } else {
+            compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
             alerts.push(compareType);
           }
         }
@@ -4204,6 +4243,7 @@
   Parse.Cloud.define("listAllAnswersForPatient", function(request, response) {
     var endDate, patientId, startDate;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     startDate = new Date(request.params.startDate);
     endDate = new Date(request.params.endDate);
     return listAllAnswersForPatient(patientId, startDate, endDate).then(function(results) {
@@ -4329,6 +4369,7 @@
         }
       });
       console.log("cache cleared");
+      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
     } else {
 
     }
@@ -4346,11 +4387,13 @@
       }
     });
     console.log("cache cleared");
+    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
   });
 
   Parse.Cloud.define('getQuestionnaireSetting', function(request, response) {
     var patientId, questionnaireId, questionnaireQuery;
     patientId = request.params.patientId;
+    patientId = patientId.toLowerCase();
     questionnaireId = request.params.questionnaireId;
     questionnaireQuery = new Parse.Query('Questionnaire');
     return questionnaireQuery.get(questionnaireId).then(function(questionnaireObj) {

@@ -5,6 +5,8 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 	responseId = request.params.responseId
 	questionnaireId = request.params.questionnaireId
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
+	console.log patientId
 
 	if (responseId != "") and (!_.isUndefined responseId) and (!_.isUndefined questionnaireId) and (!_.isUndefined patientId)
 		
@@ -854,6 +856,7 @@ getAnswers = (answerObjects) ->
 
 Parse.Cloud.define "dashboard2", (request, response) ->
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 #	results = {}
 	results = []
 
@@ -1128,6 +1131,7 @@ getMissedObjects = (scheduleObj, patientId) ->
 
 Parse.Cloud.define "dashboard1", (request, response) ->
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	results = []
 
 	scheduleQuery = new Parse.Query('Schedule')
@@ -1170,6 +1174,7 @@ Parse.Cloud.define "dashboard1", (request, response) ->
 
 Parse.Cloud.define "updateMissedObjects", (request, response) ->
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.equalTo('patient', patientId)
 	scheduleQuery.include('questionnaire')
@@ -1195,6 +1200,7 @@ Parse.Cloud.define "dashboard", (request, response) ->
 #	else
 	results = []
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.include('questionnaire')
 	scheduleQuery.equalTo('patient', patientId)
@@ -1252,6 +1258,7 @@ Parse.Cloud.define "dashboard3", (request, response) ->
 	results = []
 	submissions ={}
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	scheduleQuery = new Parse.Query('Schedule')
 	scheduleQuery.include('questionnaire')
 	scheduleQuery.equalTo('patient', patientId)
@@ -1436,11 +1443,11 @@ createResponse = (questionnaireId, patientId, scheduleObj) ->
 				responseObj.set 'baseLine', baseLineObj
 				responseObj.set 'alert', false
 
-				if _.isEmpty(responseObj_prev) || _.isNull(responseObj_prev)
+				if _.isUndefined(responseObj_prev)
 					responseObj.set 'sequenceNumber', (1)
 				else
 					responseObj.set 'sequenceNumber', (responseObj_prev.get('sequenceNumber') + 1)
-					responseObj.set "previousSubmission", responseObj_prev
+					# responseObj.set "previousSubmission", null
 
 				responseObj.save()
 				.then (responseObj) ->
@@ -1745,6 +1752,7 @@ Parse.Cloud.define "saveAnswer", (request, response) ->
 	.then (responseObj) ->
 		questionsQuery = new Parse.Query('Questions')
 		questionsQuery.include('questionnaire')
+		questionsQuery.include('previousQuestion')
 		questionsQuery.get(questionId)
 		.then (questionsObj) ->
 			saveAnswer(responseObj, questionsObj, options, value)
@@ -1762,6 +1770,21 @@ Parse.Cloud.define "saveAnswer", (request, response) ->
 		response.error error
 
 
+answeredQuestionsArray = (questionsObj,answeredQuestions) ->
+
+	questionId = questionsObj.id;
+	console.log answeredQuestions
+	if questionsObj.get('isChild') == true
+		parentQuestionId = questionsObj.get('previousQuestion').id
+		parentIndex = answeredQuestions.indexOf(parentQuestionId)
+		index = parseInt(parentIndex)+1
+		answeredQuestions.splice(index, 0, questionId);
+	else
+		answeredQuestions.push(questionId)
+
+	answeredQuestions
+
+
 saveAnswer = (responseObj, questionsObj, options, value) ->
 	promise = new Parse.Promise()
 
@@ -1770,7 +1793,9 @@ saveAnswer = (responseObj, questionsObj, options, value) ->
 		.then (answerObj) ->
 			answeredQuestions = responseObj.get('answeredQuestions')
 			if questionsObj.id not in answeredQuestions
-				answeredQuestions.push(questionsObj.id)
+				# answeredQuestions.push(questionsObj.id)
+				answeredQuestions = answeredQuestionsArray(questionsObj,answeredQuestions)
+
 			responseObj.set 'answeredQuestions', answeredQuestions
 			responseObj.save()
 			.then (responseObj) ->      
@@ -1784,7 +1809,9 @@ saveAnswer = (responseObj, questionsObj, options, value) ->
 		.then (answerObjs) ->
 			answeredQuestions = responseObj.get('answeredQuestions')
 			if questionsObj.id not in answeredQuestions
-				answeredQuestions.push(questionsObj.id)
+				# answeredQuestions.push(questionsObj.id)
+				answeredQuestions = answeredQuestionsArray(questionsObj,answeredQuestions)
+
 			responseObj.set 'answeredQuestions', answeredQuestions
 			responseObj.save()
 			.then (responseObj) ->      
@@ -1799,7 +1826,9 @@ saveAnswer = (responseObj, questionsObj, options, value) ->
 		.then (answerObj) ->
 			answeredQuestions = responseObj.get('answeredQuestions')
 			if questionsObj.id not in answeredQuestions
-				answeredQuestions.push(questionsObj.id)
+				# answeredQuestions.push(questionsObj.id)
+				answeredQuestions = answeredQuestionsArray(questionsObj,answeredQuestions)
+
 			responseObj.set 'answeredQuestions', answeredQuestions
 			responseObj.save()
 			.then (responseObj) ->      
@@ -1813,7 +1842,9 @@ saveAnswer = (responseObj, questionsObj, options, value) ->
 		.then (answerObj) ->
 			answeredQuestions = responseObj.get('answeredQuestions')
 			if questionsObj.id not in answeredQuestions
-				answeredQuestions.push(questionsObj.id)
+				# answeredQuestions.push(questionsObj.id)
+				answeredQuestions = answeredQuestionsArray(questionsObj,answeredQuestions)
+				
 			responseObj.set 'answeredQuestions', answeredQuestions
 			responseObj.save()
 			.then (responseObj) ->      
@@ -2235,7 +2266,8 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 			else
 				comparisonCount = baseLineFlags[comaparisonCountIndex]
 
-
+			console.log comparisonCount
+			
 			if operator == "greater_than"
 				compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
 				if greaterThan(flagCount,comparisonCount,false)
@@ -2245,12 +2277,22 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 				if greaterThan(flagCount,comparisonCount,true)
 					alerts.push(compareType)
 			else if operator == "less_than"
-				compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
-				if lessThan(flagCount,comparisonCount,false)
+
+				if comparisonCount !=0
+					compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
+					if lessThan(flagCount,comparisonCount,false)
+						alerts.push(compareType)
+				else
+					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
 					alerts.push(compareType)
+
 			else if operator == "less_than_equal_to"
-				compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
-				if lessThan(flagCount,comparisonCount,true)
+				if comparisonCount !=0
+					compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+					if lessThan(flagCount,comparisonCount,true)
+						alerts.push(compareType)
+				else
+					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
 					alerts.push(compareType)
 
 			console.log compareType
@@ -3166,6 +3208,7 @@ listAllResponsesForPatient = (patientIds, startDate, endDate) ->
 
 Parse.Cloud.define "listAllAnswersForPatient", (request, response) ->
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	startDate = new Date(request.params.startDate)
 	endDate = new Date(request.params.endDate)
 	listAllAnswersForPatient(patientId, startDate, endDate)
@@ -3280,7 +3323,7 @@ Parse.Cloud.afterSave 'Response', (request, response) ->
 				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
 		console.log "cache cleared"
-		# console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
 		return
 	else
 		return
@@ -3296,12 +3339,13 @@ Parse.Cloud.define "clearProjectCache", (request, response) ->
 			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
 
 	console.log "cache cleared"
-	# console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
 	return
  
 
 Parse.Cloud.define 'getQuestionnaireSetting', (request, response) ->
 	patientId = request.params.patientId
+	patientId = patientId.toLowerCase()
 	questionnaireId = request.params.questionnaireId
 
 	questionnaireQuery = new Parse.Query('Questionnaire')

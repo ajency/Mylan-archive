@@ -449,6 +449,7 @@ createMissedResponse = () ->
 # TEST API ( NOT WORKING :P )
 Parse.Cloud.define "testPatientLateSubmission", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
     
     scheduleQuery = new Parse.Query('Schedule')
     scheduleQuery.exists('patient')
@@ -599,6 +600,7 @@ getQuestionnaireFrequency =  ( questionnaireObj ) ->
 
 Parse.Cloud.define "getAllNotifications", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
     notificationMessages = []
     page = 0
 
@@ -689,8 +691,8 @@ getAllNotifications = (patientId,notificationMessages,page) ->
 
 Parse.Cloud.define "getPatientNotificationCount", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
      
-
     notificationQuery = new Parse.Query('Notification')
     notificationQuery.equalTo('patient', patientId)
     notificationQuery.equalTo('cleared', false)
@@ -702,6 +704,7 @@ Parse.Cloud.define "getPatientNotificationCount", (request, response) ->
 
 Parse.Cloud.define "getPatientNotifications", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
     page = request.params.page
     limit = request.params.limit  
 
@@ -886,6 +889,7 @@ Parse.Cloud.define "clearNotification", (request, response) ->
 
 Parse.Cloud.define "clearAllNotifications", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
     notificationQuery = new Parse.Query('Notification')
     notificationQuery.equalTo('cleared', false)
     notificationQuery.find()
@@ -907,6 +911,7 @@ Parse.Cloud.define "clearAllNotifications", (request, response) ->
 
 Parse.Cloud.define "clearAllPatientNotifications", (request, response) ->
     patientId = request.params.patientId
+    patientId = patientId.toLowerCase()
     getAllPatientNotifications(patientId)
     .then (notificationSaveObj) ->  
         notificationSaveArr =[]
