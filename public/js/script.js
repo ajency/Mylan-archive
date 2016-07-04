@@ -2252,7 +2252,7 @@ $('.add-question').click(function (event) {
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
     html +='<span class="pull-left edit-link edit-question cp">Edit</span>';
-    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
+    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='</div> ';
