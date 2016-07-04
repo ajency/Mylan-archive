@@ -2898,7 +2898,7 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                         Obj.removeClass('hidden');
                         Obj.closest('div').find('.cf-loader').remove();
                         Obj.closest('.options-list').prepend('<div class="col-md-12"><div class="delete-option-error-message text-danger m-b-10 "><i class="fa fa-exclamation-triangle"></i> You cannot delete this option before saving newly added options</div></div>')
-                        
+                        maincontainerObj.find('.delete-option').removeClass('hidden'); 
 
                     }
 
