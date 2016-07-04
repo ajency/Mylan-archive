@@ -59,7 +59,7 @@
                 <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
-                    <div class="type question-type">Type: <span class="ttlc">{{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</span></div>
+                    <div class="type question-type">Type: <span class="ttlc">{{ ($isWeight)? 'Weight' :strtoupper($question['type']) }}</span></div>
                   </div>
                   <div class="col-sm-4">
                     <div class="bold question-text">{{ $question['question'] }}</div>
@@ -168,7 +168,7 @@
                   <div class="col-md-12">
                     <span class="bold">Enter the options for this question</span>
                     @if($question['type']=="single-choice")
-                    <div>You can add a sub question too. The score declairs severity of patient.</div>
+                    <div>You can add a sub question too. The score declares severity of patient.</div>
                     @endif
                   </div>
                 </div>

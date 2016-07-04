@@ -2287,7 +2287,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
-    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id=""></i>';
+    html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
     html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';
@@ -2382,9 +2382,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                 {
                     Obj.closest('form').remove();
                     showNoQuestionMsg();
+                    showEditButtons($(this));
                 }
                   
-                showEditButtons($(this));
+                
             }
                  
         });
@@ -2403,9 +2404,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         {
             Obj.closest('form').remove();
             showNoQuestionMsg();
+            showEditButtons($(this));
         }
 
-        showEditButtons($(this));
+        
     }
 
     
@@ -2538,7 +2540,7 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
     var i = parseInt(counter) + 1;
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">Hide Sub Question</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
@@ -2623,7 +2625,7 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            success: function(response)
            {  
                 
-                var questionType = (response.data.questionType).toUpperCase();
+                var questionType = response.data.questionType;
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('TYPE: '+questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-title").text(response.data.title);
@@ -2796,7 +2798,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         {
             html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
             html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
-            html +='<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>';
+            html +='<span  class="add-link add-sub-question p-l-20 cp">Add Sub Question</span>';
             html +='</div>';
         }
         html +='</div>';
