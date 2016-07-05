@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Notification HTML5</title>
+<script>
+function notifyMe() {
+	if (!("Notification" in window)) {
+	alert("This browser does not support desktop notification");
+
+	}else if (Notification.permission === "granted"){
+		var options = {
+			body: "This is the body of the notification",
+			icon: "icon.jpg",
+			dir : "ltr"
+		};
+		var notification = new Notification("Hi there",options);
+	}else if (Notification.permission !== 'denied'){
+		Notification.requestPermission(function (permission) {
+			if (!('permission' in Notification)) {
+				Notification.permission = permission;
+			}
+			if (permission === "granted") {
+				var options = {
+					  body: "This is the body of the notification",
+					  icon: "icon.jpg",
+					  dir : "ltr"
+				  };
+				var notification = new Notification("Hi there",options);
+			}
+		});
+	}
+}
+</script>
+</head>
+<body>
+<button onclick="notifyMe()" style="height: 80px;width: 311px;color:white;font-size: 24px;background: cadetblue;border: none;cursor: pointer;">Show me notification</button><br><br>
+</body>
+</html>
