@@ -11,3 +11,6 @@ public/bower_components
 composer-setup.php
 composer.phar
 .gitignore
+
+*.sublime-project
+*.sublime-workspace
