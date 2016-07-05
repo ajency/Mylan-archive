@@ -8372,3 +8372,6 @@ input {
 .default-light-btn {
   background: #f2f4f5;
 }
+.ttuc {
+  text-transform: uppercase;
+}
