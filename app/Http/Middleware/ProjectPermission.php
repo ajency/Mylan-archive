@@ -55,7 +55,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/notifications'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/submission-notifications'=>['view','edit'],
 
-                        '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view'],
+                        '{hospitalslug}/{projectslug}/questionnaire-setting'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/store-questionnaire-setting'=>['edit'],
                         '{hospitalslug}/{projectslug}/update-questionnaire-setting'=>['edit'],
                         '{hospitalslug}/{projectslug}/configure-questions/{id}'=>['view','edit'],
@@ -64,7 +64,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/delete-question/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/delete-option/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/order-questions/{id}'=>['view','edit'],
-                        '{hospitalslug}/{projectslug}/questions-summary/{id}'=>['view'],
+                        '{hospitalslug}/{projectslug}/questions-summary/{id}'=>['view','edit'],
 
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-devices'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/patients/{id}/patient-reports'=>['view','edit'],
