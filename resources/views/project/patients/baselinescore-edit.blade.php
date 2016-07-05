@@ -6,7 +6,7 @@
  
       <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
-        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
         <li><a href="#" class="active">Baseline Score</a> </li>
  
       </ul>
@@ -17,7 +17,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
     @include('project.patients.side-menu')
@@ -30,7 +30,7 @@
       <div class="tab-pane active" id="baseline">
 
          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
-         <p>(Baseline score for Patient Id <span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span>)</p>
+         <p>(Baseline score for Patient Id <span class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span>)</p>
          <br>
          @include('admin.flashmessage')
          <form method="post" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" data-parsley-validate>

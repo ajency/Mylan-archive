@@ -7,7 +7,7 @@
         <li>
           <a href="projects.html">Patients</a>
         </li>
-        <li><a href="#" class="active patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
+        <li><a href="#" class="active ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->
@@ -16,7 +16,7 @@
 @section('content')
 <!-- BEGIN PAGE TITLE -->
 <div class="page-title">
-   <h3>Patient <span class="semi-bold patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span></h3>
+   <h3>Patient <span class="semi-bold ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span></h3>
 </div>
 <div class="tabbable tabs-left">
    @include('hospital.patients.side-menu')
@@ -32,7 +32,7 @@
               
                <dl class="dl-horizontal">
                      <dt>Reference Code</dt>
-                     <dd class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</dd>
+                     <dd class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</dd>
                      <dt>Project</dt>
                      <dd>{{ $projectName }}</dd>
                      <dt>Age</dt>

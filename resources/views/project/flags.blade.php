@@ -35,7 +35,7 @@
          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
              <option value="">-select patient-</option>
              @foreach($allPatients as $patient)
-               <option  class="patient-refer{{ $patient['reference_code']}}" value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+               <option  class="ttuc patient-refer{{ $patient['reference_code']}}" value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
              @endforeach
             </select> 
          </form>
@@ -111,7 +111,7 @@
                            continue;
                       ?>
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
-                        <td class="patient-refer{{ $allSubmissionFlag['patient'] }}">{{ $allSubmissionFlag['patient'] }}</td>
+                        <td class="ttuc patient-refer{{ $allSubmissionFlag['patient'] }}">{{ $allSubmissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $allSubmissionFlag['date'] }}</h4>
@@ -144,7 +144,7 @@
                      @foreach($submissionFlags['flags']['red'] as $submissionFlag)
                       
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
-                        <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
+                        <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
@@ -178,7 +178,7 @@
                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
                       
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
-                        <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
+                        <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>
@@ -211,7 +211,7 @@
                       @foreach($submissionFlags['flags']['green'] as $submissionFlag)
                       
                      <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
-                        <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
+                        <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
                               <h4 class="semi-bold m-0 flagcount">{{ $submissionFlag['date'] }}</h4>

@@ -20,7 +20,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
                       @include('hospital.patients.side-menu')
@@ -42,7 +42,7 @@
                <tbody>
                 @foreach($submissionFlags as $responseId => $submissionFlag)
                    <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/submissions/{{$responseId}}';">
-                       <td class="patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
+                       <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                        <td width="110px">
                            <div class="p-t-20 p-l-20 p-r-20 p-b-20">
                                <h4 class="text-muted no-margin bold"> {{ $submissionFlag['sequenceNumber'] }} <span class="sm text-muted"> On {{ $submissionFlag['occurrenceDate'] }} </span></h4>
