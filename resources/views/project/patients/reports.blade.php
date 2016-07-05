@@ -6,7 +6,7 @@
  
          <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
-        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
+        <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
         <li><a href="#" class="active">Reports</a> </li>
      
  
@@ -35,12 +35,12 @@
 <select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
       <option value="">-select patient-</option>
        @foreach($allPatients as $patientData)
-         <option class="patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+         <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
        @endforeach
       </select> 
 </div>
 <div class="page-title">
-     <h3>Report of Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Report of Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
                       @include('project.patients.side-menu')

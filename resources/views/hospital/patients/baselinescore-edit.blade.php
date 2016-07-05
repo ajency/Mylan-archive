@@ -20,7 +20,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
     @include('hospital.patients.side-menu')
@@ -33,7 +33,7 @@
       <div class="tab-pane active" id="baseline">
 
          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
-         <p>(Baseline score for Patient Id <span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span>)</p>
+         <p>(Baseline score for Patient Id <span class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span>)</p>
          <br>
          <form method="post" action="{{ url($hospital['url_slug'].'/patients/'.$patient['id'].'/base-line-score-edit') }}" data-parsley-validate>
          <input type="hidden" name="baseLineResponseId" value="{{ $baseLineResponseId }}">

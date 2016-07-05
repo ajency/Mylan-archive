@@ -25,7 +25,7 @@
                        <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
                           <option value="">-select patient-</option>
                            @foreach($allPatients as $patient)
-                             <option class="patient-refer{{ $patient['reference_code'] }}"  value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+                             <option class="ttuc patient-refer{{ $patient['reference_code'] }}"  value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
                            @endforeach
                           </select> 
                      </form>
@@ -170,7 +170,7 @@
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
-                                      <td class="text-center patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
+                                      <td class="text-center ttuc patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
                                        <td>
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
@@ -211,7 +211,7 @@
                                  @else 
 
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                                    <td class="text-center patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
+                                    <td class="text-center ttuc patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
                                     <td>
                                       <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>

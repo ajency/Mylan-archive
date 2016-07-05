@@ -25,7 +25,7 @@
                        <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
                           <option value="">-select patient-</option>
                            @foreach($allPatients as $patient)
-                             <option class="patient-refer{{ $patient['reference_code'] }}"  value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
+                             <option class="ttuc patient-refer{{ $patient['reference_code'] }}"  value="{{ $patient['id'] }}">{{ $patient['reference_code'] }}</option>
                            @endforeach
                           </select> 
                      </form>
@@ -85,7 +85,7 @@
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
-                                    <td class="text-center patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
+                                    <td class="text-center ttuc patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
