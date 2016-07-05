@@ -511,6 +511,9 @@ class QuestionnaireController extends Controller
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
 
+			if($questionnaire->get('status')=='published')
+				return redirect(url($hospitalSlug .'/'. $projectSlug .'/questions-summary/'.$questionnaireId)); 
+
 			$questionnaireName = $questionnaire->get("name");
 
 			$questionObjs = new ParseQuery("Questions");
@@ -747,6 +750,17 @@ class QuestionnaireController extends Controller
 					 
 				}
 
+				// if($questionId=='')
+				// {
+				// 	$previousQuestion = new ParseQuery("Questions");
+				// 	$previousQuestionObj = $previousQuestion->get($previousquestionId);
+						
+				// 	if(empty($previousQuestionObj))
+				// 		$previousQuestionObj = NULL;
+
+					 
+				// }
+
 				if($questionType=='single-choice')
 				{
 					$hasSubQuestion = 'No';
@@ -791,7 +805,7 @@ class QuestionnaireController extends Controller
 						if(!in_array($option, $weightArray))
 							$questioOptionCount++;
 						else
-							$responseData['questionType'] = 'Weight';
+							$responseData['questionType'] = 'weight';
 						 
 						$score = intval($optionScores[$k]);
 					

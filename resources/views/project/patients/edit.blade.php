@@ -27,7 +27,7 @@
                 <div class="col-md-4">
                   <div class="form-row">
                      <label>Reference Code <span class="text-primary">*</span></label>
-                        <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-whitespace data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" value="{{ $patient['reference_code'] }}">
+                        <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-whitespace data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" value="{{ $patient['reference_code'] }}" data-parsley-trigger="change" @if($patient['account_status']!='created') readonly @endif>
                   </div>
                 </div>
                 <div class="col-sm-4">

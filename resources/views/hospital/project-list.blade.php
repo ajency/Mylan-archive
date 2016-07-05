@@ -28,6 +28,7 @@
                   <div class="grid simple">
                      <div class="grid-body no-border">
                         <br>
+                        @if(!empty($projects))
                         @foreach($projects as $project)
                         <div>
                            <div class="pull-right">
@@ -87,6 +88,9 @@
                         <br>
                         <hr>
                         @endforeach
+                        @else
+                           <div>No Project Added Yet</div>
+                        @endif
                         
                      </div>
                   </div>

@@ -23,11 +23,11 @@ $.ajaxSetup({
  
 $('.validateRefernceCode').change(function (event) { 
     // $(".cf-loader").removeClass('hidden');
-    var controlObj = $(".reference_code");
+    var controlObj = $(this);
     controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
     controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
     controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
-
+    
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
         type: "POST",
@@ -2146,6 +2146,8 @@ function showEditButtons(Obj)
     });
     $('.question-view').removeClass('disable-question-view');
     $('.add-question').removeClass("hidden");
+
+    removeOptionErrorMessages(Obj);
 }
 
 function showNoQuestionMsg()
@@ -2158,7 +2160,9 @@ function showNoQuestionMsg()
         $('.publish-questionnaire').addClass('hidden');
         $('.questions-list__header').addClass('hidden');
 
-        $('.add-question').text('Add Question').removeClass('pull-right').addClass('pull-left');
+        // $('.add-question').text('Add Question').removeClass('pull-right').addClass('pull-left');
+        $('.add-question').text('Add Question').removeClass('pull-right').css({"margin": "0 auto", "display": "block"});
+        
     }
 }
  
@@ -2178,6 +2182,7 @@ $('.questions-list_container').on('click', '.cancel-question', function(event) {
     }
 
     showNoQuestionMsg();
+
      
 });
 
@@ -2188,13 +2193,13 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
     if($(this).hasClass('hideSubquestion'))
     {
         
-        $(this).text('SHOW SUB QUESTION');
+        $(this).text('Show Sub Question');
         $(this).closest('.options-list_container').find('.subquestion-container').addClass("hidden");
         $(this).removeClass('hideSubquestion');
     }
     else
     {
-        $(this).text('HIDE SUB QUESTION');
+        $(this).text('Hide Sub Question');
         $(this).closest('.options-list_container').find('.subquestion-container').removeClass('hidden');
         $(this).addClass('hideSubquestion');
 
@@ -2205,6 +2210,17 @@ $('.questions-list_container').on('click', '.toggle-subquestion', function(event
  
 });
 
+$('.questions-list_container').on('click', '.cancel-sub-question', function(event) { 
+
+    $(this).closest('.sub-question').find('.toggle-subquestion').text('Show Sub Question');
+    $(this).closest('.sub-question').find('.subquestion-container').addClass("hidden");
+    $(this).closest('.sub-question').find('.toggle-subquestion').removeClass('hideSubquestion');
+    removeOptionErrorMessages($(this));
+ 
+});
+
+
+
 $('.add-question').click(function (event) { 
 
     hideEditButtons($(this));
@@ -2212,6 +2228,7 @@ $('.add-question').click(function (event) {
     var counter = $('input[name="counter"]').val();
     var i = parseInt(counter) + 1;
     var j = $(".question:last").attr("row-count");
+    // var previousquestionId = $('input[name="questionId['+j+']"]').val(); 
  
     html ='<form class="form-horizontal col-sm-12 p-l-0 p-r-0" method="post" action="'+ submitUrl +'" data-parsley-validate>';
     html +='<div class="question-view-edit">';
@@ -2235,8 +2252,8 @@ $('.add-question').click(function (event) {
     html +='<div class="clearfix">';
     html +='<input type="hidden" name="previousquestionId['+i+']" value="">';
     html +='<input type="hidden" name="questionId['+i+']" value="">';
-    html +='<span class="pull-left edit-link edit-question cp">EDIT</span>';
-    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question" object-id=""></i>';
+    html +='<span class="pull-left edit-link edit-question cp">Edit</span>';
+    html +='<i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id=""></i>';
     html +='</div>';
     html +='</div>';
     html +='</div> ';
@@ -2271,7 +2288,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
-    html +='<i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id=""></i>';
+    html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
     html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';
@@ -2358,7 +2375,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
 
                 if(!Obj.hasClass('delete-parent-question'))
                 {  
-                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
+                    Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">Add Sub Question</span>');
                     Obj.closest('.sub-question').find('.toggle-subquestion').remove();
                     Obj.closest('.question').remove();
                 }
@@ -2366,9 +2383,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                 {
                     Obj.closest('form').remove();
                     showNoQuestionMsg();
+                    showEditButtons($(this));
                 }
                   
-                showEditButtons($(this));
+                
             }
                  
         });
@@ -2387,9 +2405,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         {
             Obj.closest('form').remove();
             showNoQuestionMsg();
+            showEditButtons($(this));
         }
 
-        showEditButtons($(this));
+        
     }
 
     
@@ -2522,12 +2541,15 @@ $('.questions-list_container').on('click', '.add-sub-question', function(event) 
     var i = parseInt(counter) + 1;
 
 
-        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">HIDE SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
+        html ='<span class="sh-link toggle-subquestion hideSubquestion cp p-l-20">Hide Sub Question</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>';
         html +='<div class="subquestion-container question" row-count="'+i+'">';
         html +='<input type="hidden" name="questionId['+i+']" value="">';
         html +='<div class="clearfix">';
-        html +='<span class="bold pull-left">Edit this Subquestion</span>';
-        html +='<span class="fa fa-trash text-danger pull-right delete-question" object-id=""></span>';
+        html +='<span class="bold pull-left">Edit this sub question</span>';
+        html +='<span class="fa fa-trash pull-right delete-question cp p-r-30" object-id=""></span>';
+        html +='<a href="javascript:void(0);" class="cancel-sub-question cancel-question-btn" object-id="">';
+        html +='<i class="fa fa-close"></i>';
+        html +='</a>';
         html +='</div>';
 
         html +='<div class="type-questions">';
@@ -2604,8 +2626,8 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
            success: function(response)
            {  
                 
-                var questionType = (response.data.questionType).toUpperCase();
-                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('TYPE: '+questionType);
+                var questionType = response.data.questionType;
+                Obj.closest(".question-view-edit").find(".question-view").find(".question-type").text('Type: '+questionType);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-text").text(response.data.question);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-title").text(response.data.title);
                 Obj.closest(".question-view-edit").find(".question-view").find(".question-option-count").text(response.data.questioOptionCount);
@@ -2767,7 +2789,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 
         html +='<div class="col-sm-4 add-delete-container">';
         html +='<div class="clearfix">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
                          
@@ -2777,7 +2799,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         {
             html +='<input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion['+i+']['+j+']" />';
             html +='<div class="col-sm-11 col-sm-offset-1 sub-question">';
-            html +='<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>';
+            html +='<span  class="add-link add-sub-question p-l-20 cp">Add Sub Question</span>';
             html +='</div>';
         }
         html +='</div>';
@@ -2803,7 +2825,7 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
         html +='</div>';
 
         html +='<div class="col-sm-3  add-delete-container">';
-        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Another option <i class="fa fa-plus"></i></span>';
+        html +='<span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="'+j+'">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>';
         html +='</div>';
         html +='</div>';
         html +='</div>';
@@ -2872,6 +2894,14 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                         Obj.closest('.options-list_container').remove(); 
                         maincontainerObj.find('.delete-option').removeClass('hidden'); 
                     }
+                    else
+                    {
+                        Obj.removeClass('hidden');
+                        Obj.closest('div').find('.cf-loader').remove();
+                        Obj.closest('.options-list').prepend('<div class="col-md-12"><div class="delete-option-error-message text-danger m-b-10 "><i class="fa fa-exclamation-triangle"></i> You cannot delete this option before saving newly added options</div></div>')
+                        maincontainerObj.find('.delete-option').removeClass('hidden'); 
+
+                    }
 
                 
                 }
@@ -2892,6 +2922,12 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
 
 
 });
+
+function removeOptionErrorMessages(Obj)
+{
+    Obj.closest('.question').find('.delete-option-error-message').remove();
+
+}
 
 /************/
 

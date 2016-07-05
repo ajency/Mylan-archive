@@ -9769,7 +9769,7 @@ small.help-text {
 }
 .questions-list_container .questions-list .type {
   font-size: 12px;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 .questions-list_container .questions-list .edit-link {
   color: #05a8a5;
@@ -9780,6 +9780,7 @@ small.help-text {
   margin-bottom: 30px;
   box-shadow: 0 0 8px #ccc;
   border: none;
+  background: #ffffff;
 }
 .main-question_container .main-question__header {
   background: #fafafa;
@@ -9825,7 +9826,7 @@ small.help-text {
 }
 .main-question_container .options-container .options-list_container .sh-link,
 .main-question_container .options-container .options-list_container .add-link {
-  font-size: 11px;
+  font-size: 12px;
   color: #05a8a5;
   text-decoration: underline;
   margin-top: -10px;
@@ -9881,6 +9882,14 @@ small.help-text {
 }
 .main-question_container .options-container_footer a:last-child {
   margin-right: 10px;
+}
+.main-question_container input {
+  margin-bottom: 0;
+  borer-color: red;
+}
+.main-question_container input,
+.main-question_container select {
+  border: 1px solid #ddd !important;
 }
 .outline-btn {
   border: 2px solid #05a8a5;
@@ -9938,7 +9947,7 @@ small.help-text {
   width: 10.333333%;
 }
 .cust-col-sm-2 {
-  width: 12.666667%;
+  width: 8.666667%;
 }
 .outline-btn-gray {
   border: 2px solid #ddd;
@@ -10020,4 +10029,11 @@ small.help-text {
 }
 .questions-list_container .questions-list:last-child {
   border-bottom: none;
+}
+.subquestion-container .cancel-question-btn {
+  top: -15px;
+  right: -15px;
+}
+.ttlc {
+  text-transform: lowercase;
 }

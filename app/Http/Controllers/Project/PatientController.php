@@ -177,7 +177,7 @@ class PatientController extends Controller
                                             ->with('logoUrl', $logoUrl);
     }
 
-    public function validateRefernceCode(Request $request,$patientId) {
+    public function validateRefernceCode(Request $request,$hospitalSlug,$projectSlug,$patientId) {
         $reference_code = $request->input('reference_code');
         
         $msg = '';
@@ -189,8 +189,6 @@ class PatientController extends Controller
         else
             $patientData = User::where('reference_code', $reference_code)->get()->toArray();
 
-
-        
         $status = 201;
         if (!empty($patientData)) {
             $msg = 'Reference Code Already Taken';
@@ -973,6 +971,13 @@ class PatientController extends Controller
             $project = $projectId;
             $age = $request->input('age');
             $status = $request->input('status');
+
+            $validateRefernceCode = User::where('reference_code',$referenceCode)->where('id','!=',$id)->get()->toArray();
+            if(!empty($validateRefernceCode))
+            {
+               Session::flash('error_message','Error !!! Referance Code Already Exist ');    
+               return redirect(url($hospitalSlug .'/'.$projectSlug.'/patients/' . $id.'/edit')); 
+            }
              
             
             $is_smoker = $request->input('is_smoker');

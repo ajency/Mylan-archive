@@ -2054,7 +2054,7 @@ small.help-text{
     }
     .type{
       font-size: 12px;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
     .edit-link{
       color: @color-secondary;
@@ -2069,6 +2069,7 @@ small.help-text{
   box-shadow: 0 0 8px #ccc;
   //margin-top: 10px; 
   border: none;
+  background: @color-white;
   .main-question__header{
     background: #fafafa;
     padding: 10px 5px;
@@ -2112,7 +2113,7 @@ small.help-text{
       }
       .sh-link,
       .add-link{
-        font-size: 11px;
+        font-size: 12px;
         color: @color-secondary;
         text-decoration: underline;
         // display: block;
@@ -2179,6 +2180,14 @@ small.help-text{
         margin-right: 10px;
       }
     }
+  }
+  input{
+    margin-bottom: 0;
+    borer-color: red;
+  }
+  input,
+  select{
+    border: 1px solid #ddd !important;
   }
 }
 
@@ -2249,7 +2258,8 @@ small.help-text{
 }
 
 .cust-col-sm-2{
-  width: 12.666667%;
+  // width: 12.666667%;
+  width: 8.666667%;
 }
 
 .outline-btn-gray{
@@ -2349,4 +2359,15 @@ small.help-text{
       border-bottom: none;
     }
   }
+}
+
+.subquestion-container{
+  .cancel-question-btn{
+    top: -15px;
+    right: -15px;
+  }
+}
+
+.ttlc{
+  text-transform: lowercase;
 } 

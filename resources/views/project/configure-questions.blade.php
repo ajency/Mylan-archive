@@ -28,7 +28,7 @@
                       <div class="clearfix">
                        <h3 class="pull-left">{{ $questionnaireName }}</h3>
                         <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="pull-right btn btn-link cust-link m-t-15 question-reorder @if(empty($questionsList)) hidden @endif">
-                        Reorder the Questions <i class="fa fa-random"></i>
+                        Reorder the questions <i class="fa fa-random"></i>
                         </a>
                         </div>
                       <hr>
@@ -59,7 +59,7 @@
                 <div class="row questions-list question-view question" row-count="{{ $i }}">
                   <div class="col-sm-3">
                     <div class="black question-title">{{ $question['title'] }}</div>
-                    <div class="type question-type">TYPE: {{ ($isWeight)? 'WEIGHT' :strtoupper($question['type']) }}</div>
+                    <div class="type question-type">Type: <span class="ttlc">{{ ($isWeight)? 'Weight' :strtoupper($question['type']) }}</span></div>
                   </div>
                   <div class="col-sm-4">
                     <div class="bold question-text">{{ $question['question'] }}</div>
@@ -84,7 +84,7 @@
                     <div class="clearfix">
                      <input type="hidden" name="previousquestionId[{{ $i }}]" value="">
                      <input type="hidden" name="questionId[{{ $i }}]" value="{{ $questionId }}">
-                      <span class="pull-left edit-link edit-question cp">EDIT</span>
+                      <span class="pull-left edit-link edit-question cp">Edit</span>
                       <i class="pull-right fa fa-trash delete-parent-question delete-question cp" object-id="{{ $questionId }}"></i>
                     </div>
                   </div>
@@ -141,7 +141,7 @@
                   </div>
                 </div>
                 <div class="col-sm-2 text-right">
-                    <i class="fa fa-trash text-danger delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
+                    <i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id="{{ $questionId }}"></i>
                       
                     <a href="javascript:void(0);" class="cancel-question cancel-question-btn" object-id="{{ $questionId }}">
                       <i class="fa fa-close"></i>
@@ -168,7 +168,7 @@
                   <div class="col-md-12">
                     <span class="bold">Enter the options for this question</span>
                     @if($question['type']=="single-choice")
-                    <div>You can add a subquestion too. The score declairs severity of patient.</div>
+                    <div>You can add a sub question too. The score declares severity of patient.</div>
                     @endif
                   </div>
                 </div>
@@ -176,6 +176,8 @@
                 @foreach($optionsList[$questionId] as $option)
                 <div class="parent-option-container options-list_container">
                   <div class="row options-list m-t-15">
+                  
+                  <div class="clearfix"></div>
                     <div class="col-sm-1 cust-col-sm-1">
                       <label for="" class="m-t-10">option {{ ($j+1) }}</label>
                       <input type="hidden" name="optionId[{{ $i }}][{{ $j }}]" class="optionId"  value="{{ $option['optionId'] }}">
@@ -192,8 +194,9 @@
                     </div>
 
                     <div class="col-sm-4">
-                      <i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="{{ $j }}"></i>
+                      <i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="{{ $j }}"></i> 
                     </div>
+
                   </div>
                   
                   <div class="row">
@@ -206,7 +209,7 @@
                       
                       <!-- sub question -->
                     @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                      <span class="sh-link toggle-subquestion cp p-l-20">SHOW SUB QUESTION</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub-question</span>
+                      <span class="sh-link toggle-subquestion cp p-l-20">Show sub question</span> <span class="subquestion-error-message alert alert-danger cust-alert-padd hidden"><i class="fa fa-exclamation-triangle"></i> Please fill required fields for these sub question</span>
                       <?php
                       $subQuestionId = $question['condition'][$option['optionId']];
                       $subQuestion = $subQuestions[$questionId][$subQuestionId];
@@ -221,8 +224,11 @@
                       <div class="subquestion-container question hidden " row-count="{{ $k }}">
                         <input type="hidden" name="questionId[{{ $k }}]" value="{{ $subQuestionId }}">
                         <div class="clearfix">
-                          <span class="bold pull-left">Edit this Subquestion</span>
-                          <i class="fa fa-trash text-danger pull-right delete-question" object-id="{{ $subQuestionId }}"></i>
+                          <span class="bold pull-left">Edit this Sub question</span>
+                          <i class="fa fa-trash pull-right delete-question cp p-r-30" object-id="{{ $subQuestionId }}"></i>
+                          <a href="javascript:void(0);" class="cancel-sub-question cancel-question-btn" object-id="{{ $questionId }}">
+                            <i class="fa fa-close"></i>
+                          </a>
                         </div>
 
                         <div class="type-questions">
@@ -311,7 +317,7 @@
                             </div>
 
                             <div class="col-sm-3 add-delete-container">
-                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Another Option <i class="fa fa-plus"></i></span>
+                            <span href="" class="btn btn-default outline-btn-gray add-option" counter-key="{{ $l }}">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>
 
                             </div>
                           </div>
@@ -321,7 +327,7 @@
                       </div><!--/subquestion-container-->
                     @else
                       @if($question['type']=="single-choice")
-                        <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                        <span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>
                       @endif  
                     @endif
 
@@ -351,7 +357,7 @@
 
                     <div class="col-sm-4 add-delete-container">
                       <div class="clearfix">
-                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Another option <i class="fa fa-plus"></i></span>
+                        <span class="btn btn-default pull-right outline-btn-gray add-option" counter-key="{{ $j }}">Add another option &nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></span>
                       </div>
                     </div>
                      
@@ -361,7 +367,7 @@
                     @if($question['type']=="single-choice")
                       <input type="checkbox" class="hidden hasSubQuestion" name="hasSubQuestion[{{ $i }}][{{ $j }}]" />
                       <div class="col-sm-11 col-sm-offset-1 sub-question">
-                      <span  class="add-link add-sub-question p-l-20">ADD SUB QUESTION</span>
+                      <span  class="add-link add-sub-question p-l-20 cp">Add sub question</span>
                     </div>
                      @endif 
                   </div>
@@ -390,8 +396,8 @@
           @endforeach
         @endif
 
-         <div class="no_question @if(!empty($questionsList)) hidden @endif">
-            <h2>No Questions added yet !</h2>
+         <div class="no_question @if(!empty($questionsList)) hidden @endif text-center">
+            <h2 style="font-size: 22px; font-weight: 600; margin-bottom: -5px;">No Questions added yet !</h2>
             <h5>Add a Question to continue</h5>
           </div>
 
@@ -400,7 +406,8 @@
         <!-- test -->
         <div class="clearfix m-b-30">
  
-          <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif Question</button>
+          <button type="button" class="btn btn-link text-success add-question @if(!empty($questionsList))pull-right @endif text-center outline-btn" @if(empty($questionsList))style="margin: 0 auto; display: block;"@endif>Add @if(!empty($questionsList)) another @endif question</button>
+          <!-- <button type="button" class="btn btn-link text-success add-question @if(empty($questionsList)) pull-left @else pull-right @endif outline-btn">Add @if(!empty($questionsList)) another @endif question</button> -->
  
         </div>
         <div class="form-group">
@@ -410,7 +417,7 @@
           <input type="hidden" value="" name="redirect_url"/>
 
           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questionnaire-setting/' ) }}" class="questionnaire-settings @if(empty($questionsList)) hidden @endif">
-             <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire Settings</button>
+             <button type="button" class="btn btn-link cust-link pull-left" ><i class="fa fa-angle-left" aria-hidden="true"></i> Questionnaire settings</button>
          </a>
       
             <!-- <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" class="question-reorder @if(empty($questionsList)) hidden @endif">
