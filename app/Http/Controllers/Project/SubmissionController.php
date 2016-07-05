@@ -403,6 +403,7 @@ class SubmissionController extends Controller
            $question =  $answers->get("question");
            $questionId =  $question->getObjectId();
            $questionType =  $question->get("type");
+           $isChild =  $question->get("isChild");
            $questions[] = $question;
 
 
@@ -471,11 +472,10 @@ class SubmissionController extends Controller
                           ];
            }
 
-           if($questionType == 'single-choice')
+           if($questionType == 'single-choice' && !$isChild)
                 $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("score")];
            // elseif($questionType == 'input')
            //      $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
- 
            
         }
 
