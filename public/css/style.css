@@ -8349,4 +8349,26 @@ input {
 .custom-checkbox.checkbox label:before {
   top: 3px;
 }
-/*# sourceMappingURL=style.css.map */
+.circ-bord {
+  height: 40px;
+  width: 40px;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid #0090d9;
+  border-radius: 50%;
+  margin-top: 0;
+  font-weight: 600;
+  font-size: 20px;
+}
+.tdu {
+  text-decoration: underline;
+}
+.brand-link {
+  color: #05a8a5;
+}
+.fosz12 {
+  font-size: 12px;
+}
+.default-light-btn {
+  background: #f2f4f5;
+}
