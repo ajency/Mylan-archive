@@ -27,7 +27,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-         
+       // 
     }
 
     /**
@@ -59,7 +59,6 @@ class ProjectController extends Controller
      */
     public function show($hospitalSlug,$projectSlug)
     { 
-      
         try
         {
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
@@ -126,7 +125,7 @@ class ProjectController extends Controller
           $responseStatus = ["completed","late","missed"];
 
           // Cache::flush();
-          // CACHE PROJECT RESPONSES
+          // **********CACHE PROJECT RESPONSES**************
           $responseCacheKey = "projectResponses_".$projectId;
           $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
@@ -160,7 +159,7 @@ class ProjectController extends Controller
                 Cache:: forever($responseCacheKey, $cacheProjectResponses); 
             } 
           
-            // CACHE PATIENT SUMMARY
+            // ****************CACHE PATIENT SUMMARY****************
             $patientsSummaryCacheKey = "patientsSummary_".$projectId;
             if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
                 $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
@@ -182,7 +181,7 @@ class ProjectController extends Controller
             $patientSortedData = array_slice($patientSortedData, 0, 5, true);
 
                               
-          // CACHE PATIENT ALERTS AND NOTIFICATION
+          // ************CACHE PATIENT ALERTS AND NOTIFICATION*******************
             $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
             
             if (Cache::has($patientsAlertsCacheKey)) {
@@ -234,6 +233,7 @@ class ProjectController extends Controller
 
     public function getProjectAlerts($projectId,$limit,$page=0,$dateCond=[],$cond=[],$refCond=[])
     {
+        //get count
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
         if(!empty($cond))
@@ -244,7 +244,10 @@ class ProjectController extends Controller
         }
         $alertCount = $alertQry->count();
 
+
+
         $alertQry = new ParseQuery("Alerts");
+        $alertQry->includeKey("responseObject"); 
         $alertQry->equalTo("project",$projectId);
         if($limit!='')
         {
@@ -274,14 +277,13 @@ class ProjectController extends Controller
         $alertTypes = $alertConfig['alertTypes'];
         $alertClases = $alertConfig['alertClases'];
         $responseflagColumns = $alertConfig['responseflagColumns'];
-
-        $responseObject = [];
-
+ 
         foreach ($alerts as $alert) {
             $alertType = $alert->get("alertType"); 
             $referenceType = $alert->get("referenceType");
             $patient = $alert->get("patient");
             $referenceId = $alert->get("referenceId");
+
             
             if(isset($alertTypes[$alertType]))
             {
@@ -291,17 +293,18 @@ class ProjectController extends Controller
                 
                 if($referenceType == "Response")
                 {
-                  $alertMsgData = $this->getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond);
+                  $response = $alert->get("responseObject");
+                  
+                  $alertMsgData = $this->getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond);
                   if(!empty($alertMsgData['alertMsg']))
                   {
                     $alertMsg[] = $alertMsgData['alertMsg'];
-                    $responseObject = $alertMsgData['responseObject'];
                   }
                   
                 }
                 elseif($referenceType == "patient")
                 {
-                  $alertMsg[] = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
+                    $alertMsg[] = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
                 }
                 
 
@@ -315,61 +318,58 @@ class ProjectController extends Controller
         return $data;
     }
 
-    public function getResponseAlertMsg($referenceId,$responseObject,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond)
+    public function getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond)
     {
        
-        $responseQry = new ParseQuery("Response");
-        $responseQry->equalTo("objectId", $referenceId); 
-        if(!empty($refCond))
+        $reviewedStatus = $response->get('reviewed');
+        $alertMsg=[];
+        if(!empty($refCond) && $reviewedStatus != $refCond['reviewed'])
         {
-            foreach ($refCond as $key => $value) {
-                $responseQry->equalTo($key,$value);
+            $alertMsg=[];
+        }
+        else
+        {
+            $noFlagAlerts = ['no_red_flags_compared_to_baseline','no_red_flags_compared_to_previous','no_amber_flags_compared_to_baseline','no_amber_flags_compared_to_previous','no_green_flags_compared_to_baseline','no_green_flags_compared_to_previous'];
+       
+            $responseObject = [];
+            if(!empty($response))
+            {
+                $responseFlagColumn ="";
+                foreach ($responseflagColumns as $key => $values) {
+
+                    if(in_array($alertType, $values))
+                    {
+                        $responseFlagColumn =   $key;
+                        break;
+                    }
+                 
+                }
+
+                $responseId = $response->getObjectId();
+
+                $url = "submissions/".$responseId;
+                $patient = $response->get("patient");
+                $sequenceNumber = $response->get("sequenceNumber");
+                $reviewStatus = $response->get("reviewed");
+                $reviewNote = $response->get("reviewNote");
+                $reviewNote = ($reviewNote=='')?'NA':$reviewNote;
+
+                $responseFlagType = $response->get($responseFlagColumn);
+                $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+                
+                if(in_array($alertType, $noFlagAlerts))
+                  $message = sprintf($alertContent, $sequenceNumber );
+                else
+                  $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
+
+
+                
+                $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
             }
         }
-        $response = $responseQry->first();
         
 
-        $noFlagAlerts = ['no_red_flags_compared_to_baseline','no_red_flags_compared_to_previous','no_amber_flags_compared_to_baseline','no_amber_flags_compared_to_previous','no_green_flags_compared_to_baseline','no_green_flags_compared_to_previous'];
-       
-        $alertMsg=[];
-        $responseObject = [];
-        if(!empty($response))
-        {
-            $responseObject[$referenceId] = $response;
-
-            $responseFlagColumn ="";
-            foreach ($responseflagColumns as $key => $values) {
-
-                if(in_array($alertType, $values))
-                {
-                    $responseFlagColumn =   $key;
-                    break;
-                }
-             
-            }
-
-            $url = "submissions/".$referenceId;
-            $patient = $response->get("patient");
-            $sequenceNumber = $response->get("sequenceNumber");
-            $reviewStatus = $response->get("reviewed");
-            $reviewNote = $response->get("reviewNote");
-            $reviewNote = ($reviewNote=='')?'NA':$reviewNote;
-
-            $responseFlagType = $response->get($responseFlagColumn);
-            $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
-            
-            if(in_array($alertType, $noFlagAlerts))
-              $message = sprintf($alertContent, $sequenceNumber );
-            else
-              $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
-
-
-            $responseId = $response->getObjectId();
-            $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
-        }
-
         $data['alertMsg'] = $alertMsg;
-        $data['responseObject'] = $responseObject;
 
         return $data;
 
