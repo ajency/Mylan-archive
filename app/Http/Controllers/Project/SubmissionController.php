@@ -476,7 +476,6 @@ class SubmissionController extends Controller
                 $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("score")];
            // elseif($questionType == 'input')
            //      $chartData[$answers->get("question")->getObjectId()] =['question'=>$answers->get("question")->get("title"),'score'=>$answers->get("value")];
- 
            
         }
 
