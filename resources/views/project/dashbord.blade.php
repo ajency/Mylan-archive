@@ -175,7 +175,7 @@
                             @foreach($projectAlerts['alertMsg'] as $projectAlert)
                               <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
                                 <div class="message-wrapper msg-card">
-                                     <div class="heading">Patient ID <span class="patient-refer{{ $projectAlert['patient'] }}">{{ $projectAlert['patient'] }}</span>   </div>
+                                     <div class="heading">Patient ID <span class="ttuc patient-refer{{ $projectAlert['patient'] }}">{{ $projectAlert['patient'] }}</span>   </div>
                                      <div class="description"> {{ $projectAlert['msg'] }} </div>
                                   </div>
                                   <!-- <div class="date pull-right"> Yesterday </div> -->
@@ -321,7 +321,7 @@
                               @foreach($submissionsSummary as $responseId=> $submission)
                                  @if($submission['status']=='missed' || $submission['status']=='late')
                                     <tr>
-                                      <td class="text-center patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
+                                      <td class="text-center ttuc patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
                                        <td class="text-center">
                                          <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                          <sm ><b>#{{ $submission['sequenceNumber'] }}</b></sm>
@@ -355,7 +355,7 @@
                                  @else 
 
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{$responseId}}';">
-                                    <td class="text-center patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
+                                    <td class="text-center ttuc patient-refer{{ $submission['patient'] }}">{{ $submission['patient'] }}</td>
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submission['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submission['sequenceNumber'] }}</b></sm>
@@ -439,7 +439,7 @@
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
             
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
-                                    <td class="text-center patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
+                                    <td class="text-center ttuc patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
@@ -546,7 +546,7 @@
                         $patientSummary = $patientResponses[$referenceCode];
                       ?>
                         <tr>
-                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
+                           <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="ttuc patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                               <div class="lst-sub submission-count">
                                  <h2 class="bold inline">

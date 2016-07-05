@@ -19,7 +19,7 @@
 @endsection
 @section('content')
 <div class="page-title">
-     <h3>Report of Patient Id<span class="semi-bold"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Report of Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
   </div>
  <div class="tabbable tabs-left">
                       @include('hospital.patients.side-menu')

@@ -28,7 +28,7 @@
         <form name="patientFilter" method="GET"> 
          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
              @foreach($allPatients as $patient)
-               <option class="patient-refer{{ $patient }}" {{ ($referenceCode==$patient)?'selected':''}} value="{{ $patient }}">{{ $patient }}</option>
+               <option class="ttuc patient-refer{{ $patient }}" {{ ($referenceCode==$patient)?'selected':''}} value="{{ $patient }}">{{ $patient }}</option>
              @endforeach
             </select> 
          </form>
@@ -51,7 +51,7 @@
       <br>
       <div class="row">
          <div class="col-sm-8">
-           <h3 class="m-b-25">Patient Id<span class="semi-bold patient-refer{{ $referenceCode }}"> {{ $referenceCode }}</span></h3>
+           <h3 class="m-b-25">Patient Id<span class="semi-bold ttuc patient-refer{{ $referenceCode }}"> {{ $referenceCode }}</span></h3>
        </div>
  
 
