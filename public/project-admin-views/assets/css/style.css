@@ -9702,7 +9702,8 @@ small.help-text {
   margin-left: 0;
 }
 .question-options {
-  padding-top: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #ddd;
 }
 .question-options:last-child {
   border-bottom: none;
@@ -9734,10 +9735,6 @@ small.help-text {
 }
 .question-options_subquestion span.chev-icons {
   font-size: 10px;
-}
-.question-options-container {
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ddd;
 }
 .question-options-container a.accordion-toggle.collapsed > .question-options {
   border-bottom: 1px solid #ccc;
@@ -10048,53 +10045,4 @@ small.help-text {
 }
 .ttlc {
   text-transform: lowercase;
-}
-.p-l-45 {
-  padding-left: 45px;
-}
-.collapse-link {
-  color: #05a8a5;
-  text-decoration: underline;
-}
-.collapse-link:hover,
-.collapse-link:active .collapse-link:visited,
-.collapse-link:focus {
-  color: #05a8a5;
-  text-decoration: underline;
-}
-.collapse-link.collapsed:after {
-  content: "Show sub questions";
-}
-.collapse-link:after {
-  content: "Hide sub questions";
-}
-.question-options_subquestion__container {
-  background: #ffffff;
-  padding: 15px;
-  margin-top: 15px;
-  position: relative;
-  box-shadow: 0 0 16px #e5e9ec;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ddd;
-}
-.question-options_subquestion__container:before {
-  top: -20px;
-  content: " ";
-  display: block;
-  height: 20px;
-  left: 0;
-  position: absolute;
-  width: 100%;
-}
-.question-options_subquestion__container:after {
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-bottom: 10px solid #ffffff;
-  top: -10px;
-  content: " ";
-  height: 0;
-  left: 80px;
-  margin-left: -13px;
-  position: absolute;
-  width: 0;
 }

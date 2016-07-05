@@ -253,15 +253,15 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $('.dd').nestable({});
-    $('.collapse').on('show.bs.collapse', function () {
+    $('.questionSummary__options.collapse').on('show.bs.collapse', function () {
       $(this).parent('.questionSummary').siblings('.questionSummary').find('.questionSummary__options.in').collapse('hide');
       $(this).parent('.questionSummary').siblings('.questionSummary').addClass('rest-are-closed').find('.accordion-toggle').addClass('collapsed');
-      $(this).parent('.questionSummary').addClass('hasopened')
-    })
-    $('.collapse').on('hide.bs.collapse', function () {
+      $(this).parent('.questionSummary').addClass('hasopened');
+    });
+    $('.questionSummary__options.collapse').on('hide.bs.collapse', function () {
       $(this).parent('.questionSummary').siblings('.questionSummary').removeClass('rest-are-closed');
-      $(this).parent('.questionSummary').removeClass('hasopened')
-    })
+      $(this).parent('.questionSummary').removeClass('hasopened');
+    });
 });
 </script>
 
