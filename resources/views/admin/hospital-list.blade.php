@@ -43,7 +43,7 @@
                         @foreach($hospitals as $hospital)
                         <div>
                            <div class="pull-right">
-                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/projects" ><button class="btn btn-default btn-small m-r-15">Login as {{ $hospital['name'] }}</button></a>
+                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/projects" ><button class="btn btn-default btn-small m-r-15 default-light-btn">Login as {{ $hospital['name'] }} &nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></button></a>
                          <!--      <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span> -->
 
@@ -55,13 +55,13 @@
                         <br>
                         <div class="row feature-list fivefetures">
                            <div class="col-md-4 b-r">
-                              <h3 class="pull-right text-info">{{ $hospital->projects()->count() }}</h3>
-                              <h5 class="semi-bold black m-b-20"><i class="fa fa-flag text-muted"></i> PROJECTS</h5>
+                              <h3 class="pull-right circ-bord">{{ $hospital->projects()->count() }}</h3>
+                              <h5 class="semi-bold black"><i class="fa fa-flag text-muted"></i> PROJECTS</h5>
                               <div>
                                 <!--  <p>
                                     Displays total number of flagged patients
                                  </p> -->
-                                 <a href="/{{ $hospital['url_slug'] }}/projects/" class="text-info" target="_blank">View Projects</a>  
+                                 <a href="/{{ $hospital['url_slug'] }}/projects/" class="brand-link tdu fosz12" target="_blank">View Projects</a>  
                               </div>
                            </div>
                            <!-- <div class="col-md-3 b-r">
@@ -85,23 +85,23 @@
                               </div>
                            </div> -->
                            <div class="col-md-4 b-r">
-                              <h3 class="pull-right text-info">{{ $hospital->users()->where('type','project_user')->count() }}</h3>
-                              <h5 class="semi-bold black m-b-20"><i class="fa fa-users text-muted"></i> Project USERS</h5>
+                              <h3 class="pull-right circ-bord">{{ $hospital->users()->where('type','project_user')->count() }}</h3>
+                              <h5 class="semi-bold black"><i class="fa fa-users text-muted"></i> Project USERS</h5>
                               <div>
                             <!--      <p>
                                     2 Read<br>3 Edit
                                  </p> -->
-                                 <a href="/{{ $hospital['url_slug'] }}/users/" class="text-info">View Users</a>
+                                 <a href="/{{ $hospital['url_slug'] }}/users/" class="brand-link tdu fosz12">View Users</a>
                               </div>
                            </div>
                            <div class="col-md-4">
-                              <h3 class="pull-right text-info m-0">{{ $hospital->users()->where('type','patient')->count() }}</h3>
-                              <h5 class="semi-bold black m-b-20"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
+                              <h3 class="pull-right circ-bord">{{ $hospital->users()->where('type','patient')->count() }}</h3>
+                              <h5 class="semi-bold black"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
                               <div>
                               <!--    <p>
                                     {{ $hospital->users()->where('type','patient')->where('account_status','created')->count() }} newly registered patients since last week
                                  </p> -->
-                                 <a href="{{ url('/admin/hospital/'.$hospital['id'].'/patients/') }}" class="text-info">View Patients</a>
+                                 <a href="{{ url('/admin/hospital/'.$hospital['id'].'/patients/') }}" class="brand-link tdu fosz12">View Patients</a>
                               </div>
                            </div>
                         </div>

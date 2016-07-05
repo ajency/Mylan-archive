@@ -32,15 +32,15 @@
                         @foreach($projects as $project)
                         <div>
                            <div class="pull-right">
-                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}?login=project" ><button class="btn btn-default btn-small m-r-15">Login as {{$project['name']}}</button></a>
+                              <a target="_blank" href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}?login=project" ><button style="background: #f2f4f5;" class="btn btn-default btn-small m-r-15">Login as {{$project['name']}} &nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></button></a>
                               <!-- <span class="text-danger"><i class="fa fa-flag"></i> 5 New</span><span class="text-muted">&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span> -->
                            </div>
-                           <a href="{{ url( $hospital['url_slug'].'/projects/'. $project['id'] .'/edit' ) }}">
-                              <h3><span class="semi-bold">{{$project['name']}}</span></h3>
-                           </a>
+                           
+                              <h3><span class="semi-bold">{{$project['name']}}</span> &nbsp;<small style="font-size: 13px;"><a style="color: #05a8a5;" href="{{ url( $hospital['url_slug'].'/projects/'. $project['id'] .'/edit' ) }}"><i class="fa fa-pencil"></i> edit</a></small></h3>
+                           
                         </div>
-                        <br>
+                        
                         <em>{{$project['description']}}</em>
                         
                         <br>

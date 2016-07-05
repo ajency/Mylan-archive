@@ -426,7 +426,7 @@ function hospitalImageExist($hospital,$flag=true)
 
     if($hospital['logo']!='' && file_exists($filepath))
     {
-        $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/>';
+        $logo = '<img src="'.$logoUrl.'" class="logo" alt=""  data-src="'.$logoUrl.'" data-src-retina="'.$logoUrl.'" width="auto" height="40"/> <h3 class="inline hospital-name test">'.$hospital['name'].'</h3>';
         if($flag)
             $logo .='<h3 class="inline"><span class="text-muted side-pipe">|</span></h3>';
     }

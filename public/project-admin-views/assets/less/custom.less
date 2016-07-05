@@ -1861,9 +1861,13 @@ small.help-text{
         font-size: 10px;
       }
       .ttuc{
-        text-transform: uppercase;
+        text-transform: lowercase;
         font-size: 14px;
         color: @color-black;
+        display: inline-block;
+        &:first-letter{
+          text-transform: uppercase;
+        }
       }
     }
     a.accordion-toggle{
@@ -1943,8 +1947,8 @@ small.help-text{
 }
 
 .question-options{
-  padding: 15px 0;
-  border-bottom: 1px solid #ddd;
+  padding-top: 15px;
+  // border-bottom: 1px solid #ddd;
   &:last-child{
     border-bottom: none;
   }
@@ -1961,7 +1965,12 @@ small.help-text{
     .ttuc{
       color: @color-black;
       font-weight: 600;
+      text-transform: lowercase;
+      display: inline-block;
       //font-size: 13px;
+      &:first-letter{
+        text-transform: uppercase;
+      }
     }
     span.label{
       font-size: 10px;
@@ -1986,6 +1995,8 @@ small.help-text{
 }
 
 .question-options-container{
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
   a.accordion-toggle{
     &.collapsed{
       & > .question-options{
@@ -2370,4 +2381,58 @@ small.help-text{
 
 .ttlc{
   text-transform: lowercase;
-} 
+}
+
+.p-l-45{
+  padding-left: 45px;
+}
+
+.collapse-link{
+  color: @color-secondary;
+  text-decoration: underline;
+  &:hover,
+  &:active
+  &:visited,
+  &:focus{
+    color: @color-secondary;
+    text-decoration: underline;
+  }
+  &.collapsed:after{
+    content: "Show sub questions";
+  }
+  &:after{
+    content: "Hide sub questions";
+  }
+}
+
+.question-options_subquestion__container{
+  background: @color-white;
+  padding: 15px;
+  margin-top: 15px;
+  position: relative;
+  box-shadow: 0 0 16px #e5e9ec;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  &:before{
+    top: -20px;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+  }
+  &:after{
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid @color-white;
+    top: -10px;
+    content: " ";
+    height: 0;
+    left: 80px;
+    margin-left: -13px;
+    position: absolute;
+    width: 0;
+  }
+}
+       
