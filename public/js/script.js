@@ -725,8 +725,8 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         "dataProvider": chartData,
         "valueAxes": [{
             "integersOnly": true,
-            "maximum": 20,
-            "minimum": 0,
+            // "maximum": 20,
+            // "minimum": 0,
             "reversed": false,
             "axisAlpha": 0,
             "dashLength": 5,
@@ -813,8 +813,8 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           "dataProvider": chartData,
           "valueAxes": [{
               "integersOnly": true,
-              "maximum": 50,
-              "minimum": 0,
+              // "maximum": 50,
+              // "minimum": 0,
               "axisAlpha": 0,
               "dashLength": 5,
               "position": "left",
@@ -885,8 +885,8 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          "dataProvider": chartData,
          "valueAxes": [{
              "integersOnly": true,
-             "maximum": 6,
-             "minimum": 1,
+             // "maximum": 6,
+             // "minimum": 1,
              "reversed": true,
              "axisAlpha": 0,
              "dashLength": 5,
@@ -972,8 +972,8 @@ function patientFlagsChart(chartData)
         "dataProvider": chartData,
         "valueAxes": [{
             "integersOnly": true,
-            "maximum": 6,
-            "minimum": 1,
+            // "maximum": 6,
+            // "minimum": 1,
             "reversed": false,
             "axisAlpha": 0,
             "dashLength": 5,
@@ -1104,8 +1104,8 @@ function submissionBarChart(chartData,container)
     "dataProvider": chartData,
     "valueAxes": [{
         "title": "Score",
-        "maximum": 6,
-        "minimum": 0,
+        // "maximum": 6,
+        // "minimum": 0,
     }],
 
     "graphs": [{
@@ -1568,331 +1568,7 @@ $('.settings_block').on('click', '.deleteAlertSettings', function(event) {
  
 });
 
-// $('.question-list').on('change', '.questionType', function(event) { 
 
-//     var counter = $(this).closest(".question").attr("row-count");
-//     var i = parseInt(counter); 
-
-//     $(this).closest('.question').find('.question-options-block').remove(); 
-//     var html = '';
-
-//     if($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight")
-//     {
-        
-//         html +='<div class="col-sm-1"></div>';
-//         html +='<div class="col-sm-10 question-options-block m-t-15 hidden">';
-//         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
-//         html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
-//         html +='<input name="option['+i+'][0]" id="question" type="hidden" placeholder="Enter option" value="kg" class="form-control" >';
-//         html +='</div>';
-//         html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
-//         html +='<input name="score['+i+'][0]" id="question" type="hidden" placeholder="Enter score" value="1" class="form-control" >';
-//         html +='</div> ';
-//         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
-//         html +='</div>';
-//         html +='</div>';
-//         html +='<div class="col-sm-1"></div>';
-
-
-//         html +='<div class="row"><input type="hidden" name="optionId['+i+'][1]" value="">';
-//         html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
-//         html +='<input name="option['+i+'][1]" id="question" type="hidden" placeholder="Enter option" value="st" class="form-control" >';
-//         html +='</div>';
-//         html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
-//         html +='<input name="score['+i+'][1]" id="question" type="hidden" placeholder="Enter score" value="2" class="form-control" >';
-//         html +='</div> ';
-//         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
-//         html +='</div>';
-//         html +='</div>';
-
-
-//         html +='<div class="row"><input type="hidden" name="optionId['+i+'][2]" value="">';
-//         html +='<div class="col-sm-6 m-t-10 m-b-10 ">';
-//         html +='<input name="option['+i+'][2]" id="question" type="hidden" placeholder="Enter option" value="lb" class="form-control" >';
-//         html +='</div>';
-//         html +='<div class="col-sm-4 m-t-10 m-b-10 ">';
-//         html +='<input name="score['+i+'][2]" id="question" type="hidden" placeholder="Enter score" value="3" class="form-control" >';
-//         html +='</div> ';
-//         html +='<div class="col-sm-2 text-center m-t-10 m-b-10">';
-//         html +='</div>';
-//         html +='</div>';
-
-
-//         html +='</div>';
-//     }
-//     else if($(this).val()=="single-choice" || $(this).val()=="multi-choice" || $(this).val()=="input")
-//     {
-
-//         $(this).closest('.questionHead').find('.accordion-toggle').removeClass('hidden');
-//         html +='<div class="row panel-collapse collapse in p-l-15 p-r-15" id="collapse-'+i+'">';
-//         // html +='<div class="col-sm-1"></div>';
-//         html +='<div class="col-sm-12 question-options-block">';
-//         if(!$(this).hasClass('subquestionType'))
-//         {
-//             html +='<div class="row gray-section">';
-//             html +='<div class="col-md-12">';
-//             html +='<strong>Enter the options for this question</strong>';
-//             html +='<p>You can add a sub question too. The score declares the severity of the patient</p>';
-//             html +='</div>';
-//             html +='</div>';
-//         }
-              
-        
-//         html +='<div class="option-block">';
-//         html +='<div class="row"><input type="hidden" name="optionId['+i+'][0]" value="">';
-//         html +='<div class="col-md-1"><label class="p-t-15">option 1</label></div>';
-//         html +='<div class="col-md-11">';
-//         html +='<div class="row">';
-//         html +='<div class="col-sm-5 m-t-10 m-b-10  ">';
-//         html +='<input name="option['+i+'][0]" id="question" type="text" placeholder="Enter option" class="form-control" data-parsley-required>';
-//         html +='</div>';
-//         html +='<div class="col-sm-2 m-t-10 m-b-10 ">';
-//         html +='<input name="score['+i+'][0]" id="question" type="number" min="0" placeholder="Enter score" class="form-control" data-parsley-required>';
-//         html +='</div> ';
-
-//         if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
-//         {
-//             html +='<div class="col-sm-3 text-center m-t-20">';
-//             html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+'][0]"><small class="help-text">HAS SUB-QUESTION</small>';
-//             html +='</div>';
-//             html +='<div class="col-sm-2 text-right m-t-10 m-b-10 ">';
-//             html +='<button type="button" class="btn btn-white add-option" counter-key="0">Another Option <i class="fa fa-plus"></i></button>';
-//             html +='</div>';
-//         }
-//         else
-//         {
-//             html +='<div class="col-sm-5 text-right m-t-10 m-b-10 ">';
-//             html +='<button type="button" class="btn btn-white add-option" counter-key="0">Another Option <i class="fa fa-plus"></i></button>';
-//             html +='</div>';
-//         }
-//         html +='</div>';
-//         html +='</div>';
-
-//         html +='</div>';
-//         html +='<div class="subQuestion-container"></div> ';
-//         html +='</div> ';
-//         html +='</div> ';
-//         html +='<div class="col-sm-1"></div>';
-//         html +='</div> ';
-
-
-       
-//     }
-
-//     if(($(this).val()=="input" && $('option:selected', this).attr("data-value")=="weight") || $(this).val()=="descriptive")
-//     {
-//         $(this).closest('.questionHead').find('.accordion-toggle').addClass('hidden');
-//     }
-    
-//     $(this).closest('.question').find('.questionHead').after(html);
-    
-//     if($(this).val()=="single-choice" && !$(this).hasClass('subquestionType'))
-//     {
-
-//         $('.js-switch').each(function() {  
-//             if(_.isUndefined($(this).attr('data-switchery')))
-//             {
-//                 var switchery = new Switchery(this, { color: '#0aa699', size: 'small' });
-//             }
-             
-//         });
-//     }
-        
-// });
-
-// $('.question-list').on('change', '.hasSubQuestion', function(event) { 
-
-//     var optionKey1 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[1];
-//     var optionKey2 = $(this).prop('name').match(/\[(.*?)\]\[(.*?)\]/)[2]; 
-
-//     if($(this).prop("checked") == true){
-//         var counter = $('input[name="counter"]').val();
-//         var i = parseInt(counter) + 1;
-
-//         html ='<div class="row question subQuestion-row" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-//         html +='<div class="col-md-1"></div>';
-//         html +='<div class="col-md-10 questionHead sub-question arrow_box-top gray-rbor-section">';
-//         html +='<div class="col-sm-3"> <input type="hidden" name="optionKeys['+optionKey1+']['+optionKey2+']" value="'+i+'">';
-//         html +='<label>Type of question</label><select name="subquestionType['+i+']" class="select2-container select2 form-control  subquestionType questionType" data-parsley-required>';
-//         html +='<option value="">Select Question Type</option>';
-//         html +='<option value="single-choice"> Single-choice</option>';
-//         html +='<option value="multi-choice">Multi-choice</option>';
-//         html +='<option value="input"> Input</option>';
-//         html +='<option value="descriptive"> Descriptive </option>';
-//         html +='<option value="input" data-value="weight"> Weight </option>';
-//         html +='</select>';
-//         html +='</div>';
-//         html +='<div class="col-sm-3"><label for="">A short question identifier</label>';
-//         html +='<input name="subquestionTitle['+i+']" id="subquestionTitle" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
-//         html +='</div> ';
-//         html +='<div class="col-sm-5 m-t-25">';
-//         html +='<input name="subquestion['+i+']" id="subquestion" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
-//         html +='</div> ';
-
-//         html +='<div class="col-sm-1 text-center m-t-25 del-question-blk">';
-//         html +='<button type="button" class="btn btn-white delete-question"><i class="fa fa-trash"></i></button>';
-//         html +='</div>';
-//         html +='</div>';
-//         html +='</div>';
-
-//         $('input[name="counter"]').val(i);
-//     }
-//     else
-//     {
-//         html ='';
-//     }
-
-//     $(this).closest('.option-block').find('.subQuestion-container').html(html);
-    
-    
-
-// });
-
-// $('.question-list').on('click', '.add-option', function(event) { 
-    
-//     var counter = $(this).closest(".question").attr("row-count");
-//     var i = parseInt(counter);
-    
-
-//     var counterKey = $(this).attr("counter-key");
-//     var j = parseInt(counterKey) + 1;
-
-//     var question = $(this).closest(".row").find("input[name='option["+i+"]["+counterKey+"]']").val();
-//     var score = $(this).closest(".row").find("input[name='score["+i+"]["+counterKey+"]']").val();
-
-//     //add validation 
-//     $(this).closest(".row").find("input[name='option["+i+"]["+counterKey+"]']").attr('data-parsley-required', 'true');
-//     $(this).closest(".row").find("input[name='score["+i+"]["+counterKey+"]']").attr('data-parsley-required', 'true');
-
-
-//     // if(question=='')
-//     // {
-//     //     alert("Please Enter Option");
-//     // }
-//     // else if(score=='')
-//     // {
-//     //     alert("Please Enter Score");
-//     // }
-//     // else
-//     // {
-//         $(this).removeClass("add-option").addClass("delete-option");
-//         //$(this).find('i').removeClass("fa-plus").addClass("fa-trash");
-//         $(this).html('<i class="fa fa-trash"></i></button>');  
-//         // var optionBlockCount = $(this).closest(".question-options-block").find('.option-block').length; alert(optionBlockCount);
-//         // $(this).closest(".question-options-block").find('.option-block:eq(-2)').find(".delete-option").removeClass("hidden");
-
-//         html ='<div class="option-block">';
-//         html +='<div class="row p-l-15 p-r-15"> <input type="hidden" name="optionId['+i+']['+j+']" value="">';
-//         html +='<div class="col-sm-2"><label class="p-t-15">option '+ (j+1) +'</label></div>';
-//         // html +='<div class="col-sm-10">';
-//         // html +='<div class="row">';
-//         html +='<div class="col-sm-5 m-t-10 m-b-10">';
-//         html +='<input name="option['+i+']['+j+']" id="question" type="text" placeholder="Enter option" class="form-control" >';
-//         html +='</div>';
-//         html +='<div class="col-sm-2 m-t-10 m-b-10  ">';
-//         html +='<input name="score['+i+']['+j+']" id="question" type="number" placeholder="Enter score" class="form-control" min="0" >';
-//         html +='</div> ';
-
-//         if($(this).closest(".question").find(".hasSubQuestion").length)
-//         {
-//             html +='<div class="col-sm-3 text-center m-t-20">';
-//             html +='<input type="checkbox" class="js-switch hasSubQuestion" name="hasSubQuestion['+i+']['+j+']"><small class="help-text">Add sub question</small>';
-//             html +='</div>';
-//             html +='<div class="col-sm-2 text-right m-t-10 m-b-10 width-23">';
-//             html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'">Another Option <i class="fa fa-plus"></i></button>';
-//             html +='</div>';
-//         }
-//         else
-//         {
-//             html +='<div class="col-sm-5 text-right m-t-10 m-b-10 width-23">';
-//             html +='<button type="button" class="btn btn-white add-option" counter-key="'+j+'">Another Option <i class="fa fa-plus"></i></button>';
-//             html +='</div>';
-//         }
-//         // html +='</div>';
-//         // html +='</div>';
-
-//         html +='</div> ';
-//         html +='<div class="subQuestion-container"></div> ';
-//         html +='</div> ';
-
-
-//         $(this).closest('.question-options-block').append(html);
-
-//         if($(this).closest(".question").find(".hasSubQuestion").length)
-//         {
-
-//             $('.js-switch').each(function() {  
-//                 if(_.isUndefined($(this).attr('data-switchery')))
-//                 {
-//                     var switchery = new Switchery(this, { color: '#0aa699', size: 'small' });
-//                 }
-                 
-//             });
-//         }
-//     // }
-
-// });
-
-/*$('.question-list').on('click', '.delete-option', function(event) { 
-    
-    
-
-    var Obj = $(this);
-    var i = $(this).closest('.question').attr("row-count"); 
-    var counterKey = $(this).attr("counter-key");
-    var optionId = Obj.closest(".row").find('input[name="optionId['+i+']['+counterKey+']"]').val();
-    
-    
-    var count= 0; 
-    var title = '';
-    var i= 0;
-    if(Obj.closest('.question').hasClass("parentQuestion"))
-    {  
-        count=getOptionsCount(Obj);
-        i = Obj.closest('.parentQuestion').attr("row-count");
-        title = Obj.closest('.parentQuestion').find('input[name="title['+i+']"]').val();
-    }
-    else
-    {  
-        count=Obj.closest('.subQuestion-row').find('.option-block').length;
-        i = Obj.closest('.subQuestion-row').attr("row-count"); 
-        title = Obj.closest('.subQuestion-row').find('input[name="subquestionTitle['+i+']"]').val();
-    }
-
-
-    if(count > 2)
-    {
-        if (confirm('Are you sure you want to delete this option?') === false) {
-            return;
-        }
-
-        Obj.closest('div').append('<span class="cf-loader"></span>');
-        if(optionId!='')
-        {
-            $.ajax({
-                url: BASEURL + "/delete-option/" + optionId,
-                type: "DELETE",
-                success: function (response, status, xhr) { 
-                 
-                    if(xhr.status==203)
-                        Obj.closest('.option-block').remove(); 
-                
-                }
-            });
-        }
-        else
-        {
-            Obj.closest('.option-block').remove(); 
-        }
-    }
-    else
-    {
-        alert("Please make sure at least one option is present for question "+title+".");
-    }
-
-
-});
-*/
 
 function getOptionsCount(Obj)
 {
@@ -1907,116 +1583,6 @@ function getOptionsCount(Obj)
 
     return count;
 }
-
-// $('.add-question').click(function (event) { 
-    
-//     var counter = $('input[name="counter"]').val();
-//     var i = parseInt(counter) + 1;
-//     var j = $(".question:last").attr("row-count");
-//     var questionType = $(".question:last").find("select[name='questionType["+j+"]']").val();
-//     var question = $(".question:last").find("input[name='question["+j+"]']").val();
-//     var title = $(".question:last").find("input[name='title["+j+"]']").val();
-
-    
-
-//     // if(questionType=='')
-//     // {
-//     //     alert("Please Enter Question Type");
-//     // }
-//     // else if(title=='')
-//     // {
-//     //     alert("Please Enter Title");
-//     // }
-//     // else if(question=='')
-//     // {
-//     //     alert("Please Enter Question");
-//     // }
-//     // else if(!validateInputOptions($(".question:last").find("select[name='questionType["+j+"]']")))
-//     // {
-//     //     alert("please enter alteast one option and score for question "+title);
-         
-//     // }
-//     // else
-//     // {
-//         // $(".parentQuestion:last").find(".delete-parent-question").removeClass("hidden");
-
-//         html ='<div class="row parentQuestion question  panel panel-default" row-count="'+i+'"><input type="hidden" name="questionId['+i+']" value="">';
-//         html +='<div class="col-md-12 questionHead  panel-heading">';
-//         html +='<div class="col-sm-3 m-t-15">';
-//         html +='<label>Type of question</label>';
-//         html +='<select name="questionType['+i+']" class="select2-container select2 form-control questionType" data-parsley-required>';
-//         html +='<option value="">Select Question Type</option>';
-//         html +='<option value="single-choice"> Single-choice</option>';
-//         html +='<option value="multi-choice">Multi-choice</option>';
-//         html +='<option value="input"> Input</option>';
-//         html +='<option value="descriptive"> Descriptive </option>';
-//         html +='<option value="input" data-value="weight"> Weight </option>';
-//         html +='</select>';
-//         html +='</div>';
-//         html +='<div class="col-sm-3 m-t-15">';
-//         html +='<label for="">A short question identifier</label>';
-//         html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
-//         html +='</div> ';
-//         html +='<div class="col-sm-5 m-t-15">';
-//         html +='<label for="">What do you need to ask</label>';
-//         html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
-//         html +='</div> ';
-
-//         html +='<div class="col-sm-1 text-center m-t-15 m-b-15 del-question-blk">';
-//         html +='<button type="button" class="btn btn-white delete-parent-question delete-question"><i class="fa fa-trash"></i></button>';
-//         html +='</div>';
-//         html +='<a class="accordion-toggle hidden" data-toggle="collapse" data-parent="#accordion" href="#collapse-'+i+'">';
-//         html +='<i class="indicator glyphicon glyphicon-chevron-up pull-right chevron"></i>';
-//         html +='</a>';
-//         html +='</div>';
-//         html +='</div>';
-
-//         if($('.question-list').find('.no_question').length)
-//             $('.question-list').find('.no_question').addClass('hidden');
-            
-//         $('.question-list').append(html);
-//         $('input[name="counter"]').val(i);
-//     // }
-
-// });
-
-$('.question-list').on('click', '.delete-question', function(event) { 
-    
-    if (confirm('Are you sure you want to delete this question?') === false) {
-        return;
-    }
-    var Obj = $(this);
-
-    var i = Obj.closest(".question").attr('row-count');
-    var questionId = Obj.closest(".question").find('input[name="questionId['+i+']"]').val();
-    Obj.closest('div').append('<span class="cf-loader"></span>');
-
-    if(!Obj.hasClass('delete-parent-question'))
-    {  
-        Obj.closest('.option-block').find('.hasSubQuestion').trigger('click');
-    }
-
-    if(questionId!='')
-    {
-        $.ajax({
-            url: BASEURL + "/delete-question/" + questionId,
-            type: "DELETE",
-            success: function (response) {
-                 Obj.closest('.question').remove(); 
-
-            }
-        });
-    }
-    else
-    {
-        Obj.closest('.question').remove(); 
-    }
-
-
-
-    
-
-});
 
 $('.validateAndRedirect').click(function (event) { 
 
@@ -2059,67 +1625,7 @@ $('.publish-questionnaire').click(function (event) {
 
 });
 
-// $('.save-questions').click(function (event) { 
-
-//     var err=0;
-//     $('.question-list').find('select').each(function () { 
-
-//         if($(this).val()!='')
-//         { 
-//             var i = $(this).closest(".question").attr("row-count");
-//             var question = $(this).closest(".question").find("input[name='question["+i+"]']").val();
-//             var title = $(this).closest(".question").find("input[name='title["+i+"]']").val();
-
-            
-//             if(title=='')
-//             {
-//                 alert("Please Enter Title");
-//                 err++;
-//             }
-//             else if(question=='')
-//             {
-//                 alert("Please Enter Question");
-//                 err++;
-//             }
-//             else if(!validateInputOptions($(this)))
-//             {
-//                 alert("please enter alteast one option and score for question "+title);
-//                 err++;
-//             }
-//         }
-//     });
-
-    
-//     // var questionType = $(".question:last").find("select[name='questionType["+i+"]']").val();
-    
-
-//     // if(questionType!='')
-//     // {
-//     //     if(!validateInputOptions($(".question:last").find("select[name='questionType["+i+"]']")))
-//     //     {
-//     //         alert("please enter alteast one option and score");
-//     //         return;
-//     //     }
-//     //     else if(title=='')
-//     //     {
-//     //         alert("Please Enter Title");
-//     //         return;
-//     //     }
-//     //     else if(question=='')
-//     //     {
-//     //         alert("Please Enter Question");
-//     //         return;
-//     //     }
-//     // }
-    
-//     if(err==0)   
-//         $('form').submit();
-     
-       
-     
-    
-
-// });
+ 
 
 /*******New Questionnaire script*******/
 
