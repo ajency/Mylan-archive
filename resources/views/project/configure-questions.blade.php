@@ -427,7 +427,7 @@
             <form class="pull-right" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/order-questions/'.$questionnaireId ) }}" data-parsley-validate>
               <input type="hidden" value="publish" name="submitType"/>
               <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-              <button class="btn btn-primary @if(empty($questionsList)) hidden @endif publish-questionnaire" style="width: 180px; margin: 0;">PUBLISH</button>
+              <button type="button" class="btn btn-primary @if(empty($questionsList)) hidden @endif publish-questionnaire" style="width: 180px; margin: 0;">PUBLISH</button>
             </form>
        
           </div>

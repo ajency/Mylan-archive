@@ -520,6 +520,9 @@ class QuestionnaireController extends Controller
 			$questionObjs->equalTo("questionnaire",$questionnaire);
 			$questionObjs->ascending("createdAt");
 			$questions = $questionObjs->find(); 
+			 
+
+			
 
 			// $questionsList = [];
 			// foreach ($questions as $question) {
@@ -746,15 +749,14 @@ class QuestionnaireController extends Controller
 	
 					if(empty($previousQuestionObj))
 						$previousQuestionObj = NULL;
-
-					 
+			 
 				}
 
 				// if($questionId=='')
 				// {
 				// 	$previousQuestion = new ParseQuery("Questions");
 				// 	$previousQuestionObj = $previousQuestion->get($previousquestionId);
-						
+
 				// 	if(empty($previousQuestionObj))
 				// 		$previousQuestionObj = NULL;
 
