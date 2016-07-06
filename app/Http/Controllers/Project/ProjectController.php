@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Project;
 use Illuminate\Http\Request;
 
 use \Cache;
+use Mail;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Parse\ParseObject;
@@ -61,6 +62,8 @@ class ProjectController extends Controller
     { 
         try
         {
+
+
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
@@ -1737,6 +1740,14 @@ class ProjectController extends Controller
         $alertsettingObj = new ParseQuery("AlertSettings");
         $alertsetting = $alertsettingObj->get($settingsId);
         $alertsetting->destroy();
+
+
+
+        Mail::send('patient.blankmail', ['user' => ''], function ($m) use ($projectId) {
+            $m->from('prajay@ajency.in', 'Prajay');
+
+            $m->to('ashika@ajency.in', 'Ashika')->subject('Cache Cleared for Project Id '.$projectId);
+        });
 
         return response()->json([
                     'code' => 'delete_settings',
