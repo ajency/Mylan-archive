@@ -95,7 +95,7 @@
                         </ul>
                      </div>
                      @endif -->
-                     <div class="row gray-header">
+                     <div class="row gray-header bold">
                        <div class="col-sm-8">Options</div>
                        <div class="col-md-2 text-center">Score</div>
                        @if(isset($subQuestions[$questionId]))
@@ -110,12 +110,11 @@
                       @foreach($optionsList[$questionId] as $option)
 
                         @if(!empty($question['condition']) && isset($question['condition'][$option['optionId']]))
-                           
+                           <div class="question-options__cover">
                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $option['optionId'] }}">
                              <div class="question-options">
                              <div class="row">
-                               <div class="col-sm-8">
-                               <span class="chev-icons"></span>
+                               <div class="col-sm-8 p-l-45">
                                   {{ $option['label'] }}
                                </div>
                                <div class="col-sm-2 text-center">
@@ -137,44 +136,52 @@
                              </a>
 
                              <!-- sub-question -->
+                             <!-- markup -->
+                             <div class="clearfix">
+                               <small><a class="accordion-toggle collapsed p-l-30 collapse-link" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $option['optionId'] }}"></a></small>
+                             </div>
+                             <!-- /markup -->
                              <?php
                               $subQuestionId = $question['condition'][$option['optionId']];
                               $subQuestion = $subQuestions[$questionId][$subQuestionId];
                               ?>
 
-                              <div class="row panel-collapse collapse question-options_subquestion__container" id="collapse{{ $option['optionId'] }}">
+                              <div class="panel-collapse collapse question-options_subquestion__container" id="collapse{{ $option['optionId'] }}">
 
-                                <div class="col-sm-11 col-md-offset-1 gray-area">
-                                  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $subQuestionId }}">
-                                    <div class="question-options_subquestion row">
-                                      <div class="col-sm-1" style="width: 1.33%;">
+                                <!-- <div class="col-sm-11 col-md-offset-1 gray-area"> -->
+                                  <!-- <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $subQuestionId }}"> -->
+                                    <div class="question-options_subquestion">
+                                    <div class="row">
+                                      <!-- <div class="col-sm-1" style="width: 1.33%;">
                                         <span class="chev-icons"></span>
-                                      </div> 
+                                      </div>  -->
                                       
-                                      <div class="col-md-7">
+                                      <div class="col-md-8">
                                         <span class="ttuc p-r-15">{{ $subQuestion['title'] }}</span>
                                         {{ $subQuestion['question'] }}
                                       </div>
 
-                                      <div class="col-md-4" style="width: 38.33%">
+                                      <div class="col-md-4">
                                         @if(isset($optionsList[$subQuestionId]))
                                           <span class="label label-default pull-right m-t-5">{{ count($optionsList[$subQuestionId])}} OPTIONS</span>
                                         @endif
-                                      </div> 
+                                      </div>
+                                      </div><!--/row--> 
                                    </div>
-                                   </a>
+                                   <!-- </a> -->
 
-                                   <div class="row panel-collapse collapse question-options_subquestion__options" id="collapse{{ $subQuestionId }}">
-                                   <div class="col-md-11 col-md-offset-1" style="width:91.66666667%;">
-                                     <div class="row subQuestion-option">
-                                       <div class="col-md-12">
-                                         <div class="row">
-                                           <div class="col-sm-8 ">Options</div>
+                                   <!-- <div class="row panel-collapse collapse question-options_subquestion__options" id="collapse{{ $subQuestionId }}"> -->
+                                   <div class="question-options_subquestion__options">
+                                   <!-- <div class="col-md-11 col-md-offset-1" style="width:91.66666667%;"> -->
+                                     <div class="subQuestion-option">
+                                       <!-- <div class="col-md-12"> -->
+                                         <div class="row bold">
+                                           <div class="col-sm-8 p-l-45">Options</div>
                                            <div class="col-md-2 text-center">Score</div>
                                            
                                            
                                          </div>
-                                       </div>
+                                       <!-- </div> -->
                                      </div>
 
                                      @if(isset($optionsList[$subQuestionId]))
@@ -193,12 +200,13 @@
                                        </div><!-- /question-options -->
                                       @endforeach 
                                     @endif
-                                   </div>
+                                   <!-- </div> -->
                                    </div><!--/question-options_subquestion__options-->
-                                  </div>
+                                  <!-- </div> -->
 
 
                                  </div><!-- /question-options_subquestion -->
+                                 </div><!--/question-options__cover-->
 
                                  <!-- /sub-question -->
                         @else
