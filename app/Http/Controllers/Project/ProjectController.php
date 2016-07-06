@@ -1029,7 +1029,7 @@ class ProjectController extends Controller
                 $missedByDate[$occurrenceDate][]= $responseId;
             }
 
-            if($reviewed=='unreviewed')
+            if($responseStatus=='completed' && $reviewed=='unreviewed')
             {
                 $unreviewedSubmissionByDate[$occurrenceDate][]= $responseId;
             }
@@ -1043,7 +1043,7 @@ class ProjectController extends Controller
             $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
 
              
-           if ($responseStatus=='completed' || $responseStatus=='late') {
+           if ($responseStatus=='completed') {
                 $redFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalRedFlags;
                 $amberFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalAmberFlags;
                 $greenFlagsByDate[$occurrenceDate]['baseLine'][]=$baseLineTotalGreenFlags;
