@@ -459,7 +459,7 @@ function verifyProjectSlug($hospitalSlug ,$projectSlug)
 
 function getStatusName($status)
 {
-    $reviewStatus = ['reviewed'=>'Reviewed','reviewed_no_action'=>'Reviewed - No action','reviewed_call_done'=>'Reviewed - Call done','reviewed_appointment_fixed'=>'Reviewed - Appointment fixed','unreviewed'=>'Unreviewed','completed'=>'Completed','late'=>'Late'];
+    $reviewStatus = ['reviewed'=>'Reviewed','reviewed_no_action'=>'Reviewed - No action','reviewed_call_done'=>'Reviewed - Call done','reviewed_appointment_fixed'=>'Reviewed - Appointment fixed','unreviewed'=>'Unreviewed','completed'=>'Completed','late'=>'Late','missed'=>'Missed'];
 
     return (isset($reviewStatus[$status]))?$reviewStatus[$status] :'';
 }
