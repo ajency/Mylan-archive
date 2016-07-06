@@ -1309,10 +1309,7 @@ class PatientController extends Controller
 
     public function patientsSummary($patients,$startDate,$endDate,$cond=[],$sort=[])
     {
-        $scheduleQry = new ParseQuery("Schedule");
-        $scheduleQry->containedIn("patient",$patients);
-        $schedules = $scheduleQry->find();
-
+        
         $patientNextOccurrence = [];
         $patientResponses = [];
         $patientData = [];
@@ -1380,27 +1377,25 @@ class PatientController extends Controller
             $missedResponses[] = $missedCount;
         }
 
-        foreach($schedules as $schedule)
-        {
-            $patientId = $schedule->get("patient");
-            $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
-            $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
-
-        }
-
+        //get patients completed reponses
         $responseStatus = ["completed"]; //
-        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond,["desc" =>"createdAt"]);  
+        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond);  
+         
 
         $patientSortedData =[];
-
+        $missedPatientIds = [];
         foreach ($responses as $key => $response) {
             $status = $response->get("status");
             $patient = $response->get("patient");
             $responseId = $response->getObjectId();
             $occurrenceDate = $response->get("occurrenceDate")->format('dS M');
+            $missedPatientIds[] = $patient;
  
             if(!isset($patientData[$patient]))
             {
+                $nextOccurrence = $response->get("schedule")->get("nextOccurrence")->format('dS M');
+                $patientResponses[$patient]['nextSubmission'] = $nextOccurrence;
+
                 $patientResponses[$patient]['lastSubmission'] = $occurrenceDate;
                 $patientData[$patient] = $occurrenceDate;
             }
@@ -1426,7 +1421,8 @@ class PatientController extends Controller
             $previousTotalRedFlags = $response->get("previousTotalRedFlags");
             $previousTotalAmberFlags = $response->get("previousTotalAmberFlags");
             $previousTotalGreenFlags = $response->get("previousTotalGreenFlags");
- 
+            
+
             $patientResponses[$patient]['baseLineFlag']['red'] +=$baseLineTotalRedFlags;
             $patientResponses[$patient]['baseLineFlag']['amber'] +=$baseLineTotalAmberFlags;
             $patientResponses[$patient]['baseLineFlag']['green'] +=$baseLineTotalGreenFlags;
@@ -1447,6 +1443,19 @@ class PatientController extends Controller
             $patientLateCount[$patient] = $patientResponses[$patient]['late'];
             $patientMissedCount[$patient] = $patientResponses[$patient]['missed'];
         }
+
+        //get patients next occurance date
+        $scheduleQry = new ParseQuery("Schedule");
+        $scheduleQry->containedIn("patient",$missedPatientIds);
+        $schedules = $scheduleQry->find();
+
+        foreach($schedules as $schedule)
+        {
+            $patientId = $schedule->get("patient");
+            $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
+            $patientResponses[$patientId]['nextSubmission'] = $nextOccurrence;
+        }
+
 
         if(!empty($sort))
         {
@@ -1599,7 +1608,7 @@ class PatientController extends Controller
         {
             $responseQry->descending("createdAt","sequenceNumber");
         }
-
+        $responseQry->includeKey("schedule");
         $responses = $responseQry->find();  
         $responseData = array_merge($responseData,$responses); 
 
@@ -1625,7 +1634,7 @@ class PatientController extends Controller
         $responseQry->skip($page * $displayLimit);
         $responseQry->descending("createdAt","sequenceNumber");
         $responses = $responseQry->find();  
-        $responseData = array_merge($responses,$responseData); 
+        $responseData = array_merge($responseData,$responses); 
 
         if(!empty($responses))
         {

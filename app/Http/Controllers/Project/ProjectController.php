@@ -972,6 +972,7 @@ class ProjectController extends Controller
         }
 
         $totalResponses = count($projectResponses);
+        
         $data['completedCount'] = count($completedResponses);
         $data['missedCount'] = count($missedResponses);
         $data['lateCount'] = count($lateResponses);

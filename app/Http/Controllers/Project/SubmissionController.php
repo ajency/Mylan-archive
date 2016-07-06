@@ -579,7 +579,7 @@ class SubmissionController extends Controller
         $answersQry->ascending("occurrenceDate");
  
         $anwsers = $answersQry->find();
-        $anwsersData = array_merge($anwsers,$anwsersData); 
+        $anwsersData = array_merge($anwsersData,$anwsers); 
 
         if(!empty($anwsers))
         {
