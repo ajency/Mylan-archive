@@ -1457,6 +1457,7 @@ class ProjectController extends Controller
               }
               elseif ($responseStatus=='missed') {
                   $missedResponses[]= $response;
+                  $responseByDate[$sequenceNumber] = $responseId;
               }
 
               $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
