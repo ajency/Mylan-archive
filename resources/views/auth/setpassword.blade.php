@@ -41,7 +41,7 @@
                 ?>
                 <input type="hidden" value="{{ $referenceCode }}" name="reference_code">
                 <div class="ref-icon"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="You need to provide a password for this account. It can contain any 4 numbers of your choice."></i></div>
-                <input type="password" class="form-control input-lg" name="password" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters" >
+                <input type="password" class="form-control input-lg" name="password" id="password" placeholder="Enter your Password" data-parsley-required data-parsley-maxlength="4" data-parsley-minlength="4" data-parsley-maxlength-message="This value is too long. It should have 4 characters" data-parsley-minlength-message="This value is too short. It should have 4 characters" data-parsley-type="number" >
                 
                  <!-- <span class="fa fa-question form-control-feedback text-info" aria-hidden="true"></span> -->
 
