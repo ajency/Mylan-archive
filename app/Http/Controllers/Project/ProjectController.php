@@ -168,7 +168,7 @@ class ProjectController extends Controller
             else
             {
                 $patientController = new PatientController();
-                $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+                $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
             } 
@@ -743,7 +743,7 @@ class ProjectController extends Controller
 
 
         $patientController = new PatientController();
-        $patientsSummary = $patientController->patientsSummary($patientReferenceCode ,$startDateObj,$endDateObj,$cond,$sort);
+        $patientsSummary = $patientController->patientsSummary($projectId ,$patientReferenceCode ,$startDate,$endDate,$cond,$sort);
         $patientResponses = $patientsSummary['patientResponses'];
         $patientSortedData = $patientsSummary['patientSortedData']; 
         $patientMiniGraphData = $patientsSummary['patientMiniGraphData'];
@@ -972,7 +972,7 @@ class ProjectController extends Controller
         }
 
         $totalResponses = count($projectResponses);
-        
+
         $data['completedCount'] = count($completedResponses);
         $data['missedCount'] = count($missedResponses);
         $data['lateCount'] = count($lateResponses);
@@ -1594,10 +1594,12 @@ class ProjectController extends Controller
       $responseCacheKey = "projectResponses_".$projectId;
       $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
       $patientsSummaryCacheKey = "patientsSummary_".$projectId;
+      $patientsCompletedResponsesKey = "patientsCompletedResponses_".$projectId;
 
       Cache::forget($responseCacheKey);
       Cache::forget($patientsSummaryCacheKey);
       Cache::forget($patientsAlertsCacheKey);
+      Cache::forget($patientsCompletedResponsesKey);
 
         $json_resp = array(
                 'code' => 'cache_cleared' , 

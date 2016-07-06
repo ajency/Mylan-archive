@@ -95,7 +95,7 @@ class PatientController extends Controller
                          );
 
             // dd($patients);
-            $patientResponses = $this->patientsSummary($patients ,$startDateObj,$endDateObj,[],["desc" =>"completed"]);
+            $patientResponses = $this->patientsSummary($projectId ,$patients ,$startDate,$endDate,[],["desc" =>"completed"]);
 
             $patientsSummary = $patientResponses['patientResponses'];
             $patientSortedData = $patientResponses['patientSortedData'];
@@ -159,9 +159,6 @@ class PatientController extends Controller
             $project = Projects::find($projectId); 
             $projectAttributes = $project->attributes->toArray();
 
-            //Clear patient summary cache
-            $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-            Cache::forget($patientsSummaryCacheKey);
 
             // $projectAttributes = getProjectAttributes($projectAttributes);
         } catch (\Exception $e) {
@@ -348,6 +345,9 @@ class PatientController extends Controller
             //CLEAR PATIENT SUMMAY CACHE 
             $patientsSummaryCacheKey = "patientsSummary_".$projectId;
             Cache::forget($patientsSummaryCacheKey);
+
+            $patientsCompletedResponsesKey = "patientsCompletedResponses_".$projectId;
+            Cache::forget($patientsCompletedResponsesKey);
 
             Session::flash('success_message','Patient created successfully.');
 
@@ -1307,8 +1307,19 @@ class PatientController extends Controller
                                         ->with('answersList', $answersList);
     }
 
-    public function patientsSummary($patients,$startDate,$endDate,$cond=[],$sort=[])
+    public function patientsSummary($projectId,$patients,$startDate,$endDate,$cond=[],$sort=[])
     {
+
+        $startDateObj = array(
+                  "__type" => "Date",
+                  "iso" => date('Y-m-d\TH:i:s.u', strtotime($startDate))
+                 );
+
+        $endDateObj = array(
+                      "__type" => "Date",
+                      "iso" => date('Y-m-d\TH:i:s.u', strtotime($endDate .'+1 day'))
+                     );
+
         
         $patientNextOccurrence = [];
         $patientResponses = [];
@@ -1334,15 +1345,15 @@ class PatientController extends Controller
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'missed'); 
-            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
             $missedCount = $responseQry->count();
 
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'late'); 
-            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDate);
-            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
+            $responseQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+            $responseQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
             $lateCount = $responseQry->count();
 
             //
@@ -1379,9 +1390,24 @@ class PatientController extends Controller
 
         //get patients completed reponses
         $responseStatus = ["completed"]; //
-        $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDate,$endDate,$responseStatus,$cond);  
-         
+        $patientsCompletedResponsesKey = "patientsCompletedResponses_".$projectId;
+        $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
+        if (Cache::has($patientsCompletedResponsesKey) && isset(Cache::get($patientsCompletedResponsesKey)[$cacheDateKey]) ) {
+                $cacheProjectCompletedResponses =  Cache::get($patientsCompletedResponsesKey);  
+                $responses = $cacheProjectCompletedResponses[$cacheDateKey];  
+         }
+        else
+        {  
+            $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond);
+            
+            $cacheProjectCompletedResponses[$cacheDateKey] = $responses;
+
+            //store cache data
+            Cache:: forever($patientsCompletedResponsesKey, $cacheProjectCompletedResponses); 
+        } 
+
+ 
         $patientSortedData =[];
         $missedPatientIds = [];
         foreach ($responses as $key => $response) {
