@@ -60,7 +60,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request,$hospitalSlug)
-    {
+    {	
+		
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();
         $hospitalName = $hospital['name'];
 
@@ -117,7 +118,8 @@ class UserController extends Controller
         
         Session::flash('success_message','User created successfully. An email has been sent to the user email address with the login instruction');
 
-        return redirect(url($hospitalSlug . '/users/' . $userId . '/edit'));
+        // return redirect(url($hospitalSlug . '/users/' . $userId . '/edit'));
+        return redirect(url($hospitalSlug . '/users'));
     }
 
     /**

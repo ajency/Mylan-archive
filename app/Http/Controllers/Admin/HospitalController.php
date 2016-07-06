@@ -78,7 +78,8 @@ class HospitalController extends Controller
 
         Session::flash('success_message','Hospital created successfully.');
          
-        return redirect(url('/admin/hospitals/' . $hospitalId . '/edit'));
+        // return redirect(url('/admin/hospitals/' . $hospitalId . '/edit'));
+        return redirect(url('/admin/hospitals'));
     }
 
     /**

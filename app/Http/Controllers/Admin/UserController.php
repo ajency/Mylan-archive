@@ -124,7 +124,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {	
         $password = randomPassword();
 
         $user = new User;
@@ -179,7 +179,8 @@ class UserController extends Controller
         Session::flash('success_message','User created successfully. An email has been sent to the user email address with the login instruction');
          
 
-        return redirect(url('/admin/users/' . $userId . '/edit'));
+        // return redirect(url('/admin/users/' . $userId . '/edit'));
+        return redirect(url('/admin/users'));
         
     }
 
