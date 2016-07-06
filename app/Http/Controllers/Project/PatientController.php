@@ -2095,7 +2095,7 @@ class PatientController extends Controller
             $patientSubmissions=[];
             $responseByDate = [];
             
-            $responseStatus = ["completed","late","missed"]; 
+            $responseStatus = ["completed","missed"]; 
             $responses = $this->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
             $totalResponses = count($responses);
             foreach ($responses as  $response) {
