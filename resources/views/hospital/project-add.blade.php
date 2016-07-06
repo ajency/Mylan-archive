@@ -1,13 +1,17 @@
 @extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php
+	$previousProject = explode("/",$_SERVER['REQUEST_URI']);
+	$projUrl = $previousProject[1]."/".$previousProject[2];
+?>
    <p>
       <ul class="breadcrumb">
-         <li>
+         <!--li>
             <a href="#" class="active" > Home</a>
-         </li>
+         </li-->
          <li>
-            <a href="#"> Projects</a>
+            <a href="{{ url() }}/<?php echo $projUrl; ?>" class="active"> Projects</a>
          </li>
          <li>
             <a href="#"> Add Project</a>
