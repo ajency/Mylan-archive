@@ -1472,6 +1472,7 @@ class PatientController extends Controller
 
         //get patients next occurance date
         $scheduleQry = new ParseQuery("Schedule");
+        $scheduleQry->exists("patient");
         $scheduleQry->notContainedIn("patient",$missedPatientIds);
         $schedules = $scheduleQry->find();
 
