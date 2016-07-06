@@ -3,9 +3,9 @@
 <!-- BEGIN BREADCRUMBS -->
       <p>
       <ul class="breadcrumb">
-         <li>
+         <!--li>
             <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
-         </li>
+         </li-->
          <li>
             <a href="#" class="active">Project Users</a>
          </li>
