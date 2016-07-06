@@ -47,7 +47,7 @@
                         <hr>
                         @endforeach
                         @else
-                           <div>No Project Added Yet</div>
+                           <div>No Project Added Yet.</div>
                         @endif
                         
                      </div>
