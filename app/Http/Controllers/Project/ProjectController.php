@@ -1434,7 +1434,7 @@ class ProjectController extends Controller
           
           $patientController = new PatientController();
           $responseByDate = [];
-          $responseStatus = ["completed","missed"];
+          $responseStatus = ["completed","late","missed"];
           $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
           $patientResponses = $patientController->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
           foreach ($patientResponses as  $response) {
@@ -1448,6 +1448,8 @@ class ProjectController extends Controller
               if ($responseStatus=='completed') {
                   $completedResponses[]= $response;
                   $patientSubmissions[] = $response;
+
+                  $responseByDate[$sequenceNumber] = $responseId;
               }
               elseif ($responseStatus=='late') {
                   $lateResponses[]= $response;
@@ -1459,7 +1461,7 @@ class ProjectController extends Controller
 
               $occurrenceDate = $response->get("occurrenceDate")->format('d-m-Y h:i:s');
               $occurrenceDate = strtotime($occurrenceDate);
-              $responseByDate[$sequenceNumber] = $responseId;
+              
           } 
 
           ksort($responseByDate);
