@@ -1434,7 +1434,7 @@ class ProjectController extends Controller
           
           $patientController = new PatientController();
           $responseByDate = [];
-          $responseStatus = ["completed","late","missed"];
+          $responseStatus = ["completed","missed"];
           $completedResponses = $missedResponses = $lateResponses = $patientSubmissions = $responseArr = [];
           $patientResponses = $patientController->getPatientsResponseByDate($patients,0,[],$startDateObj,$endDateObj,$responseStatus);
           foreach ($patientResponses as  $response) {
