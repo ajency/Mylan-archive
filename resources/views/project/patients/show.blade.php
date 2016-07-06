@@ -82,7 +82,7 @@
                  @endforeach
                 @endif 
                 <dt>Smoker</dt>
-                 <dd>{{ $patient['patient_is_smoker'] }}</dd>
+                 <dd style="text-transform: capitalize;">{{ $patient['patient_is_smoker'] }}</dd>
                  @if($patient['patient_is_smoker']=='yes')
                  <dt>If yes, how many per week</dt>
                  <dd>{{ $patient['patient_smoker_per_week'] }}</dd>
