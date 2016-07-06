@@ -37,7 +37,7 @@
             <div class="col-sm-3">
                <div class="form-row">
                   <label>Email</label>
-                  <input name="email" id="email" type="email"  value="{{ $user['email'] }}" objectId="{{ $user['id'] }}" objectType="hospital" class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
+                  <input name="email" id="email" type="email"  value="{{ $user['email'] }}" objectId="{{ $user['id'] }}" objectType="hospital" class="authUserEmail form-control" data-parsley-required data-parsley-type="email" readonly="true">
                </div>
             </div>
             <div class="col-sm-3">
