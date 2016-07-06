@@ -137,7 +137,6 @@ class ProjectController extends Controller
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
                 $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
  
-
              }
             else
             {  

@@ -273,7 +273,7 @@
                        </h4>
                            </div>
                            <div class="grid-body no-border" style="display: block;">
-                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
+                              <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="status" cond="completed">
                           <thead class="cf">
                              <tr>
                                 <th class="sorting" width="10%">Patient ID <br><br></th>

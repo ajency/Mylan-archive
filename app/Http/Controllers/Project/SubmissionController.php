@@ -147,7 +147,8 @@ class SubmissionController extends Controller
           
                 $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
                 $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
-                $responseId = $response->getObjectId();
+                $reviewedDate = (!is_null($response->get('reviewedDate')))?$response->get('reviewedDate')->format('Y-m-d H:i:s'):'';
+                $responseId = $response->getObjectId(); 
 
                 if($status=='completed')
                 {
@@ -669,6 +670,15 @@ class SubmissionController extends Controller
                 Cache::forget($responseCacheKey);
                
             }
+
+            $reviewdate = array(
+                    "__type" => "Date",
+                    "iso" => date('Y-m-d\TH:i:s.u')
+                   );
+
+            $response->setAssociativeArray('reviewedDate',$reviewdate);
+            $response->save(); 
+
         
         } catch (\Exception $e) {
 
