@@ -61,20 +61,40 @@
                     <div class="row">
                     <?php $i=1;?>
                       @if(!empty($questionOptions))
+					  <?php
+						$flagKg = true;
+					  ?>
                         @foreach($questionOptions as $optionId=>$score)
                           <?php 
                             $value = '';
                             $option = $optionsList[$questionId][$optionId];
-
-                            if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']))
-                                $value = $answersList[$questionId]['value'];
+							if($option['label'] == 'st' || $option['label'] == 'lb' || $option['label'] == 'kg' ){
+								if($flagKg == true){
+									$value = getInputValues($answersList[$questionId]['optionValues'],false);
+									$flagKg = false;
+								}	
+							}else if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']) ){
+								if(array_key_exists("optionValues",$answersList[$questionId])){
+									$value = "";
+								}else{
+									$value = $answersList[$questionId]['value'];
+								}	
+							}	
                           ?>
-                          <div class="col-md-4">
-                             <label>{{ $option['label'] }}</label>
-                             <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control inputBox" type="text"  {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
-
-                          </div>
-                           <?php $i++;?>
+							<?php 
+								if($value !=""){
+									$value = $value;
+								}else{
+									$value = $answersList[$questionId]['optionValues'][$option['label']];
+								}								
+								
+							?>
+							  <div class="col-md-4">
+								 <label>{{ $option['label'] }}</label>
+								 <input name="question[{{ $questionId }}][{{ $option['id'] }}]" value="{{ $value }}" class="form-control inputBox" type="text"  {{ ($i==1)?'data-parsley-required':''}} data-parsley-type="number" data-parsley-trigger="change"/>
+							  </div>
+							   <?php $i++;?>
+						  
                         @endforeach
                       @else
                         <?php 
