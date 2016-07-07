@@ -86,8 +86,7 @@
 									$value = $value;
 								}else{
 									$value = $answersList[$questionId]['optionValues'][$option['label']];
-								}								
-								
+								}	
 							?>
 							  <div class="col-md-4">
 								 <label>{{ $option['label'] }}</label>
