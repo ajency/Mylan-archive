@@ -1603,12 +1603,7 @@ class ProjectController extends Controller
       Cache::forget($patientsSummaryCacheKey);
       Cache::forget($patientsAlertsCacheKey);
       Cache::forget($patientsCompletedResponsesKey);
-
-      Mail::send('patient.blankmail', ['user' => ''], function ($m) use ($projectId) {
-            $m->from('prajay@ajency.in', 'Prajay');
-
-            $m->to('ashika@ajency.in', 'Ashika')->subject('Cache Cleared for Project Id '.$projectId);
-        });
+ 
 
         $json_resp = array(
                 'code' => 'cache_cleared' , 

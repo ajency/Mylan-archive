@@ -53,22 +53,22 @@ class Authenticate
            $routePrefix = $request->route()->getPrefix(); 
 
             if(str_contains($routePrefix, 'admin'))
-                return redirect()->guest('admin/login');
+                return redirect('/admin/login');
             elseif(str_contains($routePrefix, '{hospitalslug}/{projectslug}'))
             {
                 $hospitalslug= $request->hospitalslug;
                 $projectslug= $request->projectslug;
 
-                return redirect()->guest($hospitalslug.'/'.$projectslug.'/login');
+                return redirect($hospitalslug.'/'.$projectslug.'/login');
             }
             elseif(str_contains($routePrefix, '/{hospitalslug}'))
             {
                 $hospitalslug= $request->hospitalslug;
-                return redirect()->guest($hospitalslug.'/login');
+                return redirect($hospitalslug.'/login');
             }
             else
             {
-                return redirect()->guest('auth/login');
+                return redirect('/auth/login');
             }
         }
 

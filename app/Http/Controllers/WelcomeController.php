@@ -37,7 +37,7 @@ class WelcomeController extends Controller {
      */
     public function index() {
 		
-		if(Auth::check()){
+		if(Auth::check() && Auth::user()->type=='patient'){
 			return redirect(url()."/dashboard");
 		}else{
 			return view( 'setup' );

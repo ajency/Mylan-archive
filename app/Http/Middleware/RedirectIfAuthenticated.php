@@ -40,20 +40,21 @@ class RedirectIfAuthenticated
 
         if ($this->auth->check()) {
 
-            $routePrefix = $request->route()->getPrefix();
-            if(str_contains($routePrefix, 'admin'))
-                    return redirect('/admin'); 
-            elseif(str_contains($routePrefix, 'hospital'))
-            {
-                $id= $request->id;
-                return redirect('/hospital/'.$id); 
+            // $routePrefix = $request->route()->getPrefix();
+            // if(str_contains($routePrefix, 'admin'))
+            //         return redirect('/admin'); 
+            // elseif(str_contains($routePrefix, 'hospital'))
+            // {
+            //     $id= $request->id;
+            //     return redirect('/hospital/'.$id); 
                  
-            }
-            $routePrefix = $request->route()->getPrefix(); 
+            // }
+
+            $routePrefix = $request->route()->getPrefix();   
             if(str_contains($routePrefix, 'admin'))
                 return redirect()->guest('admin');
             elseif(str_contains($routePrefix, 'patient'))
-            {
+            { 
                 return redirect()->guest('/dashboard');
             }
             elseif(str_contains($routePrefix, '{hospitalslug}/{projectslug}'))
@@ -68,6 +69,7 @@ class RedirectIfAuthenticated
                 $hospitalslug= $request->hospitalslug;
                 return redirect()->guest($hospitalslug.'/');
             }
+            
             
         }
 
