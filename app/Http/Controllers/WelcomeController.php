@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use \Session;
+use \Auth;
 use Illuminate\Support\Facades\Hash;
 
 class WelcomeController extends Controller {
@@ -35,7 +36,12 @@ class WelcomeController extends Controller {
      * @return Response
      */
     public function index() {
-        return view( 'setup' );
+		
+		if(Auth::check()){
+			return redirect(url()."/dashboard");
+		}else{
+			return view( 'setup' );
+		}	
     }
 
     public function verifyReferenceCode(Request $request)
