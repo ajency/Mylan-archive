@@ -90,9 +90,17 @@
                          </tr>
                       </thead>
                       <tbody>
-                      @if(!empty($submissionFlags['all']))   
+                      @if(!empty($submissionFlags['all']))  
+						<?php
+							$totalcount =0 ;
+							$counter = 0;
+						?>
                         @foreach($submissionFlags['all'] as $allSubmissionFlag)
                          <?php 
+							$totalcount = $totalcount + 1; 
+							if($allSubmissionFlag['flag'] == ""){
+								 $counter = $counter+1;
+							}
                           if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
                                continue;
                           ?>
@@ -107,6 +115,11 @@
                             <td><i class="fa fa-flag text-{{ $allSubmissionFlag['flag'] }}"></i></td>
                          </tr>
                         @endforeach 
+						<?php
+							if($totalcount == $counter){
+								echo '<tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>';
+							}
+						?>
                       @else 
                         <tr><td class="text-center no-data-found" colspan="15"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif       
