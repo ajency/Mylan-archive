@@ -55,7 +55,7 @@ class HospitalController extends Controller
      */
     public function show($hospitalSlug)
     {
-        return redirect()->intended($hospitalSlug.'/projects');
+        return redirect($hospitalSlug.'/projects');
         
         $inputs = Input::get(); 
         // $projectId = (isset($inputs['projectId']))?$inputs['projectId']:0;
