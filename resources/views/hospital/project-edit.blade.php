@@ -4,6 +4,7 @@
 <?php
 	$previousProject = explode("/",$_SERVER['REQUEST_URI']);
 	$projUrl = $previousProject[1]."/".$previousProject[2];
+	$currUrl = $_SERVER['REQUEST_URI'];
 ?>
    <p>
       <ul class="breadcrumb">
@@ -14,7 +15,7 @@
             <a href="{{ url() }}/<?php echo $projUrl; ?>" class="active"> Projects</a>
          </li>
          <li>
-            <a href="#"> Edit Project</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>"> Edit Project</a>
          </li>
       </ul>
       </p>

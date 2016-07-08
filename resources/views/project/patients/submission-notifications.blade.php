@@ -1,12 +1,15 @@
 @extends('layouts.single-project')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
 <p>
       <ul class="breadcrumb">
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
         <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
-        <li><a href="#" class="active">Submission Notifications</a> </li>
+        <li><a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Submission Notifications</a> </li>
  
       </ul>
       </p>
