@@ -381,7 +381,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $user = App\User::find($userId); 
     $hasAccess = $user->has_all_access; 
     $userType =  $user->type; 
-
+    $hospitalId =  Auth::user()->hospital_id;
     
     $flag = false;
     
@@ -395,7 +395,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $project = $hospitalProjectData['project']; 
     
 
-    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user')
+    if(($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user') && $hospitalId==$hospital['id'])
     {
         if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
         {
