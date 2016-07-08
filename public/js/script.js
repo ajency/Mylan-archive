@@ -1902,7 +1902,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
         if(!Obj.hasClass('delete-parent-question'))
         {  
             
-            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">ADD SUB QUESTION</span>');
+            Obj.closest('.sub-question').find('.toggle-subquestion').after('<span  class="add-link add-sub-question p-l-20 cp">Add Sub Question</span>');
             Obj.closest('.sub-question').find('.toggle-subquestion').remove();
             Obj.closest('.question').remove();
             
