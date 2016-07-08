@@ -2451,4 +2451,17 @@ small.help-text{
 //     }
 //   }   
 // }
-//      
+// 
+
+.no-data-found{
+  text-transform: capitalize;
+  .fa{
+    &.fa-frown-o{
+      text-transform: capitalize;
+      &:before{
+        color: red;
+        content:url('../img/nodata.png');
+      }
+    }
+  }     
+}
