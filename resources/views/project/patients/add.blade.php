@@ -464,12 +464,12 @@
       if($(this).val()=='yes')
       { 
         $('input[name="smoke_per_week"]').attr('data-parsley-required','');
-        $('input[name="smoke_per_week"]').removeAttr('disabled');
+        $('input[name="smoke_per_week"]').removeAttr('readonly');
       }
       else
       {
         $('input[name="smoke_per_week"]').removeAttr('data-parsley-required');
-		$('input[name="smoke_per_week"]').attr('disabled','disabled');
+		$('input[name="smoke_per_week"]').attr('readonly',true);
       }
     });
 
@@ -477,12 +477,12 @@
       if($(this).val()=='yes')
       { 
         $('input[name="units_per_week"]').attr('data-parsley-required','');
-		$('input[name="units_per_week"]').removeAttr('disabled');
+		$('input[name="units_per_week"]').removeAttr('readonly');
       }
       else
       {
         $('input[name="units_per_week"]').removeAttr('data-parsley-required');
-		$('input[name="units_per_week"]').attr('disabled','disabled');
+		$('input[name="units_per_week"]').attr('readonly',true);
       }
     });
 

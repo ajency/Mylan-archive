@@ -594,12 +594,12 @@ $(document).ready(function() {
       if($(this).val()=='yes')
       { 
         $('input[name="smoke_per_week"]').attr('data-parsley-required','');
-		 $('input[name="smoke_per_week"]').removeAttr('disabled');
+		 $('input[name="smoke_per_week"]').removeAttr('readonly');
       }
       else
       {
         $('input[name="smoke_per_week"]').removeAttr('data-parsley-required');
-		$('input[name="smoke_per_week"]').attr('disabled','disabled');
+		$('input[name="smoke_per_week"]').attr('readonly',true);
       }
     });
 
@@ -607,12 +607,12 @@ $(document).ready(function() {
       if($(this).val()=='yes')
       { 
         $('input[name="units_per_week"]').attr('data-parsley-required','');
-		$('input[name="units_per_week"]').removeAttr('disabled');
+		$('input[name="units_per_week"]').removeAttr('readonly');
       }
       else
       {
         $('input[name="units_per_week"]').removeAttr('data-parsley-required');
-		$('input[name="units_per_week"]').attr('disabled','disabled');
+		$('input[name="units_per_week"]').attr('readonly',true);
       }
     });
 
@@ -643,15 +643,15 @@ $("#patientform").find("button[type='submit']").on('click', function() {
 	
 	//check default value and add disabled
 	 if($('select[name="is_smoker"]').val() == 'yes'){
-		 $('input[name="smoke_per_week"]').removeAttr('disabled');
+		 $('input[name="smoke_per_week"]').removeAttr('readonly');
 	 }else{
-		$('input[name="smoke_per_week"]').attr('disabled','disabled');
+		$('input[name="smoke_per_week"]').attr('readonly',true);
 	 }
 	 
 	 if($('select[name="is_alcoholic"]').val() == 'yes'){
-		 $('input[name="units_per_week"]').removeAttr('disabled');
+		 $('input[name="units_per_week"]').removeAttr('readonly');
 	 }else{
-		$('input[name="units_per_week"]').attr('disabled','disabled');
+		$('input[name="units_per_week"]').attr('readonly',true);
 	 }
 
   });
