@@ -10102,3 +10102,6 @@ small.help-text {
   color: red;
   content: url('../img/nodata.png');
 }
+.ttc {
+  text-transform: capitalize;
+}
