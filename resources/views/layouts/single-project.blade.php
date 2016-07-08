@@ -165,7 +165,7 @@
                            <span><i class="fa fa-bar-chart"></i> Reports </span>
                            </a>
                         </li>
-                        @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+                        {{--@if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))--}}
                         <li class="classic {{ ( $active_menu == 'settings')? 'active-item' : ''}}">
                         <a href="javascript:;">
                           <span><i class="fa fa-cogs"></i> Settings</span> <i class="fa fa-caret-down"></i>
@@ -181,9 +181,11 @@
                         $questionnairedata = getQuestionnaireData($project["id"]); 
                         ?>
                         @if(!empty($questionnairedata) && $questionnairedata['status']!='published')
-                        <li>
-                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnairedata['questionnaireId'] ) }}">Configure Questionnaire</a>
-                        </li>
+							 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+								<li>
+								  <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnairedata['questionnaireId'] ) }}">Configure Questionnaire</a>
+								</li>
+							 @endif
                         @elseif(!empty($questionnairedata) && $questionnairedata['status']=='published')
                         <li>
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnairedata['questionnaireId'] ) }}">Questionnaire Summary</a>
@@ -202,7 +204,7 @@
                           </li> -->
                         </ul>
                       </li>
-                      @endif
+                      {{--@endif--}}
                      </ul>
                   </div>
                </div>
