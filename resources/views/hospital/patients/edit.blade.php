@@ -2,12 +2,15 @@
 
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
       <p>
       <ul class="breadcrumb">
         <li>
           <a href="projects.html">Patients</a>
         </li>
-        <li><a href="#" class="active">Edit</a> </li>
+        <li><a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Edit</a> </li>
       </ul>
     </p>
 <!-- END BREADCRUMBS -->

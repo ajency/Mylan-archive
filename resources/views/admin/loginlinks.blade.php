@@ -1,10 +1,13 @@
 @extends('layouts.single-mylan')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
       <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#" class="active">Login Links</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Login Links</a>
          </li>
       </ul>
       </p>

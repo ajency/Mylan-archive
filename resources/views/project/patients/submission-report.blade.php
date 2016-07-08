@@ -1,16 +1,19 @@
 @extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
 <p>
       <ul class="breadcrumb">
          <li>
-            <a href="#"> HOME</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>"> HOME</a>
          </li>
          <li>
-            <a href="#"> Patients</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>"> Patients</a>
          </li>
          <li>
-            <a href="#"  class="active" > Reports</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>"  class="active" > Reports</a>
          </li> 
       </ul>
       </p>
