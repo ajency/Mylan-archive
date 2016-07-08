@@ -27,6 +27,7 @@ $('.validateRefernceCode').change(function (event) {
     controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
     controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
     controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
+    controlObj.parsley().validate();
     
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
@@ -37,7 +38,12 @@ $('.validateRefernceCode').change(function (event) {
         dataType: "JSON",
         success: function (response) {
             if (!response.data)
-            {   
+            {  
+                if(!controlObj.closest('.form-row').find('.parsley-errors-list').length) 
+                {
+                    var parsleyId = controlObj.attr('data-parsley-id');
+                    controlObj.after('<ul class="parsley-errors-list" id="parsley-id-'+parsleyId+'"></ul>');
+                }
                 controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference code already taken</li>')
                 controlObj.val('');               
             }

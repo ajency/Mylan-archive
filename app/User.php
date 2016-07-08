@@ -96,6 +96,11 @@ class User extends Model implements AuthenticatableContract,
     }
     //********//
 
+    // public function getReferenceCodeAttribute($value)
+    // {
+    //     return strtoupper($value);
+    // }
+
     public function toArray()
     {
         $data = parent::toArray();

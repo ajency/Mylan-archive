@@ -32,7 +32,7 @@
                 <div class="col-sm-4">
                  <div class="form-row">
                      <label>Age <span class="text-primary">*</span></label>
-                        <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required >
+                        <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required >
                     </div>
                     </div>
                   
