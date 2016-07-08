@@ -72,7 +72,7 @@
                               <h3 class="pull-right circ-bord">{{ $data['PATIENTCOUNT'] }}</h3>
                               <h5 class="semi-bold black"><i class="fa fa-wheelchair text-muted"></i> PATIENTS</h5>
                               <div>
-                                 <!-- <a href="{{ url('/admin/hospital/'.$data['ID'].'/patients/') }}" class="brand-link tdu fosz12">View Patients</a> -->
+                                 <a href="{{ url('/admin/hospital/'.$data['ID'].'/patients/') }}" class="brand-link tdu fosz12">View Patients</a>
                               </div>
                            </div>
                         </div>
