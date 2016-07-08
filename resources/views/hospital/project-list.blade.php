@@ -1,13 +1,16 @@
 @extends('layouts.single-hospital')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
       <p>
       <ul class="breadcrumb">
          <!--li>
             <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
          </li-->
          <li>
-            <a href="#" class="active">Projects</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Projects</a>
          </li>
       </ul>
       </p>
@@ -47,7 +50,7 @@
                         <hr>
                         @endforeach
                         @else
-                           <div>No Project Added Yet.</div>
+                           <div class="msg-npay">No Project Added Yet.</div>
                         @endif
                         
                      </div>

@@ -10092,3 +10092,16 @@ small.help-text {
   padding-bottom: 15px;
   border-bottom: 1px solid #ddd;
 }
+.no-data-found {
+  text-transform: capitalize;
+}
+.no-data-found .fa.fa-frown-o {
+  text-transform: capitalize;
+}
+.no-data-found .fa.fa-frown-o:before {
+  color: red;
+  content: url('../img/nodata.png');
+}
+.ttc {
+  text-transform: capitalize;
+}

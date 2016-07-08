@@ -25,6 +25,7 @@
       <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" type="text/css"/>
       <link href="{{ asset('css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
+	  <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
       <!-- END CSS TEMPLATE -->
       <script>
          var HOSPITAL_ID = 0;
@@ -216,7 +217,6 @@
       </script>
       <!-- END CONTAINER -->
       <!-- BEGIN CORE JS FRAMEWORK--> 
-      <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/boostrapv3/js/bootstrap.min.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/breakpoints.js') }}" type="text/javascript"></script>

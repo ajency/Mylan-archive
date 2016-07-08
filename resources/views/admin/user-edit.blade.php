@@ -1,6 +1,9 @@
 @extends('layouts.single-mylan')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
+<?php  
+	$currUrl = $_SERVER['REQUEST_URI'];
+?>
    <p>
       <ul class="breadcrumb">
          <li>
@@ -10,7 +13,7 @@
             <a href="{{ url( 'admin/users/' ) }}"> User</a>
          </li>
          <li>
-            <a href="#" class="active"> Edit Hospital User</a>
+            <a href="{{ url() }}<?php echo $currUrl; ?>" class="active"> Edit Hospital User</a>
          </li>
       </ul>
       </p>
@@ -52,7 +55,7 @@
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
                   
          <div class="checkbox check-primary custom-checkbox pull-right">
-            <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
+            <input id="has_all_access" type="checkbox" name="has_all_access" onclick="validateCheck();" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
             <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
          </div>
 
@@ -112,7 +115,7 @@
             <div class="row hospital_users">
                <div class="col-md-4">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
-                  <select name="hospital[]" id="hospital" class="select2 form-control"  >
+                  <select name="hospital[]" id="hospital" class="select2 form-control hasToggle"  data-parsley-required="true" >
                      <option value="">Select Hospital</option>
                      @foreach($hospitals as $hospital)
                      <option {{ ($hospital['id']==$value['object_id']) ? 'selected':''}} value="{{ $hospital['id'] }}">{{ $hospital['name'] }}</option>
@@ -141,7 +144,7 @@
             <div class="row hospital_users add-user-container">
                <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
-                  <select name="hospital[]" id="hospital" class="select2 form-control"  >
+                  <select name="hospital[]" id="hospital" class="select2 form-control toggleRequired" data-parsley-required="true" >
                      <option value="">Select Hospital</option>
                      @foreach($hospitals as $hospital)
                      <option   value="{{ $hospital['id'] }}">{{ $hospital['name'] }}</option>
@@ -194,5 +197,32 @@
 </form>
 <script>
    var HOSPITAL_ID = 0;
+   var user_access = "{{ $user['has_all_access'] }}";
+   function validateCheck(){
+		if( $("#has_all_access").is(":checked")){
+			$("[id = 'hospital']").removeAttr("data-parsley-required");
+		}else{
+			$("[id = 'hospital']").attr("data-parsley-required","true");
+			if($(".hasToggle")[0]){	
+				$(".toggleRequired").removeAttr("data-parsley-required");
+			}	
+		}
+	}
+	
+	function defaultCheck(){
+		if(user_access == "yes"){
+			$("[id = 'hospital']").removeAttr("data-parsley-required");
+		}else{
+			$("[id = 'hospital']").attr("data-parsley-required","true");
+			if($(".hasToggle")[0]){
+				$(".toggleRequired").removeAttr("data-parsley-required");
+			}	
+		}
+	}
+	
+	$(document).ready(function(e){
+		defaultCheck();
+	});
+	
 </script>
 @endsection
