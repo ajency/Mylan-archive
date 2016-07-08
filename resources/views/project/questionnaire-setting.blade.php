@@ -154,16 +154,17 @@
                     <div class="col-sm-12 text-center mri-submit p-t-25">
                     <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
                     <input type="hidden" value="" name="redirect_url"/>
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
-
+						@if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+							<button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Save </button>
+						@endif	
                       @if($settings['status'] =="published")
                       <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/questions-summary/'.$questionnaireId ) }}" class="pull-right"><button type="button" class="btn btn-link cust-link"> Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button></a>
                       @elseif($action =="update-questionnaire-setting")
-
-                      <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
-                      <button type="button" class="btn btn-link pull-right outline-btn"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
-                      </a>
-
+						@if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+						  <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}">
+						  <button type="button" class="btn btn-link pull-right outline-btn"> Add Questions <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+						  </a>
+						@endif		
                       @endif
                     </div>
                   </div>
