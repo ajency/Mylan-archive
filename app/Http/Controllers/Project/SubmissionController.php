@@ -37,6 +37,7 @@ class SubmissionController extends Controller
             $project = $hospitalProjectData['project'];
             $projectId = intval($project['id']);
 
+           
             $inputs = Input::get(); 
 
   
@@ -147,7 +148,7 @@ class SubmissionController extends Controller
           
                 $createdAt = $response->getCreatedAt()->format('Y-m-d H:i:s');
                 $updatedAt = $response->getUpdatedAt()->format('Y-m-d H:i:s');
-                $reviewedDate = (!is_null($response->get('reviewedDate')))?$response->get('reviewedDate')->format('Y-m-d H:i:s'):'';
+                
                 $responseId = $response->getObjectId(); 
 
                 if($status=='completed')
@@ -157,8 +158,9 @@ class SubmissionController extends Controller
 
                 if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
                     // echo $sequenceNumber.'<br>';
+                    $reviewedDate = $response->get('reviewedDate')->format('Y-m-d H:i:s');
                     $datediff =0;
-                    $datediff = abs( strtotime( $updatedAt ) - strtotime( $createdAt ) ) / 3600;
+                    $datediff = abs( strtotime( $reviewedDate ) - strtotime( $createdAt ) ) / 3600;
                     $timeDifference[] = intval( $datediff);
                 }
                  
@@ -645,6 +647,7 @@ class SubmissionController extends Controller
 
             $responseObj = new ParseQuery("Response");
             $response = $responseObj->get($responseId);
+            $oldReviewStatus = $response->get('reviewed');
 
             $response->set('reviewed',$reviewStatus);
             $response->set('reviewNote',$reviewNote);
@@ -671,13 +674,17 @@ class SubmissionController extends Controller
                
             }
 
-            $reviewdate = array(
+            if($oldReviewStatus=='unreviewed')
+            {
+                $reviewdate = array(
                     "__type" => "Date",
                     "iso" => date('Y-m-d\TH:i:s.u')
                    );
 
-            $response->setAssociativeArray('reviewedDate',$reviewdate);
-            $response->save(); 
+                $response->setAssociativeArray('reviewedDate',$reviewdate);
+                $response->save(); 
+            }
+            
 
         
         } catch (\Exception $e) {
