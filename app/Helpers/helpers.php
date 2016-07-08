@@ -414,6 +414,9 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
         }
         else
             $flag = true;
+
+        if($userType=='project_user' && $hospitalId!=$hospital['id'])
+            $flag = false;
     }
  
     return $flag;

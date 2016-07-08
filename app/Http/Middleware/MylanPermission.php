@@ -25,6 +25,10 @@ class MylanPermission
         {
              // do nothing
         }
+        if(\Auth::user()->type=='project_user' && $uriPath == 'admin/changepassword')
+        {
+             // do nothing
+        }
         elseif(!hasMylanPermission())
             abort(403);
 
