@@ -2026,6 +2026,38 @@ getFlag = (value) ->
 	flag
 
 
+clearCache = (projectId) ->
+
+	Parse.Cloud.httpRequest
+		method: 'POST'
+		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		headers:
+			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+
+	console.log "cache cleared"
+	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+	return  "CLEAR CACHE"
+
+Parse.Cloud.afterSave 'Response', (request, response) ->
+	responseObject = request.object
+
+	if !responseObject.existed() and responseObject.get("status")!='started'
+		# console.log "RESPONSE AFTER SAVE STATUS :"
+		# console.log responseObject.get("status")
+		projectId = responseObject.get("project")
+		clearCache = clearCache(projectId)
+		return clearCache
+	else
+		return clearCache
+
+
+# TEST CLEAR CACHE FOR PROJECT ID 22
+Parse.Cloud.define "clearProjectCache", (request, response) ->
+	projectId = 22
+	clearCache = clearCache(projectId)
+	response.success clearCache
+
 #Change the 'status' of the responseObj to 'completed'
 Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 #	if !request.user
@@ -2038,6 +2070,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 	responseQuery.include('schedule')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
+		projectId = responseObj.get("project")
 		if (responseObj.get('status') =='started') || (responseObj.get('status') =='late')
 			getBaseLineScores(responseObj) 
 			.then (BaseLine) ->
@@ -2098,6 +2131,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 						.then (alerts) ->
 							alertsSaveArr =[]
 							if _.isEmpty(alerts)
+								clearCache = clearCache(responseObj.get("project"))
 								response.success "submitted_successfully"
 							else
 								_.each alerts, (alert) ->
@@ -2106,6 +2140,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 										project: responseObj.get("project")
 										alertType : alert
 										referenceId : responseObj.id
+										responseObject : responseObj
 										referenceType : "Response"
 										cleared : false
 
@@ -2119,6 +2154,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 									responseObj.set 'alert', true
 									responseObj.save()
 									.then (responseObj) ->
+										clearCache = clearCache(responseObj.get("project"))
 										response.success "submitted_successfully"
 									, (error) ->
 										response.error error
@@ -2135,6 +2171,7 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 			, (error) ->
 				response.error error
 		else
+			clearCache = clearCache(responseObj.get("project"))
 			response.success responseObj.get('status')
 	, (error) ->
 		response.error error
@@ -2149,16 +2186,19 @@ Parse.Cloud.define "submitTestQuestionnaire", (request, response) ->
 	responseQuery.include('schedule')
 	responseQuery.get(responseId)
 	.then (responseObj) ->
-		deleteResponseAnswers(responseObj)
-		.then (answers) ->
-			responseObj.set 'answeredQuestions', [] 
-			responseObj.save()
-			.then (responseObj) ->
-				response.success "submitted_successfully"
-			, (error) ->
-				response.error error 
-		, (error) ->
-			response.error error 
+		# deleteResponseAnswers(responseObj)
+		# .then (answers) ->
+		# 	responseObj.set 'answeredQuestions', [] 
+		# 	responseObj.save()
+		# 	.then (responseObj) ->
+		# 		response.success "submitted_successfully"
+		# 	, (error) ->
+		# 		response.error error 
+		# , (error) ->
+		# 	response.error error 
+		console.log "RESPONSE STATUS"
+		clearCache = clearCache(22)
+		response.success responseObj.get('status')
 	, (error) ->
 		response.error error
 
@@ -2217,7 +2257,7 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 					# , (error) ->
 					# 	response.error error	
 
-					response.success alerts						 
+					response.success previous						 
 				, (error) ->
 					response.error error	
 				
@@ -2232,6 +2272,11 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 	promise = new Parse.Promise()
 	alertSettingsQuery = new Parse.Query('AlertSettings')
+
+	# for first submission
+	if previousFlags['previousSubmission'] ==''						
+		alertSettingsQuery.equalTo('comparedTo', 'baseline')
+
 	alertSettingsQuery.equalTo('project', projectId)
 	alertSettingsQuery.find()
 	.then (alertSettings) ->
@@ -2431,7 +2476,7 @@ getPreviousScores = (responseObj) ->
 	responseQuery = new Parse.Query('Response')
 	responseQuery.equalTo('patient', responseObj.get('patient'))
 	responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'))
-	responseQuery.containedIn('status', ['completed','late'])
+	responseQuery.containedIn('status', ['completed']) #,'late'
 	responseQuery.descending('occurrenceDate')
 	responseQuery.first()
 	.then (previousResponseObj) ->
@@ -3307,42 +3352,6 @@ getPatientsAnswers = (patientIds, startDate, endDate) ->
 	promise
 
 
-
-
-Parse.Cloud.afterSave 'Response', (request, response) ->
-	responseObject = request.object
-	if !responseObject.existed() and responseObject.get("status")!='started'
-		# console.log "RESPONSE STATUS :"
-		# console.log responseObject.get("status")
-		projectId = responseObject.get("project")
-		Parse.Cloud.httpRequest
-			method: 'POST'
-			url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-			headers:
-				'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-				'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-
-		console.log "cache cleared"
-		console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-		return
-	else
-		return
-
-# TEST CLEAR CACHE FOR PROJECT ID 22
-Parse.Cloud.define "clearProjectCache", (request, response) ->
-	projectId = 22
-	Parse.Cloud.httpRequest
-		method: 'POST'
-		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-		headers:
-			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-
-	console.log "cache cleared"
-	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-	return
- 
-
 Parse.Cloud.define 'getQuestionnaireSetting', (request, response) ->
 	patientId = request.params.patientId
 	patientId = patientId.toLowerCase()
@@ -3377,11 +3386,14 @@ getQuestionnaireSetting = (patientId, questionnaireObj) ->
 			settings['reminderTime'] = scheduleObj.get('reminderTime')
 			promise.resolve(settings)
 		else
+			# console.log questionnaireObj
 			scheduleQuery = new Parse.Query('Schedule')
 			scheduleQuery.doesNotExist('patient')
 			scheduleQuery.equalTo('questionnaire', questionnaireObj)
 			scheduleQuery.first()
 			.then (scheduleQuestionnaireObj) ->
+				# console.log patientId
+				# console.log scheduleQuestionnaireObj
 				# console.log "QUESTIONNAIRE FREQUENCY"
 				settings['frequency'] = scheduleQuestionnaireObj.get('frequency')
 				settings['gracePeriod'] = questionnaireObj.get('gracePeriod')

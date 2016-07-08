@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, answeredQuestionsArray, checkMissedResponses, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, answeredQuestionsArray, checkMissedResponses, clearCache, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -3142,6 +3142,39 @@
     return flag;
   };
 
+  clearCache = function(projectId) {
+    Parse.Cloud.httpRequest({
+      method: 'POST',
+      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+      headers: {
+        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
+        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+      }
+    });
+    console.log("cache cleared");
+    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
+    return "CLEAR CACHE";
+  };
+
+  Parse.Cloud.afterSave('Response', function(request, response) {
+    var projectId, responseObject;
+    responseObject = request.object;
+    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
+      projectId = responseObject.get("project");
+      clearCache = clearCache(projectId);
+      return clearCache;
+    } else {
+      return clearCache;
+    }
+  });
+
+  Parse.Cloud.define("clearProjectCache", function(request, response) {
+    var projectId;
+    projectId = 22;
+    clearCache = clearCache(projectId);
+    return response.success(clearCache);
+  });
+
   Parse.Cloud.define("submitQuestionnaire", function(request, response) {
     var responseId, responseQuery;
     responseId = request.params.responseId;
@@ -3149,6 +3182,8 @@
     responseQuery.include('questionnaire');
     responseQuery.include('schedule');
     return responseQuery.get(responseId).then(function(responseObj) {
+      var projectId;
+      projectId = responseObj.get("project");
       if ((responseObj.get('status') === 'started') || (responseObj.get('status') === 'late')) {
         return getBaseLineScores(responseObj).then(function(BaseLine) {
           return getPreviousScores(responseObj).then(function(previous) {
@@ -3182,6 +3217,7 @@
                 var alertsSaveArr;
                 alertsSaveArr = [];
                 if (_.isEmpty(alerts)) {
+                  clearCache = clearCache(responseObj.get("project"));
                   return response.success("submitted_successfully");
                 } else {
                   _.each(alerts, function(alert) {
@@ -3191,6 +3227,7 @@
                       project: responseObj.get("project"),
                       alertType: alert,
                       referenceId: responseObj.id,
+                      responseObject: responseObj,
                       referenceType: "Response",
                       cleared: false
                     };
@@ -3201,6 +3238,7 @@
                   return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
                     responseObj.set('alert', true);
                     return responseObj.save().then(function(responseObj) {
+                      clearCache = clearCache(responseObj.get("project"));
                       return response.success("submitted_successfully");
                     }, function(error) {
                       return response.error(error);
@@ -3222,6 +3260,7 @@
           return response.error(error);
         });
       } else {
+        clearCache = clearCache(responseObj.get("project"));
         return response.success(responseObj.get('status'));
       }
     }, function(error) {
@@ -3236,16 +3275,9 @@
     responseQuery.include('questionnaire');
     responseQuery.include('schedule');
     return responseQuery.get(responseId).then(function(responseObj) {
-      return deleteResponseAnswers(responseObj).then(function(answers) {
-        responseObj.set('answeredQuestions', []);
-        return responseObj.save().then(function(responseObj) {
-          return response.success("submitted_successfully");
-        }, function(error) {
-          return response.error(error);
-        });
-      }, function(error) {
-        return response.error(error);
-      });
+      console.log("RESPONSE STATUS");
+      clearCache = clearCache(22);
+      return response.success(responseObj.get('status'));
     }, function(error) {
       return response.error(error);
     });
@@ -3281,7 +3313,7 @@
           occurrenceDate = responseObj.get("occurrenceDate");
           scheduleObj = responseObj.get("schedule");
           return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
-            return response.success(alerts);
+            return response.success(previous);
           }, function(error) {
             return response.error(error);
           });
@@ -3300,6 +3332,9 @@
     var alertSettingsQuery, promise;
     promise = new Parse.Promise();
     alertSettingsQuery = new Parse.Query('AlertSettings');
+    if (previousFlags['previousSubmission'] === '') {
+      alertSettingsQuery.equalTo('comparedTo', 'baseline');
+    }
     alertSettingsQuery.equalTo('project', projectId);
     alertSettingsQuery.find().then(function(alertSettings) {
       var alerts, amberFlags, greenFlags, redFlags;
@@ -3462,7 +3497,7 @@
     responseQuery = new Parse.Query('Response');
     responseQuery.equalTo('patient', responseObj.get('patient'));
     responseQuery.equalTo('questionnaire', responseObj.get('questionnaire'));
-    responseQuery.containedIn('status', ['completed', 'late']);
+    responseQuery.containedIn('status', ['completed']);
     responseQuery.descending('occurrenceDate');
     responseQuery.first().then(function(previousResponseObj) {
       var answerQuery, previous;
@@ -4354,41 +4389,6 @@
     getAllPatientAnswers();
     return promise;
   };
-
-  Parse.Cloud.afterSave('Response', function(request, response) {
-    var projectId, responseObject;
-    responseObject = request.object;
-    if (!responseObject.existed() && responseObject.get("status") !== 'started') {
-      projectId = responseObject.get("project");
-      Parse.Cloud.httpRequest({
-        method: 'POST',
-        url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-        headers: {
-          'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-        }
-      });
-      console.log("cache cleared");
-      console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-    } else {
-
-    }
-  });
-
-  Parse.Cloud.define("clearProjectCache", function(request, response) {
-    var projectId;
-    projectId = 22;
-    Parse.Cloud.httpRequest({
-      method: 'POST',
-      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
-      headers: {
-        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-      }
-    });
-    console.log("cache cleared");
-    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-  });
 
   Parse.Cloud.define('getQuestionnaireSetting', function(request, response) {
     var patientId, questionnaireId, questionnaireQuery;
