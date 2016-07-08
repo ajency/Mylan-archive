@@ -49,11 +49,11 @@ class UserController extends Controller
           if($hasAllAccess=='no')
           {
             $hospitalIds = UserAccess::where(['user_id'=>$userId,'object_type'=>'hospital'])->lists('object_id')->toArray(); 
-            $hospitals = Hospital:: whereIn('id',$hospitalIds)->get()->toArray();
+            $hospitals = Hospital:: whereIn('id',$hospitalIds)->get();
           }
           else
           {
-            $hospitals = Hospital:: all()->toArray();
+            $hospitals = Hospital:: all();
           }
 
           $accessData['type'] = 'Hospital';
@@ -61,7 +61,7 @@ class UserController extends Controller
           foreach ($hospitals as $hospital) {
 
             $url = url().'/'.$hospital['url_slug'];
-            $accessData['links'][] =['NAME'=>$hospital['name'], 'loginName'=>$hospital['name'], 'URL'=>$url];
+            $accessData['links'][] =['ID'=>$hospital['id'],'NAME'=>$hospital['name'],'CITY'=>$hospital['city'], 'PROJECTCOUNT'=>$hospital->projects()->count(), 'PROJECTUSERCOUNT'=>$hospital->users()->where('type','project_user')->count(), 'PATIENTCOUNT'=>$hospital->users()->where('type','patient')->count(), 'loginName'=>$hospital['name'], 'URL'=>$url];
           }
 
         }
@@ -89,9 +89,8 @@ class UserController extends Controller
         
           foreach ($projects as $project) {
  
-            $name = $hospital['name'] .' ('.$project['name'].')';
             $url = url().'/'.$hospital['url_slug'].'/'.$project['project_slug'];
-            $accessData['links'][] =['NAME'=>$name, 'loginName'=>$project['name'], 'URL'=>$url];
+            $accessData['links'][] =['NAME'=>$project['name'], 'DESCRIPTION'=>$project['description'], 'HOSPITALNAME'=>$hospital['name'], 'loginName'=>$project['name'], 'URL'=>$url];
           }
 
           

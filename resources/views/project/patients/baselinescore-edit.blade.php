@@ -69,10 +69,14 @@
                             $value = '';
                             $option = $optionsList[$questionId][$optionId];
 							if($option['label'] == 'st' || $option['label'] == 'lb' || $option['label'] == 'kg' ){
-								if($flagKg == true){
-									$value = getInputValues($answersList[$questionId]['optionValues'],false);
-									$flagKg = false;
-								}	
+								if(!(empty($answersList))){
+									if(array_key_exists("optionValues",$answersList[$questionId])){
+										if($flagKg == true){
+											$value = getInputValues($answersList[$questionId]['optionValues'],false);
+											$flagKg = false;
+										}
+									}	
+								}			
 							}else if((isset($answersList[$questionId]['optionId'])) && ($answersList[$questionId]['optionId']==$option['id']) ){
 								if(array_key_exists("optionValues",$answersList[$questionId])){
 									$value = "";
@@ -85,7 +89,13 @@
 								if($value !=""){
 									$value = $value;
 								}else{
-									$value = $answersList[$questionId]['optionValues'][$option['label']];
+									if(!(empty($answersList))){
+										if(array_key_exists("optionValues",$answersList[$questionId])){
+											if((array_key_exists($option['label'],$answersList[$questionId]['optionValues'])) && ($option['label'] != 'st') && ($option['label'] != 'lb')){
+												$value = $answersList[$questionId]['optionValues'][$option['label']];
+											}	
+										}	
+									}	
 								}	
 							?>
 							  <div class="col-md-4">

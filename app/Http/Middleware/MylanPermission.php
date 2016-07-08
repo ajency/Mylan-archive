@@ -21,7 +21,11 @@ class MylanPermission
             return redirect(url('/admin/login-links'));
         
 
-        if(!hasMylanPermission())
+        if(\Auth::user()->type=='hospital_user' && $uriPath=='admin/hospital/{hospital}/patients')
+        {
+             // do nothing
+        }
+        elseif(!hasMylanPermission())
             abort(403);
 
         return $next($request);
