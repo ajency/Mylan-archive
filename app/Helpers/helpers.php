@@ -395,7 +395,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $project = $hospitalProjectData['project']; 
     
 
-    if(($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user') && $hospitalId==$hospital['id'])
+    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user') // && $hospitalId==$hospital['id']
     {
         if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
         {
