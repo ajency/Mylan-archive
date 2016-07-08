@@ -55,7 +55,7 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration 
          <div class="checkbox check-primary custom-checkbox pull-right">
-                  <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
+                  <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" onclick="validateCheck();" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
                   <label for="checkbox6"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future projects.)</small></h4></label>
                </div>
          </h4>
@@ -88,7 +88,7 @@
             <div class="row project_users">
                <div class="col-md-4">
                <input type="hidden" name="user_access[]" value="{{ $value['id'] }}">
-                  <select name="projects[]" id="project" class="select2 form-control"  >
+                  <select name="projects[]" id="project" class="select2 form-control hasToggle" data-parsley-required="true" >
                      <option value="">Select Hospital</option>
                      @foreach($projects as $project)
                      <option {{ ($project['id']==$value['object_id']) ? 'selected':''}} value="{{ $project['id'] }}">{{ $project['name'] }}</option>
@@ -121,7 +121,7 @@
             <div class="row project_users add-user-container">
                <div class="col-md-4">
                   <input type="hidden" name="user_access[]" value="">
-                  <select name="projects[]" id="projects" class="select2 form-control"  >
+                  <select name="projects[]" id="projects" class="select2 form-control toggleRequired" data-parsley-required="true" >
                      <option value="">Select Project</option>
                      @foreach($projects as $project)
                      <option   value="{{ $project['id'] }}">{{ $project['name'] }}</option>
@@ -181,5 +181,37 @@
 </form>
 <script>
    var HOSPITAL_ID = 0;
+      var user_access = "{{ $user['has_all_access'] }}";
+	   function validateCheck(){
+			if( $("#checkbox6").is(":checked")){
+				$("[id = 'projects']").removeAttr("data-parsley-required");
+				$("#project").removeAttr("data-parsley-required");
+			}else{
+				$("[id = 'projects']").attr("data-parsley-required","true");
+				$("#project").attr("data-parsley-required","true");
+				if($(".hasToggle")[0]){	
+					$(".toggleRequired").removeAttr("data-parsley-required");
+				}	
+			}
+		}
+		
+		function defaultCheck(){
+			if(user_access == "yes"){
+				$("[id = 'projects']").removeAttr("data-parsley-required");
+				$("#project").removeAttr("data-parsley-required");
+			}else{
+				$("[id = 'project']").attr("data-parsley-required","true");
+				$("#project").attr("data-parsley-required","true");
+				if($(".hasToggle")[0]){
+					$(".toggleRequired").removeAttr("data-parsley-required");
+				}	
+			}
+		}
+		
+		$(document).ready(function(e){
+			defaultCheck();
+		});
+	
+
 </script>
 @endsection

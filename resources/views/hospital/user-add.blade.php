@@ -55,7 +55,7 @@
           <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
          <div class="checkbox check-primary custom-checkbox pull-right">
-                  <input id="has_access" type="checkbox" name="has_all_access" value="yes" >
+                  <input id="has_access" type="checkbox" name="has_all_access" value="yes" onclick="validateCheck();" >
                   <label for="has_access"><h4 class="no-margin">Access to all Projects<small> (This would automatically give access to future Projects.)</small></h4></label>
          </div>
          </h4>
@@ -82,7 +82,7 @@
       
             <div class="row project_users add-user-container">
                <div class="col-md-4">
-                  <select name="projects[]" id="projects" class="select2 form-control"  >
+                  <select name="projects[]" id="projects" class="select2 form-control" data-parsley-required >
                      <option value="">Select Project</option>
                      @foreach($projects as $project)
                      <option value="{{ $project['id'] }}">{{ $project['name'] }}</option>
@@ -133,5 +133,13 @@
    </div>
 </div>
 </form>
-
+<script>
+ function validateCheck(){
+	if( $("#has_access").is(":checked")){
+		$("[id = 'projects']").removeAttr("data-parsley-required");
+	}else{
+		$("[id = 'projects']").attr("data-parsley-required","true");
+	}
+}
+</script>
 @endsection
