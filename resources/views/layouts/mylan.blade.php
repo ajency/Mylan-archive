@@ -33,5 +33,24 @@
 <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
 <!-- BEGIN CORE TEMPLATE JS -->
 <!-- END CORE TEMPLATE JS -->
+<script>
+	$(document).ready(function(e){
+		var hasStorage = (function() {
+		  try {
+			localStorage.setItem('foo', 'bar');
+			localStorage.lol = 'wat';
+			localStorage.removeItem('foo');
+			return true;
+		  } catch (exception) {
+			return false;
+		  }
+		}());  
+		if(hasStorage == false){
+			$("#login-form .btn-success").css("display","none");
+			$("#login-form").attr("action","return false;");
+			alert("private browser is not supported, Please exit from the incognito mode. Thank you!!!");
+		}
+	});
+</script>
 </body>
 </html>
