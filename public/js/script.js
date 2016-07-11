@@ -88,17 +88,19 @@ $('.authUserEmail').change(function (event) {
     
  
 });
-
+/*common function used to generate the new password for patient,hospital and project users..
+* 
+*/
 $('.generate_new_password').click(function (event) { 
-
-    if (confirm('Are you sure you want to generate new password for patient ?') === false) {
+	var user = $(this).attr('identify-user');
+    if (confirm('Are you sure you want to generate new password for '+user+' ?') === false) {
         return;
     }
     $("#generatePassword").addClass('cf-loader'); 
-    var PATIENT_ID = $(this).attr('object-id');
+    var USER_ID = $(this).attr('object-id');
  
     $.ajax({
-        url: "/admin/patients/"+PATIENT_ID+"/resetpassword",
+        url: "/admin/patients/"+USER_ID+"/resetpassword",
         type: "POST",
         
         dataType: "JSON",

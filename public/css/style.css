@@ -8375,3 +8375,11 @@ input {
 .ttuc {
   text-transform: uppercase;
 }
+.passGenerate {
+  margin: 15px 0;
+}
+.passGenerate .generatePassword {
+  line-height: 2.5;
+  font-size: 1.1em;
+  padding-left: 15px;
+}
