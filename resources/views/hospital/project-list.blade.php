@@ -40,7 +40,11 @@
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span> -->
                            </div>
                            
-                              <h3><span class="semi-bold">{{$project['name']}}</span> &nbsp;<small style="font-size: 13px;"><a style="color: #05a8a5;" href="{{ url( $hospital['url_slug'].'/projects/'. $project['id'] .'/edit' ) }}"><i class="fa fa-pencil"></i> edit</a></small></h3>
+                              <h3><span class="semi-bold">{{$project['name']}}</span> &nbsp;
+							   @if(hasHospitalPermission($hospital['url_slug'],['edit']))
+								<small style="font-size: 13px;"><a style="color: #05a8a5;" href="{{ url( $hospital['url_slug'].'/projects/'. $project['id'] .'/edit' ) }}"><i class="fa fa-pencil"></i> edit</a></small>
+								@endif
+							</h3>
                            
                         </div>
                         
