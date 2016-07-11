@@ -20,12 +20,13 @@ class MylanPermission
         if($uriPath=='admin' && (\Auth::user()->type=='hospital_user' || \Auth::user()->type=='project_user' ))
             return redirect(url('/admin/login-links'));
         
+        
         $commonUri = ['admin/hospital/{hospital}/patients','admin/changepassword'];
         if(\Auth::user()->type=='hospital_user' && in_array($uriPath, $commonUri))
         {
              // do nothing
         }
-        if(\Auth::user()->type=='project_user' && $uriPath == 'admin/changepassword')
+        elseif(\Auth::user()->type=='project_user' && $uriPath == 'admin/changepassword')
         {
              // do nothing
         }
