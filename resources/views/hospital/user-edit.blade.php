@@ -53,7 +53,15 @@
             </div>
               
          </div>
-          <hr>
+		 <hr>
+			 <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>	
+			 <div class="row">
+				 <div class="col-sm-4 text-left passGenerate">
+					<button type="button" class="btn btn-primary generate_new_password" object-id="{{ $user['id'] }}" identify-user ="project user">Generate New Password <i class="fa"></i></button> 
+					<span id="generatePassword" class="generatePassword"></span>
+				 </div>
+			 </div>
+         <hr>
          <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration 
          <div class="checkbox check-primary custom-checkbox pull-right">
                   <input id="checkbox6" type="checkbox" name="has_all_access" value="yes" onclick="validateCheck();" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >

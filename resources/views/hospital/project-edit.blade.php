@@ -22,7 +22,11 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
- 
+ @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+	<?php $thrashHide = '' ?>
+ @else
+	<?php $thrashHide = 'style="display:none;"' ?>
+ @endif
 <div class="page-title">
    <h3><span class="semi-bold">Edit Project</span></h3>
 </div>
@@ -94,7 +98,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-1 text-center">
-                                    <div class="deleteProject">
+                                    <div class="deleteProject" <?php echo $thrashHide;?> >
                                         <a class="text-primary deleteProjectAttributes"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </div>
@@ -137,7 +141,7 @@
                                 </div>
                                 </div> -->
                                 <div class="col-md-1 text-center">
-                                     <div class="deleteProject">
+                                     <div class="deleteProject" <?php echo $thrashHide;?>>
                                         <a class="text-primary deleteProjectAttributes hidden"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </div>
@@ -150,7 +154,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                             <div class="text-right">
+                             <div class="text-right" <?php echo $thrashHide;?>>
                                 <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
                             </div>
                             </div>

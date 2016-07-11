@@ -309,7 +309,7 @@
                  
               <div class="row">
                  <div class="col-sm-4 text-left passGenerate">
-                    <button type="button" class="btn btn-primary generate_new_password" object-id="{{ $patient['id'] }}">Generate New Password <i class="fa"></i></button> 
+                    <button type="button" class="btn btn-primary generate_new_password" object-id="{{ $patient['id'] }}" identify-user ="patient">Generate New Password <i class="fa"></i></button> 
                     <span id="generatePassword" class="generatePassword"></span>
                  </div>
               </div>
