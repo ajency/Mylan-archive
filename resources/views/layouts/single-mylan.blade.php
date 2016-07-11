@@ -23,7 +23,7 @@
       <!-- END CORE CSS FRAMEWORK -->
       <!-- BEGIN CSS TEMPLATE -->
       <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css"/>
-      <link href="{{ asset('css/responsive.css') }}" rel="stylesheet" type="text/css"/>
+      <!--link href="{{ asset('css/responsive.css') }}" rel="stylesheet" type="text/css"/-->
       <link href="{{ asset('css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
 	  <script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
       <!-- END CSS TEMPLATE -->
