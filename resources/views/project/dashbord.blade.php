@@ -440,7 +440,14 @@
                            
                           @if(!empty($submissionNotifications['alertMsg']))   
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
-            
+								<?php
+									$reviewNote = "";
+									if($submissionNotification['reviewNote'] == 'NA'){
+										$reviewNote = str_replace("NA","N/A",$submissionNotification['reviewNote']);
+									}else{
+										$reviewNote = $submissionNotification['reviewNote'];
+									}
+								?>								
                                  <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                     <td class="text-center ttuc patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
                                     <td class="text-center">
@@ -448,7 +455,7 @@
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
                                    </td>
                                    <td class="text-center text-success">{{ sprintf($submissionNotification['msg'], $submissionNotification['previousTotalRedFlags'],$submissionNotification['sequenceNumber'] ) }}</td> 
-                                   <td class="text-center">{{ $submissionNotification['reviewNote'] }}</td>
+                                   <td class="text-center"><?php echo $reviewNote; ?></td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
