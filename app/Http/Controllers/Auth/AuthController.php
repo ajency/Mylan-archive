@@ -105,7 +105,7 @@ class AuthController extends Controller
         }
                  
         //CHECK SETUP LIMIT
-        $userDeviceCount = UserDevice::where('user_id',$user->id)->get()->count();
+        $userDeviceCount = UserDevice::where('user_id',$user->id)->where('status','New device')->get()->count();
         if($userDeviceCount >=SETUP_LIMIT)
         {
             return redirect('/login')->withErrors([
@@ -178,6 +178,7 @@ class AuthController extends Controller
                         $userDevice->device_identifier = $installationId;
                         $userDevice->device_os = $browserData['platform'];
                         $userDevice->access_type = "web";
+                        $userDevice->status = "New device";
                         $userDevice->save();
 
                         $projectId = intval($projectId);

@@ -135,7 +135,7 @@ class UserController extends Controller
                 elseif($user['account_status'] =='active')
                 {
 
-                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier])->get()->count(); 
+                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier,'status'=>'Archived'])->get()->count(); 
                     if(!$userDevice)
                     {
                         $this->addDevice($data,$userId,$hospitalData,'do_login');
@@ -231,6 +231,7 @@ class UserController extends Controller
         $userDevice->device_identifier = $deviceData['deviceIdentifier'];
         $userDevice->device_os = $deviceData['deviceOS'];
         $userDevice->access_type = $deviceData['accessType'];
+        $userDevice->status = "New device";
         $userDevice->save();
 
         $json_resp = array(
@@ -256,7 +257,7 @@ class UserController extends Controller
              
             $userId = $user['id']; 
             
-            $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
+            $userDeviceCount = UserDevice::where('user_id',$userId)->where('status','New device')->get()->count();
 
             $project = Projects::find($user['project_id'])->toArray();  
             $loginAttempt = getUserLoginAttempts($referenceCode);

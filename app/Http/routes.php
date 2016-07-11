@@ -100,6 +100,7 @@ Route::post( 'patients/{id}/resetpassword', 'Project\PatientController@resetPati
 });
 
 Route::post( 'user-details/{id}/resetpassword', 'Project\PatientController@resetUserPassword' );
+Route::post( '/user-details/change-device-status', 'Project\PatientController@changeDeviceStatus' );
 
 
 /*****Hospital***/ //

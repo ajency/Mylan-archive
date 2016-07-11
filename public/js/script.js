@@ -55,6 +55,21 @@ $('.validateRefernceCode').change(function (event) {
     
 });
 
+/*clear devices*/
+
+$(".clear-data").on("click", function(e){
+	$.ajax({
+        url: "/user-details/change-device-status",
+        type: "POST",
+        data: {
+            id: this.id
+        },
+        dataType: "JSON",
+        success: function (response) {
+			location.reload();
+        }
+    });
+});
 
 $('.authUserEmail').change(function (event) { 
   var controlObj = $(".authUserEmail");
@@ -2549,7 +2564,6 @@ function validatefrequencySettings(frequencyRequired)
     return flag;
      
 }
-
 
 
 

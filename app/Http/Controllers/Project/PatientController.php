@@ -2678,5 +2678,12 @@ class PatientController extends Controller
     public function destroy($id)
     {
         //
+    } 
+
+	public function changeDeviceStatus(Request $request)
+    {
+		$patient = User::find($request['id']);
+		$patient->devices()->update(array('status' => 'Archived'));
+        return $request['id'];
     }
 }

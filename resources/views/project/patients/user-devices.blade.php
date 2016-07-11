@@ -36,6 +36,8 @@
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
                         <div class="grid simple grid-table">
+						<input type="button" value="Clear All" class="clear-data" id="{{ $patient['id'] }}"/>
+						
                     <div class="grid-title no-border">
                        <h4>
                             Setup Devices
@@ -44,7 +46,7 @@
                        <div class="tools">
                     
                      
-                  </div>
+						</div>
                     </div>
                     <div class="grid-body no-border" style="display: block;">
                        <table class="table table-flip-scroll table-hover dashboard-tbl" cond-type="" cond="">
@@ -55,6 +57,7 @@
                                <th class="sorting ">Device Type</th>
                                <th class="sorting ">Device OS</th>
                                <th class="sorting ">Access Type</th> 
+                               <th class="sorting ">Status</th> 
                              </tr>
                           </thead>
                           <tbody>
@@ -67,10 +70,11 @@
                                    <td class="text-center">{{ $userDevice['device_type'] }}</td>   
                                    <td class="text-center">{{ $userDevice['device_os'] }}</td> 
                                    <td class="text-center">{{ $userDevice['access_type'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['status'] }}</td> 
                                 </tr>
                             @endforeach
                         @else 
-                           <tr><td class="text-center no-data-found" colspan="5"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                           <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
                                 
                           </tbody>
