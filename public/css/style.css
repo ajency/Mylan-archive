@@ -8375,3 +8375,9 @@ input {
 .ttuc {
   text-transform: uppercase;
 }
+.header-seperation {
+  display: none !important;
+}
+.site-nav li.open a {
+  color: #63696d !important;
+}
