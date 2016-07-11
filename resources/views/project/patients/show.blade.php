@@ -429,7 +429,9 @@
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
                               <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-                                 <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+								 @if(!empty($submissionNotifications['alertMsg']))   
+									<a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+								@endif   	
                               </div>
                            </div>
                         </div
