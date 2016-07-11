@@ -98,11 +98,14 @@ $('.generate_new_password').click(function (event) {
     }
     $("#generatePassword").addClass('cf-loader'); 
     var USER_ID = $(this).attr('object-id');
- 
+	if(user == 'patient'){
+		var URLData = "/admin/patients/"+USER_ID+"/resetpassword";
+	}else{
+		var URLData = "/user-details/"+USER_ID+"/resetpassword";
+	}
     $.ajax({
-        url: "/admin/patients/"+USER_ID+"/resetpassword",
+        url: URLData,
         type: "POST",
-        
         dataType: "JSON",
         success: function (response) {
             $("#generatePassword").removeClass('cf-loader'); 

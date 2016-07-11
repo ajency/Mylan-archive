@@ -97,8 +97,9 @@ Route::post( 'changepassword', 'Admin\UserController@updateUserPassword' );
 
 Route::post( 'patients/{id}/resetpassword', 'Project\PatientController@resetPatientPassword' );
 
-
 });
+
+Route::post( 'user-details/{id}/resetpassword', 'Project\PatientController@resetUserPassword' );
 
 
 /*****Hospital***/ //

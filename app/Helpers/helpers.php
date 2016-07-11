@@ -278,6 +278,12 @@ function randomPatientPassword() {
     return $password;
 }
 
+function randomUserResetPassword() {
+    $chars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $password = substr( str_shuffle( $chars ), 0, 7 );
+    return $password;
+}
+
 
 
 // function hasMylanPermission($userPermission)

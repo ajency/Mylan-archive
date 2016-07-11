@@ -239,7 +239,47 @@ class PatientController extends Controller
                     'data' => $data,
                         ], $status);
     }
+	
+	
+	public function resetUserPassword(Request $request,$patientId) {
+        
+        if(\Auth::user()->type=='mylan_admin')
+        {
+          $patient = User::find($patientId);
 
+          
+          if ($patient==null) {
+              $msg = 'invalid data';
+              $data = "";
+              $status = 200;
+          }
+          else
+          {
+              $referenceCode = $patient->reference_code;
+              $password = trim(randomUserResetPassword());
+              $newpassword = getPassword($referenceCode , $password);
+
+              $patient->password = Hash::make($newpassword);
+              $patient->save();
+
+              $msg = 'Password updated';
+              $data = $password ;
+              $status = 200;
+          }
+        }
+        else
+        {
+          abort(403);
+        }
+
+
+        return response()->json([
+                    'code' => 'reset_patient_password',
+                    'message' => $msg,
+                    'data' => $data,
+                        ], $status);
+    }
+	
     /**
      * Store a newly created resource in storage.
      *
