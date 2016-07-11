@@ -32,8 +32,17 @@
                       
                       <hr>
         @include('admin.flashmessage')
-         <form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}" data-parsley-validate>
-  
+		@if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+			<?php
+				$hideViewAccess = '';
+			?>
+			<form class="form-horizontal col-sm-12" method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}" data-parsley-validate>
+		@else	
+			<form class="form-horizontal col-sm-12" method="post" onsubmit="return false;" data-parsley-validate>
+			<?php
+				$hideViewAccess = 'style="display:none";';
+			?>
+		@endif
           <div class="col-md-12 settings_block">
                              
             <div class="row form-group">
@@ -149,7 +158,7 @@
                         <div class="form-group">
                           <div class="col-sm-11 text-right">
                           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                            <button type="submit" class="btn btn-success m-r-15 m-t-10">Save</button>
+                            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
                           </div>
                         </div>
                       </form>

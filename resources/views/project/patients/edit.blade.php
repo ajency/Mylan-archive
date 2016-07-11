@@ -36,7 +36,7 @@
                 <div class="col-sm-4">
                  <div class="form-row">
                      <label>Age <span class="text-primary">*</span></label>
-                        <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required value="{{ $patient['age'] }}">
+                        <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required value="{{ $patient['age'] }}">
                     </div>
                     </div>
                   
@@ -309,7 +309,7 @@
                  
               <div class="row">
                  <div class="col-sm-4 text-left passGenerate">
-                    <button type="button" class="btn btn-primary generate_new_password" object-id="{{ $patient['id'] }}">Generate New Password <i class="fa"></i></button> 
+                    <button type="button" class="btn btn-primary generate_new_password" object-id="{{ $patient['id'] }}" identify-user ="patient">Generate New Password <i class="fa"></i></button> 
                     <span id="generatePassword" class="generatePassword"></span>
                  </div>
               </div>

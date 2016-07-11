@@ -278,6 +278,12 @@ function randomPatientPassword() {
     return $password;
 }
 
+function randomUserResetPassword() {
+    $chars = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $password = substr( str_shuffle( $chars ), 0, 7 );
+    return $password;
+}
+
 
 
 // function hasMylanPermission($userPermission)
@@ -381,7 +387,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $user = App\User::find($userId); 
     $hasAccess = $user->has_all_access; 
     $userType =  $user->type; 
-
+    $hospitalId =  Auth::user()->hospital_id;
     
     $flag = false;
     
@@ -395,7 +401,7 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
     $project = $hospitalProjectData['project']; 
     
 
-    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user')
+    if($userType=='mylan_admin' || $userType=='hospital_user' || $userType=='project_user') // && $hospitalId==$hospital['id']
     {
         if($hasAccess=='no')      //GET ROLES ONLY FOR THE PROJECT
         {
@@ -414,6 +420,9 @@ function hasProjectPermission($hospitalSlug,$projectSlug,$userPermission)
         }
         else
             $flag = true;
+
+        if($userType=='project_user' && $hospitalId!=$hospital['id'])
+            $flag = false;
     }
  
     return $flag;

@@ -27,6 +27,7 @@ $('.validateRefernceCode').change(function (event) {
     controlObj.closest('.form-row').find('input').after('<span class="cf-loader"></span>');
     controlObj.closest('.form-row').find('.parsley-errors-list').find('.refCodeError').remove();
     controlObj.closest('form').find('button[type="submit"]').attr('disabled','disabled');
+    controlObj.parsley().validate();
     
     $.ajax({
         url: BASEURL+"/patients/"+PATIENT_ID+"/validatereferncecode",
@@ -37,7 +38,12 @@ $('.validateRefernceCode').change(function (event) {
         dataType: "JSON",
         success: function (response) {
             if (!response.data)
-            {   
+            {  
+                if(!controlObj.closest('.form-row').find('.parsley-errors-list').length) 
+                {
+                    var parsleyId = controlObj.attr('data-parsley-id');
+                    controlObj.after('<ul class="parsley-errors-list" id="parsley-id-'+parsleyId+'"></ul>');
+                }
                 controlObj.closest('.form-row').find('.parsley-errors-list').html('<li class="parsley-required refCodeError">Reference code already taken</li>')
                 controlObj.val('');               
             }
@@ -82,19 +88,24 @@ $('.authUserEmail').change(function (event) {
     
  
 });
-
+/*common function used to generate the new password for patient,hospital and project users..
+* 
+*/
 $('.generate_new_password').click(function (event) { 
-
-    if (confirm('Are you sure you want to generate new password for patient ?') === false) {
+	var user = $(this).attr('identify-user');
+    if (confirm('Are you sure you want to generate new password for '+user+' ?') === false) {
         return;
     }
     $("#generatePassword").addClass('cf-loader'); 
-    var PATIENT_ID = $(this).attr('object-id');
- 
+    var USER_ID = $(this).attr('object-id');
+	if(user == 'patient'){
+		var URLData = "/admin/patients/"+USER_ID+"/resetpassword";
+	}else{
+		var URLData = "/user-details/"+USER_ID+"/resetpassword";
+	}
     $.ajax({
-        url: "/admin/patients/"+PATIENT_ID+"/resetpassword",
+        url: URLData,
         type: "POST",
-        
         dataType: "JSON",
         success: function (response) {
             $("#generatePassword").removeClass('cf-loader'); 

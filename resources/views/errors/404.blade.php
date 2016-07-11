@@ -58,7 +58,7 @@
                 <p class="error-subtitle">OOPS! SOMETHING IS MISSING FOLKS!</p>
 
                 <p class="actual-msg">This page does not exist. Maybe you took a wrong turn?</p>
-                <a href="" class="btn btn-link cust-link">Go back</a>
+                <a href="{{ url() }}/admin" class="btn btn-link cust-link">Go back</a>
             </div>
         </div>
     </body>
