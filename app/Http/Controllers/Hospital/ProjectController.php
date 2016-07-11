@@ -159,14 +159,14 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,$hospitalSlug, $projectId)
-    {
+    {	
         $requestData = $request->all();
 
         $project = Projects::find($projectId);
         $name =  ucfirst($requestData['name']);
         $project->name = $name;
         $project->description = $requestData['description'];
-        $project->project_slug = str_slug($name);
+        //$project->project_slug = str_slug($name);
         $project->save();
 
         $attributeIds = $requestData['attribute_id'];

@@ -117,14 +117,14 @@ class HospitalController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $hospitalId)
-    {
-		$urlSlug = str_slug($request->input('name').' '.$request->input('city'),'-');
+    {	
+		/*$urlSlug = str_slug($request->input('name').' '.$request->input('city'),'-');
 		$validateurlSlug = Hospital::where('url_slug',$urlSlug)->where('id','!=',$hospitalId)->get()->toArray();
         if(!empty($validateurlSlug))
         {
            Session::flash('error_message','Error !!! Hospital Already Exist ');    
            return redirect(url('/admin/hospitals/' . $hospitalId . '/edit'));
-        }
+        }*/
         $hospital = Hospital::find($hospitalId);
         $name =  ucfirst($request->input('name'));
         $hospital->name = $name;
@@ -139,7 +139,7 @@ class HospitalController extends Controller
         $hospital->primary_phone = $request->input('primary_phone');
         $hospital->primary_email = $request->input('primary_email');
         $hospital->contact_person_name = $request->input('contact_person');
-        $hospital->url_slug = $urlSlug;
+        //$hospital->url_slug = $urlSlug;
          
         $hospital->save();
  
