@@ -1922,7 +1922,6 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                     showNoQuestionMsg();
                     showEditButtons($(this));
                 }
-                  
                 window.location.reload();
             }
                  
