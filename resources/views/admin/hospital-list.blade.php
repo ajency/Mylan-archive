@@ -51,8 +51,9 @@
                               <span class="text-warning"><i class="fa fa-flag"></i> 5 New</span> -->
 
                            </div>
-                           <a href="/admin/hospitals/{{ $hospital['id'] }}/edit">
-                              <h3><span class="semi-bold">{{ $hospital['name'] }},</span> {{ $hospital['city'] }}</h3>
+                           
+                              <h3><span class="semi-bold">{{ $hospital['name'] }},</span> {{ $hospital['city'] }}
+                              <small class="m-l-10"><a href="/admin/hospitals/{{ $hospital['id'] }}/edit" class="brand-text fosz13"><i class="fa fa-pencil"></i> edit</a></small></h3>
                            </a>
                         </div>
                         <br>

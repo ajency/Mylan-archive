@@ -2570,5 +2570,7 @@ function validatefrequencySettings(frequencyRequired)
      
 }
 
-
+$( document ).ready(function() {
+    $('.ttip').tooltip();
+});
 

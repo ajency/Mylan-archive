@@ -34,7 +34,7 @@
                   <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                           <table class="table table-hover" id="example" >
+                           <table class="table table-hover blur" id="example" >
                               <thead>
                                  <tr>
                                     <th>Referece Code</th>
@@ -48,7 +48,7 @@
                               @foreach($patientsData as $patient)
                                  @if($project!=$patient['projectName'])
                                  <tr class="odd gradeX info" >
-                                    <td colspan="2" class="text-center">{{ $patient['projectName'] }}</td>
+                                    <td colspan="2" class="text-center"><p class="bold fosz14 m-b-0">{{ $patient['projectName'] }}</p></td>
                                  </tr>
                                  @endif
                                  <tr class="odd gradeX" >
