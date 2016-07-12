@@ -1702,13 +1702,15 @@ function showNoQuestionMsg()
 }
  
 $('.questions-list_container').on('click', '.edit-question', function(event) { 
-    hideEditButtons($(this));
+	hideEditButtons($(this));
 });
  
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
-	 if (confirm('This question is not saved yet. Are you sure you want to cancel adding this question?') === false) {
-        return;
-    }
+	if($(this).hasClass("new-entry")){
+		if (confirm('This question is not saved yet. Are you sure you want to cancel adding this question?') === false) {
+			return;
+		}
+	}
     var i = $(this).closest(".question").attr('row-count'); 
     var questionId = $(this).closest('.question-view-edit').find('input[name="questionId['+i+']"]').val();  
     showEditButtons($(this));
@@ -1851,7 +1853,7 @@ $('.add-question').click(function (event) {
     html +='<div class="col-md-12">';
     html +='<div class="clearfix">';
     html +='<button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>';
-    html +='<button type="button" class="btn btn-default pull-right cancel-question m-r-10">CANCEL</button>';
+    html +='<button type="button" class="btn btn-default pull-right cancel-question m-r-10 new-entry">CANCEL</button>';
     html +='</div>';
     html +='</div>';
     html +='</div>';
