@@ -225,7 +225,7 @@ class HospitalController extends Controller
     }
 
     public function getHospitalPatients($hospitalId)
-    {
+    {		
         $hospital = Hospital::find($hospitalId)->toArray(); 
         $patients = User::where('type',"patient")->where('hospital_id',$hospitalId)->orderBy('project_id')->get()->toArray();
         $patientsData = [];
@@ -249,7 +249,8 @@ class HospitalController extends Controller
         
         return view('admin.hospital-patients')->with('active_menu', 'hospital')
                                           ->with('hospital', $hospital)
-                                          ->with('patientsData', $patientsData);
+                                          ->with('patientsData', $patientsData)
+                                          ->with('UserIdentity', \Auth::user()->type );
 
     }
 }
