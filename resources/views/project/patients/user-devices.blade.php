@@ -36,7 +36,7 @@
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
                         <div class="grid simple grid-table">
-						<input type="button" value="Clear All" class="clear-data" id="{{ $patient['id'] }}"/>
+						<input type="button" value="Reset set up devices" class="clear-data" id="{{ $patient['id'] }}"/>
 						
                     <div class="grid-title no-border">
                        <h4>

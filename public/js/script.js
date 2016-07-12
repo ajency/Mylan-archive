@@ -58,6 +58,9 @@ $('.validateRefernceCode').change(function (event) {
 /*clear devices*/
 
 $(".clear-data").on("click", function(e){
+	if (confirm('Status of the existing  set up devices will change to archive') === false) {
+        return;
+    }
 	$.ajax({
         url: "/user-details/change-device-status",
         type: "POST",
