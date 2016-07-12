@@ -41,7 +41,7 @@
                <div class="form-row">
                   <label>Email</label>
                   <input name="email" id="email" type="email" objectId="0" objectType="hospital"  class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
-				  <span>Emails is not editable once user is created.</span>	
+				  <span>Email address is not editable once user is created.</span>	
                </div>
             </div>
             <div class="col-sm-3">

@@ -43,7 +43,7 @@
                <div class="form-row">
                   <label>Email <span class="text-primary">*</span></label>
                   <input name="email" id="email" type="email"  objectId="0" objectType="project" class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
-				  <span>Emails is not editable once user is created.</span>	
+				  <span>Email address is not editable once user is created.</span>	
                </div>
             </div>
             <div class="col-sm-3">
