@@ -48,8 +48,8 @@
      <div class="tab-pane table-data active" id="Patients" style="padding: 15px 8px;">
         <div class="row">
                 <div class="col-sm-8">
-                  <dl class="dl-horizontal">
-                 <dt>Reference Code</dt>
+                  <!-- <dl class="dl-horizontal">
+                 <dt>Reference Code d</dt>
                  <dd>{{ $patient['reference_code']}}</dd>
                  <dt>Age</dt>
                  <dd>{{ $patient['age'] }}</dd>
@@ -92,7 +92,92 @@
                  <dd>{{ $patient['patient_alcohol_units_per_week'] }}</dd> 
            
 
-              </dl>
+              </dl> -->
+
+              <!-- test -->
+              <div class="col-sm-12">
+                <div class="row m-b-15">
+                  <div class="col-sm-6">
+                    <strong>Reference Code</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    {{ $patient['reference_code']}}
+                  </div>
+                </div>
+
+                <div class="row m-b-15">
+                  <div class="col-sm-6">
+                    <strong>Age</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    {{ $patient['age'] }}
+                  </div>
+                </div>
+
+                 @if(isset($patient['project_attributes']) && !empty($patient['project_attributes']))
+                 @foreach($patient['project_attributes'] as $label => $value)
+                 <div class="row m-b-15">
+                   <div class="col-sm-6">
+                     <strong>{{ $label }}</strong>
+                   </div>
+                   <div class="col-sm-6">
+                     @if(is_array($value))
+                        @if(isset($value['multiple']))
+                           {{ implode(", ",$value['multiple']) }} 
+                        @else
+                          @foreach($value as $default => $val)
+                              @if($val!='')
+                                {{ $val }} {{ $default }}
+                              @else 
+                                &nbsp;     
+                              @endif
+                          @endforeach
+                        @endif
+                    @else
+                      @if($value!='')
+                        {{ $value }} 
+                      @else 
+                        -    
+                      @endif 
+            
+                    @endif
+                   </div>
+                 </div>
+                 @endforeach
+                @endif
+
+                <div class="row m-b-15">
+                  <div class="col-sm-6">
+                  <strong>Smoker</strong>
+                  </div>
+                  <div class="col-sm-6">
+                    <span class="ttc">{{ $patient['patient_is_smoker'] }}</span>
+                  </div>
+                </div>
+                
+                 @if($patient['patient_is_smoker']=='yes')
+                <div class="row m-b-15">
+                   <div class="col-sm-6">
+                     <strong>If yes, how many per week</strong>
+                   </div>
+                   <div class="col-sm-6">
+                     {{ $patient['patient_smoker_per_week'] }}
+                   </div>
+                 </div>
+                 @endif 
+
+                 <div class="row m-b-15">
+                   <div class="col-sm-6">
+                     <strong>Alcohol (units per week)</strong>
+                   </div>
+                   <div class="col-sm-6">
+                     {{ $patient['patient_alcohol_units_per_week'] }}
+                   </div>
+                 </div>
+                 
+
+              </div>
+              <!-- /test -->
               </div>
               <div class="col-sm-4">
                 @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))

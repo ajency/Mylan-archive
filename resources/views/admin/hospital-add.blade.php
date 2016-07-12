@@ -30,8 +30,8 @@
 <div class="grid simple">
    <div class="grid-body">
        <div class="row">
-            <div class="col-md-4 text-center">
-                <div class="upload">
+            <div class="col-md-5 text-center">
+                <div class="upload upload-border">
                         <a class="deleteHospitalLogo btn btn-link btn-xs pull-right hidden" data-type="hospital" data-value="0" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
                                                  
@@ -47,9 +47,9 @@
 
                         <input type="hidden" name="hospital_logo" id="hospital_logo" data-parsley-required>
                     </div>
-                <p class="text-left">Upload a logo having dimensions of approximately 200 X 50.</p>
+                <p class="text-center m-t-10 fosz12">Upload a logo having dimensions of approximately 200 X 50.</p>
            </div>
-           <div class="col-md-8">
+           <div class="col-md-7">
                
                    <div class="row form-row">
                        <div class="col-md-6">

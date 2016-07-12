@@ -233,7 +233,7 @@ class HospitalController extends Controller
         foreach ($patients as  $patient) {
             $referenceCode = $patient['reference_code'];
             $projectId = $patient['project_id'];
-            $date = date('d-m-y H:i:s', strtotime($patient['created_at']));
+            $date = date('d-m-y / H:i:s', strtotime($patient['created_at']));
 
             if(!isset($project[$projectId]))
             {

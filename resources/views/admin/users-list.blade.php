@@ -29,28 +29,28 @@
                   <div class="grid simple">
                         <div class="grid-body no-border table-data">
                            <br>
-                           <table class="table table-hover" id="example" >
+                           <table class="table table-hover blur" id="example" >
                               <thead>
                                  <tr>
                                     <th>Name</th>
                                     <th>Email ID</th>
                                     <th>Contact</th>
-                                    <th>Access</th>
+                                    <th>Permissions</th>
                                   </tr>
                               </thead>
                               <tbody>
                               @foreach($users as $user)
                                  <tr class="odd gradeX" onclick="window.document.location='{{ url( 'admin/users/'.$user['id'].'/edit' ) }}';">
-                                    <td>{{ $user['name'] }}</td>
+                                    <td><strong>{{ $user['name'] }}</strong></td>
                                     <td>{{ $user['email'] }}</td>
                                     <td class="center">{{ $user['phone'] }}</td>
                                     <td class="center">
                                     @if($user['view'])
-                                       <i class="fa fa-eye"></i>&nbsp;&nbsp;
+                                       <a href="javascript:void(0)" class="ttip m-r-15" data-toggle="tooltip" data-placement="right" title="Can veiw"><i class="fa fa-eye"></i></a>
                                     @endif
                                     
                                     @if($user['edit'])
-                                       <i class="fa fa-pencil-square-o"></i>
+                                       <a href="javascript:void(0)" class="ttip" data-toggle="tooltip" data-placement="right" title="Can edit"><i class="fa fa-pencil-square-o"></i></a>
                                     @endif
                                       </td>
                                  </tr>
