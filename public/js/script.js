@@ -1923,7 +1923,7 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
                     showEditButtons($(this));
                 }
                   
-                
+                window.location.reload();
             }
                  
         });

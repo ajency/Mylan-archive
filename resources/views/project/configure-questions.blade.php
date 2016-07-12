@@ -447,6 +447,7 @@
 var submitUrl = "{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/configure-questions/'.$questionnaireId ) }}";
 
 $( document ).ready(function() {
+	
     function toggleChevron(e) {
     $(e.target)
         .prev('.panel-heading')
@@ -456,5 +457,7 @@ $( document ).ready(function() {
 $('#accordion').on('hidden.bs.collapse', toggleChevron);
 $('#accordion').on('shown.bs.collapse', toggleChevron);
 });  
+
+
 </script>
 @endsection
