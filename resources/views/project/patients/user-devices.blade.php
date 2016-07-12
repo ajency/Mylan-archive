@@ -36,7 +36,7 @@
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
                         <div class="grid simple grid-table">
-						<input type="button" value="Clear All" class="clear-data" id="{{ $patient['id'] }}"/>
+						<input type="button" value="Reset set up devices" class="clear-data" id="{{ $patient['id'] }}"/>
 						
                     <div class="grid-title no-border">
                        <h4>
@@ -65,7 +65,7 @@
                           @if(!empty($userDevices))   
                               @foreach($userDevices as $userDevice)
                                  <tr>                                
-                                   <td class="text-center">{{ date('d-m-Y',strtotime($project['created_at'])) }}</td>
+                                   <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
                                    <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
                                    <td class="text-center">{{ $userDevice['device_type'] }}</td>   
                                    <td class="text-center">{{ $userDevice['device_os'] }}</td> 

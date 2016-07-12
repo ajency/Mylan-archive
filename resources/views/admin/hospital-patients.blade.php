@@ -2,6 +2,11 @@
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
 <?php  
+	if($UserIdentity == "mylan_admin"){
+		$hospitalUrl = "/hospitals";
+	}else{
+		$hospitalUrl = "/login-links";
+	}
 	$currUrl = $_SERVER['REQUEST_URI'];
 ?>
       <p>
@@ -10,7 +15,7 @@
             <a href="{{ url( 'admin/' ) }}"><span>Home</span></a>
          </li>
          <li>
-            <a href="{{ url( 'admin/hospitals' ) }}" >{{ $hospital['name'] }}</a>
+            <a href="{{ url( 'admin' ) }}<?php echo $hospitalUrl; ?>" >{{ $hospital['name'] }}</a>
          </li>
          <li>
             <a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Patients</a>

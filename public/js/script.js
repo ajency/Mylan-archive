@@ -58,6 +58,9 @@ $('.validateRefernceCode').change(function (event) {
 /*clear devices*/
 
 $(".clear-data").on("click", function(e){
+	if (confirm('Status of the existing  set up devices will change to archive') === false) {
+        return;
+    }
 	$.ajax({
         url: "/user-details/change-device-status",
         type: "POST",
@@ -1703,7 +1706,9 @@ $('.questions-list_container').on('click', '.edit-question', function(event) {
 });
  
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
-
+	 if (confirm('This question is not saved yet. Are you sure you want to cancel adding this question?') === false) {
+        return;
+    }
     var i = $(this).closest(".question").attr('row-count'); 
     var questionId = $(this).closest('.question-view-edit').find('input[name="questionId['+i+']"]').val();  
     showEditButtons($(this));
@@ -1820,7 +1825,7 @@ $('.add-question').click(function (event) {
     html +='<div class="text-center has-subquestion"></div>';
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
-    html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
+   // html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
     html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';

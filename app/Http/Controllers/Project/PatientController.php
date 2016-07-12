@@ -242,12 +242,7 @@ class PatientController extends Controller
 	
 	
 	public function resetUserPassword(Request $request,$patientId) {
-        
-        if(\Auth::user()->type=='mylan_admin')
-        {
           $patient = User::find($patientId);
-
-          
           if ($patient==null) {
               $msg = 'invalid data';
               $data = "";
@@ -266,11 +261,7 @@ class PatientController extends Controller
               $data = $password ;
               $status = 200;
           }
-        }
-        else
-        {
-          abort(403);
-        }
+        
 
 
         return response()->json([
@@ -396,7 +387,7 @@ class PatientController extends Controller
             exceptionError($e);           
         }
          
-        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/')); 
     }
 
     /**
