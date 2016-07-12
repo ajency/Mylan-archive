@@ -387,7 +387,7 @@ class PatientController extends Controller
             exceptionError($e);           
         }
          
-        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/' . $userId.'/edit')); 
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/patients/')); 
     }
 
     /**
