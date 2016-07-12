@@ -692,7 +692,7 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
             url: BASEURL + "/admin/user-access/" + userAccessId,
             type: "DELETE",
             success: function (response) {
- 
+				defaultCheck();
             }
         });
     }
@@ -715,13 +715,13 @@ $('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event
             url: BASEURL + "/delete-user-access/" + userAccessId,
             type: "DELETE",
             success: function (response) {
- 
+				 defaultCheckUser();
             }
         });
     }
 
     $(this).closest('.project_users').remove();
-    
+   
  
 });
 

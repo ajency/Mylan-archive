@@ -28,7 +28,7 @@
    <p>(Update User under {{ $hospital['name'] }})</p>
 </div>
 @include('admin.flashmessage')
-<form onsubmit="return validateHospitalUser();" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users/'.$user['id']) }}" data-parsley-validate>
+<form onsubmit="return validateHospitalUser();" name="" class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/users/'.$user['id']) }}" data-parsley-validate>
 <div class="grid simple">
    <div class="grid-body">
       <form class="form-no-horizontal-spacing" id="form-condensed">
@@ -204,12 +204,12 @@
 			}
 		}
 		
-		function defaultCheck(){
+		function defaultCheckUser(){
 			if(user_access == "yes"){
 				$("[id = 'projects']").removeAttr("data-parsley-required");
 				$("#project").removeAttr("data-parsley-required");
 			}else{
-				$("[id = 'project']").attr("data-parsley-required","true");
+				$("[id = 'projects']").attr("data-parsley-required","true");
 				$("#project").attr("data-parsley-required","true");
 				if($(".hasToggle")[0]){
 					$(".toggleRequired").removeAttr("data-parsley-required");
@@ -218,7 +218,7 @@
 		}
 		
 		$(document).ready(function(e){
-			defaultCheck();
+			defaultCheckUser();
 		});
 	
 
