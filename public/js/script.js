@@ -1852,7 +1852,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row options-container_footer">';
     html +='<div class="col-md-12">';
     html +='<div class="clearfix">';
-    html +='<button type="button"  class="btn btn-primary pull-right save-question">SAVE</button>';
+    html +='<button type="button"  class="btn btn-primary pull-right save-question new-save-entry">SAVE</button>';
     html +='<button type="button" class="btn btn-default pull-right cancel-question m-r-10 new-entry">CANCEL</button>';
     html +='</div>';
     html +='</div>';
@@ -1904,9 +1904,10 @@ $('.questions-list_container').on('click', '.delete-question', function(event) {
     else
         var questionId = Obj.closest(".question-view-edit").find('input[name="questionId['+i+']"]').val();
         
-
+	
     if(questionId!='')
-    {
+    {	
+	
         $.ajax({
             url: BASEURL + "/delete-question/" + questionId,
             type: "DELETE",
@@ -2241,6 +2242,9 @@ $('.questions-list_container').on('click', '.save-question', function(event) {
                 Obj.closest('div').find('.cf-loader').remove();
                 Obj.removeAttr('disabled');
                 Obj.closest('div').find('.cancel-question').removeAttr('disabled');
+				if($(Obj).hasClass("new-save-entry")){
+					 window.location.reload();
+				}
            }
          });
     }
