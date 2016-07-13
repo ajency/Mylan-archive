@@ -41,7 +41,7 @@
                <div class="form-row">
                   <label>Email</label>
                   <input name="email" id="email" type="email" objectId="0" objectType="hospital"  class="authUserEmail form-control" data-parsley-required data-parsley-type="email">
-				  <span>Email address is not editable once user is created.</span>	
+				  <span class="text-danger">Email address is not editable once user is created.</span>	
                </div>
             </div>
             <div class="col-sm-3">
@@ -53,7 +53,7 @@
               
          </div>
           <hr>
-         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
+         <h4 class="no-margin"><span class="semi-bold">Hospital Access</span> Configuration
          <div class="checkbox check-primary custom-checkbox pull-right">
                   <input id="has_all_access" type="checkbox" name="has_all_access" value="yes" onclick="validateCheck();" >
                   <label for="has_all_access"><h4 class="no-margin">Access to all Hospitals<small> (This would automatically give access to future Hospitals.)</small></h4></label>
@@ -91,7 +91,7 @@
             <div class="row">
                <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
                <div class="col-md-4 text-right">
-                 <h4 class="user-sub-head">Access (Individual)</h4>
+                 <h4 class="user-sub-head">Access (Permissions)</h4>
                </div>
             </div>
 
