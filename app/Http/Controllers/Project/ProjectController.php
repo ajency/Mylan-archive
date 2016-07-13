@@ -184,8 +184,8 @@ class ProjectController extends Controller
 
                               
           // ************CACHE PATIENT ALERTS AND NOTIFICATION*******************
-            $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
-            
+           $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
+            /* 
             if (Cache::has($patientsAlertsCacheKey)) {
 
                 $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
@@ -194,7 +194,7 @@ class ProjectController extends Controller
 
             }
             else
-            {
+            {*/
                 $cond=['cleared'=>false];
                 $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
                 $subCond=['referenceType'=>"Response"];
@@ -203,7 +203,7 @@ class ProjectController extends Controller
                 $cachePatientsAlerts['ALERTS'] = $projectAlerts;
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-            } 
+            /*}*/ 
 
         } 
         catch (\Exception $e) {
@@ -379,7 +379,7 @@ class ProjectController extends Controller
 
     public function getPatientAlertMsg($referenceId,$alertClass,$alertContent)
     {
-
+			
         $patient = User::where('type','patient')->where('reference_code',$referenceId)->first()->toArray();
         $url = "patients/".$patient['id']."/patient-devices";
         $message = sprintf($alertContent, SETUP_ALERT ,SETUP_LIMIT);
