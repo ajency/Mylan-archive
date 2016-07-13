@@ -428,7 +428,12 @@ class PatientController extends Controller
                          );
 
             $patient = User::find($patientId);
-            
+            $userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
             
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$projectId)->get()->toArray();
 
@@ -565,6 +570,7 @@ class PatientController extends Controller
                                         ->with('submissionNotifications', $submissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
+                                        ->with('userdevice', $userdevice)
                                         ->with('project', $project);
     }
 
@@ -1131,6 +1137,13 @@ class PatientController extends Controller
             $submissionStatus = '';
 
             $patient = User::find($patientId)->toArray();
+			
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
 
             $inputs = Input::get(); 
 
@@ -1185,6 +1198,7 @@ class PatientController extends Controller
                                                  ->with('endDate', $endDate)
                                                  ->with('startDate', $startDate)
                                                  ->with('submissionStatus', $submissionStatus)
+                                                 ->with('userdevice', $userdevice)
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 
@@ -1200,7 +1214,12 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
             $patient = User::find($patientId)->toArray();
-
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
 
             $inputs = Input::get(); 
 
@@ -1239,6 +1258,7 @@ class PatientController extends Controller
                                                 ->with('endDate', $endDate)
                                                 ->with('startDate', $startDate)
                                                 ->with('filterType', $filterType)
+                                                ->with('userdevice', $userdevice)
                                                 ->with('submissionFlags', $submissionFlags);
     }
 
@@ -1252,6 +1272,12 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
             $patient = User::find($patientId)->toArray();
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
             $referenceCode = $patient['reference_code'];
             
             $responseQry = new ParseQuery("Response");
@@ -1293,6 +1319,7 @@ class PatientController extends Controller
                                                 ->with('allPatients', $allPatients) 
                                                 ->with('patient', $patient) 
                                                 ->with('isQuestionnaireSet', $isQuestionnaireSet) 
+                                                ->with('userdevice', $userdevice) 
                                                 ->with('baseLines', $baseLines); 
     }
 
@@ -1308,6 +1335,12 @@ class PatientController extends Controller
             $project = $hospitalProjectData['project'];
 
             $patient = User::find($patientId)->toArray();
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
             $referenceCode = $patient['reference_code'];
             $projectId = $patient['project_id'];
             $projectId = intval ($projectId);
@@ -1335,6 +1368,7 @@ class PatientController extends Controller
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)
                                         ->with('optionsList', $optionsList)
+                                        ->with('userdevice', $userdevice)
                                         ->with('answersList', $answersList);
     }
 
@@ -1930,6 +1964,13 @@ class PatientController extends Controller
 
 
             $patient = User::find($patientId)->toArray();
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
+			
             $referenceCode = $patient['reference_code'];
 
 
@@ -1941,6 +1982,8 @@ class PatientController extends Controller
             $optionsList = $baseLineData['optionsList']; 
             $optionScore = $baseLineData['optionScore'];
             $answersList = $baseLineData['answersList']; 
+			
+			
             //$baseLineResponseId = $baseLineData['baseLineResponseId'];  
         } catch (\Exception $e) {
 
@@ -1959,6 +2002,7 @@ class PatientController extends Controller
                                         ->with('questionnaire', $questionnaireName)
                                         ->with('questionsList', $questionsList)
                                         ->with('optionsList', $optionsList)
+                                        ->with('userdevice', $userdevice)
                                         ->with('answersList', $answersList);
     }
 
@@ -2160,7 +2204,12 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
             $patient = User::find($patientId)->toArray();
-
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
  
             $inputs = Input::get(); 
  
@@ -2249,6 +2298,7 @@ class PatientController extends Controller
                                         ->with('firstSubmission', $firstSubmission)
                                         ->with('submissionChart', $submissionChart)
                                         ->with('submissionNumbers', $submissionNumbers)
+                                        ->with('userdevice', $userdevice)
                                         ->with('questionChartData', $questionChartData); 
     }
 
@@ -2597,6 +2647,12 @@ class PatientController extends Controller
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
             $patient = User::find($patientId)->toArray();
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
 
             $inputs = Input::get(); 
             $refCond = [];
@@ -2627,6 +2683,7 @@ class PatientController extends Controller
                                         ->with('patient', $patient)
                                         ->with('allPatients', $allPatients)
                                         ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('userdevice', $userdevice)
                                         ->with('reviewStatus', $reviewStatus); 
     }
 
@@ -2641,6 +2698,12 @@ class PatientController extends Controller
             $projectId = intval($project['id']);
 
             $patient = User::find($patientId);
+			$userD = UserDevice::select('id')->where('user_id',$patientId)->get()->toArray();
+			if(!empty($userD)){
+				$userdevice = 'yes';
+			}else{
+				$userdevice = 'no';
+			}
             $userDevices = $patient->devices()->get()->toArray();
 
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
@@ -2657,6 +2720,7 @@ class PatientController extends Controller
                                                 ->with('project', $project)
                                                 ->with('patient', $patient)
                                                 ->with('allPatients', $allPatients)
+                                                ->with('userdevice', $userdevice)
                                                 ->with('userDevices', $userDevices); 
     }
 
