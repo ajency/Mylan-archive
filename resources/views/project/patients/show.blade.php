@@ -100,7 +100,7 @@
                   <div class="col-sm-6">
                     <strong>Reference Code</strong>
                   </div>
-                  <div class="col-sm-6">
+                  <div class="col-sm-6 ttuc">
                     {{ $patient['reference_code']}}
                   </div>
                 </div>
