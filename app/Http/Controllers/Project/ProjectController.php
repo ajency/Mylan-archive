@@ -134,18 +134,20 @@ class ProjectController extends Controller
 
           //if cache data exist for project       
             
-            if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
+           if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
                 $cacheProjectResponses =  Cache::get($responseCacheKey);  
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
                 $submissionsSummary = $cacheProjectResponses[$cacheDateKey]['submissionsSummary'];
- 
+                $viewAllSummarySubmissionCount = count($cacheProjectResponses[$cacheDateKey]['submissionsSummary']);
+
              }
             else
-            {  
+            { 
                 $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
                 
                 $responseCount = $this->getProjectResponseCounts($projectResponses);
+			
                 $cacheProjectResponses[$cacheDateKey]['responseCount'] = $responseCount;
                 
                 //red flags,amber flags ,unreviwed submission , submission
@@ -154,12 +156,16 @@ class ProjectController extends Controller
 
                  //patient completed  and late submissions 
                 $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
+				
+				$viewAllSummarySubmissionCount = count($responseCount['patientSubmissions']);
+				
+				
                 $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
                 $cacheProjectResponses[$cacheDateKey]['submissionsSummary'] = $submissionsSummary;
 
                 //store cache data
                 Cache:: forever($responseCacheKey, $cacheProjectResponses); 
-            } 
+            }
           
             // ****************CACHE PATIENT SUMMARY****************
             $patientsSummaryCacheKey = "patientsSummary_".$projectId;
@@ -181,6 +187,8 @@ class ProjectController extends Controller
             $totalSubmissionCount = $responseCount['totalSubmissionCount'];
    
             $patientSortedData = array_slice($patientSortedData, 0, 5, true);
+            $patientSortedDataCountViewall = count($patientsSummary['patientSortedData']);
+		
 
                               
           // ************CACHE PATIENT ALERTS AND NOTIFICATION*******************
@@ -199,7 +207,8 @@ class ProjectController extends Controller
                 $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
                 $subCond=['referenceType'=>"Response"];
                 $submissionNotifications = $this->getProjectAlerts($projectId,5,0,[],$subCond); 
-
+                $submissionNotificationsCountViewall = $submissionNotifications['alertCount'];
+				
                 $cachePatientsAlerts['ALERTS'] = $projectAlerts;
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
@@ -218,7 +227,9 @@ class ProjectController extends Controller
                                         ->with('activepatients', count($activepatients))
                                         ->with('allpatientscount', count($patientByDate))              
                                         ->with('submissionsSummary', $submissionsSummary)
+                                        ->with('viewAllSummarySubmissionCount', $viewAllSummarySubmissionCount)
                                         ->with('patientSortedData', $patientSortedData)
+                                        ->with('patientSortedDataCountViewall', $patientSortedDataCountViewall)
                                         ->with('patientResponses', $patientResponses)
                                         ->with('patientMiniGraphData', $patientsSummary['patientMiniGraphData'])
                                         ->with('projectFlagsChart', $projectFlagsChart)
@@ -226,6 +237,7 @@ class ProjectController extends Controller
                                         ->with('patients', $patients)
                                         ->with('projectAlerts', $projectAlerts)
                                         ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('submissionNotificationsCountViewall', $submissionNotificationsCountViewall)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
