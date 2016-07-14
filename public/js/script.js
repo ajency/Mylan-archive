@@ -1845,7 +1845,7 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
    // html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
-    html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
+    html +='<a class="cancel-question cancel-question-btn new-entry" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';
     html +='</div>';
