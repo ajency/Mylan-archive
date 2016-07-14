@@ -60,7 +60,7 @@
 				 </div>
 			 </div>
           <hr>
-         <h4 class="no-margin"><span class="semi-bold">Access</span> Configuration
+         <h4 class="no-margin"><span class="semi-bold">Hospital Access</span> Configuration
                   
          <div class="checkbox check-primary custom-checkbox pull-right">
             <input id="has_all_access" type="checkbox" name="has_all_access" onclick="validateCheck();" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >
@@ -103,7 +103,7 @@
                <div class="col-md-4 text-center"><h4 class="user-head">Hospital</h4></div>
                <div class="col-md-4 text-right">
           
-               <h4 class="user-sub-head">Access (Individual)</h4>
+               <h4 class="user-sub-head">Access (Permissions)</h4>
                </div>
          </div>
          <div class="row">
