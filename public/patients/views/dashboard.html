@@ -18,16 +18,16 @@
          <h3>Questionnaire Summary</h3>
          <hr>
          <div class="row" ng-switch="view.display">
-              <div class="col-md-8">
+              <!-- <div class="col-md-8">
                   <div class="panel panel-default">
                      <div class="panel-body">
                       <div class="panel-heading">
                         <p>{{ view.QuestinnarieName }} </p>
                      </div>
-                       <div id="chartdiv" style="width: 100%; height: 351px;"></div>
+                       <div id="chartdiv" style="width: 100%; height: 351px;" class="test"></div>
                      </div>
                   </div>
-              </div>
+              </div> -->
   
               <div class="col-md-16 bg-white" ng-switch-when="loader"> <!-- loader-->
                  <div class="text-center"><span class="cf-loader"> </span></div>
@@ -37,11 +37,11 @@
                 <div class="panel panel-default">
                      <div class="panel-body b-b-g">
                         <div class="row">
-                          <div class="col-sm-12 col-xs-7">
-                              <h5 class="f-w-200"><b>Date</b></h5>
-                           </div>
-                           <div class="col-sm-8 col-xs-9">
+                          <div class="col-sm-10 col-xs-7">
                               <h5 class="f-w-200"><b>Status</b></h5>
+                           </div>
+                           <div class="col-sm-10 col-xs-9">
+                              <h5 class="f-w-200"><b>Date</b></h5>
                            </div>
                            </h5>
                            <div class="col-sm-4 col-xs-8 text-right xs-text-left">
@@ -53,16 +53,20 @@
                           ng-controller="EachRequestTimeCtrl">
 
                          <div class="panel-body b-b-g" ng-if="submissions.status == 'upcoming'">
-                            <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                <div class="date text-center">
+                            <div class="row flex-div">
+                              <div class="col-sm-10 col-xs-7">
+                                <!-- <div class="date text-center">
                                     <div class="month">{{ submissions.month }}</div>
                                     <div class="day"><b>{{ submissions.date }}</b></div>
                                     <div class="year text-muted">{{ submissions.yr }}</div>
-                                </div>
+                                </div> -->
+                                <h5 class="f-w-400 text-success"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>UPCOMING</strong></h5>
+
                                </div>
-                               <div class="col-sm-8 col-xs-9 p-11">
-                                  <h5 class="f-w-400 text-success">UPCOMING</h5>
+                               <div class="col-sm-10 col-xs-9 p-11">
+                                  <span><b>{{ submissions.month }}</b></span>
+                                  <span><b>{{ submissions.date }}</b>,</span>
+                                  <span><b>{{ submissions.yr }}</b></span>
                                </div>
                                </h5>
                                <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
@@ -71,16 +75,19 @@
                          </div>
                       
                           <div class="panel-body b-b-g" ng-if="submissions.status == 'due'">
-                             <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                  <div class="date text-center">
+                             <div class="row flex-div">
+                              <div class="col-sm-10 col-xs-7">
+                                  <!-- <div class="date text-center">
                                         <div class="month">{{ submissions.month }}</div>
                                         <div class="day"><b>{{ submissions.date }}</b></div>
                                         <div class="year text-muted">{{ submissions.yr }}</div>
-                                    </div>
+                                    </div> -->
+                                    <h5 class="text-danger bold"><i class="fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>DUE</strong></h5>
                                 </div>
-                                <div class="col-sm-8 col-xs-9 p-11">
-                                   <h5 class="text-danger">DUE</h5>
+                                <div class="col-sm-10 col-xs-9 p-11">
+                                  <span><b>{{ submissions.month }}</b></span>
+                                  <span><b>{{ submissions.date }}</b>,</span>
+                                  <span><b>{{ submissions.yr }}</b></span>
                                 </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                    <a type="button" class="btn btn-success btn-hover" 
@@ -92,16 +99,20 @@
                           </div>
 
                           <div class="panel-body b-b-g" ng-if="submissions.status == 'started'">
-                             <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                  <div class="date text-center">
+                             <div class="row flex-div">
+                              <div class="col-sm-10 col-xs-7">
+                                  <!-- <div class="date text-center">
                                         <div class="month">{{ submissions.month }}</div>
                                         <div class="day"><b>{{ submissions.date }}</b></div>
                                         <div class="year text-muted">{{ submissions.yr }}</div>
-                                    </div>
+                                    </div> -->
+                                    <h5 class="text-danger"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>DUE</strong></h5>
+                                    
                                 </div>
-                                <div class="col-sm-8 col-xs-9 p-11">
-                                   <h5 class="text-danger">DUE</h5>
+                                <div class="col-sm-10 col-xs-9 p-11">
+                                   <span><b>{{ submissions.month }}</b></span>
+                                    <span><b>{{ submissions.date }}</b>,</span>
+                                    <span><b>{{ submissions.yr }}</b></span>
                                 </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                    <a type="button" 
@@ -116,17 +127,21 @@
 
                           
                           <div class="panel-body b-b-g" ng-if="submissions.status == 'late' ">
-                             <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                   <div class="date text-center">
+                             <div class="row flex-div">
+                              <div class="col-sm-10 col-xs-7">
+                                   <!-- <div class="date text-center">
                                         <div class="month">{{ submissions.month }}</div>
                                         <div class="day"><b>{{ submissions.date }}</b></div>
                                         <div class="year text-muted">{{ submissions.yr }}</div>
-                                    </div>
+                                    </div> -->
+                                    <h5 class="text-warning"><i class="fa fa-minus"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Late</strong></h5>
+                                    
                                 </div>
-                                <div class="col-sm-8 col-xs-9 p-11">
-                                   <h5 class="text-warning">Late</h5>
-                                </div>
+                                <div class="col-sm-10 col-xs-9 p-11">
+                                 <span><b>{{ submissions.month }}</b></span>
+                                 <span><b>{{ submissions.date }}</b>,</span>
+                                 <span><b>{{ submissions.yr }}</b></span>
+                               </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                    <a type="button"
                                       ng-if="submissions.answeredQuestions === false" 
@@ -143,17 +158,20 @@
                           </div>
 
                           <div class="panel-body b-b-g" ng-if="submissions.status == 'completed' ">
-                             <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                   <div class="date text-center">
+                             <div class="row flex-div">
+                              <div class="col-sm-10 col-xs-7">
+                                   <!-- <div class="date text-center">
                                         <div class="month">{{ submissions.month }}</div>
                                         <div class="day"><b>{{ submissions.date }}</b></div>
                                         <div class="year text-muted">{{ submissions.yr }}</div>
-                                    </div>
+                                    </div> -->
+                                    <h5 class="text-success"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>COMPLETED</strong></h5>
                                 </div>
-                                <div class="col-sm-8 col-xs-9 p-11">
-                                   <h5 class="text-warning">SUBMITTED</h5>
-                                </div>
+                                <div class="col-sm-10 col-xs-9 p-11">
+                                 <span><b>{{ submissions.month }}</b></span>
+                                 <span><b>{{ submissions.date }}</b>,</span>
+                                 <span><b>{{ submissions.yr }}</b></span>
+                               </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                    <a type="button" 
                                       ng-click = "view.summary(submissions.occurrenceId);" 
@@ -163,16 +181,20 @@
                           </div>
 
                           <div class="panel-body b-b-g" ng-if="submissions.status == 'missed'">
-                             <div class="row">
-                              <div class="col-sm-12 col-xs-7">
-                                   <div class="date text-center">
+                             <div class="row flex-div blur">
+                              <div class="col-sm-10 col-xs-7">
+                                   <!-- <div class="date text-center">
                                         <div class="month">{{ submissions.month }}</div>
                                         <div class="day"><b>{{ submissions.date }}</b></div>
                                         <div class="year text-muted">{{ submissions.yr }}</div>
-                                    </div>
+                                    </div> -->
+                                   
+                                    <h5 class="text-muted"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>MISSED</strong></h5>
                                 </div>
-                                <div class="col-sm-8 col-xs-9 p-11">
-                                   <h5 class="text-muted">MISSED</h5>
+                                <div class="col-sm-10 col-xs-9 p-11">
+                                  <span><b>{{ submissions.month }}</b></span>
+                                  <span><b>{{ submissions.date }}</b>,</span>
+                                  <span><b>{{ submissions.yr }}</b></span>
                                 </div>
                                 <div class="col-sm-4 col-xs-8 text-right xs-text-left p-11">
                                 </div>
@@ -185,10 +207,9 @@
 
                        <div class="panel-body b-b-g text-center" ng-if = "view.showMoreButton">
                             <div class="center">
-                                 <a class="view-more"  
+                                 <a class="view-more m-t-10 m-b-10"  
                                   ng-click="view.showMore()">
-                                  <i class="fa fa-plus"></i>
-                                    <span>View More</span>
+                                    <span>VIEW MORE</span> <i class="fa fa-plus"></i>
                                   </a>
                             </div>
                         </div>
@@ -203,6 +224,25 @@
                       error-type="view.errorType"
                       tap-to-retry="view.onTapToRetry();">
                     </aj-error>
+                </div>
+
+                <div class="col-xs-8">
+                  <div class="sidebar">
+                    <div class="icon">
+                      <i class="glyphicon glyphicon-phone-alt"></i>
+                    </div>
+                    <br>
+                    <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
+                    <h6><b>CALL US ON</b></h6>
+                    <p><i class="fa fa-phone text-muted"></i>
+                      <a href="" class="text-success">{{view.phone}}</a>
+                    </p>
+                    <p>OR</p>
+                    <h6><b>MAIL US AT</b></h6>
+                    <p><i class="fa fa-envelope text-muted"></i>
+                      <a href="" class="text-success">{{view.email}}</a>
+                    </p>
+                  </div>
                 </div>
          </div> <!-- row -->
 </div> <!-- dashboard -->
