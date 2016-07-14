@@ -39,6 +39,8 @@ class WelcomeController extends Controller {
 		
 		if(Auth::check() && Auth::user()->type=='patient'){
 			return redirect(url()."/dashboard");
+		}else if((Auth::user()->type=='hospital_user') || (Auth::user()->type=='project_user') || (Auth::user()->type=='mylan_admin')){
+			return redirect(url()."/admin");
 		}else{
 			return view( 'setup' );
 		}	

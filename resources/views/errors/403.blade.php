@@ -55,7 +55,7 @@
                 <p class="error-subtitle">ACCESS DENIED!</p>
 
                 <p class="actual-msg">You don't have enough permissions to access this page</p>
-                <a href="{{ url() }}/admin" class="btn btn-link cust-link">Go back</a>
+                <a href="{{ url() }}" class="btn btn-link cust-link">Go back</a>
             </div>
         </div>
     </body>
