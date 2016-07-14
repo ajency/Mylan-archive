@@ -134,7 +134,7 @@ class ProjectController extends Controller
 
           //if cache data exist for project       
             
-           if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
+          /* if (Cache::has($responseCacheKey) && isset(Cache::get($responseCacheKey)[$cacheDateKey]) ) {
                 $cacheProjectResponses =  Cache::get($responseCacheKey);  
                 $responseCount = $cacheProjectResponses[$cacheDateKey]['responseCount'];
                 $projectFlagsChart = $cacheProjectResponses[$cacheDateKey]['projectFlagsChart'];
@@ -143,7 +143,7 @@ class ProjectController extends Controller
 
              }
             else
-            { 
+            { */
                 $projectResponses = $this->getProjectResponsesByDate($projectId,0,[],$startDateObj,$endDateObj,$responseStatus,$cond,$sort);
                 
                 $responseCount = $this->getProjectResponseCounts($projectResponses);
@@ -165,22 +165,22 @@ class ProjectController extends Controller
 
                 //store cache data
                 Cache:: forever($responseCacheKey, $cacheProjectResponses); 
-            }
+            /*}*/
           
             // ****************CACHE PATIENT SUMMARY****************
             $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-            if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
+            /*if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
                 $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
                 $patientsSummary = $cachePatientsSummary[$cacheDateKey];
                   
             }
             else
-            {
+            {*/
                 $patientController = new PatientController();
                 $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
-            } 
+            /*}*/ 
 
             $patientResponses = $patientsSummary['patientResponses'];
             $patientSortedData = $patientsSummary['patientSortedData'];
