@@ -100,6 +100,7 @@
                   <select name="projects[]" id="project" class="select2 form-control hasToggle" data-parsley-required="true" >
                      <option value="">Select Hospital</option>
                      @foreach($projects as $project)
+					
                      <option {{ ($project['id']==$value['object_id']) ? 'selected':''}} value="{{ $project['id'] }}">{{ $project['name'] }}</option>
                      @endforeach
  
@@ -115,7 +116,7 @@
                </div>
                 @if(hasHospitalPermission($hospital['url_slug'],['edit']))
                <div class="col-md-4 text-center">
-                  <a class="deleteUserProjectAccess" data-id="{{ $value['id'] }}"> Delete </a>
+                  <a class="deleteUserProjectAccess first-Projects" data-id="{{ $value['id'] }}"> Delete </a>
                </div>
 
                @endif

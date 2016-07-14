@@ -680,6 +680,14 @@ function validateHospitalUser()
 }
 
 $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(event) {
+	
+	if($('.first-hospitals').length == 1){
+		if(confirm('Atleast one hospital has to be assigned to the user.') === false){
+			return;
+		}else{
+			return;
+		}
+	}	
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }
@@ -703,6 +711,15 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
 });
 
 $('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event) {
+
+	if($('.first-Projects').length == 1){
+		if(confirm('Atleast one project has to be assigned to the user.') === false){
+			return;
+		}else{
+			return;
+		}
+	}	
+	
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }
