@@ -9988,7 +9988,7 @@ small.help-text {
   background: none;
   border-right: none;
 }
-.ttuc {
+.patient-search button.btn.dropdown-toggle.btn-default, .ttuc {
   text-transform: uppercase;
 }
 .questions-list.question-view {

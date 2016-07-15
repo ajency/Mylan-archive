@@ -36,7 +36,7 @@
 </div>
 <div class="m-r-15 pull-right patient-search">
 <select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
-      <option value="">-select patient-</option>
+      <option class="ttuc" value="">-select patient-</option>
        @foreach($allPatients as $patientData)
          <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
        @endforeach
