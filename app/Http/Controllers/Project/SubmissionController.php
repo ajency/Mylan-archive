@@ -357,6 +357,7 @@ class SubmissionController extends Controller
                                                 ->with('submissionJson', $submissionJson)
                                                 ->with('inputValueChart', $inputValueChart)
                                                 ->with('previousAnswersList', $previousAnswersList)
+                                                ->with('userdevice', 'yes')
                                                 ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 

@@ -241,7 +241,6 @@
                                <div class="col-sm-6"><h4 class="m-t-25">Health <span class="semi-bold">Tracker</span></h4></div>
                                <div class="col-sm-6">
                                <select class="m-t-20 pull-right" name="generateChart">
-                                 
                                  <option value="red_flags" selected> Red Flags</option>
                                  <option value="amber_flags">  Amber Flags</option>
                                  <option value="unreviewed" >Unreviewed Submissions</option>
@@ -665,7 +664,7 @@
             }
             else if($(this).val()=='submissions')
             {
-              legends = {completed: "Completed",late: "Late",missed: "Missed"};
+              legends = {missed: "Missed", completed: "Completed",late: "Late"};
               lineChartWithOutBaseLine(<?php echo $projectFlagsChart['patientsSubmission'];?>,legends,"chartdiv",'Project Submissions','Total Count');
 
             } 

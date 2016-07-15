@@ -1129,9 +1129,9 @@ class ProjectController extends Controller
         foreach($unreviewedSubmissionByDate as $date => $value)
         { 
             $submissionByDate[$i]["Date"] =  date('d M',$date);
-            $submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
-            $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
             $submissionByDate[$i]["missed"] = (isset($missedByDate[$date]))?count($missedByDate[$date]):0;
+			$submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
+            $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
  
             $i++;
         }

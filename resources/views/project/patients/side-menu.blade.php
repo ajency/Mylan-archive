@@ -7,9 +7,16 @@
       <li class="{{ ( $active_tab == 'reports')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/patient-reports') }}';"><a href="#"><i class="fa fa-bar-chart"></i> Reports</a></li>
       <!-- <li class="{{ ( $active_tab == 'users')? 'active' : ''}}"><a href="#"><i class="fa fa-bar-chart"></i> Details</a></li> -->
       <li class="{{ ( $active_tab == 'submissions-notification')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}';"><a href="#"><i class="fa fa-list-alt"></i> Submission Notifications</a></li>
-	  @if($userdevice)
+	  <?php
+		if(isset($userdevice)){
+			$deviceSet = 1;
+		}else{
+			$deviceSet = 0;
+		}
+	  ?>
+	  @if($deviceSet == 1)
 		  @if($userdevice == 'yes')
 		  <li class="{{ ( $active_tab == 'user-devices')? 'active' : ''}}" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/patient-devices') }}';"><a href="#"><i class="fa fa-list-alt"></i> Setup Devices</a></li>
 		  @endif
-	  @endif	  
+	  @endif
 </ul>
