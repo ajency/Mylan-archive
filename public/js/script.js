@@ -1724,7 +1724,9 @@ $('.questions-list_container').on('click', '.edit-question', function(event) {
  
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
 	if($(this).hasClass("new-entry")){
-		if (confirm('This question is not saved yet. Are you sure you want to cancel adding this question?') === false) {
+		var ival = $("#iVal").val();
+		//console.log($("#title").serialize());
+		if (confirm('This question will be deleted,continue?') === false) {
 			return;
 		}
 	}
@@ -1834,7 +1836,7 @@ $('.add-question').click(function (event) {
     html +='<div class="col-sm-4">';
     html +='<div class="form-group">';
     html +='<label for="">A short question identifier</label>';
-    html +='<input name="title['+i+']" id="title" type="text"   placeholder="Enter Title" class="form-control" data-parsley-required>';
+    html +='<input name="title['+i+']" id="title" type="text"  placeholder="Enter Title" class="form-control" data-parsley-required>';
     html +='</div>';
     html +='</div>';
     html +='<div class="col-sm-1">';
@@ -1853,7 +1855,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row">';
     html +='<div class="col-md-9">';
     html +='<div class="form-group">';
-    html +='<input name="question['+i+']" id="question" type="text"   placeholder="Enter Question" class="form-control" data-parsley-required>';
+    html +='<input name="question['+i+']" id="question" type="text" placeholder="Enter Question" class="form-control" data-parsley-required>';
     html +='</div>';
     html +='</div>';
     html +='</div>';
@@ -1869,6 +1871,7 @@ $('.add-question').click(function (event) {
     html +='<div class="row options-container_footer">';
     html +='<div class="col-md-12">';
     html +='<div class="clearfix">';
+    html +='<input type="hidden" value="'+i+'" id="iVal" />';
     html +='<button type="button"  class="btn btn-primary pull-right save-question new-save-entry">SAVE</button>';
     html +='<button type="button" class="btn btn-default pull-right cancel-question m-r-10 new-entry">CANCEL</button>';
     html +='</div>';
@@ -2306,6 +2309,7 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     
     if(containerObj.closest('.question-options-block').hasClass('parent-question-options'))
     {
+		
         containerObj.html('<i class="fa fa-remove m-t-10 delete-parent-question-option delete-option cp" counter-key="'+counterKey+'"></i>');
         var hasSubQuestion = containerObj.closest(".question-options-block").find(".hasSubQuestion").length;
         var html = getOptionHtml('no', hasSubQuestion,'', i, j);
@@ -2313,12 +2317,16 @@ $('.questions-list_container').on('click', '.add-option', function(event) {
     }
     else
     {
+		
         containerObj.html('<i class="fa fa-remove m-t-10 delete-option cp" counter-key="'+counterKey+'"></i>');
         var html = getOptionHtml('yes', 0,'', i, j);
     }
 
     containerObj.closest('.options-list_container').after(html);
-
+	 // for main questions
+	setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+	// for sub questions
+	setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
       
 
 });
@@ -2395,9 +2403,10 @@ function getOptionHtml(isSubQuestionOption, hasSubQuestion,required, i, j)
 
 
 $('.questions-list_container').on('click', '.delete-option', function(event) { 
-    
-    
-
+    // for main questions
+	setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+	// for sub questions
+	setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
     var Obj = $(this);
     var maincontainerObj = $(this).closest('.main-question_container');
     var i = $(this).closest('.question').attr("row-count"); 
@@ -2427,17 +2436,25 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
 
     if(count > 2)
     {
-        if (confirm('Are you sure you want to delete this option?') === false) {
+        if (confirm('Are you sure you want to delete this option?s') === false) {
             return;
         }
 
         if(Obj.closest('.question').hasClass("main-question_container"))
         {  
             Obj.closest('.main-question_container').find('.delete-parent-question-option').addClass('hidden'); 
+			 // for main questions
+			setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+			// for sub questions
+			setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
         }
         else
         {  
             Obj.closest('.subquestion-container').find('.delete-option').addClass('hidden'); 
+			 // for main questions
+			setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+			// for sub questions
+			setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
         }
 
         Obj.closest('div').append('<span class="cf-loader"></span>');
@@ -2447,11 +2464,14 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                 url: BASEURL + "/delete-option/" + optionId,
                 type: "DELETE",
                 success: function (response, status, xhr) { 
-                 
                     if(xhr.status==203)
                     {
                         Obj.closest('.options-list_container').remove(); 
                         maincontainerObj.find('.delete-option').removeClass('hidden'); 
+						 // for main questions
+						setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+						// for sub questions
+						setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
                     }
                     else
                     {
@@ -2459,10 +2479,13 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
                         Obj.closest('div').find('.cf-loader').remove();
                         Obj.closest('.options-list').prepend('<div class="col-md-12"><div class="delete-option-error-message text-danger m-b-10 "><i class="fa fa-exclamation-triangle"></i> You cannot delete this option before saving newly added options</div></div>')
                         maincontainerObj.find('.delete-option').removeClass('hidden'); 
+						 // for main questions
+						setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+						// for sub questions
+						setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
 
                     }
-
-                
+					
                 }
             });
         }
@@ -2470,6 +2493,10 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
         {
             Obj.closest('.options-list_container').remove();
             maincontainerObj.find('.delete-option').removeClass('hidden');  
+			 // for main questions
+			setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+			// for sub questions
+			setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
         }
 
 
@@ -2477,6 +2504,10 @@ $('.questions-list_container').on('click', '.delete-option', function(event) {
     else
     {
         alert("Please make sure at least one option is present for question "+title+".");
+		 // for main questions
+		setCountOptions ('.parent-question-options', '> .options-list_container', '.cust-col-sm-1 .m-t-10');
+		// for sub questions
+		setCountOptions ('.subquestion-container', '.options-list_container', '.option-label .m-t-10');
     }
 
 
@@ -2595,4 +2626,18 @@ function validatefrequencySettings(frequencyRequired)
 $( document ).ready(function() {
     $('.ttip').tooltip();
 });
+
+function setCountOptions (theParent, theChildToCount, theLabelText) {
+  $(theParent).each(function() {
+    $childCount = $(this).find(theChildToCount).length;
+    console.log($childCount)
+    if ($childCount) {
+      for (var i = 1; i <= $childCount; i++) {
+        $(this).find(theChildToCount).eq(i - 1).find(theLabelText).text('option ' + i)
+      }
+    }
+  });
+}
+
+
 
