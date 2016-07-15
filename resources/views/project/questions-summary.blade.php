@@ -167,6 +167,7 @@
                                       <div class="col-md-4">
                                         @if(isset($optionsList[$subQuestionId]))
                                           <span class="label label-default pull-right m-t-5">{{ count($optionsList[$subQuestionId])}} OPTIONS</span>
+										  <span class="pull-right m-t-5 quest-type" style="font-size:10px;">{{ $subQuestion['type'] }}</span>
                                         @endif
                                       </div>
                                       </div><!--/row--> 
