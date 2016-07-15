@@ -17,16 +17,18 @@
 
 
     <div ng-switch-when="noError">
-          <h2>Summary</h2>
-          <br>
-          <h3>Submission #{{ view.data.sequenceNumber }} </h3>
-          <br>
+          <h3><span class="fw600">Summary</span> Submission #{{ view.data.sequenceNumber }}</h3>
+          <hr>
+          <!-- <h3>Submission #{{ view.data.sequenceNumber }} </h3>
+          <br> -->
+          <div class="row">
+          <div class="col-sm-16">
         <div class="alert alert-success" role="alert">
-           Submission date: {{view.data.submissionDate}}
+           <i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;Submission Date: {{view.data.submissionDate}}
         </div>
      
-          <br><br>
-        <div class="timeline">
+          
+        <div class="timeline test">
 
           <br>
           <div ng-repeat ="summary in view.data.answerObjects track by $index">
@@ -35,26 +37,26 @@
                   <span>{{$index + 1}}</span>
               </div>
               <div class="list-infotext">
-                <h3> {{summary.question}}</h3>
+                <h5 class="m-b-5 fw600 summ-quest m-t-0"> {{summary.question}}</h5>
 
-                <h4 class="text-success g-l-h">
+                <h4 class="g-l-h m-t-0 fosz16">
                   <span 
                     ng-if="summary.val ==='single-choice' || summary.val ==='multi-choice'"
-                    ng-repeat = "answer in summary.optionSelected track by $index">
+                    ng-repeat = "answer in summary.optionSelected track by $index" class="fw600">
                     {{answer}} <br> 
                   </span>
                 </h4>
 
-                <h4 class="text-success g-l-h"
+                <h4 class="g-l-h m-t-0 fosz16"
                    ng-if="summary.val ==='descriptive'">
-                  <span> {{summary.input}} 
+                  <span class="fw600"> {{summary.input}} 
                   </span>
                 </h4>
 
-                <h4 class="text-success g-l-h"
+                <h4 class="g-l-h m-t-0 fosz16"
                    ng-if="summary.val == 'input'"
                    ng-repeat = "answer in summary.optionSelected track by $index">
-                  <span> 
+                  <span class="fw600"> 
                     {{answer.value}} {{answer.label}} 
                   </span>
                 </h4>
@@ -66,8 +68,32 @@
         </div>
     
       <br><br><br>
-        <a ng-if = "view.hideButton == true" type="button" ng-click="view.onSumbmit()" class="btn btn-success btn-lg">Submit</a>
-       <a type="button" ng-click="view.back()" class="btn btn-success btn-lg">Go Back</a>
+      <div class="clearfix">
+      <a type="button" ng-click="view.back()" class="btn btn-primary btn-lg pull-left"><i class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp; GO BACK</a>
+        <a ng-if = "view.hideButton == true" type="button" ng-click="view.onSumbmit()" class="btn btn-success btn-lg pull-right">SUBMIT&nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a>
+      </div>
+      </div><!--/col-sm-16-->
+
+      <div class="col-sm-8">
+       <div class="sidebar">
+        <div class="icon">
+          <i class="glyphicon glyphicon-phone-alt"></i>
+        </div>
+        <br>
+        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
+        <h6><b>CALL US ON</b></h6>
+        <p><i class="fa fa-phone text-muted"></i>
+          <a href="" class="text-success">{{view.phone}}</a>
+        </p>
+        <p>OR</p>
+        <h6><b>MAIL US AT</b></h6>
+        <p><i class="fa fa-envelope text-muted"></i>
+          <a href="" class="text-success">{{view.email}}</a>
+        </p>
+      </div>
+    </div> <!-- /col-sm-8 -->
+        </div> <!-- /row -->
+       
     </div>
 </div> <!--container -->
 

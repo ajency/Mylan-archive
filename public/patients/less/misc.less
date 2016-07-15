@@ -371,7 +371,7 @@ h4.line-title,h3.line-title {
 /*** TIMELINE STYLING ***/
 .timeline{
       box-sizing: border-box;
-    border-left: 2px solid #ccc;
+    // border-left: 2px solid #ccc;
     position: relative;
     z-index: 2;
     padding: 15px 20px;
@@ -384,22 +384,24 @@ h4.line-title,h3.line-title {
         margin-bottom: 0;
       }
       .no{
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
+        line-height: 25px;
         color: @color-text-gray;
-        background: #F2F2F2;
+        // background: #F2F2F2;
         border-radius: 50%;
         text-align: center;
         display: inline-block;
         position: absolute;
         top:0;
         left: -42px;
-        border: 4px solid @color-danger;
+        // border: 4px solid @color-danger;
+        border: 2px solid #ccc;
         span{
           position: relative;
           top: 3px;
           left: 1px;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: bold;
         }
       }
@@ -550,9 +552,6 @@ h4.line-title,h3.line-title {
         opacity:1;
 
       }
-    }
-    &.item-radio input:checked ~ .radio-icon > p{
-        color: #000;
     }
     .radio-icon{
       visibility: visible;
@@ -1519,9 +1518,21 @@ color: #00aaa7;
   font-size: 14px;
 }
 
+.m-b-5{
+  margin-bottom: 5px;
+}
 
+.fosz16{
+  font-size: 16px;
+}
 
+.fw600{
+  font-weight: 600;
+}
 
+.summ-quest{
+  color: #ccc;
+}
 
 
 
