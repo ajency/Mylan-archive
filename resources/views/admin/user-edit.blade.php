@@ -139,8 +139,9 @@
                      <label for="access_edit_{{ $i }}">Edit</label>
                   </div>
                </div>
+			   
                <div class="col-md-4 text-center">
-                  <a class="deleteUserHospitalAccess" data-id="{{ $value['id'] }}"> Delete </a>
+                  <a class="deleteUserHospitalAccess first-hospitals" data-id="{{ $value['id'] }}"> Delete </a>
                </div>
                
             </div>

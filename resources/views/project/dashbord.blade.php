@@ -403,9 +403,11 @@
                           </tbody>
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-                              </div>
+							  @if($viewAllSummarySubmissionCount > 5)
+								  <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+									 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+								  </div>
+							  @endif	  
                            </div>
                         </div>
    </div>
@@ -471,9 +473,11 @@
                           </tbody>
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submission-notifications" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-                              </div>
+							  @if($submissionNotificationsCountViewall > 5)
+								  <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+									 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submission-notifications" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+								  </div>
+							@endif	  
                            </div>
                         </div>
 
@@ -614,9 +618,11 @@
                      </tbody>
                   </table>
                               <hr style="margin: 0px 0px 10px 0px;">
-                              <div class="text-right {{ (empty($patients))?'hidden':'' }}">
-                                 <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-                              </div>
+							  @if($patientSortedDataCountViewall > 5)
+								  <div class="text-right {{ (empty($patients))?'hidden':'' }}">
+									 <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+								  </div>
+							  @endif
                            </div>
                         </div>
                      </div>

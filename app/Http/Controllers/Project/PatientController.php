@@ -528,7 +528,8 @@ class PatientController extends Controller
             $projectController = new ProjectController();
             $lastFiveSubmissions = array_slice($patientSubmissions, 0, 5, true);
             $submissionsSummary = $projectController->getSubmissionsSummary($lastFiveSubmissions); 
-
+			$countSummarySubmissionView = count($patientSubmissions);
+			
             //question chart
             $questionsChartData = $this->getQuestionChartData($patientAnswers);
 
@@ -542,6 +543,9 @@ class PatientController extends Controller
             $cond=['patient'=>$patient['reference_code'],'referenceType'=>"Response"];
      
             $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
+			
+			$viewAllsubmissionNotifications = $submissionNotifications['alertCount'];
+			
 
         } catch (\Exception $e) {
 
@@ -553,6 +557,7 @@ class PatientController extends Controller
                                         ->with('tab', '01')
                                         ->with('responseRate', $responseRate)
                                         ->with('submissionsSummary', $submissionsSummary)
+                                        ->with('countSummarySubmissionView', $countSummarySubmissionView)
                                         ->with('totalResponses', $totalResponses)
                                         ->with('flagsCount', $flagsCount)
                                         ->with('hospital', $hospital)
@@ -568,6 +573,7 @@ class PatientController extends Controller
                                         ->with('submissionFlags', $submissionFlags)
                                         ->with('patientFlags', $patientFlags)
                                         ->with('submissionNotifications', $submissionNotifications)
+                                        ->with('viewAllsubmissionNotifications', $viewAllsubmissionNotifications)
                                         ->with('endDate', $endDate)
                                         ->with('startDate', $startDate)
                                         ->with('userdevice', $userdevice)

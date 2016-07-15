@@ -680,6 +680,14 @@ function validateHospitalUser()
 }
 
 $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(event) {
+	
+	if($('.first-hospitals').length == 1){
+		if(confirm('Atleast one hospital has to be assigned to the user.') === false){
+			return;
+		}else{
+			return;
+		}
+	}	
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }
@@ -703,6 +711,15 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
 });
 
 $('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event) {
+
+	if($('.first-Projects').length == 1){
+		if(confirm('Atleast one project has to be assigned to the user.') === false){
+			return;
+		}else{
+			return;
+		}
+	}	
+	
     if (confirm('Are you sure you want to delete this record?') === false) {
         return;
     }
@@ -1828,7 +1845,7 @@ $('.add-question').click(function (event) {
     html +='</div>';
     html +='<div class="col-sm-2 text-right">';
    // html +='<i class="fa fa-trash delete-parent-question delete-question cp m-r-30" object-id=""></i>';
-    html +='<a class="cancel-question cancel-question-btn" href="javascript:void(0);" object-id="">';
+    html +='<a class="cancel-question cancel-question-btn new-entry" href="javascript:void(0);" object-id="">';
     html +='<i class="fa fa-close"></i>';
     html +='</a>';
     html +='</div>';

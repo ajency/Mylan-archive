@@ -36,12 +36,17 @@ class WelcomeController extends Controller {
      * @return Response
      */
     public function index() {
-		
-		if(Auth::check() && Auth::user()->type=='patient'){
-			return redirect(url()."/dashboard");
+		if(Auth::check()){
+			if(Auth::check() && Auth::user()->type=='patient'){
+				return redirect(url()."/dashboard");
+			}else if((Auth::user()->type=='hospital_user') || (Auth::user()->type=='project_user') || (Auth::user()->type=='mylan_admin')){
+				return redirect(url()."/admin");
+			}else{
+				return view( 'setup' );
+			}	
 		}else{
 			return view( 'setup' );
-		}	
+		}
     }
 
     public function verifyReferenceCode(Request $request)

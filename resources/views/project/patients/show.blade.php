@@ -456,9 +456,11 @@
                           </tbody>
                        </table>
                        <hr style="margin: 0px 0px 10px 0px;">
-                       <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-                          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
-                       </div>
+					   @if($countSummarySubmissionView > 5)
+						   <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
+							  <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
+						   </div>
+					   @endif	   
                     </div>
                  </div>
               </div>
@@ -514,7 +516,7 @@
                        </table>
                               <hr style="margin: 0px 0px 10px 0px;">
                               <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
-								 @if(!empty($submissionNotifications['alertMsg']))   
+								 @if((!empty($submissionNotifications['alertMsg'])) && ($viewAllsubmissionNotifications > 5))
 									<a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submission-notifications') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
 								@endif   	
                               </div>
@@ -548,15 +550,20 @@
                        <tbody>
                        <?php 
                           $i=1;
+						  $hideVAll = "";
                         ?>
                         @if(!empty($patientFlags['all']))      
                            @foreach($patientFlags['all'] as $allSubmissionFlag)
-                         <?php 
+                         <?php
                           if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
                                continue;
                            
-                            if($i==6)
+                            if($i==6){
                               break;
+							  $hideVAll = 'style="display:block;"';
+							 }else{
+								 $hideVAll = 'style="display:none;"';
+							 }
                           ?>
                          <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
                             <td width="110px">
@@ -577,7 +584,8 @@
                         @endif 
                     </table>
                     <hr style="margin: 0px 0px 10px 0px;">
-                    <div class="text-right {{ (empty($patientFlags['all']))?'hidden':'' }}">
+					
+                    <div class="text-right {{ (empty($patientFlags['all']))?'hidden':'' }}" <?php echo $hideVAll; ?>>
                        <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/flags') }}" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
                     </div>
                  </div>
