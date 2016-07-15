@@ -20,7 +20,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Patient Id<span class="semi-bold ttuc"> #<span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span></span></h3>
   </div>
  <div class="tabbable tabs-left">
     @include('project.patients.side-menu')
