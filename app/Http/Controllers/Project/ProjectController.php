@@ -446,7 +446,7 @@ class ProjectController extends Controller
         'less_or_equal_green_flags_compared_to_previous'=>"%u or less green flags have been raised for submission number %d in comparison with previous submission",
         'less_or_equal_green_flags_compared_to_baseline'=>"%u or less green flags have been raised for submission number %d in comparison with baseline submission",
 
-        'device_setup_alert'=>"Set up has been done from %u different devices.Account will be suspended when count reached %d",
+        'device_setup_alert'=>"Set up has been done from %u different devices.Account will be suspended when count reaches %d",
 
         'new_patient'=>"New Patient Created"
         ];
@@ -1129,9 +1129,9 @@ class ProjectController extends Controller
         foreach($unreviewedSubmissionByDate as $date => $value)
         { 
             $submissionByDate[$i]["Date"] =  date('d M',$date);
-            $submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
-            $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
             $submissionByDate[$i]["missed"] = (isset($missedByDate[$date]))?count($missedByDate[$date]):0;
+			$submissionByDate[$i]["completed"] = (isset($completedByDate[$date]))?count($completedByDate[$date]):0;
+            $submissionByDate[$i]["late"] = (isset($lateByDate[$date]))?count($lateByDate[$date]):0;
  
             $i++;
         }

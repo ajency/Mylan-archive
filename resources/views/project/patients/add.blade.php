@@ -25,10 +25,10 @@
            <div class="grid-body">
 
       <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" onsubmit="return validateOptionalInputs();">
-              <div class="row form-group edit-add">
+              <div class="row form-group edit-add col-m-b-0">
                 <div class="col-md-4">
                   <div class="form-row">
-                     <label>Reference Code <span class="text-primary">*</span></label>
+                     <label>Reference Code<span class="text-primary">*</span></label>
                         <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-type="alphanum" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" data-parsley-trigger="change">
 						<span>Reference code cannot be updated once patient is active</span>
                   </div>
@@ -39,8 +39,38 @@
                         <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required >
                     </div>
                     </div>
-                  
 
+                    <div class="col-sm-4">
+                      
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    <hr class="m-l-15 m-r-15">
+                     <div class="row column-seperator p-l-15 p-r-15">
+                      <div class="col-md-8">
+                        <div class="row form-row">
+                          <div class="col-md-4 customMessage">
+                            <label>Is Smoker <span class="text-primary">*</span></label>
+                            <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
+                              <option value="">Select</option>
+                              <option value="yes">Yes</option>
+                              <option value="no">No</option> 
+                            </select>
+                          </div>
+                          <div class="col-md-4 smoke-input customMessage">
+                            <label>If yes, how many per week</label>
+                            <input name="smoke_per_week" id="smoke_per_week" type="text" class=" form-control"  placeholder="How many per week" >
+                          </div>
+                          <div class="col-md-4 customMessage">
+                            <label>Alcohol consumption per week</label>
+                            <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
+                          </div>
+                        </div>
+                      </div>
+
+                    </div> 
+                    <div class="row">
+                    <div class="col-sm-12 p-l-30 p-r-30">
                     @foreach($projectAttributes as $key=> $attribute)
                         
                                 <?php
@@ -52,8 +82,12 @@
                                   @if(!empty($defaults))
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                     
-                                    <div class="col-md-4 add-attribute1"> 
+                                    
+                                    <hr>
+                                     <!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                     <div class="row p-l-15">
+                                    <div class="add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
@@ -61,7 +95,7 @@
                                               <span class="text-primary">*</span>
                                            @endif
                                         </label>
-                                        <div class="input-group">
+                                        <div class="input-group col-md-4">
                                           <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}"
 
                                           @if(('on' == $attribute['validate']) && count($defaults) == 1)
@@ -73,16 +107,23 @@
                                       </div>
                                     </div>
                                   </div>
+
+                                  </div>
+                                  <!-- </div>
+                                  </div> -->
+                                  
                                     <?php $i++;?>  
                                     @endforeach
                                   @else
-                                  <div class="col-md-4 add-attribute">
+                                  <div class="row p-l-15">
+                                  <div class="add-attribute">
                                   <label>{{ $attribute['label'] }} 
                                     @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                     @endif
                                   </label>
-                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif>
+                                  <input type="text" class="form-control col-md-4" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif>
+                                  </div>
                                   </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
@@ -90,7 +131,11 @@
                                   
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                   <div class="col-md-4 add-attribute1"> 
+                                    <hr>
+                                     <!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                     <div class="row p-l-15">
+                                   <div class=" add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
                                         <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
@@ -98,7 +143,7 @@
                                             <span class="text-primary">*</span>
                                           @endif
                                         </label>
-                                        <div class="input-group">
+                                        <div class="input-group col-md-4">
                                           <input type="text" class="form-control  @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" 
                                            
                                           @if(('on' == $attribute['validate']) && count($defaults) == 1)
@@ -111,29 +156,53 @@
                                     </div>
                                   </div>
 
+
+                                     </div>
+                                  <!-- </div>
+                                  </div> -->
+                                     
+
                                       <?php $i++;?>  
                                     @endforeach
                                      
                                   @else
-                                  <div class="col-md-4 add-attribute">
-                                  <label>{{ $attribute['label'] }} 
+                                  <hr>
+                                  <!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                     <div class="row">
+                                     
+                                  <div class=" add-attribute">
+                                  <label class="p-l-15">{{ $attribute['label'] }} 
                                     @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                     @endif
 
                                   </label>
-                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-required data-parsley-type="number" data-parsley-min="0" >
+                                  <input type="text" class="form-control col-md-4 p-l-0" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-required data-parsley-type="number" data-parsley-min="0" >
                                   </div>
+
+                                  </div>
+                                  <!-- </div>
+                                  </div> -->
+                                     
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
-                                <div class="col-md-4 customSelect">
-                                <label>{{ $attribute['label'] }} 
+                                <hr>
+                                <div class="row">
+                                     <div class="customselect">
+                                     <!-- <div class="row"> -->
+                                <!-- <div class="col-md-4 customSelect"> -->
+
+
+                                
+                                <label class="p-l-15">{{ $attribute['label'] }} 
                                   @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                    @endif
 
                                 </label>
+                                <div class="col-md-4">  
                                 <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate'])data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
@@ -141,63 +210,103 @@
                                     @endforeach
                                 </select>
                                 </div>
+                                <!-- </div> -->
+
+                                <!-- </div> -->
+                                  </div>
+                                  </div>
+                                     
                                 @elseif('multiple' == $attribute['control_type'])
-                                <div class="col-md-4 multiSelect">
+                                <hr><!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                     <div class="row">
+
+                                <div class=" multiSelect">
                                 <div class="form-row">
-                                <label>{{ $attribute['label'] }} 
+                                <label class="p-l-15">{{ $attribute['label'] }} 
                                   @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                    @endif
                                 </label>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
-                                    <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
-                                    @foreach($defaults as $option)
-                                    <option  value="{{ $option }}">{{ $option }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="col-md-4">  
+                                    <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
+                                        <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
+                                        @foreach($defaults as $option)
+                                        <option  value="{{ $option }}">{{ $option }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 </div>
+                                </div>
+
+                                </div>
+                                  <!-- </div>
+                                  </div> -->
+                                     
                                 @elseif('weight' === $attribute['control_type'])
-        
-                                  <div class="col-md-4 add-attribute1"> 
+                                  <hr>
+                                  <!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                     <div class="row">
+
+                                  <div class=" add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
-                                        <label class="">{{ $attribute['label'] }} <i class="fa fa-exclamation-circle p-l-5" data-toggle="tooltip" data-placement="top" title="Please enter your weight in KG or ST/LB"></i></label>
+                                        <label class="p-l-15">{{ $attribute['label'] }} <i class="fa fa-exclamation-circle p-l-5" data-toggle="tooltip" data-placement="top" title="Please enter your weight in KG or ST/LB"></i></label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" >
+                                          <input type="text" class="col-md-4 form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" >
                                           <div class="input-group-addon">kg</div>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                    <div class="col-md-4 add-attribute1">
-                                    <div class="form-inline parent clearfix">
-                                      <div class="form-group">
-                                      <label class="fade-0">{{ $attribute['label'] }} 
-                                        @if('on' == $attribute['validate'])
-                                          <span class="text-primary">*</span>
-                                       @endif
-                                      </label>
-                                        <div class="input-group">
-                                           <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" data-parsley-group="block-{{ $key }}"data-parsley-type="number" data-parsley-min="0" >
-                                          <div class="input-group-addon">st</div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-inline parent clearfix">
-                                      <div class="form-group">
-                                        <label class="fade-0">{{ $attribute['label'] }} </label>
-                                        <div class="input-group">
-                                          <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" >
-                                          <div class="input-group-addon">lb</div>
-                                        </div>
-                                      </div>
-                                    </div>
+
                                   </div>
+                                  <!-- </div>
+                                  </div> -->
+                                     
+
+                                     <hr>
+                                     <!-- <div class="row">
+                                     <div class="col-sm-12"> -->
+                                       <div class="row">
+
+                                        <div class=" add-attribute1">
+                                          <div class="form-inline parent clearfix">
+                                            <div class="form-group">
+                                              <label class="p-l-15">{{ $attribute['label'] }} 
+                                                @if('on' == $attribute['validate'])
+                                                <span class="text-primary">*</span>
+                                                @endif
+                                              </label>
+                                              <div class="input-group col-md-4">
+                                               <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" data-parsley-group="block-{{ $key }}"data-parsley-type="number" data-parsley-min="0" >
+                                               <div class="input-group-addon">st</div>
+                                             </div>
+                                           </div>
+                                         </div>
+                                         <div class="form-inline parent clearfix">
+                                          <div class="form-group">
+                                            <label class="p-l-15">{{ $attribute['label'] }} </label>
+                                            <div class="input-group col-md-4">
+                                              <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" >
+                                              <div class="input-group-addon">lb</div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  <!-- </div>
+                                  </div> -->
+                                     
+                                  
                                 @endif            
                              
                         
                         @endforeach
+                        </div><!--/col-sm-12-->
+                        </div> <!-- /row -->
                 </div>
                    
 
@@ -210,42 +319,7 @@
                         <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
                     </div>
                      -->
-                  <div class="row column-seperator">
-                  <div class="col-sm-6">
-                    <div class="row form-row">
-               
-                    <div class="col-sm-6 customMessage">
-                      <label>Is Smoker <span class="text-primary">*</span></label>
-                      <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option> 
-                        </select>
-                    </div>
-                    <div class="col-sm-6 smoke-input customMessage">
-                      <label>If yes, how many per week</label>
-                        <input name="smoke_per_week" id="smoke_per_week" type="text" class=" form-control"  placeholder="How many per week" >
-                    </div>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                    <div class="row form-row">
-               
-                <!--      <div class="col-sm-6">
-                       <label>Is Alcoholic</label>
-                      <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required>
-                          <option value="">Select</option>
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option> 
-                        </select> 
-                    </div>  -->
-                    <div class="col-sm-6 customMessage">
-                      <label>Alcohol consumption per week</label>
-                        <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" >
-                    </div>
-                    </div>
-                    </div>
-                     </div> 
+ 
                 
  
                 <hr>
@@ -303,6 +377,7 @@
                   <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
                   <hr>
                <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
+               <span class="help-block m-t-5">Settings configured at project level will be accepted if not set at patient level.</span>
                <br>
 
     <div class="form-group quesSetting">
