@@ -31,13 +31,24 @@
       </div>
   </div>
 
+  <div class="clearfix">
+    <div class="pull-left">
+      <p>Question: <strong>{{view.data.questionTitle}}</strong> </p>
+    </div>
+    <div class="pull-right">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause & Exit Questionnaire</button>
+    </div>
+  </div>
+  <hr>
+
   <div ng-switch-when="noError"> 
   <br>
     <div class="row">
     <div class="col-sm-17 col-xs-24">
-      <h3 >{{view.data.questionTitle}} </h3>
+      <!-- <h3 >{{view.data.questionTitle}} </h3> -->
+      
      
-      <br>
+      <!-- <br> -->
        <div class="q-panel">
            <div class="panel panel-default">
               <div class="panel-body">
@@ -47,12 +58,12 @@
                         <!-- <small>1 of 10</small> -->
                       </div>
                       <h4 class="question">
-                        <span class="f-w-200">
+                        <span class="fw600">
                           <!-- <span class="badge-round">Q</span>  -->
                               {{view.data.question}}
                           </span>
                       </h4>
-                      <br class="hidden-xs">
+                      <!-- <br class="hidden-xs"> -->
                         <p class="fosz14"
                           ng-if = 'view.data.questionType == "single-choice"'
                           ><strong>Note : </strong>Choose your answer from {{view.data.options.length}} options</p>
@@ -211,8 +222,8 @@
     </div>
     <div class="col-sm-7 col-xs-24">
 
-      <div class="text-right"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause & Exit Questionnaire</button></div>
-      <br>
+      <!-- <div class="text-right"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#pauseModal"><i class="fa fa-pause"></i> Pause & Exit Questionnaire</button></div>
+      <br> -->
     <!--   <div class="q-tabs" role="tablist" class="disabled">
     <div role="presentation" class="disabled"><a href="#q1" aria-controls="q1" role="tab" data-toggle="tab">1</a></div>
     <div role="presentation" class="disabled"><a href="#q2" aria-controls="q2" role="tab" data-toggle="tab">2</a></div>
@@ -238,14 +249,14 @@
   </div> -->
     
       <div class="sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
-          <h5 class="prev-ans text-left">PREVIOUS ANSWER </h5>
+          <h5 class="prev-ans text-left fw600">Your previous answer </h5>
 
           <p class="text-muted text-left" >
             <!-- <span class="text-success">A.</span>  -->
              <div class="text-left"  
              ng-if = 'view.data.questionType === "single-choice" || view.data.questionType === "multi-choice"' >
-              Last time you answered option: &nbsp; 
-                {{ view.data.previousQuestionnaireAnswer.label }}
+              Last time you had answered as<br>
+                <strong>{{ view.data.previousQuestionnaireAnswer.label }}</strong>
              </div>
           </p>
 
@@ -269,13 +280,29 @@
           </p>
 
 
-          <div class="text-success text-left">
+          <div class="text-left">
             <p>
-              <i class="fa fa-calendar text-muted"></i>
-               Submitted on 
-                <b>{{ view.data.previousQuestionnaireAnswer.dateDisplay }}</b>
+               Last quesstionnaire answered on<br>
+                <strong>{{ view.data.previousQuestionnaireAnswer.dateDisplay }}</strong>
             </p>
           </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="icon">
+          <i class="glyphicon glyphicon-phone-alt"></i>
+        </div>
+        <br>
+        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appoinment.<br>Just use the information below</p>
+        <h6><b>CALL US ON</b></h6>
+        <p><i class="fa fa-phone text-muted"></i>
+          <a href="" class="text-success">{{view.phone}}</a>
+        </p>
+        <p>OR</p>
+        <h6><b>MAIL US AT</b></h6>
+        <p><i class="fa fa-envelope text-muted"></i>
+          <a href="" class="text-success">{{view.email}}</a>
+        </p>
       </div>
 
       </div>
