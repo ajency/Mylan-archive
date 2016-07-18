@@ -135,7 +135,7 @@ class UserController extends Controller
                 elseif($user['account_status'] =='active')
                 {
 
-                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier,'status'=>'Archived'])->get()->count(); 
+                    $userDevice = UserDevice::where(['user_id'=>$userId,'device_identifier'=>$deviceIdentifier,'status'=>'New device'])->get()->count(); 
                     if(!$userDevice)
                     {
                         $this->addDevice($data,$userId,$hospitalData,'do_login');

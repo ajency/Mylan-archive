@@ -21,7 +21,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold ttuc"> #{{ $patient['reference_code']}}</span></h3>
+     <h3>Patient Id<span class="semi-bold ttuc"> #<span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span></span></h3>
      <div class="pull-right m-r-15 patient-search">
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option class="ttuc" value="">-select patient-</option>
