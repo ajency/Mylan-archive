@@ -2469,3 +2469,33 @@ small.help-text{
 .ttc{
   text-transform: capitalize;
 }
+
+.p-l-30{
+  padding-left: 30px;
+}
+
+.p-r-30{
+  padding-right: 30px;
+}
+
+.flex-aicenter{
+  display: flex;
+  align-items: center;
+}
+
+.col-m-b-0{
+  &.edit-add{
+    .col-md-4,
+    .col-sm-4{
+      margin-bottom: 0;
+    }
+    .select2{
+      &.form-control{
+        border: 1px solid #E5E9EC;
+      }
+    }
+    .column-seperator > [class*="col-"]{
+      margin-bottom: 0;
+    } 
+  }
+}
