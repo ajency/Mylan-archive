@@ -48,7 +48,7 @@
                               @foreach($patientsData as $patient)
                                  @if($project!=$patient['projectName'])
                                  <tr class="odd gradeX info" >
-                                    <td colspan="2" class="text-center"><p class="bold fosz14 m-b-0">{{ $patient['projectName'] }}</p></td>
+                                    <td colspan="2" class=""><p class="fosz14 m-b-0">Project: <strong>{{ $patient['projectName'] }}</strong></p></td>
                                  </tr>
                                  @endif
                                  <tr class="odd gradeX" >
