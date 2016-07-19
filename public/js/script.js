@@ -700,7 +700,8 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
             url: BASEURL + "/admin/user-access/" + userAccessId,
             type: "DELETE",
             success: function (response) {
-				defaultCheck();
+			defaultCheck();
+			location.reload();
             }
         });
     }
