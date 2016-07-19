@@ -700,8 +700,8 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
             url: BASEURL + "/admin/user-access/" + userAccessId,
             type: "DELETE",
             success: function (response) {
-			defaultCheck();
-			location.reload();
+				defaultCheck();
+                location.reload();
             }
         });
     }
@@ -734,6 +734,7 @@ $('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event
             type: "DELETE",
             success: function (response) {
 				 defaultCheckUser();
+                 location.reload();
             }
         });
     }
