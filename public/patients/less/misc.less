@@ -545,8 +545,11 @@ h4.line-title,h3.line-title {
     &.item-radio input:checked ~ .radio-icon{
       // background: @color-light-green;
       // border-color:@color-light-green;
-      background: #00bae5;
-      border-color: #00bae5;
+      background: #008380;
+      border-color: #008380;
+      & + span{
+        font-weight: 600;
+      }
 
       &::before{
         opacity:1;
@@ -1247,8 +1250,8 @@ input::-ms-input-placeholder{
 
 .activeLabel{
     i.radio-icon{
-    background: #7bc67a;
-    border-color: #7bc67a !important;
+    background: #008380;
+    border-color: #008380 !important;
   }
 }
 
@@ -1446,7 +1449,7 @@ color: #00aaa7;
 // clear notification
 
 .clearNotification{
-  margin-right: 30%;
+  // margin-right: 30%;
 }
 
 .noNotification{
@@ -1540,6 +1543,72 @@ color: #00aaa7;
   }
 }
 
+.m-l-15{
+  margin-left: 15px;
+}
+
+.m-r-15{
+  margin-right: 15px;
+}
+
+.p-t-0{
+  padding-top: 0;
+}
+
+.btn{
+  &.btn-primary{
+    &.btn-primary-lighter{
+      background: lighten(#bdbdbd, 22%);
+      color: #00aaa7;
+      border: none;
+      &:hover{
+        background: lighten(#bdbdbd, 20%);
+        color: #00aaa7;
+      }
+    }
+  }
+}
+
+.dib{
+  display: inline-block;
+  &:last-child{
+    margin-left: 15px;
+  }
+}
+
+.timeline{
+  .list-item{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+    .list-infotext{
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.alert-success{
+  background: #fcf8e3;
+  border-color: #faebcc;
+  color: #777;
+}
+
+.width-110{
+  width: 110px;
+}
+
+.breadcrumb{
+  background: none;
+  padding: 0;
+  margin-bottom: 10px;
+  li{
+    a{
+      color: #777;
+    }
+    &.active{
+      font-weight: 600;
+    }
+  }
+}
 
 
 

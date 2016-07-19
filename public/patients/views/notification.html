@@ -8,7 +8,7 @@
 
 <br>
 
-  <h3>Messages
+<!--   <h3>Notifications
    <div id="clear"
       
       class="text-center text-success pull-right clearNotification " 
@@ -19,13 +19,18 @@
         
         class="btn btn-default btn-block btn-warning" 
         ng-click="view.DeleteAll()">
-          <span>Clear Displayed Notification</span>
+          <span>Clear Notifications</span>
       </button>
 
     </div>
     
   </h3>
-  <br>
+  <br> -->
+
+  <ol class="breadcrumb m-l-15">
+      <li><a href="">Dashboard</a></li>
+      <li class="active">Notifications</li>
+    </ol>
 
     <div class="row" ng-switch="view.display">
 
@@ -43,6 +48,26 @@
         
 
       <div class="col-md-17" ng-switch-when="noError">
+        <div class="m-l-15 m-r-15">
+          <h3>Notifications
+           <div id="clear"
+              
+              class="text-center text-success pull-right clearNotification " 
+              ng-if="view.data.length > 0 || view.disable === true"
+            >
+              <button  
+                ng-disabled = "view.disable" 
+                
+                class="btn btn-default btn-block btn-warning" 
+                ng-click="view.DeleteAll()">
+                  <span>Clear Notifications</span>
+              </button>
+
+            </div>
+            
+          </h3>
+        </div>
+        
        
           <div class="panel panel-default notify-panel">
             <div class="panel-body">
@@ -58,7 +83,7 @@
                               <i class="fa fa-trash"></i>
                             </a>
                             </span>
-                            <p ng-click="view.seenNotify(notify.id)">
+                            <p ng-click="view.seenNotify(notify.id)" class="text-danger"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            Questionnaire is due on <a href="">{{notify.occurrenceDateDisplay}}</a>.
                             </p>
 
@@ -72,7 +97,7 @@
                               <i class="fa fa-trash"></i>
                             </a>
                             </span>
-                            <p ng-click="view.seenNotify(notify.id)">
+                            <p ng-click="view.seenNotify(notify.id)" class="text-danger"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                              You have missed the questionnaire due on  <a href="">{{notify.occurrenceDateDisplay}}</a>. 
                              
                             </p>
