@@ -701,6 +701,7 @@ $('.add_user_associates').on('click', '.deleteUserHospitalAccess', function(even
             type: "DELETE",
             success: function (response) {
 				defaultCheck();
+                location.reload();
             }
         });
     }
@@ -733,6 +734,7 @@ $('.add_user_associates').on('click', '.deleteUserProjectAccess', function(event
             type: "DELETE",
             success: function (response) {
 				 defaultCheckUser();
+                 location.reload();
             }
         });
     }

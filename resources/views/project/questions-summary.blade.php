@@ -168,6 +168,8 @@
                                         @if(isset($optionsList[$subQuestionId]))
                                           <span class="label label-default pull-right m-t-5">{{ count($optionsList[$subQuestionId])}} OPTIONS</span>
 										  <span class="pull-right m-t-5 quest-type" style="font-size:10px;">{{ $subQuestion['type'] }}</span>
+                                          @else
+                                           <span class="pull-right m-t-5 quest-type" style="font-size:10px;">{{ $subQuestion['type'] }}</span>
                                         @endif
                                       </div>
                                       </div><!--/row--> 
@@ -177,16 +179,16 @@
                                    <!-- <div class="row panel-collapse collapse question-options_subquestion__options" id="collapse{{ $subQuestionId }}"> -->
                                    <div class="question-options_subquestion__options">
                                    <!-- <div class="col-md-11 col-md-offset-1" style="width:91.66666667%;"> -->
+                                    @if(isset($optionsList[$subQuestionId]))
                                      <div class="subQuestion-option">
                                        <!-- <div class="col-md-12"> -->
                                          <div class="row bold">
                                            <div class="col-sm-8 p-l-45">Options</div>
                                            <div class="col-md-2 text-center">Score</div>
-                                           
-                                           
                                          </div>
                                        <!-- </div> -->
                                      </div>
+                                     @endif
 
                                      @if(isset($optionsList[$subQuestionId]))
                                   
