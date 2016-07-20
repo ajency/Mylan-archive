@@ -869,8 +869,8 @@ div.q-tabs{
         }
     }
   h4,h5.prev-ans{
-    padding-bottom: 20px;
-    border-bottom: 1px dotted #ddd;
+    // padding-bottom: 20px;
+    // border-bottom: 1px dotted #ddd;
   }
   h6{
     color: #666;
@@ -1610,6 +1610,21 @@ color: #00aaa7;
   }
 }
 
+.cust-sidebar{
+  margin-bottom: 0;
+  border: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
 
-
-
+p.calendar-icon{
+  display: table;
+  &:before{
+    content: "\f073";
+    font-family: FontAwesome;
+    font-size: 2.5em;
+    display: table-cell;
+    vertical-align: middle;
+    padding-right: 15px;
+    color: #008380;
+  }
+}

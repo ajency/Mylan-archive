@@ -250,15 +250,15 @@
     <div role="presentation"><a href="#q21" aria-controls="q21" role="tab" data-toggle="tab">21</a></div>
   </div> -->
     
-      <div class="sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
-          <h5 class="prev-ans text-left fw600">Your previous answer </h5>
+      <div class="sidebar cust-sidebar" ng-hide="view.isEmpty(view.data.previousQuestionnaireAnswer)">
+          <h5 class="prev-ans text-left fw600">Previous Answer </h5>
 
           <p class="text-muted text-left" >
             <!-- <span class="text-success">A.</span>  -->
-             <div class="text-left"  
+             <div class="text-left text-muted"  
              ng-if = 'view.data.questionType === "single-choice" || view.data.questionType === "multi-choice"' >
-              Last time you had answered as<br>
-                <strong>{{ view.data.previousQuestionnaireAnswer.label }}</strong>
+              Last time you had answered option
+                <strong class="text-danger">&nbsp;{{ view.data.previousQuestionnaireAnswer.label }}</strong>
              </div>
           </p>
 
@@ -282,9 +282,9 @@
           </p>
 
 
-          <div class="text-left">
-            <p>
-               Last quesstionnaire answered on<br>
+          <div class="text-left text-muted">
+            <p class="calendar-icon">
+               answered on<br>
                 <strong>{{ view.data.previousQuestionnaireAnswer.dateDisplay }}</strong>
             </p>
           </div>
