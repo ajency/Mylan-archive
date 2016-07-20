@@ -374,7 +374,7 @@ h4.line-title,h3.line-title {
     // border-left: 2px solid #ccc;
     position: relative;
     z-index: 2;
-    padding: 15px 20px;
+    // padding: 15px 20px;
     margin-bottom: 15px;
     // margin: 0 21px;
     margin-left: 42px;
@@ -1581,11 +1581,21 @@ color: #00aaa7;
   .list-item{
     border-bottom: 1px solid #ddd;
     margin-bottom: 10px;
+    border-color: rgba(0, 170, 167, 0.3);
     .list-infotext{
       margin-bottom: 10px;
     }
   }
+  .ng-scope{
+    &:last-child{
+      .list-item{
+        border-bottom: none;
+      }
+    }
+  }
 }
+
+
 
 .alert-success{
   background: #fcf8e3;
@@ -1627,9 +1637,16 @@ p.calendar-icon{
     vertical-align: middle;
     padding-right: 15px;
     color: #008380;
+    opacity: .7;
   }
 }
 
 .text-green{
   color: @color-light-green;
+}
+
+.btn-link{
+  &.text-success{
+    color: #00aaa7;
+  }
 }

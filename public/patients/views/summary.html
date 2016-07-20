@@ -15,18 +15,19 @@
              <div class="text-center">            <div class="cf-loader"> </div> </div>
     </div>
     
-    <ol class="breadcrumb">
-      <li><a href="">Dashboard</a></li>
-      <li class="active">Submission</li>
-    </ol>
+    
     <div ng-switch-when="noError">
+        <ol class="breadcrumb">
+          <li><a href="">Dashboard</a></li>
+          <li class="active">Submission</li>
+        </ol>
           <h3><span class="fw600">Summary</span> Submission #{{ view.data.sequenceNumber }}</h3>
           <hr>
           <!-- <h3>Submission #{{ view.data.sequenceNumber }} </h3>
           <br> -->
           <div class="row">
           <div class="col-sm-16">
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-success fosz14" role="alert">
            <i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;Submission Date: <strong class="text-danger">{{view.data.submissionDate}}</strong>
         </div>
      
