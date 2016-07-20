@@ -83,7 +83,7 @@
                               <i class="fa fa-trash"></i>
                             </a>
                             </span>
-                            <p ng-click="view.seenNotify(notify.id)" class="text-danger"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p ng-click="view.seenNotify(notify.id)" class=""><i class="fa fa-exclamation text-danger"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                            Questionnaire is due on <a href="">{{notify.occurrenceDateDisplay}}</a>.
                             </p>
 
@@ -97,7 +97,8 @@
                               <i class="fa fa-trash"></i>
                             </a>
                             </span>
-                            <p ng-click="view.seenNotify(notify.id)" class="text-danger"><i class="fa fa-minus-circle"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p ng-click="view.seenNotify(notify.id)" class="">
+                            <i class="fa fa-exclamation text-danger"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                              You have missed the questionnaire due on  <a href="">{{notify.occurrenceDateDisplay}}</a>. 
                              
                             </p>
@@ -113,7 +114,7 @@
 
                               </a>
                             </span>
-                            <p ng-click="view.seenNotify(notify.id)" >
+                            <p ng-click="view.seenNotify(notify.id)" ><i class="fa fa-exclamation text-danger"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             Questionnaire was due on <a href="">{{notify.occurrenceDateDisplay}}</a>.
                              Please submit it by <a href="">{{notify.graceDateDisplay}}</a>.
                           </p>
