@@ -1727,10 +1727,11 @@ $('.questions-list_container').on('click', '.edit-question', function(event) {
 $('.questions-list_container').on('click', '.cancel-question', function(event) { 
 	if($(this).hasClass("new-entry")){
 		var ival = $("#iVal").val();
-		//console.log($("#title").serialize());
-		if (confirm('This question will be deleted,continue?') === false) {
-			return;
-		}
+		if(($("input[name='title["+ival+"]']").val() != "") || ($("input[name='question["+ival+"]']").val() != "") || ($("select[name='questionType["+ival+"]']").val() != "")){
+            if (confirm('This question will be deleted,continue?') === false) {
+                return;
+            } 
+        }
 	}
     var i = $(this).closest(".question").attr('row-count'); 
     var questionId = $(this).closest('.question-view-edit').find('input[name="questionId['+i+']"]').val();  
