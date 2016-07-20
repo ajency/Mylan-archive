@@ -297,6 +297,7 @@ class ProjectController extends Controller
             $referenceType = $alert->get("referenceType");
             $patient = $alert->get("patient");
             $referenceId = $alert->get("referenceId");
+            $flagCounterData = $alert->get("flagCount");
 
             
             if(isset($alertTypes[$alertType]))
@@ -309,7 +310,7 @@ class ProjectController extends Controller
                 {
                   $response = $alert->get("responseObject");
                   
-                  $alertMsgData = $this->getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond);
+                  $alertMsgData = $this->getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond,$flagCounterData);
                   if(!empty($alertMsgData['alertMsg']))
                   {
                     $alertMsg[] = $alertMsgData['alertMsg'];
@@ -332,7 +333,7 @@ class ProjectController extends Controller
         return $data;
     }
 
-    public function getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond)
+    public function getResponseAlertMsg($response,$alertType,$alertClass,$alertContent,$responseflagColumns,$refCond,$flagcounters="")
     {
        
         $reviewedStatus = $response->get('reviewed');
@@ -374,7 +375,8 @@ class ProjectController extends Controller
                 if(in_array($alertType, $noFlagAlerts))
                   $message = sprintf($alertContent, $sequenceNumber );
                 else
-                  $message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
+                  //$message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
+                   $message = sprintf($alertContent, $flagcounters,$sequenceNumber );
 
 
                 
