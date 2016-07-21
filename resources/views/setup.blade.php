@@ -87,5 +87,22 @@
   </div>
   </div>
 </div>
+<script>
+  $(document).ready(function(e){
+    var hasStorage = (function() {
+      try {
+      localStorage.setItem('foo', 'bar');
+      localStorage.lol = 'wat';
+      localStorage.removeItem('foo');
+      return true;
+      } catch (exception) {
+      return false;
+      }
+    }());  
+    if(hasStorage == false){
+      alert("private browser is not supported, Please exit from the incognito mode. Thank you!!!");
+    }
+  });
+</script>
 
 @endsection
