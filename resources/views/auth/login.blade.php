@@ -107,7 +107,20 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function(){    
+  $(document).ready(function(){  
+	  var hasStorage = (function() {
+      try {
+		  localStorage.setItem('foo', 'bar');
+		  localStorage.lol = 'wat';
+		  localStorage.removeItem('foo');
+		return true;
+      } catch (exception) {
+		return false;
+      }
+    }());  
+    if(hasStorage == false){
+      alert("Private browsing is not supported. Please exist incognito mode.");
+    }    
     //Place this plugin snippet into another file in your applicationb
     (function ($) {
         $.toggleShowPassword = function (options) {
