@@ -113,7 +113,13 @@
                     {{ $patient['age'] }}
                   </div>
                 </div>
-
+				<?php
+                    foreach ($multipleAttr as $Mkeys => $Mvalues) {
+                      if(!(array_key_exists($Mvalues['label'], $patient['project_attributes']))){
+                       $patient['project_attributes'][$Mvalues['label']] = array($Mvalues['label'] => '');
+                      }
+                    }
+                 ?>	
                  @if(isset($patient['project_attributes']) && !empty($patient['project_attributes']))
                  @foreach($patient['project_attributes'] as $label => $value)
                  <div class="row m-b-15">
