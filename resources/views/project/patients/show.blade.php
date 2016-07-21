@@ -210,7 +210,7 @@
                 
                     <div id="submissionschart"></div>
                  
-                    <div class="row p-t-20">
+                    <div class="row p-t-20 chart-val">
                        <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
                           <p class=" text-underline">{{  $responseRate['completedCount'] }} Submissions Completed</p>

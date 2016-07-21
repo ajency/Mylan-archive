@@ -10119,3 +10119,12 @@ small.help-text {
 .col-m-b-0.edit-add .column-seperator > [class*="col-"] {
   margin-bottom: 0;
 }
+.chart-val p {
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 10px;
+}
+.cust-alert {
+  background: #D1DADE;
+  color: #777;
+}

@@ -61,7 +61,7 @@
                                <input type="text" aria-controls="example" class="input-medium m-t-5" placeholder="search by patient id" style="    width: 100%;"> 
                            </div>-->
                         </div>
-                        <div class="alert alert-info alert-black">
+                        <div class="alert alert-info alert-black cust-alert">
                           
                            Submission Notifications Report
                           <sm class="light">(These are the notifications generated for submissions)</sm>
