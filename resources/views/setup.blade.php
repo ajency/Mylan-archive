@@ -100,7 +100,7 @@
       }
     }());  
     if(hasStorage == false){
-      alert("private browser is not supported, Please exit from the incognito mode. Thank you!!!");
+      alert("Private browsing is not supported. Please exist incognito mode.");
     }
   });
 </script>
