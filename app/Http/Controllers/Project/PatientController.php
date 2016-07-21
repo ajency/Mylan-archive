@@ -1419,13 +1419,13 @@ class PatientController extends Controller
 
             $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
-        if (Cache::has($patientsCompletedResponsesKey) && isset(Cache::get($patientsCompletedResponsesKey)['patient_'.$patient]) ) {
+        /*if (Cache::has($patientsCompletedResponsesKey) && isset(Cache::get($patientsCompletedResponsesKey)['patient_'.$patient]) ) {
                 $cacheProjectCompletedResponses =  Cache::get($patientsCompletedResponsesKey);  
                 $missedCount = $cacheProjectCompletedResponses['patient_'.$patient]['missedCount']; 
                 $lateCount = $cacheProjectCompletedResponses['patient_'.$patient]['lateCount'];  
          }
         else
-        {  
+        { */ 
             $responseQry = new ParseQuery("Response");
             $responseQry->equalTo("patient", $patient); 
             $responseQry->equalTo("status", 'missed'); 
@@ -1445,7 +1445,7 @@ class PatientController extends Controller
 
             //store cache data
             Cache:: forever($patientsCompletedResponsesKey, $cacheProjectCompletedResponses); 
-        } 
+       /* }*/ 
 
             
 
