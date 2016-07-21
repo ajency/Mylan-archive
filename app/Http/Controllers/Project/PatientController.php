@@ -15,6 +15,7 @@ use App\Hospital;
 use App\Projects;
 use App\PatientMedication;
 use App\PatientClinicVisit;
+use App\Attributes;
 use \Session;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Project\QuestionnaireController;
@@ -545,7 +546,7 @@ class PatientController extends Controller
             $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
 			
 			$viewAllsubmissionNotifications = $submissionNotifications['alertCount'];
-			
+			$multiData = Attributes::where('object_id',$projectId)->where("object_type","App\Projects")->where("control_type","multiple")->get()->toArray();
 
         } catch (\Exception $e) {
 
@@ -564,6 +565,7 @@ class PatientController extends Controller
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
                                         ->with('patient', $patient->toArray())
+                                        ->with('multipleAttr', $multiData)
                                         ->with('allPatients', $allPatients)
                                         ->with('questionChartData', $questionChartData)
                                         ->with('questionLabels', $questionLabels)
