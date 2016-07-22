@@ -180,7 +180,7 @@
                   <form ng-if='view.data.questionType == "descriptive"'>
                     <div class="form-group"> 
                       <textarea maxlength="1000" type="text" class="form-control input-lg"  ng-model="view.descriptiveAnswer"
-                        ng-readonly = "!view.readonly" ></textarea> </div>
+                        ng-readonly = "!view.readonly" rows="8"></textarea> </div>
                   </form>
 
 
@@ -262,23 +262,25 @@
              </div>
           </p>
 
-          <p class="text-muted text-left">
-             <div 
-              class="text-left" 
+          <p class="text-muted text-left m-b-0">
+            Last time you had answered:
+             <span 
+              class="text-left db" 
               ng-if = 'view.data.questionType === "descriptive"'>
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}
-             </div>
+             </span>
           </p>
           <p class="text-muted text-left"
               ng-if = 'view.data.questionType === "input"'>
-             <div 
-              class="text-left"
+              Last time you had answered:<br>
+             <span 
+              class="text-left m-r-15"
               ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" 
               >
               {{inpt.value}} {{inpt.label}} 
-             </div>
+             </span>
           </p>
 
 
