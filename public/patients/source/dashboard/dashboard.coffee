@@ -8,7 +8,7 @@ angular.module 'angularApp.dashboard',[]
 			display : 'loader'
 			QuestinnarieName : questionnaireName
 			showMoreButton : false
-			limitTo: 5
+			limitTo: 10
 			errorStartQuestion : false
 			errorMsg : ''
 
