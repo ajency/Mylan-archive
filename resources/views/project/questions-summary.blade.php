@@ -277,6 +277,13 @@ $(document).ready(function() {
       $(this).parent('.questionSummary').removeClass('hasopened');
     });
 });
+
+$(document).on('click', 'small a.accordion-toggle', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  $(this).parents('.clearfix').next('.panel-collapse').toggle().height('auto');
+  $(this).toggleClass('collapsed');
+});
 </script>
 
 @endsection
