@@ -7,7 +7,10 @@ angular.module 'angularApp.questionnaire',[]
 			data : []
 			display : 'loader'
 			hideButton : null
+			phone : hospitalPhone
 			responseId : ''
+			email : hospitalEmail
+	    
 
 			init :() -> 
 				console.log 'summaryyyy'

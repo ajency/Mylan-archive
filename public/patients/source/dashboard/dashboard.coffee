@@ -10,7 +10,10 @@ angular.module 'angularApp.dashboard',[]
 			showMoreButton : false
 			limitTo: 10
 			errorStartQuestion : false
+			phone : hospitalPhone
 			errorMsg : ''
+			email : hospitalEmail
+    	
 
 
 

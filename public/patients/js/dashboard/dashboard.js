@@ -7,7 +7,9 @@ angular.module('angularApp.dashboard', []).controller('dashboardController', [
       showMoreButton: false,
       limitTo: 10,
       errorStartQuestion: false,
+      phone: hospitalPhone,
       errorMsg: '',
+      email: hospitalEmail,
       init: function() {
         var id, param, questionnaireData, startQuestData, summaryData;
         if (Storage.getQuestStatus('get', 'questionnarireError') === 'questionnarireError') {

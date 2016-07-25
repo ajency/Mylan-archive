@@ -4,7 +4,9 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
       data: [],
       display: 'loader',
       hideButton: null,
+      phone: hospitalPhone,
       responseId: '',
+      email: hospitalEmail,
       init: function() {
         var param, questionnaireData, summaryData;
         console.log('summaryyyy');
@@ -100,6 +102,7 @@ angular.module('angularApp.questionnaire', []).controller('summaryController', [
         var questionnaireData;
         $('#submitSummaryModal').modal('hide');
         $('.modal-backdrop').addClass('hidden');
+        $('body').removeClass('modal-open');
         questionnaireData = {
           respStatus: 'firstQuestion',
           responseId: this.responseId
