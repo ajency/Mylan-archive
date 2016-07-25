@@ -263,10 +263,10 @@
           </p>
 
           <p class="text-muted text-left m-b-0">
-            Last time you had answered:
              <span 
               class="text-left db" 
               ng-if = 'view.data.questionType === "descriptive"'>
+              Last time you had answered :<br>
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}
@@ -274,7 +274,7 @@
           </p>
           <p class="text-muted text-left"
               ng-if = 'view.data.questionType === "input"'>
-              Last time you had answered:<br>
+              Last time you had answered :<br>
              <span 
               class="text-left m-r-15 fosz14"
               ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" 
