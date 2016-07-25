@@ -2135,10 +2135,13 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 								response.success "submitted_successfully"
 							else
 								_.each alerts, (alert) ->
+									alertType = alert['compareType']
+									flagCount = alert['flagCount']
 									AlertData=
 										patient: responseObj.get("patient")
 										project: responseObj.get("project")
-										alertType : alert
+										alertType : alertType
+										flagCount : flagCount
 										referenceId : responseObj.id
 										responseObject : responseObj
 										referenceType : "Response"
@@ -2196,8 +2199,7 @@ Parse.Cloud.define "submitTestQuestionnaire", (request, response) ->
 		# 		response.error error 
 		# , (error) ->
 		# 	response.error error 
-		console.log "RESPONSE STATUS"
-		clearCache = clearCache(22)
+
 		response.success responseObj.get('status')
 	, (error) ->
 		response.error error
@@ -2238,18 +2240,21 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 	
 				getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
 				.then (alerts) ->
-					# alertsSaveArr =[]
-					# _.each alerts, (alert) ->
-					# 	AlertData=
-					# 		patient: responseObj.get("patient")
-					# 		project: responseObj.get("project")
-					# 		alertType : alert
-					# 		referenceId : responseObj.id
-					# 		referenceType : "Response"
-					# 		cleared : false
-					# 	Alerts = Parse.Object.extend("Alerts") 
-					# 	alertObj = new Alerts AlertData
-					# 	alertsSaveArr.push(alertObj)
+					alertsSaveArr =[]
+					_.each alerts, (alert) ->
+						alertType = alert['compareType']
+						flagCount = alert['flagCount']
+						AlertData=
+							patient: responseObj.get("patient")
+							project: responseObj.get("project")
+							alertType : alertType
+							flagCount : flagCount
+							referenceId : responseObj.id
+							referenceType : "Response"
+							cleared : false
+						# Alerts = Parse.Object.extend("Alerts") 
+						# alertObj = new Alerts AlertData
+						alertsSaveArr.push(AlertData)
 
 					# Parse.Object.saveAll alertsSaveArr
 					# .then (alertsObjs) ->
@@ -2257,7 +2262,7 @@ Parse.Cloud.define "submitAlertQuestionnaire", (request, response) ->
 					# , (error) ->
 					# 	response.error error	
 
-					response.success previous						 
+					response.success alertsSaveArr						 
 				, (error) ->
 					response.error error	
 				
@@ -2281,6 +2286,7 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 	alertSettingsQuery.find()
 	.then (alertSettings) ->
 		alerts =[]
+
 		redFlags=[]
 		amberFlags=[]
 		greenFlags=[]
@@ -2298,6 +2304,8 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 			flagCount = alertSetting.get("flagCount")
 			flagColour = alertSetting.get("flagColour")
 			comparedTo = alertSetting.get("comparedTo")
+			compareType = ''
+			alertType = {}
 
 			if flagColour == "red"
 				comaparisonCountIndex = redFlags[comparedTo]
@@ -2311,36 +2319,41 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 			else
 				comparisonCount = baseLineFlags[comaparisonCountIndex]
 
-			console.log comparisonCount
 			
 			if operator == "greater_than"
-				compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
 				if greaterThan(flagCount,comparisonCount,false)
-					alerts.push(compareType)
+					compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
+					# alerts.push(compareType)
 			else if operator == "greater_than_equal_to"
-				compareType = "more_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
 				if greaterThan(flagCount,comparisonCount,true)
-					alerts.push(compareType)
+					compareType = "more_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+					# alerts.push(compareType)
 			else if operator == "less_than"
-
 				if comparisonCount !=0
-					compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
 					if lessThan(flagCount,comparisonCount,false)
-						alerts.push(compareType)
+						compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
+						# alerts.push(compareType)
 				else
 					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
-					alerts.push(compareType)
+					# alerts.push(compareType)
 
 			else if operator == "less_than_equal_to"
 				if comparisonCount !=0
-					compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
 					if lessThan(flagCount,comparisonCount,true)
-						alerts.push(compareType)
+						compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+						# alerts.push(compareType)
 				else
 					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
-					alerts.push(compareType)
+					# alerts.push(compareType)
 
-			console.log compareType
+			if(compareType!='')
+				console.log flagCount
+				console.log compareType
+				alertType['flagCount'] =  flagCount
+				alertType['compareType'] = compareType
+				alerts.push(alertType)
+				 
+
 							
 		promise.resolve(alerts)
 	, (error) ->

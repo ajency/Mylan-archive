@@ -497,6 +497,9 @@
                   return scheduleObj.save();
                 }
               }, function(error) {
+                console.log("ERROR PATIENT MISSED RESP");
+                console.log(scheduleObj.get('patient'));
+                console.log(scheduleObj.get('questionnaire'));
                 return promise1.reject(error);
               });
             } else {
@@ -3221,11 +3224,14 @@
                   return response.success("submitted_successfully");
                 } else {
                   _.each(alerts, function(alert) {
-                    var AlertData, Alerts, alertObj;
+                    var AlertData, Alerts, alertObj, alertType, flagCount;
+                    alertType = alert['compareType'];
+                    flagCount = alert['flagCount'];
                     AlertData = {
                       patient: responseObj.get("patient"),
                       project: responseObj.get("project"),
-                      alertType: alert,
+                      alertType: alertType,
+                      flagCount: flagCount,
                       referenceId: responseObj.id,
                       responseObject: responseObj,
                       referenceType: "Response",
@@ -3275,8 +3281,6 @@
     responseQuery.include('questionnaire');
     responseQuery.include('schedule');
     return responseQuery.get(responseId).then(function(responseObj) {
-      console.log("RESPONSE STATUS");
-      clearCache = clearCache(22);
       return response.success(responseObj.get('status'));
     }, function(error) {
       return response.error(error);
@@ -3313,7 +3317,24 @@
           occurrenceDate = responseObj.get("occurrenceDate");
           scheduleObj = responseObj.get("schedule");
           return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
-            return response.success(previous);
+            var alertsSaveArr;
+            alertsSaveArr = [];
+            _.each(alerts, function(alert) {
+              var AlertData, alertType, flagCount;
+              alertType = alert['compareType'];
+              flagCount = alert['flagCount'];
+              AlertData = {
+                patient: responseObj.get("patient"),
+                project: responseObj.get("project"),
+                alertType: alertType,
+                flagCount: flagCount,
+                referenceId: responseObj.id,
+                referenceType: "Response",
+                cleared: false
+              };
+              return alertsSaveArr.push(AlertData);
+            });
+            return response.success(alertsSaveArr);
           }, function(error) {
             return response.error(error);
           });
@@ -3349,11 +3370,13 @@
       greenFlags['baseline'] = "baseLineTotalGreenFlags";
       greenFlags['previous'] = "previousTotalGreenFlags";
       _.each(alertSettings, function(alertSetting) {
-        var comaparisonCountIndex, compareType, comparedTo, comparisonCount, flagColour, flagCount, operator;
+        var alertType, comaparisonCountIndex, compareType, comparedTo, comparisonCount, flagColour, flagCount, operator;
         operator = alertSetting.get("operation");
         flagCount = alertSetting.get("flagCount");
         flagColour = alertSetting.get("flagColour");
         comparedTo = alertSetting.get("comparedTo");
+        compareType = '';
+        alertType = {};
         if (flagColour === "red") {
           comaparisonCountIndex = redFlags[comparedTo];
         } else if (flagColour === "amber") {
@@ -3366,39 +3389,38 @@
         } else {
           comparisonCount = baseLineFlags[comaparisonCountIndex];
         }
-        console.log(comparisonCount);
         if (operator === "greater_than") {
-          compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
           if (greaterThan(flagCount, comparisonCount, false)) {
-            alerts.push(compareType);
+            compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
           }
         } else if (operator === "greater_than_equal_to") {
-          compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
           if (greaterThan(flagCount, comparisonCount, true)) {
-            alerts.push(compareType);
+            compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
           }
         } else if (operator === "less_than") {
           if (comparisonCount !== 0) {
-            compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
             if (lessThan(flagCount, comparisonCount, false)) {
-              alerts.push(compareType);
+              compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
             }
           } else {
             compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
-            alerts.push(compareType);
           }
         } else if (operator === "less_than_equal_to") {
           if (comparisonCount !== 0) {
-            compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
             if (lessThan(flagCount, comparisonCount, true)) {
-              alerts.push(compareType);
+              compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
             }
           } else {
             compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
-            alerts.push(compareType);
           }
         }
-        return console.log(compareType);
+        if (compareType !== '') {
+          console.log(flagCount);
+          console.log(compareType);
+          alertType['flagCount'] = flagCount;
+          alertType['compareType'] = compareType;
+          return alerts.push(alertType);
+        }
       });
       return promise.resolve(alerts);
     }, function(error) {

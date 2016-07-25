@@ -384,6 +384,9 @@ createMissedResponse = () ->
                     if scheduleObj.get('questionnaire').get('pauseProject') == false
                         getValidTimeFrame(scheduleObj.get('patient'),scheduleObj.get('questionnaire'), scheduleObj.get('nextOccurrence'))
                         .then (timeObj) ->
+                            # console.log "PATIENT MISSED RESP"
+                            # console.log scheduleObj.get('patient')
+                            # console.log scheduleObj.get('questionnaire')
                             # currentDate = new Date()
                             # if currentDate.getTime() > timeObj['upperLimit'].getTime()
                             currentDateTime = moment().format()
@@ -426,6 +429,9 @@ createMissedResponse = () ->
                             else 
                                 scheduleObj.save()
                         , (error) ->
+                            console.log "ERROR PATIENT MISSED RESP"
+                            console.log scheduleObj.get('patient')
+                            console.log scheduleObj.get('questionnaire')
                             promise1.reject error
                     else
                         # console.log "PROJECT PAUSED"
