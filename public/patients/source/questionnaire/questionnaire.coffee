@@ -21,8 +21,10 @@ angular.module 'angularApp.questionnaire'
 			showMoreButton : true
 			popTitle : ''
 			responseId : ''
+			email: hospitalEmail
 			firstText : ''
 			secondText : ''
+			phone : hospitalPhone
 
 			overlay : false
 

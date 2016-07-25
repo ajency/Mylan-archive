@@ -17,8 +17,10 @@ angular.module('angularApp.questionnaire').controller('questionnaireCtr', [
       showMoreButton: true,
       popTitle: '',
       responseId: '',
+      email: hospitalEmail,
       firstText: '',
       secondText: '',
+      phone: hospitalPhone,
       overlay: false,
       showMore: function() {
         this.limitTo = this.limitTo + 5;
