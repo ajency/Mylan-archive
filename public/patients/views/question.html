@@ -133,7 +133,7 @@
                       </div>
                       <!--  kgs-->
                       <div
-                        ng-if="view.data.optionsLabel === true">
+                        ng-if="view.data.optionsLabel === true" class="cust-type-number">
                         <br class="hidden-xs">
                          <label class="item item-radio" >
                           <div class="item-content multiSelect-check"
@@ -143,7 +143,7 @@
                             <i class="radio-icon fa fa-check"></i>
                             <input 
                               id = "firstRow"
-                              type="text"
+                              type="number"
                               class="questionnaire-text-field"
                               ng-disable="view.firstRowStatus"
                               ng-model="view.val_answerValue[view.data.withkg.option]"
