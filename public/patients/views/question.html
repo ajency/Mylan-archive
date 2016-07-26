@@ -262,15 +262,17 @@
              </div>
           </p>
 
-          <p class="text-muted text-left m-b-0">
-             <span 
-              class="text-left db" 
+          <p class="text-muted text-left">
+             <div 
+              class="text-left text-muted" 
               ng-if = 'view.data.questionType === "descriptive"'>
               Last time you had answered :<br>
+              <span class="text-left db">
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
               {{view.data.previousQuestionnaireAnswer.label}}
-             </span>
+              </span>
+             </div>
           </p>
           <p class="text-muted text-left"
               ng-if = 'view.data.questionType === "input"'>
