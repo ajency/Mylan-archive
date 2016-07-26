@@ -9690,6 +9690,7 @@ small.help-text {
   box-shadow: none;
   border-bottom: 1px solid #ddd !important;
   border-radius: 0;
+  margin-bottom: 0;
 }
 .main-question_container .type-questions input[type="text"]:focus,
 .main-question_container .type-questions select:focus {
