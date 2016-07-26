@@ -43,9 +43,9 @@
                     <div class="col-sm-4">
                       @if($patient['account_status']!='created')
                       <div class="row column-seperator">
-                        <div class="col-sm-3">
+                        
                          <label>Status</label>
-                         <div class="row">
+                         <div class="row m-t-15">
                            <div class="col-sm-4">
                              <input name="status" id="status_active" type="radio" class=" " {{ ($patient['account_status']=='active')?'checked':'' }} value="active"> <label for="status_active" style="display: inline-block;">Active</label>
                            </div>
@@ -55,7 +55,7 @@
                          </div>
                          
 
-                       </div>
+                       
 
                      </div> 
                      @else 
@@ -436,6 +436,7 @@
 
                   <hr>
                <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
+               <span class="help-block m-t-5">Settings configured at project level will be accepted if not set at patient level.</span>
                <br>
 
       <div class="form-group quesSetting">
