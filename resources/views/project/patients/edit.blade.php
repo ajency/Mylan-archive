@@ -440,7 +440,7 @@
                <br>
 
       <div class="form-group quesSetting">
-          <label for="frequency" class="col-sm-4 side-label">Frequency</label>
+          <label for="frequency" class="col-sm-2 side-label">Frequency</label>
           <div class="col-sm-4">
             <div class="row">
               <div class="col-sm-9">
@@ -463,10 +463,11 @@
           </div>
           </div>
       </div>
+      <div class="clearfix"></div>
 
        <div class="form-group quesSetting">
 
-          <label for="gracePeriod" class="col-sm-4 side-label">Grace Period</label>
+          <label for="gracePeriod" class="col-sm-2 side-label">Grace Period</label>
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
@@ -490,10 +491,11 @@
           </div>
 
         </div>
+        <div class="clearfix"></div>
 
        <div class="form-group quesSetting">
 
-        <label for="reminderTime" class="col-sm-4 side-label">Reminder Time</label>
+        <label for="reminderTime" class="col-sm-2 side-label">Reminder Time</label>
         <div class="col-sm-4">
         <div class="row">
           <div class="col-sm-9">
