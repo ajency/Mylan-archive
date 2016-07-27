@@ -385,7 +385,7 @@
       <div class="col-sm-4">
       <div class="row">
         <div class="col-sm-9">
-          <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number">
+          <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="No. of" value="" data-parsley-type="number">
         </div>
         <div class="col-md-3">
           <h6 class="seconds">days</h6>
@@ -396,7 +396,7 @@
       <div class="col-sm-4">
       <div class="row">
         <div class="col-sm-9">
-          <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="" data-parsley-type="number">
+          <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="No. of" value="" data-parsley-type="number">
         </div>
         <div class="col-sm-3">
           <h6 class="seconds">hours</h6>
@@ -413,7 +413,7 @@
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="" data-parsley-type="number">
+              <input type="text" class="form-control" id="gracePeriod" name="gracePeriodDay" placeholder="No. of" value="" data-parsley-type="number">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">days</h6>
@@ -424,7 +424,7 @@
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="Grace Period" value="" data-parsley-type="number">
+              <input type="text" name="gracePeriodHours" class="form-control" id="gracePeriodHours" placeholder="No. of" value="" data-parsley-type="number">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">hours</h6>
@@ -442,7 +442,7 @@
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="" data-parsley-type="number">
+              <input type="text" class="form-control" name="reminderTimeDay" id="reminderTime" placeholder="No. of" value="" data-parsley-type="number">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">days</h6>
@@ -453,7 +453,7 @@
         <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-             <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="Reminder Time" value="" data-parsley-type="number">
+             <input type="text" name="reminderTimeHours" class="form-control" id="reminderTimeHours" placeholder="No. of" value="" data-parsley-type="number">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">hours</h6>

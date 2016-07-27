@@ -444,7 +444,7 @@
           <div class="col-sm-4">
             <div class="row">
               <div class="col-sm-9">
-                <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+                <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
               </div>
               <div class="col-md-3">
                 <h6 class="seconds">days</h6>
@@ -455,7 +455,7 @@
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Frequency" value="{{ $settings['frequency']['hours']  }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+              <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="No. of" value="{{ $settings['frequency']['hours']  }}" data-parsley-trigger="keyup" data-parsley-type="digits">
             </div>
             <div class="col-sm-3">
                 <h6 class="seconds">hours</h6>
@@ -471,7 +471,7 @@
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="Grace Period" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+              <input type="text" class="form-control input-days" id="gracePeriod" name="gracePeriodDay" placeholder="No. of" value="{{ $settings['gracePeriod']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
             </div>
             <div class="col-sm-3">
                <h6 class="seconds">days</h6>
@@ -482,7 +482,7 @@
             <div class="col-sm-4">
             <div class="row">
               <div class="col-sm-9">
-                <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="Grace Period" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+                <input type="text" name="gracePeriodHours" class="form-control input-hours" id="gracePeriodHours" placeholder="No. of" value="{{ $settings['gracePeriod']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
               </div>
               <div class="col-sm-3">
                 <h6 class="seconds">hours</h6>
@@ -499,7 +499,7 @@
         <div class="col-sm-4">
         <div class="row">
           <div class="col-sm-9">
-            <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="Reminder Time" value="{{ $settings['reminderTime']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+            <input type="text" class="form-control input-days" name="reminderTimeDay" id="reminderTime" placeholder="No. of" value="{{ $settings['reminderTime']['day'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
           </div>
           <div class="col-sm-3">
             <h6 class="seconds">days</h6>
@@ -510,7 +510,7 @@
           <div class="col-sm-4">
           <div class="row">
             <div class="col-sm-9">
-              <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="Reminder Time" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
+              <input type="text" name="reminderTimeHours" class="form-control input-hours" id="reminderTimeHours" placeholder="No. of" value="{{ $settings['reminderTime']['hours'] }}" data-parsley-trigger="keyup" data-parsley-type="digits">
             </div>
             <div class="col-sm-3">
               <h6 class="seconds">hours</h6>
