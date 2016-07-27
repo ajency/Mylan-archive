@@ -22,21 +22,23 @@
      <div class="grid simple">
            <div class="grid-body">
       
-      <form class="form-no-horizontal-spacing" id="form-condensed"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" onsubmit="return validateOptionalInputs();">
-              <div class="row form-group  edit-add">
+      <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" onsubmit="return validateOptionalInputs();">
+              <div class="row form-group edit-add">
                 <div class="col-md-4">
                   <div class="form-row">
-                     <label>Reference Code<span class="text-primary">*</span></label>
-                        <input {{ $disabled }} name="reference_code" id="reference_code" class="form-control" type="text" value="{{ $patient['reference_code'] }}"   placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" >
+                     <label>Reference Code <span class="text-primary">*</span></label>
+                        <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" value="{{ $patient['reference_code'] }}">
                   </div>
                 </div>
-                <div class="col-sm-4"> 
+                <div class="col-sm-4">
+                 <div class="form-row">
                      <label>Age <span class="text-primary">*</span></label>
-                        <input name="age" id="age" type="text" class="form-control" placeholder="Age" data-parsley-required   value="{{ $patient['age'] }}">
+                        <input name="age" id="age" type="text" class=" form-control" placeholder="Age" data-parsley-required value="{{ $patient['age'] }}">
                     </div>
-                   
-                     
-                     @foreach($projectAttributes as $key=> $attribute)
+                    </div>
+                  
+
+                    @foreach($projectAttributes as $key=> $attribute)
                         
                                 <?php
                                 $defaults = explode(',', $attribute['values']);   
@@ -44,42 +46,40 @@
 
                                 $patientProjectAttributes = $patient['project_attributes'];
 
-                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : ''; 
-                               
+                                $value = (isset($patientProjectAttributes[ $attribute['label'] ])) ? $patientProjectAttributes[ $attribute['label'] ] : '';
                                 ?>
                                  
                                 @if('textbox' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                     
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                    <?php
+                                     <?php
                                         $value = (isset($patientProjectAttributes[ $attribute['label'] ][$default])) ? $patientProjectAttributes[ $attribute['label'] ][$default] : '';
                                         ?>
-                                      <div class="col-md-4 add-attribute1"> 
-                                        <div class="form-inline">
-                                          <div class="form-group">
-                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }}
-                                              @if(('on' == $attribute['validate']) && count($defaults) == 1)
+                                    <div class="col-md-4 add-attribute1"> 
+                                    <div class="form-inline">
+                                      <div class="form-group">
+                                        <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
+                                           @if(('on' == $attribute['validate']) && count($defaults) == 1)
                                               <span class="text-primary">*</span>
-                                              @endif
-                                             </label>
-                                            <div class="input-group">
-                                              <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" value="{{ $value }}"
-                                              data-parsley-group="block-{{ $key }}"
+                                           @endif
+                                        </label>
+                                        <div class="input-group">
+                                          <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}"
 
-                                              @if(('on' == $attribute['validate']) && count($defaults) == 1)
-                                               data-parsley-required 
-                                               @endif
-                                              >
-                                              <div class="input-group-addon">{{ $default }}</div>
-                                            </div>
-                                          </div>
+                                          @if(('on' == $attribute['validate']) && count($defaults) == 1)
+                                           data-parsley-required 
+                                           @endif
+
+                                           value="{{ $value }}"
+                                           >
+                                          <div class="input-group-addon">{{ $default }}</div>
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
                                     <?php $i++;?>  
                                     @endforeach
-                                     
                                   @else
                                   <div class="col-md-4 add-attribute">
                                   <label>{{ $attribute['label'] }} 
@@ -87,37 +87,37 @@
                                       <span class="text-primary">*</span>
                                     @endif
                                   </label>
-                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif value="{{ $value }}" >
+                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif value="{{ $value }}">
                                   </div>
                                   @endif
                                 @elseif('number' === $attribute['control_type'])
                                   @if(!empty($defaults))
-                                    
+                                  
                                     <?php $i=1;?>
                                     @foreach($defaults as $default)
-                                      <?php
-                                        $value = (isset($patientProjectAttributes[ $attribute['label'] ][$default])) ? $patientProjectAttributes[ $attribute['label'] ][$default] : '';
-                                        ?>
-                                      <div class="col-md-4 add-attribute1"> 
-                                        <div class="form-inline">
-                                          <div class="form-group">
-                                            <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
-                                              @if('on' == $attribute['validate'] && count($defaults) > 1)
-                                                <span class="text-primary">*</span>
-                                              @endif
-                                            </label>
-                                            <div class="input-group">
-                                              <input type="text" class="form-control @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif"name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-type="number" data-parsley-min="0" data-parsley-group="block-{{ $key }}" value="{{ $value }}"
+                                   <div class="col-md-4 add-attribute1"> 
+                                    <div class="form-inline">
+                                      <div class="form-group">
+                                        <label class="@if($i!=1) fade-0 @endif">{{ $attribute['label'] }} 
+                                          @if('on' == $attribute['validate'] && count($defaults) > 1)
+                                            <span class="text-primary">*</span>
+                                          @endif
+                                        </label>
+                                        <div class="input-group">
+                                          <input type="text" class="form-control  @if('on' == $attribute['validate'] && count($defaults) > 1) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][{{ $default }}]" placeholder="{{ $default }}" data-parsley-group="block-{{ $key }}" data-parsley-type="number" data-parsley-min="0" 
+                                           
+                                          @if(('on' == $attribute['validate']) && count($defaults) == 1)
+                                           data-parsley-required 
+                                           @endif
 
-                                              @if(('on' == $attribute['validate']) && count($defaults) == 1)
-                                               data-parsley-required 
-                                               @endif
-                                              >
-                                              <div class="input-group-addon">{{ $default }}</div>
-                                            </div>
-                                          </div>
+                                           value="{{ $value }}"
+                                            >
+                                          <div class="input-group-addon">{{ $default }}</div>
                                         </div>
                                       </div>
+                                    </div>
+                                  </div>
+
                                       <?php $i++;?>  
                                     @endforeach
                                      
@@ -127,44 +127,45 @@
                                     @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                     @endif
+
                                   </label>
-                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-type="number" data-parsley-min="0" value="{{ $value }}">
+                                  <input type="text" class="form-control" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-required data-parsley-type="number" data-parsley-min="0" value="{{ $value }}">
                                   </div>
                                   @endif
                                 
                                 @elseif('select' == $attribute['control_type'])
                                 <div class="col-md-4 customSelect">
                                 <label>{{ $attribute['label'] }} 
-                                   @if('on' == $attribute['validate'])
+                                  @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                    @endif
+
                                 </label>
-                                <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-required @endif>
+                                <select name="attributes[{{ $attribute['label'] }}]" class="select2 form-control m-b-5" @if('on' == $attribute['validate'])data-parsley-required @endif>
                                     <option value="">Select {{ $attribute['label'] }}</option>   
                                     @foreach($defaults as $option)
-                                    <option  @if($value ==  $option ){{'selected'}}@endif  value="{{ $option }}">{{ $option }}</option>
+                                    <option   @if($value ==  $option ){{'selected'}}@endif value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
                                 </div>
                                 @elseif('multiple' == $attribute['control_type'])
-                                 
-                                <div class="col-md-4">
-                                <div class="form-row multiSelect">
+                                <div class="col-md-4 multiSelect">
+                                <div class="form-row">
                                 <label>{{ $attribute['label'] }} 
-                                   @if('on' == $attribute['validate'])
+                                  @if('on' == $attribute['validate'])
                                       <span class="text-primary">*</span>
                                    @endif
                                 </label>
-                                <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5"  @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
+                                <select multiple name="attributes[{{ $attribute['label'] }}][multiple][]" class="multiselect select2 form-control m-b-5" @if('on' == $attribute['validate']) data-parsley-mincheck="1" data-parsley-required @endif>
                                     <!-- <option value="">Select {{ $attribute['label'] }}</option>    -->
                                     @foreach($defaults as $option)
-                                    <option {{ (isset($value['multiple']) && !empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }}  value="{{ $option }}">{{ $option }}</option>
+                                    <option {{ (isset($value['multiple']) && !empty($value['multiple']) && in_array( $option ,$value['multiple'])) ? 'selected="selected"' : '' }} value="{{ $option }}">{{ $option }}</option>
                                     @endforeach
                                 </select>
                                 </div>
                                 </div>
                                 @elseif('weight' === $attribute['control_type'])
-                                  <?php
+                                    <?php
                                     $readOnly = '';
                                     $value = (isset($patientProjectAttributes[ $attribute['label'] ]['kg'])) ? $patientProjectAttributes[ $attribute['label'] ]['kg'] : '';
 
@@ -185,13 +186,9 @@
                                   <div class="col-md-4 add-attribute1"> 
                                     <div class="form-inline">
                                       <div class="form-group">
-                                        <label class="">{{ $attribute['label'] }} 
-                                        @if('on' == $attribute['validate'])
-                                          <span class="text-primary">*</span>
-                                       @endif
-                                        </label>
+                                        <label class="">{{ $attribute['label'] }} <i class="fa fa-exclamation-circle p-l-5" data-toggle="tooltip" data-placement="top" title="Please enter your weight in KG or ST/LB"></i></label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" value="{{ $value }}" {{ $readOnly }} data-parsley-group="block-{{ $key }}">
+                                          <input type="text" class="form-control  weightQuestion weight-kg @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][kg]"  placeholder="kg" data-parsley-group="block-{{ $key }}" value="{{ $value }}" {{ $readOnly }}>
                                           <div class="input-group-addon">kg</div>
                                         </div>
                                       </div>
@@ -211,19 +208,22 @@
                                     <div class="col-md-4 add-attribute1">
                                     <div class="form-inline parent clearfix">
                                       <div class="form-group">
-                                      <label class="fade-0">{{ $attribute['label'] }} </label>
+                                      <label class="fade-0">{{ $attribute['label'] }} 
+                                        @if('on' == $attribute['validate'])
+                                          <span class="text-primary">*</span>
+                                       @endif
+                                      </label>
                                         <div class="input-group">
-                                           <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" value="{{ $stValue }}" {{ $readOnly }} data-parsley-group="block-{{ $key }}">
+                                           <input type="text" class="form-control weightQuestion weight-st @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][st]"  placeholder="st" data-parsley-group="block-{{ $key }}" value="{{ $stValue }}" {{ $readOnly }}>
                                           <div class="input-group-addon">st</div>
                                         </div>
                                       </div>
                                     </div>
-                                  
                                     <div class="form-inline parent clearfix">
                                       <div class="form-group">
                                         <label class="fade-0">{{ $attribute['label'] }} </label>
                                         <div class="input-group">
-                                          <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" value="{{ $lbValue }}" {{ $readOnly }} data-parsley-group="block-{{ $key }}">
+                                          <input type="text" class="form-control weightQuestion weight-lb @if('on' == $attribute['validate']) optionalInputs @endif" name="attributes[{{ $attribute['label'] }}][lb]"  placeholder="lb" data-parsley-group="block-{{ $key }}" value="{{ $lbValue }}" {{ $readOnly }}>
                                           <div class="input-group-addon">lb</div>
                                         </div>
                                       </div>
@@ -233,22 +233,21 @@
                              
                         
                         @endforeach
-   
-            </div>
-           
+                </div>
+                   
 
-     <!--        <div class="col-sm-3">
-              <label>Weight</label>
-                <input name="weight" id="weight" type="text"  class="validateRefernceCode form-control" placeholder="Weight" data-parsley-required  value="{{ $patient['patient_weight'] }}">
-            </div>
-            <div class="col-sm-3">
-              <label>Height</label>
-                <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required  value="{{ $patient['patient_height'] }}">
-            </div> -->
-                    
-               <div class="row">
-              <div class="col-sm-6">
-              <div class="row form-row">
+       <!--                  <div class="col-sm-3">
+                      <label>Weight</label>
+                        <input name="weight" id="weight" type="text"  class="validateRefernceCode  form-control" placeholder="Weight" data-parsley-required >
+                    </div>
+                     <div class="col-sm-3">
+                      <label>Height</label>
+                        <input name="height" id="height" type="text"  class="validateRefernceCode form-control" placeholder="Height" data-parsley-required >
+                    </div>
+                     -->
+                  <div class="row column-seperator">
+                  <div class="col-sm-6">
+                    <div class="row form-row">
                
                     <div class="col-sm-6 customMessage">
                       <label>Is Smoker <span class="text-primary">*</span></label>
@@ -260,60 +259,65 @@
                     </div>
                     <div class="col-sm-6 smoke-input customMessage">
                       <label>If yes, how many per week</label>
-                        <input name="smoke_per_week" id="smoke_per_week" type="text"  class="form-control" placeholder="How many per week" value="{{ $patient['patient_smoker_per_week'] }}">
+                        <input name="smoke_per_week" id="smoke_per_week" type="text" class=" form-control"  placeholder="How many per week" value="{{ $patient['patient_smoker_per_week'] }}">
                     </div>
                     </div>
                     </div>
                     <div class="col-sm-6">
                     <div class="row form-row">
                
-             <!--         <div class="col-sm-6">
-                      <label>Is Alcoholic</label>
-                      <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required >
+                <!--      <div class="col-sm-6">
+                       <label>Is Alcoholic</label>
+                      <select name="is_alcoholic" id="is_alcoholic" class="select2 form-control"  data-parsley-required>
                           <option value="">Select</option>
-                          <option {{ ($patient['patient_is_alcoholic']=='yes')?'selected':'' }} value="yes">Yes</option>
-                          <option {{ ($patient['patient_is_alcoholic']=='no')?'selected':'' }} value="no">No</option> 
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option> 
                         </select> 
-                    </div> -->
+                    </div>  -->
                     <div class="col-sm-6 customMessage">
                       <label>Alcohol consumption per week</label>
-                        <input name="units_per_week" id="units_per_week" type="text"  class="form-control" placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}" >
+                        <input name="units_per_week" id="units_per_week" type="text" class="form-control"  placeholder="Units per week" value="{{ $patient['patient_alcohol_units_per_week'] }}">
                     </div>
                     </div>
                     </div>
-                  </div>  
-               
+                     </div> 
                 
-             
+ 
                 <hr>
                <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
               
-              <div class="form-row medication-data">
-                          @if(!empty($patientMedications))
-                           @foreach($patientMedications as $medication)
-                              <div class="row patient-mediaction">
-                                 <div class="col-sm-6 m-t-25 ">
-                                    <input name="medications[]" id="medications" type="text"  value="{{ $medication['medication'] }}"   placeholder="Enter Medication" class="form-control" >
-                                 </div>
-                                  
-                                 <div class="col-sm-1 text-right m-t-25">
-                                    <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
-                                 </div>
-                              </div>
-                            @endforeach
-                          @endif
-                          <div class="row patient-mediaction">
-                                 <div class="col-sm-6 m-t-25 ">
-                                    <input name="medications[]" id="medications" type="text"   placeholder="Enter Medication" class="form-control" >
-                                 </div>
-                                  
-                                 <div class="col-sm-1 text-right m-t-25">
-                                    <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
-                                 </div>
-                              </div>
-                           </div>
-                    <button type="button" class="btn btn-link text-success add-mediaction"><i class="fa fa-plus"></i> Add Medication</button>
-         <hr>
+               <div class="form-row medication-data">
+                @if(!empty($patientMedications))
+                 @foreach($patientMedications as $medication)
+                    <div class="row patient-mediaction">
+                       <div class="col-sm-6 m-t-25 ">
+                          <input name="medications[]" id="medications" type="text"  value="{{ $medication['medication'] }}"   placeholder="Enter Medication" class="form-control" >
+                       </div>
+                        
+                       <div class="col-sm-1 text-right m-t-25">
+                          <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
+                       </div>
+                    </div>
+                  @endforeach
+                @endif
+              <div class="row patient-mediaction">
+                 <div class="col-sm-6 m-t-25 ">
+                    <input name="medications[]" id="medications" type="text"   placeholder="Enter Medication" class="form-control" >
+                 </div>
+                  
+                 <div class="col-sm-1 text-right m-t-25">
+                    <button type="button" class="btn btn-white delete-madication hidden"><i class="fa fa-trash"></i></button>
+                 </div>
+              </div>
+</div>
+                       
+                    
+                   
+                  
+                  <button type="button" class="btn btn-link text-success add-mediaction"><i class="fa fa-plus"></i> Add Medication</button>
+        
+              
+           <hr>
                <h4 class="no-margin">Clinic <span class="semi-bold">Visits</span></h4>
                <br>
              
@@ -345,8 +349,9 @@
                               </div>
                           @endforeach
                           @endif
-                          <div class="row patient-visit">
-                                 <div class="datetime">
+                     <div class="form-row visit-data">
+                              <div class="row patient-visit">
+                                  <div class="datetime">
                                   <div class="col-sm-3 m-t-25 form-group">
                                      <div class='input-group date datetimepicker'>
                                         <input name="visit_date[]" id="visit_date" type="text"   placeholder="Enter Date" class="form-control"/>
@@ -356,6 +361,7 @@
                                      </div>
                                   </div>
                                 </div>
+                       
                                   <div class="col-sm-6 m-t-25 ">
                                     <textarea name="note[]" id="note" type="text"   placeholder="Enter Note" class="form-control"></textarea> 
                                  </div>
@@ -364,19 +370,39 @@
                                  </div>
                               </div>
 
+
                            </div>
-                  <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
-        </div>
+                        
+                     
+                   
+                  <hr>
+               <h4 class="no-margin">Set <span class="semi-bold">Frequency</span></h4>
+               <br>
+                <div class="row form-group">
+                  
+                  <div class="col-sm-4">
+                    <input type="text" name="frequencyDay" class="form-control" id="frequency" placeholder="Days" value="" data-parsley-type="number">
+                  </div>
+                  
+                  <div class="col-sm-4">
+                    <input type="text" name="frequencyHours" class="form-control" id="frequency" placeholder="Hours" value="" data-parsley-type="number"> 
+                  </div>
+                 
+                </div>
+               
+     
+                  
                 
-              </div>
+        
+               
         <div class="form-actions">
           <div class="text-right">
           <input type="hidden" name="_method" value="PUT">
-                   <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-            <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa"></i> Back</button></a>
-            @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+          @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
             <button class="btn btn-primary btn-cons-md" type="submit"><i class="fa fa-check"></i> Save</button>
-            @endif
+             @endif
+            <!-- <button class="btn btn-danger btn-cons-md" type="submit"><i class="icon-ok"></i> Save and Add Another</button> -->
             <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}"><button class="btn btn-default btn-cons-md" type="button"><i class="fa fa-ban"></i> Cancel</button></a>
           </div>
           </div>
@@ -387,10 +413,8 @@
 
 
 <script type="text/javascript">
-function validateOptionalInputs()
+  function validateOptionalInputs()
   {
-
-    var flag =true;
     optionalInputArr = {};
     var str ='';
     var valueArr = {};
@@ -425,10 +449,9 @@ function validateOptionalInputs()
           controlObj[index].closest('div').find('.parsley-errors-list').html('<li class="parsley-required">Enter atleast 1 field</li>');
         else
            controlObj[index].closest('div').find('.parsley-errors-list').html('');
-           
+
     }); 
-     
-     return flag;   
+        
     
   }
 
@@ -436,47 +459,48 @@ function validateOptionalInputs()
     validateOptionalInputs();
   });
 
-  $(document).ready(function() {
-    $(".multiselect").multiselect();
 
+  $(document).ready(function() {
+
+    $(".multiselect").multiselect();
+    
     $('.datetimepicker').datetimepicker({
-        format: 'DD-MM-YYYY HH:mm'
+        format: 'DD-MM-YYYY hh:mm a'
 
       });
 
-    $('select[name="is_smoker"]').change(function (event) { 
+     $('select[name="is_smoker"]').change(function (event) { 
       if($(this).val()=='yes')
       { 
-          $('input[name="smoke_per_week"]').attr('data-parsley-required','');
+        $('input[name="smoke_per_week"]').attr('data-parsley-required','');
       }
       else
       {
-         $('input[name="smoke_per_week"]').removeAttr('data-parsley-required');
+        $('input[name="smoke_per_week"]').removeAttr('data-parsley-required');
       }
     });
 
-    $('select[name="is_alcoholic"]').change(function (event) { 
+     $('select[name="is_alcoholic"]').change(function (event) { 
       if($(this).val()=='yes')
       { 
-         $('input[name="units_per_week"]').attr('data-parsley-required','');
+        $('input[name="units_per_week"]').attr('data-parsley-required','');
       }
       else
       {
-          $('input[name="units_per_week"]').removeAttr('data-parsley-required');
+        $('input[name="units_per_week"]').removeAttr('data-parsley-required');
       }
     });
 
 
-// Custom validation for parsley
 
-$("#form-condensed").find("button[type='submit']").on('click', function() {
+$("#patientform").find("button[type='submit']").on('click', function() {
   
         validateInput();
         //return false;
     });
     
     function validateInput() {
-        $("#form-condensed").find(".target").parsley({
+        $("#patientform").find(".target").parsley({
             successClass: "has-success",
             errorClass: "has-error",
             classHandler: function (el) {
@@ -489,13 +513,14 @@ $("#form-condensed").find("button[type='submit']").on('click', function() {
         
 
         // validate field and affects UI
-       $("#form-condensed").parsley().validate();
+       $("#patientform").parsley().validate();
     }
 
-
-
+  });
  
-  }); 
+    var PATIENT_ID = {{ $patient['id'] }};
+
+
 </script>
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection

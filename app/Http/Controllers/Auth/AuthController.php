@@ -89,10 +89,18 @@ class AuthController extends Controller
            $remember = 0;
             
         $newpassword = getPassword($referenceCode , $password);
-
+        
+        
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
-        {   
-            if(Auth::user()->account_status=='active')
+        {  
+            if(Auth::user()->baseline_set=='no')
+            {
+                Auth::logout();
+                return redirect('/login')->withErrors([
+                    'email' => 'Activation data is missing. Please contact the administrator.',
+                ]);
+            }  
+            elseif(Auth::user()->account_status=='active')
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);

@@ -254,6 +254,7 @@ class UserController extends Controller
             $userId = $user['id']; 
             
             $userDeviceCount = UserDevice::where('user_id',$userId)->get()->count();
+
             if($userDeviceCount >=SETUP_LIMIT)
             {
                 $json_resp = array(
@@ -272,8 +273,20 @@ class UserController extends Controller
             }
             else
             {
-                
-                if (Hash::check($newpassword, $user['password']) && $user['account_status']=='active')  
+
+                $responseQry = new ParseQuery("Response");
+                $responseQry->equalTo("patient", $referenceCode); 
+                $responseQry->equalTo("status", 'base_line'); 
+                $response = $responseQry->first();
+                if(empty($response))
+                {
+                    $json_resp = array(
+                        'code' => 'baseline_not_set' , 
+                        'message' => 'Baseline not set for patient'
+                        );
+                        $status_code = 200;
+                }
+                elseif (Hash::check($newpassword, $user['password']) && $user['account_status']=='active')  
                 {
 
                     $projectId = $user['project_id'];

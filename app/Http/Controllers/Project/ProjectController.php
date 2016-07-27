@@ -84,7 +84,9 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate .'+1 day'));
 
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
+
+        $patientByDate = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
 
         //dd($patients);
         $activepatients = [];
@@ -92,11 +94,13 @@ class ProjectController extends Controller
         $cond = [];
         $sort = [];
         foreach ($patients as  $patient) {
+            $patientReferenceCode[] = $patient['reference_code'];
+        }
+
+        foreach ($patientByDate as  $patient) {
             
             if($patient['account_status']=='active')
                 $activepatients[]= $patient['reference_code'];
-            
-            $patientReferenceCode[] = $patient['reference_code'];
         }
 
         $responseStatus = ["completed","late","missed"];
@@ -105,7 +109,8 @@ class ProjectController extends Controller
         // //$projectAnwers = $this->getProjectAnwersByDate($projectId,0,[],$startDateObj,$endDateObj);
 
          $responseCount = $this->getProjectResponseCounts($projectResponses);
-        // //red flags,amber flags ,unreviwed submission , submission
+        
+        //red flags,amber flags ,unreviwed submission , submission
          $projectFlagsChart = $this->projectFlagsChart($projectResponses); 
 
          //patient completed  and late submissions 
@@ -131,7 +136,7 @@ class ProjectController extends Controller
         return view('project.dashbord')->with('active_menu', 'dashbord')
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
-                                        ->with('allpatientscount', count($patients))              
+                                        ->with('allpatientscount', count($patientByDate))              
                                         ->with('submissionsSummary', $submissionsSummary)
                                         ->with('patientSortedData', $patientSortedData)
                                         ->with('patientResponses', $patientResponses)
@@ -422,8 +427,7 @@ class ProjectController extends Controller
         $startDateYmd = date('Y-m-d', strtotime($startDate));
         $endDateYmd = date('Y-m-d', strtotime($endDate.'+1 day'));
 
-
-        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->where('created_at','>=',$startDateYmd)->where('created_at','<=',$endDateYmd)->orderBy('created_at','desc')->get()->toArray();
+        $patients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->orderBy('created_at','desc')->get()->toArray();
 
         $patientIds = [];
         foreach ($patients as  $patient) {
