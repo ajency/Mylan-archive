@@ -10,9 +10,9 @@ class PatientMedication extends Model
 {
     protected $fillable = ['user_id', 'medication'];
 
-    // public function getMedicationAttribute( $value ) { 
-    //     return Crypt::decrypt( $value );
-    // }
+    public function getMedicationAttribute( $value ) { 
+        return Crypt::decrypt( $value );
+    }
 
     public function setMedicationAttribute( $value ) { 
         $this->attributes['medication'] = Crypt::encrypt( $value );
