@@ -16,7 +16,12 @@
 @section('content')
 <div class="col-sm-8">
 <div class="row">
-                     <h1>Dashboard</h1>
+@if((empty($patients)) &&  ($questionnaireStatus == "published"))
+  <div class="alert alert-warning">
+      <i class="fa fa-exclamation-triangle"></i> No patients added to the project.Please add patients to proceed.
+  </div> 
+@endif 
+    <h1>Dashboard</h1>
                 </div>
                   </div>
                   <div class="col-sm-3">
