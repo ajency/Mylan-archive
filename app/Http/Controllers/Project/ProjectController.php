@@ -86,6 +86,11 @@ class ProjectController extends Controller
             {
               return redirect(url($hospitalSlug .'/'. $projectSlug .'/questionnaire-setting')); 
             }
+          }else{
+              $questionnaireQry = new ParseQuery("Questionnaire");
+              $questionnaireQry->equalTo("project",$projectId);
+              $questionnaire = $questionnaireQry->first();
+              $questionnaireStatus = (!empty($questionnaire))?$questionnaire->get("status"):'';
           }
 
 
@@ -227,6 +232,7 @@ class ProjectController extends Controller
                                         ->with('activepatients', count($activepatients))
                                         ->with('allpatientscount', count($patientByDate))              
                                         ->with('submissionsSummary', $submissionsSummary)
+                                        ->with('questionnaireStatus', $questionnaireStatus)
                                         ->with('viewAllSummarySubmissionCount', $viewAllSummarySubmissionCount)
                                         ->with('patientSortedData', $patientSortedData)
                                         ->with('patientSortedDataCountViewall', $patientSortedDataCountViewall)
