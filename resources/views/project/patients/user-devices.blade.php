@@ -36,13 +36,20 @@
                         </div>
                         <div class="tab-pane table-data active" id="Submissions">
                         <div class="grid simple grid-table">
-						<input type="button" value="Reset set up devices" class="clear-data" id="{{ $patient['id'] }}"/>
+                         @if(!empty($userDevices))  
+						               <input type="button" value="Reset set up devices" class="clear-data" id="{{ $patient['id'] }}"/>
+                          @endif 
 						
                     <div class="grid-title no-border">
                        <h4>
                             Setup Devices
                           <!-- <sm class="light">(These are the notifications generated for submissions)</sm> -->
                        </h4>
+                       <select class="pull-right" style="margin-top: -7px;" name="deviceStatus">
+                           <option value="all-device-data"> -Select status- </option>
+                           <option value="archived-device-data"> Archived </option>
+                           <option value="new-device-data"> New device </option>
+                        </select>
                        <div class="tools">
                     
                      
@@ -60,7 +67,7 @@
                                <th class="sorting ">Status</th> 
                              </tr>
                           </thead>
-                          <tbody>
+                          <tbody id="all-device-data">
                            
                           @if(!empty($userDevices))   
                               @foreach($userDevices as $userDevice)
@@ -73,6 +80,66 @@
                                    <td class="text-center">{{ $userDevice['status'] }}</td> 
                                 </tr>
                             @endforeach
+                        @else 
+                           <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        @endif    
+                                
+                          </tbody>
+
+                          <tbody id="archived-device-data">
+                           
+                          @if(!empty($userDevices)) 
+                            <?php
+                              $archivedCounter = 0;
+                            ?>  
+                              @foreach($userDevices as $userDevice)
+                                @if( $userDevice['status'] == "Archived" )
+                                  <?php
+                                    $archivedCounter = 1;
+                                  ?>
+                                 <tr>                                
+                                   <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
+                                   <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['device_type'] }}</td>   
+                                   <td class="text-center">{{ $userDevice['device_os'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['access_type'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['status'] }}</td> 
+                                </tr>
+                                @endif
+                            @endforeach
+                            @if( $archivedCounter == 0)
+                                <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                            @endif 
+                        @else 
+                           <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                        @endif    
+                                
+                          </tbody>
+
+                          <tbody id="new-device-data">
+                           
+                          @if(!empty($userDevices))  
+                            <?php
+                              $newdeviceCounter = 0;
+                            ?>  
+                              @foreach($userDevices as $userDevice)
+                                 @if( $userDevice['status'] == "New device" )
+                                    <?php
+                                      $newdeviceCounter = 1;
+                                    ?> 
+                                 <tr>                                
+                                   <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
+                                   <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['device_type'] }}</td>   
+                                   <td class="text-center">{{ $userDevice['device_os'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['access_type'] }}</td> 
+                                   <td class="text-center">{{ $userDevice['status'] }}</td> 
+                                </tr>
+                                @endif
+                            @endforeach
+                            @if( $newdeviceCounter == 0)
+                                <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                            @endif 
                         @else 
                            <tr><td class="text-center no-data-found" colspan="6"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
                         @endif    
@@ -104,6 +171,22 @@
         if(referenceCode!='')
             window.location.href = BASEURL+"/patients/"+referenceCode; 
       });
+
+       $('select[name="deviceStatus"]').change(function(e){
+          if($('select[name="deviceStatus"]').val() == "all-device-data"){
+              $("tbody#all-device-data").removeClass("hidden");
+              $("tbody#archived-device-data").addClass("hidden");
+              $("tbody#new-device-data").addClass("hidden");
+          }else if($('select[name="deviceStatus"]').val() == "archived-device-data"){
+              $("tbody#archived-device-data").removeClass("hidden");
+              $("tbody#all-device-data").addClass("hidden");
+              $("tbody#new-device-data").addClass("hidden");
+          }else{
+              $("tbody#new-device-data").removeClass("hidden");
+              $("tbody#archived-device-data").addClass("hidden");
+              $("tbody#all-device-data").addClass("hidden");
+          }
+       });
 
    });
   </script>
