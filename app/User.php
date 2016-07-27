@@ -69,31 +69,31 @@ class User extends Model implements AuthenticatableContract,
     }
 
     //**** crypt patient data  ***
-    // public function getPatientIsSmokerAttribute( $value ) { 
-    //     if($this->attributes['type']=="patient")
-    //     {
-    //         $value = Crypt::decrypt( $value );
-    //     }
+    public function getPatientIsSmokerAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
 
-    //     return $value;
-    // }
-
-    public function setPatientIsSmokerAttribute( $value ) {  
-        $this->attributes['patient_is_smoker'] = Crypt::encrypt( $value );
+        return $value;
     }
 
-    // public function getProjectAttributesAttribute( $value ) { 
-    //     if($this->attributes['type']=="patient")
-    //     {
-    //         $value = Crypt::decrypt( $value );
-    //     }
-
-    //     return $value;
+    // public function setPatientIsSmokerAttribute( $value ) {  
+    //     $this->attributes['patient_is_smoker'] = Crypt::encrypt( $value );
     // }
 
-    public function setProjectAttributesAttribute( $value ) {  
-        $this->attributes['project_attributes'] = Crypt::encrypt( $value );
+    public function getProjectAttributesAttribute( $value ) { 
+        if($this->attributes['type']=="patient")
+        {
+            $value = Crypt::decrypt( $value );
+        }
+
+        return $value;
     }
+
+    // public function setProjectAttributesAttribute( $value ) {  
+    //     $this->attributes['project_attributes'] = Crypt::encrypt( $value );
+    // }
     //********//
 
     // public function getReferenceCodeAttribute($value)
