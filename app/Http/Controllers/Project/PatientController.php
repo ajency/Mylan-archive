@@ -2712,7 +2712,7 @@ class PatientController extends Controller
 			}else{
 				$userdevice = 'no';
 			}
-            $userDevices = $patient->devices()->get()->toArray();
+            $userDevices = $patient->devices()->orderBy('created_at', 'desc')->get()->toArray();
 
             $allPatients = User::where('type','patient')->where('hospital_id',$hospital['id'])->where('project_id',$project['id'])->get()->toArray();
 
