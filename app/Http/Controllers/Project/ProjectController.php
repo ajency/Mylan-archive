@@ -62,18 +62,8 @@ class ProjectController extends Controller
     { 
         try
         {
-          User::where('type','patient')->get()->each( function($patient) {
-             $referenceCode = $patient->reference_code;
-             $responseQry = new ParseQuery("Response");
-             $responseQry->equalTo("patient", $referenceCode); 
-             $responseQry->equalTo("status", 'base_line'); 
-             $response = $responseQry->first();   
 
-             $baselineSet = (empty($response))?'no':'yes';
-             $patient->baseline_set = $baselineSet;
-             $patient->save();
-            
-         });
+
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
