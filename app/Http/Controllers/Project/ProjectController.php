@@ -74,6 +74,7 @@ class ProjectController extends Controller
              $patient->save();
             
          });
+          
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
