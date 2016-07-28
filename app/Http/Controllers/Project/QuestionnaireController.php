@@ -231,6 +231,7 @@ class QuestionnaireController extends Controller
 		  $questionnaireQry = new ParseQuery("Questionnaire");
 		  $questionnaireQry->equalTo("project",$projectId);
 		  $questionnaire = $questionnaireQry->first();
+		  $questionnaireStatus = (!empty($questionnaire))?$questionnaire->get("status"):'';	
 
 		  $nextPage = "yes";
 		  $questionnaireId ="";
@@ -294,6 +295,7 @@ class QuestionnaireController extends Controller
 										->with('action', $action)
 										->with('nextPage', $nextPage)
 										->with('questionnaireId', $questionnaireId)
+										->with('questionnaireStatus', $questionnaireStatus)
 										->with('settings', $settings);
 	}
 
