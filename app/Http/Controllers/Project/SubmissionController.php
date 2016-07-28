@@ -158,7 +158,12 @@ class SubmissionController extends Controller
 
                 if($reviewed=='reviewed_no_action' || $reviewed=='reviewed_call_done' || $reviewed=='reviewed_appointment_fixed') {
                     // echo $sequenceNumber.'<br>';
-                    $reviewedDate = (!is_null($response->get('reviewedDate')))?$response->get('reviewedDate')->format('Y-m-d H:i:s'):'';
+                    //$reviewedDate = (!is_null($response->get('reviewedDate')))?$response->get('reviewedDate')->format('Y-m-d H:i:s'):'';
+                    if(!is_null($response->get('reviewedDate')))
+                        $reviewedDate = $response->get('reviewedDate')->format('Y-m-d H:i:s');
+                    else
+                        /*if review date is not there we are taking updated date*/    
+                        $reviewedDate = ($updatedAt)?$updatedAt:"";
                     $datediff =0;
                     $datediff = abs( strtotime( $reviewedDate ) - strtotime( $createdAt ) ) / 3600;
                     $timeDifference[] = intval( $datediff);
