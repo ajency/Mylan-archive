@@ -29,6 +29,7 @@ class SubmissionController extends Controller
     public function index($hospitalSlug,$projectSlug)
     {
         try{
+            //test
             $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
             $hospital = $hospitalProjectData['hospital'];
