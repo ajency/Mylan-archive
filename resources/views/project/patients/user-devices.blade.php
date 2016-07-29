@@ -160,7 +160,8 @@
 <script type="text/javascript">
  
    $(document).ready(function() {
-
+      $("tbody#archived-device-data").addClass("hidden");
+      $("tbody#new-device-data").addClass("hidden");
       $('select[name="reviewStatus"]').change(function (event) { 
         $(".submissionFilter").removeClass('hidden');
          $('form').submit();
