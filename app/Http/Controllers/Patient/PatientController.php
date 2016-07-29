@@ -88,7 +88,7 @@ class PatientController extends Controller
             $bname = 'Netscape'; 
             $ub = "Netscape"; 
         }else{
-            $u_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";   
+            $u_agent = "Mozilla/5.0 (compatible; MSIE 11.0; Windows NT 6.2; Trident/6.0)";   
             $bname = 'Internet Explorer'; 
             $ub = "MSIE"; 
         } 
