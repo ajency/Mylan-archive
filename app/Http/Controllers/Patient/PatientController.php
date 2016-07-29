@@ -88,11 +88,11 @@ class PatientController extends Controller
             $bname = 'Netscape'; 
             $ub = "Netscape"; 
         }else{
-            $bname = 'Other'; 
-            $ub = "Other"; 
+            $u_agent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)";   
+            $bname = 'Internet Explorer'; 
+            $ub = "MSIE"; 
         } 
-         echo "<pre>";
-        print_r($u_agent);
+        
         // finally get the correct version number
         $known = array('Version', $ub, 'other');
         $pattern = '#(?<browser>' . join('|', $known) .
@@ -100,10 +100,6 @@ class PatientController extends Controller
         if (!preg_match_all($pattern, $u_agent, $matches)) {
             // we have no matching number just continue
         }
-        echo "========";
-        print_r($known);
-        echo "========";
-        print_r($pattern);
         // see how many we have
         $i = count($matches['browser']);
         if ($i != 1) {
