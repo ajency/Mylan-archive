@@ -529,6 +529,9 @@ function getBrowser()
     { 
         $bname = 'Netscape'; 
         $ub = "Netscape"; 
+    }else{
+        $bname = 'Other'; 
+        $ub = "Other"; 
     } 
     
     // finally get the correct version number
