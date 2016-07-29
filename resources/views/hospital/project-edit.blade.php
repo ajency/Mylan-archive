@@ -49,10 +49,10 @@
                               </div>
 
                               <div class="col-md-12 attributes_block">
-                            <h4>Attributes</h4>
+                            <h4>Patient Profile Questions</h4>
                             <div class="row form-group">
                                 <div class="col-xs-3">
-                                    <label class="form-label">Label</label>
+                                    <label class="form-label">Question</label>
                                 </div>
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
@@ -61,7 +61,7 @@
                                     <label class="form-label">Defaults</label>
                                 </div>
                                 <div class="col-xs-1 text-center">
-                                    <label class="form-label">Validate</label>
+                                    <label class="form-label">Mark as mandatory</label>
                                 </div>
                                 <div class="col-xs-1 text-center">
                                    
