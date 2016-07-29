@@ -72,6 +72,8 @@ Route::group( ['middleware' => ['auth']], function() {
 Route::get( '/dashboard', 'Patient\PatientController@index' );
 
 });
+Route::get( '/dashboardtest', 'Patient\PatientController@testIe' );
+
 
 /*****Admin***/
 Route::group( ['prefix' => 'admin', 'middleware' => ['auth']], function() {
