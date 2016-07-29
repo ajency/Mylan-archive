@@ -209,7 +209,7 @@ class ProjectController extends Controller
             {*/
                 $cond=['cleared'=>false];
                 $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
-                $projectAlertCt = $projectAlerts['messageCounter'];
+                $projectAlertCt = $projectAlerts['alertCount'];
                 $subCond=['referenceType'=>"Response"];
                 $submissionNotifications = $this->getProjectAlerts($projectId,5,0,[],$subCond); 
                 $submissionNotificationsCountViewall = $submissionNotifications['alertCount'];
@@ -264,7 +264,6 @@ class ProjectController extends Controller
             }
         }
         $alertCount = $alertQry->count();
-        $messageCounter = 0;  
 
 
         $alertQry = new ParseQuery("Alerts");
@@ -321,14 +320,12 @@ class ProjectController extends Controller
                   if(!empty($alertMsgData['alertMsg']))
                   {
                     $alertMsg[] = $alertMsgData['alertMsg'];
-                    $messageCounter = $messageCounter + 1; 
                   }
                   
                 }
                 elseif($referenceType == "patient")
                 {
                     $alertMsg[] = $this->getPatientAlertMsg($patient,$alertClass,$alertContent);
-                    $messageCounter = $messageCounter + 1; 
                 }
                 
 
@@ -338,7 +335,6 @@ class ProjectController extends Controller
  
         $data['alertMsg']=$alertMsg; 
         $data['alertCount']=$alertCount;
-        $data['messageCounter']=$messageCounter; 
         return $data;
     }
 
