@@ -70,7 +70,6 @@ Route::get('{hospitalslug}/{projectslug}/logout', 'Auth\AuthController@getProjec
 Route::group( ['middleware' => ['auth']], function() {
 //Route::get( '/', 'Patient\PatientController@index' );
 Route::get( '/dashboard', 'Patient\PatientController@index' );
-Route::get( '/dashboardtest', 'Patient\PatientController@testie' );
 
 });
 
