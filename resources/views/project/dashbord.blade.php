@@ -811,7 +811,7 @@
                     $("#page1").css("background-color", "");
               }
           });
-          $(".addLoader").removeClass("cf-loader");      
+          setInterval(function(){ $(".addLoader").removeClass("cf-loader");  }, 3000);      
       });
     }); 
   
