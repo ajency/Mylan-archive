@@ -44,13 +44,14 @@
  
                 <div class="row">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                  <div class="col-sm-12"><button type="submit" class="btn btn-info">Verify Reference Code Now</button></div>
-                  <div class="col-sm-12"><a  href="#" class="btn btn-link" data-toggle="modal" data-target=".bs-example-modal-sm">Forgot Reference Code</a></div>
+                  <div class="col-sm-12"><button type="submit" class="btn btn-info storage-yes">Verify Reference Code Now</button><button type="button" class="btn btn-info storage-no hidden">Verify Reference Code Now</button></div>
+                  <div class="col-sm-12"><a  href="#" class="btn btn-link storage-yes" data-toggle="modal" data-target=".bs-example-modal-sm">Forgot Reference Code</a><a  href="#" class="btn btn-link storage-no hidden">Forgot Reference Code</a></div>
                 </div>
                 </form>
                 <br><br>
                   <p stlye="margin-bottom:0;"><span>Set up Already Done?</span></p>
-                 <a href="{{ url('/login') }}"><p>Proceed To Login</p></a>
+                 <a href="{{ url('/login') }}" class="storage-yes"><p>Proceed To Login</p></a>
+                 <a href="#" class="storage-no hidden"><p>Proceed To Login</p></a>
                 <br>
               </div>
           </div>
@@ -101,7 +102,13 @@
     }());  
     if(hasStorage == false){
       alert("Private browsing is not supported. Please exist incognito mode.");
+      $(".storage-yes").addClass("hidden");
+      $(".storage-no").removeClass("hidden");
     }
+
+    $(".storage-no").on("click", function(e){
+      alert("Private browsing is not supported. Please exist incognito mode.");
+    });
   });
 </script>
 
