@@ -183,7 +183,7 @@
                             @foreach($projectAlerts['alertMsg'] as $projectAlert)
                               <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
                                 <div class="message-wrapper msg-card">
-                                     <div class="heading">Patient ID <span class="ttuc patient-refer{{ $projectAlert['patient'] }}">{{ $projectAlert['patient'] }}</span>   </div>
+                                     <div class="heading">Patient <span class="ttuc patient-refer{{ $projectAlert['patient'] }}">ID {{ $projectAlert['patient'] }}</span>   </div>
                                      <div class="description"> {{ $projectAlert['msg'] }} </div>
                                   </div>
                                   <!-- <div class="date pull-right"> Yesterday </div> -->

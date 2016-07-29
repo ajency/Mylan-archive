@@ -21,7 +21,7 @@
 @section('content')
 
 <div class="page-title">
-     <h3>Patient Id<span class="semi-bold ttuc"> #<span class="patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</span></span></h3>
+     <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
      <div class="pull-right m-r-15 patient-search">
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option class="ttuc" value="">-select patient-</option>
@@ -43,7 +43,7 @@
       <div class="tab-pane active" id="baseline">
 
          <h4><span class="semi-bold">Base Lines</span></h4>
-         <p>(Baseline score for Patient Id <span class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}})</span></p>
+         <p>(Baseline score for Patient <span class="ttuc patient-refer{{ $patient['reference_code']}}">Id {{ $patient['reference_code']}})</span></p>
          <br>
           <div class="pull-right">
           @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']) && $isQuestionnaireSet)

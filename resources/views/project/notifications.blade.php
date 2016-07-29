@@ -50,7 +50,7 @@
          </div>
          <div class="info-wrapper small-width">
             <div class="info text-black ">
-               <p>Patient ID  <b class="ttuc patient-refer{{ $prejectAlert['patient'] }}">{{ $prejectAlert['patient'] }}</b>
+               <p>Patient <b class="ttuc patient-refer{{ $prejectAlert['patient'] }}">ID  {{ $prejectAlert['patient'] }}</b>
                </p>
                <p class="muted small-text">  {{ $prejectAlert['msg'] }} </p>
             </div>

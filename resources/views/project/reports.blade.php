@@ -54,7 +54,7 @@
       <br>
       <div class="row">
          <div class="col-sm-8">
-           <h3 class="m-b-25">Patient Id<span class="semi-bold ttuc patient-refer{{ $referenceCode }}"> {{ $referenceCode }}</span></h3>
+           <h3 class="m-b-25">Patient <span class="semi-bold ttuc patient-refer{{ $referenceCode }}">Id {{ $referenceCode }}</span></h3>
        </div>
  
 
