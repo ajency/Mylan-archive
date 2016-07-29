@@ -33,7 +33,8 @@
                   </div>
                   <div class="col-sm-1">
                   <div class="row">
-                     <a class="btn btn-primary pull-right m-t-10" id="btnSave"><i class="fa fa-print"></i> Print</a>
+                     <a class="btn btn-primary pull-right m-t-10" id="btnSave"><i class="fa fa-print"></i> Print 
+                     <span class="addLoader"></span></a>
                   </div>
                   </div>
 
@@ -741,6 +742,7 @@
   $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
+      $(".addLoader").addClass("cf-loader");
       var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
         var svgTag = svgTags[i];
@@ -809,7 +811,7 @@
                     $("#page1").css("background-color", "");
               }
           });
-                
+          $(".addLoader").removeClass("cf-loader");      
       });
     }); 
   
