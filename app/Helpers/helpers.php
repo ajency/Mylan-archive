@@ -529,9 +529,10 @@ function getBrowser()
     { 
         $bname = 'Netscape'; 
         $ub = "Netscape"; 
-    }else{
-        $bname = 'Other'; 
-        $ub = "Other"; 
+    }elseif{
+        $u_agent = "Mozilla/5.0 (compatible; MSIE 11.0; Windows NT 6.2; Trident/6.0)";   
+        $bname = 'Internet Explorer'; 
+        $ub = "MSIE"; 
     } 
     
     // finally get the correct version number
