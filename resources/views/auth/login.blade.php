@@ -63,14 +63,18 @@
                   </label>
                 </div>
                 <br>
+                 
                 <button type="submit" class="btn btn-info btn-block storage-yes">Login</button>
                 <button type="button" class="btn btn-info btn-block storage-no hidden">Login</button>
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="type" value="patient">
                 <br>
-               
-                <a href="#" class="storage-yes" data-toggle="modal" data-target=".bs-example-modal-sm"><p>Forgot your reference code<br> or password?</p></a>
-                <a href="#" class="storage-no hidden"><p>Forgot your reference code<br> or password?</p></a>
+                <a href="{{ url() }}" class="storage-yes" style="float:left;"><p>Proceed to Setup</p></a>
+                <a href="#" class="storage-no hidden" style="float:left;"><p>Proceed to Setup</p></a> 
+
+
+                <a href="#" class="storage-yes" data-toggle="modal" data-target=".bs-example-modal-sm" style="float:right;"><p>Forgot your reference code<br> or password?</p></a>
+                <a href="#" class="storage-no hidden" style="float:right;"><p>Forgot your reference code<br> or password?</p></a>
                
                 </form>
             </div>
