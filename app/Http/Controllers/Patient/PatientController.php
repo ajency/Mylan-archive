@@ -39,12 +39,6 @@ class PatientController extends Controller
                                        ->with('questionnaire', $questionnaireData);
     }
 
-    public function test(){
-        echo $_SERVER['HTTP_USER_AGENT'];
-        $browser = get_browser(null, true);
-        print_r($browser);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
