@@ -56,6 +56,12 @@
                  </thead>
                  <tbody>
                     <tr>
+                       <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
+                       @foreach($inputValueChart as $inputValue)
+                        <td class="bg-gray">{{ $inputValue['current'] }}</td>
+                       @endforeach
+                    </tr>
+                    <tr>
                        <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
                        @foreach($inputValueChart as $inputValue)
                         <td class="bg-gray">{{ $inputValue['prev'] }}</td>
@@ -65,12 +71,6 @@
                        <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
                        @foreach($inputValueChart as $inputValue)
                         <td class="bg-gray">{{ $inputValue['base'] }}</td>
-                       @endforeach
-                    </tr>
-                       <tr>
-                       <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
-                       @foreach($inputValueChart as $inputValue)
-                        <td class="bg-gray">{{ $inputValue['current'] }}</td>
                        @endforeach
                     </tr>
                  </tbody>
