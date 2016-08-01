@@ -272,6 +272,7 @@ class ApiController extends Controller
                 $data['content']     .= "<tr>
                                             <td>".$userList["reference_code"]."</td>
                                             <td class='patientId-".$userList["reference_code"]." getData-".$userList["reference_code"]."'>".$userList["username"]."</td>
+                                            <td class='patientIdsEmail-".$userList["reference_code"]."'></td>
                                             <td><span class='text-right edit-case' id='".$userList["reference_code"]."'><i class='fa fa-pencil' id='".$userList["reference_code"]."' ></i></span></td>
                                         </tr>";
                 $reference[] =  $userList["reference_code"];                    
