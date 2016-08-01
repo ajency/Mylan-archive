@@ -379,7 +379,9 @@
                <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
                <span class="help-block m-t-5">Settings configured at project level will be accepted if not set at patient level.</span>
                <br>
-
+     <div class="alert alert-warning">
+          <i class="fa fa-exclamation-triangle"></i> Grace Period should be <strong>less than half of the frequency</strong> and reminder time should be <strong>less than grace period</strong>
+      </div>          
     <div class="form-group quesSetting">
       <label for="frequency" class="col-sm-2 side-label">Frequency</label>
       <div class="col-sm-4">
