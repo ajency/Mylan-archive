@@ -105,7 +105,7 @@ class AuthController extends Controller
         }
                  
         //CHECK SETUP LIMIT
-        if(is_array($user))
+        if(is_array($user)){
             $userDeviceCount = UserDevice::where('user_id',$user->id)->where('status','New device')->get()->count();
             if($userDeviceCount >=SETUP_LIMIT)
             {
@@ -113,6 +113,7 @@ class AuthController extends Controller
                         'email' => 'Limit exceeded, cannot do setup more then '.SETUP_LIMIT.' times',
                     ]);  
             }
+        }    
 
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
