@@ -116,9 +116,10 @@
                         <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed">
                            <div class="tiles white added-margin">
                               <div class="tiles-body p-17">
-                                 <h5 class="bold m-b-30 m-t-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
+                                 <h5 class="bold m-0">Unreviewed Submissions <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="Submissions that have not been reviewed yet"></i></h5>
                                  <!-- <p class="prev-base">&nbsp;</p> -->
-                                 <h2 class="bold">
+                                 <p class="p-t-10 m-0 text-muted">Unreviewed / Completed </p>
+                                 <h2 class="m-0">
                                  <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed"><b class="grey">{{ $responseCount['unreviewedSubmission'] }}/ {{ $totalSubmissionCount }}</b></a></h2>
                               </div>
                            </div>
