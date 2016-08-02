@@ -10027,3 +10027,6 @@ small.help-text {
   background: #D1DADE;
   color: #777;
 }
+table .sm-font {
+  margin-left: 5px;
+}
