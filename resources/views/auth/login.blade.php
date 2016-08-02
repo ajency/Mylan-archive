@@ -69,8 +69,8 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" name="type" value="patient">
                 <br>
-                <a href="{{ url() }}" class="storage-yes" style="float:left;"><p>Proceed to Setup</p></a>
-                <a href="#" class="storage-no hidden" style="float:left;"><p>Proceed to Setup</p></a> 
+                <a href="{{ url() }}" class="storage-yes" style="float:left;"><p>Go back</p></a>
+                <a href="#" class="storage-no hidden" style="float:left;"><p>Go back</p></a> 
 
 
                 <a href="#" class="storage-yes" data-toggle="modal" data-target=".bs-example-modal-sm" style="float:right;"><p>Forgot your reference code<br> or password?</p></a>
