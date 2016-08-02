@@ -189,7 +189,7 @@ class ProjectController extends Controller
             $patientResponses = $patientsSummary['patientResponses'];
             $patientSortedData = $patientsSummary['patientSortedData'];
             $totalSubmissionCount = $responseCount['totalSubmissionCount'];
-            $completedSubmissionCount = $responseCount['completedCount'];
+            $completedSubmissionCount = $responseCount['completed'];
             
             $patientSortedData = array_slice($patientSortedData, 0, 5, true);
             $patientSortedDataCountViewall = count($patientsSummary['patientSortedData']);
