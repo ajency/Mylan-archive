@@ -105,15 +105,13 @@ class AuthController extends Controller
         }
                  
         //CHECK SETUP LIMIT
-        if(is_array($user)){
-            $userDeviceCount = UserDevice::where('user_id',$user->id)->where('status','New device')->get()->count();
-            if($userDeviceCount >=SETUP_LIMIT)
-            {
-                return redirect('/login')->withErrors([
-                        'email' => 'Limit exceeded, cannot do setup more then '.SETUP_LIMIT.' times',
-                    ]);  
-            }
-        }   
+        $userDeviceCount = UserDevice::where('user_id',$user->id)->where('status','New device')->get()->count();
+        if($userDeviceCount >=SETUP_LIMIT)
+        {
+            return redirect('/login')->withErrors([
+                    'email' => 'Limit exceeded, cannot do setup more then '.SETUP_LIMIT.' times',
+                ]);  
+        }
 
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
@@ -184,8 +182,7 @@ class AuthController extends Controller
                         $userDevice->save();
 
                         $projectId = intval($projectId);
-                        if(is_array($user))
-                            $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
+                        $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                     }
 
                     return redirect('/dashboard')->withCookie(cookie()->forever('referenceCode', $referenceCode));
