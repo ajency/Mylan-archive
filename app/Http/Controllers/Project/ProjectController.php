@@ -189,7 +189,8 @@ class ProjectController extends Controller
             $patientResponses = $patientsSummary['patientResponses'];
             $patientSortedData = $patientsSummary['patientSortedData'];
             $totalSubmissionCount = $responseCount['totalSubmissionCount'];
-   
+            $completedSubmissionCount = $responseCount['completedCount'];
+            
             $patientSortedData = array_slice($patientSortedData, 0, 5, true);
             $patientSortedDataCountViewall = count($patientsSummary['patientSortedData']);
 		
@@ -227,7 +228,8 @@ class ProjectController extends Controller
         }
          
         return view('project.dashbord')->with('active_menu', 'dashbord')
-                                        ->with('totalSubmissionCount', $totalSubmissionCount) 
+                                        ->with('totalSubmissionCount', $totalSubmissionCount)
+                                        ->with('completedSubmissionCount', $completedSubmissionCount)   
                                         ->with('responseCount', $responseCount) 
                                         ->with('activepatients', count($activepatients))
                                         ->with('allpatientscount', count($patientByDate))              
