@@ -113,7 +113,7 @@ class AuthController extends Controller
                         'email' => 'Limit exceeded, cannot do setup more then '.SETUP_LIMIT.' times',
                     ]);  
             }
-        }    
+        }   
 
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
@@ -184,7 +184,8 @@ class AuthController extends Controller
                         $userDevice->save();
 
                         $projectId = intval($projectId);
-                        $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
+                        if(is_array($user))
+                            $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                     }
 
                     return redirect('/dashboard')->withCookie(cookie()->forever('referenceCode', $referenceCode));
