@@ -131,7 +131,7 @@ class ProjectController extends Controller
 
           $responseStatus = ["completed","late","missed"];
 
-          Cache::flush();
+          // Cache::flush();
           // **********CACHE PROJECT RESPONSES**************
           $responseCacheKey = "projectResponses_".$projectId;
           $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
