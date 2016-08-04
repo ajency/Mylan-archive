@@ -161,7 +161,7 @@ class ProjectController extends Controller
                  //patient completed  and late submissions 
                 $lastFiveSubmissions = array_slice($responseCount['patientSubmissions'], 0, 5, true);
 				
-				$viewAllSummarySubmissionCount = count($responseCount['patientSubmissions']);
+				        $viewAllSummarySubmissionCount = count($responseCount['patientSubmissions']);
 				
 				
                 $submissionsSummary = $this->getSubmissionsSummary($lastFiveSubmissions); 
@@ -219,8 +219,12 @@ class ProjectController extends Controller
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
             } 
-            $projectAlertscounter = $this->getProjectAlerts($projectId,4,0,[],$cond);
+            $condcounter=['cleared'=>false];
+            $projectAlertscounter = $this->getProjectAlerts($projectId,4,0,[],$condcounter);
             $projectAlertCt = $projectAlertscounter['alertCount'];
+             $subCondcounter=['referenceType'=>"Response"]; 
+             $submissionNotificationsCounter = $this->getProjectAlerts($projectId,5,0,[],$subCondcounter); 
+              $submissionNotificationsCountViewall = $submissionNotificationsCounter['alertCount'];
 
         } 
         catch (\Exception $e) {
