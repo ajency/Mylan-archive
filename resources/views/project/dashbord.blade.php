@@ -515,8 +515,8 @@
                      <thead class="cf">
                         <tr>
 
-                          <th width="12%">Patient ID</th>
-                          <th width="22%" class="sorting">Total Submissions<br>
+                          <th width="10%">Patient ID</th>
+                          <th width="0%" class="sorting">Total Submissions<br>
                               <sm class="sortPatientSummary" sort="completed" sort-type="asc" >Completed <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="late" sort-type="asc" >Late <i class="fa fa-angle-down sortCol"></i></sm>
                               <sm class="sortPatientSummary" sort="missed" sort-type="asc" >Missed <i class="fa fa-angle-down sortCol"></i></sm>
