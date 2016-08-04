@@ -161,9 +161,9 @@
                            <th class="sorting">Graph <br> 
                                <sm>  <i class="fa fa-circle baseline-color"></i> Baseline   &nbsp; &nbsp;<i class="fa fa-circle theme-color"></i> Total Score</sm>
                                        </th>
-                       <!--     <th>
+                            <th>
                               Action
-                           </th> -->
+                           </th>
                         </tr>
                      </thead>
                      <tbody id="patientSummaryData" limit="">
@@ -249,7 +249,13 @@
                                  <div id="chart_mini_{{ $patientId }}" style="vertical-align: middle; display: inline-block; width: 130px; height: 35px;"></div>
                               </div>
                            </td>
-                   
+                            <td>
+                              @if($patientSummary['late'] != 0)
+                               <span class="patient-mail{{ $referenceCode }}">
+                                
+                              </span>  
+                              @endif  
+                            </td>
                         </tr>
                         @endforeach
                   @else 
