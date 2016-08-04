@@ -199,7 +199,7 @@ class ProjectController extends Controller
           // ************CACHE PATIENT ALERTS AND NOTIFICATION*******************
            $patientsAlertsCacheKey = "patientsAlerts_".$projectId;
              
-            if (Cache::has($patientsAlertsCacheKey)) {
+            /*if (Cache::has($patientsAlertsCacheKey)) {
 
                 $cachePatientsAlerts =  Cache::get($patientsAlertsCacheKey); 
                 $projectAlerts = $cachePatientsAlerts['ALERTS'];
@@ -207,7 +207,7 @@ class ProjectController extends Controller
 
             }
             else
-            {
+            {*/
                 $cond=['cleared'=>false];
                 $projectAlerts = $this->getProjectAlerts($projectId,4,0,[],$cond);
                 $projectAlertCt = $projectAlerts['alertCount'];
@@ -218,13 +218,8 @@ class ProjectController extends Controller
                 $cachePatientsAlerts['ALERTS'] = $projectAlerts;
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
-            } 
-            $condcounter=['cleared'=>false];
-            $projectAlertscounter = $this->getProjectAlerts($projectId,4,0,[],$condcounter);
-            $projectAlertCt = $projectAlertscounter['alertCount'];
-             $subCondcounter=['referenceType'=>"Response"]; 
-             $submissionNotificationsCounter = $this->getProjectAlerts($projectId,5,0,[],$subCondcounter); 
-              $submissionNotificationsCountViewall = $submissionNotificationsCounter['alertCount'];
+          /*  }*/ 
+            
 
         } 
         catch (\Exception $e) {
