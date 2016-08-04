@@ -219,6 +219,8 @@ class ProjectController extends Controller
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
             } 
+            $projectAlertscounter = $this->getProjectAlerts($projectId,4,0,[],$cond);
+            $projectAlertCt = $projectAlertscounter['alertCount'];
 
         } 
         catch (\Exception $e) {
