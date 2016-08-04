@@ -625,7 +625,7 @@
                            <td>
                               @if($patientSummary['late'] != 0)
                                <span class="patient-mail{{ $referenceCode }}">
-                                
+                                -
                               </span>  
                               @endif  
                             </td> 
