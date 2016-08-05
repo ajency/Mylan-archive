@@ -257,7 +257,7 @@
             <!-- <span class="text-success">A.</span>  -->
              <div class="text-left text-muted"  
              ng-if = 'view.data.questionType === "single-choice" || view.data.questionType === "multi-choice"' >
-              Last time you had answered option
+              Last time you answered option
                 <strong class="text-danger">&nbsp;{{ view.data.previousQuestionnaireAnswer.label }}</strong>
              </div>
           </p>
@@ -266,7 +266,7 @@
              <div 
               class="text-left text-muted" 
               ng-if = 'view.data.questionType === "descriptive"'>
-              Last time you had answered :<br>
+              Last time you answered :<br>
               <span class="text-left db">
               {{view.data.previousQuestionnaireAnswer.value}}
               &nbsp; 
@@ -276,7 +276,7 @@
           </p>
           <p class="text-muted text-left"
               ng-if = 'view.data.questionType === "input"'>
-              Last time you had answered :<br>
+              Last time you answered :<br>
              <span 
               class="text-left m-r-15 fosz14"
               ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" 
@@ -299,7 +299,7 @@
           <i class="glyphicon glyphicon-phone-alt"></i>
         </div>
         <br>
-        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital about your illness, you don't have to wait for your next appointment.<br>Just use the information below</p>
+        <p class="text-muted">If you feel unwell or would like to chat with someone at the hospital, you don't have to wait for your next appointment.<br>Just use the information below</p>
         <h6><b>CALL US ON</b></h6>
         <p><i class="fa fa-phone text-muted"></i>
           <a href="" class="text-success">{{view.phone}}</a>
