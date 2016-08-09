@@ -20,8 +20,8 @@
 @section('content')
 
 
-<div class="page-title">
-                     <h3><span class="semi-bold">Submission Notifications</span> Report</h3>    
+<div class="clearfix m-b-15">
+     <h3 class="pull-left"><span class="semi-bold">Submission Notifications</span> Report</h3>    
                      <!-- <p>(Click on any Patient ID to see Profile Details)</p> -->
                       <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print" style="color:#fff;"></i> Get PDF
      <span class="addLoader"></span></a>
