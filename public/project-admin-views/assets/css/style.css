@@ -10031,6 +10031,15 @@ table .sm-font {
   margin-left: 5px;
 }
 
+/*patient*/
+.table tr.printPdfMargin td.print-pdf-marginP{
+  padding-bottom:200px !important;
+}
+.table tr.printPdfMarginE td.print-pdf-marginPE{
+  padding-bottom:220px !important;
+}
+/*patient ends*/
+
 .table tr.printPdfMargin td.print-pdf-margin-set{
   padding-top:150px !important;
 }
@@ -10042,6 +10051,7 @@ table .sm-font {
 .table tr.printPdfMarginSecond td.print-pdf-margin-flags-extra{
   padding-top:70px !important;
 }
+
 
 
 
