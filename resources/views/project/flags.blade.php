@@ -28,6 +28,8 @@
 </div>
 <div class="col-md-6 m-t-10 text-right">
   <div class="row">
+  <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+  <span class="addLoader"></span></a>
    @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit'])) 
    <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
    @endif
@@ -46,7 +48,7 @@
   </div>
 </div>
 <div class="tabbable tabs-left">
-   <div class="grid simple">
+   <div class="grid simple" id="page1">
       <div>
          <!-- Nav tabs -->
          <div class="pull-right m-t-5">
@@ -108,12 +110,44 @@
                   </thead>
                   <tbody>
                   @if(!empty($submissionFlags['all']))
+                    <?php
+                      $firstBreak = 0;
+                      $firstBreakCapture = 0;
+                      $addClass = "";
+                    ?> 
                     @foreach($submissionFlags['all'] as $allSubmissionFlag)
                      <?php 
                       if($allSubmissionFlag['flag']=='no_colour' || $allSubmissionFlag['flag']=='')
                            continue;
                       ?>
-                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
+                      <?php
+                        $firstBreak = $firstBreak +1;
+                        if($firstBreakCapture == 0){
+                          if($firstBreak == 23){
+                             $addClass = "printPdfMargin"; 
+                             $firstBreakCapture = 1;
+                             $firstBreak = 0;
+                          }else{
+                              $addClass = "";
+                          }
+                        }else{
+                          if($firstBreak == 24){
+                            if($firstBreakCapture > 9 and $firstBreakCapture < 15){
+                               $addClass = "printPdfMarginLongData"; 
+                            }else if($firstBreakCapture < 9){
+                              $addClass = "printPdfMarginSecond"; 
+                            }else{
+                              $addClass = "printPdfMarginSecond";
+                            } 
+                             $firstBreak = 0;
+                             $firstBreakCapture = $firstBreakCapture + 1;
+                          }else{
+                              $addClass = "";
+                          }
+
+                        }
+                      ?>
+                     <tr class="odd gradeX <?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $allSubmissionFlag['responseId'] }}';">
                         <td class="ttuc patient-refer{{ $allSubmissionFlag['patient'] }}">{{ $allSubmissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -144,9 +178,40 @@
                   </thead>
                   <tbody>
                   @if(!empty($submissionFlags['flags']['red']))
+                  <?php
+                      $firstBreak = 0;
+                      $firstBreakCapture = 0;
+                      $addClass = "";
+                    ?> 
                      @foreach($submissionFlags['flags']['red'] as $submissionFlag)
-                      
-                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
+                      <?php
+                        $firstBreak = $firstBreak +1;
+                        if($firstBreakCapture == 0){
+                          if($firstBreak == 23){
+                             $addClass = "printPdfMargin"; 
+                             $firstBreakCapture = 1;
+                             $firstBreak = 0;
+                          }else{
+                              $addClass = "";
+                          }
+                        }else{
+                          if($firstBreak == 24){
+                            if($firstBreakCapture > 9 and $firstBreakCapture < 15){
+                               $addClass = "printPdfMarginLongData"; 
+                            }else if($firstBreakCapture < 9){
+                              $addClass = "printPdfMarginSecond"; 
+                            }else{
+                              $addClass = "printPdfMarginSecond";
+                            } 
+                             $firstBreak = 0;
+                             $firstBreakCapture = $firstBreakCapture + 1;
+                          }else{
+                              $addClass = "";
+                          }
+
+                        }
+                      ?>
+                     <tr class="odd gradeX <?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -178,9 +243,40 @@
                   </thead>
                   <tbody>
                   @if(!empty($submissionFlags['flags']['amber']))
+                    <?php
+                      $firstBreak = 0;
+                      $firstBreakCapture = 0;
+                      $addClass = "";
+                    ?> 
                      @foreach($submissionFlags['flags']['amber'] as $submissionFlag)
-                      
-                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
+                      <?php
+                          $firstBreak = $firstBreak +1;
+                          if($firstBreakCapture == 0){
+                            if($firstBreak == 23){
+                               $addClass = "printPdfMargin"; 
+                               $firstBreakCapture = 1;
+                               $firstBreak = 0;
+                            }else{
+                                $addClass = "";
+                            }
+                          }else{
+                            if($firstBreak == 24){
+                              if($firstBreakCapture > 9 and $firstBreakCapture < 15){
+                                 $addClass = "printPdfMarginLongData"; 
+                              }else if($firstBreakCapture < 9){
+                                $addClass = "printPdfMarginSecond"; 
+                              }else{
+                                $addClass = "printPdfMarginSecond";
+                              } 
+                               $firstBreak = 0;
+                               $firstBreakCapture = $firstBreakCapture + 1;
+                            }else{
+                                $addClass = "";
+                            }
+
+                          }
+                        ?>
+                     <tr class="odd gradeX <?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -211,9 +307,40 @@
                   </thead>
                   <tbody>
                   @if(!empty($submissionFlags['flags']['green']))
+                    <?php
+                        $firstBreak = 0;
+                        $firstBreakCapture = 0;
+                        $addClass = "";
+                      ?> 
                       @foreach($submissionFlags['flags']['green'] as $submissionFlag)
-                      
-                     <tr class="odd gradeX" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
+                      <?php
+                          $firstBreak = $firstBreak +1;
+                          if($firstBreakCapture == 0){
+                            if($firstBreak == 23){
+                               $addClass = "printPdfMargin"; 
+                               $firstBreakCapture = 1;
+                               $firstBreak = 0;
+                            }else{
+                                $addClass = "";
+                            }
+                          }else{
+                            if($firstBreak == 24){
+                              if($firstBreakCapture > 9 and $firstBreakCapture < 15){
+                                 $addClass = "printPdfMarginLongData"; 
+                              }else if($firstBreakCapture < 9){
+                                $addClass = "printPdfMarginSecond"; 
+                              }else{
+                                $addClass = "printPdfMarginSecond";
+                              } 
+                               $firstBreak = 0;
+                               $firstBreakCapture = $firstBreakCapture + 1;
+                            }else{
+                                $addClass = "";
+                            }
+
+                          }
+                        ?>
+                     <tr class="odd gradeX <?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $submissionFlag['responseId'] }}';">
                         <td class="ttuc patient-refer{{ $submissionFlag['patient'] }}">{{ $submissionFlag['patient'] }}</td>
                         <td width="110px">
                            <div class="p-l-10 p-r-20">
@@ -253,6 +380,61 @@
       });
 
    });
+
+   //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+     $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set-flags");
+     $(".table tr.printPdfMarginSecond td").addClass("print-pdf-margin-flags-extra");
+     $(".table tr.printPdfMarginLongData td").addClass("print-pdf-margin-large-flags");
+     
+     $(".addLoader").addClass("cf-loader");
+
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('p', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set-flags");
+              $(".table tr.printPdfMarginSecond td").removeClass("print-pdf-margin-flags-extra");
+              $(".table tr.printPdfMarginLongData td").removeClass("print-pdf-margin-large-flags");
+            }, 3000);   
+      });
+    }); 
  
   </script>
 @endsection

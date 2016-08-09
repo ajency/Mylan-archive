@@ -27,6 +27,8 @@
      </div>
      <div class="col-sm-8 pull-right">
        <div class="m-t-10">
+        <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+      <span class="addLoader"></span></a>
        <div class="patient-search pull-right">
         <form name="patientFilter" method="GET"> 
          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
@@ -46,7 +48,7 @@
      </div>
    </div>
 
-                  <div class="grid simple">
+                  <div class="grid simple" id="page1">
                         <div class="grid-body no-border table-data">
                                 
        
@@ -332,6 +334,60 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>,1);
       
     });
+
+    //pdf
+$(function() { 
+  $("#btnSave").click(function() { 
+  //convert all svg's to canvas
+ $(".addLoader").addClass("cf-loader");
+
+ var svgTags = document.querySelectorAll('#dashboardblock svg');
+  for (var i=0; i<svgTags.length; i++) {
+    var svgTag = svgTags[i];
+    var c = document.createElement('canvas');
+    c.width = svgTag.clientWidth;
+    c.height = svgTag.clientHeight;
+    svgTag.parentNode.insertBefore(c, svgTag);
+    svgTag.parentNode.removeChild(svgTag);
+    var div = document.createElement('div');
+    div.appendChild(svgTag);
+    canvg(c, div.innerHTML);
+  }
+  html2canvas($("#page1"), {
+      background: '#FFFFFF',
+          onrendered: function(canvas) {
+            var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+            var imgWidth = 210; 
+            var pageHeight = 295;  
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+
+            var doc = new jsPDF('p', 'mm');
+            var position = 0;
+
+            doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft >= 0) {
+              position = heightLeft - imgHeight;
+              doc.addPage();
+              doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+              heightLeft -= pageHeight;
+            }
+            doc.save( 'file.pdf');﻿
+         }
+      });
+        setInterval(function(){ 
+          $(".addLoader").removeClass("cf-loader"); 
+        }, 3000);   
+  });
+}); 
          
       </script>
+      <style>
+        #submissionschart canvas{
+          margin-left: 0px !important;
+          margin-top: 0px !important;
+        }
+      </style>
 @endsection
