@@ -207,7 +207,7 @@
                               $addClass = "";
                           }
                         }else{
-                          if($firstBreak == 13){
+                          if($firstBreak == 12){
                              $addClass = "printPdfMargin"; 
                              $firstBreak = 0;
                           }else{
