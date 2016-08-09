@@ -212,7 +212,7 @@
          <br>
          <HR> -->
          
-         <h4 class="bold">Question score per submission graph</h4>
+         <h4 class="bold addPadding">Question score per submission graph</h4>
                                <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
                             <br><br>
                      
@@ -340,7 +340,7 @@ $(function() {
   $("#btnSave").click(function() { 
   //convert all svg's to canvas
  $(".addLoader").addClass("cf-loader");
-
+$(".addPadding").css("padding-top","200px");
  var svgTags = document.querySelectorAll('#dashboardblock svg');
   for (var i=0; i<svgTags.length; i++) {
     var svgTag = svgTags[i];
@@ -379,6 +379,7 @@ $(function() {
       });
         setInterval(function(){ 
           $(".addLoader").removeClass("cf-loader"); 
+           $(".addPadding").css("padding-top","0px");
         }, 3000);   
   });
 }); 
