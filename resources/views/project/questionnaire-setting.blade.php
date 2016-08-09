@@ -47,23 +47,24 @@
                 </div>
               </div>
               <div class="col-sm-2">
-                <div class="form-group">
+                <!--div class="form-group">
                   <label for="editable" class="side-label bold">Editable</label>
                   <?php
-                      if($questionnaireStatus == "published"){
+                     /* if($questionnaireStatus == "published"){
                           $disabledStr = "disabled='disabled'";
                       }else{
                           $disabledStr = "";
-                      }
+                      }*/
                   ?>
                   <div class="radio p-t-10">
-                  <input id="YES" type="radio" name="editable" value="yes" checked="checked" <?php echo $disabledStr;?> />
+                  <input id="YES" type="radio" name="editable" value="yes" checked="checked" <?php /*echo $disabledStr;*/?> />
                   <label for="YES">Yes</label>
-                  <input id="NO" type="radio" name="editable" value="no" {{ ($settings['editable']==false)?'checked':'' }} <?php echo $disabledStr;?> />
+                  <input id="NO" type="radio" name="editable" value="no" {{ ($settings['editable']==false)?'checked':'' }} <?php /*echo $disabledStr;*/?> />
                   <label for="NO">No</label>
                   </div>
                   
-                </div>
+                </div-->
+                <input type="hidden" name="editable" value="yes" />
               </div>
 
               <div class="col-sm-4">
