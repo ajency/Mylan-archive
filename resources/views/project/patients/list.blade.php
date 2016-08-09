@@ -199,7 +199,7 @@
                         // pdf
                         $firstBreak = $firstBreak +1;
                         if($firstBreakCapture == 0){
-                          if($firstBreak == 9){
+                          if($firstBreak == 10){
                              $addClass = "printPdfMargin"; 
                              $firstBreakCapture = 1;
                              $firstBreak = 0;
