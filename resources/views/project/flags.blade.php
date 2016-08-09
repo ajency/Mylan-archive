@@ -31,7 +31,7 @@
   <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a>
    @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit'])) 
-   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
+   <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary pull-right m-r-15"><i class="fa fa-plus"></i> Add Patient</a>
    @endif
    <a href="#" class="btn btn-danger hidden"><i class="fa fa-download"></i> Download CSV</a>
 
@@ -388,7 +388,7 @@
      $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set-flags");
      $(".table tr.printPdfMarginSecond td").addClass("print-pdf-margin-flags-extra");
      $(".table tr.printPdfMarginLongData td").addClass("print-pdf-margin-large-flags");
-     
+     $("#page1").css("background","#FFFFFF");
      $(".addLoader").addClass("cf-loader");
 
      var svgTags = document.querySelectorAll('#dashboardblock svg');
