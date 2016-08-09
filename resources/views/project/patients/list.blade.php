@@ -199,7 +199,7 @@
                         // pdf
                         $firstBreak = $firstBreak +1;
                         if($firstBreakCapture == 0){
-                          if($firstBreak == 10){
+                          if($firstBreak == 2){
                              $addClass = "printPdfMargin"; 
                              $firstBreakCapture = 1;
                              $firstBreak = 0;
@@ -207,8 +207,8 @@
                               $addClass = "";
                           }
                         }else{
-                          if($firstBreak == 12){
-                             $addClass = "printPdfMargin"; 
+                          if($firstBreak == 8){
+                             $addClass = "printPdfMarginE"; 
                              $firstBreak = 0;
                           }else{
                               $addClass = "";
@@ -349,7 +349,8 @@ $(document).ready(function() {
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
-      $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set");
+      $(".table tr.printPdfMargin td").addClass("print-pdf-marginP");
+      $(".table tr.printPdfMarginE td").addClass("print-pdf-marginPE");
       $(".addLoader").addClass("cf-loader");
 
      var svgTags = document.querySelectorAll('#dashboardblock svg');
@@ -368,12 +369,12 @@ $(document).ready(function() {
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
+                var imgWidth = 290; 
                 var pageHeight = 295;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('p', 'mm');
+                var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
                 doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
@@ -390,7 +391,8 @@ $(document).ready(function() {
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
-              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set"); 
+                  $(".table tr.printPdfMargin td").removeClass("print-pdf-marginP");
+                  $(".table tr.printPdfMarginE td").removeClass("print-pdf-marginPE");
             }, 3000);   
       });
     }); 
