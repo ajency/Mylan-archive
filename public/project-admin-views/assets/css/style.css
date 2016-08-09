@@ -10030,3 +10030,17 @@ small.help-text {
 table .sm-font {
   margin-left: 5px;
 }
+
+.table tr.printPdfMargin td.print-pdf-margin-set{
+  padding-top:150px !important;
+}
+
+.table tr.printPdfMargin td.print-pdf-margin-set-flags,
+.table tr.printPdfMarginLongData td.print-pdf-margin-large-flags{
+  padding-top:90px !important;
+}
+.table tr.printPdfMarginSecond td.print-pdf-margin-flags-extra{
+  padding-top:70px !important;
+}
+
+
