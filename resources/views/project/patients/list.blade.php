@@ -377,13 +377,13 @@ $(document).ready(function() {
                 var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
-                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
 
                 while (heightLeft >= 0) {
                   position = heightLeft - imgHeight;
                   doc.addPage();
-                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
                 doc.save( 'file.pdf');﻿
