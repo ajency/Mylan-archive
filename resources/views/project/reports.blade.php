@@ -29,7 +29,7 @@
        <div class="m-t-10">
         <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
       <span class="addLoader"></span></a>
-       <div class="patient-search pull-right">
+       <div class="patient-search pull-right m-r-15">
         <form name="patientFilter" method="GET"> 
          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
              @foreach($allPatients as $patient)
