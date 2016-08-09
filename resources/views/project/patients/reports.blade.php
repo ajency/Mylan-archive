@@ -19,7 +19,9 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-<div class="pull-right">
+<a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+<span class="addLoader"></span></a>
+<div class="pull-right m-r-15">
   <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
   <form name="searchData" method="GET"> 
  
@@ -45,7 +47,7 @@
 <div class="page-title">
      <h3>Report of Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
   </div>
- <div class="tabbable tabs-left">
+ <div class="tabbable tabs-left" id="page1">
                       @include('project.patients.side-menu')
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
@@ -148,7 +150,7 @@ Question score chart</h4>
                               @endif
                                              <hr>
                              
-                              <h4 class="bold">Question score per submission graph</h4>
+                              <h4 class="bold print-pdf-padding">Question score per submission graph</h4>
                                  <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
                               <br><br>
                        <label class="pull-right">
@@ -242,6 +244,58 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       });
 
   });
+
+ //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+    
+     $(".addLoader").addClass("cf-loader");
+     $("#page1").css("background","#FFFFFF");
+     $(".print-pdf-padding").css("padding-top","320px");
+
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('p', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".print-pdf-padding").css("padding-top","0px");
+            }, 3000);   
+      });
+    }); 
 </script>
  
 @endsection

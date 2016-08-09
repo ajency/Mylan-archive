@@ -17,7 +17,8 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-
+<a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+<span class="addLoader"></span></a>
 <div class="m-r-15 pull-right patient-search">
 <select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
       <option class="ttuc" value="">-select patient-</option>
@@ -29,7 +30,7 @@
 <div class="page-title">
      <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
   </div>
- <div class="tabbable tabs-left">
+ <div class="tabbable tabs-left" id="page1">
                       @include('project.patients.side-menu')
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
@@ -73,10 +74,41 @@
                           </thead>
                           <tbody id="submissionData" limit="5" object-type="submission" object-id="0">
                            
-                          @if(!empty($submissionNotifications['alertMsg']))   
+                          @if(!empty($submissionNotifications['alertMsg']))
+                             <?php
+                                $firstBreak = 0;
+                                $firstBreakCapture = 0;
+                                $addClass = "";
+                              ?>    
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
-            
-                                 <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
+                                  <?php
+                                      $firstBreak = $firstBreak +1;
+                                      if($firstBreakCapture == 0){
+                                        if($firstBreak == 16){
+                                           $addClass = "printPdfMargin"; 
+                                           $firstBreakCapture = 1;
+                                           $firstBreak = 0;
+                                        }else{
+                                            $addClass = "";
+                                        }
+                                      }else{
+                                        if($firstBreak == 18){
+                                          if($firstBreakCapture > 9 and $firstBreakCapture < 15){
+                                             $addClass = "printPdfMarginLongData"; 
+                                          }else if($firstBreakCapture < 9){
+                                            $addClass = "printPdfMarginSecond"; 
+                                          }else{
+                                            $addClass = "printPdfMarginSecond";
+                                          } 
+                                           $firstBreak = 0;
+                                           $firstBreakCapture = $firstBreakCapture + 1;
+                                        }else{
+                                            $addClass = "";
+                                        }
+
+                                      }
+                                    ?>
+                                 <tr class="<?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                 
                                     <td class="text-center">
                                       <h4 class="semi-bold m-0 flagcount">{{ $submissionNotification['occurrenceDate'] }}</h4>
@@ -125,6 +157,64 @@
       });
 
    });
+  
+
+   //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+     $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set-flags");
+     $(".table tr.printPdfMarginSecond td").addClass("print-pdf-margin-flags-extra");
+     $(".table tr.printPdfMarginLongData td").addClass("print-pdf-margin-large-flags");
+     
+     $(".addLoader").addClass("cf-loader");
+     $("#page1").css("background","#FFFFFF");
+
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('p', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set-flags");
+              $(".table tr.printPdfMarginSecond td").removeClass("print-pdf-margin-flags-extra");
+              $(".table tr.printPdfMarginLongData td").removeClass("print-pdf-margin-large-flags");
+            }, 3000);   
+      });
+    }); 
+ 
   </script>
  
 @endsection

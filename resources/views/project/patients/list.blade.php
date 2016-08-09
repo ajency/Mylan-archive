@@ -1,3 +1,4 @@
+
 @extends('layouts.single-project')
 @section('breadcrumb')
 <!-- BEGIN BREADCRUMBS -->
@@ -26,8 +27,10 @@
      </div>
      <div class="col-sm-8 pull-right">
        <div class="m-t-10">
-       
-       <div class="pull-right">
+        <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+        <span class="addLoader"></span></a>
+
+       <div class="pull-right m-r-15">
        @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
        <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
        @endif
@@ -60,7 +63,7 @@
      </div>
    </div>
 </div>
-<div class="grid simple">
+<div class="grid simple" id="page1">
    <div class="grid-body no-border table-data">
       <br>
       <div class="row">
@@ -171,7 +174,12 @@
                       <div class="loader-outer hidden">
                             <span class="cf-loader"></span>
                          </div>
-                  @if(!empty($patientSortedData)) 
+                  @if(!empty($patientSortedData))
+                     <?php
+                        $firstBreak = 0;
+                        $firstBreakCapture = 0;
+                        $addClass = "";
+                      ?>    
                      @foreach($patientSortedData as $referenceCode => $data)
                      
                        <?php
@@ -188,8 +196,27 @@
                         }
                         
                         $patientSummary = $patientsSummary[$referenceCode];
+                        // pdf
+                        $firstBreak = $firstBreak +1;
+                        if($firstBreakCapture == 0){
+                          if($firstBreak == 15){
+                             $addClass = "printPdfMargin"; 
+                             $firstBreakCapture = 1;
+                             $firstBreak = 0;
+                          }else{
+                              $addClass = "";
+                          }
+                        }else{
+                          if($firstBreak == 22){
+                             $addClass = "printPdfMargin"; 
+                             $firstBreak = 0;
+                          }else{
+                              $addClass = "";
+                          }
+
+                        }
                       ?>
-                        <tr>
+                        <tr class="<?php echo $addClass; ?>">
                            <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="ttuc patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
                            <td  onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">
                              <div class="lst-sub submission-count">
@@ -317,6 +344,57 @@ $(document).ready(function() {
       });
   
    });
+
+//pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set");
+      $(".addLoader").addClass("cf-loader");
+
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('p', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set"); 
+            }, 3000);   
+      });
+    }); 
+   
    </script>
          <style type="text/css">
          .grid-title h4 {

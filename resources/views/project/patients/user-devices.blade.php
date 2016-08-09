@@ -17,7 +17,8 @@
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
-
+<a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
+<span class="addLoader"></span></a>
 <div class="m-r-15 pull-right patient-search">
 <select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
       <option class="ttuc" value="">-select patient-</option>
@@ -29,7 +30,7 @@
 <div class="page-title">
      <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
   </div>
- <div class="tabbable tabs-left">
+ <div class="tabbable tabs-left" id="page1">
                       @include('project.patients.side-menu')
                      <div class="tab-content">
                         <div class="tab-pane table-data" id="Patients">
@@ -69,9 +70,34 @@
                           </thead>
                           <tbody id="all-device-data">
                            
-                          @if(!empty($userDevices))   
+                          @if(!empty($userDevices))  
+                              <?php
+                                $firstBreak = 0;
+                                $firstBreakCapture = 0;
+                                $addClass = "";
+                              ?>   
                               @foreach($userDevices as $userDevice)
-                                 <tr>                                
+                              <?php
+                                  $firstBreak = $firstBreak +1;
+                                  if($firstBreakCapture == 0){
+                                    if($firstBreak == 15){
+                                       $addClass = "printPdfMargin"; 
+                                       $firstBreakCapture = 1;
+                                       $firstBreak = 0;
+                                    }else{
+                                        $addClass = "";
+                                    }
+                                  }else{
+                                    if($firstBreak == 22){
+                                       $addClass = "printPdfMargin"; 
+                                       $firstBreak = 0;
+                                    }else{
+                                        $addClass = "";
+                                    }
+
+                                  }
+                                ?>
+                                 <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
                                    <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
                                    <td class="text-center">{{ $userDevice['device_type'] }}</td>   
@@ -91,13 +117,36 @@
                           @if(!empty($userDevices)) 
                             <?php
                               $archivedCounter = 0;
+                               $firstBreak = 0;
+                              $firstBreakCapture = 0;
+                              $addClass = "";
                             ?>  
                               @foreach($userDevices as $userDevice)
                                 @if( $userDevice['status'] == "Archived" )
                                   <?php
                                     $archivedCounter = 1;
                                   ?>
-                                 <tr>                                
+                                   <?php
+                                      $firstBreak = $firstBreak +1;
+                                      if($firstBreakCapture == 0){
+                                        if($firstBreak == 15){
+                                           $addClass = "printPdfMargin"; 
+                                           $firstBreakCapture = 1;
+                                           $firstBreak = 0;
+                                        }else{
+                                            $addClass = "";
+                                        }
+                                      }else{
+                                        if($firstBreak == 22){
+                                           $addClass = "printPdfMargin"; 
+                                           $firstBreak = 0;
+                                        }else{
+                                            $addClass = "";
+                                        }
+
+                                      }
+                                    ?>
+                                 <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
                                    <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
                                    <td class="text-center">{{ $userDevice['device_type'] }}</td>   
@@ -121,13 +170,36 @@
                           @if(!empty($userDevices))  
                             <?php
                               $newdeviceCounter = 0;
+                               $firstBreak = 0;
+                              $firstBreakCapture = 0;
+                              $addClass = "";
                             ?>  
                               @foreach($userDevices as $userDevice)
                                  @if( $userDevice['status'] == "New device" )
                                     <?php
                                       $newdeviceCounter = 1;
                                     ?> 
-                                 <tr>                                
+                                    <?php
+                                      $firstBreak = $firstBreak +1;
+                                      if($firstBreakCapture == 0){
+                                        if($firstBreak == 15){
+                                           $addClass = "printPdfMargin"; 
+                                           $firstBreakCapture = 1;
+                                           $firstBreak = 0;
+                                        }else{
+                                            $addClass = "";
+                                        }
+                                      }else{
+                                        if($firstBreak == 22){
+                                           $addClass = "printPdfMargin"; 
+                                           $firstBreak = 0;
+                                        }else{
+                                            $addClass = "";
+                                        }
+
+                                      }
+                                    ?>
+                                 <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
                                    <td class="text-center">{{ $userDevice['device_identifier'] }}</td> 
                                    <td class="text-center">{{ $userDevice['device_type'] }}</td>   
@@ -190,6 +262,56 @@
        });
 
    });
+
+   //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+     $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set");
+     $(".addLoader").addClass("cf-loader");
+     $("#page1").css("background","#FFFFFF");
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('p', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set");
+            }, 3000);   
+      });
+    }); 
   </script>
  
 @endsection
