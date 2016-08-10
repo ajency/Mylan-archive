@@ -110,7 +110,7 @@
          </div>
          <hr>
          <br>
-         <h4>Patient health chart</h4>
+         <h4 class="p-h-c">Patient health chart</h4>
            <p>Patient health chart shows the comparison between
               1.Patients current score to baseline score- indicated by highlighted cell
               2.Patients current score to previous score indicated by flag
@@ -174,7 +174,7 @@
          <div class="row">
             <div class="col-sm-12">
                <div class="pull-left">
-                  <h4 class="bold">Questionnaire Graph</h4>
+                  <h4 class="bold q-g">Questionnaire Graph</h4>
                </div>
                <select class="pull-right" name="generateQuestionChart">
                     @foreach($questionLabels as $questionId =>$question)
@@ -212,7 +212,7 @@
          <br>
          <HR> -->
          
-         <h4 class="bold addPadding">Question score per submission graph</h4>
+         <h4 class="bold q-s-p-s">Question score per submission graph</h4>
                                <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
                             <br><br>
                      
@@ -335,54 +335,59 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       
     });
 
-    //pdf
-$(function() { 
-  $("#btnSave").click(function() { 
-  //convert all svg's to canvas
- $(".addLoader").addClass("cf-loader");
-$(".addPadding").css("padding-top","200px");
- var svgTags = document.querySelectorAll('#dashboardblock svg');
-  for (var i=0; i<svgTags.length; i++) {
-    var svgTag = svgTags[i];
-    var c = document.createElement('canvas');
-    c.width = svgTag.clientWidth;
-    c.height = svgTag.clientHeight;
-    svgTag.parentNode.insertBefore(c, svgTag);
-    svgTag.parentNode.removeChild(svgTag);
-    var div = document.createElement('div');
-    div.appendChild(svgTag);
-    canvg(c, div.innerHTML);
-  }
-  html2canvas($("#page1"), {
-      background: '#FFFFFF',
-          onrendered: function(canvas) {
-            var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-            var imgWidth = 210; 
-            var pageHeight = 295;  
-            var imgHeight = canvas.height * imgWidth / canvas.width;
-            var heightLeft = imgHeight;
+//pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      $(".addLoader").addClass("cf-loader");
+      $(".p-h-c").css("padding-top","420px");
+      $(".q-g").css("padding-top","370px");
+      $(".q-s-p-s").css("padding-top","350px");
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
 
-            var doc = new jsPDF('p', 'mm');
-            var position = 0;
+                var doc = new jsPDF('l', 'mm');
+                var position = 0;
 
-            doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
 
-            while (heightLeft >= 0) {
-              position = heightLeft - imgHeight;
-              doc.addPage();
-              doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-              heightLeft -= pageHeight;
-            }
-            doc.save( 'file.pdf');﻿
-         }
+                while (heightLeft >= 0) {
+                  console.log(position)
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".p-h-c").css("padding-top","0px");
+              $(".q-g").css("padding-top","0px");
+              $(".q-s-p-s").css("padding-top","0px");
+            }, 3000);   
       });
-        setInterval(function(){ 
-          $(".addLoader").removeClass("cf-loader"); 
-           $(".addPadding").css("padding-top","0px");
-        }, 3000);   
-  });
-}); 
+    });  
          
       </script>
       <style>
