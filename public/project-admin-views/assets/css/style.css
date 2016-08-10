@@ -10033,10 +10033,10 @@ table .sm-font {
 
 /*patient*/
 .table tr.printPdfMargin td.print-pdf-marginP{
-  padding-bottom:200px !important;
+  padding-bottom: 162px !important;
 }
 .table tr.printPdfMarginE td.print-pdf-marginPE{
-  padding-bottom:220px !important;
+  padding-bottom: 182px !important;
 }
 /*patient ends*/
 
