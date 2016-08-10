@@ -248,7 +248,7 @@
                   @endif
               </div>
            </div>
-           <h4>Patient health chart</h4>
+           <h4 class="p-h-c">Patient health chart</h4>
            <p>Patient health chart shows the comparison between
               1.Patients current score to baseline score- indicated by highlighted cell
               2.Patients current score to previous score indicated by flag
@@ -315,6 +315,7 @@
                
               <hr>
               <br>
+              <div class="q-g"></div>
               <div class="pull-left">
                  <h4 class="bold">Questionnaire Graph</h4>
               </div>
@@ -333,7 +334,7 @@
                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
               @endif
               <br><br> 
-              <div>
+              <div class="s-s">
                  <div class="grid simple grid-table">
                     <div class="grid-title no-border">
                        <h4>
@@ -473,7 +474,7 @@
                  </div>
               </div>
 
-               <div class="grid simple grid-table">
+               <div class="grid simple grid-table s-n-r">
                            <div class="grid-title no-border">
                          <h4>
                           Submission Notification  <span class="semi-bold">Report</span> 
@@ -541,7 +542,7 @@
               </div>
               </div> -->
            <!-- submission -->
-           <div class="grid simple grid-table">
+           <div class="grid simple grid-table flg">
               <div class="grid-title no-border">
                  <h4><span class="semi-bold">FLAGS</span></h4>
               </div>
@@ -695,55 +696,67 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
  
 });
  
-//pdf
- $(function() { 
-    $("#btnSave").click(function() { 
-    //convert all svg's to canvas
-   $(".addLoader").addClass("cf-loader");
-   $("#page1").css("background","#ffffff");
+ //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      $(".addLoader").addClass("cf-loader");
+      $("#page1").css("background","#FFFFFF");
+      $(".p-h-c").css("padding-top","300px"); 
+      $(".q-g").css("padding-top","250px"); 
+      $(".s-s").css("padding-top","400px"); 
+      $(".s-n-r").css("margin-top","400px"); 
+      $(".flg").css("margin-top","540px"); 
+       
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
 
-   var svgTags = document.querySelectorAll('#dashboardblock svg');
-    for (var i=0; i<svgTags.length; i++) {
-      var svgTag = svgTags[i];
-      var c = document.createElement('canvas');
-      c.width = svgTag.clientWidth;
-      c.height = svgTag.clientHeight;
-      svgTag.parentNode.insertBefore(c, svgTag);
-      svgTag.parentNode.removeChild(svgTag);
-      var div = document.createElement('div');
-      div.appendChild(svgTag);
-      canvg(c, div.innerHTML);
-    }
-    html2canvas($("#page1"), {
-        background: '#FFFFFF',
-            onrendered: function(canvas) {
-             var imgData = canvas.toDataURL("image/jpeg", 1.0); 
-              //var imgData = canvas.toDataURL('image/png');
-              var imgWidth = 210; 
-              var pageHeight = 295;  
-              var imgHeight = canvas.height * imgWidth / canvas.width;
-              var heightLeft = imgHeight;
+                var doc = new jsPDF('l', 'mm');
+                var position = 0;
 
-              var doc = new jsPDF('p', 'mm');
-              var position = 0;
-
-              doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-              heightLeft -= pageHeight;
-
-              while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                doc.addPage();
-                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
-              }
-              doc.save( 'file.pdf');﻿
-           }
-        });
-          setInterval(function(){ 
-            $(".addLoader").removeClass("cf-loader"); 
-          }, 3000);   
-    });
-  }); 
+
+                while (heightLeft >= 0) {
+                  console.log(position)
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $("#page1").css("background","");
+              $(".p-h-c").css("padding-top","0px"); 
+              $(".q-g").css("padding-top","0px"); 
+              $(".s-s").css("padding-top","0px"); 
+              $(".s-n-r").css("margin-top","0px"); 
+              $(".flg").css("margin-top","0px"); 
+            }, 3000);   
+      });
+    });  
+    
 
     
 </script>
