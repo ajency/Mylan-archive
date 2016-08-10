@@ -207,7 +207,7 @@
                               $addClass = "";
                           }
                         }else{
-                          if($firstBreak == 8){
+                          if($firstBreak == 6){
                              $addClass = "printPdfMarginE"; 
                              $firstBreak = 0;
                           }else{
@@ -370,7 +370,7 @@ $(document).ready(function() {
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
                 var imgWidth = 290; 
-                var pageHeight = 295;  
+                var pageHeight = 225;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
@@ -381,6 +381,7 @@ $(document).ready(function() {
                 heightLeft -= pageHeight;
 
                 while (heightLeft >= 0) {
+                  console.log(position)
                   position = heightLeft - imgHeight;
                   doc.addPage();
                   doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
