@@ -180,7 +180,7 @@
                                 <?php
                                   $firstBreak = $firstBreak +1;
                                   if($firstBreakCapture == 0){
-                                    if($firstBreak == 15){
+                                    if($firstBreak == 3){
                                        $addClass = "printPdfMargin"; 
                                        $firstBreakCapture = 1;
                                        $firstBreak = 0;
@@ -188,7 +188,7 @@
                                         $addClass = "";
                                     }
                                   }else{
-                                    if($firstBreak == 22){
+                                    if($firstBreak == 12){
                                        $addClass = "printPdfMargin"; 
                                        $firstBreak = 0;
                                     }else{
@@ -316,12 +316,13 @@ $(document).ready(function() {
    });
 
 
-//pdf
+ //pdf
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
-     $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set");
-     $(".addLoader").addClass("cf-loader");
+      $(".table tr.printPdfMargin td").addClass("print-pdf-marginS");
+      $(".table tr.printPdfMarginE td").addClass("print-pdf-marginSE");
+      $(".addLoader").addClass("cf-loader");
 
      var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
@@ -339,21 +340,22 @@ $(document).ready(function() {
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
-                var pageHeight = 295;  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('p', 'mm');
+                var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
-                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
 
                 while (heightLeft >= 0) {
+                  console.log(position)
                   position = heightLeft - imgHeight;
                   doc.addPage();
-                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
                 doc.save( 'file.pdf');﻿
@@ -361,10 +363,11 @@ $(document).ready(function() {
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
-              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set");
+                  $(".table tr.printPdfMargin td").removeClass("print-pdf-marginS");
+                  $(".table tr.printPdfMarginE td").removeClass("print-pdf-marginSE");
             }, 3000);   
       });
-    }); 
+    });
 </script>   
 <style>
 #submissionschart canvas{
