@@ -10058,6 +10058,15 @@ table .sm-font {
 }
 /*submission notification ends*/
 
+/*Flags*/
+.table tr.printPdfMargin td.print-pdf-marginFl{
+  padding-bottom: 95px !important;
+}
+.table tr.printPdfMarginE td.print-pdf-marginFlE{
+  padding-bottom: 122px !important;
+}
+/*Flags end*/
+
 .table tr.printPdfMargin td.print-pdf-margin-set{
   padding-top:150px !important;
 }
