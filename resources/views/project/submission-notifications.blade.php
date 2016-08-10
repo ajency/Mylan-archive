@@ -94,24 +94,25 @@
                               ?>    
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
                                   <?php
-                                  $firstBreak = $firstBreak + 1;
-                                  if($firstBreakCapture == 0){
-                                    if($firstBreak == 16){
-                                       $addClass = "printPdfMargin"; 
-                                       $firstBreakCapture = 1;
-                                       $firstBreak = 0;
+                                  // pdf
+                                    $firstBreak = $firstBreak + 1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 6){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
                                     }else{
-                                        $addClass = "";
-                                    }
-                                  }else{
-                                    if($firstBreak == 18){
-                                       $addClass = "printPdfMargin"; 
-                                       $firstBreak = 0;
-                                    }else{
-                                        $addClass = "";
-                                    }
+                                      if($firstBreak == 9){
+                                         $addClass = "printPdfMarginE"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
 
-                                  }
+                                    }
                                 ?>
                                  <tr class="<?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                     <td class="text-center ttuc patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
@@ -155,54 +156,57 @@ $(document).ready(function() {
    });
 
 //pdf
-$(function() { 
-  $("#btnSave").click(function() { 
-  //convert all svg's to canvas
- $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set");
- $(".addLoader").addClass("cf-loader");
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      $(".table tr.printPdfMargin td").addClass("print-pdf-marginSN");
+      $(".table tr.printPdfMarginE td").addClass("print-pdf-marginSNE");
+      $(".addLoader").addClass("cf-loader");
 
- var svgTags = document.querySelectorAll('#dashboardblock svg');
-  for (var i=0; i<svgTags.length; i++) {
-    var svgTag = svgTags[i];
-    var c = document.createElement('canvas');
-    c.width = svgTag.clientWidth;
-    c.height = svgTag.clientHeight;
-    svgTag.parentNode.insertBefore(c, svgTag);
-    svgTag.parentNode.removeChild(svgTag);
-    var div = document.createElement('div');
-    div.appendChild(svgTag);
-    canvg(c, div.innerHTML);
-  }
-  html2canvas($("#page1"), {
-      background: '#FFFFFF',
-          onrendered: function(canvas) {
-            var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-            var imgWidth = 210; 
-            var pageHeight = 295;  
-            var imgHeight = canvas.height * imgWidth / canvas.width;
-            var heightLeft = imgHeight;
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
 
-            var doc = new jsPDF('p', 'mm');
-            var position = 0;
+                var doc = new jsPDF('l', 'mm');
+                var position = 0;
 
-            doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
 
-            while (heightLeft >= 0) {
-              position = heightLeft - imgHeight;
-              doc.addPage();
-              doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-              heightLeft -= pageHeight;
-            }
-            doc.save( 'file.pdf');﻿
-         }
+                while (heightLeft >= 0) {
+                  console.log(position)
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+                  $(".table tr.printPdfMargin td").removeClass("print-pdf-marginSN");
+                  $(".table tr.printPdfMarginE td").removeClass("print-pdf-marginSNE");
+            }, 3000);   
       });
-        setInterval(function(){ 
-          $(".addLoader").removeClass("cf-loader"); 
-          $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set");
-        }, 3000);   
-  });
-}); 
+    });   
 </script>   
 
 
