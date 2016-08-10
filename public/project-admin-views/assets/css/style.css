@@ -10040,6 +10040,15 @@ table .sm-font {
 }
 /*patient ends*/
 
+/*submission*/
+.table tr.printPdfMargin td.print-pdf-marginS{
+  padding-bottom: 105px !important;
+}
+.table tr.printPdfMarginE td.print-pdf-marginSE{
+  padding-bottom: 96px !important;
+}
+/*submission ends*/
+
 .table tr.printPdfMargin td.print-pdf-margin-set{
   padding-top:150px !important;
 }
