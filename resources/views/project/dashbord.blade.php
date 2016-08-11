@@ -813,7 +813,7 @@
                     pdf.addPage();
                     pdf.addImage(imgData5, 'JPEG',5, 5, 0, 0);
                     var download = document.getElementById('download');
-                    pdf.save("download.pdf");
+                    pdf.save("Dashboard.pdf");
 
 
                     drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,0);

@@ -394,13 +394,12 @@
                 heightLeft -= pageHeight;
 
                 while (heightLeft >= 0) {
-                  console.log(position)
                   position = heightLeft - imgHeight;
                   doc.addPage();
                   doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
-                doc.save( 'file.pdf');﻿
+                doc.save( 'Flags.pdf');﻿
              }
           });
             setInterval(function(){ 
