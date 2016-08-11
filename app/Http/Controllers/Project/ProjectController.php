@@ -185,6 +185,7 @@ class ProjectController extends Controller
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
             } 
+            $allDataPatientSummary = $patientsSummary;
 
             $patientResponses = $patientsSummary['patientResponses'];
             $patientSortedData = $patientsSummary['patientSortedData'];
@@ -232,6 +233,7 @@ class ProjectController extends Controller
                                         ->with('totalSubmissionCount', $totalSubmissionCount)
                                         ->with('completedSubmissionCount', $completedSubmissionCount)   
                                         ->with('responseCount', $responseCount) 
+                                        ->with('counterDataVal', $allDataPatientSummary)
                                         ->with('activepatients', count($activepatients))
                                         ->with('allpatientscount', count($patientByDate))              
                                         ->with('submissionsSummary', $submissionsSummary)
