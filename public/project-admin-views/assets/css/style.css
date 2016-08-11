@@ -10067,6 +10067,15 @@ table .sm-font {
 }
 /*Flags end*/
 
+/*p s n*/
+.table tr.printPdfMargin td.print-pdf-marginPSN{
+  padding-bottom: 140px !important;
+}
+.table tr.printPdfMarginE td.print-pdf-marginPSNE{
+  padding-bottom: 182px !important;
+}
+/*p s n ends*/
+
 /*patients submission*/
 .table tr.printPdfMargin td.print-pdf-marginPat-S{
   padding-bottom: 115px !important;
