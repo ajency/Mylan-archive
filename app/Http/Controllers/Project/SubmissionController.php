@@ -184,6 +184,18 @@ class SubmissionController extends Controller
 
             $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
 
+             /* data val*/
+            
+             $patients = $allPatients;
+              
+              $patientReferenceCode = [];
+              foreach ($patients as  $patient) {
+                  $patientReferenceCode[] = $patient['reference_code'];
+              }
+            $patientController = new PatientController();
+            $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
+            /*data - val*/
+
         } catch (\Exception $e) {
 
             exceptionError($e);           
@@ -191,6 +203,7 @@ class SubmissionController extends Controller
 
         return view('project.submissions-list')->with('active_menu', 'submission')
                                                  ->with('hospital', $hospital)
+                                                 ->with('patientsSummary', $patientsSummary)
                                                  ->with('project', $project)
                                                  ->with('logoUrl', $logoUrl)
                                                  ->with('endDate', $endDate)
