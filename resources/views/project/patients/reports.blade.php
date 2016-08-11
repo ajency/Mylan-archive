@@ -289,7 +289,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                   doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
-                doc.save( 'file.pdf');﻿
+                doc.save( 'Patient Reports.pdf');﻿
              }
           });
             setInterval(function(){ 

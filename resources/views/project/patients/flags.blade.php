@@ -403,7 +403,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
                   doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
-                doc.save( 'file.pdf');﻿
+                doc.save( 'Patient Flags.pdf');﻿
              }
           });
             setInterval(function(){ 
