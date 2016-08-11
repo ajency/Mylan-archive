@@ -705,7 +705,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       $(".p-h-c").css("padding-top","300px"); 
       $(".q-g").css("padding-top","250px"); 
       $(".s-s").css("padding-top","400px"); 
-      $(".s-n-r").css("margin-top","400px"); 
+      $(".s-n-r").css("margin-top","450px"); 
       $(".flg").css("margin-top","540px"); 
        
      var svgTags = document.querySelectorAll('#dashboardblock svg');

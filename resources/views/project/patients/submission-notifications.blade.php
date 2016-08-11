@@ -82,31 +82,25 @@
                               ?>    
                               @foreach($submissionNotifications['alertMsg'] as $submissionNotification)
                                   <?php
-                                      $firstBreak = $firstBreak +1;
-                                      if($firstBreakCapture == 0){
-                                        if($firstBreak == 16){
-                                           $addClass = "printPdfMargin"; 
-                                           $firstBreakCapture = 1;
-                                           $firstBreak = 0;
-                                        }else{
-                                            $addClass = "";
-                                        }
+                                      // pdf
+                                    $firstBreak = $firstBreak + 1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 8){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
                                       }else{
-                                        if($firstBreak == 18){
-                                          if($firstBreakCapture > 9 and $firstBreakCapture < 15){
-                                             $addClass = "printPdfMarginLongData"; 
-                                          }else if($firstBreakCapture < 9){
-                                            $addClass = "printPdfMarginSecond"; 
-                                          }else{
-                                            $addClass = "printPdfMarginSecond";
-                                          } 
-                                           $firstBreak = 0;
-                                           $firstBreakCapture = $firstBreakCapture + 1;
-                                        }else{
-                                            $addClass = "";
-                                        }
-
+                                          $addClass = "";
                                       }
+                                    }else{
+                                      if($firstBreak == 9){
+                                         $addClass = "printPdfMarginE"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
+
+                                    }
                                     ?>
                                  <tr class="<?php echo $addClass; ?>" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
                                 
@@ -159,16 +153,15 @@
    });
   
 
+   
    //pdf
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
-     $(".table tr.printPdfMargin td").addClass("print-pdf-margin-set-flags");
-     $(".table tr.printPdfMarginSecond td").addClass("print-pdf-margin-flags-extra");
-     $(".table tr.printPdfMarginLongData td").addClass("print-pdf-margin-large-flags");
-     
-     $(".addLoader").addClass("cf-loader");
-     $("#page1").css("background","#FFFFFF");
+      $(".table tr.printPdfMargin td").addClass("print-pdf-marginPSN");
+      $(".table tr.printPdfMarginE td").addClass("print-pdf-marginPSNE");
+      $(".addLoader").addClass("cf-loader");
+      $("#page1").css("background","#FFFFFF");
 
      var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
@@ -186,21 +179,22 @@
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
-                var pageHeight = 295;  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('p', 'mm');
+                var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
-                doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
 
                 while (heightLeft >= 0) {
+                  console.log(position)
                   position = heightLeft - imgHeight;
                   doc.addPage();
-                  doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
                 doc.save( 'file.pdf');﻿
@@ -208,12 +202,12 @@
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
-              $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set-flags");
-              $(".table tr.printPdfMarginSecond td").removeClass("print-pdf-margin-flags-extra");
-              $(".table tr.printPdfMarginLongData td").removeClass("print-pdf-margin-large-flags");
+                  $(".table tr.printPdfMargin td").removeClass("print-pdf-marginPSN");
+                  $(".table tr.printPdfMarginE td").removeClass("print-pdf-marginPSNE");
+                  $("#page1").css("background","");
             }, 3000);   
       });
-    }); 
+    });  
  
   </script>
  
