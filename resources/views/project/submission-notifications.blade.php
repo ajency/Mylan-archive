@@ -196,7 +196,7 @@ $(document).ready(function() {
                   doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
-                doc.save( 'Submission_Notifications.pdf');﻿
+                doc.save( 'Notifications Report.pdf');﻿
              }
           });
             setInterval(function(){ 
