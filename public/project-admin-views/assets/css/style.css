@@ -10076,14 +10076,6 @@ table .sm-font {
 }
 /*patients submission ends*/
 
-/*patient single submissions*/
-.user-description-box div.printPdfMarginE.print-pdf-marginSV{
-  padding-bottom: 100px !important;
-}
-.user-description-box div.printPdfMarginE.print-pdf-marginSVE{
-  padding-bottom: 70px !important;
-}
-/*patient single submission ends*/
 
 .table tr.printPdfMargin td.print-pdf-margin-set{
   padding-top:150px !important;
