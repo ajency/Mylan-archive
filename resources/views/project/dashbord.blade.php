@@ -149,19 +149,19 @@
                                              <div class="col-sm-4 text-center">
                                               <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=completed">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['completed'] }}%</h2>
-                                                <p> # Completed</p>
+                                                <p> {{ $responseCount['completedCount'] }} <br/>Submissions Completed</p>
                                                 </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
                                               <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=late">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['late'] }}%</h2>
-                                                <p> # Late</p>
+                                                <p> {{ $responseCount['lateCount'] }} <br/>Submissions Late</p>
                                                 </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
                                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=missed">
                                                 <h2 class="bold m-0 inline">{{ $responseCount['missed'] }}%</h2>
-                                                <p> # Missed</p>
+                                                <p>{{ $responseCount['missedCount'] }} <br/>Submissions Missed</p>
                                                 </a>
                                              </div>
                                              </div>
