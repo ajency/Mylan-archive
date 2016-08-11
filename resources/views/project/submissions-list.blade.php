@@ -69,16 +69,16 @@
                            </div>
                            <div class="col-md-5 m-t-40 "><!-- b-r -->
                               <div class="col-md-4 text-center ">
-                                 <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
-                                 <p class=" text-underline">{{  $responseRate['completedCount'] }} Submissions Completed</p>
+                                 <h3 class="no-margin bold">{{  $patientsSummary['completed'] }}%</h3>
+                                 <p class=" text-underline">{{  $patientsSummary['completedCount'] }} Submissions Completed</p>
                               </div>
                               <div class="col-md-4 text-center">
-                                 <h3 class="no-margin bold">{{  $responseRate['late'] }}%</h3>
-                                 <p class="">{{  $responseRate['lateCount'] }} Submissions Late</p>
+                                 <h3 class="no-margin bold">{{  $patientsSummary['late'] }}%</h3>
+                                 <p class="">{{  $patientsSummary['lateCount'] }} Submissions Late</p>
                               </div>
                               <div class="col-md-4 text-center">
-                                 <h3 class="no-margin bold">{{  $responseRate['missed'] }}%</h3>
-                                 <p class="">{{  $responseRate['missedCount'] }} Submissions Missed</p>
+                                 <h3 class="no-margin bold">{{  $patientsSummary['missed'] }}%</h3>
+                                 <p class="">{{  $patientsSummary['missedCount'] }} Submissions Missed</p>
                               </div>
                            </div>
                            <div class="col-md-3">
@@ -300,7 +300,7 @@ var ENDDATE = '{{ date("D M d Y", strtotime($endDate)) }} ';
 
  
 $(document).ready(function() {
-    drawPieChart("submissionschart",<?php echo  $responseRate['pieChartData']; ?>,1);
+    drawPieChart("submissionschart",<?php echo  $patientsSummary['pieChartData']; ?>,1);
 
       $('select[name="submissionStatus"]').change(function (event) { 
          $(".submissionFilter").removeClass('hidden');
