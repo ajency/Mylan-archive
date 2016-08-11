@@ -408,7 +408,7 @@
                   doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
                   heightLeft -= pageHeight;
                 }
-                doc.save( '{{ PatientId $patient["reference_code"]}} Submission.pdf');﻿
+                doc.save( 'Patient Submission.pdf');﻿
              }
           });
             setInterval(function(){ 
