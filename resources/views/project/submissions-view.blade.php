@@ -91,7 +91,7 @@
                   @endforeach
                   </div> -->
                   <br> <br>
-                           
+                           <div class="f-s-b"></div>
                            <div class="user-description-box">
                            <div class="row">
                               <div class="col-md-4">
@@ -173,9 +173,35 @@
                            <br>
  
                            <div class="user-description-box">
-                           <?php $i=1;?>
+                            <?php 
+                              $i=1;
+                              $firstBreak = 0;
+                              $firstBreakCapture = 0;
+                              $addClass = "";  
+                           ?>
                            @foreach($answersList as $answer)
-                              <div class="grid simple">
+                            <?php
+                                   // pdf
+                                    $firstBreak = $firstBreak +1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 3){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
+                                    }else{
+                                      if($firstBreak == 4){
+                                         $addClass = "printPdfMarginE"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
+
+                                    }
+                                ?>
+                              <div class="grid simple <?php echo $addClass; ?>">
                                  <div class="grid-body">
                                     @if($answer['questionType']=='single-choice')
                                     <div class="pull-right questStats">
@@ -339,6 +365,62 @@
       });
 
    });
+     //pdf
+   $(function() { 
+      $("#btnSave").click(function() { 
+      //convert all svg's to canvas
+      $(".user-description-box div.printPdfMargin").addClass("print-pdf-marginSV");
+      $(".user-description-box div.printPdfMarginE").addClass("print-pdf-marginSVE");
+      $(".addLoader").addClass("cf-loader");
+      $("#page1").css("background","#FFFFFF");
+      $(".f-s-b").css("padding-top","25px");
+     
+     var svgTags = document.querySelectorAll('#dashboardblock svg');
+      for (var i=0; i<svgTags.length; i++) {
+        var svgTag = svgTags[i];
+        var c = document.createElement('canvas');
+        c.width = svgTag.clientWidth;
+        c.height = svgTag.clientHeight;
+        svgTag.parentNode.insertBefore(c, svgTag);
+        svgTag.parentNode.removeChild(svgTag);
+        var div = document.createElement('div');
+        div.appendChild(svgTag);
+        canvg(c, div.innerHTML);
+      }
+      html2canvas($("#page1"), {
+          background: '#FFFFFF',
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                var doc = new jsPDF('l', 'mm');
+                var position = 0;
+
+                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                  position = heightLeft - imgHeight;
+                  doc.addPage();
+                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+                  heightLeft -= pageHeight;
+                }
+                doc.save( 'file.pdf');﻿
+             }
+          });
+            setInterval(function(){ 
+              $(".addLoader").removeClass("cf-loader"); 
+              $(".user-description-box div.printPdfMargin").removeClass("print-pdf-marginSV");
+              $(".user-description-box div.printPdfMarginE").removeClass("print-pdf-marginSVE");
+              $("#page1").css("background","");
+              $(".f-s-b").css("padding-top","0px");
+             
+            }, 3000);   
+      });
+    }); 
       </script> 
                  
 
