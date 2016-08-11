@@ -369,8 +369,8 @@
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
-      $(".user-description-box div.printPdfMargin").addClass("print-pdf-marginSV");
-      $(".user-description-box div.printPdfMarginE").addClass("print-pdf-marginSVE");
+      $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","padding-bottom: 70px !important");
+      $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","padding-bottom: 72px !important");
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
       $(".f-s-b").css("padding-top","25px");
@@ -413,8 +413,8 @@
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
-              $(".user-description-box div.printPdfMargin").removeClass("print-pdf-marginSV");
-              $(".user-description-box div.printPdfMarginE").removeClass("print-pdf-marginSVE");
+              $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
+              $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
               $("#page1").css("background","");
               $(".f-s-b").css("padding-top","0px");
              
