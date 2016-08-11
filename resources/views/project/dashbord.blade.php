@@ -148,20 +148,20 @@
                                           <div class="row">
                                              <div class="col-sm-4 text-center">
                                               <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=completed">
-                                                <h2 class="bold m-0 inline">{{ $responseCount['completed'] }}%</h2>
-                                                <p> {{ $responseCount['completedCount'] }} <br/>Submissions Completed</p>
+                                                <h2 class="bold m-0 inline">{{ $counterDataVal['completed'] }}%</h2>
+                                                <p> {{ $counterDataVal['completedCount'] }} <br/>Submissions Completed</p>
                                                 </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
                                               <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=late">
-                                                <h2 class="bold m-0 inline">{{ $responseCount['late'] }}%</h2>
-                                                <p> {{ $responseCount['lateCount'] }} <br/>Submissions Late</p>
+                                                <h2 class="bold m-0 inline">{{ $counterDataVal['late'] }}%</h2>
+                                                <p> {{ $counterDataVal['lateCount'] }} <br/>Submissions Late</p>
                                                 </a>
                                              </div>
                                              <div class="col-sm-4 text-center">
                                                 <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=missed">
-                                                <h2 class="bold m-0 inline">{{ $responseCount['missed'] }}%</h2>
-                                                <p>{{ $responseCount['missedCount'] }} <br/>Submissions Missed</p>
+                                                <h2 class="bold m-0 inline">{{ $counterDataVal['missed'] }}%</h2>
+                                                <p>{{ $counterDataVal['missedCount'] }} <br/>Submissions Missed</p>
                                                 </a>
                                              </div>
                                              </div>
@@ -723,7 +723,7 @@
     } 
   ?>
     
-    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,1);
+    drawPieChart("piechart",<?php echo  $counterDataVal['pieChartData']; ?>,1);
 
    });
         
@@ -816,7 +816,7 @@
                     pdf.save("Dashboard.pdf");
 
 
-                    drawPieChart("piechart",<?php echo  $responseCount['pieChartData']; ?>,0);
+                    drawPieChart("piechart",<?php echo  $counterDataVal['pieChartData']; ?>,0);
                     var generateChartValue =  $('select[name="generateChart"]').val();
                     $('select[name="generateChart"]').val(generateChartValue).change();
                     $("#page1").css("background-color", "");
