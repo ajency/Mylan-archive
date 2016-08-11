@@ -78,24 +78,25 @@
                               ?>   
                               @foreach($userDevices as $userDevice)
                               <?php
-                                  $firstBreak = $firstBreak +1;
-                                  if($firstBreakCapture == 0){
-                                    if($firstBreak == 15){
-                                       $addClass = "printPdfMargin"; 
-                                       $firstBreakCapture = 1;
-                                       $firstBreak = 0;
+                                   // pdf
+                                    $firstBreak = $firstBreak +1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 16){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
                                     }else{
-                                        $addClass = "";
-                                    }
-                                  }else{
-                                    if($firstBreak == 22){
-                                       $addClass = "printPdfMargin"; 
-                                       $firstBreak = 0;
-                                    }else{
-                                        $addClass = "";
-                                    }
+                                      if($firstBreak == 18){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
 
-                                  }
+                                    }
                                 ?>
                                  <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
@@ -127,24 +128,25 @@
                                     $archivedCounter = 1;
                                   ?>
                                    <?php
-                                      $firstBreak = $firstBreak +1;
-                                      if($firstBreakCapture == 0){
-                                        if($firstBreak == 15){
-                                           $addClass = "printPdfMargin"; 
-                                           $firstBreakCapture = 1;
-                                           $firstBreak = 0;
-                                        }else{
-                                            $addClass = "";
-                                        }
+                                       // pdf
+                                    $firstBreak = $firstBreak +1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 16){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
                                       }else{
-                                        if($firstBreak == 22){
-                                           $addClass = "printPdfMargin"; 
-                                           $firstBreak = 0;
-                                        }else{
-                                            $addClass = "";
-                                        }
-
+                                          $addClass = "";
                                       }
+                                    }else{
+                                      if($firstBreak == 18){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
+
+                                    }
                                     ?>
                                  <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
@@ -180,24 +182,25 @@
                                       $newdeviceCounter = 1;
                                     ?> 
                                     <?php
-                                      $firstBreak = $firstBreak +1;
-                                      if($firstBreakCapture == 0){
-                                        if($firstBreak == 15){
-                                           $addClass = "printPdfMargin"; 
-                                           $firstBreakCapture = 1;
-                                           $firstBreak = 0;
-                                        }else{
-                                            $addClass = "";
-                                        }
+                                       // pdf
+                                    $firstBreak = $firstBreak +1;
+                                    if($firstBreakCapture == 0){
+                                      if($firstBreak == 16){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreakCapture = 1;
+                                         $firstBreak = 0;
                                       }else{
-                                        if($firstBreak == 22){
-                                           $addClass = "printPdfMargin"; 
-                                           $firstBreak = 0;
-                                        }else{
-                                            $addClass = "";
-                                        }
-
+                                          $addClass = "";
                                       }
+                                    }else{
+                                      if($firstBreak == 18){
+                                         $addClass = "printPdfMargin"; 
+                                         $firstBreak = 0;
+                                      }else{
+                                          $addClass = "";
+                                      }
+
+                                    }
                                     ?>
                                  <tr class="<?php echo $addClass; ?>">                                
                                    <td class="text-center">{{ date('d-m-Y',strtotime($userDevice['created_at'])) }}</td>
@@ -286,12 +289,12 @@
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
-                var pageHeight = 295;  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('p', 'mm');
+                var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
                 doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
@@ -311,7 +314,7 @@
               $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set");
             }, 3000);   
       });
-    }); 
+    });  
   </script>
  
 @endsection
