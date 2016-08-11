@@ -10059,6 +10059,9 @@ table .sm-font {
 /*submission notification ends*/
 
 /*Flags*/
+table tr.printPdfMargin td.print-pdf-marginPFl{
+  padding-bottom: 100px !important;
+}
 .table tr.printPdfMargin td.print-pdf-marginFl{
   padding-bottom: 95px !important;
 }
