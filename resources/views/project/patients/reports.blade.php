@@ -125,7 +125,7 @@ Flag is not displayed if the current score is same as previous score</p>
                                     <hr>
                   
                                        <br>
-                             
+                             <div class="q-s-c"></div>
                               <h4 class="bold">
 Question score chart</h4>
                                  <p>Question score chart shows the score of each question with reference to baseline for all submissions</p>
@@ -252,7 +252,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     
      $(".addLoader").addClass("cf-loader");
      $("#page1").css("background","#FFFFFF");
-     $(".print-pdf-padding").css("padding-top","320px");
+     $(".q-s-c").css("padding-top","250px");
+     $(".print-pdf-padding").css("padding-top","280px");
+
 
      var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
@@ -270,12 +272,12 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
-                var pageHeight = 295;  
+                var imgWidth = 290; 
+                var pageHeight = 225;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('p', 'mm');
+                var doc = new jsPDF('l', 'mm');
                 var position = 0;
 
                 doc.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
@@ -292,7 +294,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
+              $(".q-s-c").css("padding-top","0px");
               $(".print-pdf-padding").css("padding-top","0px");
+
             }, 3000);   
       });
     }); 
