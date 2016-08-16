@@ -825,7 +825,6 @@
           setInterval(function(){ $(".addLoader").removeClass("cf-loader");  }, 3000);      
       });
     }); 
-  
 
 </script>
 @endsection
