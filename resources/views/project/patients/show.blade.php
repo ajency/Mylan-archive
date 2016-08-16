@@ -48,6 +48,7 @@
       @include('project.patients.side-menu')
      <div class="tab-content">
      <div class="tab-pane table-data active" id="Patients" style="padding: 15px 8px;">
+        <div class="pgHeight"> <!--test -->
         <div class="row">
                 <div class="col-sm-8">
                   <!-- <dl class="dl-horizontal">
@@ -248,6 +249,7 @@
                   @endif
               </div>
            </div>
+           </div> <!-- test height --> 
            <h4 class="p-h-c">Patient health chart</h4>
            <p>Patient health chart shows the comparison between
               1.Patients current score to baseline score- indicated by highlighted cell
