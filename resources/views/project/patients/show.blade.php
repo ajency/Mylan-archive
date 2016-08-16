@@ -702,10 +702,11 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
-      alert($(".pgHeight").height());
+      
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
-      $(".p-h-c").css("padding-top","250px"); 
+      if($(".pgHeight").height() < 700){$(".p-h-c").css("padding-top","250px");}
+       
       $(".q-g").css("padding-top","470px"); 
       $(".s-s").css("padding-top","400px"); 
       $(".s-n-r").css("margin-top","450px"); 
