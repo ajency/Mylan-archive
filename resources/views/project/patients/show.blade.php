@@ -702,11 +702,11 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       //convert all svg's to canvas
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
-      $(".p-h-c").css("padding-top","300px"); 
-      $(".q-g").css("padding-top","250px"); 
+      $(".p-h-c").css("padding-top","250px"); 
+      $(".q-g").css("padding-top","470px"); 
       $(".s-s").css("padding-top","400px"); 
       $(".s-n-r").css("margin-top","450px"); 
-      $(".flg").css("margin-top","540px"); 
+      $(".flg").css("margin-top","500px"); 
        
      var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
