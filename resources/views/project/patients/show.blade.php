@@ -712,12 +712,12 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
         $(".s-n-r").css("margin-top","450px"); 
         $(".flg").css("margin-top","500px"); 
       }else{
-        $(".p-h-c").css("padding-top","150px");
-        $(".q-g").css("padding-top","400px"); 
+        $(".p-h-c").css("padding-top","100px");
+        $(".q-g").css("padding-top","350px"); 
         $(".s-s").css("padding-top","400px"); 
-        $(".s-n-r").css("margin-top","450px"); 
-        $(".flg").css("margin-top","400px"); 
-        
+        $(".s-n-r").css("margin-top","350px"); 
+        $(".flg").css("margin-top","300px"); 
+
       }
        
       
