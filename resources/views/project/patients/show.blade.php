@@ -700,6 +700,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
    $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
+      alert($(".pgHeight").height());
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
       $(".p-h-c").css("padding-top","250px"); 
