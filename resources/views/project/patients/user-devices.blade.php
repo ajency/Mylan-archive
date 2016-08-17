@@ -82,7 +82,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 // pdf
                 $firstBreak = $firstBreak +1;
                 if($firstBreakCapture == 0){
-                  if($firstBreak == 16){
+                  if($firstBreak == 15){
                     $addClass = "printPdfMargin"; 
                     $firstBreakCapture = 1;
                     $firstBreak = 0;
@@ -132,7 +132,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 // pdf
                 $firstBreak = $firstBreak +1;
                 if($firstBreakCapture == 0){
-                  if($firstBreak == 16){
+                  if($firstBreak == 15){
                     $addClass = "printPdfMargin"; 
                     $firstBreakCapture = 1;
                     $firstBreak = 0;

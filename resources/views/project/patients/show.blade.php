@@ -18,6 +18,7 @@
 <!-- BEGIN PAGE TITLE -->
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
 <span class="addLoader"></span></a>
+<div id="page1">  
 <div class="pull-right m-r-15">
    <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
     <form name="searchData" method="GET"> 
@@ -44,7 +45,7 @@
 <div class="page-title">
    <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
 </div>
-<div class="tabbable tabs-left" id="page1">
+<div class="tabbable tabs-left">
       @include('project.patients.side-menu')
      <div class="tab-content">
      <div class="tab-pane table-data active" id="Patients" style="padding: 15px 8px;">
@@ -613,7 +614,8 @@
         </div>
      </div>
   </div>
- 
+ <!-- ones -->
+</div>
  <?php 
 
 $questionId = current(array_keys($questionLabels));
@@ -705,18 +707,19 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
+      
       if($(".pgHeight").height() < 700){
         $(".p-h-c").css("padding-top","270px");
-        $(".q-g").css("padding-top","450px"); 
+        $(".q-g").css("padding-top","440px"); 
         $(".s-s").css("padding-top","380px"); 
-        $(".s-n-r").css("margin-top","450px"); 
-        $(".flg").css("margin-top","480px"); 
+        $(".s-n-r").css("margin-top","440px"); 
+        $(".flg").css("margin-top","470px"); 
       }else{
         $(".p-h-c").css("padding-top","100px");
-        $(".q-g").css("padding-top","350px"); 
-        $(".s-s").css("padding-top","400px"); 
-        $(".s-n-r").css("margin-top","350px"); 
-        $(".flg").css("margin-top","300px"); 
+        $(".q-g").css("padding-top","340px"); 
+        $(".s-s").css("padding-top","390px"); 
+        $(".s-n-r").css("margin-top","340px"); 
+        $(".flg").css("margin-top","290px"); 
       }
        
       
