@@ -182,7 +182,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 // pdf
                   $firstBreak = $firstBreak + 1;
                   if($firstBreakCapture == 0){
-                    if($firstBreak == 9){
+                    if($firstBreak == 8){
                       $addClass = "printPdfMargin"; 
                       $firstBreakCapture = 1;
                       $firstBreak = 0;
@@ -240,7 +240,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 // pdf
                   $firstBreak = $firstBreak + 1;
                   if($firstBreakCapture == 0){
-                    if($firstBreak == 9){
+                    if($firstBreak == 8){
                       $addClass = "printPdfMargin"; 
                       $firstBreakCapture = 1;
                       $firstBreak = 0;
@@ -298,7 +298,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 // pdf
                   $firstBreak = $firstBreak + 1;
                   if($firstBreakCapture == 0){
-                    if($firstBreak == 9){
+                    if($firstBreak == 8){
                       $addClass = "printPdfMargin"; 
                       $firstBreakCapture = 1;
                       $firstBreak = 0;
