@@ -19,6 +19,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 @section('content')
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a>
+<div id="page1"> 
   <div class="pull-right m-r-15">
     <a href="add-patient.html" class="hidden btn btn-primary pull-right"><i class="fa fa-plus"></i> Add Patient</a>
     <form name="searchData" method="GET"> 
@@ -39,8 +40,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
       <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
       @endforeach
     </select> 
-  </div>
-<div id="page1">  
+  </div> 
   <div class="page-title">
     <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
   </div>

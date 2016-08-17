@@ -21,6 +21,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 @section('content')
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a>
+ <div id="page1">  
   <div class="pull-right m-r-15">
     <form name="searchData" method="GET"> 
       <input type="hidden" class="form-control" name="startDate"  >
@@ -42,7 +43,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
       @endforeach
     </select> 
   </div>
-  <div id="page1">
+ 
     <div class="page-title">
       <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
     </div>

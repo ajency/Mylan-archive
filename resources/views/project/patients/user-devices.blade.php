@@ -19,6 +19,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 @section('content')
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a>
+<div id="page1">   
   <div class="m-r-15 pull-right patient-search">
     <select class="selectpicker" data-live-search="true" title="Patient" name="referenceCode">
       <option class="ttuc" value="">-select patient-</option>
@@ -26,8 +27,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
       <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}}  value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
       @endforeach
     </select> 
-  </div>
-<div id="page1">  
+  </div> 
   <div class="page-title">
     <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
   </div>
