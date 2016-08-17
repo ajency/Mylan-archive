@@ -86,13 +86,10 @@
             </div>
          </div>
          <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="border-right: 1px solid #ddd;">
             
                <div id="submissionschart" class="piechart-height"></div>
-               
-            </div>
-            <div class="col-sm-8">
-               <div class="row p-t-80">
+                 <div class="row">
                   <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
                           <p class=" text-underline">{{  $responseRate['completedCount'] }} Submissions Completed</p>
@@ -106,22 +103,111 @@
                           <p class="">{{  $responseRate['missedCount'] }} Submissions Missed</p>
                        </div>
                </div>
+               
+            </div>
+            <div class="col-sm-8">
+         <div class="row">
+            <div class="col-sm-12">
+               <select class="pull-right m-b-10" name="generateQuestionChart">
+                    @foreach($questionLabels as $questionId =>$question)
+                    <option value="{{ $questionId }}" >{{ $question }}</option>
+                    @endforeach
+                 </select><br>
+                 @if(!$totalResponses)
+                    <table class="table table-flip-scroll table-hover dashboard-tbl">
+                    <tbody>
+                    <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                    </tbody>
+                    </table>
+                @else
+                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+                @endif
+                
             </div>
          </div>
-         <hr>
+            </div>
+         </div>
+         <!-- <hr> -->
          <br>
-         <h4 class="p-h-c">Patient health chart</h4>
-           <p>Patient health chart shows the comparison between
-              1.Patients current score to baseline score- indicated by highlighted cell
-              2.Patients current score to previous score indicated by flag
-              Red-indicates current score is worse then previous/baseline score by 2 points
-              Amber-indicates current score is worse then previous/baseline score by 1 point
-              Green-indicates current score is better then previous/baseline score
-              White-Indicates current score is same as baseline score.
-              Flag is not displayed if the current score is same as previous score
-           </p>
-           <br><br>
-            <div class="tableOuter">
+
+         
+
+
+<!--          <div class="row">
+            <div class="col-sm-12">
+               <div class="pull-left">
+                  <h4 class="bold q-g">Questionnaire Graph</h4>
+               </div>
+               <select class="pull-right m-b-10" name="generateQuestionChart">
+                    @foreach($questionLabels as $questionId =>$question)
+                    <option value="{{ $questionId }}" >{{ $question }}</option>
+                    @endforeach
+                 </select><br>
+                 @if(!$totalResponses)
+                    <table class="table table-flip-scroll table-hover dashboard-tbl">
+                    <tbody>
+                    <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                    </tbody>
+                    </table>
+                @else
+                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
+                @endif
+                
+            </div>
+         </div>
+         <br>
+         <HR> -->
+         <!-- <div class="row">
+            <div class="col-sm-12">
+               <div class="pull-left">
+                  <h4 class="bold">Submission Graph</h4>
+               </div>
+               <select class="pull-right" name="generateChart">
+                    <option value="total_score" selected>Total Score</option>
+                    <option value="red_flags" > Red Flags</option>
+                    <option value="amber_flags">  Amber Flags</option>
+                    <option value="green_flags">Green Flags</option>
+                 </select>
+               <div id="chartdiv"></div>
+            </div>
+         </div>
+         <br>
+         <HR> -->
+         
+         <!-- <h4 class="bold q-s-p-s">Question score per submission graph</h4>
+                               <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
+                            <br><br> -->
+
+                    <div class="grid-title no-border">
+                        <h4><span class="semi-bold">Question Scores</span></h4>
+                     </div><br>
+                     
+                     <select class="pull-right m-b-10" name="generateSubmissionChart">
+                      @foreach($submissionNumbers as $submissionNumber => $responseId)
+                      <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
+                      @endforeach
+                    </select> 
+              
+                    @if(!$totalResponses)
+                           <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <tbody>
+                          <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                          </tbody>
+                          </table>
+                      @else
+                       <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+                      @endif
+
+                      <br><!-- <hr> -->
+
+
+                      <div class="grid-title no-border">
+            <h4><span class="semi-bold">Patient Health Chart</span></h4>
+         </div><br>
+         <!-- <h4 class="p-h-c">Patient health chart</h4> -->
+         <div class="row">
+           <div class="col-sm-9">
+             <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
            <div class="table-responsive {{(!empty($responseArr))?'sticky-table-outer-div':''}} {{(count($responseArr)>10)?'sticky-tableWidth':''}}"> 
@@ -169,68 +255,24 @@
                      </table>
                      </div>
            </div>
-         <br>
-         <hr>
-         <div class="row">
-            <div class="col-sm-12">
-               <div class="pull-left">
-                  <h4 class="bold q-g">Questionnaire Graph</h4>
-               </div>
-               <select class="pull-right" name="generateQuestionChart">
-                    @foreach($questionLabels as $questionId =>$question)
-                    <option value="{{ $questionId }}" >{{ $question }}</option>
-                    @endforeach
-                 </select>
-                 @if(!$totalResponses)
-                    <table class="table table-flip-scroll table-hover dashboard-tbl">
-                    <tbody>
-                    <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                    </tbody>
-                    </table>
-                @else
-                 <div id="questionChart" class="p-t-20" style="width:100%; height:400px;"></div>
-                @endif
-                
-            </div>
+           </div>
+           <div class="col-sm-3">
+             <p>Patient health chart shows the comparison between:<br>
+              1.Patients current score to baseline score- indicated by highlighted cell<br>
+              2.Patients current score to previous score indicated by flag
+              Red-indicates current score is worse then previous/baseline score by 2 points
+              Amber-indicates current score is worse then previous/baseline score by 1 point
+              Green-indicates current score is better then previous/baseline score
+              White-Indicates current score is same as baseline score.
+              Flag is not displayed if the current score is same as previous score
+           </p>
+           </div>
          </div>
+           
+           
+            
          <br>
-         <HR>
-         <!-- <div class="row">
-            <div class="col-sm-12">
-               <div class="pull-left">
-                  <h4 class="bold">Submission Graph</h4>
-               </div>
-               <select class="pull-right" name="generateChart">
-                    <option value="total_score" selected>Total Score</option>
-                    <option value="red_flags" > Red Flags</option>
-                    <option value="amber_flags">  Amber Flags</option>
-                    <option value="green_flags">Green Flags</option>
-                 </select>
-               <div id="chartdiv"></div>
-            </div>
-         </div>
-         <br>
-         <HR> -->
-         
-         <h4 class="bold q-s-p-s">Question score per submission graph</h4>
-                               <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
-                            <br><br>
-                     
-                     <select class="pull-right" name="generateSubmissionChart">
-                      @foreach($submissionNumbers as $submissionNumber => $responseId)
-                      <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
-                      @endforeach
-                    </select> 
-              
-                    @if(!$totalResponses)
-                           <table class="table table-flip-scroll table-hover dashboard-tbl">
-                          <tbody>
-                          <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                          </tbody>
-                          </table>
-                      @else
-                       <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-                      @endif    
+             
                      
       </div>
 
