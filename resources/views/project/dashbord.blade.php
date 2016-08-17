@@ -4,6 +4,7 @@
 <?php  
 	$currUrl = $_SERVER['REQUEST_URI'];
 ?>
+
       <p>
       <ul class="breadcrumb">
          <li>

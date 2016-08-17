@@ -706,11 +706,11 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
       $(".addLoader").addClass("cf-loader");
       $("#page1").css("background","#FFFFFF");
       if($(".pgHeight").height() < 700){
-        $(".p-h-c").css("padding-top","250px");
-        $(".q-g").css("padding-top","470px"); 
-        $(".s-s").css("padding-top","400px"); 
+        $(".p-h-c").css("padding-top","270px");
+        $(".q-g").css("padding-top","450px"); 
+        $(".s-s").css("padding-top","380px"); 
         $(".s-n-r").css("margin-top","450px"); 
-        $(".flg").css("margin-top","500px"); 
+        $(".flg").css("margin-top","480px"); 
       }else{
         $(".p-h-c").css("padding-top","100px");
         $(".q-g").css("padding-top","350px"); 
