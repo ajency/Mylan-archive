@@ -10030,77 +10030,17 @@ small.help-text {
 table .sm-font {
   margin-left: 5px;
 }
-
-/*patient*/
-.table tr.printPdfMargin td.print-pdf-marginP{
-  padding-bottom: 162px !important;
+.flex-center {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
-.table tr.printPdfMarginE td.print-pdf-marginPE{
-  padding-bottom: 182px !important;
-}
-/*patient ends*/
-
-/*submission*/
-.table tr.printPdfMargin td.print-pdf-marginS{
-  padding-bottom: 105px !important;
-}
-.table tr.printPdfMarginE td.print-pdf-marginSE{
-  padding-bottom: 96px !important;
-}
-/*submission ends*/
-
-/*submission notification*/
-.table tr.printPdfMargin td.print-pdf-marginSN{
-  padding-bottom: 153px !important;
-}
-.table tr.printPdfMarginE td.print-pdf-marginSNE{
-  padding-bottom: 107px !important;
-}
-/*submission notification ends*/
-
-/*Flags*/
-table tr.printPdfMargin td.print-pdf-marginPFl{
-  padding-bottom: 100px !important;
-}
-.table tr.printPdfMargin td.print-pdf-marginFl{
-  padding-bottom: 95px !important;
-}
-.table tr.printPdfMarginE td.print-pdf-marginFlE{
-  padding-bottom: 122px !important;
-}
-/*Flags end*/
-
-/*p s n*/
-.table tr.printPdfMargin td.print-pdf-marginPSN{
-  padding-bottom: 140px !important;
-}
-.table tr.printPdfMarginE td.print-pdf-marginPSNE{
-  padding-bottom: 182px !important;
-}
-/*p s n ends*/
-
-/*patients submission*/
-.table tr.printPdfMargin td.print-pdf-marginPat-S{
-  padding-bottom: 115px !important;
-}
-.table tr.printPdfMarginE td.print-pdf-marginPat-SE{
-  padding-bottom: 100px !important;
-}
-/*patients submission ends*/
-
-
-.table tr.printPdfMargin td.print-pdf-margin-set{
-  padding-top:150px !important;
-}
-
-.table tr.printPdfMargin td.print-pdf-margin-set-flags,
-.table tr.printPdfMarginLongData td.print-pdf-margin-large-flags{
-  padding-top:90px !important;
-}
-.table tr.printPdfMarginSecond td.print-pdf-margin-flags-extra{
-  padding-top:70px !important;
-}
-
-
-
-
