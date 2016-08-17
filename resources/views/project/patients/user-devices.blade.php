@@ -311,6 +311,7 @@ html2canvas($("#page1"), {
   }
 });
 setInterval(function(){ 
+  $("#page1").css("background","");
   $(".addLoader").removeClass("cf-loader"); 
   $(".table tr.printPdfMargin td").removeClass("print-pdf-margin-set");
 }, 3000);   
