@@ -315,12 +315,12 @@
 <div class="modal fade customModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus">
+      <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus" data-parsley-validate>
       <div class="modal-header text-left">
         <h3>Notes</h3>
       </div>
-      <div class="modal-body">
-        <textarea name="reviewNote" required></textarea>
+      <div class="modal-body validError">
+        <textarea name="reviewNote" data-parsley-required></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default closeModel" >Cancel</button>
@@ -423,7 +423,16 @@
     }); 
       </script> 
                  
-
+<style>
+ 
+  .validError .parsley-errors-list.filled{
+    display: none !important;
+  }
+  .validError .parsley-error{
+    border: 1px solid #f35958!important;
+  }  
+  
+ </style>
  
 
 @endsection
