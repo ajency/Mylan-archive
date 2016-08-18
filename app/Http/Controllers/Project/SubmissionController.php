@@ -347,7 +347,18 @@ class SubmissionController extends Controller
                 $inputValueChart[] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
                  
             }
-
+            if(is_array($submissionChart)){
+                $baseTotScore = $prevTotScore = $currTotScore = 0;
+                foreach($submissionChart as $keys => $vals){
+                   $baseTotScore = $vals['base'] + $baseTotScore;
+                   $prevTotScore = $vals['prev'] + $prevTotScore;
+                   $currTotScore = $vals['current'] + $currTotScore;
+                } 
+                $newTotalCounterArr = array();
+                $newTotalCounterArr['base'] = $baseTotScore;
+                $newTotalCounterArr['prev'] = $prevTotScore;
+                $newTotalCounterArr['current'] = $currTotScore;    
+            }   
             $submissionJson = json_encode($submissionChart);
 
         } catch (\Exception $e) {
@@ -376,6 +387,7 @@ class SubmissionController extends Controller
                                                 ->with('inputValueChart', $inputValueChart)
                                                 ->with('previousAnswersList', $previousAnswersList)
                                                 ->with('userdevice', 'yes')
+                                                ->with('newTotalCounterArr',$newTotalCounterArr)
                                                 ->with('baseLineAnswersList', $baseLineAnswersList);
     }
 
