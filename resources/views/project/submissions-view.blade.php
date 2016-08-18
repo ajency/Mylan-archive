@@ -1,96 +1,96 @@
-  @extends('layouts.single-project')
-  @section('breadcrumb')
-  <!-- BEGIN BREADCRUMBS -->
-  <?php  
-  $currUrl = $_SERVER['REQUEST_URI'];
-  ?>
-  <p>
-    <ul class="breadcrumb">
-      <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
-      <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
-      <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
-      <li>
-        <a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Submission</a>
-      </li>
-    </ul>
-  </p>
-  <!-- END BREADCRUMBS -->
-  @endsection
-  @section('content')
+@extends('layouts.single-project')
+@section('breadcrumb')
+<!-- BEGIN BREADCRUMBS -->
+<?php  
+$currUrl = $_SERVER['REQUEST_URI'];
+?>
+<p>
+  <ul class="breadcrumb">
+    <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/dashboard' ) }}"><span>Home</span></a></li>
+    <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients' ) }}">Patients</a></li>
+    <li><a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'] ) }}" class="ttuc patient-refer{{ $patient['reference_code']}}">{{ $patient['reference_code']}}</a> </li>
+    <li>
+      <a href="{{ url() }}<?php echo $currUrl; ?>" class="active">Submission</a>
+    </li>
+  </ul>
+</p>
+<!-- END BREADCRUMBS -->
+@endsection
+@section('content')
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a> 
-<div id="page1">  
-  <div class="page-title">
-    <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
+  <div id="page1">  
+    <div class="page-title">
+      <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
 
-    <div class="patient-search pull-right">
-      <form name="searchData" method="GET"> 
-        <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
-          <option class="ttuc" value="">-select patient-</option>
-          @foreach($allPatients as $patientData)
-          <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}} value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
-          @endforeach
-        </select> 
-      </form>
-    </div>
-  </div>
-  <div class="tabbable tabs-left">
-    @include('project.patients.side-menu')
-    <div class="tab-content">
-      <div class="tab-pane table-data" id="Patients">
+      <div class="patient-search pull-right">
+        <form name="searchData" method="GET"> 
+          <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
+            <option class="ttuc" value="">-select patient-</option>
+            @foreach($allPatients as $patientData)
+            <option class="ttuc patient-refer{{ $patientData['reference_code'] }}" {{($patient['reference_code']==$patientData['reference_code'])?'selected':''}} value="{{ $patientData['id'] }}">{{ $patientData['reference_code'] }}</option>
+            @endforeach
+          </select> 
+        </form>
       </div>
-      <div class="tab-pane table-data active" id="Submissions">
-        <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
-        <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
-        <!-- <p>(Showing Submission details)</p> -->
-        <br>
-        <div id="chartdiv" style="width:100%; Height:500px;"></div>
-        <br>
-        @if(!empty($inputValueChart))
-        <table class="table table-flip-scroll cf table-center f-s-b">
-          <thead class="cf">
-            <tr>
-              <th  class="text-left"></th>
-              @foreach($inputValueChart as $inputValue)
-              <th class="text-center">{{ $inputValue['question'] }}</th>
-              @endforeach
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
-              @foreach($inputValueChart as $inputValue)
-              <td class="bg-gray">{{ $inputValue['current'] }}</td>
-              @endforeach
-            </tr>
-            <tr>
-              <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
-              @foreach($inputValueChart as $inputValue)
-              <td class="bg-gray">{{ $inputValue['prev'] }}</td>
-              @endforeach
-            </tr>
-            <tr>
-              <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
-              @foreach($inputValueChart as $inputValue)
-              <td class="bg-gray">{{ $inputValue['base'] }}</td>
-              @endforeach
-            </tr>
-          </tbody>
-        </table>
-        @endif
-  <!--                  <div class="row">
-  @foreach($inputValueChart as $inputValue)
-  <div class="submission-chart-wt text-center">
-  <div class="input-text-outer">
-  <span class="input-text">{{ $inputValue['question'] }}</span>
-  </div>
-  <div class="input-values p-b-10">  
-  <span class="previous {{ ($responseData['previousFlag']=='')?'hidden':'' }}">{{ $inputValue['prev'] }}</span>
-  <span class="baseline">{{ $inputValue['base'] }}</span>
-  <span class="current">{{ $inputValue['current'] }}</span>
-  </div>
-  </div>
-  @endforeach
+    </div>
+    <div class="tabbable tabs-left">
+      @include('project.patients.side-menu')
+      <div class="tab-content">
+        <div class="tab-pane table-data" id="Patients">
+        </div>
+        <div class="tab-pane table-data active" id="Submissions">
+          <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
+          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
+          <!-- <p>(Showing Submission details)</p> -->
+          <br>
+          <div id="chartdiv" style="width:100%; Height:500px;"></div>
+          <br>
+          @if(!empty($inputValueChart))
+          <table class="table table-flip-scroll cf table-center f-s-b">
+            <thead class="cf">
+              <tr>
+                <th  class="text-left"></th>
+                @foreach($inputValueChart as $inputValue)
+                <th class="text-center">{{ $inputValue['question'] }}</th>
+                @endforeach
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
+                @foreach($inputValueChart as $inputValue)
+                <td class="bg-gray">{{ $inputValue['current'] }}</td>
+                @endforeach
+              </tr>
+              <tr>
+                <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                @foreach($inputValueChart as $inputValue)
+                <td class="bg-gray">{{ $inputValue['prev'] }}</td>
+                @endforeach
+              </tr>
+              <tr>
+                <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+                @foreach($inputValueChart as $inputValue)
+                <td class="bg-gray">{{ $inputValue['base'] }}</td>
+                @endforeach
+              </tr>
+            </tbody>
+          </table>
+          @endif
+<!--                  <div class="row">
+@foreach($inputValueChart as $inputValue)
+<div class="submission-chart-wt text-center">
+<div class="input-text-outer">
+<span class="input-text">{{ $inputValue['question'] }}</span>
+</div>
+<div class="input-values p-b-10">  
+<span class="previous {{ ($responseData['previousFlag']=='')?'hidden':'' }}">{{ $inputValue['prev'] }}</span>
+<span class="baseline">{{ $inputValue['base'] }}</span>
+<span class="current">{{ $inputValue['current'] }}</span>
+</div>
+</div>
+@endforeach
 </div> -->
 <br> <br>
 <div class="user-description-box">
@@ -124,8 +124,8 @@
             <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
           </select>
 
-  <!--  <div class="notes">
-  <i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
+<!--  <div class="notes">
+<i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
 </div> -->
 
 </div>
@@ -135,17 +135,39 @@
 </div>
 @endif
 </div>
-<div class="col-md-3 baselineAllign text-right ">
-  <div class="pull-right">
-    Previous <span class="p-l-r-5">|</span> Baseline
-  </div>
-  <br>
-  <div class="pull-right flagsAllignment">
-    <span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
-    <span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
-  </div>
+<!--div class="col-md-3 baselineAllign text-right ">
+<div class="pull-right">
+Previous <span class="p-l-r-5">|</span> Baseline
+</div>
+<br>
+<div class="pull-right flagsAllignment">
+<span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span><span class="text-muted p-l-r-5">|</span>
+<span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span>
+</div>
 
 
+</div-->
+<div class="col-md-3 baselineAllign text-right" style="margin-top:-15px;">
+  <div align="center"><label>Total Score</label></div>
+  <table>
+    <tbody>
+      <tr>
+        <td>Current<span class="p-l-r-5"></span></td>
+        <td>Previous<span class="p-l-r-5"></span></td>
+        <td>Baseline</td>
+      </tr>
+      <tr>
+        <td class="t-center">{{ $newTotalCounterArr['current'] }}<span class="p-l-r-5"></span></td>
+        <td class="t-center">{{ $newTotalCounterArr['prev'] }}<span class="p-l-r-5"></span></td>
+        <td class="t-center">{{  $newTotalCounterArr['base'] }}</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="t-center"><span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span></td>
+        <td class="t-center"><span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span></td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 </div>
@@ -182,7 +204,7 @@
   ?>
   @foreach($answersList as $answer)
   <?php
-  // pdf
+// pdf
   $firstBreak = $firstBreak +1;
   if($firstBreakCapture == 0){
     if($firstBreak == 2){
@@ -262,15 +284,15 @@
 
         @elseif($previousAnswersList[$answer['questionId']]['questionType']=='input')
 
-  <!-- @foreach($previousAnswersList[$answer['questionId']]['optionValues'] as $optionLabel=> $optionValue)
-  <span class="text-info"><b>{{ $optionValue }} {{ $optionLabel }}</b> </span>   
+<!-- @foreach($previousAnswersList[$answer['questionId']]['optionValues'] as $optionLabel=> $optionValue)
+<span class="text-info"><b>{{ $optionValue }} {{ $optionLabel }}</b> </span>   
 
-  @endforeach -->
-  <span class="text-info"><b>{{ getInputValues($previousAnswersList[$answer['questionId']]['optionValues']) }}</b> </span>
+@endforeach -->
+<span class="text-info"><b>{{ getInputValues($previousAnswersList[$answer['questionId']]['optionValues']) }}</b> </span>
 
-  @else
-  <span class="text-info">{{ $previousAnswersList[$answer['questionId']]['value']}} {{ $previousAnswersList[$answer['questionId']]['option']}}</span>
-  @endif
+@else
+<span class="text-info">{{ $previousAnswersList[$answer['questionId']]['value']}} {{ $previousAnswersList[$answer['questionId']]['option']}}</span>
+@endif
 </h5>
 @endif
 @if(isset($baseLineAnswersList[$answer['questionId']]))
@@ -366,62 +388,62 @@
     });
 
   });
-  //pdf
-  $(function() { 
-    $("#btnSave").click(function() { 
-  //convert all svg's to canvas
-  $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","padding-bottom: 70px !important");
-  $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","padding-bottom: 72px !important");
-  $(".addLoader").addClass("cf-loader");
-  $("#page1").css("background","#FFFFFF");
-  $(".f-s-b").css("margin-top","130px");
+//pdf
+$(function() { 
+  $("#btnSave").click(function() { 
+//convert all svg's to canvas
+$(".user-description-box div.grid.simple.printPdfMargin div").attr("style","padding-bottom: 70px !important");
+$(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","padding-bottom: 72px !important");
+$(".addLoader").addClass("cf-loader");
+$("#page1").css("background","#FFFFFF");
+$(".f-s-b").css("margin-top","130px");
 
-  var svgTags = document.querySelectorAll('#dashboardblock svg');
-  for (var i=0; i<svgTags.length; i++) {
-    var svgTag = svgTags[i];
-    var c = document.createElement('canvas');
-    c.width = svgTag.clientWidth;
-    c.height = svgTag.clientHeight;
-    svgTag.parentNode.insertBefore(c, svgTag);
-    svgTag.parentNode.removeChild(svgTag);
-    var div = document.createElement('div');
-    div.appendChild(svgTag);
-    canvg(c, div.innerHTML);
-  }
-  html2canvas($("#page1"), {
-    background: '#FFFFFF',
-    onrendered: function(canvas) {
-      var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-      var imgWidth = 290; 
-      var pageHeight = 225;  
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
+var svgTags = document.querySelectorAll('#dashboardblock svg');
+for (var i=0; i<svgTags.length; i++) {
+  var svgTag = svgTags[i];
+  var c = document.createElement('canvas');
+  c.width = svgTag.clientWidth;
+  c.height = svgTag.clientHeight;
+  svgTag.parentNode.insertBefore(c, svgTag);
+  svgTag.parentNode.removeChild(svgTag);
+  var div = document.createElement('div');
+  div.appendChild(svgTag);
+  canvg(c, div.innerHTML);
+}
+html2canvas($("#page1"), {
+  background: '#FFFFFF',
+  onrendered: function(canvas) {
+    var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+    var imgWidth = 290; 
+    var pageHeight = 225;  
+    var imgHeight = canvas.height * imgWidth / canvas.width;
+    var heightLeft = imgHeight;
 
-      var doc = new jsPDF('l', 'mm');
-      var position = 0;
+    var doc = new jsPDF('l', 'mm');
+    var position = 0;
 
+    doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      doc.addPage();
       doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        doc.addPage();
-        doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-      doc.save( 'Patient Submission.pdf');﻿
     }
-  });
-  setInterval(function(){ 
-    $(".addLoader").removeClass("cf-loader"); 
-    $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
-    $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
-    $("#page1").css("background","");
-    $(".f-s-b").css("padding-top","0px");
-
-  }, 3000);   
+    doc.save( 'Patient Submission.pdf');﻿
+  }
 });
-  }); 
+setInterval(function(){ 
+  $(".addLoader").removeClass("cf-loader"); 
+  $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
+  $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
+  $("#page1").css("background","");
+  $(".f-s-b").css("padding-top","0px");
+
+}, 3000);   
+});
+}); 
 </script> 
 
 <style>
@@ -432,7 +454,9 @@
   .validError .parsley-error{
     border: 1px solid #f35958!important;
   }  
-
+  .t-center{
+    text-align: center;
+  }
 </style>
 
 
