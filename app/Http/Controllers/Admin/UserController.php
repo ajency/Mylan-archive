@@ -33,7 +33,8 @@ class UserController extends Controller
 
     public function dashboard()
     {  
-        return view('admin.dashbord')->with('active_menu', 'dashbord');
+        return redirect('/admin/hospitals');
+        //return view('admin.dashbord')->with('active_menu', 'dashbord');
     }
 
     public function loginLinks()
