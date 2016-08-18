@@ -253,7 +253,8 @@ class AuthController extends Controller
 
             if(Auth::user()->account_status=='active' && Auth::user()->type=='mylan_admin')
             {   
-                return redirect('/admin/dashboard');
+                //return redirect('/admin/dashboard');
+                return redirect('/admin/hospitals');
             }
             elseif(Auth::user()->account_status=='active' && (Auth::user()->type =='hospital_user' || Auth::user()->type =='project_user') )
             {  
