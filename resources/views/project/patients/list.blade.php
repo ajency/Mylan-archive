@@ -26,18 +26,18 @@
         </div>
      </div>
      <div class="col-sm-8 pull-right">
-       <div class="m-t-10">
+       <div class="m-t-5">
         <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
         <span class="addLoader"></span></a>
 
-       <div class="pull-right m-r-10">
+       <div class="pull-right m-r-5">
        @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
        <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add Patient</a>
        @endif
           
        
        </div>
-       <div class="pull-right m-r-10 patient-search">
+       <div class="pull-right m-r-5 patient-search">
           <select class="selectpicker pull-right" data-live-search="true" title="Patient" name="referenceCode">
           <option class="ttuc" value="">-select patient-</option>
            @foreach($allPatients as $patientData)
@@ -45,7 +45,7 @@
            @endforeach
           </select>
        </div>
-      <div class="pull-right m-r-10">
+      <div class="pull-right m-r-5">
        <form name="searchData" method="GET"> 
       
        <input type="hidden" class="form-control" name="startDate"  >
