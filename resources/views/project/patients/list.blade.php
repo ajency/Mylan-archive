@@ -98,16 +98,22 @@
          </div>
          <div class="col-md-7 m-t-60 ">
             <div class="col-md-4 text-center ">
+              <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=completed">
                <h3 class="no-margin bold">{{ $completed }}%</h3>
                <p class=" text-underline">{{ $completedCount }} Submissions Completed</p>
+               </a>
             </div>
             <div class="col-md-4 text-center">
+              <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=late">
                <h3 class="no-margin bold">{{ $late }}%</h3>
                <p class="">{{ $lateCount }} Submissions Late</p>
+              </a> 
             </div>
             <div class="col-md-4 text-center">
+              <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=missed">
                <h3 class="no-margin bold">{{ $missed }}%</h3>
                <p class="">{{ $missedCount }} Submissions Missed</p>
+              </a> 
             </div>
          </div>
       </div>
