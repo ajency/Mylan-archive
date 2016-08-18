@@ -112,11 +112,11 @@
                   <div class="bar-inner">
                      <ul>
                         @if(Auth::user()->type=='mylan_admin')
-                        <li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
+                        <!--li class="{{ ( $active_menu == 'dashbord')? 'active-item' : ''}}">
                            <a href="{{ url( 'admin/dashboard/' ) }}">
                            <span><i class="fa fa-tachometer"></i> Dashboard </span>
                            </a>
-                        </li>
+                        </li-->
                         
                         <li class="{{ ( $active_menu == 'hospital')? 'active-item' : ''}}">
                            <a href="{{ url( 'admin/hospitals/' ) }}">
