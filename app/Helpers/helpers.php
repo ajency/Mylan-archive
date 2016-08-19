@@ -347,6 +347,23 @@ function hasHospitalPermission($hospitalSlug,$userPermission)
     return $flag;
 }
 
+function hasCreateProjectPermission()
+{  
+    $userId =  Auth::user()->id;
+    $user = App\User::find($userId); 
+    $hasAccess = $user->has_all_access; 
+    $userType =  $user->type; 
+
+    
+    $flag = false;
+    if($userType=='mylan_admin')
+    {
+        $flag = true;
+    }
+    
+    return $flag;
+}
+
 function hasMylanPermission()
 {  
     $userId =  Auth::user()->id;
