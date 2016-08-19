@@ -48,8 +48,10 @@
       
           <div class="control-group">
             <div class="checkbox checkbox check-success"> <a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">Trouble logging in?</a>&nbsp;&nbsp;
+            <span style="float:right;">
               <input type="checkbox" id="checkbox1" name="remember" value="1">
               <label for="checkbox1">Remember me </label>
+            </span>  
             </div>
           </div>
          
