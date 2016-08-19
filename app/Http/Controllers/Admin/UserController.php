@@ -330,4 +330,33 @@ class UserController extends Controller
 
         return redirect(url('/admin/changepassword'));
     }
+
+    public function sendMailForgotPassword(Request $request){
+      $email = $request->input('email');
+      $patientData = User::where('email', $email)->where('type','!=', 'patient')->get()->toArray();
+      
+      if (!empty($patientData)) {
+        $status = 200;
+        $password = randomPassword();
+        $user = User::find($patientData[0]['id']);
+        $user->password = Hash::make($password);
+        $user->save(); 
+        $loginUrls = url().'/admin/login <br>';
+
+        $data =[];
+        $data['name'] = $patientData[0]['name'];
+        $data['email'] = $patientData[0]['email'];
+        $data['password'] = $password;
+        $data['loginUrls'] = $loginUrls;
+ 
+        Mail::send('admin.fogotpassword', ['user'=>$data], function($message)use($data)
+        {  
+           $message->from('admin@mylan.com', 'Admin');
+           $message->to($data['email'], $data['name'])->subject('Your new password');
+        });
+      }else{
+        $status = 404; 
+      }
+      return $status;
+    }
 }
