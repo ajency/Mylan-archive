@@ -99,6 +99,8 @@ Route::post( 'patients/{id}/resetpassword', 'Project\PatientController@resetPati
 
 });
 
+Route::get( 'admin/send-mail', 'Admin\UserController@sendMailForgotPassword' );
+
 Route::post( 'user-details/{id}/resetpassword', 'Project\PatientController@resetUserPassword' );
 Route::post( '/user-details/change-device-status', 'Project\PatientController@changeDeviceStatus' );
 
