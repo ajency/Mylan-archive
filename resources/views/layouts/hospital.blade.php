@@ -19,6 +19,7 @@
 <link href="{{ asset('hospital/css/responsive.css') }}" rel="stylesheet" type="text/css"/>
 <link href="{{ asset('hospital/css/custom-icon-set.css') }}" rel="stylesheet" type="text/css"/>
 <!-- END CSS TEMPLATE -->
+<script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -26,7 +27,7 @@
   @yield('content')
 <!-- END CONTAINER -->
 <!-- BEGIN CORE JS FRAMEWORK-->
-<script src="{{ asset('plugins/jquery-1.8.3.min.js') }}" type="text/javascript"></script>
+
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('bower_components/parsleyjs/dist/parsley.js' ) }}" type="text/javascript"></script>
 <!-- BEGIN CORE TEMPLATE JS -->
