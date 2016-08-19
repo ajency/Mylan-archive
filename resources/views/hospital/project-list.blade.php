@@ -21,7 +21,9 @@
 
     <div class="pull-right m-t-10">
                      @if(hasHospitalPermission($hospital['url_slug'],['edit']))
-                     <a href="{{ url( $hospital['url_slug'].'/projects/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Project</a>
+                        @if(hasCreateProjectPermission())
+                            <a href="{{ url( $hospital['url_slug'].'/projects/create' ) }}" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Project</a>
+                        @endif    
                      @endif
                   </div>
                   <div class="page-title">
