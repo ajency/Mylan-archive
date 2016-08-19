@@ -52,22 +52,26 @@
 
                         <input type="hidden" name="hospital_logo" id="hospital_logo">    
                     </div>
-                    <p class="text-center fosz12 m-t-10">Upload a logo having dimensions of approximately 200 X 50.</p>
+                    <p class="fosz12 m-t-10">Upload a logo having dimensions of approximately 200 X 50.</p>
                                        <br>
                    <h4 class="m-b-0" style="margin-top: 22px;"><span class="semi-bold">Primary Contact Details</span></h4>
                    <hr>
                    
-                   <div class="form-row">
-                       <label>Contact name</label>
-                       <input name="contact_person" id="contact_person" type="text" class="form-control"  value="{{ $hospital['contact_person_name'] }}" data-parsley-required >
-                   </div>
                    <div class="row form-row">
-                       <div class="col-md-6">
-                           <div class="form-row">
-                               <label>Email</label>
-                               <input name="primary_email" id="primary_email" type="email" class="form-control"  value="{{ $hospital['primary_email'] }}" data-parsley-type="email" data-parsley-required data-parsley-trigger="change">
-                           </div>
+                     <div class="col-md-6">
+                       <label>Contact name</label>
+                         <input name="contact_person" id="contact_person" type="text" class="form-control"  value="{{ $hospital['contact_person_name'] }}" data-parsley-required >
+                     </div>
+
+                     <div class="col-md-6">
+                       <div class="form-row">
+                         <label>Email</label>
+                         <input name="primary_email" id="primary_email" type="email" class="form-control"  value="{{ $hospital['primary_email'] }}" data-parsley-type="email" data-parsley-required data-parsley-trigger="change">
                        </div>
+                     </div>
+                   </div>
+                   
+                   <div class="row form-row">
                        <div class="col-md-6">
                            <div class="form-row">
                                <label>Phone Number</label>

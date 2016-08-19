@@ -53,7 +53,7 @@
          </div>
           <hr>
 			 <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>	
-			 <div class="row">
+			 <div class="row m-t-15">
 				 <div class="col-sm-4 text-left passGenerate">
 					<button type="button" class="btn btn-primary generate_new_password" object-id="{{ $user['id'] }}" identify-user ="hospital user" >Generate New Password <i class="fa"></i></button> 
 					<span id="generatePassword" class="generatePassword"></span>

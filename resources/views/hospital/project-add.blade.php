@@ -24,7 +24,8 @@
 @section('content')
  
 <div class="page-title">
-   <h3><span class="semi-bold">Add Project</span></h3>
+   <h3 class="m-b-0"><span class="semi-bold">Add Project</span></h3>
+   <small class="db">Enter the project details</small>
 </div>
 @include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects') }}" data-parsley-validate>
@@ -39,7 +40,7 @@
                                  </div>
                                  <div class="form-row">
                                     <label>Description <span class="text-primary">*</span></label>
-                                    <textarea name="description" id="description" rows="3" placeholder="Write a short summary to describe the projects." style="width:100%;" data-parsley-required></textarea>
+                                    <textarea style="width: 100%;" name="description" id="description" rows="3" placeholder="Write a short summary to describe the projects." style="width:100%;" data-parsley-required></textarea>
                                  </div>
                               </div>
 
@@ -52,10 +53,10 @@
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                <div class="col-xs-1 text-center">
+                                <div class="col-xs-2 text-center">
                                     <label class="form-label">Mark as mandatory</label>
                                 </div>
                                 <div class="col-xs-1">
@@ -70,7 +71,7 @@
                                 <div class="add-unit">
                             <div class="">
                                 <div class="col-xs-3">
-                                    <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
+                                    <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter patient question"  >
                                 </div>
                                 <div class="col-xs-3">
                                     <select name="controltype[]" class="select2-container select2 form-control">
@@ -82,11 +83,11 @@
                                         <option value="weight"> Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags">
 
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-2">
                                 <div class="validateCheck">
                                     <input type="checkbox" name="validate[1]"  >
                                 </div>
@@ -104,10 +105,10 @@
 
 
 
-                                <div class="row">
-                                <div class="col-md-12">
+                                <div class="row m-t-15 m-b-15">
+                                <div class="col-md-12 p-r-0">
                                  <div class="text-right">
-                                    <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
+                                    <a tabindex="0" class="btn btn-link addAttributes outline-btn">Add question <i class="fa fa-plus"></i></a>
                                 </div>
                                 </div>
                                 </div>

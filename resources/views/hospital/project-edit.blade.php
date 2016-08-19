@@ -28,7 +28,8 @@
 	<?php $thrashHide = 'style="display:none;"' ?>
  @endif
 <div class="page-title">
-   <h3><span class="semi-bold">Edit Project</span></h3>
+   <h3 class="m-b-0"><span class="semi-bold">Edit Project</span></h3>
+   <small class="db">Edit the project details</small>
 </div>
 @include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects/'.$project['id']) }}" data-parsley-validate>
@@ -43,7 +44,7 @@
                                  </div>
                                  <div class="form-row">
                                     <label>Description <span class="text-primary">*</span></label>
-                                    <textarea name="description" id="description" rows="3" data-parsley-required placeholder="Write a short summary to describe the projects.">{{ $project['description'] }}</textarea>
+                                    <textarea style="width: 100%;" name="description" id="description" rows="3" data-parsley-required placeholder="Write a short summary to describe the projects.">{{ $project['description'] }}</textarea>
                                  </div>
                                  <hr>
                               </div>
@@ -57,10 +58,10 @@
                                 <div class="col-xs-3">
                                     <label class="form-label">Control Type</label>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <label class="form-label">Defaults</label>
                                 </div>
-                                <div class="col-xs-1 text-center">
+                                <div class="col-xs-2 text-center">
                                     <label class="form-label">Mark as mandatory</label>
                                 </div>
                                 <div class="col-xs-1 text-center">
@@ -72,7 +73,7 @@
                            @foreach($projectAttributes as $key =>$attibute)
                             <div class="row allattributes attributeContainer">
                                 <div class="col-xs-3">
-                                    <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter Attribute Name"  >
+                                    <input type="text" name="attribute_name[]" class="form-control" value="{{ $attibute['label'] }}" placeholder="Enter patient question"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="{{ $attibute['id'] }}">
                                 </div>
                                 <div class="col-xs-3">
@@ -85,14 +86,14 @@
                                         <option value="weight" {{ ($attibute['control_type']=='weight')?'selected':''}} > Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-4"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
+                                <div class="col-xs-3"> <!-- {{ ($attibute['values']=='')?'readonly':'' }}  -->
                                 @if($attibute['control_type']=='weight')
                                     <input type="text"   name="controltypevalues[]" value="{{ $attibute['values'] }}" readonly class="tags text-100">
                                 @else 
                                     <input type="text" name="controltypevalues[]" value="{{ $attibute['values'] }}" data-role="tagsinput" class="tags text-100">
                                 @endif
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-2">
                                     <div class="validateCheck">
                                     <input type="checkbox" name="validate[{{ $key }}]" {{ ($attibute['validate']=='on')?'checked':''}}>
                                     </div>
@@ -112,7 +113,7 @@
                                 <div class="add-unit">
                             <div class="">
                                 <div class="col-xs-3">
-                                    <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter Attribute Name"  >
+                                    <input type="text" name="attribute_name[]" class="form-control" value="" placeholder="Enter patient question"  >
                                     <input type="hidden" name="attribute_id[]" class="form-control" value="">
                                 </div>
                                 <div class="col-xs-3">
@@ -125,11 +126,11 @@
                                         <option value="weight"> Weight </option>
                                     </select>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-3">
                                     <input type="text" name="controltypevalues[]" data-role="tagsinput" class="tags text-100">
 
                                 </div>
-                                <div class="col-xs-1">
+                                <div class="col-xs-2">
                                 <div class="validateCheck">
                                     <input type="checkbox" name="validate[{{ $key }}]"  >
                                     </div>
@@ -152,10 +153,10 @@
                         <input type="hidden" name="counter" value="{{ $key }}">
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-12">
+                        <div class="row m-t-15 m-b-15">
+                            <div class="col-md-12 p-r-0">
                              <div class="text-right" <?php echo $thrashHide;?>>
-                                <a tabindex="0" class="btn btn-link addAttributes"><i class="fa fa-plus"></i>Add Attribute</a>
+                                <a tabindex="0" class="btn btn-link addAttributes outline-btn">Add question <i class="fa fa-plus"></i></a>
                             </div>
                             </div>
                             </div>
