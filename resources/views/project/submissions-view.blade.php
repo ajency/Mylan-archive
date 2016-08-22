@@ -121,7 +121,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 
               <div class="col-md-12 reviewStatus"> 
                 <label>Review Status</label>
-                <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
+                <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control full-width" object-id="{{ $currentSubmission }}">            
                   <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
                   <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
                   <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
@@ -141,11 +141,11 @@ $currUrl = $_SERVER['REQUEST_URI'];
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row m-t-30">
+      <div class="col-md-6">
         <div><label>Submitted on {{ $submittedDate }}</label></div>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-6">
         @if($responseData['reviewNote']!='')
 
         <div class="Notes">
@@ -156,7 +156,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 
       </div>
     </div>
-    
+
   </div>
   
   <!-- /test -->
