@@ -224,6 +224,7 @@ class ProjectController extends Controller
                   $lastoccDates[$v] = '-';     
                 }
              }
+             
           /*ends*/
             $allDataPatientSummary = $patientsSummary;
 
