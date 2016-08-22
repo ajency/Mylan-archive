@@ -52,7 +52,7 @@
               
          </div>
           <hr>
-			 <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>	
+			 <h4 class="no-margin"><span class="semi-bold">Reset Password</span></h4>	
 			 <div class="row m-t-15">
 				 <div class="col-sm-4 text-left passGenerate">
 					<button type="button" class="btn btn-primary generate_new_password" object-id="{{ $user['id'] }}" identify-user ="hospital user" >Generate New Password <i class="fa"></i></button> 
@@ -60,7 +60,7 @@
 				 </div>
 			 </div>
           <hr>
-         <h4 class="no-margin"><span class="semi-bold">Hospital Access</span> Configuration
+         <h4 class="no-margin"><span class="semi-bold">Hospital Access Configuration</span> 
                   
          <div class="checkbox check-primary custom-checkbox pull-right">
             <input id="has_all_access" type="checkbox" name="has_all_access" onclick="validateCheck();" value="yes" {{ ($user['has_all_access']=='yes') ? 'checked':''}} >

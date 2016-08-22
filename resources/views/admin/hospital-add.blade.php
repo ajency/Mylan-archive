@@ -34,7 +34,7 @@
             
                    <h4 class="m-b-20"><span class="semi-bold">Hospital Logo</span></h4>
                    
-                <div class="upload upload-border text-center">
+                <div class="upload upload-border text-center" style="min-height: 116px; max-height: 116px;">
                         <a class="deleteHospitalLogo btn btn-link btn-xs pull-right hidden" data-type="hospital" data-value="0" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
                                                  

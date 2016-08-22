@@ -32,7 +32,7 @@
        <div class="row">
            <div class="col-md-5">
            <h4 class="m-b-20"><span class="semi-bold">Hospital Logo</span></h4>
-                <div class="upload upload-border text-center">
+                <div class="upload upload-border text-center" style="min-height: 116px; max-height: 116px;">
                         <a class="deleteHospitalLogo btn btn-link btn-xs pull-right {{ ($hospital['logo']=='')?'hidden':'' }}" data-type="hospital" data-value="{{ $hospital['id'] }}" href="javascript:;"><i class="fa fa-close text-danger"></i></a>
                         <div class="img-div" id="hospital_logo_block">
                         @if($hospital['logo']!='')
