@@ -207,8 +207,9 @@ class ProjectController extends Controller
               $responseLQry->exists("patient");
               $responseLQry->containedIn("status",$statusLate);
               $responseLQry->containedIn("patient",$patientReferenceCode);
-              $responseLQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
               $responseLQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+              $responseLQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+              $responseLQry->ascending("occurrenceDate");
               $responseL = $responseLQry->find();
 
               foreach($responseL as $responseLVal)
