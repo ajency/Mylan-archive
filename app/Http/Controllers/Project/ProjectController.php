@@ -185,6 +185,8 @@ class ProjectController extends Controller
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
             } 
+            $patientController = new PatientController();
+            $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
             $allDataPatientSummary = $patientsSummary;
 
             $patientResponses = $patientsSummary['patientResponses'];
