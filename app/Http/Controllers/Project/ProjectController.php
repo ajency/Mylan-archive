@@ -187,9 +187,7 @@ class ProjectController extends Controller
             } 
 
             //get patients next occurance date
-             echo "<pre>";
-             print_r($patientsSummary['patientResponses']);
-             exit;
+
               $nextoccDates = array();
               $scheduleQry = new ParseQuery("Schedule");
               $scheduleQry->exists("patient");
@@ -202,7 +200,10 @@ class ProjectController extends Controller
                   $nextoccDates[$patientIdRef] = ($nextOccurrence)?$nextOccurrence:'-';
 
               }
-
+              echo "<pre>";
+             print_r($nextoccDates);
+             exit;
+             
               $statusLate = ["completed","late"];
               $lastoccDates = array();
               $responseLQry = new ParseQuery("Response");
