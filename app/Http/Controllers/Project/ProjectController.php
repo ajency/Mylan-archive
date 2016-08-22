@@ -192,7 +192,17 @@ class ProjectController extends Controller
               $nextoccDates = array();
               $scheduleQry = new ParseQuery("Schedule");
               $scheduleQry->exists("patient");
-             $scheduleQry->containedIn("patient",array_keys($patientsSummary['patientResponses']));
+              $scheduleQry->containedIn("patient",array_keys($patientsSummary['patientResponses']));
+              $schedules = $scheduleQry->find();
+              foreach($schedules as $schedule)
+              {
+                  $patientIdRef = $schedule->get("patient");
+                  $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
+                  $nextoccDates[$patientIdRef] = ($nextOccurrence)?$nextOccurrence:'-';
+
+              }
+              $scheduleQry = new ParseQuery("Schedule");
+              $scheduleQry->exists("patient");
               $scheduleQry->containedIn("patient",$patientReferenceCode);
               $schedules = $scheduleQry->find();
               foreach($schedules as $schedule)
@@ -202,6 +212,7 @@ class ProjectController extends Controller
                   $nextoccDates[$patientIdRef] = ($nextOccurrence)?$nextOccurrence:'-';
 
               }
+              
               echo "<pre>";
              print_r($nextoccDates);
              exit;
