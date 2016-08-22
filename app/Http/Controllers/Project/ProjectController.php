@@ -317,12 +317,12 @@ class ProjectController extends Controller
         //get count
         $alertQry = new ParseQuery("Alerts");
         $alertQry->equalTo("project",$projectId);
-        if(!empty($cond))
+       /* if(!empty($cond))
         {
             foreach ($cond as $key => $value) {
                 $alertQry->equalTo($key,$value);
             }
-        }
+        }*/
         $alertCount = $alertQry->count();
 
 
