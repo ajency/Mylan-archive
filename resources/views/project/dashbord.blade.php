@@ -605,10 +605,8 @@ if(!(array_key_exists($referenceCode, $lastoccDates))){
   </td>
   <td>
     <div class="lst-sub text-center p-t-20">
-      <span class="sm-font">Last Submission  <b>{{ $patientSummary['lastSubmission'] }}</b></span><br>
-      <span class="sm-font">Next Submission  <b>{{ $patientSummary['nextSubmission'] }}</b></span>
-      <!--span class="sm-font">Last Submission  <b></b></span><br>
-      <span class="sm-font">Next Submission  <b></b></span-->
+      <span class="sm-font">Last Submission  <b>{{ $lastoccDates[$referenceCode] }}</b></span><br>
+      <span class="sm-font">Next Submission  <b>{{ $nextoccDates[$referenceCode] }}</b></span>
     </div>
   </td>
   <td class="text-right sorting text-error" onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'">                              
