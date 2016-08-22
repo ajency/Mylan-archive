@@ -224,7 +224,7 @@ class ProjectController extends Controller
                   $lastoccDates[$v] = '-';     
                 }
              }
-             
+
           /*ends*/
             $allDataPatientSummary = $patientsSummary;
 
@@ -292,8 +292,8 @@ class ProjectController extends Controller
                                         ->with('submissionNotifications', $submissionNotifications)
                                         ->with('submissionNotificationsCountViewall', $submissionNotificationsCountViewall)
                                         ->with('endDate', $endDate)
-                                        /*->with('nextoccDates', $nextoccDates)
-                                        ->with('lastoccDates', $lastoccDates)*/
+                                        ->with('nextoccDates', $nextoccDates)
+                                        ->with('lastoccDates', $lastoccDates)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl);
