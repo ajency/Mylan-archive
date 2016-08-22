@@ -187,6 +187,10 @@ class ProjectController extends Controller
             } 
             $patientController = new PatientController();
             $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
+            echo "<pre>";
+            print_r($patientsSummary);
+            exit;
+
             $allDataPatientSummary = $patientsSummary;
 
             $patientResponses = $patientsSummary['patientResponses'];
