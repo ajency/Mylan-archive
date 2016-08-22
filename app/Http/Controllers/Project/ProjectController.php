@@ -185,6 +185,8 @@ class ProjectController extends Controller
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
             } 
+           
+
             $allDataPatientSummary = $patientsSummary;
 
             $patientResponses = $patientsSummary['patientResponses'];
