@@ -48,8 +48,10 @@
       
           <div class="control-group">
             <div class="checkbox checkbox check-success"> <a href="#" data-toggle="modal" data-target=".bs-example-modal-sm">Trouble logging in?</a>&nbsp;&nbsp;
+            <span style="float:right;">
               <input type="checkbox" id="checkbox1" name="remember" value="1">
               <label for="checkbox1">Remember me </label>
+            </span>  
             </div>
           </div>
          
@@ -65,7 +67,7 @@
  
 </div>
   <!-- Modal -->
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!--div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
      <div class="modal-body">
@@ -91,5 +93,70 @@
     <br>
   </div>
   </div>
+</div-->
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+     <div class="modal-body">
+        <div class="text-centers">
+         <br>
+          <h3>Forgot your password ?</h3>
+          <br />
+          <div id="show-mail-msg" class="" style="display:none;"></div>
+          <form id="adminFPass" data-parsley-validate>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <div class="controls">
+                <div class="input-with-icon  right">                                       
+                  <i class=""></i>
+                  <input type="text" name="email" id="FPassEmail" class="form-control" placeholder="Email" data-parsley-type="email" data-parsley-required >
+                </div>
+              </div>
+              <button class="btn btn-success btn-cons pull-right" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success btn-cons pull-right">Proceed</button>
+            </div>
+          </form>
+        </div>
+    </div>
+     <div class="modal-footer" style="background-color:#e5e9ec;">
+        <div class="row">
+        
+      </div>
+    </div>
+
+  </div>
+  </div>
 </div>
+<script>
+   $(document).ready(function($) {
+      $('.modal').on('show.bs.modal', function (e) {
+        $("#FPassEmail").val($("#email").val());
+        $("#show-mail-msg").attr("style","display:none"); 
+        $("#show-mail-msg").attr("class",""); 
+      })
+      $('#adminFPass').submit(function(e) { 
+        e.preventDefault();
+        if ( $(this).parsley().isValid() ) {
+          $.ajax({
+            url:'{{ url() }}/admin/send-mail',
+            type: 'GET',
+            data: { 'email' : $("#FPassEmail").val() },
+            success: function(data){
+              if(data == 200){
+                 $("#show-mail-msg").attr("class","");  
+                 $("#show-mail-msg").html("success"); 
+                 $("#show-mail-msg").attr("style","display:block");
+                 $("#show-mail-msg").addClass('alert alert-success');
+              }else{
+                 $("#show-mail-msg").attr("class",""); 
+                 $("#show-mail-msg").html("failure");
+                 $("#show-mail-msg").attr("style","display:block"); 
+                 $("#show-mail-msg").addClass('alert alert-danger');
+              }
+            }
+          });
+        }
+      }); 
+   });
+  </script>
 @endsection
