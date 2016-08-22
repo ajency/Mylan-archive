@@ -187,7 +187,7 @@ class ProjectController extends Controller
             } 
 
             //get patients next occurance date
-             
+            /* 
               $nextoccDates = array();
               $scheduleQry = new ParseQuery("Schedule");
               $scheduleQry->exists("patient");
@@ -223,7 +223,7 @@ class ProjectController extends Controller
                 if(!(array_key_exists($v,$lastoccDates))){
                   $lastoccDates[$v] = '-';     
                 }
-             }
+             }*/
           /*ends*/
             $allDataPatientSummary = $patientsSummary;
 
@@ -291,8 +291,8 @@ class ProjectController extends Controller
                                         ->with('submissionNotifications', $submissionNotifications)
                                         ->with('submissionNotificationsCountViewall', $submissionNotificationsCountViewall)
                                         ->with('endDate', $endDate)
-                                        ->with('nextoccDates', $nextoccDates)
-                                        ->with('lastoccDates', $lastoccDates)
+                                        /*->with('nextoccDates', $nextoccDates)
+                                        ->with('lastoccDates', $lastoccDates)*/
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl);
