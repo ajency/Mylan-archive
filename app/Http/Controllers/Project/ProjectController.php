@@ -187,7 +187,9 @@ class ProjectController extends Controller
             } 
 
             //get patients next occurance date
-             
+             echo "<pre>";
+             print_r($patientsSummary['patientResponses']);
+             exit;
               $nextoccDates = array();
               $scheduleQry = new ParseQuery("Schedule");
               $scheduleQry->exists("patient");
