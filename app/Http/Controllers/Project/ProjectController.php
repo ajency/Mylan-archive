@@ -187,7 +187,7 @@ class ProjectController extends Controller
             } 
 
             //get patients next occurance date
-            /* 
+             
               $nextoccDates = array();
               $scheduleQry = new ParseQuery("Schedule");
               $scheduleQry->exists("patient");
@@ -223,7 +223,7 @@ class ProjectController extends Controller
                 if(!(array_key_exists($v,$lastoccDates))){
                   $lastoccDates[$v] = '-';     
                 }
-             }*/
+             }
           /*ends*/
             $allDataPatientSummary = $patientsSummary;
 
