@@ -185,6 +185,45 @@ class ProjectController extends Controller
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
             } 
+
+            //get patients next occurance date
+             
+              $nextoccDates = array();
+              $scheduleQry = new ParseQuery("Schedule");
+              $scheduleQry->exists("patient");
+              $scheduleQry->containedIn("patient",array_keys($patientsSummary['patientResponses']));
+              $schedules = $scheduleQry->find();
+              foreach($schedules as $schedule)
+              {
+                  $patientIdRef = $schedule->get("patient");
+                  $nextOccurrence = $schedule->get("nextOccurrence")->format('dS M');
+                  $nextoccDates[$patientIdRef] = ($nextOccurrence)?$nextOccurrence:'-';
+
+              }
+
+              $statusLate = ["completed"];
+              $lastoccDates = array();
+              $responseLQry = new ParseQuery("Response");
+              $responseLQry->exists("patient");
+              $responseLQry->containedIn("status",$statusLate);
+              $responseLQry->containedIn("patient",$patientReferenceCode);
+              $responseLQry->lessThanOrEqualTo("occurrenceDate",$endDateObj);
+              $responseLQry->greaterThanOrEqualTo("occurrenceDate",$startDateObj);
+              $responseL = $responseLQry->find();
+
+              foreach($responseL as $responseLVal)
+              {
+                  $patientIdRefLast = $responseLVal->get("patient");
+                  $LastOccurrences = $responseLVal->get("occurrenceDate")->format('dS M');
+                  $lastoccDates[$patientIdRefLast] = ($LastOccurrences)?$LastOccurrences:'-';
+              }
+             
+             foreach(array_keys($patientsSummary['patientResponses']) as $k=>$v){
+                if(!(array_key_exists($v,$lastoccDates))){
+                  $lastoccDates[$v] = '-';     
+                }
+             }
+          /*ends*/
             $allDataPatientSummary = $patientsSummary;
 
             $patientResponses = $patientsSummary['patientResponses'];
@@ -251,6 +290,8 @@ class ProjectController extends Controller
                                         ->with('submissionNotifications', $submissionNotifications)
                                         ->with('submissionNotificationsCountViewall', $submissionNotificationsCountViewall)
                                         ->with('endDate', $endDate)
+                                        ->with('nextoccDates', $nextoccDates)
+                                        ->with('lastoccDates', $lastoccDates)
                                         ->with('startDate', $startDate)
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl);
