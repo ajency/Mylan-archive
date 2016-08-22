@@ -201,7 +201,7 @@ class ProjectController extends Controller
 
               }
 
-              $statusLate = ["completed"];
+              $statusLate = ["completed","late"];
               $lastoccDates = array();
               $responseLQry = new ParseQuery("Response");
               $responseLQry->exists("patient");
