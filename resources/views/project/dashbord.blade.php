@@ -577,6 +577,12 @@ if(!isset($patientResponses[$referenceCode])) //inactive patient data
 
 }
 $patientSummary = $patientResponses[$referenceCode];
+if(!(array_key_exists($referenceCode, $nextoccDates))){
+  $nextoccDates[$referenceCode] = '-';
+}
+if(!(array_key_exists($referenceCode, $lastoccDates))){
+  $lastoccDates[$referenceCode] = '-';
+}
 ?>
 <tr>
   <td onclick="window.document.location='{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patientId) }}'" class="ttuc patient-refer{{ $referenceCode }}">{{ $referenceCode }}</td>
