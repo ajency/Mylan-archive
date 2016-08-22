@@ -329,11 +329,11 @@
 
                 @if($patient['account_status']!='created' && Auth::user()->type=='mylan_admin')
                 <hr>
-               <h4 class="no-margin">Reset <span class="semi-bold">Password</span></h4>
+               <h4 class="no-margin"> <span class="semi-bold">Reset Password</span></h4>
               
                <div class="form-row">
                  
-              <div class="row">
+              <div class="row m-t-15">
                  <div class="col-sm-4 text-left passGenerate">
                     <button type="button" class="btn btn-primary generate_new_password" object-id="{{ $patient['id'] }}" identify-user ="patient">Generate New Password <i class="fa"></i></button> 
                     <span id="generatePassword" class="generatePassword"></span>
@@ -343,7 +343,7 @@
               @endif
 
                 <hr>
-               <h4 class="no-margin">Medication <span class="semi-bold">Data</span></h4>
+               <h4 class="no-margin"><span class="semi-bold">Medication Data</span></h4>
               
                <div class="form-row medication-data">
                 @if(!empty($patientMedications))
@@ -377,7 +377,7 @@
         
               
            <hr>
-               <h4 class="no-margin">Clinic <span class="semi-bold">Visits</span></h4>
+               <h4 class="no-margin"><span class="semi-bold">Clinic Visits</span></h4>
                <br>
              
                  
@@ -435,7 +435,7 @@
                   <button type="button" class="btn btn-link text-success add-visit"><i class="fa fa-plus"></i> Add Visit</button>
 
                   <hr>
-               <h4 class="no-margin">Questionnaire <span class="semi-bold">Settings</span></h4>
+               <h4 class="no-margin"><span class="semi-bold">Questionnaire Settings</span></h4>
                <span class="help-block m-t-5">Settings configured at project level will be accepted if not set at patient level.</span>
               
       <div class="alert alert-warning">
