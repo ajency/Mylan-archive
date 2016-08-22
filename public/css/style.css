@@ -1600,7 +1600,7 @@ body.modal-open .chat-window-wrapper {
 }
 .horizontal-menu .bar-inner > ul > li {
   display: inline-block;
-  padding: 10px 15px;
+  /*padding: 10px 15px;*/
   font-family: 'Open Sans';
   vertical-align: middle;
 }
@@ -1616,6 +1616,8 @@ body.modal-open .chat-window-wrapper {
 }
 .horizontal-menu .bar-inner > ul > li > a {
   color: #1b1e24;
+  padding: 10px 15px;
+  display: block;
 }
 .horizontal-menu .bar-inner > ul > li > a > .arrow {
   display: inline-block;
