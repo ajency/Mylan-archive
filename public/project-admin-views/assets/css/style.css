@@ -8138,7 +8138,7 @@ label {
   padding-left: 0;
 }
 .m-b-0 {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 .m-l-42 {
   margin-left: 42px;
@@ -10104,4 +10104,14 @@ table tr.printPdfMargin td.print-pdf-marginPFl {
 }
 .table tr.printPdfMarginSecond td.print-pdf-margin-flags-extra {
   padding-top: 70px !important;
+}
+.fosz14 {
+  font-size: 14px !important;
+}
+.lh18 {
+  line-height: 18px;
+}
+.bb {
+  border-top: 1px solid #ddd;
+  margin: 10px 0;
 }

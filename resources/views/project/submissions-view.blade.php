@@ -95,46 +95,73 @@ $currUrl = $_SERVER['REQUEST_URI'];
 <br> <br>
 <div class="user-description-box">
   <div class="row">
-    <div class="col-md-4">
 
-      <div class="row">
+  <!-- test -->
+  <div class="col-md-9">
+    <div class="row">
+          <div class="col-md-6">
 
-        <div class="col-md-12">
-          <label>Submission Number</label>
-          <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
-            @foreach($allSubmissions as $responseId =>$submission)
-            <option value="{{$responseId}}" {{ ($currentSubmission==$responseId)?'selected':'' }}>{{ $submission }}</option>
-            @endforeach
-          </select>
-        </div>
+            <div class="row">
+
+              <div class="col-md-12">
+                <label>Submission Number</label>
+                <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
+                  @foreach($allSubmissions as $responseId =>$submission)
+                  <option value="{{$responseId}}" {{ ($currentSubmission==$responseId)?'selected':'' }}>{{ $submission }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
+            <div class="row">
+
+
+              <div class="col-md-12 reviewStatus"> 
+                <label>Review Status</label>
+                <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
+                  <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
+                  <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
+                  <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
+                  <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
+                </select>
+
+      <!--  <div class="notes">
+      <i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
+      </div> -->
+
       </div>
 
+      <!-- <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div> -->
+
+      </div>
+      @endif
+      </div>
     </div>
-    <div class="col-md-5">
-      @if(hasProjectPermission($hospital['url_slug'],$project['project_slug'],['edit']))
-      <div class="row">
+
+    <div class="row">
+      <div class="col-md-4">
+        <div><label>Submitted on {{ $submittedDate }}</label></div>
+      </div>
+      <div class="col-md-8">
+        @if($responseData['reviewNote']!='')
+
+        <div class="Notes">
+          <label>Notes: ( {{ $updatedDate }} ) {{ $responseData['reviewNote'] }}</label> 
+        </div>
+
+        @endif
+
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- /test -->
 
 
-        <div class="col-md-12 reviewStatus"> 
-          <label>Review Status</label>
-          <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control" object-id="{{ $currentSubmission }}">            
-            <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
-            <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
-            <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
-            <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
-          </select>
-
-<!--  <div class="notes">
-<i class="fa fa-sticky-note" data-toggle="tooltip" data-placement="top" title="{{ $responseData['reviewNote'] }}"></i>
-</div> -->
-
-</div>
-
-<!-- <div class="col-md-2 m-t-15 hidden"> <span class="cf-loader"></span></div> -->
-
-</div>
-@endif
-</div>
 <!--div class="col-md-3 baselineAllign text-right ">
 <div class="pull-right">
 Previous <span class="p-l-r-5">|</span> Baseline
@@ -148,45 +175,52 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
 </div-->
 <div class="col-md-3 baselineAllign text-right" style="margin-top:-15px;">
-  <div align="center"><label>Total Score</label></div>
-  <table>
+  <div align="center"><label class="fw600 fosz14">Total Score</label></div>
+  <table style="width: 100%;">
     <tbody>
-      <tr>
+      <tr class="lh18">
+        <td class="t-center fw600">{{ $newTotalCounterArr['current'] }}<span class="p-l-r-5"></span></td>
+        <td class="t-center fw600">{{ $newTotalCounterArr['prev'] }}<span class="p-l-r-5"></span></td>
+        <td class="t-center fw600">{{  $newTotalCounterArr['base'] }}</td>
+      </tr>
+      <tr class="lh18">
         <td>Current<span class="p-l-r-5"></span></td>
         <td>Previous<span class="p-l-r-5"></span></td>
         <td>Baseline</td>
       </tr>
-      <tr>
-        <td class="t-center">{{ $newTotalCounterArr['current'] }}<span class="p-l-r-5"></span></td>
-        <td class="t-center">{{ $newTotalCounterArr['prev'] }}<span class="p-l-r-5"></span></td>
-        <td class="t-center">{{  $newTotalCounterArr['base'] }}</td>
-      </tr>
-      <tr>
+      <!-- <tr>
         <td>&nbsp;</td>
         <td class="t-center"><span class="p-l-r-5 text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"><i class="fa fa-flag"></i></span></td>
         <td class="t-center"><span class="text-{{ $responseData['baseLineFlag'] }}"><i class="fa fa-flag"></i></span></td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
-</div>
 
-</div>
+  <div class="bb"></div>
 
-<div class="row">
-  <div class="col-md-4">
-    <div><label>Submitted on {{ $submittedDate }}</label></div>
-  </div>
-  <div class="col-md-8">
-    @if($responseData['reviewNote']!='')
-
-    <div class="Notes">
-      <label>Notes: ( {{ $updatedDate }} ) {{ $responseData['reviewNote'] }}</label> 
+  <div class="row text-center">
+    <div class="col-sm-6">
+      <p class="m-b-0">
+        <i class="fa fa-flag text-red"></i>
+      </p>
+      <p class="fw600 fosz14 lh18">
+        Baseline vs Curent
+      </p>
     </div>
-
-    @endif
-
+    <div class="col-sm-6">
+      <p class="m-b-0">
+        <i class="fa fa-flag text-red"></i>
+      </p>
+      <p class="fw600 fosz14 lh18">
+        Previous vs Current
+      </p>
+    </div>
   </div>
 </div>
+
+</div>
+
+
 
 
 </div>
