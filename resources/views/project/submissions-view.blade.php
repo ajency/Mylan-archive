@@ -200,7 +200,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
   <div class="row text-center">
     <div class="col-sm-6">
-      <p class="m-b-0">
+      <p class="m-b-0 lh18">
         <i class="fa fa-flag text-red"></i>
       </p>
       <p class="fw600 fosz14 lh18">
@@ -208,7 +208,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
       </p>
     </div>
     <div class="col-sm-6">
-      <p class="m-b-0">
+      <p class="m-b-0 lh18">
         <i class="fa fa-flag text-red"></i>
       </p>
       <p class="fw600 fosz14 lh18">
