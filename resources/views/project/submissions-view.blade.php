@@ -422,6 +422,9 @@ Previous <span class="p-l-r-5">|</span> Baseline
       if(referenceCode!='')
         window.location.href = BASEURL+"/patients/"+referenceCode; 
     });
+    $(".validError ul").on(change(function(event) {
+     alert(1);
+    });
 
   });
   
@@ -497,9 +500,6 @@ setInterval(function(){
   .notes-err-msg{
     color: #f35958;
     padding-left:15px;
-  }
-  .parsley-error .notes-err-msg{
-    display:block!important;
   }
 </style>
 
