@@ -425,8 +425,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
      $('#notesForm').parsley().on('field:validated', function() {
       if($('.parsley-error').length !== 0){
-        //$(".notes-err-msg").css("display","block");
-        alert(1);
+        $(".notes-err-msg").attr('style', 'display:block !important');
       }
     });
 
