@@ -1488,19 +1488,19 @@ class PatientController extends Controller
         
         $cacheDateKey = strtotime($startDate)."_".strtotime($endDate);
 
-       /* if (Cache::has($patientsCompletedResponsesKey) && isset(Cache::get($patientsCompletedResponsesKey)[$cacheDateKey]) ) {
+        if (Cache::has($patientsCompletedResponsesKey) && isset(Cache::get($patientsCompletedResponsesKey)[$cacheDateKey]) ) {
                 $cacheProjectCompletedResponses =  Cache::get($patientsCompletedResponsesKey);  
                 $responses = $cacheProjectCompletedResponses[$cacheDateKey]['responses'];  
          }
         else
-        {  */
+        {  
             $responses = $this->getPatientsResponseByDate($patients,0,[] ,$startDateObj,$endDateObj,$responseStatus,$cond);
             
             $cacheProjectCompletedResponses[$cacheDateKey]['responses'] = $responses;
 
             //store cache data
             Cache:: forever($patientsCompletedResponsesKey, $cacheProjectCompletedResponses); 
-        /*}*/ 
+        } 
 
  
         $patientSortedData =[];
