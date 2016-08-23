@@ -46,7 +46,7 @@
                               <div class="tiles white">
                                 <a href="#">
                                   <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                                    <h4>Total Reviewed Submissions: <b class="bigger text-success pull-right">{{ $getSubmissionsSummaryCounter['reviewedCounts'] }}</b> </h4>
+                                    <h4>Total Reviewed Submissions: <b class="bigger text-success pull-right">{{ $CounterData['reviewedCounts'] }}</b> </h4>
                                   </div>
                                 </a>                      
                               </div>
@@ -55,7 +55,7 @@
                               <div class="tiles white">
                                 <a href="#">
                                   <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
-                                    <h4>Total Unreviewed Submissions:  <b class="bigger text-success pull-right">{{ $getSubmissionsSummaryCounter['unreviewedCounts'] }}</b></h4>
+                                    <h4>Total Unreviewed Submissions:  <b class="bigger text-success pull-right">{{ $CounterData['unreviewedCounts'] }}</b></h4>
                                   </div>
                                 </a>
                               </div>
