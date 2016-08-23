@@ -9450,7 +9450,7 @@ small.help-text {
   margin-bottom: 0;
 }
 .db {
-  display: block;
+  display: block !important;
 }
 .cust-link {
   color: #0aa699;
