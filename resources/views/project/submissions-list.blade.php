@@ -40,8 +40,27 @@
                         <br>
                         <div class="row">
                            <!-- <div class="col-sm-6"> <h3 class="bold m-0">Submissions</h3></div> -->
-                           <div class="col-sm-2">
-                           </div>
+                           <!--div class="col-sm-2">
+                           </div-->
+                           <div class="col-sm-4" style="margin:-10px 0 -10px 0;">
+                              <div class="tiles white">
+                                <a href="#">
+                                  <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
+                                    <h4>Total Reviewed Submissions: <b class="bigger text-success pull-right">{{ $submissionsSummary['reviewedCounts'] }}</b> </h4>
+                                  </div>
+                                </a>                      
+                              </div>
+                            </div>
+                            <div class="col-sm-4" style="margin:-10px 0 -10px 0;">
+                              <div class="tiles white">
+                                <a href="#">
+                                  <div class="tiles-body" style="    padding: 6px 18px 6px 24px;">
+                                    <h4>Total Unreviewed Submissions:  <b class="bigger text-success pull-right">{{ $submissionsSummary['unreviewedCounts'] }}</b></h4>
+                                  </div>
+                                </a>
+                              </div>
+                            </div>
+                            
                            <div class="col-sm-4 pull-right">
                              <form name="searchData" method="GET"> 
                                <input type="hidden" class="form-control" name="startDate"  >
