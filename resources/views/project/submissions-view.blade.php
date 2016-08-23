@@ -423,13 +423,14 @@ Previous <span class="p-l-r-5">|</span> Baseline
         window.location.href = BASEURL+"/patients/"+referenceCode; 
     });
 
-     $('#notesForm').parsley().on('field:validated', function() {
+  });
+$(function () {  
+  $('#notesForm').parsley().on('field:validated', function() {
       if($('.parsley-error').length !== 0){
         $(".notes-err-msg").attr('style', 'display:block !important');
       }
     });
-
-  });
+});  
 //pdf
 $(function() { 
   $("#btnSave").click(function() { 
