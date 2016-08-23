@@ -377,7 +377,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
         <div class="modal-header text-left">
           <h3>Notes</h3>
         </div>
-        <div class="modal-body validError">
+        <div class="modal-body db validError">
           <textarea name="reviewNote" data-parsley-required></textarea>
         </div>  
         
