@@ -380,7 +380,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
         <div class="modal-body validError">
           <textarea name="reviewNote" data-parsley-required></textarea>
         </div>  
-        <div class="notes-err-msg" style="display:none;">This value is required</div>
+        
         <div class="modal-footer">
           <button type="button" class="btn btn-default closeModel" >Cancel</button>
           <button type="submit" class="btn btn-primary">Submit</button> <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
@@ -486,7 +486,7 @@ setInterval(function(){
 <style>
 
   .validError .parsley-errors-list.filled{
-    display: none !important;
+    /*display: none !important;*/
   }
   .validError .parsley-error{
     border: 1px solid #f35958!important;
@@ -494,10 +494,7 @@ setInterval(function(){
   .t-center{
     text-align: center;
   }
-  .notes-err-msg{
-    color: #f35958;
-    padding-left:15px;
-  }
+  
 </style>
 
 
