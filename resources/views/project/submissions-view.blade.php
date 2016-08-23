@@ -149,7 +149,8 @@ $currUrl = $_SERVER['REQUEST_URI'];
         @if($responseData['reviewNote']!='')
 
         <div class="Notes">
-          <label>Notes: ( {{ $updatedDate }} ) {{ $responseData['reviewNote'] }}</label> 
+          <label class="fln">Reviewed on {{ $updatedDate }}</label>
+          <label class="fln">Notes: {{ $responseData['reviewNote'] }}</label> 
         </div>
 
         @endif
