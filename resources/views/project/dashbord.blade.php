@@ -186,7 +186,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
     </div>
     <div class="col-sm-4">
       <div class=" simple grid-table m-t-20">
-        <div class="grid-title no-border text-left">
+        <div class="grid-title no-border text-left text-title-bold">
           <h4>Alerts <span class="semi-bold">Notification</span> <i class="fa fa-question-circle text-muted" data-toggle="tooltip" data-placement="top" title="" data-original-title="Alerts Generated For Patients"></i></h4>
 
         </div>
@@ -718,6 +718,9 @@ $('select[name="generateChart"]').change(function (event) {
   .demo i {
     position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
   }
+  .text-title-bold .tooltip-inner{
+  font-weight: bold;
+}
 
 </style>
 <script type="text/javascript">
