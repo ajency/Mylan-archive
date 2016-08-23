@@ -422,10 +422,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
       if(referenceCode!='')
         window.location.href = BASEURL+"/patients/"+referenceCode; 
     });
-    $(".validError ul").on(change(function(event) {
-     alert(1);
-    });
-
+    
   });
   
 //pdf
