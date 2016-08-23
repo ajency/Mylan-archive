@@ -26,14 +26,14 @@
 
       <form class="form-no-horizontal-spacing" id="patientform" name="patientform"  method="POST" action="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients') }}" onsubmit="return validateOptionalInputs();">
               <div class="row form-group edit-add col-m-b-0">
-                <div class="col-md-4">
+                <div class="col-md-5">
                   <div class="form-row">
                      <label>Reference Code<span class="text-primary">*</span></label>
                         <input name="reference_code" id="reference_code" type="text"  class="validateRefernceCode form-control" placeholder="Reference Code" data-parsley-type="alphanum" data-parsley-required data-parsley-maxlength="8" data-parsley-minlength="8" data-parsley-maxlength-message="This value is too long. It should have 8 characters" data-parsley-minlength-message="This value is too short. It should have 8 characters" data-parsley-trigger="change">
-						<span>Reference code cannot be updated once patient is active</span>
+						<span class="help-block m-t-5">Reference code cannot be updated once patient is active</span>
                   </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                  <div class="form-row">
                      <label>Age <span class="text-primary"></span></label>
                         <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" >
