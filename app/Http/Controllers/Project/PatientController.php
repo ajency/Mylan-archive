@@ -545,7 +545,7 @@ class PatientController extends Controller
      
             $submissionNotifications = $projectController->getProjectAlerts($projectId,5,0,[],$cond);
 			
-			$viewAllsubmissionNotifications = $submissionNotifications['alertCount'];
+			$viewAllsubmissionNotifications = $submissionNotifications['alertCountOther'];
 			$multiData = Attributes::where('object_id',$projectId)->where("object_type","App\Projects")->where("control_type","multiple")->get()->toArray();
 
         } catch (\Exception $e) {
