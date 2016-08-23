@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-sm-4">
                  <div class="form-row">
-                     <label>Age <span class="text-primary">*</span></label>
-                        <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" data-parsley-required value="{{ $patient['age'] }}">
+                     <label>Age <span class="text-primary"></span></label>
+                        <input name="age" id="age" type="number" class=" form-control" placeholder="Age" data-parsley-type="number" value="{{ $patient['age'] }}">
                     </div>
                     </div>
 
@@ -69,8 +69,8 @@
                        <div class="col-md-8">
                          <div class="row form-row">
                            <div class="col-sm-4 customMessage">
-                             <label>Is Smoker <span class="text-primary">*</span></label>
-                             <select name="is_smoker" id="is_smoker" class="select2 form-control"  data-parsley-required>
+                             <label>Is Smoker <span class="text-primary"></span></label>
+                             <select name="is_smoker" id="is_smoker" class="select2 form-control">
                               <option value="">Select</option>
                               <option {{ ($patient['patient_is_smoker']=='yes')?'selected':'' }} value="yes">Yes</option>
                               <option {{ ($patient['patient_is_smoker']=='no')?'selected':'' }} value="no">No</option> 
