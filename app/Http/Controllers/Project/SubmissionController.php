@@ -183,7 +183,7 @@ class SubmissionController extends Controller
             $avgReviewTime = (count($timeDifference)) ? array_sum($timeDifference) / count($timeDifference) :0;
 
             $submissionsSummary = $projectController->getSubmissionsSummary($patientSubmissions);
-
+            $CounterData = $projectController->getSubmissionsSummaryCounter($patientSubmissions);   
              /* data val*/
             
              $patients = $allPatients;
@@ -212,6 +212,7 @@ class SubmissionController extends Controller
                                                  ->with('avgReviewTime', $avgReviewTime)
                                                  ->with('responseRate', $responseRate)
                                                  ->with('submissionStatus', $submissionStatus)
+                                                 ->with('CounterData', $CounterData)   
                                                  ->with('submissionsSummary', $submissionsSummary);
     }
 

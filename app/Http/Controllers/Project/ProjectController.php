@@ -1419,8 +1419,7 @@ class ProjectController extends Controller
     public function getSubmissionsSummary($responses)
     {
         $submissionsData = [];
-        $reviewedCounter = $unreviewedCounter = 0;
-
+        
         foreach ($responses as $response) {
             $patient = $response->get("patient");
             $baseLineFlag = $response->get("baseLineFlag");
@@ -1450,11 +1449,7 @@ class ProjectController extends Controller
           
             $submissionsData[$responseId]['patient'] = $patient;
             $submissionsData[$responseId]['reviewed'] = $reviewed;
-            if($reviewed == 'unreviewed'){
-              $unreviewedCounter = $unreviewedCounter + 1;
-            }else{
-              $reviewedCounter = $reviewedCounter + 1;
-            }
+            
             $submissionsData[$responseId]['status'] = $status;
             $submissionsData[$responseId]['alert'] = ($alert)?'Yes':'No';
             $submissionsData[$responseId]['sequenceNumber']= $sequenceNumber;
@@ -1476,9 +1471,28 @@ class ProjectController extends Controller
  
         }
         // dd($submissionsData); 
-        $submissionsData['reviewedCounts'] =  $reviewedCounter;
-        $submissionsData['unreviewedCounts'] =  $unreviewedCounter;
         return $submissionsData;
+    }
+
+    public function getSubmissionsSummaryCounter($responses)
+    {
+        $submissionsCtData = [];
+        $reviewedCounter = $unreviewedCounter = 0;
+
+        foreach ($responses as $response) {
+            
+            $reviewed = $response->get("reviewed");
+            
+            if($reviewed == 'unreviewed'){
+              $unreviewedCounter = $unreviewedCounter + 1;
+            }else{
+              $reviewedCounter = $reviewedCounter + 1;
+            }
+        }
+        // dd($submissionsData); 
+        $submissionsCtData['reviewedCounts'] =  $reviewedCounter;
+        $submissionsCtData['unreviewedCounts'] =  $unreviewedCounter;
+        return $submissionsCtData;
     }
 
     public function reports($hospitalSlug,$projectSlug)
