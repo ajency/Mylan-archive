@@ -393,6 +393,16 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
     </div>
   </div>
+  <script>
+  $(function () {  
+  $('#notesForm').parsley().on('field:validated', function() {
+    alert("y");
+      if($('.parsley-error').length !== 0){
+        $(".notes-err-msg").attr('style', 'display:block !important');
+      }
+    });
+}); 
+  </script>
 </div>
 
 
@@ -424,14 +434,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
     });
 
   });
-$(function () {  
-  $('#notesForm').parsley().on('field:validated', function() {
-    alert("y");
-      if($('.parsley-error').length !== 0){
-        $(".notes-err-msg").attr('style', 'display:block !important');
-      }
-    });
-});   
+  
 //pdf
 $(function() { 
   $("#btnSave").click(function() { 
