@@ -423,10 +423,6 @@ Previous <span class="p-l-r-5">|</span> Baseline
         window.location.href = BASEURL+"/patients/"+referenceCode; 
     });
 
-    $("#notesForm").on(submit(function(event) {
-      alert(1);
-    });
-
   });
   
 //pdf
@@ -501,6 +497,9 @@ setInterval(function(){
   .notes-err-msg{
     color: #f35958;
     padding-left:15px;
+  }
+  .parsley-error .notes-err-msg{
+    display:block!important;
   }
 </style>
 
