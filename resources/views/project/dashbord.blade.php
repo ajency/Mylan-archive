@@ -127,7 +127,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
                   <h2 class="m-0">
                     <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed">
                       <b class="grey">{{ $responseCount['unreviewedSubmission'] }} </b>
-                    </a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=unreviewed">
+                    </a>/<a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions?submissionStatus=completed">
                     <b class="grey"> {{ $completedSubmissionCount }}</b>
                   </a>
                 </h2>
