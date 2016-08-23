@@ -173,18 +173,18 @@ class ProjectController extends Controller
           
             // ****************CACHE PATIENT SUMMARY****************
             $patientsSummaryCacheKey = "patientsSummary_".$projectId;
-            if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
+            /*if (Cache::has($patientsSummaryCacheKey) && isset(Cache::get($patientsSummaryCacheKey)[$cacheDateKey]) ) {
                 $cachePatientsSummary =  Cache::get($patientsSummaryCacheKey); 
                 $patientsSummary = $cachePatientsSummary[$cacheDateKey];
                   
             }
             else
-            {
+            {*/
                 $patientController = new PatientController();
                 $patientsSummary = $patientController->patientsSummary($projectId,$patientReferenceCode ,$startDate,$endDate,[],["desc" =>"completed"]);
                 $cachePatientsSummary[$cacheDateKey] = $patientsSummary;
                 Cache:: forever($patientsSummaryCacheKey, $cachePatientsSummary); 
-            } 
+           /* } */ 
 
             //get patients next occurance date
             
