@@ -373,13 +373,14 @@ Previous <span class="p-l-r-5">|</span> Baseline
 <div class="modal fade customModal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus" data-parsley-validate>
+      <form id="notesForm" method="post" action="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions/{{ $currentSubmission }}/updatesubmissionstatus" data-parsley-validate>
         <div class="modal-header text-left">
           <h3>Notes</h3>
         </div>
         <div class="modal-body validError">
           <textarea name="reviewNote" data-parsley-required></textarea>
-        </div>
+        </div>  
+        <div class="notes-err-msg" style="display:none;">This value is required</div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default closeModel" >Cancel</button>
           <button type="submit" class="btn btn-primary">Submit</button> <span class="cf-loader hidden m-t-35" id="statusLoader"></span>
@@ -420,6 +421,12 @@ Previous <span class="p-l-r-5">|</span> Baseline
       var referenceCode = $(this).val();
       if(referenceCode!='')
         window.location.href = BASEURL+"/patients/"+referenceCode; 
+    });
+
+     $('#notesForm').parsley().on('field:validated', function() {
+      if($('.parsley-error').length !== 0){
+        $(".notes-err-msg").css("display","block");
+      }
     });
 
   });
@@ -491,6 +498,10 @@ setInterval(function(){
   }  
   .t-center{
     text-align: center;
+  }
+  .notes-err-msg{
+    color: #f35958;
+    padding-left:15px;
   }
 </style>
 
