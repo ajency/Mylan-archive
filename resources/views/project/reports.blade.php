@@ -197,15 +197,7 @@
                                 <th width="120px"></th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                                <td> &nbsp;</td>
-                                <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
-                                <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
-                                <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
-
-                              </tr>
-                              @if($inputValueChart)
+                            @if($inputValueChart)
                                 <?php $weightCt = 0;?>
                                 @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
                                   <?php 
@@ -215,7 +207,15 @@
                                         $weightCt = 1;
                                       }
                                   ?>
-                                <tr class="hide-{{ $inputValueChartK }} <?php echo $styleWeight; ?>">
+                            <tbody class="hide-{{ $inputValueChartK }} <?php echo $styleWeight; ?>">
+                              <tr>
+                                <td> &nbsp;</td>
+                                <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                                <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                                <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
+                              </tr>
+                                <tr >
 
                                   <td class="semi-bold">Weight</td>
 
@@ -225,20 +225,29 @@
 
                                   <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['base'] }}</td>
                                 </tr>
-                                @endforeach
-                              @else
-                                <tr>
-
-                                <td class="semi-bold">Weight</td>
-
-                                <td class="bg-gray">-</td>
-
-                                <td class="bg-gray">-</td>
-
-                                <td class="bg-gray">-</td>
-                              </tr>
-                              @endif
                             </tbody>
+                             @endforeach
+                              @else
+                              <tbody>
+                              <tr>
+                                <td> &nbsp;</td>
+                                <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                                <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                                <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
+                              </tr>
+                                <tr >
+
+                                  <td class="semi-bold">Weight</td>
+
+                                  <td class="bg-gray">-</td>
+
+                                  <td class="bg-gray">-</td>
+
+                                  <td class="bg-gray">-</td>
+                                </tr>
+                              </tbody>
+                              @endif
                           </table>
                         </div>
 
