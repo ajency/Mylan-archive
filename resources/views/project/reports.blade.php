@@ -423,6 +423,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
         }
         ?>
         $("#weight-table tbody").removeClass("show");
+        $("#weight-table tbody").css("border-top","0px solid");
         $("#weight-table tbody").addClass("hide");
         $("#weight-table tbody.hide-"+$('select[name="generateSubmissionChart"]').val()).addClass("show");
 
