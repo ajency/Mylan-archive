@@ -1721,6 +1721,36 @@ class ProjectController extends Controller
          return response()->json( $json_resp, $status_code);  
     }
 
+    
+    public function sendMailSubmission($projectId,$patientName)
+    {
+      $projectId = intval($projectId);
+
+        $json_resp = array(
+                'code' => '' , 
+                'message' => 'mail sent'
+                );
+        $status_code = 200;  
+
+        $loginUrls = url().'/admin/login <br>';
+
+        $data =[];
+        $data['name'] = 'trilok';
+        $data['email'] = 'trilok@ajency.in';
+        $data['password'] = '1234';
+        $data['loginUrls'] = $loginUrls;
+ 
+        Mail::send('admin.fogotpassword', ['user'=>$data], function($message)use($data)
+        {  
+           $message->from('admin@mylan.com', 'Admin');
+           $message->to($data['email'], $data['name'])->subject('after submission');
+        });
+
+
+        
+        return response()->json( $json_resp, $status_code);  
+    }
+
     public function flushCacheMemory()
     {
         Cache::flush();
