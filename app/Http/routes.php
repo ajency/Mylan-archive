@@ -28,6 +28,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 /********API********/
 Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/clear-cache', 'Project\ProjectController@clearCache' );
+    Route::post( 'project/{id}/{pname}/send-mail-submission', 'Project\ProjectController@sendMailSubmission' );
     
 } );
 
