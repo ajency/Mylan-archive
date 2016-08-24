@@ -209,13 +209,13 @@
                                 <?php $weightCt = 0;?>
                                 @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
                                   <?php 
-                                      $styleWeight = "display:none;" ;
+                                      $styleWeight = "hide" ;
                                       if($weightCt == 0){
-                                        $styleWeight = "display:block;";
+                                        $styleWeight = "show";
                                         $weightCt = 1;
                                       }
                                   ?>
-                                <tr class="hide-{{ $inputValueChartK }}" style="<?php echo $styleWeight; ?>">
+                                <tr class="hide-{{ $inputValueChartK }} <?php echo $styleWeight; ?>">
 
                                   <td class="semi-bold">Weight</td>
 
