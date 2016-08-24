@@ -8126,7 +8126,7 @@ body.rtl .footer-widget {
   padding: 17px!important;
 }
 .m-t-0 {
-  margin-top: 0;
+  margin-top: 0 !important;
 }
 b.f-w {
   font-weight: 600;
@@ -10120,4 +10120,7 @@ table tr.printPdfMargin td.print-pdf-marginPFl {
 }
 .fln {
   float: none !important;
+}
+.fosz13 {
+  font-size: 13px;
 }

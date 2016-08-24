@@ -51,6 +51,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <thead class="cf">
               <tr>
                 <th  class="text-left"></th>
+                <th  class="text-left"></th>
                 @foreach($inputValueChart as $inputValue)
                 <th class="text-center">{{ $inputValue['question'] }}</th>
                 @endforeach
@@ -59,18 +60,19 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <tbody>
               <tr>
                 <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
+                <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+                
+              </tr>
+              <tr>
                 @foreach($inputValueChart as $inputValue)
                 <td class="bg-gray">{{ $inputValue['current'] }}</td>
                 @endforeach
-              </tr>
-              <tr>
-                <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+
                 @foreach($inputValueChart as $inputValue)
                 <td class="bg-gray">{{ $inputValue['prev'] }}</td>
                 @endforeach
-              </tr>
-              <tr>
-                <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
                 @foreach($inputValueChart as $inputValue)
                 <td class="bg-gray">{{ $inputValue['base'] }}</td>
                 @endforeach
@@ -104,7 +106,11 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <div class="row">
 
               <div class="col-md-12">
-                <label>Submission Number</label>
+                <label class="clearfix fosz13">
+                  <span class="pull-left">Submission No.</span>
+                  <span class="pull-right">Submitted on {{ $submittedDate }}</span>
+
+                </label>
                 <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
                   @foreach($allSubmissions as $responseId =>$submission)
                   <option value="{{$responseId}}" {{ ($currentSubmission==$responseId)?'selected':'' }}>{{ $submission }}</option>
@@ -120,7 +126,14 @@ $currUrl = $_SERVER['REQUEST_URI'];
 
 
               <div class="col-md-12 reviewStatus"> 
-                <label>Review Status</label>
+                <label class="clearfix fosz13">
+                  <span class="pull-left">Review Status</span>
+
+                  @if($responseData['reviewNote']!='')
+                    <span class="pull-right">Reviewed on {{ $updatedDate }}</span>
+                  @endif
+
+                </label>
                 <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control full-width" object-id="{{ $currentSubmission }}">            
                   <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
                   <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
@@ -142,7 +155,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
     </div>
 
     <div class="row m-t-30">
-      <div class="col-md-6">
+<!--       <div class="col-md-6">
         <div><label>Submitted on {{ $submittedDate }}</label></div>
       </div>
       <div class="col-md-6">
@@ -155,6 +168,16 @@ $currUrl = $_SERVER['REQUEST_URI'];
 
         @endif
 
+      </div> -->
+
+      <div class="col-md-12">
+        @if($responseData['reviewNote']!='')
+
+        <div class="Notes">
+          <label class="fln">Notes: {{ $responseData['reviewNote'] }}</label> 
+        </div>
+
+        @endif
       </div>
     </div>
 
@@ -175,7 +198,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
 
 </div-->
-<div class="col-md-3 baselineAllign text-right" style="margin-top:-15px;">
+<div class="col-md-3 baselineAllign text-right m-t-0" style="">
   <div align="center"><label class="fw600 fosz14">Total Score</label></div>
   <table style="width: 100%;">
     <tbody>
