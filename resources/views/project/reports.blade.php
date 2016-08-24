@@ -205,19 +205,19 @@
                                 <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
 
                               </tr>
-                              if($inputValueChart)
-                              @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
-                              <tr class="hide-{{ $inputValueChartK }}">
+                              @if($inputValueChart)
+                                @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
+                                <tr class="hide-{{ $inputValueChartK }}">
 
-                                <td class="semi-bold">Weight</td>
+                                  <td class="semi-bold">Weight</td>
 
-                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['current'] }}</td>
+                                  <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['current'] }}</td>
 
-                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['prev'] }}</td>
+                                  <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['prev'] }}</td>
 
-                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['base'] }}</td>
-                              </tr>
-                              @endforeach
+                                  <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['base'] }}</td>
+                                </tr>
+                                @endforeach
                               @else
                                 <tr>
 
