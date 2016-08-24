@@ -187,7 +187,7 @@
 
                       <div class="clearfix">
                         <div class="pull-left">
-                        <table class="table table-flip-scroll cf table-center f-s-b border-none m-r-20" style="margin-top: -20px;">
+                        <table id="weight-table" class="table table-flip-scroll cf table-center f-s-b border-none m-r-20" style="margin-top: -20px;">
                             <thead class="cf">
                               <tr>
                                 <th class="text-left" width="120px"></th>
@@ -422,6 +422,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           <?php
         }
         ?>
+        $("#weight-table tbody").removeClass("show");
+        $("#weight-table tbody").addClass("hide");
+        $("#weight-table tbody.hide-"+$('select[name="generateSubmissionChart"]').val()).addClass("show");
 
       });
 
