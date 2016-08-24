@@ -205,16 +205,31 @@
                                 <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
 
                               </tr>
-                              <tr>
+                              if($inputValueChart)
+                              @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
+                              <tr class="hide-{{ $inputValueChartK }}">
 
                                 <td class="semi-bold">Weight</td>
 
-                                <td class="bg-gray">78 kg</td>
+                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['current'] }}</td>
 
-                                <td class="bg-gray">77 kg</td>
+                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['prev'] }}</td>
 
-                                <td class="bg-gray">56 kg</td>
+                                <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['base'] }}</td>
                               </tr>
+                              @endforeach
+                              @else
+                                <tr>
+
+                                <td class="semi-bold">Weight</td>
+
+                                <td class="bg-gray">-</td>
+
+                                <td class="bg-gray">-</td>
+
+                                <td class="bg-gray">-</td>
+                              </tr>
+                              @endif
                             </tbody>
                           </table>
                         </div>
