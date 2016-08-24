@@ -1725,6 +1725,7 @@ class ProjectController extends Controller
     public function sendMailSubmission($projectId,$patientName)
     {
       $projectId = intval($projectId);
+      $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id','hospitals.name as hospitalname','hospitals.email')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();      
 
         $json_resp = array(
                 'code' => '' , 
@@ -1735,7 +1736,7 @@ class ProjectController extends Controller
         $loginUrls = url().'/admin/login <br>';
 
         $data =[];
-        $data['name'] = 'trilok';
+        $data['name'] = $InfoData[0]['projectname']." ".$InfoData[0]['hospitalname']." ".$InfoData[0]['email'];
         $data['email'] = 'trilok@ajency.in';
         $data['password'] = '1234';
         $data['loginUrls'] = $loginUrls;
