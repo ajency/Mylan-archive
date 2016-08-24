@@ -41,45 +41,61 @@ $currUrl = $_SERVER['REQUEST_URI'];
         </div>
         <div class="tab-pane table-data active" id="Submissions">
           <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
-          <h4><span class="semi-bold">{{ $questionnaire }}</span></h4>
+
+          <div class="clearfix">
+            <h4 class="pull-left"><span class="semi-bold">{{ $questionnaire }}</span></h4>
+
+            <div class="pull-right">
+              @if(!empty($inputValueChart))
+              <table class="table table-flip-scroll cf table-center f-s-b border-none m-b-0 m-r-20" style="margin-top: -20px;">
+                <thead class="cf">
+                  <tr>
+                    <th  class="text-left" width="120px"></th>
+                    <th  class="text-left" width="120px"></th>
+                    <!-- @foreach($inputValueChart as $inputValue)
+                    <th class="text-center">{{ $inputValue['question'] }}</th>
+                    @endforeach -->
+                    <th width="120px"></th>
+                    <th width="120px"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> &nbsp;</td>
+                    <td  class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                    <td  class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                    <td  class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+                    
+                  </tr>
+                  <tr>
+
+                    @foreach($inputValueChart as $inputValue)
+                    <td class="semi-bold">{{ $inputValue['question'] }}</td>
+                    @endforeach
+
+                    @foreach($inputValueChart as $inputValue)
+                    <td class="bg-gray">{{ $inputValue['current'] }}</td>
+                    @endforeach
+
+                    @foreach($inputValueChart as $inputValue)
+                    <td class="bg-gray">{{ $inputValue['prev'] }}</td>
+                    @endforeach
+
+                    @foreach($inputValueChart as $inputValue)
+                    <td class="bg-gray">{{ $inputValue['base'] }}</td>
+                    @endforeach
+                  </tr>
+                </tbody>
+              </table>
+              @endif
+            </div>
+          </div>
+          
           <!-- <p>(Showing Submission details)</p> -->
           <br>
           <div id="chartdiv" style="width:100%; Height:500px;"></div>
-          <br>
-          @if(!empty($inputValueChart))
-          <table class="table table-flip-scroll cf table-center f-s-b">
-            <thead class="cf">
-              <tr>
-                <th  class="text-left"></th>
-                <th  class="text-left"></th>
-                @foreach($inputValueChart as $inputValue)
-                <th class="text-center">{{ $inputValue['question'] }}</th>
-                @endforeach
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td  class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
-                <td  class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
-                <td  class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
-                
-              </tr>
-              <tr>
-                @foreach($inputValueChart as $inputValue)
-                <td class="bg-gray">{{ $inputValue['current'] }}</td>
-                @endforeach
-
-                @foreach($inputValueChart as $inputValue)
-                <td class="bg-gray">{{ $inputValue['prev'] }}</td>
-                @endforeach
-
-                @foreach($inputValueChart as $inputValue)
-                <td class="bg-gray">{{ $inputValue['base'] }}</td>
-                @endforeach
-              </tr>
-            </tbody>
-          </table>
-          @endif
+          <!-- <br> -->
+          
 <!--                  <div class="row">
 @foreach($inputValueChart as $inputValue)
 <div class="submission-chart-wt text-center">
@@ -108,7 +124,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
               <div class="col-md-12">
                 <label class="clearfix fosz13">
                   <span class="pull-left">Submission No.</span>
-                  <span class="pull-right">Submitted on {{ $submittedDate }}</span>
+                  <span class="pull-right">on {{ $submittedDate }}</span>
 
                 </label>
                 <select name="patientSubmission" id="patientSubmission" class="select2 form-control"  >
@@ -130,7 +146,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
                   <span class="pull-left">Review Status</span>
 
                   @if($responseData['reviewNote']!='')
-                    <span class="pull-right">Reviewed on {{ $updatedDate }}</span>
+                    <span class="pull-right">on {{ $updatedDate }}</span>
                   @endif
 
                 </label>
