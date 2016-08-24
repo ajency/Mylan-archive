@@ -183,12 +183,49 @@
                      </div><br>
                      
                     <div class="row">
-                      <div class="col-sm-9">
+                      <div class="col-sm-12">
+
+                      <div class="clearfix">
+                        <div class="pull-left">
+                        <table class="table table-flip-scroll cf table-center f-s-b border-none m-r-20" style="margin-top: -20px;">
+                            <thead class="cf">
+                              <tr>
+                                <th class="text-left" width="120px"></th>
+                                <th class="text-left" width="120px"></th>
+
+                                <th width="120px"></th>
+                                <th width="120px"></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td> &nbsp;</td>
+                                <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                                <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                                <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
+                              </tr>
+                              <tr>
+
+                                <td class="semi-bold">Weight</td>
+
+                                <td class="bg-gray">78 kg</td>
+
+                                <td class="bg-gray">77 kg</td>
+
+                                <td class="bg-gray">56 kg</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+
                         <select class="pull-right m-b-10" name="generateSubmissionChart">
                           @foreach($submissionNumbers as $submissionNumber => $responseId)
                           <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
                           @endforeach
                         </select>
+                      </div>
+                        
                         @if(!$totalResponses)
                         <table class="table table-flip-scroll table-hover dashboard-tbl">
                           <tbody>
@@ -198,33 +235,6 @@
                         @else
                         <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
                         @endif
-                      </div>
-                      <div class="col-sm-3 flex-center">
-
-                        <!-- test -->
-                        <table class="table table-flip-scroll cf table-center">
-                         <thead class="cf">
-                          <tr>
-                            <th class="text-left"></th>
-                            <th class="text-center">Weight      </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                           <td class="text-left"><i class="fa fa-circle green-current"></i> Current</td>
-                           <td class="bg-gray">89 kg</td>
-                         </tr>
-                         <tr>
-                           <td class="text-left"> <i class="fa fa-circle blue-previous"></i> Previous</td>
-                           <td class="bg-gray">90 kg</td>
-                         </tr>
-                         <tr>
-                           <td class="text-left"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
-                           <td class="bg-gray">79 kg</td>
-                         </tr>
-                       </tbody>
-                     </table>
-                        <!-- /test -->
                       </div>
                     </div>
               
@@ -237,8 +247,23 @@
             <h4><span class="semi-bold">Patient Health Chart</span></h4>
          </div><br>
          <!-- <h4 class="p-h-c">Patient health chart</h4> -->
+
+
+         <div>
+           <p>Patient health chart shows the comparison between:<br>
+            1.Patients current score to baseline score- indicated by highlighted cell.<br>
+            2.Patients current score to previous score indicated by flag.
+             Red-indicates current score is worse then previous/baseline score by 2 points.
+             Amber-indicates current score is worse then previous/baseline score by 1 point.
+             Green-indicates current score is better then previous/baseline score.
+             White-Indicates current score is same as baseline score.
+             Flag is not displayed if the current score is same as previous score.
+         </p>
+         </div>
+
+
          <div class="row">
-           <div class="col-sm-9">
+           <div class="col-sm-12">
              <div class="tableOuter">
             <div class="x-axis-text">Submissions</div>
            <div class="y-axis-text">Questions</div>
@@ -288,17 +313,7 @@
                      </div>
            </div>
            </div>
-           <div class="col-sm-3">
-             <p>Patient health chart shows the comparison between:<br>
-              1.Patients current score to baseline score- indicated by highlighted cell<br>
-              2.Patients current score to previous score indicated by flag
-              Red-indicates current score is worse then previous/baseline score by 2 points
-              Amber-indicates current score is worse then previous/baseline score by 1 point
-              Green-indicates current score is better then previous/baseline score
-              White-Indicates current score is same as baseline score.
-              Flag is not displayed if the current score is same as previous score
-           </p>
-           </div>
+           
          </div>
            
            
