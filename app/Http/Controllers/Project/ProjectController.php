@@ -1620,6 +1620,46 @@ class ProjectController extends Controller
           $submissionNumbers = $patientSubmissionChart['submissions'] ;
           $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
 
+           /*done to show weight*/
+          $submissionController = new SubmissionController();
+
+          foreach($patientSubmissionChart['submissions'] as $subKeys => $subValues){
+              $data =  $submissionController->getSubmissionData($subValues,true);
+              $baseLineId = $data['baseLine'];
+              $previousSubmissionId = $data['previousSubmission'];
+               $answersList = $data['answers'];
+              $previousAnswersList =[];
+              $previousChartData = [];
+              if($previousSubmissionId!='')
+              {
+                  $previousData =  $submissionController->getSubmissionData($previousSubmissionId,false);
+                  $previousAnswersList = $previousData['answers'];
+                  $previousInputValues = $data['inputValues'];
+              }
+              $baseLineAnswersList = [];
+              if($baseLineId!='')
+              {
+                  $baseLineData =  $submissionController->getSubmissionData($baseLineId,false);
+                  $baseLineAnswersList = $baseLineData['answers'];
+                  $baseInputValues = $data['inputValues'];
+              }
+
+               $inputValueChart = [];
+            
+              foreach ($baseInputValues as $questionIdWeight => $inputValuesWeight) {
+                $questionLabel = $inputValuesWeight['question'];
+
+                $currentInputValue = (isset($answersList[$questionIdWeight]['optionValues']))? getInputValues($answersList[$questionIdWeight]['optionValues']) :'-';
+
+                $baseInputValue = getInputValues($baseLineAnswersList[$questionIdWeight]['optionValues']);
+
+                $previousInputValue = (isset($previousAnswersList[$questionIdWeight]['optionValues']))?getInputValues($previousAnswersList[$questionIdWeight]['optionValues']):'-';
+
+                $inputValueChart[$subValues] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
+              }
+          }
+           /*done to show weight ends*/
+
         } catch (\Exception $e) {
 
             exceptionError($e);           
@@ -1642,6 +1682,7 @@ class ProjectController extends Controller
                                         ->with('firstSubmission', $firstSubmission)
                                         ->with('submissionChart', $submissionChart)
                                         ->with('submissionNumbers', $submissionNumbers)
+                                        ->with('inputValueChart', $inputValueChart)
                                         ->with('questionChartData', $questionChartData);
 
 
