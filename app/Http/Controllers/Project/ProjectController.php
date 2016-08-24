@@ -1622,7 +1622,7 @@ class ProjectController extends Controller
 
            /*done to show weight*/
           $submissionController = new SubmissionController();
-
+           $inputValueChart = []; 
           foreach($patientSubmissionChart['submissions'] as $subKeys => $subValues){
               $data =  $submissionController->getSubmissionData($subValues,true);
               $baseLineId = $data['baseLine'];
@@ -1644,7 +1644,7 @@ class ProjectController extends Controller
                   $baseInputValues = $data['inputValues'];
               }
 
-               $inputValueChart = [];
+               
             
               foreach ($baseInputValues as $questionIdWeight => $inputValuesWeight) {
                 $questionLabel = $inputValuesWeight['question'];
