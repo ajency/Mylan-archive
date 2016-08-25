@@ -7,7 +7,7 @@
 
            
 
-                <span>Hi {{ $user['hospitalname'] }} Admin</span>
+                <span>Hi {{ $user['username'] }}</span>
                 <br>
                 <br>
                 <span>Please review the submission done by your patient from {{ $user['hospitalname'] }} hospital
