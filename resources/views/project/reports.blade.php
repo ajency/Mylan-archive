@@ -480,24 +480,10 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       html2canvas($("#page1"), {
           background: '#FFFFFF',
               onrendered: function(canvas) {
-                var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 250; 
-                var pageHeight = 295;  
-                var imgHeight = canvas.height * imgWidth / canvas.width;
-                var heightLeft = imgHeight;
-
-                var doc = new jsPDF('p', 'mm');
+                var imgData = canvas.toDataURL("image/jpeg", 1.0); 
+                var doc = new jsPDF('p', 'mm', "a4");
                 var position = 0;
-
-                doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                while (heightLeft >= 0) {
-                  position = heightLeft - imgHeight;
-                  doc.addPage();
-                  doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
-                  heightLeft -= pageHeight;
-                }
+                doc.addImage(imgData, 'JPEG', 10, 10, 180, 150);
                 doc.save( 'Reports.pdf');﻿
              }
           });
