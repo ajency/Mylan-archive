@@ -483,7 +483,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                 var imgData = canvas.toDataURL("image/jpeg", 1.0); 
                 var doc = new jsPDF('p', 'mm', "a4");
                 var position = 0;
-                doc.addImage(imgData, 'JPEG', 10, 10, 180, 290);
+                doc.addImage(imgData, 'JPEG', 10, 10, 200, 290);
                 doc.save( 'Reports.pdf');﻿
              }
           });
