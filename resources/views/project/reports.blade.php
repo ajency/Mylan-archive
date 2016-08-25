@@ -283,8 +283,8 @@
 
          <div>
            <p>Patient health chart shows the comparison between:<br>
-            1.Patients current score to baseline score- indicated by highlighted cell.<br>
-            2.Patients current score to previous score indicated by flag.
+            1. Patients current score to baseline score- indicated by highlighted cell.<br>
+            2. Patients current score to previous score indicated by flag.
              Red-indicates current score is worse then previous/baseline score by 2 points.
              Amber-indicates current score is worse then previous/baseline score by 1 point.
              Green-indicates current score is better then previous/baseline score.
@@ -484,12 +484,12 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 290; 
-                var pageHeight = 225;  
+                var imgWidth = 210; 
+                var pageHeight = 295;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
 
-                var doc = new jsPDF('l', 'mm');
+                var doc = new jsPDF('p', 'mm');
                 var position = 0;
 
                 doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
