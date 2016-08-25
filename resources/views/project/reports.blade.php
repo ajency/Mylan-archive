@@ -481,7 +481,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           background: '#FFFFFF',
               onrendered: function(canvas) {
                 var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-                var imgWidth = 210; 
+                var imgWidth = 250; 
                 var pageHeight = 295;  
                 var imgHeight = canvas.height * imgWidth / canvas.width;
                 var heightLeft = imgHeight;
