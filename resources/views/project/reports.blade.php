@@ -465,9 +465,6 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
       $(".addLoader").addClass("cf-loader");
-      $(".p-h-c").css("padding-top","420px");
-      $(".q-g").css("padding-top","370px");
-      $(".q-s-p-s").css("padding-top","350px");
      var svgTags = document.querySelectorAll('#dashboardblock svg');
       for (var i=0; i<svgTags.length; i++) {
         var svgTag = svgTags[i];
@@ -506,9 +503,6 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           });
             setInterval(function(){ 
               $(".addLoader").removeClass("cf-loader"); 
-              $(".p-h-c").css("padding-top","0px");
-              $(".q-g").css("padding-top","0px");
-              $(".q-s-p-s").css("padding-top","0px");
             }, 3000);   
       });
     });  
