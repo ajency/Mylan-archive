@@ -47,6 +47,9 @@
                              
             <div class="row form-group">
                 <div class="col-xs-2">
+                    <label class="form-label">Alert Type</label>
+                </div>
+                <div class="col-xs-2">
                     <label class="form-label">Flag Count</label>
                 </div>
                 <div class="col-xs-3">
@@ -65,6 +68,15 @@
              <?php $key = 0;?>
              @foreach($settings as $key =>$setting)
               <div class="row allsettings settingsContainer">
+
+                   <div class="col-xs-2">
+                    <select name="alert_type[]" class="select2-container select2 form-control">
+                      <option value="">Select alert type</option>
+                      <option value="flag_count" {{ ($setting['alertType']=='flag_count')?'selected':''}}>Flag count based</option>
+                      <option value="total_score" {{ ($setting['alertType']=='total_score')?'selected':''}}>Total score based</option>
+                    </select>
+                  </div>
+
                   <div class="col-xs-2">
                       <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Flag Count"  >
                       <input type="hidden" name="setting_id[]" class="form-control" value="{{ $setting['id'] }}">
@@ -79,7 +91,7 @@
                     </select>
                      
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                     <select name="flag_colour[]" class="select2-container select2 form-control">
                       <option value="">Select Flag Colour</option>
                       <option value="red" {{ ($setting['flagColour']=='red')?'selected':''}} >Red</option>
@@ -87,7 +99,7 @@
                       <option value="green" {{ ($setting['flagColour']=='green')?'selected':''}} >Green</option>
                     </select>
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                     <select name="compared_to[]" class="select2-container select2 form-control">
                       <option value="">Select Compared To</option>
                       <option value="previous" {{ ($setting['comparedTo']=='previous')?'selected':''}} >Previous</option>
@@ -105,6 +117,14 @@
 
               <div class="row addSettingsBlock addSettingsContainer settingsContainer">
 
+               <div class="col-xs-2">
+                <select name="alert_type[]" class="select2-container select2 form-control">
+                  <option value="">Select alert type</option>
+                  <option value="flag_count">Flag count based</option>
+                  <option value="total_score">Total score based</option>
+                </select>
+              </div>
+
               <div class="col-xs-2">
                 <input type="text" name="flag_count[]" class="form-control"  placeholder="Enter Flag Count"  >
                 <input type="hidden" name="setting_id[]" class="form-control" >
@@ -119,7 +139,7 @@
                 </select>
                      
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-2">
                 <select name="flag_colour[]" class="select2-container select2 form-control">
                   <option value="">Select Flag Colour</option>
                   <option value="red" >Red</option>
@@ -127,7 +147,7 @@
                   <option value="green" >Green</option>
                 </select>
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-2">
                 <select name="compared_to[]" class="select2-container select2 form-control">
                   <option value="">Select Compared To</option>
                   <option value="previous"  >Previous</option>
