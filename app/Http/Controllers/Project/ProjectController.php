@@ -273,7 +273,6 @@ class ProjectController extends Controller
                 $cachePatientsAlerts['NOTIFICATIONS'] = $submissionNotifications;
                 Cache:: forever($patientsAlertsCacheKey, $cachePatientsAlerts); 
           /*  }*/ 
-            
 
         } 
         catch (\Exception $e) {
@@ -1767,7 +1766,9 @@ class ProjectController extends Controller
     {
       $projectId = intval($projectId);
       $patientName = $patientName;
-      $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id','hospitals.name as hospitalname','hospitals.email')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();      
+      $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
+      $whereCondition  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
+      $userAllHospitalAccess = User::select('name','email')->where($whereCondition)->get();      
 
         $json_resp = array(
                 'code' => '' , 
@@ -1775,22 +1776,31 @@ class ProjectController extends Controller
                 );
         $status_code = 200;  
 
-        $loginUrls = url().'/admin/login <br>';
+        $whereConditions  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
+        $userAllHospitalAccess = User::select('name','email')->where($whereConditions)->get();
 
-        $data =[];
-        $data['projectname'] = $InfoData[0]['projectname'];
-        $data['referencecode'] = $patientName;
-        $data['hospitalname'] = $InfoData[0]['hospitalname'];
-       
- 
-        Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
-        {  
-           $message->from('admin@mylan.com', 'Admin');
-           $message->to($InfoData[0]['email'], 'Admin')->subject($patientName.' completed a submission');
-        });
+        $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();
+        $empty=array();
+        foreach($userAllHospitalAccess as $k=>$v){
+            $empty[$v['email']] = $v['name'];
+        }
+        foreach($hospitalUserAccess as $hk=>$hv){
+            $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
+        }
 
+        foreach($empty as $emailKey=>$nameVal){
+          $data =[];
+          $data['projectname'] = $InfoData[0]['projectname'];
+          $data['referencecode'] = $patientName;
+          $data['hospitalname'] = $InfoData[0]['hospitalname'];
+          $data['username'] = $nameVal;
 
-        
+          Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
+          {  
+             $message->from('admin@mylan.com', 'Admin');
+             $message->to($emailKey, $nameVal)->subject($patientName.' completed a submission');
+          });
+        }
         return response()->json( $json_resp, $status_code);  
     }
 
