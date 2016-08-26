@@ -62,7 +62,7 @@ class ProjectController extends Controller
     { 
         try
         {
-          $InfoData[0]['hospitalIds'] = 25;  
+          $InfoData[0]['hospitalIds'] = "25";  
           $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();
 
           echo "<pre>";
