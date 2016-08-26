@@ -65,7 +65,7 @@ class ProjectController extends Controller
           $projectId = 73;
            $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
            echo "<pre>";
-           print_r($InfoData);
+           print_r($InfoData[0]['hospitalIds']);
            exit; 
 
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
