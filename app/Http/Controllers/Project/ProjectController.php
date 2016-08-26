@@ -1798,7 +1798,7 @@ class ProjectController extends Controller
           Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
           {  
              $message->from('admin@mylan.com', 'Admin');
-             $message->to($emailKey, $nameVal)->subject($patientName.' completed a submission');
+             $message->to($emailKey, $nameVal)->subject("completed a submission");
           });
         }
         return response()->json( $json_resp, $status_code);  
