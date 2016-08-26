@@ -62,12 +62,11 @@ class ProjectController extends Controller
     { 
         try
         {
-          $InfoData[0]['hospitalIds'] = "25";  
-          $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();
-
-          echo "<pre>";
-          print_r($hospitalUserAccess);
-          exit;  
+          $projectId = 73;
+           $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
+           echo "<pre>";
+           print_r($InfoData);
+           exit; 
 
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
