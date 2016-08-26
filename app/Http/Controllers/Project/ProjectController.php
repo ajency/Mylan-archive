@@ -62,39 +62,13 @@ class ProjectController extends Controller
     { 
         try
         {
+          $InfoData[0]['hospitalIds'] = 25;  
+          $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();
 
-          /*====================*/
-
-          $whereConditions  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
-          $userAllHospitalAccess = User::select('name','email')->where($whereConditions)->get();
-
-         /* $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();*/
-          $empty=array();
-          foreach($userAllHospitalAccess as $k=>$v){
-              $empty[$v['email']] = $v['name'];
-          }
           echo "<pre>";
-          print_r($empty);
-          exit;
-         /* foreach($hospitalUserAccess as $hk=>$hv){
-              $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
-          }
+          print_r($hospitalUserAccess);
+          exit;  
 
-          foreach($empty as $emailKey=>$nameVal){
-            $data =[];
-            $data['projectname'] = $InfoData[0]['projectname'];
-            $data['referencecode'] = $patientName;
-            $data['hospitalname'] = $InfoData[0]['hospitalname'];
-            $data['username'] = $nameVal;
-
-            Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
-            {  
-               $message->from('admin@mylan.com', 'Admin');
-               $message->to($emailKey, $nameVal)->subject($patientName.' completed a submission');
-            });
-          }*/
-
-          /*====================*/
           $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
           $hospital = $hospitalProjectData['hospital'];
