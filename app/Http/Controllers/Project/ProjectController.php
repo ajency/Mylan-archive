@@ -1799,7 +1799,7 @@ class ProjectController extends Controller
           {  
              $message->from('admin@mylan.com', 'Admin');
              //$message->to($emailKey, $nameVal)->subject("completed a submission");
-             $message->to('trilok@ajency.in', "$patientName")->subject("completed a submission");
+             $message->to('trilok@ajency.in', $data['referencecode'])->subject("completed a submission");
           });
           echo "here";
           exit;
