@@ -1788,6 +1788,19 @@ class ProjectController extends Controller
             $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
         }
 
+          $data =[];
+          $data['projectname'] = 'test';
+          $data['referencecode'] = $patientName;
+          $data['hospitalname'] = $InfoData[0]['hospitalname'];
+          $data['username'] = $projectId;
+
+          Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
+          {  
+             $message->from('admin@mylan.com', 'Admin');
+             //$message->to($emailKey, $nameVal)->subject("completed a submission");
+             $message->to('trilok@ajency.in', $patientName)->subject("completed a submission");
+          });
+
         foreach($empty as $emailKey=>$nameVal){
           $data =[];
           $data['projectname'] = $InfoData[0]['projectname'];
