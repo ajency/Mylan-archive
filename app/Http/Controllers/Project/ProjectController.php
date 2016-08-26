@@ -1800,7 +1800,8 @@ class ProjectController extends Controller
              //$message->to($emailKey, $nameVal)->subject("completed a submission");
              $message->to('trilok@ajency.in', $patientName)->subject("completed a submission");
           });
-
+          echo "here";
+          exit;
         foreach($empty as $emailKey=>$nameVal){
           $data =[];
           $data['projectname'] = $InfoData[0]['projectname'];
