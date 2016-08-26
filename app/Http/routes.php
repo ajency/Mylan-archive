@@ -31,7 +31,6 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/{pname}/send-mail-submission', 'Project\ProjectController@sendMailSubmission' );
     
 } );
-Route::get( 'api/v2/project/{id}/{pname}/send-mail-submission', 'Project\ProjectController@sendMailSubmission' );
 
 Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
