@@ -1794,11 +1794,12 @@ class ProjectController extends Controller
           $data['referencecode'] = $patientName;
           $data['hospitalname'] = $InfoData[0]['hospitalname'];
           $data['username'] = $nameVal;
+          $data['to'] = $emailKey;
 
           Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
           {  
              $message->from('admin@mylan.com', 'Admin');
-             $message->to($emailKey, $nameVal)->subject($data['referencecode'].' completed a submission');
+             $message->to($data['to'], $data['username'])->subject($data['referencecode'].' completed a submission');
           });
         }
         return response()->json( $json_resp, $status_code);  
