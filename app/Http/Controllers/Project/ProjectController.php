@@ -1762,10 +1762,10 @@ class ProjectController extends Controller
     }
 
     
-    public function sendMailSubmission($projectId,$pname)
+    public function sendMailSubmission($projectId,$patientName)
     {
       $projectId = intval($projectId);
-      $patientName = $pname;
+      $patientName = $patientName;
       $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
       $whereCondition  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
       $userAllHospitalAccess = User::select('name','email')->where($whereCondition)->get();      
@@ -1788,20 +1788,6 @@ class ProjectController extends Controller
             $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
         }
 
-          $data =[];
-          $data['projectname'] = 'test';
-          $data['referencecode'] = $patientName;
-          $data['hospitalname'] = $InfoData[0]['hospitalname'];
-          $data['username'] = $projectId;
-
-          Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
-          {  
-             $message->from('admin@mylan.com', 'Admin');
-             //$message->to($emailKey, $nameVal)->subject("completed a submission");
-             $message->to('trilok@ajency.in', $data['referencecode'])->subject("completed a submission");
-          });
-          print_r($data['referencecode']);
-          exit;
         foreach($empty as $emailKey=>$nameVal){
           $data =[];
           $data['projectname'] = $InfoData[0]['projectname'];
@@ -1812,8 +1798,7 @@ class ProjectController extends Controller
           Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
           {  
              $message->from('admin@mylan.com', 'Admin');
-             //$message->to($emailKey, $nameVal)->subject("completed a submission");
-             $message->to('trilok@ajency.in', $nameVal)->subject("completed a submission");
+             $message->to($emailKey, $nameVal)->subject($data['referencecode'].' completed a submission');
           });
         }
         return response()->json( $json_resp, $status_code);  
