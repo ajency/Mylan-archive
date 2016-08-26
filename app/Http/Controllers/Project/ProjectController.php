@@ -1765,8 +1765,7 @@ class ProjectController extends Controller
     public function sendMailSubmission($projectId,$pname)
     {
       $projectId = intval($projectId);
-      //$patientName = $pname;
-      $patientName = "test";
+      $patientName = $pname;
       $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
       $whereCondition  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
       $userAllHospitalAccess = User::select('name','email')->where($whereCondition)->get();      
