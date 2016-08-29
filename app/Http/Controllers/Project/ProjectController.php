@@ -1874,7 +1874,7 @@ class ProjectController extends Controller
             $flagColour = $request->input('flag_colour');
             $comparedTo = $request->input('compared_to');
             $settingsIds = $request->input('setting_id');
-             $alertType = $request->input('alert_type');
+            $alertType = $request->input('alert_type');
  
             foreach ($flagCount as $key => $value) {
               $settingsId = $settingsIds[$key];
