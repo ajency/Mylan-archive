@@ -241,18 +241,19 @@ Previous <span class="p-l-r-5">|</span> Baseline
   <div class="row text-center">
     <div class="col-sm-6">
       <p class="m-b-0 lh18">
-        <i class="fa fa-flag text-red"></i>
+        <i class="fa fa-flag text-{{ $responseData['previousFlag'] }} {{ ($responseData['previousFlag']=='')?'hidden':'' }}"></i>
       </p>
       <p class="fw600 fosz14 lh18">
-        Baseline vs Curent
+        Current vs Baseline
       </p>
     </div>
+    
     <div class="col-sm-6">
       <p class="m-b-0 lh18">
-        <i class="fa fa-flag text-red"></i>
+        <i class="fa fa-flag text-{{ $responseData['baseLineFlag'] }}"></i>
       </p>
       <p class="fw600 fosz14 lh18">
-        Previous vs Current
+        Current vs Previous
       </p>
     </div>
   </div>
