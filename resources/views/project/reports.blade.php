@@ -92,15 +92,15 @@
                  <div class="row">
                   <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['completed'] }}%</h3>
-                          <p class=" text-underline">{{  $responseRate['completedCount'] }} Submissions Completed</p>
+                          <p class=" text-underline">{{  $responseRate['completedCount'] }} <br />Submissions Completed</p>
                        </div>
                        <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['late'] }}%</h3>
-                          <p class="">{{  $responseRate['lateCount'] }} Submissions Late</p>
+                          <p class="">{{  $responseRate['lateCount'] }} <br />Submissions Late</p>
                        </div>
                        <div class="col-md-4 text-center">
                           <h3 class="no-margin bold">{{  $responseRate['missed'] }}%</h3>
-                          <p class="">{{  $responseRate['missedCount'] }} Submissions Missed</p>
+                          <p class="">{{  $responseRate['missedCount'] }} <br />Submissions Missed</p>
                        </div>
                </div>
                
