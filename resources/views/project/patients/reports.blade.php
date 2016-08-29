@@ -254,8 +254,8 @@ $(function() {
 
 $(".addLoader").addClass("cf-loader");
 $("#page1").css("background","#FFFFFF");
-$(".q-s-c").css("padding-top","220px");
-$(".print-pdf-padding").css("padding-top","280px");
+/*$(".q-s-c").css("padding-top","220px");
+$(".print-pdf-padding").css("padding-top","280px");*/
 
 
 var svgTags = document.querySelectorAll('#dashboardblock svg');
@@ -271,6 +271,16 @@ for (var i=0; i<svgTags.length; i++) {
   canvg(c, div.innerHTML);
 }
 html2canvas($("#page1"), {
+  background: '#FFFFFF',
+      onrendered: function(canvas) {
+        var imgData = canvas.toDataURL("image/jpeg", 1.0); 
+        var doc = new jsPDF('p', 'mm', "a4");
+        var position = 0;
+        doc.addImage(imgData, 'JPEG', 10, 10, 200, 290);
+        doc.save( 'Reports.pdf');﻿
+     }
+  });
+/*html2canvas($("#page1"), {
   background: '#FFFFFF',
   onrendered: function(canvas) {
     var imgData = canvas.toDataURL("image/jpeg", 1.0);  
@@ -293,11 +303,12 @@ html2canvas($("#page1"), {
     }
     doc.save( 'Patient Reports.pdf');﻿
   }
-});
+});*/
+
 setInterval(function(){ 
   $(".addLoader").removeClass("cf-loader"); 
-  $(".q-s-c").css("padding-top","0px");
-  $(".print-pdf-padding").css("padding-top","0px");
+  /*$(".q-s-c").css("padding-top","0px");
+  $(".print-pdf-padding").css("padding-top","0px");*/
 
 }, 3000);   
 });
