@@ -46,16 +46,16 @@
           <div class="col-md-12 settings_block">
                              
             <div class="row form-group">
-                <div class="col-xs-2">
+                <!--div class="col-xs-2">
                     <label class="form-label">Alert Type</label>
-                </div>
-                <div class="col-xs-2">
+                </div-->
+                <div class="col-xs-3">
                     <label class="form-label">Flag Count</label>
                 </div>
                 <div class="col-xs-3">
                     <label class="form-label">Operation</label>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-3">
                     <label class="form-label">Flag Colour</label>
                 </div>
                 <div class="col-xs-2 text-center">
@@ -69,15 +69,15 @@
              @foreach($settings as $key =>$setting)
               <div class="row allsettings settingsContainer">
 
-                   <div class="col-xs-2">
+                   <!--div class="col-xs-2">
                     <select name="alert_type[]" class="select2-container select2 form-control">
                       <option value="">Select alert type</option>
                       <option value="flag_count" {{ ($setting['alertType']=='flag_count')?'selected':''}}>Flag count based</option>
                       <option value="total_score" {{ ($setting['alertType']=='total_score')?'selected':''}}>Total score based</option>
                     </select>
-                  </div>
+                  </div-->
 
-                  <div class="col-xs-2">
+                  <div class="col-xs-3">
                       <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Flag Count"  >
                       <input type="hidden" name="setting_id[]" class="form-control" value="{{ $setting['id'] }}">
                   </div>
@@ -91,7 +91,7 @@
                     </select>
                      
                   </div>
-                  <div class="col-xs-2">
+                  <div class="col-xs-3">
                     <select name="flag_colour[]" class="select2-container select2 form-control">
                       <option value="">Select Flag Colour</option>
                       <option value="red" {{ ($setting['flagColour']=='red')?'selected':''}} >Red</option>
@@ -117,15 +117,15 @@
 
               <div class="row addSettingsBlock addSettingsContainer settingsContainer">
 
-               <div class="col-xs-2">
+               <!--div class="col-xs-2">
                 <select name="alert_type[]" class="select2-container select2 form-control">
                   <option value="">Select alert type</option>
                   <option value="flag_count">Flag count based</option>
                   <option value="total_score">Total score based</option>
                 </select>
-              </div>
+              </div-->
 
-              <div class="col-xs-2">
+              <div class="col-xs-3">
                 <input type="text" name="flag_count[]" class="form-control"  placeholder="Enter Flag Count"  >
                 <input type="hidden" name="setting_id[]" class="form-control" >
               </div>
@@ -139,7 +139,7 @@
                 </select>
                      
               </div>
-              <div class="col-xs-2">
+              <div class="col-xs-3">
                 <select name="flag_colour[]" class="select2-container select2 form-control">
                   <option value="">Select Flag Colour</option>
                   <option value="red" >Red</option>
