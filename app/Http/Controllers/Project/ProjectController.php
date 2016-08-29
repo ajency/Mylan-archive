@@ -933,7 +933,8 @@ class ProjectController extends Controller
         $answersQry->includeKey("response");
         $answersQry->limit($displayLimit);
         $answersQry->skip($page * $displayLimit);
-        $answersQry->ascending("occurrenceDate");
+        //$answersQry->ascending("occurrenceDate");
+        $answersQry->descending("occurrenceDate");
         $answersQry->greaterThanOrEqualTo("occurrenceDate",$startDate);
         $answersQry->lessThan("occurrenceDate",$endDate);
         $anwsers = $answersQry->find();
