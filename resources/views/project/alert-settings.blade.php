@@ -68,6 +68,7 @@
              <?php $key = 0;?>
              @foreach($settings as $key =>$setting)
               <div class="row allsettings settingsContainer">
+              
 
                    <!--div class="col-xs-2">
                     <select name="alert_type[]" class="select2-container select2 form-control">
