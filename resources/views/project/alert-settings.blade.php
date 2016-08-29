@@ -68,15 +68,6 @@
              <?php $key = 0;?>
              @foreach($settings as $key =>$setting)
               <div class="row allsettings settingsContainer">
-              
-
-                   <!--div class="col-xs-2">
-                    <select name="alert_type[]" class="select2-container select2 form-control">
-                      <option value="">Select alert type</option>
-                      <option value="flag_count" {{ ($setting['alertType']=='flag_count')?'selected':''}}>Flag count based</option>
-                      <option value="total_score" {{ ($setting['alertType']=='total_score')?'selected':''}}>Total score based</option>
-                    </select>
-                  </div-->
 
                   <div class="col-xs-3">
                       <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Flag Count"  >
