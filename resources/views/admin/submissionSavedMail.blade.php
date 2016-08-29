@@ -10,11 +10,11 @@
                 <span>Hi {{ $user['username'] }}</span>
                 <br>
                 <br>
-                <span>Please review the submission done by your patient from {{ $user['hospitalname'] }} hospital
+                <span>Please review the submission done by your patient from {{ $user['hospitalname'] }}
                 </span> 
                 <br>
                 <br>
-                <span>Reference code {{ $user['referencecode'] }}</span>
+                <span>Reference code {{ $user['referencecode'] }}  Submission date: <?php echo date("d/m/Y"); ?></span>
                 <br/>
                  <br/>
                 <span>Project name: {{ $user['projectname'] }}</span>
