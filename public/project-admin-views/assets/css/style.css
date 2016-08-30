@@ -10127,3 +10127,9 @@ table tr.printPdfMargin td.print-pdf-marginPFl {
 .border-none.table > tbody > tr > td {
   border: none;
 }
+.morecontent span {
+  display: none;
+}
+.morelink {
+  display: block;
+}
