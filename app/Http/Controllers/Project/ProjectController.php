@@ -1817,8 +1817,17 @@ class ProjectController extends Controller
     }
 
     public function setTotalCountAlert($projectId,$baseline,$previous){
-      echo "here";
-      exit;
+          $projectId = $projectId;
+          $baseline = $baseline;
+          $previous = $previous;
+          $alertsettingsQry = new ParseQuery("AlertSettings");
+          $alertsettingsQry->equalTo("project",73);
+          //$alertsettingsQry->equalTo("project",$projectId);
+          $alertsettingsQry->equalTo("alertType",'total_count');
+          $alertsettings = $alertsettingsQry->find();
+          foreach ($alertsettings as $alertsetting) {
+            echo $alertsetting->getObjectId();
+          }  
     }
 
     public function alertSetting($hospitalSlug,$projectSlug)
