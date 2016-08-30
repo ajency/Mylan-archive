@@ -1823,15 +1823,17 @@ class ProjectController extends Controller
           $previous = $previous;
           $patient = $patient;
           $referenceId = $referenceId;
+
+          $response = new ParseQuery("Response");
+          $response->equalTo("objectId",$referenceId);
+          $InputData = $response->find();
+
           $alertsettingsQry = new ParseQuery("AlertSettings");
           $alertsettingsQry->equalTo("project",$projectId);
           $alertsettingsQry->equalTo("alertType",'total_count');
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
-            $InputData = array($alertsetting->get("comparedTo") => array('__type' => 'Pointer', 'className' => 'Response', 'objectId' => $referenceId));
-            /*print_r($InputData);
-            echo json_encode($InputData);
-            exit;*/
+
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $previous ){
@@ -1842,7 +1844,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
@@ -1856,7 +1858,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
@@ -1870,7 +1872,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
@@ -1884,7 +1886,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
@@ -1900,7 +1902,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
@@ -1914,7 +1916,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
@@ -1928,7 +1930,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
@@ -1942,7 +1944,7 @@ class ProjectController extends Controller
                     $alert->set("referenceId", $referenceId);
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
-                    $alert->set("responseObject", json_encode($InputData));
+                    $alert->set("responseObject", $InputData);
                     $alert->set("flagCount", 0); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
