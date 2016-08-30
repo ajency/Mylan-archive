@@ -1823,7 +1823,7 @@ class ProjectController extends Controller
           $previous = $previous;
           $patient = $patient;
           $referenceId = $referenceId;
-          $InputData = (object) ['__type' => 'Pointer', "className": "Response", "objectId": $referenceId ];
+          $InputData = (object) ['__type' => 'Pointer', "className" => "Response", "objectId" => $referenceId ];
 
           $alertsettingsQry = new ParseQuery("AlertSettings");
           $alertsettingsQry->equalTo("project",$projectId);
