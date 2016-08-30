@@ -275,7 +275,7 @@ Previous <span class="p-l-r-5">|</span> Baseline
 <div class="user-description-box">
   <div class="clearfix" style="padding: 10px 30px;">
     <div class="pull-left fw600 fosz14">Response</div>
-    <div class="pull-rigth fw600 fosz14">Previous | Baseline</div>
+    <div class="pull-right fw600 fosz14">Previous | Baseline</div>
   </div>
   <?php 
   $i=1;
@@ -545,7 +545,7 @@ $(document).ready(function() {
             var c = content.substr(0, showChar);
             var h = content.substr(showChar, content.length - showChar);
  
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink text-info">' + moretext + '</a></span>';
  
             $(this).html(html);
         }
