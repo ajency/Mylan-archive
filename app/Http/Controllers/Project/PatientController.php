@@ -2262,6 +2262,7 @@ class PatientController extends Controller
                 $patientSubmissionsByDate[$responseId] = $responseArr[$responseId];
             }
 
+
             $answers = $this->getPatientAnwersByDate($patient['reference_code'],$projectId,0,[],$startDateObj,$endDateObj);
 
             $healthChart = $this->healthChartData($answers);
@@ -2281,6 +2282,50 @@ class PatientController extends Controller
             $submissionChart = $patientSubmissionChart['submissionChart'] ;
             $submissionNumbers = $patientSubmissionChart['submissions'] ;
             $firstSubmission = (!empty($submissionNumbers)) ? current($submissionNumbers) :'';
+
+
+            /*done to show weight*/
+          $submissionController = new SubmissionController();
+           $inputValueChart = []; 
+          foreach($patientSubmissionChart['submissions'] as $subKeys => $subValues){
+              $data =  $submissionController->getSubmissionData($subValues,true);
+              $baseLineId = $data['baseLine'];
+              $previousSubmissionId = $data['previousSubmission'];
+               $answersList = $data['answers'];
+              $previousAnswersList =[];
+              $previousChartData = [];
+              if($previousSubmissionId!='')
+              {
+                  $previousData =  $submissionController->getSubmissionData($previousSubmissionId,false);
+                  $previousAnswersList = $previousData['answers'];
+                  $previousInputValues = $data['inputValues'];
+              }
+              $baseLineAnswersList = [];
+              if($baseLineId!='')
+              {
+                  $baseLineData =  $submissionController->getSubmissionData($baseLineId,false);
+                  $baseLineAnswersList = $baseLineData['answers'];
+                  $baseInputValues = $data['inputValues'];
+              }
+
+               
+            
+              foreach ($baseInputValues as $questionIdWeight => $inputValuesWeight) {
+                $questionLabel = $inputValuesWeight['question'];
+
+                $currentInputValue = (isset($answersList[$questionIdWeight]['optionValues']))? getInputValues($answersList[$questionIdWeight]['optionValues']) :'-';
+
+                $baseInputValue = getInputValues($baseLineAnswersList[$questionIdWeight]['optionValues']);
+
+                $previousInputValue = (isset($previousAnswersList[$questionIdWeight]['optionValues']))?getInputValues($previousAnswersList[$questionIdWeight]['optionValues']):'-';
+
+                $inputValueChart[$subValues] =["question"=> $questionLabel,"base"=> $baseInputValue,"prev"=> $previousInputValue,"current"=> $currentInputValue];
+              }
+          }
+           /*done to show weight ends*/
+
+
+
        
         } catch (\Exception $e) {
 
@@ -2307,6 +2352,7 @@ class PatientController extends Controller
                                         ->with('submissionChart', $submissionChart)
                                         ->with('submissionNumbers', $submissionNumbers)
                                         ->with('userdevice', $userdevice)
+                                        ->with('inputValueChart', $inputValueChart)
                                         ->with('questionChartData', $questionChartData); 
     }
 

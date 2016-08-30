@@ -1816,66 +1816,147 @@ class ProjectController extends Controller
                         ], 200);
     }
 
-    public function setTotalCountAlert($projectId,$baseline,$previous){
-          $projectId = $projectId;
+    public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,Request $request){
+          
+          $responseObj = $request->input('responseObjData'); 
+          $projectId = intval($projectId);
           $baseline = $baseline;
           $previous = $previous;
+          $patient = $patient;
+          $referenceId = $referenceId;
+         
+
           $alertsettingsQry = new ParseQuery("AlertSettings");
-          $alertsettingsQry->equalTo("project",73);
-          //$alertsettingsQry->equalTo("project",$projectId);
+          $alertsettingsQry->equalTo("project",$projectId);
           $alertsettingsQry->equalTo("alertType",'total_count');
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
-            echo $alertsetting->getObjectId()."<br />";
-            $alert = new ParseObject("Alerts");
-                /*$alertsetting->set("project", $projectId);
-                $alertsetting->set("flagCount", $flagCountVal);
-                $alertsetting->set("operation", $operationVal);
-                $alertsetting->set("flagColour", $flagColourVal);
-                $alertsetting->set("comparedTo", $comparedToVal);
-                //$alertsetting->set("alertType", $alertTypeVal);
-                $alertsetting->save();*/
-
-
+            
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $previous ){
-
+                  echo "herepgreater_than";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "previous_total_score_alert_greater_than");
+                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if($alertsetting->get("flagCount") >= $previous ){
-                  
+                  echo "herepgreater_than_equal_to";
+                   $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                   $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
+                   $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($alertsetting->get("flagCount") <= $previous ){
-                  
+                  echo "herepless_than_equal_to";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
+                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($alertsetting->get("flagCount") < $previous ){
-                  
+                  echo "herepless_than";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "previous_total_score_alert_less_than"); 
+                    $alert->save();
                 }
               }
             }else{
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $baseline ){
-
+                  echo "here greater_than";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
+                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if($alertsetting->get("flagCount") >= $baseline ){
-                  
+                  echo "here greater_than_equal_to";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
+                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($alertsetting->get("flagCount") <= $baseline ){
-                  
+                  echo "here less_than_equal_to";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
+                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($alertsetting->get("flagCount") < $baseline ){
-                  
+                  echo "here-less_than";
+                    $alert = new ParseObject("Alerts");
+                    $alert->set("project", $projectId);
+                    $alert->set("patient", $patient);
+                    $alert->set("referenceId", $referenceId);
+                    $alert->set("cleared", false);
+                    $alert->set("referenceType", "Response");
+                    $alert->set("responseObject", $responseObj);
+                    $alert->set("flagCount", 0); 
+                    $alert->set("alertType", "baseline_total_score_alert_less_than"); 
+                    $alert->save();
                 }
               }
 
             }
-          }  
+
+           
+
+          }
+          $json_resp = array('code' => '' ,'message' => 'alert set for total count');
+          $status_code = 200;    
+        return response()->json( $json_resp, $status_code);
     }
 
     public function alertSetting($hospitalSlug,$projectSlug)
