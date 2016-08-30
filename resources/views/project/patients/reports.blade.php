@@ -223,45 +223,24 @@ $currUrl = $_SERVER['REQUEST_URI'];
                     </table>
                   </div>
 
-                        <select class="pull-right m-b-10" name="generateSubmissionChart">
-                          @foreach($submissionNumbers as $submissionNumber => $responseId)
-                          <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
-                          @endforeach
-                        </select>
-                      </div>
+                  <select class="pull-right m-b-10" name="generateSubmissionChart">
+                    @foreach($submissionNumbers as $submissionNumber => $responseId)
+                    <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
+                    @endforeach
+                  </select>
+                </div>
                         
-                        @if(!$totalResponses)
-                        <table class="table table-flip-scroll table-hover dashboard-tbl">
-                          <tbody>
-                            <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-                          </tbody>
-                        </table>
-                        @else
-                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-                        @endif
-                      </div>
-                    </div>
-
-
-            <label class="pull-right">
-              Choose Submissions
-              <br>
-              <select class="pull-right" name="generateSubmissionChart">
-                @foreach($submissionNumbers as $submissionNumber => $responseId)
-                <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
-                @endforeach
-              </select> 
-            </label>
-
-            @if(!$totalResponses)
-            <table class="table table-flip-scroll table-hover dashboard-tbl">
-              <tbody>
-                <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
-              </tbody>
-            </table>
-            @else
-            <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
-            @endif      
+                  @if(!$totalResponses)
+                  <table class="table table-flip-scroll table-hover dashboard-tbl">
+                    <tbody>
+                      <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                    </tbody>
+                  </table>
+                  @else
+                  <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+                  @endif
+                </div>
+              </div>
           </div>
         </div>
       </div>
