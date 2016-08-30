@@ -1816,7 +1816,7 @@ class ProjectController extends Controller
                         ], 200);
     }
 
-    public function setTotalCountAlert($projectId){
+    public function setTotalCountAlert($projectId,$baseline,$previous){
       echo "here";
       exit;
     }
