@@ -1827,6 +1827,8 @@ class ProjectController extends Controller
           $response = new ParseQuery("Response");
           $response->equalTo("objectId",$referenceId);
           $InputData = $response->find();
+          print_r($InputData);
+          exit;
 
           $alertsettingsQry = new ParseQuery("AlertSettings");
           $alertsettingsQry->equalTo("project",$projectId);
