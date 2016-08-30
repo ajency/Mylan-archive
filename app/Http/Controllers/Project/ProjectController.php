@@ -1831,7 +1831,8 @@ class ProjectController extends Controller
           $alertsettingsQry->equalTo("alertType",'total_count');
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
-            echo $alertsetting->getObjectId()."<br />";
+            echo $alertsetting->get("comparedTo")."<br />";
+            echo $alertsetting->get("operation")."<br />";
             $alert = new ParseObject("Alerts");
                 $alert->set("project", $projectId);
                 $alert->set("patient", $patient);
