@@ -521,14 +521,14 @@ class ProjectController extends Controller
 
         'new_patient'=>"New Patient Created",
 
-        'previous_total_score_alert_greater_than' => 'previous_total_score_alert_greater_than'
-        'previous_total_score_alert_greater_than_equal_to' => 'previous_total_score_alert_greater_than_equal_to'
-        'previous_total_score_alert_less_than_equal_to' => 'previous_total_score_alert_less_than_equal_to'
-        'previous_total_score_alert_less_than' => 'previous_total_score_alert_less_than'
+        'previous_total_score_alert_greater_than' => 'previous_total_score_alert_greater_than',
+        'previous_total_score_alert_greater_than_equal_to' => 'previous_total_score_alert_greater_than_equal_to',
+        'previous_total_score_alert_less_than_equal_to' => 'previous_total_score_alert_less_than_equal_to',
+        'previous_total_score_alert_less_than' => 'previous_total_score_alert_less_than',
 
-        'baseline_total_score_alert_greater_than' => 'baseline_total_score_alert_greater_than'
-        'baseline_total_score_alert_greater_than_equal_to' => 'baseline_total_score_alert_greater_than_equal_to'
-        'baseline_total_score_alert_less_than_equal_to' => 'baseline_total_score_alert_less_than_equal_to'
+        'baseline_total_score_alert_greater_than' => 'baseline_total_score_alert_greater_than',
+        'baseline_total_score_alert_greater_than_equal_to' => 'baseline_total_score_alert_greater_than_equal_to',
+        'baseline_total_score_alert_less_than_equal_to' => 'baseline_total_score_alert_less_than_equal_to',
         'baseline_total_score_alert_less_than' => 'baseline_total_score_alert_less_than'
 
         ];
