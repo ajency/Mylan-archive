@@ -1819,7 +1819,7 @@ class ProjectController extends Controller
     public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,Request $request){
           
           $responseObj = $request->input('responseObjData'); 
-
+          $responseObj = $referenceId;
           $projectId = $projectId;
           $baseline = $baseline;
           $previous = $previous;
