@@ -1827,6 +1827,54 @@ class ProjectController extends Controller
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
             echo $alertsetting->getObjectId()."<br />";
+            $alert = new ParseObject("Alerts");
+                /*$alertsetting->set("project", $projectId);
+                $alertsetting->set("flagCount", $flagCountVal);
+                $alertsetting->set("operation", $operationVal);
+                $alertsetting->set("flagColour", $flagColourVal);
+                $alertsetting->set("comparedTo", $comparedToVal);
+                //$alertsetting->set("alertType", $alertTypeVal);
+                $alertsetting->save();*/
+
+
+            if($alertsetting->get("comparedTo") == "previous"){
+              if($alertsetting->get("operation") == "greater_than"){
+                if($alertsetting->get("flagCount") > $previous ){
+
+                }
+              }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
+                if($alertsetting->get("flagCount") >= $previous ){
+                  
+                }
+              }elseif($alertsetting->get("operation") == "less_than_equal_to"){
+                if($alertsetting->get("flagCount") <= $previous ){
+                  
+                }
+              }elseif($alertsetting->get("operation") == "less_than"){
+                if($alertsetting->get("flagCount") < $previous ){
+                  
+                }
+              }
+            }else{
+              if($alertsetting->get("operation") == "greater_than"){
+                if($alertsetting->get("flagCount") > $baseline ){
+
+                }
+              }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
+                if($alertsetting->get("flagCount") >= $baseline ){
+                  
+                }
+              }elseif($alertsetting->get("operation") == "less_than_equal_to"){
+                if($alertsetting->get("flagCount") <= $baseline ){
+                  
+                }
+              }elseif($alertsetting->get("operation") == "less_than"){
+                if($alertsetting->get("flagCount") < $baseline ){
+                  
+                }
+              }
+
+            }
           }  
     }
 
