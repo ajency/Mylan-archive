@@ -209,10 +209,10 @@
                                   ?>
                             <tbody class="hide-{{ $inputValueChartK }} <?php echo $styleWeight; ?>">
                               <tr>
-                                <td> &nbsp;</td>
-                                <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
-                                <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
-                                <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+                                <td width="120px"> &nbsp;</td>
+                                <td class="text-center" width="120px"><i class="fa fa-circle green-current"></i> Current</td>
+                                <td class="text-center" width="120px"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                                <td class="text-center" width="120px"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
 
                               </tr>
                                 <tr >

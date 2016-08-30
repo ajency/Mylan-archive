@@ -511,7 +511,7 @@
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
                                    </td>
                                    <td class="text-center text-success">{{ $submissionNotification['msg'] }}</td> 
-                                   <td class="text-center">{{ $submissionNotification['reviewNote'] }}</td>
+                                   <td class="text-center"><div class="more">{{ $submissionNotification['reviewNote'] }}</div></td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
@@ -770,6 +770,44 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
               $(".flg").css("margin-top","0px"); 
             }, 3000);   
       });
+    });
+
+    // more-less
+    $(document).ready(function() {
+        // Configure/customize these variables.
+        var showChar = 150;  // How many characters are shown by default
+        var ellipsestext = "...";
+        var moretext = "read more";
+        var lesstext = "read less";
+        
+
+        $('.more').each(function() {
+            var content = $(this).html();
+     
+            if(content.length > showChar) {
+     
+                var c = content.substr(0, showChar);
+                var h = content.substr(showChar, content.length - showChar);
+     
+                var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink text-info">' + moretext + '</a></span>';
+     
+                $(this).html(html);
+            }
+     
+        });
+     
+        $(".morelink").click(function(){
+            if($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+            }
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
+            return false;
+        });
     });  
     
 

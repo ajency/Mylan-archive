@@ -273,9 +273,9 @@ Previous <span class="p-l-r-5">|</span> Baseline
 <br>
 
 <div class="user-description-box">
-  <div class="clearfix" style="padding: 10px 30px;">
-    <div class="pull-left fw600 fosz14">Response</div>
-    <div class="pull-right fw600 fosz14">Previous | Baseline</div>
+  <div class="clearfix" style="padding: 10px 15px;">
+    <div class="pull-left">Response</div>
+    <div class="pull-right">Previous | Baseline</div>
   </div>
   <?php 
   $i=1;
