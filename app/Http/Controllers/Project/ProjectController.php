@@ -1826,7 +1826,7 @@ class ProjectController extends Controller
           $alertsettingsQry->equalTo("alertType",'total_count');
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
-            echo $alertsetting->getObjectId();
+            echo $alertsetting->getObjectId()."<br />";
           }  
     }
 
