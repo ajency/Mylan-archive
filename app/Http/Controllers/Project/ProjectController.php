@@ -1829,9 +1829,9 @@ class ProjectController extends Controller
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
             $InputData = array($alertsetting->get("comparedTo") => array('__type' => 'Pointer', 'className' => 'Response', 'objectId' => $referenceId));
-            print_r($InputData);
+            /*print_r($InputData);
             echo json_encode($InputData);
-            exit;
+            exit;*/
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $previous ){
