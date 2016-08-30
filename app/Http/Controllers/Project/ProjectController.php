@@ -1816,6 +1816,11 @@ class ProjectController extends Controller
                         ], 200);
     }
 
+    public function setTotalCountAlert($projectId){
+      echo "here";
+      exit;
+    }
+
     public function alertSetting($hospitalSlug,$projectSlug)
     {
       try
