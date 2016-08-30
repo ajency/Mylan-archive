@@ -154,6 +154,95 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <h4 class="bold print-pdf-padding">Question score per submission graph</h4>
             <p>The graph displays previous score,current score and the baseline score of a patient for every question for the selected submission</p>
             <br><br>
+
+            <div class="row">
+                <div class="col-sm-12">
+                <div class="clearfix">
+                  <div class="pull-left">
+                  <table id="weight-table" class="table table-flip-scroll cf table-center f-s-b border-none m-r-20" style="margin-top: -20px;">
+                      <thead class="cf">
+                        <tr>
+                          <th class="text-left" width="120px"></th>
+                          <th class="text-left" width="120px"></th>
+
+                          <th width="120px"></th>
+                          <th width="120px"></th>
+                        </tr>
+                      </thead>
+                      @if($inputValueChart)
+                          <?php $weightCt = 0;?>
+                          @foreach($inputValueChart as $inputValueChartK => $inputValueChartV)
+                            <?php 
+                                $styleWeight = "hide" ;
+                                if($weightCt == 0){
+                                  $styleWeight = "show";
+                                  $weightCt = 1;
+                                }
+                            ?>
+                      <tbody class="hide-{{ $inputValueChartK }} <?php echo $styleWeight; ?>">
+                        <tr>
+                          <td> &nbsp;</td>
+                          <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                          <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                          <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
+                        </tr>
+                          <tr >
+
+                            <td class="semi-bold">Weight</td>
+
+                            <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['current'] }}</td>
+
+                            <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['prev'] }}</td>
+
+                            <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['base'] }}</td>
+                          </tr>
+                      </tbody>
+                       @endforeach
+                        @else
+                        <tbody>
+                        <tr>
+                          <td> &nbsp;</td>
+                          <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
+                          <td class="text-center"> <i class="fa fa-circle blue-previous"></i> Previous</td>
+                          <td class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
+
+                        </tr>
+                          <tr >
+
+                            <td class="semi-bold">Weight</td>
+
+                            <td class="bg-gray">-</td>
+
+                            <td class="bg-gray">-</td>
+
+                            <td class="bg-gray">-</td>
+                          </tr>
+                        </tbody>
+                        @endif
+                    </table>
+                  </div>
+
+                        <select class="pull-right m-b-10" name="generateSubmissionChart">
+                          @foreach($submissionNumbers as $submissionNumber => $responseId)
+                          <option value="{{ $responseId }}">Submission {{ $submissionNumber }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                        
+                        @if(!$totalResponses)
+                        <table class="table table-flip-scroll table-hover dashboard-tbl">
+                          <tbody>
+                            <tr><td class="text-center no-data-found" colspan="16"><i class="fa fa-2x fa-frown-o"></i><br>No data found</td></tr>
+                          </tbody>
+                        </table>
+                        @else
+                        <div id="submissionChart" class="p-t-20" style="width:100%; height:500px;"></div>
+                        @endif
+                      </div>
+                    </div>
+
+
             <label class="pull-right">
               Choose Submissions
               <br>
@@ -236,6 +325,11 @@ $('select[name="generateSubmissionChart"]').change(function (event) {
     <?php
   }
   ?>
+
+  $("#weight-table tbody").removeClass("show");
+  $("#weight-table tbody").css("border-top","0px solid");
+  $("#weight-table tbody").addClass("hide");
+  $("#weight-table tbody.hide-"+$('select[name="generateSubmissionChart"]').val()).addClass("show");
 
 });
 
