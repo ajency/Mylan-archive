@@ -1816,7 +1816,10 @@ class ProjectController extends Controller
                         ], 200);
     }
 
-    public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId){
+    public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,Request $request){
+          
+          $responseObj = $request->input('responseObjData'); 
+
           $projectId = $projectId;
           $baseline = $baseline;
           $previous = $previous;
@@ -1835,7 +1838,7 @@ class ProjectController extends Controller
                 $alert->set("referenceId", $referenceId);
                 $alert->set("cleared", 'false');
                 $alert->set("referenceType", "Response");
-                $alert->set("responseObject", $referenceId);
+                $alert->set("responseObject", $responseObj);
                 $alert->set("flagCount", 0);
 
             if($alertsetting->get("comparedTo") == "previous"){
@@ -1877,9 +1880,12 @@ class ProjectController extends Controller
 
             }
 
-           // $alertsetting->save();
+           $alertsetting->save();
 
-          }  
+          }
+          $json_resp = array('code' => '' ,'message' => 'alert set for total count');
+          $status_code = 200;    
+        return response()->json( $json_resp, $status_code);
     }
 
     public function alertSetting($hospitalSlug,$projectSlug)
