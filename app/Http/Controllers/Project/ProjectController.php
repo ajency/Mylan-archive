@@ -1835,12 +1835,12 @@ class ProjectController extends Controller
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $previous ){
-                  echo "here";
+                  echo "herepgreater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1849,12 +1849,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if($alertsetting->get("flagCount") >= $previous ){
-                  echo "here";
+                  echo "herepgreater_than_equal_to";
                    $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1863,12 +1863,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($alertsetting->get("flagCount") <= $previous ){
-                  echo "here";
+                  echo "herepless_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1877,12 +1877,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($alertsetting->get("flagCount") < $previous ){
-                  echo "here";
+                  echo "herepless_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1893,12 +1893,12 @@ class ProjectController extends Controller
             }else{
               if($alertsetting->get("operation") == "greater_than"){
                 if($alertsetting->get("flagCount") > $baseline ){
-                  echo "here";
+                  echo "here greater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1907,12 +1907,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if($alertsetting->get("flagCount") >= $baseline ){
-                  echo "here";
+                  echo "here greater_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1921,12 +1921,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($alertsetting->get("flagCount") <= $baseline ){
-                  echo "here";
+                  echo "here less_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
@@ -1935,12 +1935,12 @@ class ProjectController extends Controller
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($alertsetting->get("flagCount") < $baseline ){
-                  echo "here";
+                  echo "here-less_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
                     $alert->set("patient", $patient);
                     $alert->set("referenceId", $referenceId);
-                    $alert->set("cleared", 'false');
+                    $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $responseObj);
                     $alert->set("flagCount", 0); 
