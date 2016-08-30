@@ -1820,13 +1820,12 @@ class ProjectController extends Controller
           
           $responseObj = $request->input('responseObjData'); 
           $projectId = $projectId;
-          $baseline = $baseline;
-          $previous = $previous;
-          $patient = $patient;
+          $baseline = intval($baseline);
+          $previous = intval($previous);
+          $patient = intval($patient);
           $referenceId = $referenceId;
           $alertsettingsQry = new ParseQuery("AlertSettings");
-          $alertsettingsQry->equalTo("project",73);
-          //$alertsettingsQry->equalTo("project",$projectId);
+          $alertsettingsQry->equalTo("project",$projectId);
           $alertsettingsQry->equalTo("alertType",'total_count');
           $alertsettings = $alertsettingsQry->find();
           foreach ($alertsettings as $alertsetting) {
