@@ -1992,7 +1992,7 @@ class ProjectController extends Controller
                            'operation'=>$alertsetting->get("operation"),
                            'flagColour'=>$alertsetting->get("flagColour"),
                            'comparedTo'=>$alertsetting->get("comparedTo"),
-                           //'alertType'=>$alertsetting->get("alertType"),
+                           'alertType'=>$alertsetting->get("alertType"),
                           ];
           }
 
@@ -2028,7 +2028,7 @@ class ProjectController extends Controller
             $flagColour = $request->input('flag_colour');
             $comparedTo = $request->input('compared_to');
             $settingsIds = $request->input('setting_id');
-            //$alertType = $request->input('alert_type');
+            $alertType = $request->input('alert_type');
  
             foreach ($flagCount as $key => $value) {
               $settingsId = $settingsIds[$key];
@@ -2036,7 +2036,7 @@ class ProjectController extends Controller
               $operationVal = $operation[$key];
               $flagColourVal = $flagColour[$key];
               $comparedToVal = $comparedTo[$key];
-              //$alertTypeVal = $alertType[$key];
+              $alertTypeVal = $alertType[$key];
 
               if($value=='')
                 continue;
@@ -2049,7 +2049,7 @@ class ProjectController extends Controller
                 $alertsetting->set("operation", $operationVal);
                 $alertsetting->set("flagColour", $flagColourVal);
                 $alertsetting->set("comparedTo", $comparedToVal);
-                //$alertsetting->set("alertType", $alertTypeVal);
+                $alertsetting->set("alertType", $alertTypeVal);
                 $alertsetting->save();
 
              }
@@ -2061,7 +2061,7 @@ class ProjectController extends Controller
                 $alertsetting->set("operation", $operationVal);
                 $alertsetting->set("flagColour", $flagColourVal);
                 $alertsetting->set("comparedTo", $comparedToVal);
-                //$alertsetting->set("alertType", $alertTypeVal);
+                $alertsetting->set("alertType", $alertTypeVal);
                 $alertsetting->save();
               }
        
