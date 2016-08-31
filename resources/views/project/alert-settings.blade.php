@@ -186,7 +186,18 @@
                    
      </div>
   </div>
- 
+ <script type="text/javascript">
+    $(document).ready(function() {
+      $(document).delegate('select[name="alert_type[]"]',"change", function(e){
+          if($(this).val() == "total_count"){
+            $(this).parent().next().next().next().children().addClass("disabled");
+          }else{
+            $(this).parent().next().next().next().children().removeClass("disabled");
+          }
+      });
+    }); 
+
+  </script>
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
