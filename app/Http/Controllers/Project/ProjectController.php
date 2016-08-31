@@ -444,6 +444,8 @@ class ProjectController extends Controller
                 if(in_array($alertType, $noFlagAlerts))
                   $message = sprintf($alertContent, $sequenceNumber );
                 else
+                  echo $flagcounters."<br />";
+                  exit;
                   //$message = sprintf($alertContent, $responseFlagType,$sequenceNumber );
                    $message = sprintf($alertContent, $flagcounters,$sequenceNumber );
 
