@@ -1528,7 +1528,7 @@ $('.addSettings').click(function (event) {
         html +='<select name="alert_type[]" class="select2-container select2 form-control">';
         html +='<option value="">Select alert type</option>';
         html +='<option value="flag_count">Flag count based</option>';
-        html +='<option value="total_score">Total score based</option>';
+        html +='<option value="total_count">Total score based</option>';
         html +='</select>';
         html +='</div>';
 
