@@ -174,18 +174,27 @@
         </div>
 
 
-                        <div class="form-group">
-                          <div class="col-sm-11 text-right">
-                          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
-                          </div>
-                        </div>
-                      </form>
-                       
-                  
-                                   
-                     </div>
-                  </div>
+        <div class="form-group">
+          <div class="col-sm-11 text-right">
+          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
+          </div>
+        </div>
+      </form>
+       
+  
+                   
+     </div>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function(e) {
+      $('select[name="alert_type[]"]').change(function(event) {
+        alert(this.val());
+      });
+    });
+    
+
+  </script>
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
