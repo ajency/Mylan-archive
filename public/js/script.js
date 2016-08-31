@@ -1499,9 +1499,8 @@ $('.addSettings').click(function (event) {
         alert('Please enter Flag Count');
         err++;
     }
-    else if(operation=='' && alert_type == "flag_count" )
+    else if(operation=='' )
     {
-        alert(alert_type);
         alert('Please enter operation');
         err++;
          
