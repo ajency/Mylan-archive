@@ -198,6 +198,12 @@
     }); 
 
   </script>
+  <style>
+  .disabled{
+    pointer-events: none;
+    opacity: .5;
+  }
+  </style>
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
