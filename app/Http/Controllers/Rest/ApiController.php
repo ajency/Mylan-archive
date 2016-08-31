@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Rest;
 
 use Illuminate\Http\Request;
@@ -92,70 +91,78 @@ class ApiController extends Controller
 
     //
     public function apiLogin(Request $request){
-        $email = $request->input('email');
-        $password = trim($request->input('password'));
-		$data['hospitalid'] ="";
-		$data['countHospitalId'] = "";
-		$userType = 0;//1 admin 2 hospital user/ else project user/other user 
-		$userTypeData = User::select('*')->where('email',$email)->get();
-		$userpassword = "";
-		$userId = "";
-		foreach($userTypeData as $Udatatye){
-			$userpassword = $Udatatye['password'];
-			$userId  = $Udatatye['id'];
-			$userstatus  = $Udatatye['account_status'];
-			if($Udatatye['type'] == "mylan_admin"){
-				$userType = 1;
-			}else if($Udatatye['type'] == "hospital_user"){
-				$userType = 2;
-                $hospitalAllAccess =  $Udatatye['has_all_access'];
-			}else{
-				$userType = 0; //project_user
-                $projectAllAccess = $Udatatye['has_all_access'];
-                $projectAllAccessHospital = $Udatatye['hospital_id'];
-			}
-		}
-        if (Hash::check($password, $userpassword) && $userstatus =='active'){
-            $data['status'] = 200;
-			if($userType == 1){
-				$hospitalData = Hospital::get();
-			}else if($userType == 2){
-                if($hospitalAllAccess != "yes"){	
-				    $whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
-				    $hospitalData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
-                }else{
-                    $hospitalData = Hospital::get();
-                }    
-			}else{
-                if(($projectAllAccess == "yes") && (!empty($projectAllAccessHospital))){
-                      $hospitalData = Hospital::where('id',$projectAllAccessHospital)->get();  
-                }else{
-    				$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'project' ];
-    				$getProjectHospId = UserAccess::select('projects.hospital_id as hospitalsID')->join('projects','user_access.object_id','=','projects.id')->where($whereCondition)->get();
-    				$hospId = "";
-    				foreach($getProjectHospId as $getHospId){
-    					$hospId = $getHospId['hospitalsID'];
+        $requestApiKey = \Request::header( 'X-API-KEY' );
+        $apiKey = config('app.key');
+        if($requestApiKey == $apiKey){
+            $email = $request->input('email');
+            $password = trim($request->input('password'));
+    		$data['hospitalid'] ="";
+    		$data['countHospitalId'] = "";
+    		$userType = 0;//1 admin 2 hospital user/ else project user/other user 
+    		$userTypeData = User::select('*')->where('email',$email)->get();
+    		$userpassword = "";
+    		$userId = "";
+    		foreach($userTypeData as $Udatatye){
+    			$userpassword = $Udatatye['password'];
+    			$userId  = $Udatatye['id'];
+    			$userstatus  = $Udatatye['account_status'];
+    			if($Udatatye['type'] == "mylan_admin"){
+    				$userType = 1;
+    			}else if($Udatatye['type'] == "hospital_user"){
+    				$userType = 2;
+                    $hospitalAllAccess =  $Udatatye['has_all_access'];
+    			}else{
+    				$userType = 0; //project_user
+                    $projectAllAccess = $Udatatye['has_all_access'];
+                    $projectAllAccessHospital = $Udatatye['hospital_id'];
+    			}
+    		}
+            if (Hash::check($password, $userpassword) && $userstatus =='active'){
+                $data['status'] = 200;
+    			if($userType == 1){
+    				$hospitalData = Hospital::get();
+    			}else if($userType == 2){
+                    if($hospitalAllAccess != "yes"){	
+    				    $whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'hospital' ];
+    				    $hospitalData = Hospital::select('hospitals.name','hospitals.id')->join('user_access','user_access.object_id','=','hospitals.id')->where($whereCondition)->get();
+                    }else{
+                        $hospitalData = Hospital::get();
+                    }    
+    			}else{
+                    if(($projectAllAccess == "yes") && (!empty($projectAllAccessHospital))){
+                          $hospitalData = Hospital::where('id',$projectAllAccessHospital)->get();  
+                    }else{
+        				$whereCondition  = [ 'user_access.user_id' => $userId, 'user_access.object_type' => 'project' ];
+        				$getProjectHospId = UserAccess::select('projects.hospital_id as hospitalsID')->join('projects','user_access.object_id','=','projects.id')->where($whereCondition)->get();
+        				$hospId = "";
+        				foreach($getProjectHospId as $getHospId){
+        					$hospId = $getHospId['hospitalsID'];
+        				}
+        				$hospitalData = Hospital::where('id',$hospId)->get();
+                    }    
+    			}			
+                $data['hospital'] = "<option value='0'>Please select</option>";
+    			$counter = 0;
+                foreach($hospitalData as $hospital){
+                    $data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
+    				$counter = $counter + 1;
+    				if($counter == 1){
+    					$data['hospitalid'] = $hospital['id'];
     				}
-    				$hospitalData = Hospital::where('id',$hospId)->get();
-                }    
-			}			
-            $data['hospital'] = "<option value='0'>Please select</option>";
-			$counter = 0;
-            foreach($hospitalData as $hospital){
-                $data['hospital'] .= "<option value='".$hospital['id']."'>".$hospital['name']."</option>";
-				$counter = $counter + 1;
-				if($counter == 1){
-					$data['hospitalid'] = $hospital['id'];
-				}
+                }
+    			$data['countHospitalId'] = $counter;
+    			$data['userEmail'] = $email;
+                return $data;
+            }else{
+                $data['status'] = 404;
+                $data['message'] = 'Please check your login credentials';
+                return $data;
             }
-			$data['countHospitalId'] = $counter;
-			$data['userEmail'] = $email;
-            return $data;
         }else{
             $data['status'] = 404;
-            $data['message'] = 'Please check your login credentials';
+            $data['message'] = 'you are not authorised..';
             return $data;
-        }
+        }    
     }
 	
 	public function hospitalData(Request $request){
