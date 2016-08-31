@@ -1486,6 +1486,12 @@ $('.addSettings').click(function (event) {
     var compared_to = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="compared_to[]"]').val();
     var counter = $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="counter"]').val(); 
     var newCounter = parseInt(counter)+1;
+    var classes = "";
+     if($(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="flag_colour[]"]').hasClass('disabled')){
+        classes = "disabled";
+    }else{
+        classes = "";
+    }
  
    
     var err= 0;
@@ -1507,8 +1513,10 @@ $('.addSettings').click(function (event) {
     }
     else if(flag_colour=='')
     {
-        alert('Please enter Flag Colour');
-        err++;
+        if(alert_type != "total_count"){
+            alert('Please enter Flag Colour');
+            err++;
+        } 
     }
     else if(compared_to=='')
     {
@@ -1573,6 +1581,7 @@ $('.addSettings').click(function (event) {
         $(".allsettings:last").find('select[name="alert_type[]"]').val(alert_type);
         $(".allsettings:last").find('select[name="operation[]"]').val(operation);
         $(".allsettings:last").find('select[name="flag_colour[]"]').val(flag_colour);
+        $(".allsettings:last").find('select[name="flag_colour[]"]').addClass(classes);
         $(".allsettings:last").find('select[name="compared_to[]"]').val(compared_to);
 
         $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="alert_type[]"]').val('');
