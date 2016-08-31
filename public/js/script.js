@@ -1489,8 +1489,6 @@ $('.addSettings').click(function (event) {
  
    
     var err= 0;
-    alert(alert_type);
-    alert(1);
     if(alert_type=='')
     {
         alert('Please enter Alert type');
@@ -1501,12 +1499,12 @@ $('.addSettings').click(function (event) {
         alert('Please enter Flag Count');
         err++;
     }
-    else if(operation=='')
+    else if(operation=='' && alert_type == "flag_count" )
     {
-        if(alert_type == "flag_count"){
-            alert('Please enter operation')
-            err++;
-        }    
+        
+        alert('Please enter operation')
+        err++;
+         
     }
     else if(flag_colour=='')
     {
