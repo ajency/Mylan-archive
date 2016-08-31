@@ -1479,7 +1479,7 @@ $( document ).on("click", ".sortPatientSummary", function() {
 
 $('.addSettings').click(function (event) { 
 
-    //var alert_type = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="alert_type[]"]').val();
+    var alert_type = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="alert_type[]"]').val();
     var flag_count = $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="flag_count[]"]').val();
     var operation = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="operation[]"]').val();
     var flag_colour = $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="flag_colour[]"]').val();
@@ -1490,11 +1490,11 @@ $('.addSettings').click(function (event) {
    
     var err= 0;
 
-    /*if(alert_type=='')
+    if(alert_type=='')
     {
         alert('Please enter Alert type');
         err++;
-    }*/
+    }
     if(flag_count=='')
     {
         alert('Please enter Flag Count');
@@ -1502,8 +1502,10 @@ $('.addSettings').click(function (event) {
     }
     else if(operation=='')
     {
-        alert('Please enter operation')
-        err++;
+        if(alert_type == "flag_count"){
+            alert('Please enter operation')
+            err++;
+        }    
     }
     else if(flag_colour=='')
     {
@@ -1522,15 +1524,15 @@ $('.addSettings').click(function (event) {
     {
         html ='<div class="row allsettings settingsContainer">';
 
-        /*html +='<div class="col-xs-2">';
+        html +='<div class="col-xs-2">';
         html +='<select name="alert_type[]" class="select2-container select2 form-control">';
         html +='<option value="">Select alert type</option>';
         html +='<option value="flag_count">Flag count based</option>';
         html +='<option value="total_score">Total score based</option>';
         html +='</select>';
-        html +='</div>';*/
+        html +='</div>';
 
-        html +='<div class="col-xs-3">';
+        html +='<div class="col-xs-2">';
         html +='<input type="text" name="flag_count[]" class="form-control" value="'+flag_count+'"  placeholder="Enter Flag Count"  >';
         html +='<input type="hidden" name="setting_id[]" class="form-control" >';
         html +='</div>';
@@ -1544,7 +1546,7 @@ $('.addSettings').click(function (event) {
         html +='</select>';
                      
         html +='</div>';
-        html +='<div class="col-xs-3">';
+        html +='<div class="col-xs-2">';
         html +='<select name="flag_colour[]" class="select2-container select2 form-control">';
         html +='<option value="">Select Flag Colour</option>';
         html +='<option value="red" >Red</option>';
@@ -1570,12 +1572,12 @@ $('.addSettings').click(function (event) {
 
         $(".addSettingsBlock").before(html);
         $(".allsettings:last").find('.deleteAlertSettings').removeClass('hidden');
-        //$(".allsettings:last").find('select[name="alert_type[]"]').val(alert_type);
+        $(".allsettings:last").find('select[name="alert_type[]"]').val(alert_type);
         $(".allsettings:last").find('select[name="operation[]"]').val(operation);
         $(".allsettings:last").find('select[name="flag_colour[]"]').val(flag_colour);
         $(".allsettings:last").find('select[name="compared_to[]"]').val(compared_to);
 
-       // $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="alert_type[]"]').val('');
+        $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="alert_type[]"]').val('');
         $(this).closest('.settings_block').find('.addSettingsContainer').find('input[name="flag_count[]"]').val('');
         $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="operation[]"]').val('');
         $(this).closest('.settings_block').find('.addSettingsContainer').find('select[name="flag_colour[]"]').val('');
