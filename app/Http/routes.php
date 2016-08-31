@@ -32,7 +32,7 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/{baseline}/{previous}/{patient}/{referenceId}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
     
 } );
-Route::get( 'api/v2/project/{id}/{baseline}/{previous}/{patient}/{referenceId}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
+
 
 Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
