@@ -521,15 +521,15 @@ class ProjectController extends Controller
 
         'new_patient'=>"New Patient Created",
 
-        'previous_total_score_alert_greater_than' => 'previous_total_score_alert_greater_than',
-        'previous_total_score_alert_greater_than_equal_to' => 'previous_total_score_alert_greater_than_equal_to',
-        'previous_total_score_alert_less_than_equal_to' => 'previous_total_score_alert_less_than_equal_to',
-        'previous_total_score_alert_less_than' => 'previous_total_score_alert_less_than',
+        'previous_total_score_alert_greater_than' => 'Total score is %s greater than previous score',
+        'previous_total_score_alert_greater_than_equal_to' => 'Total score is %s greater than on equal to previous score',
+        'previous_total_score_alert_less_than_equal_to' => 'Total score is %s lesser than or equal to previous score',
+        'previous_total_score_alert_less_than' => 'Total score is %s lesser than previous score',
 
-        'baseline_total_score_alert_greater_than' => 'baseline_total_score_alert_greater_than',
-        'baseline_total_score_alert_greater_than_equal_to' => 'baseline_total_score_alert_greater_than_equal_to',
-        'baseline_total_score_alert_less_than_equal_to' => 'baseline_total_score_alert_less_than_equal_to',
-        'baseline_total_score_alert_less_than' => 'baseline_total_score_alert_less_than'
+        'baseline_total_score_alert_greater_than' => 'Total score is %s greater than baseline score',
+        'baseline_total_score_alert_greater_than_equal_to' => 'Total score is %s greater than on equal to baseline score',
+        'baseline_total_score_alert_less_than_equal_to' => 'Total score is %s lesser than or equal to baseline score',
+        'baseline_total_score_alert_less_than' => 'Total score is %s lesser than baseline score'
 
         ];
 
@@ -1853,7 +1853,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
                 }
@@ -1867,7 +1867,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
                 }
@@ -1881,7 +1881,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1895,7 +1895,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
                 }
@@ -1911,7 +1911,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
                 }
@@ -1925,7 +1925,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
                 }
@@ -1939,7 +1939,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1953,7 +1953,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
                 }
@@ -1992,7 +1992,7 @@ class ProjectController extends Controller
                            'operation'=>$alertsetting->get("operation"),
                            'flagColour'=>$alertsetting->get("flagColour"),
                            'comparedTo'=>$alertsetting->get("comparedTo"),
-                           //'alertType'=>$alertsetting->get("alertType"),
+                           'alertType'=>$alertsetting->get("alertType"),
                           ];
           }
 
@@ -2028,7 +2028,7 @@ class ProjectController extends Controller
             $flagColour = $request->input('flag_colour');
             $comparedTo = $request->input('compared_to');
             $settingsIds = $request->input('setting_id');
-            //$alertType = $request->input('alert_type');
+            $alertType = $request->input('alert_type');
  
             foreach ($flagCount as $key => $value) {
               $settingsId = $settingsIds[$key];
@@ -2036,7 +2036,7 @@ class ProjectController extends Controller
               $operationVal = $operation[$key];
               $flagColourVal = $flagColour[$key];
               $comparedToVal = $comparedTo[$key];
-              //$alertTypeVal = $alertType[$key];
+              $alertTypeVal = $alertType[$key];
 
               if($value=='')
                 continue;
@@ -2049,7 +2049,7 @@ class ProjectController extends Controller
                 $alertsetting->set("operation", $operationVal);
                 $alertsetting->set("flagColour", $flagColourVal);
                 $alertsetting->set("comparedTo", $comparedToVal);
-                //$alertsetting->set("alertType", $alertTypeVal);
+                $alertsetting->set("alertType", $alertTypeVal);
                 $alertsetting->save();
 
              }
@@ -2061,7 +2061,7 @@ class ProjectController extends Controller
                 $alertsetting->set("operation", $operationVal);
                 $alertsetting->set("flagColour", $flagColourVal);
                 $alertsetting->set("comparedTo", $comparedToVal);
-                //$alertsetting->set("alertType", $alertTypeVal);
+                $alertsetting->set("alertType", $alertTypeVal);
                 $alertsetting->save();
               }
        
@@ -2099,6 +2099,56 @@ class ProjectController extends Controller
                         ], 203);
 
 
+    }
+
+    public function reviewMapping($hospitalSlug,$projectSlug)
+    {
+     try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+          
+        } catch (\Exception $e) {
+
+            exceptionError($e);           
+        }
+
+        return view('project.review-mapping')->with('active_menu', 'settings')
+                                             ->with('hospital', $hospital)
+                                             ->with('project', $project);
+                                        
+    }
+
+    public function saveReviewMapping(Request $request,$hospitalSlug,$projectSlug)
+    {
+     try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+          $projects = Projects::find($projectId);
+          $projects->reviewed_no_action = $request->input('reviewed_no_action-Extra'); 
+          $projects->reviewed_call_done = $request->input('reviewed_call_done-Extra'); 
+          $projects->reviewed_appointment_fixed = $request->input('reviewed_appointment_fixed-Extra'); 
+          $projects->unreviewed = $request->input('unreviewed-Extra'); 
+          $projects->save();  
+          
+        } catch (\Exception $e) {
+
+            exceptionError($e);           
+        }
+
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/review-mapping'));
+                                        
     }
 
 

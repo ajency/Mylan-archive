@@ -68,8 +68,15 @@
              <?php $key = 0;?>
              @foreach($settings as $key =>$setting)
               <div class="row allsettings settingsContainer">
+                  <div class="col-xs-2">
+                    <select name="alert_type[]" class="select2-container select2 form-control">
+                      <option value="">Select alert type</option>
+                      <option value="flag_count" {{ ($setting['alertType']=='flag_count')?'selected':'' }}>Flag count based</option>
+                      <option value="total_count" {{ ($setting['alertType']=='total_count')?'selected':'' }}>Total score based</option>
+                    </select>
+                  </div>
 
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                       <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Flag Count"  >
                       <input type="hidden" name="setting_id[]" class="form-control" value="{{ $setting['id'] }}">
                   </div>
@@ -83,7 +90,7 @@
                     </select>
                      
                   </div>
-                  <div class="col-xs-3">
+                  <div class="col-xs-2">
                     <select name="flag_colour[]" class="select2-container select2 form-control">
                       <option value="">Select Flag Colour</option>
                       <option value="red" {{ ($setting['flagColour']=='red')?'selected':''}} >Red</option>
@@ -109,15 +116,15 @@
 
               <div class="row addSettingsBlock addSettingsContainer settingsContainer">
 
-               <!--div class="col-xs-2">
+               <div class="col-xs-2">
                 <select name="alert_type[]" class="select2-container select2 form-control">
                   <option value="">Select alert type</option>
                   <option value="flag_count">Flag count based</option>
-                  <option value="total_score">Total score based</option>
+                  <option value="total_count">Total score based</option>
                 </select>
-              </div-->
+              </div>
 
-              <div class="col-xs-3">
+              <div class="col-xs-2">
                 <input type="text" name="flag_count[]" class="form-control"  placeholder="Enter Flag Count"  >
                 <input type="hidden" name="setting_id[]" class="form-control" >
               </div>
@@ -131,8 +138,8 @@
                 </select>
                      
               </div>
-              <div class="col-xs-3">
-                <select name="flag_colour[]" class="select2-container select2 form-control">
+              <div class="col-xs-2">
+                <select name="flag_colour[]" class="select2-container select2 form-control extraColor">
                   <option value="">Select Flag Colour</option>
                   <option value="red" >Red</option>
                   <option value="amber" >Amber</option>
@@ -167,18 +174,19 @@
         </div>
 
 
-                        <div class="form-group">
-                          <div class="col-sm-11 text-right">
-                          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-                            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
-                          </div>
-                        </div>
-                      </form>
-                       
-                  
-                                   
-                     </div>
-                  </div>
+        <div class="form-group">
+          <div class="col-sm-11 text-right">
+          <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
+            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
+          </div>
+        </div>
+      </form>
+       
+  
+                   
+     </div>
+  </div>
+ 
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection

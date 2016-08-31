@@ -125,10 +125,13 @@
                                 <option {{ ($submissionStatus=='completed')?'selected':'' }} value="completed">Completed</option>
                                 <option {{ ($submissionStatus=='late')?'selected':'' }} value="late">Late</option>
                                 <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option>
-                                <option {{ ($submissionStatus=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
-                                <option {{ ($submissionStatus=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
-                                <option {{ ($submissionStatus=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
-                                <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
+                                <option {{ ($submissionStatus=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action {{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</option>
+
+                                <option {{ ($submissionStatus=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done {{ ($project['reviewed_call_done'])?$project['reviewed_call_done']:'' }}</option>
+
+                                <option {{ ($submissionStatus=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed {{ ($project['reviewed_appointment_fixed'])?$project['reviewed_appointment_fixed']:'' }}</option>
+
+                                <option {{ ($submissionStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed {{ ($project['unreviewed'])?$project['unreviewed']:'' }}</option>
                                 <!-- <option {{ ($submissionStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
                              <input type="hidden" class="form-control" name="startDate" value="{{ $startDate }}"  >
@@ -295,7 +298,7 @@
                                    <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div> -->
-                                   <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }}</div>
+                                   <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div>
 
                                    </td>
                                 </tr>

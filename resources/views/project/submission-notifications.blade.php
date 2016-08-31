@@ -48,10 +48,13 @@
                               <label class="filter-label m-t-15 m-r-10">Filter</label>                              
                              <select name="reviewStatus" id="reviewStatus" class="pull-right select2 m-t-5 m-b-20 form-control inline filterby pull-right">
                                 <option value="all">All</option>
-                                <option {{ ($reviewStatus=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
-                                <option {{ ($reviewStatus=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
-                                <option {{ ($reviewStatus=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
-                                <option {{ ($reviewStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed</option>
+                                <option {{ ($reviewStatus=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action {{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</option>
+
+                                <option {{ ($reviewStatus=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done {{ ($project['reviewed_call_done'])?$project['reviewed_call_done']:'' }}</option>
+
+                                <option {{ ($reviewStatus=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed {{ ($project['reviewed_appointment_fixed'])?$project['reviewed_appointment_fixed']:'' }}</option>
+
+                                <option {{ ($reviewStatus=='unreviewed')?'selected':'' }} value="unreviewed">Unreviewed {{ ($project['unreviewed'])?$project['unreviewed']:'' }}</option>
                                 <!-- <option {{ ($reviewStatus=='missed')?'selected':'' }} value="missed">Missed</option> -->
                              </select>
                              
@@ -123,7 +126,7 @@
                                    <td class="text-center">{{ $submissionNotification['reviewNote'] }}</td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
-                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}</div>
+                                    <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }} {{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
                                    </td>
                                 </tr>
                             @endforeach

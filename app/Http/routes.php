@@ -157,6 +157,9 @@ Route::get( '/alert-setting', 'Project\ProjectController@alertSetting' );
 Route::post( '/alert-setting', 'Project\ProjectController@saveAlertSetting' );
 Route::delete( 'delete-alert-setting/{id}', 'Project\ProjectController@deleteAlertSettings' );
 
+Route::get('/review-mapping', 'Project\ProjectController@reviewMapping' );
+Route::post('/review-mapping', 'Project\ProjectController@saveReviewMapping' );
+
 Route::get( '/questionnaire-setting', 'Project\QuestionnaireController@questionnaireSetting' );
 Route::post( '/store-questionnaire-setting', 'Project\QuestionnaireController@storeQuestionnaireSetting' );
 Route::post( '/update-questionnaire-setting', 'Project\QuestionnaireController@saveQuestionnaireSetting' );
