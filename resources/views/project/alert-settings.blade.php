@@ -139,7 +139,7 @@
                      
               </div>
               <div class="col-xs-2">
-                <select name="flag_colour[]" class="select2-container select2 form-control">
+                <select name="flag_colour[]" class="select2-container select2 form-control extraColor">
                   <option value="">Select Flag Colour</option>
                   <option value="red" >Red</option>
                   <option value="amber" >Amber</option>
@@ -190,9 +190,9 @@
     $(document).ready(function(e) {
       $(document).delegate('select[name="alert_type[]"]',"change", function(e){  
         if($(this).val() == "total_count"{
-          $('select[name="alert_type[]"]').attr("disabled");
+          $("select.extraColor").attr("disabled");
         }else{
-          $('select[name="alert_type[]"]').removeAttr("disabled");
+          $("select.extraColor").removeAttr("disabled");
         }
       });
     });
