@@ -188,7 +188,7 @@
   </div>
   <script type="text/javascript">
     $(document).ready(function(e) {
-      $('select[name="alert_type[]"]').change(function(event) {
+      $(document).delegate('select[name="alert_type[]"]',"change", function(e){  
         alert(this.val());
       });
     });
