@@ -61,6 +61,7 @@ class ProjectPermission
                         '{hospitalslug}/{projectslug}/configure-questions/{id}'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/alert-setting'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/delete-alert-setting/{id}'=>['edit'],
+                        '{hospitalslug}/{projectslug}/review-mapping'=>['view','edit'],
                         '{hospitalslug}/{projectslug}/delete-question/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/delete-option/{id}'=>['edit'],
                         '{hospitalslug}/{projectslug}/order-questions/{id}'=>['view','edit'],
