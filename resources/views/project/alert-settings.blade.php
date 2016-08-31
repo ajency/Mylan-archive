@@ -186,19 +186,7 @@
                    
      </div>
   </div>
-  <script type="text/javascript">
-    $(document).ready(function(e) {
-      $(document).delegate('select[name="alert_type[]"]',"change", function(e){  
-        if($(this).val() == "total_count"{
-          $("select.extraColor").attr("disabled");
-        }else{
-          $("select.extraColor").removeAttr("disabled");
-        }
-      });
-    });
-    
-
-  </script>
+ 
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
