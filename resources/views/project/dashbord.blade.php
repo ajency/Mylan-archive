@@ -408,7 +408,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
             <td class="text-center text-success">
               <!-- <div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div> -->
-              <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }}{{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div>
+              <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div>
             </td>
           </tr>
           @endif
@@ -478,7 +478,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
             <td class="text-center"><div class="more"><?php echo $reviewNote; ?></div></td>
             <td class="text-center text-success">
               <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
-              <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }}{{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
+              <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }} {{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
             </td>
           </tr>
 
