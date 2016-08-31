@@ -72,7 +72,7 @@
                     <select name="alert_type[]" class="select2-container select2 form-control">
                       <option value="">Select alert type</option>
                       <option value="flag_count" {{ ($setting['alertType']=='flag_count')?'selected':'' }}>Flag count based</option>
-                      <option value="total_score" {{ ($setting['alertType']=='total_score')?'selected':'' }}>Total score based</option>
+                      <option value="total_count" {{ ($setting['alertType']=='total_count')?'selected':'' }}>Total score based</option>
                     </select>
                   </div>
 
@@ -120,7 +120,7 @@
                 <select name="alert_type[]" class="select2-container select2 form-control">
                   <option value="">Select alert type</option>
                   <option value="flag_count">Flag count based</option>
-                  <option value="total_score">Total score based</option>
+                  <option value="total_count">Total score based</option>
                 </select>
               </div>
 
