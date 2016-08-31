@@ -1853,7 +1853,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
                 }
@@ -1867,7 +1867,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
                 }
@@ -1881,7 +1881,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1895,7 +1895,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $previous); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
                 }
@@ -1911,7 +1911,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
                 }
@@ -1925,7 +1925,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
                 }
@@ -1939,7 +1939,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1953,7 +1953,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", 0); 
+                    $alert->set("flagCount", $baseline); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
                 }
