@@ -1490,6 +1490,7 @@ $('.addSettings').click(function (event) {
    
     var err= 0;
     alert(alert_type);
+    alert(1);
     if(alert_type=='')
     {
         alert('Please enter Alert type');
