@@ -189,7 +189,11 @@
   <script type="text/javascript">
     $(document).ready(function(e) {
       $(document).delegate('select[name="alert_type[]"]',"change", function(e){  
-        alert($(this).val());
+        if($(this).val() == "total_count"{
+          $('select[name="alert_type[]"]').attr("disabled");
+        }else{
+          $('select[name="alert_type[]"]').removeAttr("disabled");
+        }
       });
     });
     
