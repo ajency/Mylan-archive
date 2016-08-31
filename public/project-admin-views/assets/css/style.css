@@ -10130,3 +10130,7 @@ table tr.printPdfMargin td.print-pdf-marginPFl {
 .morecontent span {
   display: none;
 }
+.disabled {
+  pointer-events: none;
+  opacity: .5;
+}
