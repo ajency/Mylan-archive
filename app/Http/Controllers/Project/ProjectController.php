@@ -521,15 +521,15 @@ class ProjectController extends Controller
 
         'new_patient'=>"New Patient Created",
 
-        'previous_total_score_alert_greater_than' => 'previous_total_score_alert_greater_than',
-        'previous_total_score_alert_greater_than_equal_to' => 'previous_total_score_alert_greater_than_equal_to',
-        'previous_total_score_alert_less_than_equal_to' => 'previous_total_score_alert_less_than_equal_to',
-        'previous_total_score_alert_less_than' => 'previous_total_score_alert_less_than',
+        'previous_total_score_alert_greater_than' => 'Total score is %u greater than previous score',
+        'previous_total_score_alert_greater_than_equal_to' => 'Total score is %u greater than on equal to previous score',
+        'previous_total_score_alert_less_than_equal_to' => 'Total score is %u lesser than or equal to previous score',
+        'previous_total_score_alert_less_than' => 'Total score is %u lesser than previous score',
 
-        'baseline_total_score_alert_greater_than' => 'baseline_total_score_alert_greater_than',
-        'baseline_total_score_alert_greater_than_equal_to' => 'baseline_total_score_alert_greater_than_equal_to',
-        'baseline_total_score_alert_less_than_equal_to' => 'baseline_total_score_alert_less_than_equal_to',
-        'baseline_total_score_alert_less_than' => 'baseline_total_score_alert_less_than'
+        'baseline_total_score_alert_greater_than' => 'Total score is %u greater than baseline score',
+        'baseline_total_score_alert_greater_than_equal_to' => 'Total score is %u greater than on equal to baseline score',
+        'baseline_total_score_alert_less_than_equal_to' => 'Total score is %u lesser than or equal to baseline score',
+        'baseline_total_score_alert_less_than' => 'Total score is %u lesser than baseline score'
 
         ];
 
