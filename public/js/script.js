@@ -1501,19 +1501,19 @@ $('.addSettings').click(function (event) {
     }
     else if(operation=='' && alert_type == "flag_count" )
     {
-        
-        alert('Please enter operation')
+        alert(alert_type);
+        alert('Please enter operation');
         err++;
          
     }
     else if(flag_colour=='')
     {
-        alert('Please enter Flag Colour')
+        alert('Please enter Flag Colour');
         err++;
     }
     else if(compared_to=='')
     {
-        alert('Please enter compared To')
+        alert('Please enter compared To');
         err++;
     }
 
