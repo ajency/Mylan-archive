@@ -151,10 +151,10 @@ $currUrl = $_SERVER['REQUEST_URI'];
 
                 </label>
                 <select name="updateSubmissionStatus" id="updateSubmissionStatus" class="select2 form-control full-width" object-id="{{ $currentSubmission }}">            
-                  <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action</option>
-                  <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done</option>
-                  <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed</option>
-                  <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed</option>
+                  <option {{ ($responseData['reviewed']=='reviewed_no_action')?'selected':''}} value="reviewed_no_action">Reviewed - No action {{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</option>
+                  <option {{ ($responseData['reviewed']=='reviewed_call_done')?'selected':''}} value="reviewed_call_done">Reviewed - Call done {{ ($project['reviewed_call_done'])?$project['reviewed_call_done']:'' }}</option>
+                  <option {{ ($responseData['reviewed']=='reviewed_appointment_fixed')?'selected':''}} value="reviewed_appointment_fixed">Reviewed - Appointment fixed {{ ($project['reviewed_appointment_fixed'])?$project['reviewed_appointment_fixed']:'' }}</option>
+                  <option {{ ($responseData['reviewed']=='unreviewed')?'selected':''}} value="unreviewed" >Unreviewed {{ ($project['unreviewed'])?$project['unreviewed']:'' }}</option>
                 </select>
 
       <!--  <div class="notes">
