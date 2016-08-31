@@ -2101,6 +2101,56 @@ class ProjectController extends Controller
 
     }
 
+    public function reviewMapping($hospitalSlug,$projectSlug)
+    {
+     try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+          
+        } catch (\Exception $e) {
+
+            exceptionError($e);           
+        }
+
+        return view('project.review-mapping')->with('active_menu', 'settings')
+                                             ->with('hospital', $hospital)
+                                             ->with('project', $project);
+                                        
+    }
+
+    public function saveReviewMapping(Request $request,$hospitalSlug,$projectSlug)
+    {
+     try
+        {
+          $hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
+
+          $hospital = $hospitalProjectData['hospital'];
+          $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+          $project = $hospitalProjectData['project'];
+          $projectId = intval($project['id']);
+          $projects = Projects::find($projectId);
+          $projects->reviewed_no_action = $request->input('reviewed_no_action-Extra'); 
+          $projects->reviewed_call_done = $request->input('reviewed_call_done-Extra'); 
+          $projects->reviewed_appointment_fixed = $request->input('reviewed_appointment_fixed-Extra'); 
+          $projects->unreviewed = $request->input('unreviewed-Extra'); 
+          $projects->save();  
+          
+        } catch (\Exception $e) {
+
+            exceptionError($e);           
+        }
+
+        return redirect(url($hospitalSlug .'/'. $projectSlug .'/review-mapping'));
+                                        
+    }
+
 
     
 
