@@ -30,15 +30,16 @@ $currUrl = $_SERVER['REQUEST_URI'];
       <div class="row">
         <div class="col-xs-4"><input type="text" value="Reviewed - No action" name="reviewed_no_action" readonly="" /></div>
         <div class="col-xs-8"><textarea name="reviewed_no_action-Extra">{{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</textarea></div>
-
+      </div>
+      <div class="row">  
         <div class="col-xs-4"><input type="text" value="Reviewed - Call done" name="reviewed_call_done" readonly="" /></div>
         <div class="col-xs-8"><textarea name="reviewed_call_done-Extra">{{ ($project['reviewed_call_done'])?$project['reviewed_call_done']:'' }}</textarea></div>
-
-
+      </div>
+       <div class="row">
         <div class="col-xs-4"><input type="text" value="Reviewed - Appointment fixed" name="reviewed_appointment_fixed" readonly="" /></div>
         <div class="col-xs-8"><textarea name="reviewed_appointment_fixed-Extra">{{ ($project['reviewed_appointment_fixed'])?$project['reviewed_appointment_fixed']:'' }}</textarea></div>
-
-
+      </div>
+      <div class="row">
         <div class="col-xs-4"><input type="text" value="Unreviewed" name="unreviewed" readonly="" /></div>
         <div class="col-xs-8"><textarea name="unreviewed-Extra">{{ ($project['unreviewed'])?$project['unreviewed']:'' }}</textarea></div>
       </div> 
