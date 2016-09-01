@@ -1859,6 +1859,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if($previousVal >= $alertsetting->get("flagCount")){
@@ -1873,6 +1878,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($previousVal)); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
+
+                   $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($previousVal <= $alertsetting->get("flagCount")){
@@ -1887,6 +1897,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($previousVal < $alertsetting->get("flagCount")){
@@ -1901,6 +1916,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }
             }else{
@@ -1917,6 +1937,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
                 if( $baselineVal >= $alertsetting->get("flagCount")){
@@ -1931,6 +1956,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
                 if($baselineVal <= $alertsetting->get("flagCount")){
@@ -1945,6 +1975,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
                 if($baselineVal < $alertsetting->get("flagCount")){
@@ -1959,6 +1994,11 @@ class ProjectController extends Controller
                     $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
+
+                    $responseObj = new ParseQuery("Response");
+                    $responseObjData = $responseObj->get($referenceId);
+                    $responseObjData->set("alert", true);
+                    $responseObjData->save();
                 }
               }
 
@@ -1973,9 +2013,6 @@ class ProjectController extends Controller
     }
 
     public function setBaseline($projectId,$patient,$referenceId){
-        echo $projectId;
-        echo $patient;
-        echo $referenceId;
         $response = new ParseQuery("Response");
           $response->equalTo("project",intval($projectId));
           $response->equalTo("status",'base_line');
