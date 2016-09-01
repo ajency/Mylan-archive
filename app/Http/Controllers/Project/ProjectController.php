@@ -1993,7 +1993,7 @@ class ProjectController extends Controller
               $responseObjData->set("reason", '');
               $responseObjData->set("baseLineFlagStatus", '');
               $responseObjData->set("previousFlagStatus", '');
-              $responseObjData->set("schedule", (object));
+              $responseObjData->set("schedule", (object)[]);
               $responseObjData->set("reviewed", '');
               $responseObjData->set("baseLineTotalRedFlags", 0);
               $responseObjData->set("baseLineTotalAmberFlags", 0);
