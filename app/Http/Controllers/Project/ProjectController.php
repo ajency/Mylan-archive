@@ -1856,7 +1856,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previousVal); 
+                    $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
                 }
@@ -1870,7 +1870,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previousVal); 
+                    $alert->set("flagCount", abs($previousVal)); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
                 }
@@ -1884,7 +1884,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previousVal); 
+                    $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1898,7 +1898,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previousVal); 
+                    $alert->set("flagCount", abs($previousVal)); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
                 }
@@ -1914,7 +1914,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baselineVal); 
+                    $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
                 }
@@ -1928,7 +1928,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baselineVal); 
+                    $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
                 }
@@ -1942,7 +1942,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baselineVal); 
+                    $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
@@ -1956,7 +1956,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baselineVal); 
+                    $alert->set("flagCount", abs($baselineVal)); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
                 }
