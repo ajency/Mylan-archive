@@ -123,7 +123,7 @@
                                       <sm><b>#{{ $submissionNotification['sequenceNumber'] }}</b></sm>
                                    </td>
                                    <td class="text-center text-success">{{ $submissionNotification['msg'] }}</td> 
-                                   <td class="text-center"><div class="more">{{ $submissionNotification['reviewNote'] }}</div>div></td>
+                                   <td class="text-center"><div class="more">{{ $submissionNotification['reviewNote'] }}</div></td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
                                     <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }} {{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
