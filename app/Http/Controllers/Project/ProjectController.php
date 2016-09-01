@@ -1979,7 +1979,7 @@ class ProjectController extends Controller
         $response = new ParseQuery("Response");
           $response->equalTo("project",$projectId);
           $response->equalTo("alertType",'total_count');
-          $responseData = $response->first();
+          $responseData = $response->find();
           echo "<pre>";
           print_r($responseData);
 
