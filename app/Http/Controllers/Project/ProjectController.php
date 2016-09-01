@@ -1993,7 +1993,7 @@ class ProjectController extends Controller
               $responseObjData->set("reason", '');
               $responseObjData->set("baseLineFlagStatus", '');
               $responseObjData->set("previousFlagStatus", '');
-              $responseObjData->set("schedule", (object)[]);
+              //$responseObjData->set("schedule", (object)[]);
               $responseObjData->set("reviewed", '');
               $responseObjData->set("baseLineTotalRedFlags", 0);
               $responseObjData->set("baseLineTotalAmberFlags", 0);
@@ -2002,7 +2002,7 @@ class ProjectController extends Controller
               $responseObjData->set("previousTotalAmberFlags", 0);
               $responseObjData->set("previousTotalGreenFlags", 0);
               $responseObjData->set("baseline", '');
-              $responseObjData->set("previousSubmission", (object)[]);
+              //$responseObjData->set("previousSubmission", (object)[]);
               $responseObjData->set("baseLineScore", 0);
               $responseObjData->set("previousScore", 0);
               $responseObjData->set("alert", false);
