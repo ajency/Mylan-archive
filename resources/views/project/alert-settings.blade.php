@@ -164,9 +164,9 @@
           </div>
 
           <div class="row">
-              <div class="col-md-11">
+              <div class="col-md-12">
                <div class="text-right">
-                  <a tabindex="0" class="btn btn-link addSettings"><i class="fa fa-plus"></i>Add More</a>
+                  <a tabindex="0" class="btn btn-link addSettings m-r-5"><i class="fa fa-plus"></i> Add More</a>
               </div>
               </div>
               </div>
@@ -175,9 +175,9 @@
 
 
         <div class="form-group">
-          <div class="col-sm-11 text-right">
+          <div class="col-sm-12 text-right">
           <input type="hidden" value="{{ csrf_token()}}" name="_token"/>
-            <button type="submit" class="btn btn-success m-r-15 m-t-10" <?php echo $hideViewAccess?>>Save</button>
+            <button type="submit" class="btn btn-success m-r-25 m-t-10" <?php echo $hideViewAccess?>>Save</button>
           </div>
         </div>
       </form>
