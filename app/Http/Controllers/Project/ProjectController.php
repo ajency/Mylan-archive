@@ -2007,7 +2007,7 @@ class ProjectController extends Controller
               $responseObjData->set("previousScore", 0);
               $responseObjData->set("alert", false);
               $responseObjData->set("reviewNote", '');
-              $responseObjData->set("submittedDate", '');
+              //$responseObjData->set("submittedDate", '');
               $responseObjData->save();
           }
           
