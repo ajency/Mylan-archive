@@ -1972,6 +1972,10 @@ class ProjectController extends Controller
         return response()->json( $json_resp, $status_code);
     }
 
+    public function setBaseline($projectId,$patient,$referenceId){
+
+    }
+
     public function alertSetting($hospitalSlug,$projectSlug)
     {
       try

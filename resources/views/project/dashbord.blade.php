@@ -12,6 +12,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
     </li>
   </ul>
 </p>
+
 <!-- END BREADCRUMBS -->
 @endsection
 @section('content')
