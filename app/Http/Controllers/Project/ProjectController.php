@@ -1973,7 +1973,8 @@ class ProjectController extends Controller
     }
 
     public function setBaseline($projectId,$patient,$referenceId){
-
+        echo $projectId;
+        
     }
 
     public function alertSetting($hospitalSlug,$projectSlug)
