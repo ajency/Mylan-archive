@@ -1977,9 +1977,10 @@ class ProjectController extends Controller
         echo $patient;
         echo $referenceId;
         $response = new ParseQuery("Response");
-          $response->equalTo("project",$projectId);
-          $response->equalTo("alertType",'total_count');
-          $responseData = $response->find();
+          $response->equalTo("project",intval($projectId));
+          $response->equalTo("status",'base_line');
+          $response->equalTo("patient",$patient);
+          $responseData = $response->first();
           echo "<pre>";
           print_r($responseData);
 
