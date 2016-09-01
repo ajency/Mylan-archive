@@ -1847,7 +1847,7 @@ class ProjectController extends Controller
 
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
-                if($alertsetting->get("flagCount") > $previousVal ){
+                if($previousVal > $alertsetting->get("flagCount")){
                   echo "herepgreater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1861,7 +1861,7 @@ class ProjectController extends Controller
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
-                if($alertsetting->get("flagCount") >= $previousVal ){
+                if($previousVal >= $alertsetting->get("flagCount")){
                   echo "herepgreater_than_equal_to";
                    $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1875,7 +1875,7 @@ class ProjectController extends Controller
                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
-                if($alertsetting->get("flagCount") <= $previousVal ){
+                if($previousVal <= $alertsetting->get("flagCount")){
                   echo "herepless_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1889,7 +1889,7 @@ class ProjectController extends Controller
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
-                if($alertsetting->get("flagCount") < $previousVal ){
+                if($previousVal < $alertsetting->get("flagCount")){
                   echo "herepless_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1905,7 +1905,7 @@ class ProjectController extends Controller
               }
             }else{
               if($alertsetting->get("operation") == "greater_than"){
-                if($alertsetting->get("flagCount") > $baselineVal ){
+                if($baselineVal > $alertsetting->get("flagCount")){
                   echo "here greater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1919,7 +1919,7 @@ class ProjectController extends Controller
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
-                if($alertsetting->get("flagCount") >= $baselineVal ){
+                if( $baselineVal >= $alertsetting->get("flagCount")){
                   echo "here greater_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1933,7 +1933,7 @@ class ProjectController extends Controller
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
-                if($alertsetting->get("flagCount") <= $baselineVal ){
+                if($baselineVal <= $alertsetting->get("flagCount")){
                   echo "here less_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1947,7 +1947,7 @@ class ProjectController extends Controller
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
-                if($alertsetting->get("flagCount") < $baselineVal ){
+                if($baselineVal < $alertsetting->get("flagCount")){
                   echo "here-less_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
