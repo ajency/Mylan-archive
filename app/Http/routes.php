@@ -29,10 +29,12 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/clear-cache', 'Project\ProjectController@clearCache' );
     Route::post( 'project/{id}/{pname}/send-mail-submission', 'Project\ProjectController@sendMailSubmission' );
-    Route::post( 'project/{id}/{baseline}/{previous}/{patient}/{referenceId}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
+    Route::post( 'project/{id}/{baseline}/{previous}/{patient}/{referenceId}/{totalscore}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
+    Route::post( 'project/{id}/{patient}/{referenceId}/set-patient-baseline', 'Project\ProjectController@setBaseline' );
     
 } );
 
+Route::get( 'api/v2/project/{id}/{patient}/{referenceId}/set-patient-baseline', 'Project\ProjectController@setBaseline' );
 
 Route::group( ['prefix' => 'api/v3'], function() {
     Route::get('ajaxCApi', 'Rest\ApiController@apiLogin');
@@ -42,7 +44,7 @@ Route::group( ['prefix' => 'api/v3'], function() {
 	// Route::get('referenceCode/save-mapping', 'Rest\ApiController@saveMappingData');
 	Route::get('hospital-data', 'Rest\ApiController@hospitalData');
     
-} );
+});
 
 
 
