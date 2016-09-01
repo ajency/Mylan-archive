@@ -91,7 +91,7 @@
                      
                   </div>
                   <div class="col-xs-2">
-                    <select name="flag_colour[]" class="select2-container select2 form-control">
+                    <select name="flag_colour[]" class="select2-container select2 form-control {{ ($setting['alertType']=='total_count')?'disabled':'' }}">
                       <option value="">Select Flag Colour</option>
                       <option value="red" {{ ($setting['flagColour']=='red')?'selected':''}} >Red</option>
                       <option value="amber" {{ ($setting['flagColour']=='amber')?'selected':''}} >Amber</option>
@@ -186,7 +186,24 @@
                    
      </div>
   </div>
- 
+ <script type="text/javascript">
+    $(document).ready(function() {
+      $(document).delegate('select[name="alert_type[]"]',"change", function(e){
+          if($(this).val() == "total_count"){
+            $(this).parent().next().next().next().children().addClass("disabled");
+          }else{
+            $(this).parent().next().next().next().children().removeClass("disabled");
+          }
+      });
+    }); 
+
+  </script>
+  <style>
+  .disabled{
+    pointer-events: none;
+    opacity: .5;
+  }
+  </style>
  
 <!-- END PLACE PAGE CONTENT HERE -->
 @endsection
