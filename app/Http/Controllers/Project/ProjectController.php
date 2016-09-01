@@ -1981,14 +1981,36 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
-          if(!empty($responseData)){
-            echo "had data";
-          }else{
-            echo "no data";
+          if(empty($responseData)){
+              $responseObj = new ParseQuery("Response");
+              $responseObjData = $responseObj->get($referenceId);
+              $responseObjData->set("sequenceNumber", 1);
+              $responseObjData->set("status", 'base_line');
+              $responseObjData->set("comparedToBaseLine", '');
+              $responseObjData->set("comparedToPrevious", '');
+              $responseObjData->set("previousFlag", '');
+              $responseObjData->set("baseLineFlag", '');
+              $responseObjData->set("reason", '');
+              $responseObjData->set("baseLineFlagStatus", '');
+              $responseObjData->set("previousFlagStatus", '');
+              $responseObjData->set("schedule", '');
+              $responseObjData->set("reviewed", '');
+              $responseObjData->set("baseLineTotalRedFlags", '');
+              $responseObjData->set("baseLineTotalAmberFlags", '');
+              $responseObjData->set("baseLineTotalGreenFlags", '');
+              $responseObjData->set("previousTotalRedFlags", '');
+              $responseObjData->set("previousTotalAmberFlags", '');
+              $responseObjData->set("previousTotalGreenFlags", '');
+              $responseObjData->set("baseline", '');
+              $responseObjData->set("previousSubmission", '');
+              $responseObjData->set("baseLineScore", '');
+              $responseObjData->set("previousScore", '');
+              $responseObjData->set("alert", '');
+              $responseObjData->set("reviewNote", '');
+              $responseObjData->set("submittedDate", '');
+              $responseObjData->save();
           }
-          foreach ($responseData as $responseDataVal) {
-              echo $responseDataVal->getObjectId();
-          }
+          
 
     }
 
