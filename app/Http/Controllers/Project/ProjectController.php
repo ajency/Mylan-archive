@@ -1981,6 +1981,11 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
+          if(!empty($responseData)){
+            echo "had data";
+          }else{
+            echo "no data";
+          }
           foreach ($responseData as $responseDataVal) {
               echo $responseDataVal->getObjectId();
           }
