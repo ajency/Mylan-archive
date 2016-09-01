@@ -2003,8 +2003,8 @@ class ProjectController extends Controller
               $responseObjData->set("previousTotalGreenFlags", '');
               $responseObjData->set("baseline", '');
               $responseObjData->set("previousSubmission", '');
-              $responseObjData->set("baseLineScore", '');
-              $responseObjData->set("previousScore", '');
+              $responseObjData->set("baseLineScore", intval());
+              $responseObjData->set("previousScore", intval());
               $responseObjData->set("alert", '');
               $responseObjData->set("reviewNote", '');
               $responseObjData->set("submittedDate", '');
