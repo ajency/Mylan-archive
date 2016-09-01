@@ -1980,7 +1980,7 @@ class ProjectController extends Controller
           $response->equalTo("project",intval($projectId));
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
-          $responseData = $response->first();
+          $responseData = $response->find();
           echo "<pre>";
           print_r($responseData);
 
