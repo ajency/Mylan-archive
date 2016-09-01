@@ -1827,13 +1827,16 @@ class ProjectController extends Controller
                         ], 200);
     }
 
-    public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,Request $request){
+    public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,$totalscore){
           
           $projectId = intval($projectId);
           $baseline = $baseline;
           $previous = $previous;
           $patient = $patient;
           $referenceId = $referenceId;
+          $totalscore = $totalscore;
+          $previousVal = $totalscore - $previous;
+          $baselineVal = $totalscore - $baseline;
           $InputData = (object) ['__type' => 'Pointer', "className" => "Response", "objectId" => $referenceId ];
 
           $alertsettingsQry = new ParseQuery("AlertSettings");
@@ -1844,7 +1847,7 @@ class ProjectController extends Controller
 
             if($alertsetting->get("comparedTo") == "previous"){
               if($alertsetting->get("operation") == "greater_than"){
-                if($alertsetting->get("flagCount") > $previous ){
+                if($previousVal > $alertsetting->get("flagCount")){
                   echo "herepgreater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1853,12 +1856,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previous); 
+                    $alert->set("flagCount", $previousVal); 
                     $alert->set("alertType", "previous_total_score_alert_greater_than");
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
-                if($alertsetting->get("flagCount") >= $previous ){
+                if($previousVal >= $alertsetting->get("flagCount")){
                   echo "herepgreater_than_equal_to";
                    $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1867,12 +1870,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previous); 
+                    $alert->set("flagCount", $previousVal); 
                    $alert->set("alertType", "previous_total_score_alert_greater_than_equal_to");
                    $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
-                if($alertsetting->get("flagCount") <= $previous ){
+                if($previousVal <= $alertsetting->get("flagCount")){
                   echo "herepless_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1881,12 +1884,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previous); 
+                    $alert->set("flagCount", $previousVal); 
                     $alert->set("alertType", "previous_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
-                if($alertsetting->get("flagCount") < $previous ){
+                if($previousVal < $alertsetting->get("flagCount")){
                   echo "herepless_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1895,14 +1898,14 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $previous); 
+                    $alert->set("flagCount", $previousVal); 
                     $alert->set("alertType", "previous_total_score_alert_less_than"); 
                     $alert->save();
                 }
               }
             }else{
               if($alertsetting->get("operation") == "greater_than"){
-                if($alertsetting->get("flagCount") > $baseline ){
+                if($baselineVal > $alertsetting->get("flagCount")){
                   echo "here greater_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1911,12 +1914,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baseline); 
+                    $alert->set("flagCount", $baselineVal); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than"); 
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "greater_than_equal_to"){
-                if($alertsetting->get("flagCount") >= $baseline ){
+                if( $baselineVal >= $alertsetting->get("flagCount")){
                   echo "here greater_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1925,12 +1928,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baseline); 
+                    $alert->set("flagCount", $baselineVal); 
                     $alert->set("alertType", "baseline_total_score_alert_greater_than_equal_to"); 
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than_equal_to"){
-                if($alertsetting->get("flagCount") <= $baseline ){
+                if($baselineVal <= $alertsetting->get("flagCount")){
                   echo "here less_than_equal_to";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1939,12 +1942,12 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baseline); 
+                    $alert->set("flagCount", $baselineVal); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than_equal_to"); 
                     $alert->save();
                 }
               }elseif($alertsetting->get("operation") == "less_than"){
-                if($alertsetting->get("flagCount") < $baseline ){
+                if($baselineVal < $alertsetting->get("flagCount")){
                   echo "here-less_than";
                     $alert = new ParseObject("Alerts");
                     $alert->set("project", $projectId);
@@ -1953,7 +1956,7 @@ class ProjectController extends Controller
                     $alert->set("cleared", false);
                     $alert->set("referenceType", "Response");
                     $alert->set("responseObject", $InputData);
-                    $alert->set("flagCount", $baseline); 
+                    $alert->set("flagCount", $baselineVal); 
                     $alert->set("alertType", "baseline_total_score_alert_less_than"); 
                     $alert->save();
                 }
