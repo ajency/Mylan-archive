@@ -2002,7 +2002,7 @@ class ProjectController extends Controller
               $responseObjData->set("previousTotalAmberFlags", 0);
               $responseObjData->set("previousTotalGreenFlags", 0);
               $responseObjData->set("baseline", '');
-              $responseObjData->set("previousSubmission", '');
+              $responseObjData->set("previousSubmission", (object)[]);
               $responseObjData->set("baseLineScore", 0);
               $responseObjData->set("previousScore", 0);
               $responseObjData->set("alert", '');
