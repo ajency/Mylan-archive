@@ -162,11 +162,11 @@ $currUrl = $_SERVER['REQUEST_URI'];
                   <table id="weight-table" class="table table-flip-scroll cf table-center f-s-b border-none m-r-20" style="margin-top: -20px;width:600px;">
                       <thead class="cf">
                         <tr>
-                          <th class="text-left" width="120px"></th>
-                          <th class="text-left" width="120px"></th>
+                          <th class="text-left" width=""></th>
+                          <th class="text-left" width=""></th>
 
-                          <th width="120px"></th>
-                          <th width="120px"></th>
+                          <th width=""></th>
+                          <th width=""></th>
                         </tr>
                       </thead>
                       @if($inputValueChart)
