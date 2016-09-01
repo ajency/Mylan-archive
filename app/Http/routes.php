@@ -29,7 +29,7 @@ Route::group( ['prefix' => 'api/v1', 'middleware' => ['api_auth']], function() {
 Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/clear-cache', 'Project\ProjectController@clearCache' );
     Route::post( 'project/{id}/{pname}/send-mail-submission', 'Project\ProjectController@sendMailSubmission' );
-    Route::post( 'project/{id}/{baseline}/{previous}/{patient}/{referenceId}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
+    Route::post( 'project/{id}/{baseline}/{previous}/{patient}/{referenceId}/{totalscore}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
     
 } );
 
