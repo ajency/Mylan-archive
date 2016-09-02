@@ -2054,6 +2054,7 @@ class ProjectController extends Controller
               $alertQry->equalTo("patient", $patient);
               $alertQry->equalTo("referenceId", $referenceId);
               $alert = $alertQry->find();
+              echo "here";
               foreach ($alert as $alertData) {
                   $object = $alertData->get("ObjectId");
                   echo "here";
