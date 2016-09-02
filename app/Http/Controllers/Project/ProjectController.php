@@ -2018,6 +2018,7 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
+           echo "here";
           if(empty($responseData)){
               $responseObj = new ParseQuery("Response");
               $responseObjData = $responseObj->get($referenceId);
