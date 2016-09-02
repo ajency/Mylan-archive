@@ -2047,7 +2047,7 @@ class ProjectController extends Controller
               //$responseObjData->set("submittedDate", '');
               $responseObjData->save();
 
-
+              echo "here";
               // delete if alerts are generated
               $alertQry = new ParseObject("Alerts");
               $alertQry->equalTo("project", intval($projectId));
