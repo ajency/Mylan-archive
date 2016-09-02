@@ -2046,6 +2046,21 @@ class ProjectController extends Controller
               $responseObjData->set("reviewNote", '');
               //$responseObjData->set("submittedDate", '');
               $responseObjData->save();
+
+
+              // delete if alerts are generated
+              $alertQry = new ParseObject("Alerts");
+              $alertQry->equalTo("project", intval($projectId));
+              $alertQry->equalTo("patient", $patient);
+              $alertQry->equalTo("referenceId", $referenceId);
+              $alert = $alertQry->find();
+              foreach ($alert as $alertData) {
+                  $object = $alertData->getObjectId();
+                  $object->destroy();
+              } 
+
+          
+
           }
           
 
