@@ -10134,3 +10134,6 @@ table tr.printPdfMargin td.print-pdf-marginPFl {
   pointer-events: none;
   opacity: .5;
 }
+.fosz15 {
+  font-size: 14.5px !important;
+}

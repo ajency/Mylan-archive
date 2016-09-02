@@ -30,10 +30,10 @@ $currUrl = $_SERVER['REQUEST_URI'];
     <form method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/review-mapping/' ) }}">
       <div class="row">
         <div class="col-xs-4">
-        <div class="fw600 fosz14 m-b-10 black-text">Current status value</div>
+        <div class="fw600 fosz15 m-b-10">Current status value</div>
         <input type="text" value="Reviewed - No action" name="reviewed_no_action" readonly="" /></div>
         <div class="col-xs-8">
-        <div class="fw600 fosz14 m-b-10 black-text">Current status value</div>
+        <div class="fw600 fosz15 m-b-10">Changed status value</div>
         <textarea name="reviewed_no_action-Extra">{{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</textarea></div>
       </div>
       <div class="row">  
