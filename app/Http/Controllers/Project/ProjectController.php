@@ -2018,22 +2018,6 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
-           echo "here";
-          if(empty($responseData)){ 
-              // delete if alerts are generated
-            $alertQry = new ParseObject("Alerts");
-            $alertQry->equalTo("project", intval($projectId));
-            $alertQry->equalTo("patient", $patient);
-            $alertQry->equalTo("referenceId", $referenceId);
-            $alert = $alertQry->find();
-            echo "here";
-            foreach ($alert as $alertData) {
-                $object = $alertData->get("ObjectId");
-                echo "here";
-                print_r($object);
-                $object->destroy();
-              }  
-           }       
           if(empty($responseData)){
               $responseObj = new ParseQuery("Response");
               $responseObjData = $responseObj->get($referenceId);
@@ -2063,10 +2047,23 @@ class ProjectController extends Controller
               //$responseObjData->set("submittedDate", '');
               $responseObjData->save();
 
+          }
+          if(empty($responseData)){
+
+              echo "here";
+              // delete if alerts are generated
+              $alertQry = new ParseObject("Alerts");
+              $alertQry->equalTo("project", intval($projectId));
+              $alertQry->equalTo("patient", $patient);
+              $alertQry->equalTo("referenceId", $referenceId);
+              $alert = $alertQry->find();
+              echo "here";
+              foreach ($alert as $alertData) {
+                  $object = $alertData->get("ObjectId");
+                  echo "here";
+                  print_r($object);
+                  $object->destroy();
               } 
-
-          
-
           }
           
 
