@@ -2065,7 +2065,7 @@ class ProjectController extends Controller
               $responseObjData->save();
 
 
-              echo "here";
+              /*echo "here";
               // delete if alerts are generated
               $alertQry = new ParseQuery("Alerts");
               $alertQry->equalTo("project", intval($projectId));
@@ -2078,7 +2078,7 @@ class ProjectController extends Controller
                   echo "here";
                   print_r($object);
                   $object->destroy();
-              } 
+              } */
 
           }
           
