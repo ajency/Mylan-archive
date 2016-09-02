@@ -2055,7 +2055,9 @@ class ProjectController extends Controller
               $alertQry->equalTo("referenceId", $referenceId);
               $alert = $alertQry->find();
               foreach ($alert as $alertData) {
-                  $object = $alertData->getObjectId();
+                  $object = $alertData->get("ObjectId");
+                  echo "here";
+                  print_r($object);
                   $object->destroy();
               } 
 
