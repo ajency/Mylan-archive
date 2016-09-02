@@ -195,7 +195,7 @@
                           <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/alert-setting/' ) }}">Alert Setting</a>
                         </li>
                         <li>
-                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/review-mapping/' ) }}">Review Mapping</a>
+                          <a href="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/review-mapping/' ) }}">Review Status Mapping</a>
                         </li>
                         <!--  <li>
                             <a href="index.html">Message & Notifications
