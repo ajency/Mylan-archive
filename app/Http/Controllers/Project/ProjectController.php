@@ -2018,23 +2018,36 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
-          /*if(empty($responseData)){*/
-
-              echo "here";
+          if(empty($responseData)){
               // delete if alerts are generated
               $alertQry = new ParseQuery("Alerts");
               $alertQry->equalTo("project", intval($projectId));
               $alertQry->equalTo("patient", $patient);
               $alertQry->equalTo("referenceId", $referenceId);
               $alert = $alertQry->find();
-              echo "here";
               foreach ($alert as $alertData) {
                   $objectId = $alertData->getObjectId();
                   $alertObj = new ParseQuery("Alerts");
                   $alertdestroy = $alertObj->get($objectId);
                   $alertdestroy->destroy();
               } 
-         /* }*/
+          }
+          if(empty($responseData)){
+              //check flag
+              $AnswerQry = new ParseQuery("Answer");
+              $AnswerQry->equalTo("project", intval($projectId));
+              $AnswerQry->equalTo("patient", $patient);
+              $Answer = $AnswerQry->find();
+              foreach ($Answer as $AnswerData) {
+                  $AnswerobjectId = $AnswerData->getObjectId();
+                  $AnswerObj = new ParseQuery("Answer");
+                  $answerset = $AnswerObj->get($AnswerobjectId);
+                  $answerset->set("baseLineFlagStatus","");
+                  $answerset->set("previousFlagStatus","");
+                  $answerset->save();
+              } 
+          }
+
           if(empty($responseData)){
               $responseObj = new ParseQuery("Response");
               $responseObjData = $responseObj->get($referenceId);
