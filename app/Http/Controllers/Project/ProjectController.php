@@ -2018,7 +2018,7 @@ class ProjectController extends Controller
           $response->equalTo("status",'base_line');
           $response->equalTo("patient",$patient);
           $responseData = $response->find();
-          /*if(empty($responseData)){
+          if(empty($responseData)){
 
               echo "here";
               // delete if alerts are generated
@@ -2034,7 +2034,7 @@ class ProjectController extends Controller
                   print_r($object);
                   $object->destroy();
               } 
-          }*/
+          }
           if(empty($responseData)){
               $responseObj = new ParseQuery("Response");
               $responseObjData = $responseObj->get($referenceId);
