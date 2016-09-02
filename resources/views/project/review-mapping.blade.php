@@ -24,11 +24,17 @@ $currUrl = $_SERVER['REQUEST_URI'];
 <div class="grid simple">
   <div class="grid-body no-border table-data">
     <br>
-    <h3 class="">{{ ucfirst($project['name']) }}</h3>
+    <h3 class="m-b-5">{{ ucfirst($project['name']) }}</h3>
+    <p class="fosz14">Map the review status values for this project</p>
+    <hr class="m-t-0 m-b-10">
     <form method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/review-mapping/' ) }}">
       <div class="row">
-        <div class="col-xs-4"><input type="text" value="Reviewed - No action" name="reviewed_no_action" readonly="" /></div>
-        <div class="col-xs-8"><textarea name="reviewed_no_action-Extra">{{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</textarea></div>
+        <div class="col-xs-4">
+        <div class="fw600 fosz14 m-b-10 black-text">Current status value</div>
+        <input type="text" value="Reviewed - No action" name="reviewed_no_action" readonly="" /></div>
+        <div class="col-xs-8">
+        <div class="fw600 fosz14 m-b-10 black-text">Current status value</div>
+        <textarea name="reviewed_no_action-Extra">{{ ($project['reviewed_no_action'])?$project['reviewed_no_action']:'' }}</textarea></div>
       </div>
       <div class="row">  
         <div class="col-xs-4"><input type="text" value="Reviewed - Call done" name="reviewed_call_done" readonly="" /></div>
