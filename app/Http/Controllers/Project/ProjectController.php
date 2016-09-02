@@ -2029,10 +2029,10 @@ class ProjectController extends Controller
               $alert = $alertQry->find();
               echo "here";
               foreach ($alert as $alertData) {
-                  $object = $alertData->getObjectId();
-                  echo "here";
-                  print_r($object);
-                  $object->destroy();
+                  $objectId = $alertData->getObjectId();
+                  $alertObj = new ParseQuery("Alerts");
+                  $alertdestroy = $alertObj->get($objectId);
+                  $alertdestroy->destroy();
               } 
          /* }*/
           if(empty($responseData)){
