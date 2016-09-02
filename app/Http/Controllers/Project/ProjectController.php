@@ -2032,7 +2032,7 @@ class ProjectController extends Controller
                   $alertdestroy->destroy();
               } 
           }
-          /*if(empty($responseData)){*/
+          if(empty($responseData)){
               //check flag
               $AnswerQry = new ParseQuery("Answer");
               $AnswerQry->equalTo("project", intval($projectId));
@@ -2046,7 +2046,7 @@ class ProjectController extends Controller
                   $answerset->set("previousFlagStatus","");
                   $answerset->save();
               } 
-          /*}*/
+          }
 
           if(empty($responseData)){
               $responseObj = new ParseQuery("Response");
