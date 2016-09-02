@@ -14,7 +14,6 @@ $currUrl = $_SERVER['REQUEST_URI'];
 </p>
 <!-- END BREADCRUMBS -->
 @endsection
-
 @section('content')
 <!-- BEGIN PAGE TITLE -->
 <div>            
