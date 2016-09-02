@@ -487,7 +487,6 @@ class SubmissionController extends Controller
                 }
 
                 
-               
                 
            }
            else
