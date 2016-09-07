@@ -1,0 +1,45 @@
+Searching 15002 files for "http://mylantest.ajency.in/api/v1"
+
+/Users/iRoan/Documents/Mylan/Mylan/platforms/android/assets/www/app/global.js:
+    3  MYLANPHONE = '1234567891';
+    4  
+    5: AUTH_URL = 'http://mylantest.ajency.in/api/v1';
+    6  
+    7  AUTH_HEADERS = {
+
+/Users/iRoan/Documents/Mylan/Mylan/platforms/android/assets/www/source/global.coffee:
+    3  # test ####
+    4  
+    5: # AUTH_URL = 'http://mylantest.ajency.in/api/v1'
+    6  
+    7  AUTH_HEADERS = 
+
+/Users/iRoan/Documents/Mylan/Mylan/platforms/android/build/intermediates/assets/debug/www/app/global.js:
+    3  MYLANPHONE = '1234567891';
+    4  
+    5: AUTH_URL = 'http://mylantest.ajency.in/api/v1';
+    6  
+    7  AUTH_HEADERS = {
+
+/Users/iRoan/Documents/Mylan/Mylan/platforms/android/build/intermediates/assets/debug/www/source/global.coffee:
+    3  # test ####
+    4  
+    5: # AUTH_URL = 'http://mylantest.ajency.in/api/v1'
+    6  
+    7  AUTH_HEADERS = 
+
+/Users/iRoan/Documents/Mylan/Mylan/www/app/global.js:
+    3  MYLANPHONE = '1234567891';
+    4  
+    5: AUTH_URL = 'http://mylantest.ajency.in/api/v1';
+    6  
+    7  AUTH_HEADERS = {
+
+/Users/iRoan/Documents/Mylan/Mylan/www/source/global.coffee:
+    3  # test ####
+    4  
+    5: # AUTH_URL = 'http://mylantest.ajency.in/api/v1'
+    6  
+    7  AUTH_HEADERS = 
+
+6 matches across 6 files

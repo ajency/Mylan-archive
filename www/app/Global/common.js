@@ -125,7 +125,7 @@ angular.module('PatientApp.Global', []).factory('App', [
         var defer;
         defer = $q.defer();
         if (this.isWebView()) {
-          parsePlugin.getInstallationId(function(installationId) {
+          ParsePushPlugin.getInstallationId(function(installationId) {
             return defer.resolve(installationId);
           }, function(error) {
             return defer.reject(error);

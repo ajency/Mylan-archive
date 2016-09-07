@@ -8,10 +8,11 @@
       Ionic Framework Team
     </author>
   <content src="index.html"/>
-  <access origin="tel:*" launch-external="yes"/>
-  <access origin="mailto:*" launch-external="yes"/>
-  
-  <access origin="*"/>
+
+  <!-- Uncomment for android build-->
+  <!--<access origin="tel:*" launch-external="yes"/>
+  <access origin="mailto:*" launch-external="yes"/>-->
+  <!--<access origin="*"/>-->
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -19,6 +20,11 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <preference name="ParseAppId" value="n9TOwjPT1ObDHhj5PsXqlKLV7CpPUNodtqJVaBDj" />
+  <preference name="ParseClientKey" value="Q10Ua9D3vhi0O4lqPKBL1HHaMe66C8fip1NZ9fzb" />
+
+  <!-- Do not replace this string value. It must be "PARSE_DOT_COM"-->
+  <preference name="ParseServerUrl" value="PARSE_DOT_COM" />
  <!--  <preference name="Orientation" value="portrait"/> -->
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
@@ -70,6 +76,7 @@
     <splash src="resources/ios/splash/Default-Portrait~ipad.png" width="768" height="1024"/>
     <splash src="resources/ios/splash/Default@2x~iphone.png" width="640" height="960"/>
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
+    
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>
