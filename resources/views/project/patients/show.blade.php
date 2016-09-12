@@ -803,7 +803,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
             if(content.length > showChar2) {
 
                 var c = content.substr(0, showChar2);
-                var h = content.substr(showChar2, content.length - showChar2);
+                var h = content/*.substr(showChar2, content.length - showChar2)*/;
 
                 // var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink text-info">' + moretext + '</a></span>';
 
