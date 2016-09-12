@@ -317,7 +317,7 @@ setInterval(function(){
 // more-less
 $(document).ready(function() {
     // Configure/customize these variables.
-    var showChar = 50;  // How many characters are shown by default
+    var showChar = 25;  // How many characters are shown by default
     var ellipsestext = "...";
     var moretext = "read more";
     var lesstext = "read less";

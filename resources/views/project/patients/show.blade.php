@@ -456,7 +456,7 @@
                                    
                                    <td class="text-center text-success">{{ $submission['alert'] }}</td>  
                                    <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
-                                   <td class="text-center text-success"><div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div></td>
+                                   <td class="text-center text-success"><div class="submissionStatus more-text" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div></td>
                                 </tr>
                                 @endif
                         
@@ -514,7 +514,7 @@
                                    <td class="text-center"><div class="more">{{ $submissionNotification['reviewNote'] }}</div></td>
                                    <td class="text-center text-success">
                                    <!-- <div class="submissionStatus" @if(strlen($submissionNotification['reviewStatus']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submissionNotification['reviewStatus']) }}">{{ getStatusName($submissionNotification['reviewStatus']) }}</div> -->
-                                   <div class="submissionStatus" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }} {{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
+                                   <div class="submissionStatus more-text" style="width: 100%;">{{ getStatusName($submissionNotification['reviewStatus']) }} {{ ($project[$submissionNotification['reviewStatus']])?$project[$submissionNotification['reviewStatus']]:'' }}</div>
                                    </td>
                                 </tr>
                                  
@@ -776,6 +776,7 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
     $(document).ready(function() {
         // Configure/customize these variables.
         var showChar = 150;  // How many characters are shown by default
+        var showChar2 = 25;  // How many characters are shown by default
         var ellipsestext = "...";
         var moretext = "read more";
         var lesstext = "read less";
@@ -795,6 +796,23 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
             }
      
         });
+
+        jQuery('.more-text').each(function() {
+            var content = $(this).html();
+
+            if(content.length > showChar2) {
+
+                var c = content.substr(0, showChar2);
+                var h = content.substr(showChar2, content.length - showChar2);
+
+                // var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink text-info">' + moretext + '</a></span>';
+
+                var html = c + '<a href="#" data-placement="bottom" data-toggle="tooltip" title="'+h+'" >' + ellipsestext+ '&nbsp;</a>';
+
+                jQuery(this).html(html);
+            }
+     
+        });
      
         $(".morelink").click(function(){
             if($(this).hasClass("less")) {
@@ -808,6 +826,9 @@ $questionLabel = (isset($questionLabels[$questionId]))?$questionLabels[$question
             $(this).prev().toggle();
             return false;
         });
+
+        // tooltip
+        $('[data-toggle="tooltip"]').tooltip();
     });  
     
 
