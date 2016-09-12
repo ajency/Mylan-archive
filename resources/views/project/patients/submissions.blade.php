@@ -215,7 +215,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
                   <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
                   <td class="text-center text-success">
                     <!-- <div class="submissionStatus" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }}</div> -->
-                    <div class="submissionStatus">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div>
+                    <div class="submissionStatus more">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div>
                   </td>
                 </tr>
                 @endif
@@ -317,7 +317,7 @@ setInterval(function(){
 // more-less
 $(document).ready(function() {
     // Configure/customize these variables.
-    var showChar = 100;  // How many characters are shown by default
+    var showChar = 50;  // How many characters are shown by default
     var ellipsestext = "...";
     var moretext = "read more";
     var lesstext = "read less";
