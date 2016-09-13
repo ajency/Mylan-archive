@@ -49,16 +49,19 @@
                 <!--div class="col-xs-2">
                     <label class="form-label">Alert Type</label>
                 </div-->
-                <div class="col-xs-3">
+                <div class="col-xs-2">
+                    <label class="form-label">Alert Type</label>
+                </div>
+                <div class="col-xs-2">
                     <label class="form-label">Flag Count</label>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-3 text-center">
                     <label class="form-label">Operation</label>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-2">
                     <label class="form-label">Flag Colour</label>
                 </div>
-                <div class="col-xs-2 text-center">
+                <div class="col-xs-2">
                     <label class="form-label">Compared To</label>
                 </div>
                 <div class="col-xs-1 text-center">
