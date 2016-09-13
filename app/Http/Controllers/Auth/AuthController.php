@@ -118,15 +118,14 @@ class AuthController extends Controller
         if (Auth::attempt(['reference_code' => $referenceCode, 'password' => $newpassword], $remember))
         { 
             $project = Projects::find(Auth::user()->project_id)->toArray(); 
-            /*if(Auth::user()->baseline_set=='no')
+            if(Auth::user()->baseline_set=='no')
             {
                 Auth::logout();
                 return redirect('/login')->withErrors([
                     'email' => 'Activation data is missing. Please contact the administrator.',
                 ]);
             } 
-            elseif*/
-            if(Auth::user()->account_status=='active' && $project['project_status'] !="paused")
+            elseif(Auth::user()->account_status=='active' && $project['project_status'] !="paused")
             {
                 $apiKey = Auth::user()->apiKey()->first()->key;
                 $installationId = 'web-'.str_random(15);
