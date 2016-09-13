@@ -195,14 +195,16 @@ $currUrl = $_SERVER['REQUEST_URI'];
         <div class="grid-body no-border" style="display: block;">
           @if(!empty($projectAlerts['alertMsg']))
           @foreach($projectAlerts['alertMsg'] as $projectAlert)
-          <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
-            <div class="message-wrapper msg-card">
-              <div class="heading">Patient <span class="ttuc patient-refer{{ $projectAlert['patient'] }}">ID {{ $projectAlert['patient'] }}</span>   </div>
-              <div class="description"> {{ $projectAlert['msg'] }} </div>
-            </div>
-            <!-- <div class="date pull-right"> Yesterday </div> -->
-            <div class="clearfix"></div>
-          </div>
+            @if($projectAlert['reviewStatus'] == "unreviewed")
+              <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
+                <div class="message-wrapper msg-card">
+                  <div class="heading">Patient <span class="ttuc patient-refer{{ $projectAlert['patient'] }}">ID {{ $projectAlert['patient'] }}</span>   </div>
+                  <div class="description"> {{ $projectAlert['msg'] }} </div>
+                </div>
+                <!-- <div class="date pull-right"> Yesterday </div> -->
+                <div class="clearfix"></div>
+              </div>
+            @endif  
           @endforeach
           <div class="text-right">
             @if($projectAlertCt > 4)
