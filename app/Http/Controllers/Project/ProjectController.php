@@ -260,6 +260,7 @@ class ProjectController extends Controller
                 $submissionNotifications = $cachePatientsAlerts['NOTIFICATIONS']; 
 
             }
+
             else
             {*/
                 $cond=['cleared'=>false];
@@ -448,8 +449,9 @@ class ProjectController extends Controller
                    $message = sprintf($alertContent, $flagcounters,$sequenceNumber );
 
 
-                
-                $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
+                if($reviewStatus == "unreviewed"){
+                    $alertMsg = ['patient'=>$patient,'referenceId'=>$responseId,'occurrenceDate'=>$occurrenceDate,'sequenceNumber'=>$sequenceNumber,'previousTotalRedFlags'=>$responseFlagType,'reviewNote'=>$reviewNote,'reviewStatus'=>$reviewStatus,'URL'=>$url,'msg'=>$message,"class"=>$alertClass];
+                }    
             }
         }
         
