@@ -195,6 +195,12 @@ $currUrl = $_SERVER['REQUEST_URI'];
         <div class="grid-body no-border" style="display: block;">
           @if(!empty($projectAlerts['alertMsg']))
           @foreach($projectAlerts['alertMsg'] as $projectAlert)
+          <?php
+            if(array_key_exists("reviewStatus",$projectAlert)){
+            }else{
+              $projectAlert['reviewStatus'] = "";
+            }
+          ?>
             @if($projectAlert['reviewStatus'] == "unreviewed")
               <div class="notification-messages {{ $projectAlert['class'] }}" onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{ $projectAlert['URL'] }}';">
                 <div class="message-wrapper msg-card">
