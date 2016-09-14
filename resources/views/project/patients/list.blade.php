@@ -19,13 +19,13 @@
    
    
    <div class="row">
-     <div class="col-sm-3">
+     <div class="col-sm-3" style="width: 28%;">
         <div class="page-title">
           <h3><span class="semi-bold">Patients</span></h3>
           <p>(Click on any Patient ID to see Profile Details)</p>
         </div>
      </div>
-     <div class="col-sm-9 pull-right">
+     <div class="col-sm-9 pull-right" style="width: 72%;">
        <div class="m-t-5">
         <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
         <span class="addLoader"></span></a>
