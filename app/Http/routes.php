@@ -33,6 +33,7 @@ Route::group( ['prefix' => 'api/v2', 'middleware' => ['api_auth']], function() {
     Route::post( 'project/{id}/{patient}/{referenceId}/set-patient-baseline', 'Project\ProjectController@setBaseline' );
     
 } );
+Route::get( 'api/v2/project/{id}/{baseline}/{previous}/{patient}/{referenceId}/{totalscore}/alert-total-count', 'Project\ProjectController@setTotalCountAlert' );
 
 Route::get( 'api/v2/project/{id}/{patient}/{referenceId}/set-patient-baseline', 'Project\ProjectController@setBaseline' );
 
