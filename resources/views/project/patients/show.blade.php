@@ -456,7 +456,7 @@
                                    
                                    <td class="text-center text-success">{{ $submission['alert'] }}</td>  
                                    <td class="text-center text-success">{{ getStatusName($submission['status']) }}</td>
-                                   <td class="text-center text-success"><div class="submissionStatus more-text" @if(strlen($submission['reviewed']) >10 ) data-toggle="tooltip" @endif data-placement="top" title="{{ getStatusName($submission['reviewed']) }}">{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div></td>
+                                   <td class="text-center text-success"><div class="submissionStatus more-text" @if(strlen($submission['reviewed']) >10 )  @endif  >{{ getStatusName($submission['reviewed']) }} {{ ($project[$submission['reviewed']])?$project[$submission['reviewed']]:'' }}</div></td>
                                 </tr>
                                 @endif
                         
