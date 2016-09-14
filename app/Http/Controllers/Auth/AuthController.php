@@ -105,7 +105,7 @@ class AuthController extends Controller
         }
                  
         //CHECK SETUP LIMIT
-        if(is_array($user)){
+        if($user){
             $userDeviceCount = UserDevice::where('user_id',$user->id)->where('status','New device')->get()->count();
             if($userDeviceCount >=SETUP_LIMIT)
             {
@@ -185,7 +185,7 @@ class AuthController extends Controller
                         $userDevice->save();
 
                         $projectId = intval($projectId);
-                        if(is_array($user))
+                        if($user)
                             $setupAlert = createSetupAlert($referenceCode,($userDeviceCount+1),$projectId);
                     }
 
