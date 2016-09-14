@@ -1827,6 +1827,7 @@ class ProjectController extends Controller
                         ], 200);
     }
 
+
     public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,$totalscore){
           
           $projectId = intval($projectId);
