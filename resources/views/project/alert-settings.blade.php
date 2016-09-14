@@ -53,7 +53,7 @@
                     <label class="form-label">Alert Type</label>
                 </div>
                 <div class="col-xs-2">
-                    <label class="form-label">Flag Count</label>
+                    <label class="form-label">Enter count</label>
                 </div>
                 <div class="col-xs-3 text-center">
                     <label class="form-label">Operation</label>
@@ -80,7 +80,7 @@
                   </div>
 
                   <div class="col-xs-2">
-                      <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Flag Count"  >
+                      <input type="text" name="flag_count[]" class="form-control" value="{{ $setting['flagCount'] }}" placeholder="Enter Count"  >
                       <input type="hidden" name="setting_id[]" class="form-control" value="{{ $setting['id'] }}">
                   </div>
                   <div class="col-xs-3">
@@ -128,7 +128,7 @@
               </div>
 
               <div class="col-xs-2">
-                <input type="text" name="flag_count[]" class="form-control"  placeholder="Enter Flag Count"  >
+                <input type="text" name="flag_count[]" class="form-control"  placeholder="Enter Count"  >
                 <input type="hidden" name="setting_id[]" class="form-control" >
               </div>
               <div class="col-xs-3">
