@@ -2270,7 +2270,7 @@ class ProjectController extends Controller
           $projects->reviewed_appointment_fixed = $request->input('reviewed_appointment_fixed-Extra'); 
           $projects->unreviewed = $request->input('unreviewed-Extra'); 
           $projects->save();  
-          
+          Session::flash('success_message','Mapping saved successfully!');
         } catch (\Exception $e) {
 
             exceptionError($e);           

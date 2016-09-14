@@ -27,6 +27,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
     <h3 class="m-b-5">{{ ucfirst($project['name']) }}</h3>
     <p class="fosz14">Map the review status values for this project</p>
     <hr class="m-t-0 m-b-10">
+    @include('admin.flashmessage')
     <form method="post" action="{{ url( $hospital['url_slug'].'/'.$project['project_slug'].'/review-mapping/' ) }}">
       <div class="row">
         <div class="col-xs-4">
