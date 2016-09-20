@@ -4,10 +4,25 @@ angular.module 'PatientApp.init', []
 .controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', '$rootScope', 'Push'
 	, (Storage, App, $scope, QuestionAPI, $q, $rootScope, Push) ->
 
-		$rootScope.$on '$cordovaPush:notificationReceived', (e, p)->
-			console.log 'notification received'
-			payload = Push.getPayload p
-			Push.handlePayload(payload) if !_.isEmpty(payload)
+		# $rootScope.$on '$cordovaPushV5:notificationReceived', (e, p)->
+		# 	console.log 'notification received', p
+		# 	payload = Push.getPayload p
+		# 	Push.handlePayload(payload) if !_.isEmpty(payload)
+		# ParsePushPlugin.on 'receivePN', (e) ->
+		# 	console.log 'got this push notification:' + JSON.stringify(e)
+		# if CordovaApp.isPlatformAndroid()
+		# 	 console.log 'Received notification for Android'
+		# 	 console.log e
+		# 		if e.event is 'message'
+		# 			navigator.notification.alert e.payload.data.message, alertDismissed, e.payload.data.header, 'Ok'
+		# else if CordovaApp.isPlatformIOS() 
+		# 	console.log 'Received notification for iOS'
+		# 	console.log e
+		# 	navigator.notification.alert payload.message, alertDismissed, payload.header, 'Ok'
+		# else console.log "Unknown Platform"
+
+		alertDismissed = ->
+			console.log 'Alert was dismissed'
   
 		Storage.login('get')
 		.then (value) ->

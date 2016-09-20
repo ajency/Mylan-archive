@@ -3690,7 +3690,7 @@ hookConstructor(function(constructor) {
     }
   }
 
-  function parsePlugin(loader, name) {
+  function ParsePushPlugin(loader, name) {
     var argumentName;
     var pluginName;
 
@@ -3739,7 +3739,7 @@ hookConstructor(function(constructor) {
       var loader = this;
       
       parentName = getParentName(this, parentName);
-      var parsed = parsePlugin(loader, name);
+      var parsed = ParsePushPlugin(loader, name);
 
       if (!parsed)
         return normalizeSync.call(this, name, parentName, isPlugin);
@@ -3760,7 +3760,7 @@ hookConstructor(function(constructor) {
 
       parentName = getParentName(this, parentName);
 
-      var parsed = parsePlugin(loader, name);
+      var parsed = ParsePushPlugin(loader, name);
 
       if (!parsed)
         return normalize.call(loader, name, parentName, isPlugin);

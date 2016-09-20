@@ -115,7 +115,8 @@ angular.module 'PatientApp.Global', []
 			getInstallationId : ->
 				defer = $q.defer()
 				if @isWebView()
-					parsePlugin.getInstallationId (installationId)-> 
+					ParsePushPlugin.getInstallationId (installationId)-> 
+						console.log installationId
 						defer.resolve installationId
 					, (error) ->
 						defer.reject error

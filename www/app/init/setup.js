@@ -1,86 +1,89 @@
-angular.module('PatientApp.init').controller('setupCtr', [
-  '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup) {
-    $scope.view = {
-      refcode: '',
-      emptyfield: '',
-      deviceOS: '',
-      deviceUUID: '',
-      verifyRefCode: function() {
-        if (this.refcode === '' || _.isUndefined(this.refcode)) {
-          return this.emptyfield = "Please enter valid reference code";
-        } else {
-          this.deviceUUID = App.deviceUUID();
-          if (App.isAndroid()) {
-            this.deviceOS = "Android";
+(function() {
+  angular.module('PatientApp.init').controller('setupCtr', [
+    '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup) {
+      $scope.view = {
+        refcode: '',
+        emptyfield: '',
+        deviceOS: '',
+        deviceUUID: '',
+        verifyRefCode: function() {
+          if (this.refcode === '' || _.isUndefined(this.refcode)) {
+            return this.emptyfield = "Please enter valid reference code";
+          } else {
+            this.deviceUUID = App.deviceUUID();
+            if (App.isAndroid()) {
+              this.deviceOS = "Android";
+            }
+            if (App.isIOS()) {
+              this.deviceOS = "IOS";
+            }
+            CSpinner.show('', 'Please wait...');
+            return AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceOS).then((function(_this) {
+              return function(data) {
+                _this.data = data;
+                return Storage.setData('hospital_details', 'set', _this.data.hospitalData);
+              };
+            })(this)).then((function(_this) {
+              return function() {
+                return Storage.setData('refcode', 'set', _this.refcode);
+              };
+            })(this)).then((function(_this) {
+              return function() {
+                if (_this.data.code === 'do_login') {
+                  return App.navigate("main_login");
+                } else if (_this.data.code === 'set_password') {
+                  return App.navigate("setup_password");
+                } else if (_this.data.code === 'limit_exceeded') {
+                  return _this.emptyfield = 'Cannot do setup more then 10 times';
+                } else {
+                  return _this.emptyfield = 'Please check your reference code';
+                }
+              };
+            })(this), (function(_this) {
+              return function(error) {
+                if (error === 'offline') {
+                  return _this.emptyfield = 'Please check your internet connection';
+                } else if (error === 'server_error') {
+                  return _this.emptyfield = 'Please try again';
+                }
+              };
+            })(this))["finally"](function() {
+              return CSpinner.hide();
+            });
           }
-          if (App.isIOS()) {
-            this.deviceOS = "IOS";
-          }
-          CSpinner.show('', 'Please wait...');
-          return AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceOS).then((function(_this) {
-            return function(data) {
-              _this.data = data;
-              return Storage.setData('hospital_details', 'set', _this.data.hospitalData);
-            };
-          })(this)).then((function(_this) {
-            return function() {
-              return Storage.setData('refcode', 'set', _this.refcode);
-            };
-          })(this)).then((function(_this) {
-            return function() {
-              if (_this.data.code === 'do_login') {
-                return App.navigate("main_login");
-              } else if (_this.data.code === 'set_password') {
-                return App.navigate("setup_password");
-              } else if (_this.data.code === 'limit_exceeded') {
-                return _this.emptyfield = 'Cannot do setup more then 10 times';
-              } else {
-                return _this.emptyfield = 'Please check your reference code';
-              }
-            };
-          })(this), (function(_this) {
-            return function(error) {
-              if (error === 'offline') {
-                return _this.emptyfield = 'Please check your internet connection';
-              } else if (error === 'server_error') {
-                return _this.emptyfield = 'Please try again';
-              }
-            };
-          })(this))["finally"](function() {
-            return CSpinner.hide();
+        },
+        tologin: function() {
+          Storage.setData('refcode', 'remove');
+          return App.navigate("main_login");
+        },
+        forgetRefcode: function() {
+          return $ionicLoading.show({
+            scope: $scope,
+            templateUrl: 'views/error-view/Error-Screen-2.html',
+            hideOnStateChange: true
           });
+        },
+        HelpRefcode: function() {
+          return $ionicLoading.show({
+            scope: $scope,
+            templateUrl: 'views/error-view/RefCode-help-1.html',
+            hideOnStateChange: true
+          });
+        },
+        hide: function() {
+          return $ionicLoading.hide();
+        },
+        clear: function() {
+          return this.emptyfield = "";
+        },
+        call: function() {
+          return App.callUs(MYLANPHONE);
         }
-      },
-      tologin: function() {
-        Storage.setData('refcode', 'remove');
-        return App.navigate("main_login");
-      },
-      forgetRefcode: function() {
-        return $ionicLoading.show({
-          scope: $scope,
-          templateUrl: 'views/error-view/Error-Screen-2.html',
-          hideOnStateChange: true
-        });
-      },
-      HelpRefcode: function() {
-        return $ionicLoading.show({
-          scope: $scope,
-          templateUrl: 'views/error-view/RefCode-help-1.html',
-          hideOnStateChange: true
-        });
-      },
-      hide: function() {
-        return $ionicLoading.hide();
-      },
-      clear: function() {
-        return this.emptyfield = "";
-      },
-      call: function() {
-        return App.callUs(MYLANPHONE);
-      }
-    };
-    return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
-      return $scope.view.refcode = '';
-    });
-  }
-]);
+      };
+      return $scope.$on('$ionicView.beforeEnter', function(event, viewData) {
+        return $scope.view.refcode = '';
+      });
+    }
+  ]);
+
+}).call(this);

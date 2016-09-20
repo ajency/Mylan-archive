@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.mylan393718" version="0.0.49" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.mylan.alphaproduction" version="0.0.49" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Mylan</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -8,8 +8,10 @@
       Ionic Framework Team
     </author>
   <content src="index.html"/>
-  <access origin="tel:*" launch-external="yes"/>
-  <access origin="mailto:*" launch-external="yes"/>
+
+  <!-- Uncomment for android build-->
+  <!--<access origin="tel:*" launch-external="yes"/>
+  <access origin="mailto:*" launch-external="yes"/>-->
   
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
@@ -19,6 +21,13 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
+  <preference name="ParseAppId" value="n9TOwjPT1ObDHhj5PsXqlKLV7CpPUNodtqJVaBDj" />
+  <preference name="ParseClientKey" value="Q10Ua9D3vhi0O4lqPKBL1HHaMe66C8fip1NZ9fzb" />
+  <!--<preference name="ParseAppId" value="fuuh2Q6XBduwdx9iSCYzANUh0OdxdxGbqadSQjL3" />
+  <preference name="ParseClientKey" value="WDTopY7E1X0mXolx6P9uswhReLPAXwJWLG1m1k5U" />-->
+
+  <!-- Do not replace this string value. It must be "PARSE_DOT_COM"-->
+  <preference name="ParseServerUrl" value="PARSE_DOT_COM" />
  <!--  <preference name="Orientation" value="portrait"/> -->
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
@@ -70,6 +79,7 @@
     <splash src="resources/ios/splash/Default-Portrait~ipad.png" width="768" height="1024"/>
     <splash src="resources/ios/splash/Default@2x~iphone.png" width="640" height="960"/>
     <splash src="resources/ios/splash/Default~iphone.png" width="320" height="480"/>
+    
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>
