@@ -58,13 +58,13 @@
 
                 <h4 class="g-l-h m-t-0 fosz16 dib" ng-if="summary.val == 'input' && summary.optionSelected[0].label == 'lb'">
                   <span class="fw600" ng-repeat = "answer in summary.optionSelected.slice().reverse() track by $index"> 
-                    {{answer.value}} {{answer.label}} {{$index}}
+                    {{answer.value}} {{answer.label}}
                   </span>
                 </h4>
 
                 <h4 class="g-l-h m-t-0 fosz16 dib" ng-if="summary.val == 'input' && summary.optionSelected[0].label != 'lb'">
                   <span class="fw600" ng-repeat = "answer in summary.optionSelected track by $index"> 
-                    {{answer.value}} {{answer.label}} {{$index}}
+                    {{answer.value}} {{answer.label}}
                   </span>
                 </h4>
 
