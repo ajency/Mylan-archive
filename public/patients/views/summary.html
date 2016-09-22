@@ -60,7 +60,7 @@
                    ng-if="summary.val == 'input'"
                    ng-repeat = "answer in summary.optionSelected track by $index">
                   <span class="fw600"> 
-                    {{answer.value}} {{answer.label}} 
+                    {{answer.value}} {{answer.label}} {{$index}}
                   </span>
                 </h4>
 
