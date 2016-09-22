@@ -289,17 +289,17 @@
              Last time you answered :<br>
              <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] == 'st'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" >
-              {{inpt.value}} {{inpt.label}} 
+              {{inpt.value}} {{inpt.label}} 1
              </span>
              </div>
              <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] == 'lb'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId.slice().reverse()" >
-              {{inpt.value}} {{inpt.label}} 
+              {{inpt.value}} {{inpt.label}} 2
              </span>
              </div>
              <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] != 'lb' && view.data.previousQuestionnaireAnswer.optionId.label[0] != 'st'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" >
-              {{inpt.value}} {{inpt.label}} 
+              {{inpt.value}} {{inpt.label}} 3
              </span>
              </div>
           </p>
