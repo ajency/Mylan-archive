@@ -55,19 +55,14 @@
                   <span class="fw600"> {{summary.input}} 
                   </span>
                 </h4>
-                {{ summary.optionSelected }}
-                <h4 class="g-l-h m-t-0 fosz16 dib" ng-if="summary.val == 'input' && summary.optionSelected[0].label == 'lb'"> <!-- If Lb comes 1st-->
-                  <span ng-repeat = "answer in summary.optionSelected.slice().reverse() track by $index" class="fw600"> 
-                    {{answer.value}} {{answer.label}} 
+                {{summary.optionSelected}}
+                <h4 class="g-l-h m-t-0 fosz16 dib"
+                   ng-if="summary.val == 'input'"
+                   ng-repeat = "answer in summary.optionSelected track by $index">
+                  <span class="fw600"> 
+                    {{answer.value}} {{answer.label}} {{$index}}
                   </span>
                 </h4>
-
-                <h4 class="g-l-h m-t-0 fosz16 dib" ng-if="summary.val == 'input' && summary.optionSelected[0].label != 'lb'">
-                  <span ng-repeat = "answer in summary.optionSelected track by $index" class="fw600"> 
-                    {{answer.value}} {{answer.label}} 
-                  </span>
-                </h4>
-
 
             </div>
           </div>
