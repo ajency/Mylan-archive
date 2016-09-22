@@ -287,19 +287,19 @@
           </p-->
           <p class="text-muted text-left" ng-if = 'view.data.questionType === "input"'>
              Last time you answered :<br>
-             <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] == 'st'">
+             <div ng-if="view.data.previousQuestionnaireAnswer.optionId[0].label == 'st'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" >
-              {{inpt.value}} {{inpt.label}} 1
+              {{inpt.value}} {{inpt.label}}
              </span>
              </div>
-             <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] == 'lb'">
+             <div ng-if="view.data.previousQuestionnaireAnswer.optionId[0].label == 'lb'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId.slice().reverse()" >
-              {{inpt.value}} {{inpt.label}} 2
+              {{inpt.value}} {{inpt.label}}
              </span>
              </div>
-             <div ng-if="view.data.previousQuestionnaireAnswer.optionId.label[0] != 'lb' && view.data.previousQuestionnaireAnswer.optionId.label[0] != 'st'">
+             <div ng-if="view.data.previousQuestionnaireAnswer.optionId[0].label != 'lb' && view.data.previousQuestionnaireAnswer.optionId[0].label != 'st'">
              <span class="text-left m-r-15 fosz14" data-ng-repeat="inpt in view.data.previousQuestionnaireAnswer.optionId" >
-              {{inpt.value}} {{inpt.label}} 3
+              {{inpt.value}} {{inpt.label}}
              </span>
              </div>
           </p>
