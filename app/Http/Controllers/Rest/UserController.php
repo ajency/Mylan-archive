@@ -421,10 +421,10 @@ class UserController extends Controller
             "X-Parse-Master-Key: ".config('constants.parse_sdk.master_key')
         );
 
-        $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';  
+        $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';
 
         $c = curl_init(); 
-        curl_setopt($c, CURLOPT_URL, 'https://api.parse.com/1/functions/loginParseUser');
+        curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'/functions/loginParseUser');
         curl_setopt($c, CURLOPT_POST,1);  
         curl_setopt($c, CURLOPT_POSTFIELDS,$objectData); 
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
