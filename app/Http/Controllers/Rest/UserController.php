@@ -417,7 +417,6 @@ class UserController extends Controller
 
         $headers = array(
             "X-Parse-Application-Id: ".config('constants.parse_sdk.app_id'),
-            "X-Parse-REST-API-Key: ".config('constants.parse_sdk.rest_api_key'),
             "X-Parse-Master-Key: ".config('constants.parse_sdk.master_key')
         );
 
