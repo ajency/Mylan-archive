@@ -42,7 +42,9 @@ AUTH_HEADERS = {
     var REST_API_KEY = "{{ config('constants.parse_sdk.rest_api_key') }}"
    
 
- Parse.initialize(APP_ID, JS_KEY);
+ // Parse.initialize(APP_ID, JS_KEY);
+    Parse.initialize("MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA");
+    Parse.serverURL = 'http://139.162.29.106:1337/parse'
 
      Parse.User.become(userToken).then(function(user) {
                   console.log('became user');
