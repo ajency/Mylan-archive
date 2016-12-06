@@ -417,21 +417,35 @@ class UserController extends Controller
 
         $headers = array(
             "X-Parse-Application-Id: ".config('constants.parse_sdk.app_id'),
+            // "X-Parse-REST-API-Key: ".config('constants.parse_sdk.rest_api_key'),
             "X-Parse-Master-Key: ".config('constants.parse_sdk.master_key')
         );
 
-        $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';
+        // $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';
 
         $c = curl_init(); 
-        curl_setopt($c, CURLOPT_URL, 'http://139.162.29.106:1340/parse/functions/loginParseUser');
-        curl_setopt($c, CURLOPT_POST,1);  
-        curl_setopt($c, CURLOPT_POSTFIELDS,$objectData); 
+        curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'/functions/loginParseUser');
+        curl_setopt($c, CURLOPT_POST, 1);
+        curl_setopt($c, CURLOPT_POSTFIELDS,
+                    "authKey=".$authKey."&referenceCode=".$referenceCode."&installationId=".$installationId);
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
+        // receive server response ...
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+
+        $o = curl_exec ($c); dd($o);
+
+
+        // $c = curl_init(); 
+        // curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'/functions/loginParseUser');
+        // curl_setopt($c, CURLOPT_POST,1);  
+        // curl_setopt($c, CURLOPT_POSTFIELDS,$objectData); 
+        // curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
+        // curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);
+        // curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
         // curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 0);
         // curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
-        $o = curl_exec($c); 
+        // $o = curl_exec($c); 
 
         if (curl_errno($c)) {
             $sad = curl_error($c);
