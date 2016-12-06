@@ -433,7 +433,7 @@ class UserController extends Controller
         // receive server response ...
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
 
-        $o = curl_exec ($c); dd($o);
+        $o = curl_exec ($c);  
 
 
         // $c = curl_init(); 
