@@ -378,7 +378,9 @@
       <script type='text/javascript' src="{{ asset('js/htmltopdf/canvg.js') }}"></script>
       <script type='text/javascript' src="{{ asset('js/htmltopdf/rgbcolor.js') }}"></script>
       <script type='text/javascript' src="{{ asset('js/htmltopdf/html2canvas.js') }}"></script>
-      <script type='text/javascript' src="{{ asset('js/htmltopdf/jspdf.js') }}"></script>
+      <script type='text/javascript' src="{{ asset('js/htmltopdf/jspdf.debug.js') }}"></script>
+      <!-- <script type='text/javascript' src="{{ asset('js/htmltopdf/jspdf.js') }}"></script> -->
+      <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script> -->
       <!-- html to pdf -->
       <!-- BEGIN CORE TEMPLATE JS -->
       <script src="{{ asset('js/core.js') }}" type="text/javascript"></script>
