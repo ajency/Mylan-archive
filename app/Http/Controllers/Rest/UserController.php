@@ -429,9 +429,11 @@ class UserController extends Controller
         curl_setopt($c, CURLOPT_POSTFIELDS,
                     "authKey=".$authKey."&referenceCode=".$referenceCode."&installationId=".$installationId);
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
-
-        // receive server response ...
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
+        $o = curl_exec($c); 
 
         $o = curl_exec ($c);  
 
