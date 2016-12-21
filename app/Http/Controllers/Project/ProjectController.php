@@ -1831,8 +1831,8 @@ class ProjectController extends Controller
     public function setTotalCountAlert($projectId,$baseline,$previous,$patient,$referenceId,$totalscore){
           
           $projectId = intval($projectId);
-          $baseline = $baseline;
-          $previous = $previous;
+          $baseline = (is_int( $baseline ))?intval($baseline):0;
+          $previous = (is_int( $previous ))?intval($previous):0;
           $patient = $patient;
           $referenceId = $referenceId;
           $totalscore = $totalscore;
