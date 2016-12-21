@@ -97,7 +97,7 @@ class QuestionnaireController extends Controller
 	{
 		$questionId ='';
 		foreach ($questions as   $question) {
-			if(is_null($question->get('previousQuestion')) && $question->get('isChild')==false)
+			if($question->get('previousQuestion')->getObjectId()==env('NO_QUESTION') && $question->get('isChild')==false)
 			{
 				$questionId = $question->getObjectId();
 				break;
@@ -122,7 +122,13 @@ class QuestionnaireController extends Controller
 
 		$questionId ='';
 		foreach ($questionObjs as   $questionObj) {
-			if(is_null($questionObj->get('nextQuestion')) && $questionObj->get('isChild')==false)
+			// if(is_null($questionObj->get('nextQuestion')) && $questionObj->get('isChild')==false)
+			// {
+			// 	$questionId = ($flag)?$questionObj->getObjectId():$questionObj;
+			// 	break;
+			// }
+
+			if($questionObj->get('nextQuestion')->getObjectId()==env('NO_QUESTION') && $questionObj->get('isChild')==false)
 			{
 				$questionId = ($flag)?$questionObj->getObjectId():$questionObj;
 				break;
@@ -143,8 +149,8 @@ class QuestionnaireController extends Controller
 		$questionConditions = [];
 		foreach ($questions as   $question) {
 			$questionId = $question->getObjectId();
-			$nextQuestionId = (!is_null($question->get('nextQuestion')))? $question->get('nextQuestion')->getObjectId():'';
-			$previousQuestionId = (!is_null($question->get('previousQuestion')))? $question->get('previousQuestion')->getObjectId():'';
+			$nextQuestionId = ($question->get('nextQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('nextQuestion')->getObjectId():'';
+			$previousQuestionId = ($question->get('previousQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('previousQuestion')->getObjectId():'';
 			
 			if(!is_null($question->get('condition')))
 			{
@@ -709,6 +715,7 @@ class QuestionnaireController extends Controller
 
 	  try{
 	  		// dd($request->all());
+	  		$noQuestionObject = $this->getNoQuestionObject();
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");
@@ -724,8 +731,8 @@ class QuestionnaireController extends Controller
 	
 			$questionnaireObj = new ParseQuery("Questionnaire");
 			$questionnaire = $questionnaireObj->get($questionnaireId);
-			$previousQuestionObj = NULL;
-			$nextQuestionObj = NULL;
+			$previousQuestionObj = $noQuestionObject;
+			$nextQuestionObj = $noQuestionObject;
 
 			$responseData = [];
 			$responseOptionIds = [];
@@ -750,7 +757,7 @@ class QuestionnaireController extends Controller
 					$previousQuestionObj = $this->getLastQuestion([],$questionnaire);
 	
 					if(empty($previousQuestionObj))
-						$previousQuestionObj = NULL;
+						$previousQuestionObj = $noQuestionObject;
 			 
 				}
 
@@ -896,6 +903,7 @@ class QuestionnaireController extends Controller
 
 	public function saveQuestion($questionType, $title, $question, $isChild, $questionId, $questionnaire, $previousQuestionObj, $isParent=true)
 	{
+		$noQuestionObject = $this->getNoQuestionObject();
 		
 		if($questionId !="")
 		{
@@ -907,9 +915,9 @@ class QuestionnaireController extends Controller
 			$questionObj = new ParseObject("Questions");
 			$questionObj->set('questionnaire',$questionnaire);
 			$questionObj->set("previousQuestion",$previousQuestionObj);
-			$questionObj->set('nextQuestion',NULL);
+			$questionObj->set('nextQuestion',$noQuestionObject);
 
-			if($previousQuestionObj!=NULL && $isParent)
+			if($previousQuestionObj->getObjectId()!=env('NO_QUESTION') && $isParent)
 			{
 				$prevQuestionObject = new ParseQuery("Questions");
 				$prevQuestionObj = $prevQuestionObject->get($previousQuestionObj->getObjectId());
@@ -917,7 +925,7 @@ class QuestionnaireController extends Controller
 				$prevQuestionObj->save();
 			}
 			
-		}
+		} 
 		
 		$questionObj->set("question",$question);
 		$questionObj->set('title',$title);
@@ -1044,13 +1052,13 @@ class QuestionnaireController extends Controller
 			}	
 		 
 			//REST SEQUENCE
-			if($nextQuestionObj!=null)
+			if($nextQuestionObj->getObjectId()!=env('NO_QUESTION'))
 			{
 				$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
 				$nextQuestionObj->save();
 			}
 			
-			if($previousQuestionObj!=null)
+			if($previousQuestionObj->getObjectId()!=env('NO_QUESTION'))
 			{
 				$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
 				$previousQuestionObj->save();
@@ -1205,9 +1213,16 @@ class QuestionnaireController extends Controller
 
 	public function setQuestionsOrder(Request $request,$hospitalSlug,$projectSlug,$questionnaireId)
 	{
+
+		// $questionObj = new ParseQuery("Questions");
+		// $question = $questionObj->get("Xl89mXO9hf");
+		// $question->set("nextQuestion",NULL);
+		// $question->save(); dd($question);
+
 		try
 		{
-		 
+		 	
+		 	$noQuestionObject = $this->getNoQuestionObject();
 			$hospitalProjectData = verifyProjectSlug($hospitalSlug ,$projectSlug);
 
 			$hospital = $hospitalProjectData['hospital'];
@@ -1233,23 +1248,26 @@ class QuestionnaireController extends Controller
 			}
 			else
 			{
-
+				$qns = [];
 				foreach ($questionIds as $key=> $questionId) {
 					$previous = ($key-1);
 					$next = ($key+1);
-
-					$previousQuestion = NULL;
+					// $qns[$key] = ['questionId'=>$questionId];
+					$previousQuestion = $noQuestionObject;
 					if(isset($questionIds[$previous]))
 					{
 						$previousQuestionObj = new ParseQuery("Questions");
 						$previousQuestion = $previousQuestionObj->get($questionIds[$previous]);
+						// $qns[$key]['previousQuestion']=$questionIds[$previous];
+
 					}
 
-					$nextQuestion = NULL;
+					$nextQuestion = $noQuestionObject;
 					if(isset($questionIds[$next]))
 					{
 						$nextQuestionObj = new ParseQuery("Questions");
 						$nextQuestion = $nextQuestionObj->get($questionIds[$next]);
+						// $qns[$key]['nextQuestion']=$questionIds[$next];
 					}
 					 
 					$questionObj = new ParseQuery("Questions");
@@ -1259,9 +1277,13 @@ class QuestionnaireController extends Controller
 					$question->set("previousQuestion",$previousQuestion);
 
 					$question->save();
+					
+					// echo"<pre>";
+					// print_r($qns);
+					// echo "</pre><br><br>";
 
 				}
-
+// exit;
 				$questionnaire->set("status","completed");
 				$questionnaire->save();
 				$path= url($hospitalSlug .'/'. $projectSlug .'/order-questions/'.$questionnaireId);
@@ -1281,6 +1303,16 @@ class QuestionnaireController extends Controller
 		else
 			return redirect($redirectUrl);
 			  
+	}
+
+	public function getNoQuestionObject()
+	{
+		$noQuestionObjs = new ParseQuery("Questions");
+		$noQuestionObjs->equalTo("question","no-question");
+		$noQuestionObjs->equalTo("type","no-question");
+		$noQuestion = $noQuestionObjs->first();
+
+		return $noQuestion;
 	}
 
 

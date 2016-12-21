@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "parse/php-sdk" : "1.2.*",
         "chrisbjr/api-guard": "^2.3",
-        "predis/predis": "*"
+        "predis/predis": "*",
+        "mikehaertl/phpwkhtmltopdf": "^2.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

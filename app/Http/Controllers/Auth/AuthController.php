@@ -96,7 +96,7 @@ class AuthController extends Controller
 
         //CHECK LOGIN ATTEMPTS
         $user = User::where('type','patient')->where('reference_code', $referenceCode)->first();
-        $loginAttempt = getUserLoginAttempts($referenceCode); 
+        $loginAttempt = getUserLoginAttempts($referenceCode);
         if($loginAttempt >3)
         {
             return redirect('/login')->withErrors([

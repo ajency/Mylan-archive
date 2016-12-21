@@ -22,7 +22,6 @@ class ProjectController extends Controller
      */
     public function index($hospitalSlug)
     {
-        
         $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
         $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
