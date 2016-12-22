@@ -1,4 +1,4 @@
-Buffer = require('buffer').Buffer
+Buffer = require('buffer/').Buffer
 
 # In the Data Browser, set the Class Permissions for these 2 classes to
 # disallow public access for Get/Find/Create/Update/Delete operations.
@@ -104,9 +104,13 @@ createNewUser = (authKey, appData) ->
 	username = new Buffer(24)
 	password = new Buffer(24)
 	
+	# _.times 24, (i) ->
+	# 	username.set i, _.random(0, 255)
+	# 	password.set i, _.random(0, 255)
+
 	_.times 24, (i) ->
-		username.set i, _.random(0, 255)
-		password.set i, _.random(0, 255)
+	  username += _.random(0, 255)
+	  password += _.random(0, 255)
 
 	user.set 'username', username.toString('base64')
 	user.set 'password', password.toString('base64')

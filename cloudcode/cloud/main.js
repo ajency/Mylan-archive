@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, answeredQuestionsArray, checkMissedResponses, clearCache, convertToZone, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendNotifications, storeDeviceData, timeZoneConverter, updateMissedObjects,
+  var Buffer, TokenRequest, TokenStorage, _, afterSubmitQuestionnaire, answeredQuestionsArray, checkMissedResponses, clearCache, convertToZone, createAlertFlags, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, noQuestionId, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendMailAdmin, sendNotifications, setAlertsForTotalCount, setBaselineIfNoBaseLine, siteUrl, storeDeviceData, timeZoneConverter, updateMissedObjects, xApiKEY, xAuthorization,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -253,8 +253,8 @@
       if (deviceType.toLowerCase() === 'android') {
         pushData = {
           id: notificationId,
-          header: "Mylan",
-          message: message
+          title: "Mylan",
+          alert: message
         };
       } else {
         pushData = {
@@ -1250,6 +1250,14 @@
   	promise
    */
 
+  noQuestionId = "m6bkI8AUg9";
+
+  siteUrl = "http://mylantest.ajency.in";
+
+  xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y';
+
+  xAuthorization = 'e7968bf3f5228312f344339f3f9eb19701fb7a3c';
+
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery, scheduleQuery;
     responseId = request.params.responseId;
@@ -1403,7 +1411,7 @@
       return questionsQuery.find().then(function(questionsObjs) {
         var checkAll, checkIfFirstQuestion, questionObj;
         checkIfFirstQuestion = function(questionObj) {
-          if (_.isNull(questionObj.get('previousQuestion')) && !questionObj.get('isChild')) {
+          if (questionObj.get('previousQuestion').id === noQuestionId && !questionObj.get('isChild')) {
             return true;
           } else {
             return false;
@@ -1508,7 +1516,7 @@
       questionData['questionId'] = questionObj.id;
       questionData['questionType'] = questionObj.get('type');
       questionData['question'] = questionObj.get('question');
-      questionData['previous'] = !_.isNull(questionObj.get('previousQuestion')) ? true : false;
+      questionData['previous'] = questionObj.get('previousQuestion').id !== noQuestionId ? true : false;
       questionData['options'] = [];
       questionData['hasAnswer'] = {};
       questionData['previousQuestionnaireAnswer'] = {};
@@ -1669,9 +1677,9 @@
     promise = new Parse.Promise();
     getRequiredQuestion = function() {
       var questionQuery;
-      if (!_.isNull(questionObj.get('nextQuestion'))) {
+      if (questionObj.get('nextQuestion').id !== noQuestionId) {
         return promise.resolve(questionObj.get('nextQuestion'));
-      } else if ((_.isNull(questionObj.get('nextQuestion'))) && !questionObj.get('isChild')) {
+      } else if ((questionObj.get('nextQuestion').id === noQuestionId) && !questionObj.get('isChild')) {
         return promise.resolve({});
       } else {
         questionQuery = new Parse.Query('Questions');
@@ -1684,7 +1692,7 @@
             questionObj = questionObj.get('previousQuestion');
           }
           return questionObj.fetch().then(function() {
-            if (!_.isNull(questionObj.get('nextQuestion'))) {
+            if (questionObj.get('nextQuestion').id !== noQuestionId) {
               console.log("*****************************************");
               console.log(questionObj.get('nextQuestion').id);
               return promise.resolve(questionObj.get('nextQuestion'));
@@ -2586,7 +2594,9 @@
                   var newNextOccurrence;
                   newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format();
                   newNextOccurrence = new Date(newNextOccurrence);
-                  scheduleObj.set('nextOccurrence', newNextOccurrence);
+                  if (scheduleObj.get('questionnaire').get('pauseProject') === false) {
+                    scheduleObj.set('nextOccurrence', newNextOccurrence);
+                  }
                   return scheduleObj.save().then(function(scheduleObj) {
                     return promise.resolve();
                   }, function(error) {
@@ -3146,17 +3156,226 @@
   };
 
   clearCache = function(projectId) {
+    var promise;
+    promise = Parse.Promise.as();
+    console.log(siteUrl + '/api/v2/project/' + projectId + '/clear-cache');
     Parse.Cloud.httpRequest({
       method: 'POST',
-      url: 'http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache',
+      url: siteUrl + '/api/v2/project/' + projectId + '/clear-cache',
       headers: {
-        'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-        'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+        'X-API-KEY': xApiKEY,
+        'X-Authorization': xAuthorization
       }
+    }).then(function() {
+      return promise.resolve("CLEAR CACHE");
+    }, function(error) {
+      return promise.reject("someError");
     });
-    console.log("cache cleared");
-    console.log('http://mylantest.ajency.in/api/v2/project/' + projectId + '/clear-cache');
-    return "CLEAR CACHE";
+    return promise;
+  };
+
+  sendMailAdmin = function(projectId, patientName) {
+    var promise;
+    promise = Parse.Promise.as();
+    Parse.Cloud.httpRequest({
+      method: 'POST',
+      url: siteUrl + '/api/v2/project/' + projectId + '/' + patientName + '/send-mail-submission',
+      headers: {
+        'X-API-KEY': xApiKEY,
+        'X-Authorization': xAuthorization
+      }
+    }).then(function() {
+      return promise.resolve("Submission mail sent");
+    }, function(error) {
+      return promise.reject("someError");
+    });
+    return promise;
+  };
+
+  setAlertsForTotalCount = function(projectId, baseline, previous, patient, referenceId, totalScore) {
+    var alertType, alertsettingsQry, baselineVal, flagCount, previousVal, promise, responseObject, totalscore;
+    console.log("***setAlertsForTotalCount***");
+    promise = Parse.Promise.as();
+    projectId = parseInt(projectId);
+    totalscore = parseInt(totalscore);
+    baseline = !isNaN(baseline) ? parseInt(baseline) : 0;
+    previous = !isNaN(previous) ? parseInt(previous) : 0;
+    console.log(baseline);
+    console.log(previous);
+    previousVal = totalscore - previous;
+    baselineVal = totalscore - baseline;
+    responseObject = {
+      "__type": "Pointer",
+      "className": "Response",
+      "objectId": referenceId
+    };
+    alertType = '';
+    flagCount = 0;
+    alertsettingsQry = new Parse.Query("Alerts");
+    alertsettingsQry.equalTo('AlertSettings', projectId);
+    alertsettingsQry.equalTo('alertType', "total_count");
+    alertsettingsQry.find().then(function(alertsettings) {
+      console.log("alertsettings");
+      _.each(alertsettings, function(alertsetting) {
+        if (alertsetting.get("comparedTo") === "previous") {
+          flagCount = Math.abs(previousVal);
+          if (alertsetting.get("operation") === "greater_than") {
+            if (previousVal > alertsetting.get("flagCount")) {
+              console.log("previous herepgreater_than");
+              return alertType = "previous_total_score_alert_greater_than";
+            }
+          } else if (alertsetting.get("operation") === "greater_than_equal_to") {
+            if (previousVal >= alertsetting.get("flagCount")) {
+              console.log("previous herepgreater_than_equal_to");
+              return alertType = "previous_total_score_alert_greater_than_equal_to";
+            }
+          } else if (alertsetting.get("operation") === "less_than_equal_to") {
+            if (previousVal <= alertsetting.get("flagCount")) {
+              console.log(" previous herepless_than_equal_to");
+              return alertType = "previous_total_score_alert_less_than_equal_to";
+            }
+          } else if (alertsetting.get("operation") === "less_than") {
+            if (previousVal < alertsetting.get("flagCount")) {
+              console.log("previous herepless_than");
+              return alertType = "previous_total_score_alert_less_than";
+            }
+          }
+        } else {
+          flagCount = Math.abs(baselineVal);
+          if (alertsetting.get("operation") === "greater_than") {
+            if (baselineVal > alertsetting.get("flagCount")) {
+              console.log("baseline herepgreater_than");
+              return alertType = "baseline_total_score_alert_greater_than";
+            }
+          } else if (alertsetting.get("operation") === "greater_than_equal_to") {
+            if (baselineVal >= alertsetting.get("flagCount")) {
+              console.log("baseline herepgreater_than_equal_to");
+              return alertType = "baseline_total_score_alert_greater_than_equal_to";
+            }
+          } else if (alertsetting.get("operation") === "less_than_equal_to") {
+            if (baselineVal <= alertsetting.get("flagCount")) {
+              console.log(" baseline herepless_than_equal_to");
+              return alertType = "baseline_total_score_alert_less_than_equal_to";
+            }
+          } else if (alertsetting.get("operation") === "less_than") {
+            if (baselineVal < alertsetting.get("flagCount")) {
+              console.log("baseline herepless_than");
+              return alertType = "baseline_total_score_alert_less_than";
+            }
+          }
+        }
+      });
+      console.log(alertType);
+      return createAlertFlags(projectId, patient, referenceId, responseObject, flagCount, alertType).then(function() {
+        console.log("***alertCreated***");
+        return promise.resolve("alertCreated");
+      }, function(error) {
+        return promise.reject("someError");
+      });
+    }, function(error) {
+      return promise.reject("someError");
+    });
+    return promise;
+  };
+
+  createAlertFlags = function(projectId, patient, referenceId, responseObj, flagCount, alertType) {
+    var alert, promise;
+    console.log("***createAlertFlags***");
+    promise = Parse.Promise.as();
+    alert = new Parse.Object('Alerts');
+    alert.set("project", projectId);
+    alert.set("patient", patient);
+    alert.set("referenceId", referenceId);
+    alert.set("cleared", false);
+    alert.set("referenceType", "Response");
+    alert.set('responseObject', responseObj);
+    alert.set('flagCount', flagCount);
+    alert.set('alertType', alertType);
+    alert.save().then(function(alertObj) {
+      responseObj.set("alert", true);
+      return responseObj.save().then(function(responseObj) {
+        return promise.resolve("alertCreated");
+      }, function(error) {
+        return promise.reject("someError");
+      });
+    }, function(error) {
+      return promise.reject("someError");
+    });
+    return promise;
+  };
+
+  setBaselineIfNoBaseLine = function(projectId, patient, referenceId) {
+    var promise, responseQuery;
+    console.log("***setBaselineIfNoBaseLine***");
+    promise = Parse.Promise.as();
+    responseQuery = new Parse.Query("Response");
+    responseQuery.equalTo('status', 'base_line');
+    responseQuery.equalTo('patient', patient);
+    responseQuery.first().then(function(responseObj) {
+      var alertQry;
+      if (_.isEmpty(responseObj)) {
+        alertQry = new Parse.Query("Alerts");
+        alertQry.equalTo('referenceId', referenceId);
+        alertQry.equalTo('patient', patient);
+        return alertQry.find().then(function(alerts) {
+          var answerQry;
+          _.each(alerts, function(alert) {
+            return alert.destroy();
+          });
+          console.log("alerts deleted");
+          answerQry = new Parse.Query("Answer");
+          answerQry.equalTo('project', projectId);
+          answerQry.equalTo('patient', patient);
+          return answerQry.find().then(function(answers) {
+            var responseQry;
+            _.each(answers, function(answer) {
+              answer.set('baseLineFlagStatus', '');
+              answer.set('previousFlagStatus', '');
+              return answer.save();
+            });
+            console.log("answer updated");
+            responseQry = new Parse.Query("Response");
+            return responseQry.get(referenceId).then(function(responseObject) {
+              responseObject.set("sequenceNumber", 1);
+              responseObject.set("status", 'base_line');
+              responseObject.set("comparedToBaseLine", 0);
+              responseObject.set("comparedToPrevious", 0);
+              responseObject.set("previousFlag", '');
+              responseObject.set("baseLineFlag", '');
+              responseObject.set("reason", '');
+              responseObject.set("baseLineFlagStatus", '');
+              responseObject.set("previousFlagStatus", '');
+              responseObject.set("reviewed", '');
+              responseObject.set("baseLineTotalRedFlags", 0);
+              responseObject.set("baseLineTotalAmberFlags", 0);
+              responseObject.set("baseLineTotalGreenFlags", 0);
+              responseObject.set("previousTotalRedFlags", 0);
+              responseObject.set("previousTotalAmberFlags", 0);
+              responseObject.set("previousTotalGreenFlags", 0);
+              responseObject.set("baseline", '');
+              responseObject.set("baseLineScore", 0);
+              responseObject.set("previousScore", 0);
+              responseObject.set("alert", false);
+              responseObject.set("reviewNote", '');
+              responseObject.save();
+              console.log("***setBaselineset***");
+              return promise.resolve("setBaselineIfNoBaseLine");
+            }, function(error) {
+              return promise.reject(error);
+            });
+          }, function(error) {
+            return promise.reject(error);
+          });
+        }, function(error) {
+          return promise.reject(error);
+        });
+      } else {
+        return promise.resolve("alreadyExist");
+      }
+    }, function(error) {
+      return promise.reject("someError");
+    });
+    return promise;
   };
 
   Parse.Cloud.afterSave('Response', function(request, response) {
@@ -3164,18 +3383,24 @@
     responseObject = request.object;
     if (!responseObject.existed() && responseObject.get("status") !== 'started') {
       projectId = responseObject.get("project");
-      clearCache = clearCache(projectId);
-      return clearCache;
+      return clearCache(projectId).then(function(clearCache) {
+        return response.success(clearCache);
+      }, function(error) {
+        return response.error(error);
+      });
     } else {
-      return clearCache;
+      return response.success("clearCache");
     }
   });
 
   Parse.Cloud.define("clearProjectCache", function(request, response) {
     var projectId;
     projectId = 22;
-    clearCache = clearCache(projectId);
-    return response.success(clearCache);
+    return clearCache(projectId).then(function(clearCache) {
+      return response.success("clearCache");
+    }, function(error) {
+      return response.error(error);
+    });
   });
 
   Parse.Cloud.define("submitQuestionnaire", function(request, response) {
@@ -3194,6 +3419,8 @@
             questionnaireObj = responseObj.get("questionnaire");
             occurrenceDate = responseObj.get("occurrenceDate");
             scheduleObj = responseObj.get("schedule");
+            console.log(BaseLine);
+            console.log("baseline data");
             status = "completed";
             submittedDate = new Date();
             responseObj.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
@@ -3216,43 +3443,58 @@
             }
             responseObj.set("submittedDate", submittedDate);
             return responseObj.save().then(function(responseObj) {
-              return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
-                var alertsSaveArr;
-                alertsSaveArr = [];
-                if (_.isEmpty(alerts)) {
-                  clearCache = clearCache(responseObj.get("project"));
-                  return response.success("submitted_successfully");
-                } else {
-                  _.each(alerts, function(alert) {
-                    var AlertData, Alerts, alertObj, alertType, flagCount;
-                    alertType = alert['compareType'];
-                    flagCount = alert['flagCount'];
-                    AlertData = {
-                      patient: responseObj.get("patient"),
-                      project: responseObj.get("project"),
-                      alertType: alertType,
-                      flagCount: flagCount,
-                      referenceId: responseObj.id,
-                      responseObject: responseObj,
-                      referenceType: "Response",
-                      cleared: false
-                    };
-                    Alerts = Parse.Object.extend("Alerts");
-                    alertObj = new Alerts(AlertData);
-                    return alertsSaveArr.push(alertObj);
-                  });
-                  return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
-                    responseObj.set('alert', true);
-                    return responseObj.save().then(function(responseObj) {
-                      clearCache = clearCache(responseObj.get("project"));
+              console.log("response completd");
+              return setAlertsForTotalCount(responseObj.get("project"), responseObj.get("baseLineScore"), responseObj.get("previousScore"), responseObj.get("patient"), responseObj.id, responseObj.get("totalScore")).then(function(alerts) {
+                console.log("setAlertsForTotalCount");
+                return getSubmissionAlerts(responseObj.get("project"), BaseLine, previous).then(function(alerts) {
+                  var alertsSaveArr;
+                  console.log("getSubmissionAlerts");
+                  alertsSaveArr = [];
+                  if (_.isEmpty(alerts)) {
+                    console.log("empty alerts");
+                    return afterSubmitQuestionnaire(responseObj).then(function(resp) {
                       return response.success("submitted_successfully");
                     }, function(error) {
                       return response.error(error);
                     });
-                  }, function(error) {
-                    return response.error(error);
-                  });
-                }
+                  } else {
+                    _.each(alerts, function(alert) {
+                      var AlertData, Alerts, alertObj, alertType, flagCount;
+                      alertType = alert['compareType'];
+                      flagCount = alert['flagCount'];
+                      AlertData = {
+                        patient: responseObj.get("patient"),
+                        project: responseObj.get("project"),
+                        alertType: alertType,
+                        flagCount: flagCount,
+                        referenceId: responseObj.id,
+                        responseObject: responseObj,
+                        referenceType: "Response",
+                        cleared: false
+                      };
+                      Alerts = Parse.Object.extend("Alerts");
+                      alertObj = new Alerts(AlertData);
+                      return alertsSaveArr.push(alertObj);
+                    });
+                    return Parse.Object.saveAll(alertsSaveArr).then(function(alertsObjs) {
+                      responseObj.set('alert', true);
+                      return responseObj.save().then(function(responseObj) {
+                        console.log("not empty alerts");
+                        return afterSubmitQuestionnaire(responseObj).then(function(resp) {
+                          return response.success("submitted_successfully");
+                        }, function(error) {
+                          return response.error(error);
+                        });
+                      }, function(error) {
+                        return response.error(error);
+                      });
+                    }, function(error) {
+                      return response.error(error);
+                    });
+                  }
+                }, function(error) {
+                  return response.error(error);
+                });
               }, function(error) {
                 return response.error(error);
               });
@@ -3273,6 +3515,29 @@
       return response.error(error);
     });
   });
+
+  afterSubmitQuestionnaire = function(responseObj) {
+    var promise;
+    console.log("afterSubmitQuestionnaire");
+    promise = new Parse.Promise();
+    setBaselineIfNoBaseLine(responseObj.get("project"), responseObj.get("patient"), responseObj.id).then(function(baselineSet) {
+      console.log("baselineSet");
+      return clearCache(responseObj.get("project")).then(function(clearCache) {
+        console.log("clearCache");
+        return sendMailAdmin(responseObj.get("project"), responseObj.get("patient")).then(function(mailSent) {
+          console.log("mailSent");
+          return promise.resolve("afterSubmitQuestionnaire");
+        }, function(error) {
+          return promise.reject(error);
+        });
+      }, function(error) {
+        return promise.reject(error);
+      });
+    }, function(error) {
+      return promise.reject(error);
+    });
+    return promise;
+  };
 
   Parse.Cloud.define("submitTestQuestionnaire", function(request, response) {
     var responseId, responseQuery;
@@ -3370,48 +3635,51 @@
       greenFlags['baseline'] = "baseLineTotalGreenFlags";
       greenFlags['previous'] = "previousTotalGreenFlags";
       _.each(alertSettings, function(alertSetting) {
-        var alertType, comaparisonCountIndex, compareType, comparedTo, comparisonCount, flagColour, flagCount, operator;
+        var alertType, comaparisonCountIndex, compareType, comparedTo, comparisonCount, flagColour, flagCount, operator, typeOfAlert;
         operator = alertSetting.get("operation");
         flagCount = alertSetting.get("flagCount");
         flagColour = alertSetting.get("flagColour");
         comparedTo = alertSetting.get("comparedTo");
+        typeOfAlert = alertSetting.get("alertType");
         compareType = '';
         alertType = {};
-        if (flagColour === "red") {
-          comaparisonCountIndex = redFlags[comparedTo];
-        } else if (flagColour === "amber") {
-          comaparisonCountIndex = amberFlags[comparedTo];
-        } else if (flagColour === "green") {
-          comaparisonCountIndex = greenFlags[comparedTo];
-        }
-        if (comparedTo === "previous") {
-          comparisonCount = previousFlags[comaparisonCountIndex];
-        } else {
-          comparisonCount = baseLineFlags[comaparisonCountIndex];
-        }
-        if (operator === "greater_than") {
-          if (greaterThan(flagCount, comparisonCount, false)) {
-            compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
+        if (typeOfAlert === "flag_count") {
+          if (flagColour === "red") {
+            comaparisonCountIndex = redFlags[comparedTo];
+          } else if (flagColour === "amber") {
+            comaparisonCountIndex = amberFlags[comparedTo];
+          } else if (flagColour === "green") {
+            comaparisonCountIndex = greenFlags[comparedTo];
           }
-        } else if (operator === "greater_than_equal_to") {
-          if (greaterThan(flagCount, comparisonCount, true)) {
-            compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
-          }
-        } else if (operator === "less_than") {
-          if (comparisonCount !== 0) {
-            if (lessThan(flagCount, comparisonCount, false)) {
-              compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
-            }
+          if (comparedTo === "previous") {
+            comparisonCount = previousFlags[comaparisonCountIndex];
           } else {
-            compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
+            comparisonCount = baseLineFlags[comaparisonCountIndex];
           }
-        } else if (operator === "less_than_equal_to") {
-          if (comparisonCount !== 0) {
-            if (lessThan(flagCount, comparisonCount, true)) {
-              compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+          if (operator === "greater_than") {
+            if (greaterThan(flagCount, comparisonCount, false)) {
+              compareType = "more_" + flagColour + "_flags_compared_to_" + comparedTo;
             }
-          } else {
-            compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
+          } else if (operator === "greater_than_equal_to") {
+            if (greaterThan(flagCount, comparisonCount, true)) {
+              compareType = "more_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+            }
+          } else if (operator === "less_than") {
+            if (comparisonCount !== 0) {
+              if (lessThan(flagCount, comparisonCount, false)) {
+                compareType = "less_" + flagColour + "_flags_compared_to_" + comparedTo;
+              }
+            } else {
+              compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
+            }
+          } else if (operator === "less_than_equal_to") {
+            if (comparisonCount !== 0) {
+              if (lessThan(flagCount, comparisonCount, true)) {
+                compareType = "less_or_equal_" + flagColour + "_flags_compared_to_" + comparedTo;
+              }
+            } else {
+              compareType = "no_" + flagColour + "_flags_compared_to_" + comparedTo;
+            }
           }
         }
         if (compareType !== '') {
@@ -3645,27 +3913,32 @@
   };
 
   getBaseLineValues = function(responseObj, questionsObj, optionsObj) {
-    var answerQuery, promise, responseBaseLine;
+    var BaseLine, answerQuery, promise, responseBaseLine;
     promise = new Parse.Promise();
     responseBaseLine = responseObj.get('baseLine');
-    console.log("responseBaseLine");
-    console.log(responseBaseLine);
-    answerQuery = new Parse.Query('Answer');
-    answerQuery.equalTo('response', responseBaseLine);
-    answerQuery.equalTo('question', questionsObj);
-    answerQuery.first().then(function(BaseLineAnswer) {
-      var BaseLine, BaseLineValue;
-      console.log("BaseLineAnswer");
-      console.log(BaseLineAnswer);
-      BaseLineValue = BaseLineAnswer.get('score');
-      BaseLineValue = BaseLineValue - optionsObj.get('score');
+    if (responseBaseLine) {
+      console.log("responseBaseLine");
+      console.log(responseBaseLine);
+      answerQuery = new Parse.Query('Answer');
+      answerQuery.equalTo('response', responseBaseLine);
+      answerQuery.equalTo('question', questionsObj);
+      answerQuery.first().then(function(BaseLineAnswer) {
+        var BaseLine, BaseLineValue;
+        console.log("BaseLineAnswer");
+        console.log(BaseLineAnswer);
+        BaseLineValue = BaseLineAnswer.get('score');
+        BaseLineValue = BaseLineValue - optionsObj.get('score');
+        BaseLine = {};
+        BaseLine['comparedToBaseLine'] = BaseLineValue;
+        BaseLine['baseLineFlag'] = getFlag(BaseLineValue);
+        return promise.resolve(BaseLine);
+      }, function(error) {
+        return promise.reject(error);
+      });
+    } else {
       BaseLine = {};
-      BaseLine['comparedToBaseLine'] = BaseLineValue;
-      BaseLine['baseLineFlag'] = getFlag(BaseLineValue);
-      return promise.resolve(BaseLine);
-    }, function(error) {
-      return promise.reject(error);
-    });
+      promise.resolve(BaseLine);
+    }
     return promise;
   };
 
@@ -3851,34 +4124,38 @@
             return promise.reject(error);
           });
         } else {
-          answer = new Parse.Object('Answer');
-          answer.set("response", responseObj);
-          answer.set("patient", responseObj.get('patient'));
-          answer.set("question", questionsObj);
-          answer.set('project', responseObj.get('project'));
-          answer.set('occurrenceDate', responseObj.get('occurrenceDate'));
-          return answer.save().then(function(answer) {
-            var optionsQuery;
-            if (!_.isEmpty(options)) {
-              optionsQuery = new Parse.Query("Options");
-              optionsQuery.equalTo('question', questionsObj);
-              optionsQuery.equalTo('objectId', options[0]);
-              return optionsQuery.first().then(function(optionsObj) {
-                answer.set("option", optionsObj);
-                answer.set("score", optionsObj.get('score'));
-                return answer.save().then(function(answer) {
-                  return getBaseLineValues(responseObj, questionsObj, optionsObj).then(function(BaseLine) {
-                    return getPreviousValues(responseObj, questionsObj, optionsObj).then(function(previous) {
-                      answer.set("option", optionsObj);
-                      answer.set("score", optionsObj.get('score'));
-                      answer.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
-                      answer.set("comparedToPrevious", previous['comparedToPrevious']);
-                      answer.set("baseLineFlag", BaseLine['baseLineFlag']);
-                      answer.set("previousFlag", previous['previousFlag']);
-                      answer.set("baseLineFlagStatus", 'open');
-                      answer.set("previousFlagStatus", 'open');
-                      return answer.save().then(function(answer) {
-                        return promise.resolve(answer);
+          if (isEditable && questionsObj.get('isChild') === true) {
+            answer = new Parse.Object('Answer');
+            answer.set("response", responseObj);
+            answer.set("patient", responseObj.get('patient'));
+            answer.set("question", questionsObj);
+            answer.set('project', responseObj.get('project'));
+            answer.set('occurrenceDate', responseObj.get('occurrenceDate'));
+            return answer.save().then(function(answer) {
+              var optionsQuery;
+              if (!_.isEmpty(options)) {
+                optionsQuery = new Parse.Query("Options");
+                optionsQuery.equalTo('question', questionsObj);
+                optionsQuery.equalTo('objectId', options[0]);
+                return optionsQuery.first().then(function(optionsObj) {
+                  answer.set("option", optionsObj);
+                  answer.set("score", optionsObj.get('score'));
+                  return answer.save().then(function(answer) {
+                    return getBaseLineValues(responseObj, questionsObj, optionsObj).then(function(BaseLine) {
+                      return getPreviousValues(responseObj, questionsObj, optionsObj).then(function(previous) {
+                        answer.set("option", optionsObj);
+                        answer.set("score", optionsObj.get('score'));
+                        answer.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
+                        answer.set("comparedToPrevious", previous['comparedToPrevious']);
+                        answer.set("baseLineFlag", BaseLine['baseLineFlag']);
+                        answer.set("previousFlag", previous['previousFlag']);
+                        answer.set("baseLineFlagStatus", 'open');
+                        answer.set("previousFlagStatus", 'open');
+                        return answer.save().then(function(answer) {
+                          return promise.resolve(answer);
+                        }, function(error) {
+                          return promise.reject(error);
+                        });
                       }, function(error) {
                         return promise.reject(error);
                       });
@@ -3891,15 +4168,63 @@
                 }, function(error) {
                   return promise.reject(error);
                 });
-              }, function(error) {
-                return promise.reject(error);
-              });
-            } else {
-              return promise.reject("noOptionSelected");
-            }
-          }, function(error) {
-            return promise.reject(error);
-          });
+              } else {
+                return promise.reject("noOptionSelected");
+              }
+            }, function(error) {
+              return promise.reject(error);
+            });
+          } else {
+            answer = new Parse.Object('Answer');
+            answer.set("response", responseObj);
+            answer.set("patient", responseObj.get('patient'));
+            answer.set("question", questionsObj);
+            answer.set('project', responseObj.get('project'));
+            answer.set('occurrenceDate', responseObj.get('occurrenceDate'));
+            return answer.save().then(function(answer) {
+              var optionsQuery;
+              if (!_.isEmpty(options)) {
+                optionsQuery = new Parse.Query("Options");
+                optionsQuery.equalTo('question', questionsObj);
+                optionsQuery.equalTo('objectId', options[0]);
+                return optionsQuery.first().then(function(optionsObj) {
+                  answer.set("option", optionsObj);
+                  answer.set("score", optionsObj.get('score'));
+                  return answer.save().then(function(answer) {
+                    return getBaseLineValues(responseObj, questionsObj, optionsObj).then(function(BaseLine) {
+                      return getPreviousValues(responseObj, questionsObj, optionsObj).then(function(previous) {
+                        answer.set("option", optionsObj);
+                        answer.set("score", optionsObj.get('score'));
+                        answer.set("comparedToBaseLine", BaseLine['comparedToBaseLine']);
+                        answer.set("comparedToPrevious", previous['comparedToPrevious']);
+                        answer.set("baseLineFlag", BaseLine['baseLineFlag']);
+                        answer.set("previousFlag", previous['previousFlag']);
+                        answer.set("baseLineFlagStatus", 'open');
+                        answer.set("previousFlagStatus", 'open');
+                        return answer.save().then(function(answer) {
+                          return promise.resolve(answer);
+                        }, function(error) {
+                          return promise.reject(error);
+                        });
+                      }, function(error) {
+                        return promise.reject(error);
+                      });
+                    }, function(error) {
+                      return promise.reject(error);
+                    });
+                  }, function(error) {
+                    return promise.reject(error);
+                  });
+                }, function(error) {
+                  return promise.reject(error);
+                });
+              } else {
+                return promise.reject("noOptionSelected");
+              }
+            }, function(error) {
+              return promise.reject(error);
+            });
+          }
         }
       }, function(error) {
         return promise.reject(error);
@@ -4462,11 +4787,11 @@
     return promise;
   };
 
-  _ = require('underscore.js');
+  _ = require('underscore');
 
-  moment = require('cloud/moment.js');
+  moment = require('moment');
 
-  momenttimezone = require('cloud/moment-timezone.js');
+  momenttimezone = require('moment-timezone');
 
   Parse.Cloud.define('doSetup', function(request, response) {
     var deviceIdentifier, referenceCode, userObj;
@@ -4778,7 +5103,7 @@
           response.error error
    */
 
-  Buffer = require('buffer').Buffer;
+  Buffer = require('buffer/').Buffer;
 
   TokenRequest = Parse.Object.extend("TokenRequest");
 
@@ -4880,8 +5205,8 @@
     username = new Buffer(24);
     password = new Buffer(24);
     _.times(24, function(i) {
-      username.set(i, _.random(0, 255));
-      return password.set(i, _.random(0, 255));
+      username += _.random(0, 255);
+      return password += _.random(0, 255);
     });
     user.set('username', username.toString('base64'));
     user.set('password', password.toString('base64'));

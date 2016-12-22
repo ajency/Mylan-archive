@@ -1,3 +1,8 @@
+noQuestionId = "m6bkI8AUg9"
+siteUrl = "http://mylantest.ajency.in"
+xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+xAuthorization ='e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+
 Parse.Cloud.define "startQuestionnaire", (request, response) ->
 #	if !request.user
 #		response.error('Must be logged in.')
@@ -166,7 +171,8 @@ firstQuestion = (questionnaireId) ->
 		.then (questionsObjs) ->
 			checkIfFirstQuestion = (questionObj) ->
 				# if _.isUndefined(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
-				if _.isNull(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+				# if _.isNull(questionObj.get('previousQuestion')) and  not questionObj.get 'isChild'
+				if questionObj.get('previousQuestion').id==noQuestionId and  not questionObj.get 'isChild'
 					true
 				else
 					false
@@ -263,7 +269,8 @@ getQuestionData = (questionObj, responseObj, patientId) ->
 		questionData['questionId'] = questionObj.id
 		questionData['questionType'] = questionObj.get('type')
 		questionData['question'] = questionObj.get('question')
-		questionData['previous'] =  if (!_.isNull(questionObj.get('previousQuestion'))) then true else false
+		# questionData['previous'] =  if (!_.isNull(questionObj.get('previousQuestion'))) then true else false
+		questionData['previous'] =  if (questionObj.get('previousQuestion').id!=noQuestionId) then true else false
 		questionData['options'] = []
 		questionData['hasAnswer'] = {}
 		questionData['previousQuestionnaireAnswer'] = {}
@@ -433,10 +440,10 @@ getNextQuestion = (questionObj, option) ->
 	promise = new Parse.Promise()
 
 	getRequiredQuestion = () ->
-		if !_.isNull questionObj.get('nextQuestion')
+		if questionObj.get('nextQuestion').id!=noQuestionId
 			promise.resolve(questionObj.get('nextQuestion'))
 
-		else if (_.isNull questionObj.get('nextQuestion')) and !questionObj.get('isChild')
+		else if (questionObj.get('nextQuestion').id==noQuestionId) and !questionObj.get('isChild')
 #			console.log "=========================================="
 #			console.log questionObj.get('isChild')
 #			console.log 
@@ -457,7 +464,7 @@ getNextQuestion = (questionObj, option) ->
 				.then ->
 #					console.log ".........................................."
 #					console.log questionObj
-					if !_.isNull questionObj.get('nextQuestion')
+					if questionObj.get('nextQuestion').id!=noQuestionId
 						console.log "*****************************************"
 						console.log questionObj.get('nextQuestion').id
 						promise.resolve(questionObj.get('nextQuestion'))
@@ -1387,7 +1394,8 @@ updateMissedObjects = (scheduleObj, patientId) ->
 								# newNextOccurrence.setTime(newNextOccurrence.getTime() + Number(scheduleQuestionnaireObj.get('frequency')) * 1000)
 								newNextOccurrence = moment(scheduleObj.get('nextOccurrence')).add(settings['frequency'], 's').format()
 								newNextOccurrence = new Date(newNextOccurrence)
-								scheduleObj.set 'nextOccurrence', newNextOccurrence
+								if scheduleObj.get('questionnaire').get('pauseProject') == false
+									scheduleObj.set 'nextOccurrence', newNextOccurrence
 								scheduleObj.save()
 								.then (scheduleObj) ->
 									promise.resolve()
@@ -2025,19 +2033,282 @@ getFlag = (value) ->
 		flag = "green"
 	flag
 
-
 clearCache = (projectId) ->
-
+	promise = Parse.Promise.as();
+	console.log siteUrl+'/api/v2/project/'+projectId+'/clear-cache'
 	Parse.Cloud.httpRequest
 		method: 'POST'
-		url: 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
+		url: siteUrl+'/api/v2/project/'+projectId+'/clear-cache'
 		headers:
-			'X-API-KEY': 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-			'X-Authorization': 'e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+			'X-API-KEY': xApiKEY
+			'X-Authorization': xAuthorization
+	.then () ->
+		promise.resolve("CLEAR CACHE")
+	, (error) ->
+		promise.reject("someError")
 
-	console.log "cache cleared"
-	console.log 'http://mylantest.ajency.in/api/v2/project/'+projectId+'/clear-cache'
-	return  "CLEAR CACHE"
+	promise
+	# console.log "cache cleared"
+	# console.log siteUrl+'/api/v2/project/'+projectId+'/clear-cache'
+	# return  "CLEAR CACHE"
+
+sendMailAdmin = (projectId,patientName) ->
+	promise = Parse.Promise.as();
+	Parse.Cloud.httpRequest
+		method: 'POST'
+		url: siteUrl+'/api/v2/project/'+projectId+'/'+patientName+'/send-mail-submission'
+		headers:
+			'X-API-KEY': xApiKEY
+			'X-Authorization': xAuthorization
+
+	.then () ->
+		promise.resolve("Submission mail sent")
+	, (error) ->
+		promise.reject("someError")
+
+	promise
+	# console.log "send-mail-submission"
+	# console.log siteUrl+'/api/v2/project/'+projectId+'/'+patientName+'/send-mail-submission '
+	# return  "Submission mail sent"	
+
+# API Call
+# setAlertsForTotalCount = (projectId,baseline,previous,patient,referenceId,totalScore) ->
+# 	promise = Parse.Promise.as();
+# 	Parse.Cloud.httpRequest
+# 		method: 'POST'
+# 		url: siteUrl+'/api/v2/project/'+projectId+'/'+baseline+'/'+previous+'/'+patient+'/'+referenceId+'/'+totalScore+'/alert-total-count'
+# 		headers:
+# 			'X-API-KEY': xApiKEY
+# 			'X-Authorization': xAuthorization
+# 	.then () ->
+# 		promise.resolve("setAlertsForTotalCount")
+# 	, (error) ->
+# 		promise.reject("someError")
+
+# 	promise
+# 	# console.log "setAlertsForTotalCount"
+# 	# console.log siteUrl+'/api/v2/project/'+projectId+'/'+baseline+'/'+previous+'/'+patient+'/'+referenceId+'/'+totalScore+'/alert-total-count'
+	
+# 	# return  "setAlertsForTotalCount"	
+
+setAlertsForTotalCount = (projectId,baseline,previous,patient,referenceId,totalScore) ->
+	console.log "***setAlertsForTotalCount***"
+	promise = Parse.Promise.as();
+	
+	projectId = parseInt(projectId)
+	totalscore = parseInt(totalscore)
+
+	baseline = if (!isNaN( baseline )) then parseInt(baseline) else 0
+	previous = if (!isNaN( previous )) then parseInt(previous) else 0
+
+	console.log baseline
+	console.log previous
+
+	previousVal = totalscore - previous;
+	baselineVal = totalscore - baseline;
+
+	responseObject = 
+				"__type" : "Pointer",
+				"className":"Response",
+				"objectId":referenceId
+
+	alertType = ''
+	flagCount = 0
+
+
+	alertsettingsQry = new Parse.Query("Alerts")
+	alertsettingsQry.equalTo('AlertSettings', projectId)
+	alertsettingsQry.equalTo('alertType', "total_count")
+	alertsettingsQry.find()
+	.then (alertsettings) ->
+		console.log "alertsettings"
+		_.each alertsettings, (alertsetting) ->
+			if (alertsetting.get("comparedTo") == "previous")
+				flagCount = Math.abs(previousVal)
+				if (alertsetting.get("operation") == "greater_than")
+					if (previousVal > alertsetting.get("flagCount"))
+						console.log "previous herepgreater_than"
+						alertType = "previous_total_score_alert_greater_than"
+
+				else if (alertsetting.get("operation") == "greater_than_equal_to")
+					if (previousVal >= alertsetting.get("flagCount"))
+						console.log "previous herepgreater_than_equal_to"
+						alertType = "previous_total_score_alert_greater_than_equal_to"
+
+				else if(alertsetting.get("operation") == "less_than_equal_to")
+					if (previousVal <= alertsetting.get("flagCount"))
+						console.log " previous herepless_than_equal_to"
+						alertType = "previous_total_score_alert_less_than_equal_to"
+
+				else if(alertsetting.get("operation") == "less_than")
+					if (previousVal < alertsetting.get("flagCount"))
+						console.log "previous herepless_than"
+						alertType = "previous_total_score_alert_less_than"
+
+			else
+				flagCount = Math.abs(baselineVal)
+				if (alertsetting.get("operation") == "greater_than")
+					if (baselineVal > alertsetting.get("flagCount"))
+						console.log "baseline herepgreater_than"
+						alertType = "baseline_total_score_alert_greater_than"
+						
+				else if (alertsetting.get("operation") == "greater_than_equal_to")
+					if (baselineVal >= alertsetting.get("flagCount"))
+						console.log "baseline herepgreater_than_equal_to"
+						alertType = "baseline_total_score_alert_greater_than_equal_to"
+
+				else if(alertsetting.get("operation") == "less_than_equal_to")
+					if (baselineVal <= alertsetting.get("flagCount"))
+						console.log " baseline herepless_than_equal_to"
+						alertType = "baseline_total_score_alert_less_than_equal_to"
+
+				else if(alertsetting.get("operation") == "less_than")
+					if (baselineVal < alertsetting.get("flagCount"))
+						console.log "baseline herepless_than"
+						alertType = "baseline_total_score_alert_less_than"
+
+		console.log alertType
+		createAlertFlags(projectId,patient,referenceId,responseObject,flagCount,alertType)
+		.then () ->
+			console.log "***alertCreated***"
+			promise.resolve("alertCreated")
+		, (error) ->
+			promise.reject("someError") 
+
+	, (error) ->
+		promise.reject("someError") 
+
+	promise
+
+createAlertFlags  = (projectId,patient,referenceId,responseObj,flagCount,alertType) ->
+	console.log "***createAlertFlags***"
+	promise = Parse.Promise.as();
+
+	alert = new Parse.Object('Alerts')
+	alert.set "project",projectId
+	alert.set "patient", patient
+	alert.set "referenceId",referenceId
+	alert.set "cleared",false
+	alert.set "referenceType", "Response"
+	alert.set 'responseObject', responseObj
+	alert.set 'flagCount', flagCount
+	alert.set 'alertType', alertType
+	alert.save()
+	.then (alertObj) ->
+		responseObj.set "alert", true
+		responseObj.save()
+		.then (responseObj) ->
+			promise.resolve("alertCreated")
+		, (error) ->
+			promise.reject("someError") 
+	, (error) ->
+		promise.reject("someError") 
+
+
+	promise
+
+# api call
+# setBaselineIfNoBaseLine = (projectId,patient,referenceId) ->
+# 	promise = Parse.Promise.as();
+# 	console.log siteUrl+'/api/v2/project/'+projectId+'/'+patient+'/'+referenceId+'/set-patient-baseline'
+# 	Parse.Cloud.httpRequest
+# 		method: 'POST'
+# 		url: siteUrl+'/api/v2/project/'+projectId+'/'+patient+'/'+referenceId+'/set-patient-baseline'
+# 		headers:
+# 			'X-API-KEY': xApiKEY
+# 			'X-Authorization': xAuthorization
+# 	.then () ->
+# 		promise.resolve("setBaselineIfNoBaseLine")
+# 	, (error) ->
+# 		promise.reject("someError")
+
+# 	promise
+# 	# console.log "setBaselineIfNoBaseLine"
+# 	# console.log siteUrl+'/api/v2/project/'+projectId+'/'+patient+'/'+referenceId+'/set-patient-baseline'
+	
+# 	# return  "setBaselineIfNoBaseLine"	
+
+# #
+
+setBaselineIfNoBaseLine = (projectId,patient,referenceId) ->
+	console.log "***setBaselineIfNoBaseLine***"
+	promise = Parse.Promise.as();
+	responseQuery = new Parse.Query("Response")
+	responseQuery.equalTo('status', 'base_line')
+	responseQuery.equalTo('patient', patient)
+	responseQuery.first()
+	.then (responseObj) ->
+		if _.isEmpty(responseObj)
+			# delete alerts if any
+			alertQry = new Parse.Query("Alerts")
+			alertQry.equalTo('referenceId', referenceId)
+			alertQry.equalTo('patient', patient)
+			alertQry.find()
+			.then (alerts) ->
+				_.each alerts, (alert) ->
+					alert.destroy()
+
+				console.log "alerts deleted"
+
+				# reset answers flag
+				answerQry = new Parse.Query("Answer")
+				answerQry.equalTo('project', projectId)
+				answerQry.equalTo('patient', patient)
+				answerQry.find()
+				.then (answers) ->
+					_.each answers, (answer) ->
+						answer.set('baseLineFlagStatus', '')
+						answer.set('previousFlagStatus', '')
+						answer.save()
+
+					console.log "answer updated"
+
+					responseQry = new Parse.Query("Response")
+					responseQry.get(referenceId)
+					.then (responseObject) ->
+						responseObject.set("sequenceNumber", 1)
+						responseObject.set("status", 'base_line')
+						responseObject.set("comparedToBaseLine", 0)
+						responseObject.set("comparedToPrevious", 0)
+						responseObject.set("previousFlag", '')
+						responseObject.set("baseLineFlag", '')
+						responseObject.set("reason", '')
+						responseObject.set("baseLineFlagStatus", '')
+						responseObject.set("previousFlagStatus", '')
+
+						responseObject.set("reviewed", '')
+						responseObject.set("baseLineTotalRedFlags", 0)
+						responseObject.set("baseLineTotalAmberFlags", 0)
+						responseObject.set("baseLineTotalGreenFlags", 0)
+						responseObject.set("previousTotalRedFlags", 0)
+						responseObject.set("previousTotalAmberFlags", 0)
+						responseObject.set("previousTotalGreenFlags", 0)
+						responseObject.set("baseline", '')
+
+						responseObject.set("baseLineScore", 0)
+						responseObject.set("previousScore", 0)
+						responseObject.set("alert", false)
+						responseObject.set("reviewNote", '')
+						responseObject.save()
+
+						console.log "***setBaselineset***"
+						promise.resolve("setBaselineIfNoBaseLine")
+
+					, (error) ->
+						promise.reject error	
+
+				, (error) ->
+					promise.reject error	 
+			, (error) ->
+				promise.reject error	
+			 
+		else
+			promise.resolve("alreadyExist")
+	, (error) ->
+		promise.reject("someError")
+
+	promise
+ 
 
 Parse.Cloud.afterSave 'Response', (request, response) ->
 	responseObject = request.object
@@ -2046,17 +2317,24 @@ Parse.Cloud.afterSave 'Response', (request, response) ->
 		# console.log "RESPONSE AFTER SAVE STATUS :"
 		# console.log responseObject.get("status")
 		projectId = responseObject.get("project")
-		clearCache = clearCache(projectId)
-		return clearCache
+		# clearCache = clearCache(projectId)
+		clearCache(projectId)
+	    .then (clearCache) ->
+	        response.success clearCache
+	    , (error) ->
+	        response.error error
 	else
-		return clearCache
+		response.success "clearCache"
 
 
 # TEST CLEAR CACHE FOR PROJECT ID 22
 Parse.Cloud.define "clearProjectCache", (request, response) ->
 	projectId = 22
-	clearCache = clearCache(projectId)
-	response.success clearCache
+	clearCache(projectId)
+    .then (clearCache) ->
+        response.success "clearCache"
+    , (error) ->
+        response.error error
 
 #Change the 'status' of the responseObj to 'completed'
 Parse.Cloud.define "submitQuestionnaire", (request, response) ->
@@ -2084,7 +2362,8 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 					# 	status = "late"
 					# else
 					# 	status = "completed"
-
+					console.log BaseLine
+					console.log "baseline data"
 					status = "completed"
 					submittedDate = new Date()
 
@@ -2126,47 +2405,76 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 						# 		response.error error	
 						# else
 						# 	response.success "submitted_successfully"
+						#done to set alert notification
 						
-						getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
+						# setAlertsForTotalCount = setAlertsForTotalCount(responseObj.get("project"),responseObj.get("baseLineScore"),responseObj.get("previousScore"),responseObj.get("patient"),responseObj.id,responseObj.get("totalScore"))
+						console.log "response completd"
+						setAlertsForTotalCount(responseObj.get("project"),responseObj.get("baseLineScore"),responseObj.get("previousScore"),responseObj.get("patient"),responseObj.id,responseObj.get("totalScore"))
 						.then (alerts) ->
-							alertsSaveArr =[]
-							if _.isEmpty(alerts)
-								clearCache = clearCache(responseObj.get("project"))
-								response.success "submitted_successfully"
-							else
-								_.each alerts, (alert) ->
-									alertType = alert['compareType']
-									flagCount = alert['flagCount']
-									AlertData=
-										patient: responseObj.get("patient")
-										project: responseObj.get("project")
-										alertType : alertType
-										flagCount : flagCount
-										referenceId : responseObj.id
-										responseObject : responseObj
-										referenceType : "Response"
-										cleared : false
+							console.log "setAlertsForTotalCount"
+							getSubmissionAlerts(responseObj.get("project"), BaseLine, previous) 
+							.then (alerts) ->
+								console.log "getSubmissionAlerts"
+								alertsSaveArr =[]
+								if _.isEmpty(alerts)
+									# clearCache = clearCache(responseObj.get("project"))
+									# sendMailAdmin = sendMailAdmin(responseObj.get("project"),responseObj.get("patient"))
+									# setBaselineIfNoBaseLine = setBaselineIfNoBaseLine(responseObj.get("project"),responseObj.get("patient"),responseObj.id)
+									# response.success "submitted_successfully"
+									
+									console.log "empty alerts"
 
-									Alerts = Parse.Object.extend("Alerts") 
-									alertObj = new Alerts AlertData
-									alertsSaveArr.push(alertObj)
-
-								Parse.Object.saveAll alertsSaveArr
-								.then (alertsObjs) ->
-									# response.success alertsObjs	
-									responseObj.set 'alert', true
-									responseObj.save()
-									.then (responseObj) ->
-										clearCache = clearCache(responseObj.get("project"))
+									afterSubmitQuestionnaire(responseObj) 
+									.then (resp) ->
 										response.success "submitted_successfully"
 									, (error) ->
 										response.error error
-								, (error) ->
-									response.error error	
+								else
+									_.each alerts, (alert) ->
+										alertType = alert['compareType']
+										flagCount = alert['flagCount']
+										AlertData=
+											patient: responseObj.get("patient")
+											project: responseObj.get("project")
+											alertType : alertType
+											flagCount : flagCount
+											referenceId : responseObj.id
+											responseObject : responseObj
+											referenceType : "Response"
+											cleared : false
 
-							# response.success alerts						 
+										Alerts = Parse.Object.extend("Alerts") 
+										alertObj = new Alerts AlertData
+										alertsSaveArr.push(alertObj)
+
+									Parse.Object.saveAll alertsSaveArr
+									.then (alertsObjs) ->
+										# response.success alertsObjs	
+										responseObj.set 'alert', true
+										responseObj.save()
+										.then (responseObj) ->
+											# clearCache = clearCache(responseObj.get("project"))
+											# sendMailAdmin = sendMailAdmin(responseObj.get("project"),responseObj.get("patient"))
+											# setBaselineIfNoBaseLine = setBaselineIfNoBaseLine(responseObj.get("project"),responseObj.get("patient"),responseObj.id)
+											# response.success "submitted_successfully"
+
+											console.log "not empty alerts"
+
+											afterSubmitQuestionnaire(responseObj) 
+											.then (resp) ->
+												response.success "submitted_successfully"
+											, (error) ->
+												response.error error
+										, (error) ->
+											response.error error
+									, (error) ->
+										response.error error	
+
+								# response.success alerts						 
+							, (error) ->
+								response.error error
 						, (error) ->
-							response.error error
+								response.error error
 					, (error) ->
 						response.error error
 				, (error) ->
@@ -2178,6 +2486,31 @@ Parse.Cloud.define "submitQuestionnaire", (request, response) ->
 			response.success responseObj.get('status')
 	, (error) ->
 		response.error error
+
+
+afterSubmitQuestionnaire = (responseObj) ->
+	console.log "afterSubmitQuestionnaire"
+	promise = new Parse.Promise()
+	
+	
+	setBaselineIfNoBaseLine(responseObj.get("project"),responseObj.get("patient"),responseObj.id)
+	.then (baselineSet) ->
+		console.log "baselineSet"
+		clearCache(responseObj.get("project"))
+		.then (clearCache) ->
+			console.log "clearCache"
+			sendMailAdmin(responseObj.get("project"),responseObj.get("patient")) 
+			.then (mailSent) ->
+				console.log "mailSent"
+				promise.resolve "afterSubmitQuestionnaire"
+			, (error) ->
+				promise.reject error
+		, (error) ->
+			promise.reject error
+	, (error) ->
+		promise.reject error
+	
+	promise
 
 # ***************TEST APP***********************
 #TEST API SUBMIT QUSESTIONNAIRE
@@ -2304,47 +2637,50 @@ getSubmissionAlerts = (projectId, baseLineFlags, previousFlags) ->
 			flagCount = alertSetting.get("flagCount")
 			flagColour = alertSetting.get("flagColour")
 			comparedTo = alertSetting.get("comparedTo")
+			typeOfAlert = alertSetting.get("alertType")
 			compareType = ''
 			alertType = {}
 
-			if flagColour == "red"
-				comaparisonCountIndex = redFlags[comparedTo]
-			else if flagColour == "amber"
-				comaparisonCountIndex = amberFlags[comparedTo]
-			else if flagColour == "green"
-				comaparisonCountIndex = greenFlags[comparedTo]
+			if typeOfAlert == "flag_count"
+				if flagColour == "red"
+					comaparisonCountIndex = redFlags[comparedTo]
+				else if flagColour == "amber"
+					comaparisonCountIndex = amberFlags[comparedTo]
+				else if flagColour == "green"
+					comaparisonCountIndex = greenFlags[comparedTo]
 
-			if comparedTo == "previous"
-				comparisonCount = previousFlags[comaparisonCountIndex]
-			else
-				comparisonCount = baseLineFlags[comaparisonCountIndex]
-
-			
-			if operator == "greater_than"
-				if greaterThan(flagCount,comparisonCount,false)
-					compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
-					# alerts.push(compareType)
-			else if operator == "greater_than_equal_to"
-				if greaterThan(flagCount,comparisonCount,true)
-					compareType = "more_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
-					# alerts.push(compareType)
-			else if operator == "less_than"
-				if comparisonCount !=0
-					if lessThan(flagCount,comparisonCount,false)
-						compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
-						# alerts.push(compareType)
+				if comparedTo == "previous"
+					comparisonCount = previousFlags[comaparisonCountIndex]
 				else
-					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
-					# alerts.push(compareType)
+					comparisonCount = baseLineFlags[comaparisonCountIndex]
 
-			else if operator == "less_than_equal_to"
-				if comparisonCount !=0
-					if lessThan(flagCount,comparisonCount,true)
-						compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+				
+				if operator == "greater_than"
+					if greaterThan(flagCount,comparisonCount,false)
+						compareType = "more_"+flagColour+"_flags_compared_to_"+comparedTo
 						# alerts.push(compareType)
-				else
-					compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
-					# alerts.push(compareType)
+				else if operator == "greater_than_equal_to"
+					if greaterThan(flagCount,comparisonCount,true)
+						compareType = "more_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+						# alerts.push(compareType)
+				else if operator == "less_than"
+					if comparisonCount !=0
+						if lessThan(flagCount,comparisonCount,false)
+							compareType = "less_"+flagColour+"_flags_compared_to_"+comparedTo
+							# alerts.push(compareType)
+					else
+						compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
+						# alerts.push(compareType)
+
+				else if operator == "less_than_equal_to"
+					if comparisonCount !=0
+						if lessThan(flagCount,comparisonCount,true)
+							compareType = "less_or_equal_"+flagColour+"_flags_compared_to_"+comparedTo
+							# alerts.push(compareType)
+					else
+						compareType = "no_"+flagColour+"_flags_compared_to_"+comparedTo
+						# alerts.push(compareType)
+
 
 			if(compareType!='')
 				console.log flagCount
@@ -2664,23 +3000,27 @@ getBaseLineValues = (responseObj, questionsObj, optionsObj) ->
 	promise = new Parse.Promise()
 
 	responseBaseLine = responseObj.get('baseLine')
-	console.log "responseBaseLine"
-	console.log responseBaseLine
-	answerQuery = new Parse.Query('Answer')
-	answerQuery.equalTo('response', responseBaseLine)
-	answerQuery.equalTo('question', questionsObj)
-	answerQuery.first()
-	.then (BaseLineAnswer) ->
-		console.log "BaseLineAnswer"
-		console.log BaseLineAnswer
-		BaseLineValue = BaseLineAnswer.get('score')
-		BaseLineValue = BaseLineValue - optionsObj.get('score')
+	if responseBaseLine
+		console.log "responseBaseLine"
+		console.log responseBaseLine
+		answerQuery = new Parse.Query('Answer')
+		answerQuery.equalTo('response', responseBaseLine)
+		answerQuery.equalTo('question', questionsObj)
+		answerQuery.first()
+		.then (BaseLineAnswer) ->
+			console.log "BaseLineAnswer"
+			console.log BaseLineAnswer
+			BaseLineValue = BaseLineAnswer.get('score')
+			BaseLineValue = BaseLineValue - optionsObj.get('score')
+			BaseLine  = {}
+			BaseLine['comparedToBaseLine'] = BaseLineValue
+			BaseLine['baseLineFlag'] = getFlag(BaseLineValue)
+			promise.resolve(BaseLine)
+		, (error) ->
+			promise.reject error
+	else
 		BaseLine  = {}
-		BaseLine['comparedToBaseLine'] = BaseLineValue
-		BaseLine['baseLineFlag'] = getFlag(BaseLineValue)
-		promise.resolve(BaseLine)
-	, (error) ->
-		promise.reject error
+		promise.resolve(BaseLine)			
 
 	promise	
 
@@ -2847,40 +3187,43 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 				, (error) ->
 					promise.reject error
 			else
-				answer = new Parse.Object('Answer')
-				answer.set "response",responseObj
-				answer.set "patient",responseObj.get('patient')
-				answer.set "question",questionsObj
-				#answer.set "flagStatus", "open"
-				answer.set 'project', responseObj.get('project')
-				answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
-				answer.save()
-				.then (answer) ->
-					if !_.isEmpty(options)
-						optionsQuery = new Parse.Query "Options"
-						optionsQuery.equalTo('question', questionsObj)
-						optionsQuery.equalTo('objectId', options[0])
-						optionsQuery.first()
-						.then (optionsObj) ->
-							answer.set "option", optionsObj
-							answer.set "score", optionsObj.get('score')
-							answer.save()
-							.then (answer) ->
-								getBaseLineValues(responseObj, questionsObj, optionsObj)
-								.then (BaseLine) ->
-									getPreviousValues(responseObj, questionsObj, optionsObj)
-									.then (previous) ->
-										answer.set "option", optionsObj
-										answer.set "score", optionsObj.get('score')
-										answer.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
-										answer.set "comparedToPrevious", previous['comparedToPrevious']
-										answer.set "baseLineFlag", BaseLine['baseLineFlag']
-										answer.set "previousFlag", previous['previousFlag']
-										answer.set "baseLineFlagStatus", 'open'
-										answer.set "previousFlagStatus", 'open'
-										answer.save()
-										.then (answer) ->
-											promise.resolve(answer)
+				if isEditable and questionsObj.get('isChild') == true
+					answer = new Parse.Object('Answer')
+					answer.set "response",responseObj
+					answer.set "patient",responseObj.get('patient')
+					answer.set "question",questionsObj
+					#answer.set "flagStatus", "open"
+					answer.set 'project', responseObj.get('project')
+					answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
+					answer.save()
+					.then (answer) ->
+						if !_.isEmpty(options)
+							optionsQuery = new Parse.Query "Options"
+							optionsQuery.equalTo('question', questionsObj)
+							optionsQuery.equalTo('objectId', options[0])
+							optionsQuery.first()
+							.then (optionsObj) ->
+								answer.set "option", optionsObj
+								answer.set "score", optionsObj.get('score')
+								answer.save()
+								.then (answer) ->
+									getBaseLineValues(responseObj, questionsObj, optionsObj)
+									.then (BaseLine) ->
+										getPreviousValues(responseObj, questionsObj, optionsObj)
+										.then (previous) ->
+											answer.set "option", optionsObj
+											answer.set "score", optionsObj.get('score')
+											answer.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+											answer.set "comparedToPrevious", previous['comparedToPrevious']
+											answer.set "baseLineFlag", BaseLine['baseLineFlag']
+											answer.set "previousFlag", previous['previousFlag']
+											answer.set "baseLineFlagStatus", 'open'
+											answer.set "previousFlagStatus", 'open'
+											answer.save()
+											.then (answer) ->
+												promise.resolve(answer)
+											, (error) ->
+												promise.reject error
 										, (error) ->
 											promise.reject error
 									, (error) ->
@@ -2889,12 +3232,60 @@ saveSingleChoice = (responseObj, questionsObj, options) ->
 									promise.reject error
 							, (error) ->
 								promise.reject error
-						, (error) ->
-							promise.reject error
-					else
-						promise.reject("noOptionSelected")
-				, (error) ->
-					promise.reject error
+						else
+							promise.reject("noOptionSelected")
+					, (error) ->
+						promise.reject error
+
+				else	
+					answer = new Parse.Object('Answer')
+					answer.set "response",responseObj
+					answer.set "patient",responseObj.get('patient')
+					answer.set "question",questionsObj
+					#answer.set "flagStatus", "open"
+					answer.set 'project', responseObj.get('project')
+					answer.set 'occurrenceDate', responseObj.get('occurrenceDate')
+					answer.save()
+					.then (answer) ->
+						if !_.isEmpty(options)
+							optionsQuery = new Parse.Query "Options"
+							optionsQuery.equalTo('question', questionsObj)
+							optionsQuery.equalTo('objectId', options[0])
+							optionsQuery.first()
+							.then (optionsObj) ->
+								answer.set "option", optionsObj
+								answer.set "score", optionsObj.get('score')
+								answer.save()
+								.then (answer) ->
+									getBaseLineValues(responseObj, questionsObj, optionsObj)
+									.then (BaseLine) ->
+										getPreviousValues(responseObj, questionsObj, optionsObj)
+										.then (previous) ->
+											answer.set "option", optionsObj
+											answer.set "score", optionsObj.get('score')
+											answer.set "comparedToBaseLine", BaseLine['comparedToBaseLine']
+											answer.set "comparedToPrevious", previous['comparedToPrevious']
+											answer.set "baseLineFlag", BaseLine['baseLineFlag']
+											answer.set "previousFlag", previous['previousFlag']
+											answer.set "baseLineFlagStatus", 'open'
+											answer.set "previousFlagStatus", 'open'
+											answer.save()
+											.then (answer) ->
+												promise.resolve(answer)
+											, (error) ->
+												promise.reject error
+										, (error) ->
+											promise.reject error
+									, (error) ->
+										promise.reject error
+								, (error) ->
+									promise.reject error
+							, (error) ->
+								promise.reject error
+						else
+							promise.reject("noOptionSelected")
+					, (error) ->
+						promise.reject error
 		, (error) ->
 			promise.reject error
 	, (error) ->

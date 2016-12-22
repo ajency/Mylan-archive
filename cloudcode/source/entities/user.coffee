@@ -1,6 +1,6 @@
-_ = require('underscore.js')
-moment = require('cloud/moment.js')
-momenttimezone = require('cloud/moment-timezone.js')
+_ = require('underscore')
+moment = require('moment')
+momenttimezone = require('moment-timezone')
 
 
 Parse.Cloud.define 'doSetup', (request, response) ->

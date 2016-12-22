@@ -173,8 +173,10 @@ getNotificationData = (notificationId, installationId, message)->
         if deviceType.toLowerCase() is 'android'
             pushData = 
                 id: notificationId
-                header: "Mylan"
-                message: message
+                #header: "Mylan"
+                #message: message
+                title: "Mylan"
+                alert: message
         else
             pushData = 
                 title: "Mylan"
@@ -434,6 +436,7 @@ createMissedResponse = () ->
                             console.log scheduleObj.get('questionnaire')
                             promise1.reject error
                     else
+                        
                         # console.log "PROJECT PAUSED"
                         # console.log scheduleObj.get('questionnaire').get('project')
                         # promise1.resolve("project paused")
