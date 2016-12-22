@@ -2061,6 +2061,7 @@ class PatientController extends Controller
             $responseQry->descending("createdAt");
             $responses = $responseQry->first();
 
+
             $sequenceNumber = (empty($responses))? 1 :($responses->get('sequenceNumber') + 1);
 
 
@@ -2188,6 +2189,8 @@ class PatientController extends Controller
             $patient->save();
 
             ParseObject::saveAll($bulkAnswerInstances);
+
+           
             
             Session::flash('success_message','Patient baseline successfully created.');
         } catch (\Exception $e) {
