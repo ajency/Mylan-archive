@@ -422,9 +422,9 @@ class UserController extends Controller
         );
 
         // $objectData = '{"authKey":"'.$authKey.'", "referenceCode":"'.$referenceCode.'", "installationId":"'.$installationId.'"}';
- 
+        //http://139.162.29.106:1340/parse/functions/loginParseUser
         $c = curl_init(); 
-        curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'/functions/loginParseUser');
+        curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'parse/functions/loginParseUser');
         curl_setopt($c, CURLOPT_POST, 1);
         curl_setopt($c, CURLOPT_POSTFIELDS,
                     "authKey=".$authKey."&referenceCode=".$referenceCode."&installationId=".$installationId);
@@ -434,7 +434,7 @@ class UserController extends Controller
         curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
         $o = curl_exec($c);
- 
+      
         // $c = curl_init(); 
         // curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'/functions/loginParseUser');
         // curl_setopt($c, CURLOPT_POST,1);  

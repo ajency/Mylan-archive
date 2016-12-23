@@ -27,7 +27,7 @@
     var JS_KEY       = "{{ env( 'JS_KEY') }}"
 
 
-    var PARSE_SERVER_URL       = "{{ env( 'PARSE_SERVER_URL') }}"
+    var PARSE_SERVER_URL       = "{{ env( 'PARSE_SERVER_URL') }}parse"
 
     var AUTH_HEADERS;
 
@@ -47,7 +47,7 @@ AUTH_HEADERS = {
 
  // Parse.initialize(APP_ID, JS_KEY);
     Parse.initialize(APP_ID);
-    Parse.serverURL = "{{ env( 'PARSE_SERVER_URL') }}";
+    Parse.serverURL = "{{ env( 'PARSE_SERVER_URL') }}parse";
 
      Parse.User.become(userToken).then(function(user) {
                   console.log('became user');

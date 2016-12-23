@@ -133,7 +133,7 @@ class AuthController extends Controller
 
                 //set parse user
                 $userController = new UserController();
-                $parseUser = $userController->getParseUser($referenceCode,$installationId,$apiKey);
+                $parseUser = $userController->getParseUser($referenceCode,$installationId,$apiKey); 
                 if($parseUser!='error')
                 {
                     $projectId = Auth::user()->project_id;
