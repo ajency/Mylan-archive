@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
 
             $myfile = fopen("/var/www/html/test/parseJob.txt", "w") or die("Unable to open file!");
 
-        })->everyMinute();    
+        })->everyFiveMinutes();    
  
     }
 }
