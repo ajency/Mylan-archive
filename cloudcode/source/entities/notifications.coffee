@@ -165,7 +165,7 @@ getNotificationData = (notificationId, installationId, message)->
     installationQuery = new Parse.Query Parse.Installation
     installationQuery.equalTo "installationId", installationId
 
-    installationQuery.find()
+    installationQuery.find(useMasterKey: true)
     .then (installationObject)->
         if _.isEmpty(installationObject) then deviceType = 'unknown'
         else deviceType = installationObject[0].get 'deviceType'
@@ -242,10 +242,13 @@ sendNotifications = () ->
                                                 installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
                                                 # installationQuery.equalTo('installationId', 'e8c072c2-bf7d-48e3-aaf0-f3dc8eeafc4d')
                                                 installationQuery.limit(1)
-                                                installationQuery.find()
+                                                installationQuery.find(useMasterKey: true)
                                                 Parse.Push.send({
                                                     where: installationQuery
                                                     data: pushData
+                                                },
+                                                {
+                                                    useMasterKey: true,
                                                 })
                                             , (error) ->
                                                 promise1.reject error   
@@ -573,13 +576,14 @@ Parse.Cloud.job 'commonJob', (request, response) ->
                 getNotifications()
                 .then (notifications) ->
                     console.log "notifications = #{notifications}"
-                    sendNotifications() 
-                    .then (notifications) ->
-                        console.log "notifications_sent = #{notifications}"
-                        # console.log  (new Date())
-                        response.success "job_run"
-                    , (error) ->
-                        response.error "not_run"
+                    response.success "job_run"
+                    # sendNotifications() 
+                    # .then (notifications) ->
+                    #     console.log "notifications_sent = #{notifications}"
+                    #     # console.log  (new Date())
+                    #     response.success "job_run"
+                    # , (error) ->
+                    #     response.error "not_run"
                 , (error) ->
                     promise.reject error                
             , (error) ->
@@ -589,6 +593,35 @@ Parse.Cloud.job 'commonJob', (request, response) ->
     , (error) ->
         response.error error
 
+Parse.Cloud.define 'cronJob', (request, response) ->
+    console.log "=================="
+    createLateResponses()
+    .then (lateResponses) ->
+        checkMissedResponses()
+        .then (result) ->
+            console.log "result = #{result}"
+            createMissedResponse()
+            .then (responses) ->
+                console.log "responses = #{responses.length}"
+                getNotifications()
+                .then (notifications) ->
+                    console.log "notifications = #{notifications}"
+                    response.success "job_run"
+                    # sendNotifications() 
+                    # .then (notifications) ->
+                    #     console.log "notifications_sent = #{notifications}"
+                    #     # console.log  (new Date())
+                    #     response.success "job_run"
+                    # , (error) ->
+                    #     response.error "not_run"
+                , (error) ->
+                    promise.reject error                
+            , (error) ->
+                response.error error
+        , (error) ->
+            response.error error
+    , (error) ->
+        response.error error
 
 
 

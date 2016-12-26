@@ -243,7 +243,9 @@
     promise = new Parse.Promise();
     installationQuery = new Parse.Query(Parse.Installation);
     installationQuery.equalTo("installationId", installationId);
-    installationQuery.find().then(function(installationObject) {
+    installationQuery.find({
+      useMasterKey: true
+    }).then(function(installationObject) {
       var deviceType, pushData;
       if (_.isEmpty(installationObject)) {
         deviceType = 'unknown';
@@ -307,10 +309,14 @@
                           installationQuery = new Parse.Query(Parse.Installation);
                           installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
                           installationQuery.limit(1);
-                          installationQuery.find();
+                          installationQuery.find({
+                            useMasterKey: true
+                          });
                           return Parse.Push.send({
                             where: installationQuery,
                             data: pushData
+                          }, {
+                            useMasterKey: true
                           });
                         }, function(error) {
                           return promise1.reject(error);
@@ -629,12 +635,31 @@
           console.log("responses = " + responses.length);
           return getNotifications().then(function(notifications) {
             console.log("notifications = " + notifications);
-            return sendNotifications().then(function(notifications) {
-              console.log("notifications_sent = " + notifications);
-              return response.success("job_run");
-            }, function(error) {
-              return response.error("not_run");
-            });
+            return response.success("job_run");
+          }, function(error) {
+            return promise.reject(error);
+          });
+        }, function(error) {
+          return response.error(error);
+        });
+      }, function(error) {
+        return response.error(error);
+      });
+    }, function(error) {
+      return response.error(error);
+    });
+  });
+
+  Parse.Cloud.define('cronJob', function(request, response) {
+    console.log("==================");
+    return createLateResponses().then(function(lateResponses) {
+      return checkMissedResponses().then(function(result) {
+        console.log("result = " + result);
+        return createMissedResponse().then(function(responses) {
+          console.log("responses = " + responses.length);
+          return getNotifications().then(function(notifications) {
+            console.log("notifications = " + notifications);
+            return response.success("job_run");
           }, function(error) {
             return promise.reject(error);
           });
