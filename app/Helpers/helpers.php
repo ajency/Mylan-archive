@@ -626,6 +626,40 @@ function generatePdfReport($url)
     // ... or you can get the raw pdf as a string
     $content = $pdf->toString();
 }
+
+function parseCronJob()
+{
+    $headers = array(
+            "X-Parse-Application-Id: ".config('constants.parse_sdk.app_id'),
+            // "X-Parse-REST-API-Key: ".config('constants.parse_sdk.rest_api_key'),
+            "X-Parse-Master-Key: ".config('constants.parse_sdk.master_key')
+        );
+ 
+    $c = curl_init(); 
+    curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'parse/functions/cronJob');
+    curl_setopt($c, CURLOPT_POST, 1);
+    curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($c, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 0);
+    $o = curl_exec($c);
+  
+    if (curl_errno($c)) {
+        $sad = curl_error($c);
+        print_r($sad);
+        throw new Exception($sad);
+    }   
+
+    $info=curl_getinfo($c,CURLINFO_HTTP_CODE);
+    curl_close($c);
+ 
+    if($info==200){
+        return $o;
+    }else{
+        return "error";
+    }
+}
  
 
 

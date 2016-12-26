@@ -33,6 +33,15 @@ class Kernel extends ConsoleKernel
 
             $myfile = fopen("/var/www/html/test/newtest.txt", "w") or die("Unable to open file!");
 
-        })->daily();         
+        })->daily();  
+
+
+        $schedule->call(function () {
+            parseCronJob();
+
+            $myfile = fopen("/var/www/html/test/parseJob.txt", "w") or die("Unable to open file!");
+
+        })->everyMinute();    
+ 
     }
 }
