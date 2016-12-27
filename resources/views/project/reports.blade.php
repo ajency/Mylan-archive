@@ -530,9 +530,9 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                 doc.save( 'Reports.pdf');﻿
              }
           });
-            setInterval(function(){ 
-              $(".addLoader").removeClass("cf-loader"); 
-            }, 3000);   
+      setInterval(function(){ 
+        $(".addLoader").removeClass("cf-loader"); 
+      }, 3000);   
       });
     });   
          

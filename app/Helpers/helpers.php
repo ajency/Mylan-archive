@@ -601,32 +601,7 @@ function exceptionError($error)
     }
 }
 
-function generatePdfReport($url)
-{
-    $pdf = new \mikehaertl\wkhtmlto\Pdf;
-    $pdf->addPage($url);
-    $pdf->addPage('<html>....</html>');
-    $pdf->addPage('http://www.example.com');
-
-    // Add a cover (same sources as above are possible)
-    $pdf->addCover('/path/to/mycover.html');
-
-    // Add a Table of contents
-    $pdf->addToc();
-
-    // Save the PDF
-    $pdf->saveAs('/path/to/report.pdf');
-
-    // ... or send to client for inline display
-    $pdf->send();
-
-    // ... or send to client as file download
-    $pdf->send('report.pdf');
-
-    // ... or you can get the raw pdf as a string
-    $content = $pdf->toString();
-}
-
+ 
 function parseCronJob()
 {
     $headers = array(

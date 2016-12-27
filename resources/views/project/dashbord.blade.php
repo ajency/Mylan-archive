@@ -256,14 +256,14 @@ $currUrl = $_SERVER['REQUEST_URI'];
 </div>
 </div>
 </div>
-</div>
+<!-- </div> -->
 <!-- /page 1 -->
 
 
 
 <br>
 <!-- page 2 -->
-<div id="page2">
+<!-- <div id="page2"> -->
   <div class="grid simple ">
     <div class="grid-title no-border">
       <div class="row health-tracker-grid">
@@ -291,11 +291,11 @@ $currUrl = $_SERVER['REQUEST_URI'];
       @endif
     </div>
   </div>
-</div>
+<!-- </div> -->
 <!-- /page 2 -->    
 
 <!-- page 3 -->
-<div id="page3">
+<!-- <div id="page3"> -->
   <div class="grid simple grid-table">
     <div class="grid-title no-border">
       <h4>
@@ -434,11 +434,12 @@ $currUrl = $_SERVER['REQUEST_URI'];
       <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
         <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submissions" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
       </div>
-      @endif	  
+      @endif    
     </div>
   </div>
-</div>
+<!-- </div> -->
 <!-- /page 3 -->  
+</div> <!-- /page 1 ended here -->  
 
 <!-- page 4 --> 
 <div id="page4">
@@ -476,7 +477,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
           }else{
             $reviewNote = $submissionNotification['reviewNote'];
           }
-          ?>								
+          ?>                
           <tr onclick="window.document.location='/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/{{$submissionNotification['URL']}}';">
             <td class="text-center ttuc patient-refer{{ $submissionNotification['patient'] }}">{{ $submissionNotification['patient'] }}</td>
             <td class="text-center">
@@ -504,15 +505,15 @@ $currUrl = $_SERVER['REQUEST_URI'];
       <div class="text-right {{ (empty($submissionsSummary))?'hidden':'' }}">
         <a href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}/submission-notifications" class="text-success">View All <i class="fa fa-long-arrow-right"></i> &nbsp; &nbsp;</a>
       </div>
-      @endif	  
+      @endif    
     </div>
   </div>
 
-</div>
+<!-- </div> -->
 <!-- /page 4 -->  
 
 <!-- page 5 --> 
-<div id="page5">
+<!-- <div id="page5"> -->
   <div class="row">
     <div class="col-sm-12">
       <div class="grid simple grid-table grid-table-sort">
@@ -667,8 +668,9 @@ if(!(array_key_exists($referenceCode, $lastoccDates))){
 </div>
 </div>
 </div>
-</div>
+<!-- </div> -->
 <!-- /page 5 -->  
+</div><!-- /page 4 ended here --> 
 
 
 <!-- print pdf -->
@@ -840,7 +842,7 @@ $(document).ready(function() {
 </style>
 <!-- html to pdf -->
 <script type="text/javascript">
-  $(function() { 
+ $(function() { 
     $("#btnSave").click(function() { 
     //convert all svg's to canvas
     $(".addLoader").addClass("cf-loader");
@@ -858,63 +860,45 @@ $(document).ready(function() {
     }
 
     //convert image to pdf
-    var pdf = new jsPDF("l", "mm", "a4");
     $("#page1").css("background-color", "#fff");
-    html2canvas($("#page1"), {
-      background: '#FFFFFF',
-      onrendered: function(canvas) {
-
-        var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addImage(imgData1, 'JPEG', 5, 5, 0, 0);
-      }
-    });
-
-    html2canvas($("#page2"), {
-      background: '#FFFFFF',
-      onrendered: function(canvas) {
-        var imgData2 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addPage();
-        pdf.addImage(imgData2, 'JPEG',5, 5, 0, 0);
-      }
-    });
-
-    html2canvas($("#page3"), {
-      background: '#FFFFFF',
-      onrendered: function(canvas) {
-        var imgData3 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addPage();
-        pdf.addImage(imgData3, 'JPEG',5, 5, 0, 0);
-      }
-    });
+    var pdf = new jsPDF("p", "mm", "a4");
+    pdf.internal.scaleFactor = 2.88;
+    pdf.addPage();
+    
 
     html2canvas($("#page4"), {
       background: '#FFFFFF',
       onrendered: function(canvas) {
-        var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addPage();
-        pdf.addImage(imgData4, 'JPEG',5, 5, 0, 0);
-      }
-    });
-
-    html2canvas($("#page5"), {
-      background: '#FFFFFF',
-      onrendered: function(canvas) {
         var imgData5 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addPage();
-        pdf.addImage(imgData5, 'JPEG',5, 5, 0, 0);
-        var download = document.getElementById('download');
-        pdf.save("Dashboard.pdf");
+        pdf.addImage(imgData5, 'JPEG',5, 5, 200, 0);
+        pdf.setPage(1)
 
-
-        drawPieChart("piechart",<?php echo  $counterDataVal['pieChartData']; ?>,0);
-        var generateChartValue =  $('select[name="generateChart"]').val();
-        $('select[name="generateChart"]').val(generateChartValue).change();
-        $("#page1").css("background-color", "");
       }
     });
+
+    html2canvas($("#page1"), {
+        background: '#FFFFFF',
+        onrendered: function(canvas) {
+
+          var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
+          pdf.addImage(imgData1, 'JPEG',5, 5, 200, 0);
+
+          var download = document.getElementById('download');
+          pdf.save("Dashboard.pdf");
+
+
+          drawPieChart("piechart",[],0);
+          var generateChartValue =  $('select[name="generateChart"]').val();
+          $('select[name="generateChart"]').val(generateChartValue).change();
+          $("#page1").css("background-color", "");
+
+        }
+    });
+
     setInterval(function(){ $(".addLoader").removeClass("cf-loader");  }, 3000);      
     });
   }); 
+
 
 </script>
 @endsection
