@@ -468,7 +468,42 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
     });
 
 //pdf
-   $(function() { 
+   // $(function() { 
+   //    $("#btnSave").click(function() { 
+   //    //convert all svg's to canvas
+   //    $(".addLoader").addClass("cf-loader");
+   //   var svgTags = document.querySelectorAll('#dashboardblock svg');
+   //    for (var i=0; i<svgTags.length; i++) {
+   //      var svgTag = svgTags[i];
+   //      var c = document.createElement('canvas');
+   //      c.width = svgTag.clientWidth;
+   //      c.height = svgTag.clientHeight;
+   //      svgTag.parentNode.insertBefore(c, svgTag);
+   //      svgTag.parentNode.removeChild(svgTag);
+   //      var div = document.createElement('div');
+   //      div.appendChild(svgTag);
+   //      canvg(c, div.innerHTML);
+   //    }
+   //    html2canvas($("#page1"), {
+   //        background: '#FFFFFF',
+   //            onrendered: function(canvas) {
+   //              var imgData = canvas.toDataURL("image/png", 1.0); 
+   //              var doc = new jsPDF('p', 'mm', "a4");
+   //              var position = 0;
+   //              doc.internal.scaleFactor = 2.88;
+   //              doc.addImage(imgData, 'JPEG', 10, 10, 200, 290);
+
+   //              doc.save( 'Reports.pdf');﻿
+   //           }
+   //        });
+   //          setInterval(function(){ 
+   //            $(".addLoader").removeClass("cf-loader"); 
+   //          }, 3000);   
+   //    });
+   //  });
+
+
+     $(function() { 
       $("#btnSave").click(function() { 
       //convert all svg's to canvas
       $(".addLoader").addClass("cf-loader");
@@ -487,12 +522,11 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       html2canvas($("#page1"), {
           background: '#FFFFFF',
               onrendered: function(canvas) {
-                var imgData = canvas.toDataURL("image/png", 1.0); 
+                var imgData = canvas.toDataURL("image/jpeg", 1.0); 
                 var doc = new jsPDF('p', 'mm', "a4");
                 var position = 0;
                 doc.internal.scaleFactor = 2.88;
                 doc.addImage(imgData, 'JPEG', 10, 10, 200, 290);
-
                 doc.save( 'Reports.pdf');﻿
              }
           });
@@ -500,7 +534,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
               $(".addLoader").removeClass("cf-loader"); 
             }, 3000);   
       });
-    });  
+    });   
          
       </script>
       <style>

@@ -37,6 +37,7 @@
                                     <th>Email ID</th>
                                     <th>Contact</th>
                                     <th>Access</th>
+                                    <th>Projects assigned</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -54,6 +55,18 @@
                                           <i class="fa fa-pencil-square-o"></i>
                                        @endif
                                     </td>
+                                    <td>
+                                       @if($user['has_all_access'] == 'yes')
+                                          <span>All</span>
+                                       @else
+                                          @if($countCheck[$user['id']] == 2)
+                                             <span>{{ $mappingData[$user['id']] }}</span>   
+                                          @else
+                                             <a class="pop" href="javascript:void(0);" data-toggle="popover" data-placement="bottom" data-content="{{ $mappingData[$user['id']] }}" data-original-title="">Multiple</a>
+                                          @endif
+                                          
+                                       @endif
+                                   </td>
                                  </tr>
                               @endforeach
                                  
@@ -62,4 +75,23 @@
                         </div>
                      </div>
 
+<script>
+$(document).ready(function(e){
+   $(".pop").popover({ trigger: "manual" , html: true, animation:false})
+        .on("mouseenter", function () {
+            var _this = this;
+            $(this).popover("show");
+            $(".popover").on("mouseleave", function () {
+                $(_this).popover('hide');
+            });
+        }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+    });
+});
+</script>   
 @endsection

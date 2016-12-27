@@ -27,9 +27,16 @@
  @else
 	<?php $thrashHide = 'style="display:none;"' ?>
  @endif
-<div class="page-title">
-   <h3 class="m-b-0"><span class="semi-bold">Edit Project</span></h3>
-   <small class="db">Edit the project details</small>
+<div class="row">
+  <div class="col-md-8">
+    <div class="page-title">
+     <h3 class="m-b-0"><span class="semi-bold">Edit Project</span></h3>
+     <small class="db">Edit the project details</small>
+  </div>
+  </div>
+  <div class="col-md-4 text-right m-t-15">
+    <a target="_blank" href="/{{ $hospital['url_slug'] }}/{{ $project['project_slug'] }}?login=project" class="btn btn-default btn-small m-r-15 default-light-btn">Login as {{$project['name']}} &nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a>
+  </div>
 </div>
 @include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="{{ url($hospital['url_slug'].'/projects/'.$project['id']) }}" data-parsley-validate>

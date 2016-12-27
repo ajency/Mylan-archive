@@ -301,7 +301,7 @@ class UserController extends Controller
                 // $responseQry->equalTo("patient", $referenceCode); 
                 // $responseQry->equalTo("status", 'base_line'); 
                 // $response = $responseQry->first();
-                if($user['baseline_set']=='no')
+                /*if($user['baseline_set']=='no')
                 {
                     $json_resp = array(
                         'code' => 'baseline_not_set' , 
@@ -309,7 +309,9 @@ class UserController extends Controller
                         );
                         $status_code = 200;
                 }
-                elseif($user['account_status']=='created')
+                else
+                */
+                if($user['account_status']=='created')
                 {
                     $json_resp = array(
                         'code' => 'password_not_set' , 
