@@ -532,7 +532,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
           });
 
       //reinitialize grphs
-      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>,1);
+      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>,0);
       var generateQuestionChart =  $('select[name="generateQuestionChart"]').val();
       $('select[name="generateQuestionChart"]').val(generateQuestionChart).change();
       var generateSubmissionChart =  $('select[name="generateSubmissionChart"]').val();

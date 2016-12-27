@@ -2169,7 +2169,7 @@ class ProjectController extends Controller
                            'operation'=>$alertsetting->get("operation"),
                            'flagColour'=>$alertsetting->get("flagColour"),
                            'comparedTo'=>$alertsetting->get("comparedTo"),
-                           'alertType'=> $alertsetting->get("alertType"),
+                           'alertType'=>$alertsetting->get("alertType"),
                           ];
           }
 
