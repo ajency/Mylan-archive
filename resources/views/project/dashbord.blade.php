@@ -887,7 +887,7 @@ $(document).ready(function() {
           pdf.save("Dashboard.pdf");
 
 
-          drawPieChart("piechart",[],0);
+          drawPieChart("piechart",<?php echo  $counterDataVal['pieChartData']; ?>,1);
           var generateChartValue =  $('select[name="generateChart"]').val();
           $('select[name="generateChart"]').val(generateChartValue).change();
           $("#page1").css("background-color", "");

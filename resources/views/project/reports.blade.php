@@ -530,6 +530,15 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
                 doc.save( 'Reports.pdf');﻿
              }
           });
+
+      //reinitialize grphs
+      drawPieChart("submissionschart",<?php echo $responseRate['pieChartData']; ?>,1);
+      var generateQuestionChart =  $('select[name="generateQuestionChart"]').val();
+      $('select[name="generateQuestionChart"]').val(generateQuestionChart).change();
+      var generateSubmissionChart =  $('select[name="generateSubmissionChart"]').val();
+      $('select[name="generateSubmissionChart"]').val(generateSubmissionChart).change();
+      
+
       setInterval(function(){ 
         $(".addLoader").removeClass("cf-loader"); 
       }, 3000);   
