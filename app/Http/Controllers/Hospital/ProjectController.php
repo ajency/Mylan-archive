@@ -108,6 +108,7 @@ class ProjectController extends Controller
         $alertsetting->set("operation", $operationVal);
         $alertsetting->set("flagColour", $flagColourVal);
         $alertsetting->set("comparedTo", $comparedToVal);
+        $alertsetting->set("alertType", "flag_count");
         $alertsetting->save();
 
 
