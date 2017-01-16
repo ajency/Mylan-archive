@@ -8,7 +8,9 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 .run ['$rootScope', 'App', 'User', '$timeout', '$ionicPlatform' , ($rootScope, App, User, $timeout, $ionicPlatform)->
 
+
 	Parse.initialize 'mylantestappid'
+	Parse.serverURL = 'http://139.162.29.106:1340/parse'
 
 
 	$rootScope.App = App

@@ -82,6 +82,7 @@
           if (!_.isUndefined(timeout)) {
             headers['timeout'] = timeout;
           }
+          console.log(url, 'URL');
           if (this.isOnline()) {
             $http.post(url, params, headers).then(function(data) {
               return defer.resolve(data);

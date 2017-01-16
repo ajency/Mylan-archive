@@ -1,10 +1,11 @@
 {
-  "name": "HelloIonic",
+  "name": "helloionic",
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.2.4"
   },
   "dependencies": {
-    "moment": "~2.10.6"
+    "moment": "~2.10.6",
+    "parse": "^1.9.2"
   }
 }
