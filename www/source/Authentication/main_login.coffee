@@ -4,7 +4,7 @@ angular.module 'PatientApp.Auth'
 	 ,'$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', '$ionicPlatform', 'RefcodeData'
 	 , ($scope, App, Storage,
 	 	 $ionicLoading, AuthAPI, CToast, CSpinner, $ionicPlatform, RefcodeData)->
-
+		MYLANPHONE = '1234567891'
 		$scope.view =
 			temprefrencecode :''
 			loginerror: ''
