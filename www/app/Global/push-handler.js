@@ -4,23 +4,15 @@
       var Push;
       Push = {};
       Push.register = function() {
-        var androidConfig, config, iosConfig;
+        var androidConfig, iosConfig;
         androidConfig = {
           "senderID": "DUMMY_SENDER_ID"
         };
-        iosConfig = {
+        return iosConfig = {
           "badge": true,
           "sound": true,
           "alert": true
         };
-        if (App.isWebView()) {
-          config = App.isIOS() ? iosConfig : androidConfig;
-          return $cordovaPush.register(config).then(function(success) {
-            return console.log('Push Registration Success');
-          }, function(error) {
-            return console.log('Push Registration Error');
-          });
-        }
       };
       Push.getPayload = function(p) {
         var foreground, payload;

@@ -10,14 +10,14 @@ angular.module 'PatientApp.Global'
 			androidConfig = "senderID": "DUMMY_SENDER_ID"
 			iosConfig     = "badge": true, "sound": true, "alert": true
 
-			if App.isWebView()
-				config = if App.isIOS() then iosConfig else androidConfig
+			# if App.isWebView()
+			# 	config = if App.isIOS() then iosConfig else androidConfig
 
-				$cordovaPush.register config
-				.then (success)->
-					console.log 'Push Registration Success'
-				, (error)->
-					console.log 'Push Registration Error'
+			# 	$cordovaPush.register config
+			# 	.then (success)->
+			# 		console.log 'Push Registration Success'
+			# 	, (error)->
+			# 		console.log 'Push Registration Error'
 
 		Push.getPayload = (p)->
 			console.log p

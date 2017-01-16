@@ -46,7 +46,8 @@ angular.module 'PatientApp.Global', []
 				else navigator.onLine
 
 			deviceUUID : ->
-				if @isWebView() then device.uuid else 'DUMMYUUID'
+				# if @isWebView() then device.uuid else 'DUMMYUUID'
+				if @isWebView() then 'DUMMYUUID' else 'DUMMYUUID'
 
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
@@ -114,10 +115,11 @@ angular.module 'PatientApp.Global', []
 			getInstallationId : ->
 				defer = $q.defer()
 				if @isWebView()
-					parsePlugin.getInstallationId (installationId)-> 
-						defer.resolve installationId
-					, (error) ->
-						defer.reject error
+					# parsePlugin.getInstallationId (installationId)-> 
+					# 	defer.resolve installationId
+					# , (error) ->
+					# 	defer.reject error
+					defer.resolve 'DUMMY_INSTALLATION_ID'
 				else
 					defer.resolve 'DUMMY_INSTALLATION_ID'
 

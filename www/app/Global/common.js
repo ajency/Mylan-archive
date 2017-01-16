@@ -53,7 +53,7 @@
         },
         deviceUUID: function() {
           if (this.isWebView()) {
-            return device.uuid;
+            return 'DUMMYUUID';
           } else {
             return 'DUMMYUUID';
           }
@@ -126,11 +126,7 @@
           var defer;
           defer = $q.defer();
           if (this.isWebView()) {
-            parsePlugin.getInstallationId(function(installationId) {
-              return defer.resolve(installationId);
-            }, function(error) {
-              return defer.reject(error);
-            });
+            defer.resolve('DUMMY_INSTALLATION_ID');
           } else {
             defer.resolve('DUMMY_INSTALLATION_ID');
           }
