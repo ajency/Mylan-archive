@@ -72,7 +72,6 @@ angular.module 'PatientApp.Global', []
 
 				if !_.isUndefined(timeout)
 					headers['timeout'] = timeout
-				console.log url, 'URL'
 				if @isOnline()	
 					$http.post url,  params, headers
 					.then (data)->
