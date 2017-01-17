@@ -1275,7 +1275,7 @@
   	promise
    */
 
-  noQuestionId = "m6bkI8AUg9";
+  noQuestionId = "7Kw1fTADKm";
 
   siteUrl = "http://mylantest.ajency.in";
 
