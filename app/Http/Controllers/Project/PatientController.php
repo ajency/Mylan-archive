@@ -1292,16 +1292,34 @@ class PatientController extends Controller
             $responseQry->equalTo("patient", $referenceCode); 
             $responseQry->equalTo("status", 'base_line'); 
             $responseQry->ascending("createdAt");
-            $responses = $responseQry->find();
+            $responses = $responseQry->find(); 
 
             $baseLines = [];
 
-            foreach ($responses as  $response) {
-                $responseId = $response->getObjectId();
-                $sequenceNumber = $response->get('sequenceNumber');
-                $date = $response->getCreatedAt()->format('d-m-Y');
-                $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+            $addBaseLine = true;
+
+            if(!count($responses))
+            {
+                $startedResponseQry = new ParseQuery("Response");
+                $startedResponseQry->equalTo("patient", $referenceCode); 
+                $startedResponseQry->equalTo("status", 'started'); 
+                $startedResponse = $startedResponseQry->count();
+                
+                if($startedResponse)
+                {
+                  $addBaseLine = false;
+                }
             }
+            else
+            {
+                foreach ($responses as  $response) {
+                  $responseId = $response->getObjectId();
+                  $sequenceNumber = $response->get('sequenceNumber');
+                  $date = $response->getCreatedAt()->format('d-m-Y');
+                  $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+              }
+            }
+            
 
             $isQuestionnaireSet =false;
             $questionnaireQry = new ParseQuery("Questionnaire");
@@ -1327,6 +1345,7 @@ class PatientController extends Controller
                                                 ->with('allPatients', $allPatients) 
                                                 ->with('patient', $patient) 
                                                 ->with('isQuestionnaireSet', $isQuestionnaireSet) 
+                                                ->with('addBaseLine', $addBaseLine) 
                                                 ->with('userdevice', $userdevice) 
                                                 ->with('baseLines', $baseLines); 
     }
