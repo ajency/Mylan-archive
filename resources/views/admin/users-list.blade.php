@@ -36,6 +36,7 @@
                                     <th>Email ID</th>
                                     <th>Contact</th>
                                     <th>Permissions</th>
+                                    <th>Hospitals assigned</th>
                                   </tr>
                               </thead>
                               <tbody>
@@ -53,6 +54,18 @@
                                        <a href="javascript:void(0)" class="ttip" data-toggle="tooltip" data-placement="right" title="Can edit"><i class="fa fa-pencil-square-o"></i></a>
                                     @endif
                                       </td>
+                                      <td>
+                                          @if($user['has_all_access'] == 'yes')
+                                             <span>All</span>
+                                          @else
+                                             @if($countCheck[$user['id']] == 2)
+                                                <span>{{ $relatedHospitals[$user['id']] }}</span>   
+                                             @else
+                                                <a class="pop" href="javascript:void(0);" data-toggle="popover" data-placement="bottom" data-content="{{ $relatedHospitals[$user['id']] }}" data-original-title="">Multiple</a>
+                                             @endif
+                                             
+                                          @endif
+                                      </td>
                                  </tr>
                               @endforeach
                                  
@@ -60,5 +73,25 @@
                            </table>
                         </div>
                      </div>
+
+<script>
+$(document).ready(function(e){
+   $(".pop").popover({ trigger: "manual" , html: true, animation:false})
+        .on("mouseenter", function () {
+            var _this = this;
+            $(this).popover("show");
+            $(".popover").on("mouseleave", function () {
+                $(_this).popover('hide');
+            });
+        }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+    });
+});
+</script>
 
 @endsection

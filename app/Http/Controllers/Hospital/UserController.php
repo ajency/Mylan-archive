@@ -25,13 +25,39 @@ class UserController extends Controller
     public function index($hospitalSlug)
     {
        
+       // $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
+       // $users = User::where('type','project_user')->where('hospital_id',$hospital['id'])->orderBy('created_at')->get()->toArray();
+       // $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
+
+       //  return view('hospital.users-list')->with('active_menu', 'users')
+       //                                  ->with('hospital', $hospital)
+       //                                  ->with('logoUrl', $logoUrl)
+       //                                  ->with('users', $users); 
+
        $hospital = Hospital::where('url_slug',$hospitalSlug)->first()->toArray();  
        $users = User::where('type','project_user')->where('hospital_id',$hospital['id'])->orderBy('created_at')->get()->toArray();
        $logoUrl = url() . "/mylan/hospitals/".$hospital['logo'];
 
+       $uniqueArray = $countCheck = array();
+        foreach ($users as $key => $value) {
+            $ProjName = "";
+            foreach ($value['access'] as $Hkey => $Hvalue) {
+                if($Hvalue['object_type'] == "project"){
+                    $project = Projects:: select('id','name')->where('id',$Hvalue['object_id'])->get()->toArray();
+                    foreach ($project as $NewValue) {
+                        $ProjName .= $NewValue['name'].", ";
+                    }
+                }
+            }
+            $countCheck[$value['id']] = explode(",",$ProjName);
+            $countCheck[$value['id']] = count($countCheck[$value['id']]);
+            $uniqueArray[$value['id']] = rtrim($ProjName,", ");
+        }
         return view('hospital.users-list')->with('active_menu', 'users')
                                         ->with('hospital', $hospital)
                                         ->with('logoUrl', $logoUrl)
+                                        ->with('countCheck', $countCheck)
+                                        ->with('mappingData', $uniqueArray)
                                         ->with('users', $users); 
     }
 

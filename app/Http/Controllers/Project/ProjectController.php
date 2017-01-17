@@ -1775,45 +1775,48 @@ class ProjectController extends Controller
 
     
     public function sendMailSubmission($projectId,$patientName)
-    {
-      $projectId = intval($projectId);
-      $patientName = $patientName;
-      $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
-      $whereCondition  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
-      $userAllHospitalAccess = User::select('name','email')->where($whereCondition)->get();      
+   {
+     $projectId = intval($projectId);
+     $patientName = $patientName;
 
-        $json_resp = array(
-                'code' => '' , 
-                'message' => 'mail sent'
-                );
-        $status_code = 200;  
+     $InfoData = Projects::select('projects.id','projects.name as projectname','projects.hospital_id as hospitalIds','hospitals.name as hospitalname')->join('hospitals','hospitals.id','=','projects.hospital_id')->where('projects.id',$projectId)->get()->toArray();
 
-        $whereConditions  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
-        $userAllHospitalAccess = User::select('name','email')->where($whereConditions)->get();
+     $whereCondition  = [ 'type' => 'project_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
+     $userAllHospitalAccess = User::select('name','email')->where($whereCondition)->get();      
 
-        $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"hospital")->where('user_access.object_id',$InfoData[0]['hospitalIds'])->get()->toArray();
-        $empty=array();
-        foreach($userAllHospitalAccess as $k=>$v){
-            $empty[$v['email']] = $v['name'];
-        }
-        foreach($hospitalUserAccess as $hk=>$hv){
-            $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
-        }
+       $json_resp = array(
+               'code' => '' , 
+               'message' => 'mail sent'
+               );
+       $status_code = 200;  
 
-        foreach($empty as $emailKey=>$nameVal){
-          $data =[];
-          $data['projectname'] = $InfoData[0]['projectname'];
-          $data['referencecode'] = $patientName;
-          $data['hospitalname'] = $InfoData[0]['hospitalname'];
-          $data['username'] = $nameVal;
-          $data['to'] = $emailKey;
+       /*$whereConditions  = [ 'type' => 'hospital_user', 'account_status' => 'active', 'has_all_access' => 'yes' ];
+       $userAllHospitalAccess = User::select('name','email')->where($whereConditions)->get();*/
 
-          Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
-          {  
-             $message->from('admin@mylan.com', 'Admin');
-             $message->to($data['to'], $data['username'])->subject($data['referencecode'].' completed a submission');
-          });
-        }
+       $hospitalUserAccess =  UserAccess::select('user_access.user_id','users.name','users.email')->join('users','users.id','=','user_access.user_id')->where('user_access.object_type',"project")->where('user_access.object_id',$projectId)->get()->toArray();
+       $empty=array();
+       foreach($userAllHospitalAccess as $k=>$v){
+           $empty[$v['email']] = $v['name'];
+       }
+       foreach($hospitalUserAccess as $hk=>$hv){
+           $empty[$hospitalUserAccess[$hk]['email']] = $hospitalUserAccess[$hk]['name'];
+       }
+
+       foreach($empty as $emailKey=>$nameVal){
+         $data =[];
+         $data['projectname'] = $InfoData[0]['projectname'];
+         $data['referencecode'] = $patientName;
+         $data['hospitalname'] = $InfoData[0]['hospitalname'];
+         $data['username'] = $nameVal;
+         $data['to'] = $emailKey;
+
+         Mail::send('admin.submissionSavedMail', ['user'=>$data], function($message)use($data)
+         {  
+            $message->from('admin@mylan.com', 'Admin');
+            $message->to($data['to'], $data['username'])->subject($data['referencecode'].' completed a submission');
+         });
+       }
+ 
         return response()->json( $json_resp, $status_code);  
     }
 

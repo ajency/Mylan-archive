@@ -21,9 +21,16 @@
 @endsection
 @section('content')
  
-<div class="page-title">
-   <h3><span class="semi-bold">Edit Hospital</span></h3>
-   <p>(Update the Hospital details)</p>
+<div class="row">
+  <div class="col-md-8">
+    <div class="page-title">
+     <h3 class="m-b-0"><span class="semi-bold">Edit Hospital</span></h3>
+     <p>(Update the Hospital details)</p>
+  </div>
+  </div>
+  <div class="col-md-4 text-right m-t-15">
+    <a target="_blank" href="/{{ $hospital['url_slug'] }}/projects" class="btn btn-default btn-small m-r-15 default-light-btn">Login as {{ $hospital['name'] }} &nbsp;&nbsp;&nbsp;<i class="fa fa-angle-right"></i></a>
+  </div>
 </div>
 @include('admin.flashmessage')
 <form class="form-no-horizontal-spacing" id="form-condensed" method="POST" action="/admin/hospitals/{{$hospital['id']}}" data-parsley-validate>

@@ -24,11 +24,34 @@ class UserController extends Controller
      */
     public function index()
     {
-       $users = User::where('type','hospital_user')->orderBy('created_at')->get()->toArray();
+       // $users = User::where('type','hospital_user')->orderBy('created_at')->get()->toArray();
        
 
+       //  return view('admin.users-list')->with('active_menu', 'users')
+       //                                    ->with('users', $users); 
+
+      /*1=>0, 2=> single, more=>multiple*/
+      
+       $users = User::where('type','hospital_user')->orderBy('created_at')->get()->toArray();
+        $uniqueArray = $countCheck = array();
+        foreach ($users as $key => $value) {
+            $HospName = "";
+            foreach ($value['access'] as $Hkey => $Hvalue) {
+                if($Hvalue['object_type'] == "hospital"){
+                    $hospital = Hospital:: select('id','name')->where('id',$Hvalue['object_id'])->get()->toArray();
+                    foreach ($hospital as $NewValue) {
+                        $HospName .= $NewValue['name'].", ";
+                    }
+                }
+            }
+            $countCheck[$value['id']] = explode(",",$HospName);
+            $countCheck[$value['id']] = count($countCheck[$value['id']]);
+            $uniqueArray[$value['id']] = rtrim($HospName,", ");
+        }
         return view('admin.users-list')->with('active_menu', 'users')
-                                          ->with('users', $users); 
+                                      ->with('users', $users)
+                                      ->with('countCheck', $countCheck)
+                                      ->with('relatedHospitals', $uniqueArray); 
     }
 
     public function dashboard()
