@@ -109,11 +109,10 @@
          <div class="row">
             <div class="col-sm-12">
                <select class="pull-right m-b-10" name="generateQuestionChart">
-                    
                     @foreach($questionLabels as $questionId =>$question)
                     <option value="{{ $questionId }}" >{{ $question }}</option>
                     @endforeach
-                    <option value="total_score">Total Score</option>
+		<option value="total_score">Total Score</option>
                  </select><br>
                  @if(!$totalResponses)
                     <table class="table table-flip-scroll table-hover dashboard-tbl">
@@ -393,7 +392,7 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
         });
 
         $('select[name="generateQuestionChart"]').change(function (event) { 
-
+	
         if($(this).val()=='total_score')
         { 
           shadedLineChartWithBaseLine(<?php echo $flagsCount['totalFlags'];?>,'Total Score',0,'questionChart','Submissions','Score');
@@ -487,12 +486,10 @@ $submissionJson = (isset($submissionChart[$firstSubmission])) ? json_encode($sub
       html2canvas($("#page1"), {
           background: '#FFFFFF',
               onrendered: function(canvas) {
-                var imgData = canvas.toDataURL("image/png", 1.0); 
+                var imgData = canvas.toDataURL("image/jpeg", 1.0); 
                 var doc = new jsPDF('p', 'mm', "a4");
                 var position = 0;
-                doc.internal.scaleFactor = 2.88;
                 doc.addImage(imgData, 'JPEG', 10, 10, 200, 290);
-
                 doc.save( 'Reports.pdf');﻿
              }
           });
