@@ -2283,7 +2283,7 @@ setBaselineIfNoBaseLine = (projectId,patient,referenceId) ->
 						responseObject.set("previousTotalRedFlags", 0)
 						responseObject.set("previousTotalAmberFlags", 0)
 						responseObject.set("previousTotalGreenFlags", 0)
-						responseObject.set("baseline", '')
+						responseObject.set("baseLine", '')
 
 						responseObject.set("baseLineScore", 0)
 						responseObject.set("previousScore", 0)
