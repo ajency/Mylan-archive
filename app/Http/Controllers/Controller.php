@@ -17,7 +17,7 @@ abstract class Controller extends BaseController
     {
     	ParseClient::initialize(config('constants.parse_sdk.app_id'), config('constants.parse_sdk.rest_api_key'),config('constants.parse_sdk.master_key'));
     	// ParseClient::setServerURL('http://139.162.29.106:1340/','parse');
-    	ParseClient::setServerURL(env('PARSE_SERVER_URL'),'parse');
+    	// ParseClient::setServerURL(env('PARSE_SERVER_URL'),'parse');
     	
     }
 }
