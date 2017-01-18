@@ -178,7 +178,7 @@
                                     @endif
 
                                   </label>
-                                  <input type="text" class="form-control col-md-4 p-l-0" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-required data-parsley-type="number" data-parsley-min="0" >
+                                  <input type="text" class="form-control col-md-4 p-l-0" name="attributes[{{ $attribute['label'] }}]"  placeholder="Enter {{$attribute['label']}}" @if('on' == $attribute['validate']) data-parsley-required @endif data-parsley-type="number" data-parsley-min="0" >
                                   </div>
 
                                   </div>
