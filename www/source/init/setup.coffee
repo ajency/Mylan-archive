@@ -14,7 +14,14 @@ angular.module 'PatientApp.init'
 				if @refcode =='' || _.isUndefined(@refcode)
 					@emptyfield = "Please enter valid reference code"	
 				else
-					@deviceUUID = App.deviceUUID()
+					if App.isWebView
+						window.ParsePushPlugin.getInstallationId (id) ->
+							console.log 'INSTALLATION ID', id
+							@deviceUUID = id
+						,(err)->
+							@deviceUUID = 'DUMMY_ID'
+					else
+						@deviceUUID = 'DUMMY_ID'
 					if App.isAndroid() 
 					 	@deviceOS = "Android"
 					if App.isIOS() 

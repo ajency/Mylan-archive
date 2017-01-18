@@ -1,7 +1,7 @@
 (function() {
   angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).run([
     '$rootScope', 'App', 'User', '$timeout', '$ionicPlatform', function($rootScope, App, User, $timeout, $ionicPlatform) {
-      Parse.initialize('mylantestappid');
+      Parse.initialize(APP_ID);
       Parse.serverURL = 'http://139.162.29.106:1340/parse';
       $rootScope.App = App;
       App.navigate('init', {}, {

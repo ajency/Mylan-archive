@@ -10,7 +10,16 @@
           if (this.refcode === '' || _.isUndefined(this.refcode)) {
             return this.emptyfield = "Please enter valid reference code";
           } else {
-            this.deviceUUID = App.deviceUUID();
+            if (App.isWebView) {
+              window.ParsePushPlugin.getInstallationId(function(id) {
+                console.log('INSTALLATION ID', id);
+                return this.deviceUUID = id;
+              }, function(err) {
+                return this.deviceUUID = 'DUMMY_ID';
+              });
+            } else {
+              this.deviceUUID = 'DUMMY_ID';
+            }
             if (App.isAndroid()) {
               this.deviceOS = "Android";
             }

@@ -1,4 +1,4 @@
-(function() {
+
   var APP_ID, AUTH_HEADERS, AUTH_URL, MYLANPHONE, PARSE_HEADERS, PARSE_URL;
 
   MYLANPHONE = '1234567891';
@@ -22,5 +22,3 @@
       "X-Parse-Application-Id": APP_ID
     }
   };
-
-}).call(this);
