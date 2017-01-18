@@ -1,13 +1,15 @@
 (function() {
   angular.module('PatientApp.init', []).controller('InitCtrl', [
-    'Storage', 'App', '$scope', 'QuestionAPI', '$q', '$rootScope', 'Push', function(Storage, App, $scope, QuestionAPI, $q, $rootScope, Push) {
-      $rootScope.$on('$cordovaPush:notificationReceived', function(e, p) {
-        var payload;
-        console.log('notification received');
-        payload = Push.getPayload(p);
-        if (!_.isEmpty(payload)) {
-          return Push.handlePayload(payload);
-        }
+    'Storage', 'App', '$scope', 'QuestionAPI', '$q', '$rootScope', 'Push', '$ionicPlatform', function(Storage, App, $scope, QuestionAPI, $q, $rootScope, Push, $ionicPlatform) {
+      $ionicPlatform.ready(function() {
+        return ParsePushPlugin.on('receivePN', function(p) {
+          var payload;
+          console.log('notification received');
+          payload = Push.getPayload(p);
+          if (!_.isEmpty(payload)) {
+            return Push.handlePayload(payload);
+          }
+        });
       });
       return Storage.login('get').then(function(value) {
         if (_.isNull(value)) {

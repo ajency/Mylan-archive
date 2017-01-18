@@ -1,13 +1,14 @@
 
 angular.module 'PatientApp.init', []
 
-.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', '$rootScope', 'Push'
-	, (Storage, App, $scope, QuestionAPI, $q, $rootScope, Push) ->
+.controller 'InitCtrl', ['Storage','App','$scope', 'QuestionAPI','$q', '$rootScope', 'Push', '$ionicPlatform'
+	, (Storage, App, $scope, QuestionAPI, $q, $rootScope, Push, $ionicPlatform) ->
 
-		$rootScope.$on '$cordovaPush:notificationReceived', (e, p)->
-			console.log 'notification received'
-			payload = Push.getPayload p
-			Push.handlePayload(payload) if !_.isEmpty(payload)
+		$ionicPlatform.ready ->
+			ParsePushPlugin.on 'receivePN', (p) ->
+				console.log 'notification received'
+				payload = Push.getPayload p
+				Push.handlePayload(payload) if !_.isEmpty(payload)
   
 		Storage.login('get')
 		.then (value) ->

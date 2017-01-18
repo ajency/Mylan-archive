@@ -10,7 +10,7 @@
           if (this.refcode === '' || _.isUndefined(this.refcode)) {
             return this.emptyfield = "Please enter valid reference code";
           } else {
-            if (this.isWebView()) {
+            if (App.isWebView()) {
               window.ParsePushPlugin.getInstallationId(function(id) {
                 console.log(id, 'installation ID');
                 return this.deviceUUID = id;
