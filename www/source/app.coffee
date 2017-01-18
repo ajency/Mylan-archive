@@ -8,7 +8,7 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 .run ['$rootScope', 'App', 'User', '$timeout', '$ionicPlatform' , ($rootScope, App, User, $timeout, $ionicPlatform)->
 
-	Parse.initialize 'MQiH2NRh0G6dG51fLaVbM0i7TnxqX2R1pKs5DLPA', 'EfHjIDWbiVaY33QN37XtapNK0mAVOhfCQiObICLe'
+	Parse.initialize APP_ID, JS_KEY
 
 
 	$rootScope.App = App

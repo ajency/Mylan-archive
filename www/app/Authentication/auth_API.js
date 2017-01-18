@@ -1,16 +1,8 @@
 (function() {
   angular.module('PatientApp.Auth').factory('AuthAPI', [
     '$q', 'App', '$http', 'UrlList', function($q, App, $http, UrlList) {
-      var AUTH_HEADERS, AUTH_URL, AuthAPI;
+      var AuthAPI;
       AuthAPI = {};
-      AUTH_URL = 'http://mylantest.ajency.in/api/v1';
-      AUTH_HEADERS = {
-        headers: {
-          "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
-          "X-Authorization": 'e7968bf3f5228312f344339f3f9eb19701fb7a3c',
-          "Content-Type": 'application/json'
-        }
-      };
       AuthAPI.validateRefCode = function(refcode, deviceUUID, deviceOS) {
         var defer, params, url;
         params = {

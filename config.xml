@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.mylan393718" version="0.0.49" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.mylan.alphaproduction" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Mylan</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -10,7 +10,6 @@
   <content src="index.html"/>
   <access origin="tel:*" launch-external="yes"/>
   <access origin="mailto:*" launch-external="yes"/>
-  
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
@@ -19,7 +18,18 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
- <!--  <preference name="Orientation" value="portrait"/> -->
+  <preference name="ParseAppId" value="n9TOwjPT1ObDHhj5PsXqlKLV7CpPUNodtqJVaBDj" />
+  <preference name="ParseClientKey" value="Q10Ua9D3vhi0O4lqPKBL1HHaMe66C8fip1NZ9fzb" />
+
+  <!-- Do not replace this string value. It must be "PARSE_DOT_COM"-->
+  <preference name="ParseServerUrl" value="PARSE_DOT_COM" />
+
+  <!-- As standard, this plugin only shows the most recent PN in 
+    the android notifications tray along with a count of unopened
+    PNs. If you would like to override this behaviour and show all
+    PNs in the tray, then add this preference. 
+    If not, skip this preference -->
+  <!--<preference name="ParseMultiNotifications" value="true" />-->
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

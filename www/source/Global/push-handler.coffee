@@ -1,20 +1,19 @@
 angular.module 'PatientApp.Global'
 
 
-.factory 'Push', ['App', '$cordovaPush', '$rootScope'
-	, (App, $cordovaPush, $rootScope)->
+.factory 'Push', ['App', '$rootScope'
+	, (App, $rootScope)->
 
 		Push = {}
 
 		Push.register = ->
-			androidConfig = "senderID": "DUMMY_SENDER_ID"
-			iosConfig     = "badge": true, "sound": true, "alert": true
+			# androidConfig = "senderID": "DUMMY_SENDER_ID"
+			# iosConfig     = "badge": true, "sound": true, "alert": true
 
 			if App.isWebView()
-				config = if App.isIOS() then iosConfig else androidConfig
+				# config = if App.isIOS() then iosConfig else androidConfig
 
-				$cordovaPush.register config
-				.then (success)->
+				ParsePushPlugin.register (success)->
 					console.log 'Push Registration Success'
 				, (error)->
 					console.log 'Push Registration Error'
