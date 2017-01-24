@@ -1,5 +1,5 @@
 (function() {
-  var Buffer, TokenRequest, TokenStorage, _, afterSubmitQuestionnaire, answeredQuestionsArray, checkMissedResponses, clearCache, convertToZone, createAlertFlags, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, noQuestionId, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendMailAdmin, sendNotifications, setAlertsForTotalCount, setBaselineIfNoBaseLine, siteUrl, storeDeviceData, timeZoneConverter, updateMissedObjects, xApiKEY, xAuthorization,
+  var Buffer, TokenRequest, TokenStorage, _, afterSubmitQuestionnaire, answeredQuestionsArray, checkMissedResponses, clearCache, convertToZone, createAlertFlags, createAlerts, createLateResponse, createLateResponses, createMissedResponse, createNewUser, createResponse, cronjobRunTime, deleteAllAnswers, deleteDependentQuestions, deleteResponseAnswers, fcmApiUrl, fcmAuthorization, fcmPushNotification, firstQuestion, getAllNotifications, getAllPatientNotifications, getAnsweredOptions, getAnswers, getBaseLineScores, getBaseLineValues, getCompletedObjects, getCurrentAnswer, getFlag, getHospitalData, getLastQuestion, getMissedObjects, getNextQuestion, getNotificationData, getNotificationMessage, getNotificationSendObject, getNotificationType, getNotifications, getPatientNotifications, getPatientSubmissionCount, getPatientsAnswers, getPreviousQuestion, getPreviousQuestionnaireAnswer, getPreviousScores, getPreviousValues, getQuestionData, getQuestionnaireFrequency, getQuestionnaireSetting, getResumeObject, getSequence, getStartObject, getSubmissionAlerts, getSummary, getUpcomingObject, getValidPeriod, getValidTimeFrame, greaterThan, hasSeenNotification, isLateSubmission, isValidMissedTime, isValidTime, isValidUpcomingTime, lessThan, listAllAnswersForPatient, listAllAnswersForProject, listAllResponsesForPatient, listAllResponsesForProject, moment, momenttimezone, noQuestionId, restrictedAcl, saveAnswer, saveAnswer1, saveDescriptive, saveInput, saveInputAnwers, saveMultiChoice, saveSingleChoice, sendMailAdmin, sendNotifications, setAlertsForTotalCount, setBaselineIfNoBaseLine, siteUrl, storeDeviceData, timeZoneConverter, updateMissedObjects, xApiKEY, xAuthorization,
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Parse.Cloud.define("addHospital", function(request, response) {
@@ -265,6 +265,11 @@
           badge: 'Increment'
         };
       }
+      fcmPushNotification(installationId, "Mylan", "", message).then(function(pushData) {
+        return console.log("Push notification sent");
+      }, function(error) {
+        return promise1.reject(error);
+      });
       return promise.resolve(pushData);
     }, function(error) {
       return promise.reject(error);
@@ -305,19 +310,7 @@
                     _.each(tokenStorageObjs, function(tokenStorageObj) {
                       return promise2 = promise2.then(function() {
                         return getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'), tokenStorageObj.get('installationId')).then(function(pushData) {
-                          var installationQuery;
-                          installationQuery = new Parse.Query(Parse.Installation);
-                          installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'));
-                          installationQuery.limit(1);
-                          installationQuery.find({
-                            useMasterKey: true
-                          });
-                          return Parse.Push.send({
-                            where: installationQuery,
-                            data: pushData
-                          }, {
-                            useMasterKey: true
-                          });
+                          return console.log("Push notification sent");
                         }, function(error) {
                           return promise1.reject(error);
                         });
@@ -353,6 +346,38 @@
     });
     return promise;
   };
+
+  fcmPushNotification = function(installationId, title, body, message) {
+    var promise;
+    promise = Parse.Promise.as();
+    Parse.Cloud.httpRequest({
+      method: 'POST',
+      url: fcmApiUrl,
+      headers: {
+        'Authorization': fcmAuthorization,
+        'content-type': 'application/json'
+      },
+      body: '{ "data":{ "title": "' + title + '", "body": "' + body + '", "message": "' + message + '" }, "to" : "' + installationId + '" }'
+    }).then(function() {
+      return promise.resolve("FCM Push Sent");
+    }, function(error) {
+      return promise.reject("someError");
+    });
+    return promise;
+  };
+
+  Parse.Cloud.define("fcmPushNotification", function(request, response) {
+    var body, installationId, message, title;
+    installationId = request.params.installationId;
+    title = request.params.title;
+    body = request.params.body;
+    message = request.params.message;
+    return fcmPushNotification(installationId, title, body, message).then(function(responses) {
+      return response.success(responses);
+    }, function(error) {
+      return response.error(error);
+    });
+  });
 
   Parse.Cloud.define("createMissedResponse", function(request, response) {
     return createMissedResponse().then(function(responses) {
@@ -1275,13 +1300,17 @@
   	promise
    */
 
-  noQuestionId = "7Kw1fTADKm";
+  noQuestionId = "5ZyV80li5d";
 
   siteUrl = "http://mylantest.ajency.in";
 
   xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y';
 
   xAuthorization = 'e7968bf3f5228312f344339f3f9eb19701fb7a3c';
+
+  fcmApiUrl = 'https://fcm.googleapis.com/fcm/send';
+
+  fcmAuthorization = 'key=AAAApCBv-4U:APA91bHo-y0xmkuftNes12PJsGWpMwoSo1u4pj_Ovvt-fgo4Lreo5ZQutTc8JLPVbr4QQlS5MQRPDlDzEGJQJlbCYifgsI7reT4XXQJtNjJNuUoRugpspODXpSa3aM1QGxQQhffJSdFI';
 
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery, scheduleQuery;

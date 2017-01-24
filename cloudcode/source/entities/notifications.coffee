@@ -187,6 +187,12 @@ getNotificationData = (notificationId, installationId, message)->
         #     pushData: pushData
         #     installationId : installationId
         #     notificationId : notificationId
+
+        fcmPushNotification(installationId,"Mylan","",message)
+        .then (pushData) -> 
+            console.log "Push notification sent"
+        , (error) ->
+            promise1.reject error
         
         promise.resolve pushData
 
@@ -237,19 +243,25 @@ sendNotifications = () ->
                                             #console.log "---------------------"
                                             getNotificationMessage(scheduleObj, notification.get('type'), notification.id, notification.get('occurrenceDate'),tokenStorageObj.get('installationId'))
                                             .then (pushData) ->  
+                                                console.log "Push notification sent"
                                                 # console.log "---------------------"                         
-                                                installationQuery = new Parse.Query(Parse.Installation)
-                                                installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
-                                                # installationQuery.equalTo('installationId', 'e8c072c2-bf7d-48e3-aaf0-f3dc8eeafc4d')
-                                                installationQuery.limit(1)
-                                                installationQuery.find(useMasterKey: true)
-                                                Parse.Push.send({
-                                                    where: installationQuery
-                                                    data: pushData
-                                                },
-                                                {
-                                                    useMasterKey: true,
-                                                })
+                                                # installationQuery = new Parse.Query(Parse.Installation)
+                                                # installationQuery.equalTo('installationId', tokenStorageObj.get('installationId'))
+                                                # # installationQuery.equalTo('installationId', 'e8c072c2-bf7d-48e3-aaf0-f3dc8eeafc4d')
+                                                # installationQuery.limit(1)
+                                                # installationQuery.find(useMasterKey: true)
+                                                # Parse.Push.send({
+                                                #     where: installationQuery
+                                                #     data: pushData
+                                                # },
+                                                # {
+                                                #     useMasterKey: true,
+                                                # })
+                                                # fcmPushNotification(tokenStorageObj.get('installationId'),title,body,message)
+                                                # .then (pushData) -> 
+                                                #     console.log "Push notification sent"
+                                                # , (error) ->
+                                                #     promise1.reject error
                                             , (error) ->
                                                 promise1.reject error   
                                         ,(error) ->
@@ -280,7 +292,49 @@ sendNotifications = () ->
     promise
 
 
+fcmPushNotification = (installationId,title,body,message) ->
+    promise = Parse.Promise.as();
 
+    Parse.Cloud.httpRequest
+        method: 'POST'
+        url: fcmApiUrl
+        headers:
+            'Authorization': fcmAuthorization
+            'content-type': 'application/json'
+        body: '{ 
+                "data":{
+                    "title": "'+title+'",
+                    "body": "'+body+'",   
+                    "message": "'+message+'"
+                     }, 
+                "to" : "'+installationId+'"
+                }'
+        
+        # body:
+        #     "data":
+        #         "title": title,
+        #         "body": body,
+        #         "message": message
+        #     "to": installationId
+
+    .then () ->
+        promise.resolve("FCM Push Sent")
+    , (error) ->
+        promise.reject("someError")
+
+    promise
+
+
+Parse.Cloud.define "fcmPushNotification", (request, response) ->
+    installationId = request.params.installationId
+    title = request.params.title
+    body = request.params.body
+    message = request.params.message
+    fcmPushNotification(installationId,title,body,message)
+    .then (responses) ->
+        response.success responses
+    , (error) ->
+        response.error error
 
 
 Parse.Cloud.define "createMissedResponse", (request, response) ->

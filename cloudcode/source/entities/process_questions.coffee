@@ -1,7 +1,9 @@
-noQuestionId = "7Kw1fTADKm"
+noQuestionId = "5ZyV80li5d"
 siteUrl = "http://mylantest.ajency.in"
 xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
 xAuthorization ='e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+fcmApiUrl ='https://fcm.googleapis.com/fcm/send'
+fcmAuthorization ='key=AAAApCBv-4U:APA91bHo-y0xmkuftNes12PJsGWpMwoSo1u4pj_Ovvt-fgo4Lreo5ZQutTc8JLPVbr4QQlS5MQRPDlDzEGJQJlbCYifgsI7reT4XXQJtNjJNuUoRugpspODXpSa3aM1QGxQQhffJSdFI'
 
 Parse.Cloud.define "startQuestionnaire", (request, response) ->
 #	if !request.user
@@ -24,7 +26,6 @@ Parse.Cloud.define "startQuestionnaire", (request, response) ->
 				result = {}
 				result['status'] = responseObj.get('status')
 				response.success result
-
 			else
 				answeredQuestions = responseObj.get('answeredQuestions')
 				questionQuery = new Parse.Query('Questions')
