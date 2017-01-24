@@ -2,8 +2,8 @@ angular.module 'PatientApp.Global', []
 
 
 .factory 'App', [ '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork'
-	, '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope'
-	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope)->
+	, '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope', 'PushConfig'
+	,( $state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope, PushConfig)->
 
 		App = 
 			start: true
@@ -46,8 +46,8 @@ angular.module 'PatientApp.Global', []
 				else navigator.onLine
 
 			deviceUUID : ->
-				# if @isWebView() then device.uuid else 'DUMMYUUID'
-				if @isWebView() then 'DUMMYUUID' else 'DUMMYUUID'
+				if @isWebView() then device.uuid else 'DUMMYUUID'
+				# if @isWebView() then 'DUMMYUUID' else 'DUMMYUUID'
 
 			hideKeyboardAccessoryBar : ->
 				if $window.cordova && $window.cordova.plugins.Keyboard
@@ -115,11 +115,10 @@ angular.module 'PatientApp.Global', []
 			getInstallationId : ->
 				defer = $q.defer()
 				if @isWebView()
-					# parsePlugin.getInstallationId (installationId)-> 
-					# 	defer.resolve installationId
-					# , (error) ->
-					# 	defer.reject error
-					defer.resolve 'DUMMY_INSTALLATION_ID'
+					push = PushNotification.init PushConfig
+					push.on 'registration', (data)->
+						console.log data.registrationId, 'DEVICE TOKEN'
+						defer.resolve data.registrationId
 				else
 					defer.resolve 'DUMMY_INSTALLATION_ID'
 

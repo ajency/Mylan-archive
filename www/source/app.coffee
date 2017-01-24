@@ -3,14 +3,22 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 			,'PatientApp.Global','PatientApp.Auth','PatientApp.Quest'
 			, 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']
 
+.constant 'PushConfig',
+    android:
+      senderID: "704918846341"
+    ios:
+      senderID: "704918846341"
+      gcmSandbox: true
+      alert: true
+      badge: true
+      sound: false
 
 
-
-.run ['$rootScope', 'App', 'User', '$timeout', '$ionicPlatform' , ($rootScope, App, User, $timeout, $ionicPlatform)->
+.run ['$rootScope', 'App', 'User', '$timeout', '$ionicPlatform', 'PushConfig' , ($rootScope, App, User, $timeout, $ionicPlatform,PushConfig)->
 
 
 	Parse.initialize APP_ID
-	Parse.serverURL = 'http://139.162.29.106:1340/parse'
+	Parse.serverURL = PARSE_URL
 
 
 	$rootScope.App = App
@@ -32,9 +40,9 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 	$ionicPlatform.ready ->
 	  # Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
 	  # for form inputs)
-	  if window.cordova and window.cordova.plugins.Keyboard
-	    cordova.plugins.Keyboard.hideKeyboardAccessoryBar false
-	    cordova.plugins.Keyboard.disableScroll true
+		if window.cordova and window.cordova.plugins.Keyboard
+			cordova.plugins.Keyboard.hideKeyboardAccessoryBar false
+			cordova.plugins.Keyboard.disableScroll true
 			
 	$rootScope.$on '$stateChangeSuccess', (ev, to, toParams, from, fromParams)->
 		App.previousState = from.name

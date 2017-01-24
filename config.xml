@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.mylan.alphaproduction" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.mylan.alpha" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Mylan</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -19,15 +19,15 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="3000"/>
-  <preference name="ParseAppId" value="mylantestappid" />
-  <preference name="ParseServerUrl" value="http://139.162.29.106:1340/parse/" />
+  <!--<preference name="ParseAppId" value="mylantestappid" />
+  <preference name="ParseServerUrl" value="http://139.162.29.106:1340/parse/" />-->
 
   <!-- required for Android push notification
     To get your GCM sender ID, enable GCM for your Android project in the Google Developer Console.
     The sender id is your project number, and should be a large integer like 123427208255.
     This is the same "senderId" to be used in your parse-server push configuration.
   -->
-  <preference name="ParseGcmSenderId" value="704918846341" />
+  <!--<preference name="ParseGcmSenderId" value="704918846341" />-->
 
  <!--  <preference name="Orientation" value="portrait"/> -->
   <feature name="StatusBar">

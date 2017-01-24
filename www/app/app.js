@@ -1,8 +1,19 @@
 (function() {
-  angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).run([
-    '$rootScope', 'App', 'User', '$timeout', '$ionicPlatform', function($rootScope, App, User, $timeout, $ionicPlatform) {
+  angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).constant('PushConfig', {
+    android: {
+      senderID: "704918846341"
+    },
+    ios: {
+      senderID: "704918846341",
+      gcmSandbox: true,
+      alert: true,
+      badge: true,
+      sound: false
+    }
+  }).run([
+    '$rootScope', 'App', 'User', '$timeout', '$ionicPlatform', 'PushConfig', function($rootScope, App, User, $timeout, $ionicPlatform, PushConfig) {
       Parse.initialize(APP_ID);
-      Parse.serverURL = 'http://139.162.29.106:1340/parse';
+      Parse.serverURL = PARSE_URL;
       $rootScope.App = App;
       App.navigate('init', {}, {
         animate: false,
