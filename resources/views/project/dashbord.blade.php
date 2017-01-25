@@ -887,15 +887,21 @@ $(document).ready(function() {
           pdf.save("Dashboard.pdf");
 
 
+          // drawPieChart("piechart",<?php //echo  $counterDataVal['pieChartData']; ?>,0);
+          // var generateChartValue =  $('select[name="generateChart"]').val();
+          // $('select[name="generateChart"]').val(generateChartValue).change();
+          // $("#page1").css("background-color", "");
+
+        }
+    });
+
+    setInterval(function(){ $(".addLoader").removeClass("cf-loader");
           drawPieChart("piechart",<?php echo  $counterDataVal['pieChartData']; ?>,0);
           var generateChartValue =  $('select[name="generateChart"]').val();
           $('select[name="generateChart"]').val(generateChartValue).change();
           $("#page1").css("background-color", "");
 
-        }
-    });
-
-    setInterval(function(){ $(".addLoader").removeClass("cf-loader");  }, 3000);      
+      }, 3000);      
     });
   }); 
 
