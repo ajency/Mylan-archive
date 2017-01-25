@@ -149,8 +149,8 @@ class QuestionnaireController extends Controller
 		$questionConditions = [];
 		foreach ($questions as   $question) {
 			$questionId = $question->getObjectId();
-			$nextQuestionId = ($question->get('nextQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('nextQuestion')->getObjectId():'';
-			$previousQuestionId = ($question->get('previousQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('previousQuestion')->getObjectId():'';
+			$nextQuestionId = (!is_null($question->get('nextQuestion')) && $question->get('nextQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('nextQuestion')->getObjectId():'';
+			$previousQuestionId = (!is_null($question->get('previousQuestion')) && $question->get('previousQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('previousQuestion')->getObjectId():'';
 			
 			if(!is_null($question->get('condition')))
 			{
