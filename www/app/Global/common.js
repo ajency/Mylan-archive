@@ -1,6 +1,6 @@
 (function() {
   angular.module('PatientApp.Global', []).factory('App', [
-    '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope) {
+    '$state', '$ionicHistory', '$window', '$q', '$http', '$cordovaNetwork', '$cordovaPreferences', '$ionicScrollDelegate', '$cordovaKeyboard', '$rootScope', 'PushConfig', function($state, $ionicHistory, $window, $q, $http, $cordovaNetwork, $cordovaPreferences, $ionicScrollDelegate, $cordovaKeyboard, $rootScope, PushConfig) {
       var App;
       return App = {
         start: true,
@@ -53,7 +53,7 @@
         },
         deviceUUID: function() {
           if (this.isWebView()) {
-            return 'DUMMYUUID';
+            return device.uuid;
           } else {
             return 'DUMMYUUID';
           }
@@ -123,10 +123,14 @@
           return $ionicScrollDelegate.resize();
         },
         getInstallationId: function() {
-          var defer;
+          var defer, push;
           defer = $q.defer();
           if (this.isWebView()) {
-            defer.resolve('DUMMY_INSTALLATION_ID');
+            push = PushNotification.init(PushConfig);
+            push.on('registration', function(data) {
+              console.log(data.registrationId, 'DEVICE TOKEN');
+              return defer.resolve(data.registrationId);
+            });
           } else {
             defer.resolve('DUMMY_INSTALLATION_ID');
           }

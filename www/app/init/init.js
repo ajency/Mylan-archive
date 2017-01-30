@@ -1,12 +1,19 @@
 (function() {
   angular.module('PatientApp.init', []).controller('InitCtrl', [
-    'Storage', 'App', '$scope', 'QuestionAPI', '$q', '$rootScope', 'Push', function(Storage, App, $scope, QuestionAPI, $q, $rootScope, Push) {
-      $rootScope.$on('$cordovaPush:notificationReceived', function(e, p) {
-        var payload;
-        console.log('notification received');
-        payload = Push.getPayload(p);
-        if (!_.isEmpty(payload)) {
-          return Push.handlePayload(payload);
+    'Storage', 'App', '$scope', 'QuestionAPI', '$q', '$rootScope', 'Push', 'PushConfig', '$ionicPlatform', function(Storage, App, $scope, QuestionAPI, $q, $rootScope, Push, PushConfig, $ionicPlatform) {
+      $ionicPlatform.ready(function() {
+        var PushPlugin;
+        if (ionic.Platform.isWebView()) {
+          console.log('WEBVIEW');
+          PushPlugin = PushNotification.init(PushConfig);
+          return PushPlugin.on('notification', function(data) {
+            var payload;
+            console.log('notification received', data);
+            payload = Push.getPayload(data);
+            if (!_.isEmpty(payload)) {
+              return Push.handlePayload(payload);
+            }
+          });
         }
       });
       return Storage.login('get').then(function(value) {
