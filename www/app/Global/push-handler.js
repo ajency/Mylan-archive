@@ -1,31 +1,34 @@
 (function() {
   angular.module('PatientApp.Global').factory('Push', [
-    'App', '$cordovaPush', '$rootScope', function(App, $cordovaPush, $rootScope) {
+    'App', '$rootScope', 'PushConfig', function(App, $rootScope, PushConfig) {
       var Push;
       Push = {};
       Push.register = function() {
-        var androidConfig, iosConfig;
+        var PushPlugin, androidConfig, iosConfig;
         androidConfig = {
           "senderID": "DUMMY_SENDER_ID"
         };
-        return iosConfig = {
+        iosConfig = {
           "badge": true,
           "sound": true,
           "alert": true
         };
+        PushPlugin = PushNotification.init(PushConfig);
+        return PushPlugin.on('notification', function(data) {
+          var payload;
+          console.log('notification received', data);
+          payload = Push.getPayload(data);
+          if (!_.isEmpty(payload)) {
+            return Push.handlePayload(payload);
+          }
+        });
       };
       Push.getPayload = function(p) {
         var foreground, payload;
         console.log(p);
         payload = {};
         if (App.isAndroid()) {
-          if (p.event === 'message') {
-            payload = p.payload.data;
-            payload.foreground = p.foreground;
-            if (_.has(p, 'coldstart')) {
-              payload.coldstart = p.coldstart;
-            }
-          }
+          payload = p.additionalData;
         }
         if (App.isIOS()) {
           payload = p;
@@ -36,6 +39,7 @@
       };
       Push.handlePayload = function(payload) {
         var inAppNotification, notificationClick;
+        console.log(payload, 'Handle PayLoad');
         inAppNotification = function() {
           console.log('inApp ');
           return $rootScope.$broadcast('in:app:notification', {
@@ -51,7 +55,7 @@
         if (App.isAndroid()) {
           if (payload.coldstart) {
             return notificationClick();
-          } else if (!payload.foreground && !_.isUndefined(payload.coldstart) && !payload.coldstart) {
+          } else if (!payload.foreground && !payload.coldstart) {
             return notificationClick();
           } else if (payload.foreground) {
             return inAppNotification();

@@ -20,7 +20,6 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 	Parse.initialize APP_ID
 	Parse.serverURL = PARSE_URL
 
-
 	$rootScope.App = App
 	App.navigate 'init', {}, {animate: false, back: false}
 
