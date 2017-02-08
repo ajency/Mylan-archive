@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Global'
 
 
-.factory 'Push', ['App', '$cordovaPush', '$rootScope'
-	, (App, $cordovaPush, $rootScope)->
+.factory 'Push', ['App', '$rootScope','PushConfig'
+	, (App, $rootScope,PushConfig)->
 
 		Push = {}
 
@@ -10,23 +10,18 @@ angular.module 'PatientApp.Global'
 			androidConfig = "senderID": "DUMMY_SENDER_ID"
 			iosConfig     = "badge": true, "sound": true, "alert": true
 
-			# if App.isWebView()
-			# 	config = if App.isIOS() then iosConfig else androidConfig
+			PushPlugin = PushNotification.init PushConfig
 
-			# 	$cordovaPush.register config
-			# 	.then (success)->
-			# 		console.log 'Push Registration Success'
-			# 	, (error)->
-			# 		console.log 'Push Registration Error'
+			PushPlugin.on 'notification' , (data) ->
+				console.log 'notification received',data
+				payload = Push.getPayload data
+				Push.handlePayload(payload) if !_.isEmpty(payload)
 
 		Push.getPayload = (p)->
 			console.log p
 			payload = {}
 			if App.isAndroid()
-				if p.event is 'message'
-					payload = p.payload.data
-					payload.foreground = p.foreground
-					payload.coldstart = p.coldstart if _.has(p, 'coldstart')
+				payload = p.additionalData
 
 			if App.isIOS()
 				payload = p
@@ -36,7 +31,7 @@ angular.module 'PatientApp.Global'
 			payload
 
 		Push.handlePayload = (payload)->
-
+			console.log payload, 'Handle PayLoad'
 			inAppNotification = ->
 				console.log 'inApp '
 				$rootScope.$broadcast 'in:app:notification', payload: payload
@@ -48,7 +43,7 @@ angular.module 'PatientApp.Global'
 			if App.isAndroid()
 				if payload.coldstart
 					notificationClick()
-				else if !payload.foreground and !_.isUndefined(payload.coldstart) and !payload.coldstart
+				else if !payload.foreground and !payload.coldstart
 					notificationClick()
 				else if payload.foreground
 					inAppNotification()

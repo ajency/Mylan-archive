@@ -27,7 +27,7 @@ angular.module 'PatientApp.dashboard',[]
 
 			init :() ->
 				Storage.getNextQuestion 'set' , 1
-
+		
 			startQuiz :(val) ->
 				App.navigate 'start-questionnaire', responseId:val
 
