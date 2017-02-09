@@ -1,8 +1,8 @@
 angular.module 'PatientApp.init'
 
 
-.controller 'setupCtr', ['$scope', 'App', 'Storage','$ionicLoading','AuthAPI','CToast', 'CSpinner', 'LoadingPopup'
-	, ($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup)->
+.controller 'setupCtr', ['$scope', 'App', 'Storage','$ionicLoading','AuthAPI','CToast', 'CSpinner', 'LoadingPopup', 'Push'
+	, ($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup, Push)->
 		
 		$scope.view =
 			refcode:''
@@ -17,6 +17,7 @@ angular.module 'PatientApp.init'
 					App.getInstallationId().then (id)->
 						console.log 'INSTALLATION ID', id
 						@deviceUUID = id
+						Push.register()
 					,(err)->
 						@deviceUUID = 'DUMMY_ID'
 					if App.isAndroid() 

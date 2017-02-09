@@ -7,17 +7,6 @@ angular.module 'PatientApp.init', []
 		# 	console.log 'notification received'
 		# 	payload = Push.getPayload p
 		# 	Push.handlePayload(payload) if !_.isEmpty(payload)
-		$ionicPlatform.ready ->
-			if ionic.Platform.isWebView()
-				console.log 'WEBVIEW'
-				PushPlugin = PushNotification.init PushConfig
-
-				PushPlugin.on 'notification' , (data) ->
-					console.log 'notification received',data
-					payload = Push.getPayload data
-					Push.handlePayload(payload) if !_.isEmpty(payload)
-
-		
 		Storage.login('get')
 		.then (value) ->
 

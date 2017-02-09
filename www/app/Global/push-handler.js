@@ -1,38 +1,28 @@
 (function() {
   angular.module('PatientApp.Global').factory('Push', [
-    'App', '$rootScope', 'PushConfig', function(App, $rootScope, PushConfig) {
+    'App', '$rootScope', 'PushConfig', '$q', function(App, $rootScope, PushConfig, $q) {
       var Push;
       Push = {};
       Push.register = function() {
-        var PushPlugin, androidConfig, iosConfig;
-        androidConfig = {
-          "senderID": "DUMMY_SENDER_ID"
-        };
-        iosConfig = {
-          "badge": true,
-          "sound": true,
-          "alert": true
-        };
-        PushPlugin = PushNotification.init(PushConfig);
-        return PushPlugin.on('notification', function(data) {
-          var payload;
-          console.log('notification received', data);
-          payload = Push.getPayload(data);
-          if (!_.isEmpty(payload)) {
-            return Push.handlePayload(payload);
-          }
-        });
+        var push;
+        console.log("PUSH REG");
+        if (ionic.Platform.isWebView()) {
+          push = PushNotification.init(PushConfig);
+          return push.on('notification', function(data) {
+            var payload;
+            console.log('notification received', data);
+            payload = Push.getPayload(data);
+            if (!_.isEmpty(payload)) {
+              return Push.handlePayload(payload);
+            }
+          });
+        }
       };
       Push.getPayload = function(p) {
         var payload;
         console.log(p);
         payload = {};
-        if (App.isAndroid()) {
-          payload = p.additionalData;
-        }
-        if (App.isIOS()) {
-          payload = p.additionalData;
-        }
+        payload = p.additionalData;
         return payload;
       };
       Push.handlePayload = function(payload) {

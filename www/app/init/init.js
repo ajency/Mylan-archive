@@ -1,21 +1,6 @@
 (function() {
   angular.module('PatientApp.init', []).controller('InitCtrl', [
     'Storage', 'App', '$scope', 'QuestionAPI', '$q', '$rootScope', 'Push', 'PushConfig', '$ionicPlatform', function(Storage, App, $scope, QuestionAPI, $q, $rootScope, Push, PushConfig, $ionicPlatform) {
-      $ionicPlatform.ready(function() {
-        var PushPlugin;
-        if (ionic.Platform.isWebView()) {
-          console.log('WEBVIEW');
-          PushPlugin = PushNotification.init(PushConfig);
-          return PushPlugin.on('notification', function(data) {
-            var payload;
-            console.log('notification received', data);
-            payload = Push.getPayload(data);
-            if (!_.isEmpty(payload)) {
-              return Push.handlePayload(payload);
-            }
-          });
-        }
-      });
       return Storage.login('get').then(function(value) {
         if (_.isNull(value)) {
           return App.navigate('setup', {}, {

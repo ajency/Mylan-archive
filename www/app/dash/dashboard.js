@@ -1,6 +1,6 @@
 (function() {
   angular.module('PatientApp.dashboard', []).controller('DashboardCtrl', [
-    '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', '$rootScope', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope) {
+    '$scope', 'App', 'Storage', 'QuestionAPI', 'DashboardAPI', 'HospitalData', 'NotifyCount', '$rootScope', 'Push', function($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope, Push) {
       $scope.view = {
         hospitalName: HospitalData.name,
         projectName: HospitalData.project,
@@ -22,6 +22,7 @@
           return this.errorMsg = '';
         },
         init: function() {
+          Push.register();
           return Storage.getNextQuestion('set', 1);
         },
         startQuiz: function(val) {

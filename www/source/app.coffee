@@ -23,7 +23,6 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 	Parse.serverURL = PARSE_URL
 
 	$rootScope.App = App
-	App.navigate 'init', {}, {animate: false, back: false}
 
 	App.notification = 
 		badge : false
@@ -54,6 +53,8 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 		App.menuButtonEnabled = bool
 
 		App.questinnarieButton =  if App.currentState is 'questionnaire'  then true else false
+	
+	App.navigate 'init', {}, {animate: false, back: false}
 
 ]
 
