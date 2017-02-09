@@ -5,9 +5,9 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 .constant 'PushConfig',
     android:
-      senderID: "704918846341"
+      senderID: "44338280692"
     ios:
-      senderID: "704918846341"
+      senderID: "44338280692"
       gcmSandbox: true
       alert: true
       badge: true
@@ -21,7 +21,6 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 	Parse.serverURL = PARSE_URL
 
 	$rootScope.App = App
-	App.navigate 'init', {}, {animate: false, back: false}
 
 	App.notification = 
 		badge : false
@@ -52,6 +51,8 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 		App.menuButtonEnabled = bool
 
 		App.questinnarieButton =  if App.currentState is 'questionnaire'  then true else false
+	
+	App.navigate 'init', {}, {animate: false, back: false}
 
 ]
 

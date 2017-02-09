@@ -1,6 +1,6 @@
 (function() {
   angular.module('PatientApp.init').controller('setupCtr', [
-    '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup) {
+    '$scope', 'App', 'Storage', '$ionicLoading', 'AuthAPI', 'CToast', 'CSpinner', 'LoadingPopup', 'Push', function($scope, App, Storage, $ionicLoading, AuthAPI, CToast, CSpinner, LoadingPopup, Push) {
       $scope.view = {
         refcode: '',
         emptyfield: '',
@@ -12,7 +12,8 @@
           } else {
             App.getInstallationId().then(function(id) {
               console.log('INSTALLATION ID', id);
-              return this.deviceUUID = id;
+              this.deviceUUID = id;
+              return Push.register();
             }, function(err) {
               return this.deviceUUID = 'DUMMY_ID';
             });

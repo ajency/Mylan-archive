@@ -83,16 +83,7 @@
         }
       });
       $rootScope.$on('push:notification:click', function(e, obj) {
-        var param, payload;
-        payload = obj.payload;
-        param = {
-          "notificationId": payload.id
-        };
-        return notifyAPI.setNotificationSeen(param).then(function(data) {
-          return console.log('sucess data');
-        }, function(error) {
-          return console.log('error data');
-        });
+        return console.log("NOTIFICATION CLICKED");
       });
       return $rootScope.$on('on:session:expiry', function() {
         Parse.User.logOut();

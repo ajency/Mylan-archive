@@ -1,7 +1,7 @@
 angular.module 'PatientApp.dashboard',[]
 
-.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData', 'NotifyCount', '$rootScope'
-	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope)->
+.controller 'DashboardCtrl',['$scope', 'App', 'Storage', 'QuestionAPI','DashboardAPI','HospitalData', 'NotifyCount', '$rootScope','Push'
+	, ($scope, App, Storage, QuestionAPI, DashboardAPI, HospitalData, NotifyCount, $rootScope,Push)->
 
 		$scope.view =
 			hospitalName: HospitalData.name
@@ -26,6 +26,7 @@ angular.module 'PatientApp.dashboard',[]
 
 
 			init :() ->
+				Push.register()
 				Storage.getNextQuestion 'set' , 1
 		
 			startQuiz :(val) ->

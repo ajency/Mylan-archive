@@ -1,32 +1,24 @@
 angular.module 'PatientApp.Global'
 
 
-.factory 'Push', ['App', '$rootScope','PushConfig'
-	, (App, $rootScope,PushConfig)->
+.factory 'Push', ['App', '$rootScope','PushConfig','$q'
+	, (App, $rootScope,PushConfig,$q)->
 
 		Push = {}
 
 		Push.register = ->
-			androidConfig = "senderID": "DUMMY_SENDER_ID"
-			iosConfig     = "badge": true, "sound": true, "alert": true
-
-			PushPlugin = PushNotification.init PushConfig
-
-			PushPlugin.on 'notification' , (data) ->
-				console.log 'notification received',data
-				payload = Push.getPayload data
-				Push.handlePayload(payload) if !_.isEmpty(payload)
+			console.log "PUSH REG"
+			if ionic.Platform.isWebView()
+				push = PushNotification.init PushConfig
+				push.on 'notification' , (data) ->
+					console.log 'notification received',data
+					payload = Push.getPayload data
+					Push.handlePayload(payload) if !_.isEmpty(payload)
 
 		Push.getPayload = (p)->
 			console.log p
 			payload = {}
-			if App.isAndroid()
-				payload = p.additionalData
-
-			if App.isIOS()
-				payload = p
-				foreground = if p.foreground is "1" then true else false
-				payload.foreground = foreground
+			payload = p.additionalData
 
 			payload
 

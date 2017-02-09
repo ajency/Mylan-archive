@@ -1,10 +1,10 @@
 (function() {
   angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).constant('PushConfig', {
     android: {
-      senderID: "704918846341"
+      senderID: "44338280692"
     },
     ios: {
-      senderID: "704918846341",
+      senderID: "44338280692",
       gcmSandbox: true,
       alert: true,
       badge: true,
@@ -15,10 +15,6 @@
       Parse.initialize(APP_ID);
       Parse.serverURL = PARSE_URL;
       $rootScope.App = App;
-      App.navigate('init', {}, {
-        animate: false,
-        back: false
-      });
       App.notification = {
         badge: false,
         count: 0,
@@ -39,7 +35,7 @@
           return cordova.plugins.Keyboard.disableScroll(true);
         }
       });
-      return $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
+      $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         var bool, hideForStates;
         App.previousState = from.name;
         App.currentState = to.name;
@@ -47,6 +43,10 @@
         bool = !_.contains(hideForStates, App.currentState);
         App.menuButtonEnabled = bool;
         return App.questinnarieButton = App.currentState === 'questionnaire' ? true : false;
+      });
+      return App.navigate('init', {}, {
+        animate: false,
+        back: false
       });
     }
   ]).config([
