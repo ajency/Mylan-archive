@@ -5,9 +5,11 @@ angular.module 'PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientA
 
 .constant 'PushConfig',
     android:
-      senderID: "704918846341"
+      # senderID: "704918846341"
+      senderID: "44338280692"
     ios:
-      senderID: "704918846341"
+      # senderID: "704918846341"
+      senderID: "44338280692"
       gcmSandbox: true
       alert: true
       badge: true

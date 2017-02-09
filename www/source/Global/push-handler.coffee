@@ -24,9 +24,7 @@ angular.module 'PatientApp.Global'
 				payload = p.additionalData
 
 			if App.isIOS()
-				payload = p
-				foreground = if p.foreground is "1" then true else false
-				payload.foreground = foreground
+				payload = p.additionalData
 
 			payload
 

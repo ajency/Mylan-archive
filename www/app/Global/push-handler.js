@@ -24,16 +24,14 @@
         });
       };
       Push.getPayload = function(p) {
-        var foreground, payload;
+        var payload;
         console.log(p);
         payload = {};
         if (App.isAndroid()) {
           payload = p.additionalData;
         }
         if (App.isIOS()) {
-          payload = p;
-          foreground = p.foreground === "1" ? true : false;
-          payload.foreground = foreground;
+          payload = p.additionalData;
         }
         return payload;
       };

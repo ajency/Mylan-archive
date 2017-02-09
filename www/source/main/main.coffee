@@ -66,14 +66,15 @@ angular.module 'PatientApp.main', []
 			else App.notification.increment()
 
 		$rootScope.$on 'push:notification:click', (e, obj)->
-			payload = obj.payload
-			param = 
-				"notificationId":payload.id
-			notifyAPI.setNotificationSeen param
-			.then (data)->
-				console.log 'sucess data'
-			,(error)->
-				console.log 'error data'
+			console.log "NOTIFICATION CLICKED"
+			# payload = obj
+			# param = 
+			# 	"notificationId":payload.data.id
+			# notifyAPI.setNotificationSeen param
+			# .then (data)->
+			# 	console.log 'sucess data'
+			# ,(error)->
+			# 	console.log 'error data'
 
 		# $rootScope.$on 'notification:count:update', (e, obj)->
 		# 	console.log 'notificcation count uopdate'
