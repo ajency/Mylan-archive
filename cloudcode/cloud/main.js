@@ -357,7 +357,7 @@
         'Authorization': fcmAuthorization,
         'content-type': 'application/json'
       },
-      body: '{ "data":{ "title": "' + title + '", "body": "' + body + '", "message": "' + message + '" }, "to" : "' + installationId + '" }'
+      body: '{ "notification":{ "title": "' + title + '", "body": "' + message + '" }, "to" : "' + installationId + '" }'
     }).then(function() {
       return promise.resolve("FCM Push Sent");
     }, function(error) {
@@ -1300,13 +1300,13 @@
   	promise
    */
 
-  noQuestionId = "5ZyV80li5d";
+  noQuestionId = "pJoDahvR7Z";
 
-  siteUrl = "http://mylantest.ajency.in";
+  siteUrl = "http://mytelemedicineapp.com";
 
   xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y';
 
-  xAuthorization = 'e7968bf3f5228312f344339f3f9eb19701fb7a3c';
+  xAuthorization = '88628ceb47fa1a7ba718f5b36a96c2d0af88e1b5';
 
   fcmApiUrl = 'https://fcm.googleapis.com/fcm/send';
 

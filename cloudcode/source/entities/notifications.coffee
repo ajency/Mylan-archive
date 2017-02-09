@@ -302,11 +302,10 @@ fcmPushNotification = (installationId,title,body,message) ->
             'Authorization': fcmAuthorization
             'content-type': 'application/json'
         body: '{ 
-                "data":{
+                "notification":{
                     "title": "'+title+'",
-                    "body": "'+body+'",   
-                    "message": "'+message+'"
-                     }, 
+                    "body": "'+message+'" 
+                    }, 
                 "to" : "'+installationId+'"
                 }'
         
