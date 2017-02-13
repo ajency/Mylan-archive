@@ -628,15 +628,13 @@ Parse.Cloud.job 'commonJob', (request, response) ->
                 console.log "responses = #{responses.length}"
                 getNotifications()
                 .then (notifications) ->
-                    console.log "notifications = #{notifications}"
-                    response.success "job_run"
-                    # sendNotifications() 
-                    # .then (notifications) ->
-                    #     console.log "notifications_sent = #{notifications}"
-                    #     # console.log  (new Date())
-                    #     response.success "job_run"
-                    # , (error) ->
-                    #     response.error "not_run"
+                    sendNotifications() 
+                    .then (notifications) ->
+                        console.log "notifications_sent = #{notifications}"
+                        # console.log  (new Date())
+                        response.success "job_run"
+                    , (error) ->
+                        response.error "not_run"
                 , (error) ->
                     promise.reject error                
             , (error) ->
@@ -658,15 +656,15 @@ Parse.Cloud.define 'cronJob', (request, response) ->
                 console.log "responses = #{responses.length}"
                 getNotifications()
                 .then (notifications) ->
-                    console.log "notifications = #{notifications}"
-                    response.success "job_run"
-                    # sendNotifications() 
-                    # .then (notifications) ->
-                    #     console.log "notifications_sent = #{notifications}"
-                    #     # console.log  (new Date())
-                    #     response.success "job_run"
-                    # , (error) ->
-                    #     response.error "not_run"
+                    # console.log "notifications = #{notifications}"
+                    # response.success "job_run"
+                    sendNotifications() 
+                    .then (notifications) ->
+                        console.log "notifications_sent = #{notifications}"
+                        # console.log  (new Date())
+                        response.success "job_run"
+                    , (error) ->
+                        response.error "not_run"
                 , (error) ->
                     promise.reject error                
             , (error) ->

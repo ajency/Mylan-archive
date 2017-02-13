@@ -659,8 +659,12 @@
         return createMissedResponse().then(function(responses) {
           console.log("responses = " + responses.length);
           return getNotifications().then(function(notifications) {
-            console.log("notifications = " + notifications);
-            return response.success("job_run");
+            return sendNotifications().then(function(notifications) {
+              console.log("notifications_sent = " + notifications);
+              return response.success("job_run");
+            }, function(error) {
+              return response.error("not_run");
+            });
           }, function(error) {
             return promise.reject(error);
           });
@@ -683,8 +687,12 @@
         return createMissedResponse().then(function(responses) {
           console.log("responses = " + responses.length);
           return getNotifications().then(function(notifications) {
-            console.log("notifications = " + notifications);
-            return response.success("job_run");
+            return sendNotifications().then(function(notifications) {
+              console.log("notifications_sent = " + notifications);
+              return response.success("job_run");
+            }, function(error) {
+              return response.error("not_run");
+            });
           }, function(error) {
             return promise.reject(error);
           });
@@ -1300,17 +1308,17 @@
   	promise
    */
 
-  noQuestionId = "pJoDahvR7Z";
+  noQuestionId = "5ZyV80li5d";
 
-  siteUrl = "http://mytelemedicineapp.com";
+  siteUrl = "http://mylantest.ajency.in";
 
   xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y';
 
-  xAuthorization = '88628ceb47fa1a7ba718f5b36a96c2d0af88e1b5';
+  xAuthorization = 'e7968bf3f5228312f344339f3f9eb19701fb7a3c';
 
   fcmApiUrl = 'https://fcm.googleapis.com/fcm/send';
 
-  fcmAuthorization = 'key=AAAApCBv-4U:APA91bHo-y0xmkuftNes12PJsGWpMwoSo1u4pj_Ovvt-fgo4Lreo5ZQutTc8JLPVbr4QQlS5MQRPDlDzEGJQJlbCYifgsI7reT4XXQJtNjJNuUoRugpspODXpSa3aM1QGxQQhffJSdFI';
+  fcmAuthorization = 'key=AAAAClLEePQ:APA91bGfsfdU3dc3g4QPQI23iJAzdO9bQ2QfwlJQoddeJ6bYJ8WOKeah4SQxCgMQuJbN8X0cTQLL-0EE4RNWKoQaPIP4yTjeDFPfs-rfx_qn_TafbtABO0RA5aMgVTfpPd6U3bxKmEWM';
 
   Parse.Cloud.define("startQuestionnaire", function(request, response) {
     var patientId, questionnaireId, responseId, responseQuery, scheduleQuery;
@@ -3406,7 +3414,7 @@
               responseObject.set("previousTotalRedFlags", 0);
               responseObject.set("previousTotalAmberFlags", 0);
               responseObject.set("previousTotalGreenFlags", 0);
-              responseObject.set("baseLine", '');
+              responseObject.set("baseLine", null);
               responseObject.set("baseLineScore", 0);
               responseObject.set("previousScore", 0);
               responseObject.set("alert", false);
