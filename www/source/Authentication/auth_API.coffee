@@ -1,8 +1,8 @@
 angular.module 'PatientApp.Auth'
 
-.factory 'AuthAPI', ['$q', 'App', '$http','UrlList', ($q, App, $http,UrlList)->
+.factory 'AuthAPI', ['$q', 'App', '$http','UrlList','Push', ($q, App, $http,UrlList,Push)->
 	AuthAPI = {}
-	AuthAPI.validateRefCode = (refcode, deviceUUID ,deviceOS)->
+	AuthAPI.validateRefCode = (refcode, deviceUUID ,deviceOS,Push)->
 		params = 
 			"referenceCode" : refcode
 			"deviceType": 'mobile'
@@ -29,6 +29,8 @@ angular.module 'PatientApp.Auth'
 		defer = $q.defer()
 		App.getInstallationId()
 		.then (installationId)->
+
+			Push.register()
 			console.log '--installtionId--'
 			console.log installationId
 			params = 

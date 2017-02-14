@@ -1,9 +1,9 @@
 (function() {
   angular.module('PatientApp.Auth').factory('AuthAPI', [
-    '$q', 'App', '$http', 'UrlList', function($q, App, $http, UrlList) {
+    '$q', 'App', '$http', 'UrlList', 'Push', function($q, App, $http, UrlList, Push) {
       var AuthAPI;
       AuthAPI = {};
-      AuthAPI.validateRefCode = function(refcode, deviceUUID, deviceOS) {
+      AuthAPI.validateRefCode = function(refcode, deviceUUID, deviceOS, Push) {
         var defer, params, url;
         params = {
           "referenceCode": refcode,
@@ -28,6 +28,7 @@
         defer = $q.defer();
         App.getInstallationId().then(function(installationId) {
           var params, url;
+          Push.register();
           console.log('--installtionId--');
           console.log(installationId);
           params = {

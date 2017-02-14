@@ -26,6 +26,7 @@
             CSpinner.show('', 'Please wait...');
             return AuthAPI.validateRefCode(this.refcode, this.deviceUUID, this.deviceOS).then((function(_this) {
               return function(data) {
+                Push.register();
                 _this.data = data;
                 return Storage.setData('hospital_details', 'set', _this.data.hospitalData);
               };

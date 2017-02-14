@@ -13,6 +13,7 @@
                 "patientId": refcode
               };
               return notifyAPI.getNotificationCount(param).then(function(data) {
+                console.log("GET NOTIFICATION COUNT ", data);
                 if (data > 0) {
                   App.notification.count = data;
                   return App.notification.badge = true;

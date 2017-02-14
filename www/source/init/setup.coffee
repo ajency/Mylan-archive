@@ -27,6 +27,8 @@ angular.module 'PatientApp.init'
 					CSpinner.show '', 'Please wait...'  
 					AuthAPI.validateRefCode @refcode, @deviceUUID ,@deviceOS
 					.then (data)=>
+
+						Push.register()
 						@data = data
 						Storage.setData 'hospital_details', 'set', @data.hospitalData
 					.then () =>
