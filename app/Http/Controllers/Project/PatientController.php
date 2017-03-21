@@ -1296,12 +1296,32 @@ class PatientController extends Controller
 
             $baseLines = [];
 
-            foreach ($responses as  $response) {
-                $responseId = $response->getObjectId();
-                $sequenceNumber = $response->get('sequenceNumber');
-                $date = $response->getCreatedAt()->format('d-m-Y');
-                $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+            $addBaseLine = true;
+
+            if(!count($responses))
+            {
+                $startedResponseQry = new ParseQuery("Response");
+                $startedResponseQry->equalTo("patient", $referenceCode); 
+                $startedResponseQry->equalTo("status", 'started'); 
+                $startedResponse = $startedResponseQry->count();
+                
+                if($startedResponse)
+                {
+                  $addBaseLine = false;
+                }
             }
+            else
+            {
+                foreach ($responses as  $response) {
+                  $responseId = $response->getObjectId();
+                  $sequenceNumber = $response->get('sequenceNumber');
+                  $date = $response->getCreatedAt()->format('d-m-Y');
+                  $baseLines[$responseId] = ['sequenceNumber'=>$sequenceNumber,'date'=>$date];
+              }
+            }
+
+
+            
 
             $isQuestionnaireSet =false;
             $questionnaireQry = new ParseQuery("Questionnaire");
@@ -1328,6 +1348,7 @@ class PatientController extends Controller
                                                 ->with('patient', $patient) 
                                                 ->with('isQuestionnaireSet', $isQuestionnaireSet) 
                                                 ->with('userdevice', $userdevice) 
+                                                ->with('addBaseLine', $addBaseLine) 
                                                 ->with('baseLines', $baseLines); 
     }
 
