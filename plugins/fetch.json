@@ -96,7 +96,7 @@
     "ionic-plugin-keyboard": {
         "source": {
             "type": "registry",
-            "id": "ionic-plugin-keyboard"
+            "id": "ionic-plugin-keyboard@~2.2.1"
         },
         "is_top_level": true,
         "variables": {}
@@ -120,15 +120,15 @@
     "cordova-plugin-whitelist": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-whitelist@1.3.1"
+            "id": "cordova-plugin-whitelist@1.3.2"
         },
         "is_top_level": true,
         "variables": {}
     },
     "phonegap-plugin-push": {
         "source": {
-            "type": "registry",
-            "id": "phonegap-plugin-push@1.9.2"
+            "type": "local",
+            "path": "/Users/cyrusAjency/Documents/phonegap-plugin-push"
         },
         "is_top_level": true,
         "variables": {

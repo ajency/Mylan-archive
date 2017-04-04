@@ -38,12 +38,7 @@
       "locator": "https://github.com/avivais/phonegap-parse-plugin",
       "id": "com.parse.cordova.core.pushplugin"
     },
-    {
-      "locator": "https://github.com/phonegap-build/PushPlugin.git",
-      "id": "com.phonegap.plugins.PushPlugin"
-    },
     "cordova-plugin-app-preferences",
-    "ionic-plugin-keyboard",
     "add",
     "cordova-plugin-dialogs"
   ],
