@@ -1,18 +1,19 @@
 # TEST
-noQuestionId = "5ZyV80li5d"
-siteUrl = "http://mylantest.ajency.in"
-xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-xAuthorization ='e7968bf3f5228312f344339f3f9eb19701fb7a3c'
-fcmApiUrl ='https://fcm.googleapis.com/fcm/send'
-fcmAuthorization ='key=AAAAClLEePQ:APA91bGfsfdU3dc3g4QPQI23iJAzdO9bQ2QfwlJQoddeJ6bYJ8WOKeah4SQxCgMQuJbN8X0cTQLL-0EE4RNWKoQaPIP4yTjeDFPfs-rfx_qn_TafbtABO0RA5aMgVTfpPd6U3bxKmEWM'
+# noQuestionId = "5ZyV80li5d"
+# siteUrl = "http://mylantest.ajency.in"
+# xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+# xAuthorization ='e7968bf3f5228312f344339f3f9eb19701fb7a3c'
+# fcmApiUrl ='https://fcm.googleapis.com/fcm/send'
+# fcmAuthorization ='key=AAAAClLEePQ:APA91bGfsfdU3dc3g4QPQI23iJAzdO9bQ2QfwlJQoddeJ6bYJ8WOKeah4SQxCgMQuJbN8X0cTQLL-0EE4RNWKoQaPIP4yTjeDFPfs-rfx_qn_TafbtABO0RA5aMgVTfpPd6U3bxKmEWM'
 
 # LIVE
-# noQuestionId = "pJoDahvR7Z"
-# siteUrl = "http://mytelemedicineapp.com"
-# xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
-# xAuthorization ='88628ceb47fa1a7ba718f5b36a96c2d0af88e1b5'
-# fcmApiUrl ='https://fcm.googleapis.com/fcm/send'
-# fcmAuthorization ='key=AAAApCBv-4U:APA91bHo-y0xmkuftNes12PJsGWpMwoSo1u4pj_Ovvt-fgo4Lreo5ZQutTc8JLPVbr4QQlS5MQRPDlDzEGJQJlbCYifgsI7reT4XXQJtNjJNuUoRugpspODXpSa3aM1QGxQQhffJSdFI'
+
+noQuestionId = "awPNxKrGWD"
+siteUrl = "http://mytelemedicineapp.com"
+xApiKEY = 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y'
+xAuthorization ='88628ceb47fa1a7ba718f5b36a96c2d0af88e1b5'
+fcmApiUrl ='https://fcm.googleapis.com/fcm/send'
+fcmAuthorization ='key=AAAApCBv-4U:APA91bHo-y0xmkuftNes12PJsGWpMwoSo1u4pj_Ovvt-fgo4Lreo5ZQutTc8JLPVbr4QQlS5MQRPDlDzEGJQJlbCYifgsI7reT4XXQJtNjJNuUoRugpspODXpSa3aM1QGxQQhffJSdFI'
 
 Parse.Cloud.define "startQuestionnaire", (request, response) ->
 #	if !request.user
