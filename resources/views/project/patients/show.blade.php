@@ -268,7 +268,7 @@
               <span><i class="fa fa-flag"></i> Compared to Previous</span>               
             </div>           
             <div class="x-axis-text"> Submissions </div>
-           <div class="y-axis-text"> Questions </div>
+           <div class="y-axis-text">&nbsp;&nbsp; Questions &nbsp;&nbsp;</div>
            <div class="table-responsive {{(!empty($responseArr))?'sticky-table-outer-div':''}} {{(count($responseArr)!=0 && count($responseArr)>10)?'sticky-tableWidth':''}}"> 
            
                    <table class="table">
