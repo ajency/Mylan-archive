@@ -7,6 +7,7 @@ angular.module 'angularApp.dashboard'
 			email : hospitalEmail
 			phone : hospitalPhone
 			projectName : questionnaireName
+			questionCount : questionCount
 			
 			startQuiz :(quizID) ->
 

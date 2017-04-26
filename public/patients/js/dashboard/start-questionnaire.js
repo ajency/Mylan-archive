@@ -4,6 +4,7 @@ angular.module('angularApp.dashboard').controller('StartQuestionnaireCtrl', [
       email: hospitalEmail,
       phone: hospitalPhone,
       projectName: questionnaireName,
+      questionCount: questionCount,
       startQuiz: function(quizID) {
         var questionnaireData, value;
         value = Storage.startQuestionnaire('get');
