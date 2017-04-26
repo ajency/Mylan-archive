@@ -32,9 +32,11 @@ class PatientController extends Controller
         $data = $userController ->postLoginData($hospitalId,$projectId);
         $hospitalData = $data['hospital']; 
         $questionnaireData = $data['questionnaire']; 
+        $questionCount = $data['questionCount']; 
    
         return view('patient.dashbord')->with('referenceCode', $referenceCode)
                                        ->with('parseToken', $parseToken)
+                                       ->with('questionCount', $questionCount)
                                        ->with('hospital', $hospitalData)
                                        ->with('questionnaire', $questionnaireData);
     }

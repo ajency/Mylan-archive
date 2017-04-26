@@ -185,6 +185,12 @@ class UserController extends Controller
         $questionnaireQry = new ParseQuery("Questionnaire");
         $questionnaireQry->equalTo("project", $projectId);
         $questionnaire = $questionnaireQry->first(); 
+
+        $questionObjs = new ParseQuery("Questions");
+        $questionObjs->equalTo("questionnaire",$questionnaire);
+        $questionObjs->ascending("createdAt");
+        $questionCount = $questionObjs->count();
+        
         
         $hospital = Hospital::find($hospitalId)->toArray();  
         $project = Projects::find($projectId)->toArray(); 
@@ -218,6 +224,7 @@ class UserController extends Controller
 
         $data['hospital'] = $hospitalData;
         $data['questionnaire'] = $questionnareData;
+        $data['questionCount'] = $questionCount;
          
         return $data;
     }

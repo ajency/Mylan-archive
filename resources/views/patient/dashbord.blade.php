@@ -14,6 +14,7 @@
     var hospitalName = "{{ $hospital['name'] }}";
     var hospitalPhone = "{{ $hospital['phone'] }}";
     var hospitalEmail = "{{ $hospital['email'] }}";
+    var questionCount = "{{ $questionCount }}";
     var Url = "{{url()}}";
     var hospitalIdd = "{{ $hospital['id'] }}";
     var projectIdd = "{{ $hospital['project_id'] }}";
