@@ -219,7 +219,7 @@
                               </tr>
                                 <tr >
 
-                                  <td class="semi-bold">Weight</td>
+                                  <td class="semi-bold">{{ $inputValueChart[$inputValueChartK]['question'] }}</td>
 
                                   <td class="bg-gray">{{ $inputValueChart[$inputValueChartK]['current'] }}</td>
 
