@@ -67,7 +67,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
                     <td  class="text-center"><i class="fa fa-circle yellow-baseline"></i> Baseline</td>
                     
                   </tr>
-                  <tr>
+                  <!-- <tr>
 
                     @foreach($inputValueChart as $inputValue)
                     <td class="semi-bold">{{ $inputValue['question'] }}</td>
@@ -84,7 +84,18 @@ $currUrl = $_SERVER['REQUEST_URI'];
                     @foreach($inputValueChart as $inputValue)
                     <td class="bg-gray">{{ $inputValue['base'] }}</td>
                     @endforeach
+                  </tr> -->
+                  @foreach($inputValueChart as $inputValue)
+                  <tr>
+                    <td class="semi-bold">{{ $inputValue['question'] }}</td>
+ 
+                    <td class="bg-gray">{{ $inputValue['current'] }}</td>
+   
+                    <td class="bg-gray">{{ $inputValue['prev'] }}</td>
+          
+                    <td class="bg-gray">{{ $inputValue['base'] }}</td>
                   </tr>
+                  @endforeach
                 </tbody>
               </table>
               @endif

@@ -715,7 +715,7 @@ class QuestionnaireController extends Controller
 
 	  try{
 	  		// dd($request->all());
-	  		$noQuestionObject = $this->getNoQuestionObject();
+	  		$noQuestionObject = $this->getNoQuestionObject(); 
 			$questionsType = $request->input("questionType");
 			$titles = $request->input("title");
 			$questions = $request->input("question");

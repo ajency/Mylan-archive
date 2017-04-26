@@ -230,7 +230,7 @@
                             </tbody>
                              @endforeach
                               @else
-                              <tbody>
+                              <!-- <tbody>
                               <tr>
                                 <td> &nbsp;</td>
                                 <td class="text-center"><i class="fa fa-circle green-current"></i> Current</td>
@@ -248,7 +248,7 @@
 
                                   <td class="bg-gray">-</td>
                                 </tr>
-                              </tbody>
+                              </tbody> -->
                               @endif
                           </table>
                         </div>
