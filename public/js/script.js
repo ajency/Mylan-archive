@@ -772,21 +772,23 @@ function lineChartWithOutBaseLine(chartData,legends,container,xaxisLable,yaxisLa
         },
         "dataProvider": chartData,
         "valueAxes": [{
-            "integersOnly": true,
+            "logarithmic": false,
+            "autoGridCount": false,
+            "integersOnly" : true,
             // "maximum": 20,
             // "minimum": 0,
             "reversed": false,
             "axisAlpha": 0,
             "dashLength": 5,
-            "position": "top",
-            "title": yaxisLabel
-        }],
-         "valueAxes": [{
-            "logarithmic": false,
-            "dashLength": 0,
             "position": "left",
             "title": yaxisLabel
-         }],
+        }],
+         // "valueAxes": [{
+         //    "logarithmic": false,
+         //    "dashLength": 0,
+         //    "position": "left",
+         //    "title": yaxisLabel
+         // }],
 
         "graphs": graphs,
         "chartCursor": {
@@ -860,28 +862,30 @@ function lineChartWithBaseLine(chartData,legends,baselineScore,container,xaxisLa
           },
           "dataProvider": chartData,
           "valueAxes": [{
-              "integersOnly": true,
-              // "maximum": 50,
-              // "minimum": 0,
-              "axisAlpha": 0,
-              "dashLength": 5,
-              "position": "left",
-              "title": yaxisLabel
+                "logarithmic": false,
+                "autoGridCount": false,
+                "integersOnly" : true,
+                // "maximum": 50,
+                // "minimum": 0,
+                "axisAlpha": 0,
+                "dashLength": 5,
+                "position": "left",
+                "title": yaxisLabel
           }],
-           "valueAxes": [{
-              "logarithmic": false,
-              "dashLength": 0,
-              // "guides": [{
-              //     "dashLength": 6,
-              //     "inside": true,
-              //     "label": "Baseline",
-              //     "lineAlpha": 1,
-              //     "value": baselineScore,
+           // "valueAxes": [{
+           //    "logarithmic": false,
+           //    "dashLength": 0,
+           //    // "guides": [{
+           //    //     "dashLength": 6,
+           //    //     "inside": true,
+           //    //     "label": "Baseline",
+           //    //     "lineAlpha": 1,
+           //    //     "value": baselineScore,
          
-              // }],
-              "position": "left",
-              "title": yaxisLabel
-               }],
+           //    // }],
+           //    "position": "left",
+           //    "title": yaxisLabel
+           //     }],
          
           "graphs": graphs,
           "chartCursor": {
@@ -933,6 +937,7 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          "dataProvider": chartData,
          "valueAxes": [{
              "integersOnly": true,
+             "autoGridCount": false,
              // "maximum": 6,
              // "minimum": 1,
              "reversed": true,
@@ -943,6 +948,8 @@ function shadedLineChartWithBaseLine(chartData,label,baseLine,container,xaxisLab
          }],
          
           "valueAxes": [{
+            "integersOnly": true,
+             "autoGridCount": false,
              "logarithmic": false,
              "dashLength": 0,
              "position": "left",
@@ -1152,6 +1159,8 @@ function submissionBarChart(chartData,container)
     "dataProvider": chartData,
     "valueAxes": [{
         "title": "Score",
+        "autoGridCount": false,
+        "integersOnly" : true,
         // "maximum": 6,
         // "minimum": 0,
     }],
