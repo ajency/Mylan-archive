@@ -1,4 +1,14 @@
 {
   "name": "mylan",
-  "app_id": ""
+  "app_id": "",
+  "type": "ionic1",
+  "integrations": {
+    "cordova": {}
+  },
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ]
 }

@@ -1,11 +1,11 @@
 (function() {
   angular.module('PatientApp', ['ionic', 'ngCordova', 'PatientApp.init', 'PatientApp.storage', 'PatientApp.Global', 'PatientApp.Auth', 'PatientApp.Quest', 'PatientApp.main', 'PatientApp.dashboard', 'PatientApp.contact', 'PatientApp.notification', 'PatientApp.notificationCount']).constant('PushConfig', {
     android: {
-      senderID: "44338280692"
+      senderID: "704918846341"
     },
     ios: {
-      senderID: "44338280692",
-      gcmSandbox: true,
+      senderID: "704918846341",
+      gcmSandbox: false,
       alert: true,
       badge: true,
       sound: false
