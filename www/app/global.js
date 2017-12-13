@@ -12,7 +12,7 @@
       }
     };
     WIN.APP_ID = 'mylanliveappid';
-    WIN.PARSE_URL = 'http://139.162.29.106:1337/parse';
+    WIN.PARSE_URL = 'http://parseserver.mytelemedicineapp.com:1337/parse';
     return WIN.PARSE_HEADERS = {
       headers: {
         "X-Parse-Application-Id": APP_ID

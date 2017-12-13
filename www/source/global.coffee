@@ -12,7 +12,7 @@ init = (WIN) ->
 
 	# APP_ID       = 'mylantestappid'
 
-	# PARSE_URL = 'http://139.162.29.106:1340/parse'
+	# PARSE_URL = 'http://parseserver.mytelemedicineapp.com/parse'
 
 
 	# PARSE_HEADERS =
@@ -31,7 +31,7 @@ init = (WIN) ->
 
 	WIN.APP_ID       = 'mylanliveappid'
 
-	WIN.PARSE_URL = 'http://139.162.29.106:1337/parse'
+	WIN.PARSE_URL = 'http://parseserver.mytelemedicineapp.com:1337/parse'
 
 
 	WIN.PARSE_HEADERS =

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# run this script as ./file_name to create a release app (need to migrate this project to gradle asap).
+# make sure to give this file admin level execute permissions before execution
+
+echo script init...
+rm ./platforms/android/build/outputs/apk/android-release-unsigned.apk
+rm ./platforms/android/build/outputs/apk/android-release.apk
+# echo preparing js files...
+# ionic prepare android
+echo building release app...
+ionic cordova build android --release
+echo signing apk...
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/cyrusAjency/Documents/App_Ceritificates/mylanTestNew.jks ./platforms/android/build/outputs/apk/android-release-unsigned.apk mylantest
+echo zipaligning apk...
+zipalign -v 4 ./platforms/android/build/outputs/apk/android-release-unsigned.apk ./platforms/android/build/outputs/apk/android-release.apk
