@@ -5,13 +5,18 @@ angular.module 'PatientApp.contact',[]
 
 		$scope.view =
 			pastAnswerDiv : 0
+			hospitalDetails: null
+			init: () ->
+				Storage.setData 'hospital_details','get'
+				.then (data) =>
+					@hospitalDetails = data
+					$scope.$apply () -> {}
+	
 
 			
 
 			call:()->
-				Storage.setData 'hospital_details','get'
-				.then (data)=>
-					App.callUs(data.phone)
+				App.callUs(@hospitalDetails.phone)
 
 
 

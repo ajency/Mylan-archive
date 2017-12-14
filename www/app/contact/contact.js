@@ -3,12 +3,21 @@
     '$scope', 'App', 'Storage', function($scope, App, Storage) {
       return $scope.view = {
         pastAnswerDiv: 0,
-        call: function() {
+        hospitalDetails: null,
+        init: function() {
+          console.log("contact init");
           return Storage.setData('hospital_details', 'get').then((function(_this) {
             return function(data) {
-              return App.callUs(data.phone);
+              _this.hospitalDetails = data;
+              console.log("view", _this);
+              return $scope.$apply(function() {
+                return {};
+              });
             };
           })(this));
+        },
+        call: function() {
+          return App.callUs(this.hospitalDetails.phone);
         }
       };
     }

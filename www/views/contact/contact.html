@@ -3,8 +3,8 @@
    <ion-nav-title>
    <!--  <h1 class="title">{{view.hospitalName}}</h1> -->
    </ion-nav-title>
-   <ion-content>
-  <div class="text-center start-questionnaire">
+   <ion-content ng-init="view.init()">
+    <div class="text-center start-questionnaire">
           <div class="padding">
             <div class="col">
               <img src="images/contact.png" alt="NHS Hospital" width="115"/>
@@ -22,7 +22,7 @@
             </div>
             <h4 class="f-w-400 line-title"><span>OR</span></h4>
             <h5 class="f-w-500">Email the team at</h5>
-            <h5 class="f-w-400"><a href="mailto:MRIPanc@nhshospitals.nhs.uk" class="text-green">MRIPanc@nhshospitals.nhs.uk</a></h5>
+            <h5 class="f-w-400"><a href="mailto:{{view.hospitalDetails.email}}" class="text-green">{{view.hospitalDetails.email}}</a></h5>
             </div>
        </div>
       </div>
