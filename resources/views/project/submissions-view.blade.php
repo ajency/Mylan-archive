@@ -19,7 +19,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
 @section('content')
 <a class="btn btn-primary pull-right" id="btnSave" title="Download this page as a printable PDF"><i class="fa fa-print"></i> Get PDF
   <span class="addLoader"></span></a> 
-  <div id="page1">  
+  <div id="page0">  
     <div class="page-title">
       <h3>Patient <span class="semi-bold ttuc"><span class="patient-refer{{ $patient['reference_code']}}">Id #{{ $patient['reference_code']}}</span></span></h3>
 
@@ -34,6 +34,8 @@ $currUrl = $_SERVER['REQUEST_URI'];
         </form>
       </div>
     </div>
+  </div>
+  <!-- PAGE1 -->
     <div class="tabbable tabs-left">
       @include('project.patients.side-menu')
       <div class="tab-content">
@@ -42,6 +44,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
         <div class="tab-pane table-data active" id="Submissions">
           <a href="{{ url($hospital['url_slug'].'/'.$project['project_slug'].'/patients/'.$patient['id'].'/submissions') }}"><i class="fa fa-caret-square-o-left"></i> Back to list of submissions</a>
 
+<div id="page1">
           <div class="clearfix">
             <h4 class="pull-left"><span class="semi-bold">{{ $questionnaire }}</span></h4>
 
@@ -105,6 +108,7 @@ $currUrl = $_SERVER['REQUEST_URI'];
           <!-- <p>(Showing Submission details)</p> -->
           <br>
           <div id="chartdiv" style="width:100%; Height:500px;"></div>
+
           <!-- <br> -->
           
 <!--                  <div class="row">
@@ -279,17 +283,21 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
 </div>
 <br>
-
+</div>
+<!-- page 2 -->
 </div>
 <br>
 
-<div class="user-description-box">
+<div  class="user-description-box">
+  <div id="page4">
   <div class="clearfix" style="padding: 10px 15px;">
     <div class="pull-left">Response</div>
     <div class="pull-right">Previous | Baseline</div>
   </div>
   <?php 
   $i=1;
+  $printCount=4;
+  $printQ = 5;
   $firstBreak = 0;
   $firstBreakCapture = 0;
   $addClass = "";  
@@ -313,7 +321,13 @@ Previous <span class="p-l-r-5">|</span> Baseline
     }else{
       $addClass = "";
     }
-
+ 
+    if($i >= $printQ){
+        $printQ = $printQ +4;
+        $printCount++;
+        echo "</div><div id='page".($printCount)."' >";
+        
+    }
   }
   ?>
   <div class="grid simple <?php echo $addClass; ?>">
@@ -418,12 +432,15 @@ Previous <span class="p-l-r-5">|</span> Baseline
 @endforeach
 
 </div>
+<!-- pagen -->
+</div>
+ 
 </div>
 <div class="tab-pane " id="Reports">
 
 </div> 
 </div>
-</div>
+ 
 
 <!-- Modal Code -->
 
@@ -483,61 +500,145 @@ Previous <span class="p-l-r-5">|</span> Baseline
   });
   
 //pdf
+// $(function() { 
+//   $("#btnSave").click(function() { 
+// //convert all svg's to canvas
+// $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","padding-bottom: 70px !important");
+// $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","padding-bottom: 72px !important");
+// $(".addLoader").addClass("cf-loader");
+// $("#page1").css("background","#FFFFFF");
+// $(".f-s-b").css("margin-top","130px");
+
+// var svgTags = document.querySelectorAll('#dashboardblock svg');
+// for (var i=0; i<svgTags.length; i++) {
+//   var svgTag = svgTags[i];
+//   var c = document.createElement('canvas');
+//   c.width = svgTag.clientWidth;
+//   c.height = svgTag.clientHeight;
+//   svgTag.parentNode.insertBefore(c, svgTag);
+//   svgTag.parentNode.removeChild(svgTag);
+//   var div = document.createElement('div');
+//   div.appendChild(svgTag);
+//   canvg(c, div.innerHTML);
+// }
+// html2canvas($("#page1"), {
+//   background: '#FFFFFF',
+//   onrendered: function(canvas) {
+//     var imgData = canvas.toDataURL("image/jpeg", 1.0);  
+//     var imgWidth = 290; 
+//     var pageHeight = 225;  
+//     var imgHeight = canvas.height * imgWidth / canvas.width;
+//     var heightLeft = imgHeight;
+
+//     var doc = new jsPDF('l', 'mm');
+//     var position = 0;
+
+//     doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+//     heightLeft -= pageHeight;
+
+//     while (heightLeft >= 0) {
+//       position = heightLeft - imgHeight;
+//       doc.addPage();
+//       doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
+//       heightLeft -= pageHeight;
+//     }
+//     doc.save( 'Patient Submission.pdf');﻿
+//   }
+// });
+// setInterval(function(){ 
+//   $(".addLoader").removeClass("cf-loader"); 
+//   $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
+//   $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
+//   $("#page1").css("background","");
+//   $(".f-s-b").css("padding-top","0px");
+
+// }, 3000);   
+// });
+// }); 
+
+
 $(function() { 
-  $("#btnSave").click(function() { 
-//convert all svg's to canvas
-$(".user-description-box div.grid.simple.printPdfMargin div").attr("style","padding-bottom: 70px !important");
-$(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","padding-bottom: 72px !important");
-$(".addLoader").addClass("cf-loader");
-$("#page1").css("background","#FFFFFF");
-$(".f-s-b").css("margin-top","130px");
-
-var svgTags = document.querySelectorAll('#dashboardblock svg');
-for (var i=0; i<svgTags.length; i++) {
-  var svgTag = svgTags[i];
-  var c = document.createElement('canvas');
-  c.width = svgTag.clientWidth;
-  c.height = svgTag.clientHeight;
-  svgTag.parentNode.insertBefore(c, svgTag);
-  svgTag.parentNode.removeChild(svgTag);
-  var div = document.createElement('div');
-  div.appendChild(svgTag);
-  canvg(c, div.innerHTML);
-}
-html2canvas($("#page1"), {
-  background: '#FFFFFF',
-  onrendered: function(canvas) {
-    var imgData = canvas.toDataURL("image/jpeg", 1.0);  
-    var imgWidth = 290; 
-    var pageHeight = 225;  
-    var imgHeight = canvas.height * imgWidth / canvas.width;
-    var heightLeft = imgHeight;
-
-    var doc = new jsPDF('l', 'mm');
-    var position = 0;
-
-    doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      doc.addPage();
-      doc.addImage(imgData, 'JPEG', 3, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
+    $("#btnSave").click(function() { 
+    //convert all svg's to canvas
+    $(".addLoader").addClass("cf-loader");
+    var svgTags = document.querySelectorAll('#dashboardblock svg');
+    for (var i=0; i<svgTags.length; i++) {
+      var svgTag = svgTags[i];
+      var c = document.createElement('canvas');
+      c.width = svgTag.clientWidth;
+      c.height = svgTag.clientHeight;
+      svgTag.parentNode.insertBefore(c, svgTag);
+      svgTag.parentNode.removeChild(svgTag);
+      var div = document.createElement('div');
+      div.appendChild(svgTag);
+      canvg(c, div.innerHTML);
     }
-    doc.save( 'Patient Submission.pdf');﻿
-  }
-});
-setInterval(function(){ 
-  $(".addLoader").removeClass("cf-loader"); 
-  $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
-  $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
-  $("#page1").css("background","");
-  $(".f-s-b").css("padding-top","0px");
 
-}, 3000);   
-});
-}); 
+    //convert image to pdf
+    $("#page1").css("background-color", "#fff");
+    var pdf = new jsPDF("p", "mm", "a4");
+    pdf.internal.scaleFactor = 2.88;
+    
+
+    <?php
+
+    for ($p=5; $p <=$printCount ; $p++) { 
+     ?>
+    pdf.addPage(); 
+    html2canvas($("#page<?php echo $p;?>"), {
+      background: '#FFFFFF',
+      onrendered: function(canvas) {
+        var imgData5 = canvas.toDataURL("image/jpeg", 1.0);
+        pdf.addImage(imgData5, 'JPEG',5, 5, 200, 0);
+        pdf.setPage(<?php echo ($p-3);?>)
+
+      }
+    });
+    <?php
+     }
+    ?>
+    
+    pdf.addPage();
+    html2canvas($("#page4"), {
+      background: '#FFFFFF',
+      onrendered: function(canvas) {
+        var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
+        pdf.addImage(imgData4, 'JPEG',5, 5, 200, 0);
+        pdf.setPage(1)
+
+      }
+    });
+
+    html2canvas($("#page1"), {
+        background: '#FFFFFF',
+        onrendered: function(canvas) {
+
+          var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
+          pdf.addImage(imgData1, 'JPEG',5, 5, 200, 0);
+
+          var download = document.getElementById('download');
+          pdf.save("Patient Submission.pdf");
+
+
+          // drawPieChart("piechart",<?php //echo  $counterDataVal['pieChartData']; ?>,0);
+          // var generateChartValue =  $('select[name="generateChart"]').val();
+          // $('select[name="generateChart"]').val(generateChartValue).change();
+          // $("#page1").css("background-color", "");
+
+        }
+    });
+
+    setInterval(function(){ 
+    $(".addLoader").removeClass("cf-loader"); 
+    $(".user-description-box div.grid.simple.printPdfMargin div").attr("style","");
+    $(".user-description-box div.grid.simple.printPdfMarginE div").attr("style","");
+    $("#page1").css("background","");
+    $(".f-s-b").css("padding-top","0px");
+
+  }, 3000);
+      
+    });
+  }); 
 
 // more-less
 $(document).ready(function() {
