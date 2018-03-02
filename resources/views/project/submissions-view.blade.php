@@ -617,7 +617,7 @@ $(function() {
           pdf.addImage(imgData1, 'JPEG',5, 5, 200, 0);
 
           var download = document.getElementById('download');
-          pdf.save("Patient Submission.pdf");
+          pdf.save("Patient-Submission-{{ $patient['reference_code']}}.pdf");
 
 
           // drawPieChart("piechart",<?php //echo  $counterDataVal['pieChartData']; ?>,0);
