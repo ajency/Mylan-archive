@@ -190,9 +190,9 @@ function secondsToTime($inputSeconds) {
 }
 
 function convertToSeconds($days,$hours)
-{
-    $dayToseconds = $days * 86400;
-    $hoursToseconds = $hours * 3600;
+{   
+    $dayToseconds = intval($days) * 86400;
+    $hoursToseconds = intval($hours) * 3600;
     $seconds = $dayToseconds + $hoursToseconds;
     
     return $seconds;

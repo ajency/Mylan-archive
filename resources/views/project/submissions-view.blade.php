@@ -289,14 +289,15 @@ Previous <span class="p-l-r-5">|</span> Baseline
 <br>
 
 <div  class="user-description-box">
-  <div id="page4">
+   
+  <div id="page2">
   <div class="clearfix" style="padding: 10px 15px;">
     <div class="pull-left">Response</div>
     <div class="pull-right">Previous | Baseline</div>
   </div>
   <?php 
   $i=1;
-  $printCount=4;
+  $printCount=2;
   $printQ = 5;
   $firstBreak = 0;
   $firstBreakCapture = 0;
@@ -475,7 +476,6 @@ Previous <span class="p-l-r-5">|</span> Baseline
 
 <script type="text/javascript">
 
-
   $(document).ready(function() {
 
     submissionBarChart(<?php echo $submissionJson; ?>,'chartdiv');
@@ -578,52 +578,94 @@ $(function() {
     $("#page1").css("background-color", "#fff");
     var pdf = new jsPDF("p", "mm", "a4");
     pdf.internal.scaleFactor = 2.88;
-    
 
     <?php
 
-    for ($p=5; $p <=$printCount ; $p++) { 
+    for ($p=2; $p <=$printCount ; $p++) { 
+   ?>
+    pdf.addPage();
+    <?php
+    }
+    ?>
+
+    // pdf.addPage();
+    // pdf.addPage();
+    // pdf.addPage(); 
+    // pdf.addPage();
+  
+    
+    // html2canvas($("#page5"), {
+    //   background: '#FFFFFF',
+    //   onrendered: function(canvas) {
+    //     var imgData7 = canvas.toDataURL("image/jpeg", 1.0);
+    //     pdf.setPage(5);
+    //     pdf.addImage(imgData7, 'JPEG',5, 5, 200, 0);
+        
+    //   }
+    // });
+
+    
+    // html2canvas($("#page4"), {
+    //   background: '#FFFFFF',
+    //   onrendered: function(canvas) {
+    //     var imgData6 = canvas.toDataURL("image/jpeg", 1.0);
+    //     pdf.setPage(4);
+    //     pdf.addImage(imgData6, 'JPEG',5, 5, 200, 0);
+        
+        
+
+    //   }
+    // });
+
+    
+    // html2canvas($("#page3"), {
+    //   background: '#FFFFFF',
+    //   onrendered: function(canvas) {
+    //     var imgData5 = canvas.toDataURL("image/jpeg", 1.0);
+    //     pdf.setPage(3);
+    //     pdf.addImage(imgData5, 'JPEG',5, 5, 200, 0);
+    //   }
+    // });
+
+    
+    // html2canvas($("#page2"), {
+    //   background: '#FFFFFF',
+    //   onrendered: function(canvas) {
+    //     var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
+    //     pdf.setPage(2);
+    //     pdf.addImage(imgData4, 'JPEG',5, 5, 200, 0);
+    //   }
+    // });
+
+    <?php
+
+    for ($p=2; $p <=$printCount ; $p++) { 
      ?>
-    pdf.addPage(); 
     html2canvas($("#page<?php echo $p;?>"), {
       background: '#FFFFFF',
       onrendered: function(canvas) {
-        var imgData5 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addImage(imgData5, 'JPEG',5, 5, 200, 0);
-        pdf.setPage(<?php echo ($p-3);?>)
-
+        var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
+        pdf.setPage(<?php echo $p;?>);
+        pdf.addImage(imgData4, 'JPEG',5, 5, 200, 0);
       }
     });
     <?php
      }
     ?>
     
-    pdf.addPage();
-    html2canvas($("#page4"), {
-      background: '#FFFFFF',
-      onrendered: function(canvas) {
-        var imgData4 = canvas.toDataURL("image/jpeg", 1.0);
-        pdf.addImage(imgData4, 'JPEG',5, 5, 200, 0);
-        pdf.setPage(1)
-
-      }
-    });
-
+    
+    
     html2canvas($("#page1"), {
         background: '#FFFFFF',
         onrendered: function(canvas) {
 
           var imgData1 = canvas.toDataURL("image/jpeg", 1.0);
+          pdf.setPage(1);
           pdf.addImage(imgData1, 'JPEG',5, 5, 200, 0);
 
           var download = document.getElementById('download');
           pdf.save("Patient-Submission-{{ $patient['reference_code']}}.pdf");
-
-
-          // drawPieChart("piechart",<?php //echo  $counterDataVal['pieChartData']; ?>,0);
-          // var generateChartValue =  $('select[name="generateChart"]').val();
-          // $('select[name="generateChart"]').val(generateChartValue).change();
-          // $("#page1").css("background-color", "");
+ 
 
         }
     });
