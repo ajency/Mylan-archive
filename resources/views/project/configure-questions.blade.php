@@ -219,9 +219,10 @@
                       $k = ($k==0)? $i+1 : $k+1;
 
                       $isWeight = false;
-                      if(isset($optionsList[$subQuestionId][0]['label'])  && $optionsList[$subQuestionId][0]['label']=="kg" && $optionsList[$subQuestionId][1]['label']=="st" && $optionsList[$subQuestionId][2]['label']=="lb")
+                  
+                      if((isset($optionsList[$subQuestionId][0]['label'])  && $optionsList[$subQuestionId][0]['label']=="kg") ||((isset($optionsList[$subQuestionId][1]['label']) && $optionsList[$subQuestionId][1]['label']=="st") && (isset($optionsList[$subQuestionId][2]['label']) && $optionsList[$subQuestionId][2]['label']=="lb")))
                        {
-                          $isWeight = true;
+                          $isWeight = true; echo "12313213";
                        }
                       ?>
                       <div class="subquestion-container question hidden " row-count="{{ $k }}">
@@ -238,7 +239,7 @@
                           <div class="row">
                             <div class="col-sm-3">
                               <div class="form-group">
-                                <label for="">Type of question</label>
+                                <label for="">Type of question  </label>
                                     <input type="hidden" name="optionKeys[{{ $i }}][{{ $j }}]" value="{{ $k }}">
                                     <select name="subquestionType[{{ $k }}]" class="select2-container select2 form-control subquestionType questionType" disabled="" data-parsley-required>
                                         <option selected value="">Select Question Type</option>
