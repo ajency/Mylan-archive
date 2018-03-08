@@ -440,6 +440,31 @@ class QuestionnaireController extends Controller
 			return redirect($redirectUrl);
 	}
 
+
+
+	public function getQuestionOptions($questions,$page=0,$optionsData)
+    {
+        $displayLimit = 90; 
+
+        $optionObjs = new ParseQuery("Options");
+		$optionObjs->containedIn("question",$questions);
+		$optionObjs->limit($displayLimit);
+        $optionObjs->skip($page * $displayLimit);
+		$optionObjs->ascending("score");
+		$options = $optionObjs->find();
+        $optionsData = array_merge($optionsData,$options); 
+
+        if(!empty($options))
+        {
+            $page++;
+            $optionsData = $this->getQuestionOptions($questions,$page,$optionsData);
+        }  
+        
+        return $optionsData;
+     
+    }
+
+
 	public function getQuestionsSummary($hospitalSlug,$projectSlug,$questionnaireId)
 	{
 		try
@@ -467,11 +492,13 @@ class QuestionnaireController extends Controller
 			$subQuestions = (isset($questionsList['subQuestions'])) ? $questionsList['subQuestions']:[];  
 			$questionsList = (isset($questionsList['parentQuestions'])) ?$questionsList['parentQuestions']:[]; 
 
-
-			$optionObjs = new ParseQuery("Options");
-			$optionObjs->containedIn("question",$questions);
-			$optionObjs->ascending("score");
-			$options = $optionObjs->find();
+ 
+			// $optionObjs = new ParseQuery("Options");
+			// $optionObjs->containedIn("question",$questions);
+			// $optionObjs->ascending("score");
+			// $options = $optionObjs->find();
+			$options = $this->getQuestionOptions($questions,0,[]);
+		 
 
 			$optionsList = [];
 			foreach ($options as $option) {
@@ -549,10 +576,11 @@ class QuestionnaireController extends Controller
 
 
 
-			$optionObjs = new ParseQuery("Options");
-			$optionObjs->containedIn("question",$questions);
-			$optionObjs->ascending("score");
-			$options = $optionObjs->find();
+			// $optionObjs = new ParseQuery("Options");
+			// $optionObjs->containedIn("question",$questions);
+			// $optionObjs->ascending("score");
+			// $options = $optionObjs->find();
+			$options = $this->getQuestionOptions($questions,0,[]);
 
 			$optionsList = [];
 			foreach ($options as $option) {
