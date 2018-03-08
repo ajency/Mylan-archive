@@ -1862,6 +1862,8 @@ class PatientController extends Controller
         $questionnaireName = '';
         $questionnaireId = '';
 
+        $questionnaireController = new QuestionnaireController();
+
         if(!empty($questionnaire))
         {
             $questionnaireName = $questionnaire->get('name');
@@ -1871,9 +1873,11 @@ class PatientController extends Controller
             $questionQry->equalTo("questionnaire", $questionnaire);
             $questions = $questionQry->find(); 
 
-            $optionsQry = new ParseQuery("Options");
-            $optionsQry->containedIn("question", $questions);
-            $options = $optionsQry->find(); 
+            // $optionsQry = new ParseQuery("Options");
+            // $optionsQry->containedIn("question", $questions);
+            // $options = $optionsQry->find(); 
+            
+            $options = $questionnaireController->getQuestionOptions($questions,0,[]);
 
             $responseQry = new ParseQuery("Response");
             if($flag)
@@ -1899,7 +1903,6 @@ class PatientController extends Controller
         $questionsList = [];
         if(!empty($questions))
         {
-          $questionnaireController = new QuestionnaireController();
           $questionsList = $questionnaireController->getSequenceQuestions($questions,true);
         }  
         // dd($firstQuestionId);
