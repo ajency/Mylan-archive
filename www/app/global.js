@@ -3,7 +3,7 @@
 
   init = function(WIN) {
     WIN.MYLANPHONE = '1234567891';
-    WIN.AUTH_URL = 'http://mytelemedicineapp.com/api/v1';
+    WIN.AUTH_URL = 'https://mytelemedicineapp.com/api/v1';
     WIN.AUTH_HEADERS = {
       headers: {
         "X-API-KEY": 'nikaCr2vmWkphYQEwnkgtBlcgFzbT37Y',
@@ -12,7 +12,7 @@
       }
     };
     WIN.APP_ID = 'mylanliveappid';
-    WIN.PARSE_URL = 'http://parseserver.mytelemedicineapp.com:1337/parse';
+    WIN.PARSE_URL = 'https://parseserver.mytelemedicineapp.com:1335/parse/';
     return WIN.PARSE_HEADERS = {
       headers: {
         "X-Parse-Application-Id": APP_ID
