@@ -16,7 +16,10 @@ return [
         'rest_api_key' => env('REST_API_KEY'),
         'master_key' => env('MASTER_KEY')
     ],
+    'parseServerUrl' => env('PARSE_SERVER_URL'),
 
 
+    /*Other configuration*/
+    'noQuestion' => env('NO_QUESTION'),
 ];
  

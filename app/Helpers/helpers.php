@@ -590,7 +590,7 @@ function getBrowser()
  
 function exceptionError($error)
 {
-    if(env('APP_ENV')=="local")
+    if(config('app.env')=="local")
     {
         dd($error);
     }
@@ -611,7 +611,7 @@ function parseCronJob()
         );
  
     $c = curl_init(); 
-    curl_setopt($c, CURLOPT_URL, env('PARSE_SERVER_URL').'parse/functions/cronJob');
+    curl_setopt($c, CURLOPT_URL, config('constants.parseServerUrl').'parse/functions/cronJob');
     curl_setopt($c, CURLOPT_POST, 1);
     curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($c, CURLOPT_CONNECTTIMEOUT, 30);

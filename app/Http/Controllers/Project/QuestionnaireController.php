@@ -97,7 +97,7 @@ class QuestionnaireController extends Controller
 	{
 		$questionId ='';
 		foreach ($questions as   $question) {
-			if($question->get('previousQuestion')->getObjectId()==env('NO_QUESTION') && $question->get('isChild')==false)
+			if($question->get('previousQuestion')->getObjectId()==config('constants.noQuestion') && $question->get('isChild')==false)
 			{
 				$questionId = $question->getObjectId();
 				break;
@@ -128,7 +128,7 @@ class QuestionnaireController extends Controller
 			// 	break;
 			// }
 
-			if($questionObj->get('nextQuestion')->getObjectId()==env('NO_QUESTION') && $questionObj->get('isChild')==false)
+			if($questionObj->get('nextQuestion')->getObjectId()==config('constants.noQuestion') && $questionObj->get('isChild')==false)
 			{
 				$questionId = ($flag)?$questionObj->getObjectId():$questionObj;
 				break;
@@ -149,8 +149,8 @@ class QuestionnaireController extends Controller
 		$questionConditions = [];
 		foreach ($questions as   $question) {
 			$questionId = $question->getObjectId();
-			$nextQuestionId = (!is_null($question->get('nextQuestion')) && $question->get('nextQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('nextQuestion')->getObjectId():'';
-			$previousQuestionId = (!is_null($question->get('previousQuestion')) && $question->get('previousQuestion')->getObjectId()!=env('NO_QUESTION'))? $question->get('previousQuestion')->getObjectId():'';
+			$nextQuestionId = (!is_null($question->get('nextQuestion')) && $question->get('nextQuestion')->getObjectId()!=config('constants.noQuestion'))? $question->get('nextQuestion')->getObjectId():'';
+			$previousQuestionId = (!is_null($question->get('previousQuestion')) && $question->get('previousQuestion')->getObjectId()!=config('constants.noQuestion'))? $question->get('previousQuestion')->getObjectId():'';
 			
 			if(!is_null($question->get('condition')))
 			{
@@ -945,7 +945,7 @@ class QuestionnaireController extends Controller
 			$questionObj->set("previousQuestion",$previousQuestionObj);
 			$questionObj->set('nextQuestion',$noQuestionObject);
 
-			if($previousQuestionObj->getObjectId()!=env('NO_QUESTION') && $isParent)
+			if($previousQuestionObj->getObjectId()!=config('constants.noQuestion') && $isParent)
 			{
 				$prevQuestionObject = new ParseQuery("Questions");
 				$prevQuestionObj = $prevQuestionObject->get($previousQuestionObj->getObjectId());
@@ -1080,13 +1080,13 @@ class QuestionnaireController extends Controller
 			}	
 		 
 			//REST SEQUENCE
-			if($nextQuestionObj->getObjectId()!=env('NO_QUESTION'))
+			if($nextQuestionObj->getObjectId()!=config('constants.noQuestion'))
 			{
 				$nextQuestionObj->set("previousQuestion",$previousQuestionObj);
 				$nextQuestionObj->save();
 			}
 			
-			if($previousQuestionObj->getObjectId()!=env('NO_QUESTION'))
+			if($previousQuestionObj->getObjectId()!=config('constants.noQuestion'))
 			{
 				$previousQuestionObj->set("nextQuestion",$nextQuestionObj);
 				$previousQuestionObj->save();
