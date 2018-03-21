@@ -213,7 +213,7 @@
       <script src="{{ asset('plugins/jquery-numberAnimate/jquery.animateNumbers.js') }}" type="text/javascript"></script>
       <script src="{{ asset('plugins/jquery-ricksaw-chart/js/d3.v2.js') }}"></script>
       <script src="{{ asset('plugins/jquery-ricksaw-chart/js/rickshaw.min.js') }}"></script>
-      <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
       <script src="{{ asset('plugins/jquery-morris-chart/js/morris.min.js') }}"></script>
       <script src="{{ asset('plugins/jquery-easy-pie-chart/js/jquery.easypiechart.min.js') }}"></script>
       <script src="{{ asset('plugins/jquery-flot/jquery.flot.js') }}"></script>
